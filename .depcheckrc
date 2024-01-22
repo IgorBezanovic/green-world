@@ -1,0 +1,1 @@
+ignores: ["@last-minute-ponude/*", "autoprefixer", "tailwindcss", "postcss"]
