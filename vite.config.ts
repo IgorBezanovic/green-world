@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@last-minute-ponude': resolve(__dirname, './src')
+      '@green-world': resolve(__dirname, './src')
     }
   },
   server: {

@@ -1,1 +1,1 @@
-ignores: ["@last-minute-ponude/*", "autoprefixer", "tailwindcss", "postcss"]
+ignores: ["@green-world/*", "autoprefixer", "tailwindcss", "postcss"]

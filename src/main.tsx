@@ -1,5 +1,5 @@
-import { SuspenseLoader } from '@last-minute-ponude/components';
-import { routes } from '@last-minute-ponude/routes';
+import { SuspenseLoader } from '@green-world/components';
+import { routes } from '@green-world/routes';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -7,7 +7,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import '@last-minute-ponude/styles.css';
+import '@green-world/styles.css';
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(routes);

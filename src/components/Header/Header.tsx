@@ -1,5 +1,5 @@
-import { HorizontalLogo } from '@last-minute-ponude/components';
-import { navigationItems } from '@last-minute-ponude/utils/constants';
+import { HorizontalLogo } from '@green-world/components';
+import { navigationItems } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 

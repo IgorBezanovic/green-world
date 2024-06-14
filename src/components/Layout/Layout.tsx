@@ -1,4 +1,4 @@
-import { Header } from '@last-minute-ponude/components';
+import { Header } from '@green-world/components';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 

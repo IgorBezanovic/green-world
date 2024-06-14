@@ -12,7 +12,7 @@
     "import/resolver": {
       "alias": {
         "map": [
-          ["@last-minute-ponude", "./src"]
+          ["@green-world", "./src"]
         ],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }

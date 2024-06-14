@@ -1,4 +1,4 @@
-import { Layout } from '@last-minute-ponude/components';
+import { Layout } from '@green-world/components';
 
 export const routes = [
   {
