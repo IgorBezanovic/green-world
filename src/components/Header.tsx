@@ -16,44 +16,51 @@ export const Header = () => {
         'bg-teaGreen',
         'shadow',
         'px-5',
-        'py-3',
-        'flex',
-        'items-center',
-        'justify-between'
+        'py-3'
       )}
     >
-      <Logo />
-      <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
-        {navigationItems.map((item) => (
-          <Link
-            key={item.id}
-            className={clsx(
-              'text-wintergreenDream',
-              'hover:text-seaFoamGreen',
-              'leading-normal',
-              'font-medium',
-              'border-2',
-              'rounded-xl',
-              'min-h-12',
-              'p-4',
-              'max-h-12',
-              'flex',
-              'items-center',
-              'justify-center',
-              'text-center',
-              'shadow-md',
-              'transition',
-              { 'text-deepTeal': item.route === location.pathname }
-            )}
-            to={item.route}
-          >
-            {typeof item.title === 'string' ? (
-              item.title
-            ) : (
-              <item.title className={clsx('text-2xl')} />
-            )}
-          </Link>
-        ))}
+      <nav
+        className={clsx(
+          'max-w-[1360px]',
+          'mx-auto',
+          'flex',
+          'items-center',
+          'justify-between'
+        )}
+      >
+        <Logo />
+        <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
+          {navigationItems.map((item) => (
+            <Link
+              key={item.id}
+              className={clsx(
+                'text-wintergreenDream',
+                'hover:text-seaFoamGreen',
+                'leading-normal',
+                'font-medium',
+                'border-2',
+                'rounded-xl',
+                'min-h-12',
+                'p-4',
+                'max-h-12',
+                'flex',
+                'items-center',
+                'justify-center',
+                'text-center',
+                'shadow-md',
+                'transition',
+                { 'text-deepTeal': item.route === location.pathname }
+              )}
+              to={item.route}
+            >
+              {typeof item.title === 'string' ? (
+                item.title
+              ) : (
+                <item.title className={clsx('text-2xl')} />
+              )}
+            </Link>
+          ))}
+        </nav>
       </nav>
     </header>
   );

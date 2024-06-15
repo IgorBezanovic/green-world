@@ -8,12 +8,12 @@ export const navigationItems = [
   {
     id: 1,
     title: 'Dodaj oglas',
-    route: '/users'
+    route: '/dodaj-oglas'
   },
   {
     id: 2,
     title: UserOutlined,
-    route: '/'
+    route: '/prijavi-se'
   }
 ];
 
@@ -42,5 +42,23 @@ export const userDetails = [
     id: 5,
     property: 'phone',
     icon: PhoneOutlined
+  }
+];
+
+export const legalType = [
+  {
+    id: 1,
+    name: 'Cvecara',
+    slug: 'cvecara'
+  },
+  {
+    id: 2,
+    name: 'Rasadnik',
+    slug: 'rasadnik'
+  },
+  {
+    id: 3,
+    name: 'Poljoprivredna apoteka',
+    slug: 'poljoprivrednaApoteka'
   }
 ];

@@ -1,4 +1,5 @@
 import { Layout } from '@green-world/components/Layout';
+import { Home } from '@green-world/views/home';
 
 export const routes = [
   {
@@ -7,7 +8,7 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <div> 1 </div>
+        element: <Home />
       },
       {
         path: '/users',
