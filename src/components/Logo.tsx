@@ -11,6 +11,7 @@ export const Logo = () => {
       }}
       className={clsx('w-14', 'shadow-md', 'rounded-[50%]', 'w-14', 'h-14')}
       to="/"
+      aria-label="Home"
     ></Link>
   );
 };
