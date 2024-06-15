@@ -42,8 +42,7 @@ export const Search = () => {
             'items-center',
             'relative',
             'mb-2',
-            'text-wintergreenDream',
-            'capitalize',
+            'text-forestGreen',
             'cursor-pointer'
           )}
           key={legalEntity.id}
@@ -64,9 +63,9 @@ export const Search = () => {
               'bg-mintCream',
               'focus:outline-none',
               'focus:ring-2',
-              'focus:ring-wintergreenDream',
+              'focus:ring-forestGreen',
               'mr-2',
-              'border-wintergreenDream'
+              'border-forestGreen'
             )}
             onChange={handleSearchForm}
             checked={searchFormState[legalEntity.slug] as boolean}
@@ -83,7 +82,7 @@ export const Search = () => {
               'flex-shrink-0',
               'flex justify-center items-center',
               'transition-opacity',
-              'border-wintergreenDream',
+              'border-forestGreen',
               {
                 'opacity-100': searchFormState[legalEntity.slug],
                 'opacity-0': !searchFormState[legalEntity.slug]
@@ -114,8 +113,7 @@ export const Search = () => {
         className={clsx(
           'w-full',
           'border-2',
-          'border-wintergreenDream',
-          'border-2',
+          'border-forestGreen',
           'rounded-md',
           'pl-1',
           'shadow-md',
@@ -126,13 +124,11 @@ export const Search = () => {
       <button
         className={clsx(
           'w-full',
-          'bg-wintergreenDream',
-          'border-2',
-          'border-deepTeal',
-          'border-2',
+          'bg-forestGreen',
           'rounded-md',
-          'pl-1',
-          'shadow-md'
+          'py-2',
+          'shadow-md',
+          'text-mintCream'
         )}
         onClick={() => console.log(searchFormState)}
       >

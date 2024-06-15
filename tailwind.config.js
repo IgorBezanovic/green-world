@@ -15,6 +15,7 @@ export default {
       polishedPine: '#55AD9B',
       wintergreenDream: '#448A7C',
       deepTeal: '#3D7C70',
+      forestGreen: '#316357',
       mint: '#92C7CF',
       lightMint: '#AAD7D9',
       lightCream: '#FBF9F1',

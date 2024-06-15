@@ -34,7 +34,7 @@ export const Header = () => {
             <Link
               key={item.id}
               className={clsx(
-                'text-wintergreenDream',
+                'text-forestGreen',
                 'hover:text-seaFoamGreen',
                 'leading-normal',
                 'font-medium',
