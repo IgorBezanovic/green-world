@@ -23,28 +23,26 @@ export const Header = () => {
       )}
     >
       <Logo />
-      <nav
-        className={clsx(
-          'flex',
-          'items-center',
-          'justify-end',
-          'flex-1',
-          'gap-x-5',
-          'gap-y-5',
-          'md:gap-y-0',
-          'm-auto',
-          'md:px-4',
-          'max-w-screen-2xl'
-        )}
-      >
+      <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
         {navigationItems.map((item) => (
           <Link
             key={item.id}
             className={clsx(
               'text-wintergreenDream',
+              'hover:text-seaFoamGreen',
               'leading-normal',
               'font-medium',
-              'hover:text-seaFoamGreen',
+              'border-2',
+              'rounded-xl',
+              'min-h-12',
+              'p-4',
+              'max-h-12',
+              'flex',
+              'items-center',
+              'justify-center',
+              'text-center',
+              'shadow-md',
+              'transition',
               { 'text-deepTeal': item.route === location.pathname }
             )}
             to={item.route}
