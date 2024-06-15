@@ -9,6 +9,12 @@ export default {
       xl: '1440px'
     },
     colors: {
+      mintCream: '#F1F8E8',
+      teaGreen: '#D8EFD3',
+      seaFoamGreen: '#95D2B3',
+      polishedPine: '#55AD9B',
+      wintergreenDream: '#448A7C',
+      deepTeal: '#3D7C70',
       mint: '#92C7CF',
       lightMint: '#AAD7D9',
       lightCream: '#FBF9F1',

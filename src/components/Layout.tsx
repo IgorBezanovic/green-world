@@ -1,4 +1,4 @@
-import { Header } from '@green-world/components';
+import { Header } from '@green-world/components/Header';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 

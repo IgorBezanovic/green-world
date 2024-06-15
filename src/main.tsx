@@ -1,4 +1,4 @@
-import { SuspenseLoader } from '@green-world/components';
+import { SuspenseLoader } from '@green-world/components/SuspenseLoader';
 import { routes } from '@green-world/routes';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';

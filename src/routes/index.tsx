@@ -1,4 +1,4 @@
-import { Layout } from '@green-world/components';
+import { Layout } from '@green-world/components/Layout';
 
 export const routes = [
   {

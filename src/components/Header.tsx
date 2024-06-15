@@ -1,4 +1,4 @@
-import { HorizontalLogo } from '@green-world/components';
+import { Logo } from '@green-world/components/Logo';
 import { navigationItems } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,16 +13,17 @@ export const Header = () => {
         'inset-x-0',
         'top-0',
         'z-20',
-        'bg-mint',
+        'bg-teaGreen',
         'shadow',
-        'p-5',
+        'px-5',
+        'py-3',
         'flex',
         'items-center',
         'justify-between'
       )}
     >
-      <HorizontalLogo color={'gray'} />
-      <div
+      <Logo />
+      <nav
         className={clsx(
           'flex',
           'items-center',
@@ -40,18 +41,22 @@ export const Header = () => {
           <Link
             key={item.id}
             className={clsx(
-              'text-black',
+              'text-polishedPine',
               'leading-normal',
               'font-medium',
-              'hover:text-lightGray',
-              { 'text-mint': item.route === location.pathname }
+              'hover:text-seaFoamGreen',
+              { 'text-deepTeal': item.route === location.pathname }
             )}
             to={item.route}
           >
-            {typeof item.title !== 'string' ? <item.title /> : item.title}
+            {typeof item.title === 'string' ? (
+              item.title
+            ) : (
+              <item.title className={clsx('text-2xl')} />
+            )}
           </Link>
         ))}
-      </div>
+      </nav>
     </header>
   );
 };
