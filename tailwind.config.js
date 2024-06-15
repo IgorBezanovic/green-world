@@ -9,6 +9,8 @@ export default {
       xl: '1440px'
     },
     colors: {
+      whiteLinen: '#FDFFFB',
+      snowDrift: '#FBFEF7',
       mintCream: '#F1F8E8',
       teaGreen: '#D8EFD3',
       seaFoamGreen: '#95D2B3',

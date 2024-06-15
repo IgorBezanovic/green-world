@@ -16,7 +16,7 @@ export const Header = () => {
         'bg-teaGreen',
         'shadow',
         'px-5',
-        'py-3'
+        'py-4'
       )}
     >
       <nav

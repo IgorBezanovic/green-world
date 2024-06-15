@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 export const Home = () => {
   return (
-    <div className={clsx('w-full', 'bg-mintCream', 'min-h-[100vh]')}>
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
       <div
         className={clsx('max-w-[1400px]', 'mx-auto', 'p-5', 'flex', 'gap-5')}
       >

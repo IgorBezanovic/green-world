@@ -60,7 +60,7 @@ export const Search = () => {
               'transition',
               'cursor-pointer',
               'border-2',
-              'bg-mintCream',
+              'bg-whiteLinen',
               'focus:outline-none',
               'focus:ring-2',
               'focus:ring-forestGreen',
@@ -117,7 +117,8 @@ export const Search = () => {
           'rounded-md',
           'pl-1',
           'shadow-md',
-          'mb-4'
+          'mb-4',
+          'bg-whiteLinen'
         )}
         onChange={handleSearchForm}
       />
