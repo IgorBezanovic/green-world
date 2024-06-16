@@ -13,7 +13,7 @@ export const navigationItems = [
   {
     id: 2,
     title: UserOutlined,
-    route: '/prijavi-se'
+    route: '/login'
   }
 ];
 

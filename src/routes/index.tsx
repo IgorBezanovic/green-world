@@ -1,5 +1,6 @@
 import { Layout } from '@green-world/components/Layout';
-import { Home } from '@green-world/views/home';
+import { Home } from '@green-world/views/Home';
+import { Login } from '@green-world/views/Login';
 
 export const routes = [
   {
@@ -15,8 +16,8 @@ export const routes = [
         element: <div> 2 </div>
       },
       {
-        path: '/form-generator',
-        element: <div> 3 </div>
+        path: '/login',
+        element: <Login />
       }
     ]
   },
