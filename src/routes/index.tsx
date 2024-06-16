@@ -1,6 +1,5 @@
 import { Layout } from '@green-world/components/Layout';
-import { Home } from '@green-world/views/Home';
-import { Login } from '@green-world/views/Login';
+import { Home, Login } from '@green-world/views';
 
 export const routes = [
   {
