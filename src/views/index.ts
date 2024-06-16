@@ -1,3 +1,3 @@
-export * from '@green-world/views/ForgotPassword';
-export * from '@green-world/views/Home';
-export * from '@green-world/views/Login';
+export * from '@green-world/views/forgotPassword';
+export * from '@green-world/views/home';
+export * from '@green-world/views/login';
