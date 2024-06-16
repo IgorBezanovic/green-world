@@ -1,5 +1,5 @@
 import { Layout } from '@green-world/components/Layout';
-import { Home, Login } from '@green-world/views';
+import { ForgotPassword, Home, Login } from '@green-world/views';
 
 export const routes = [
   {
@@ -17,6 +17,10 @@ export const routes = [
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword />
       }
     ]
   },

@@ -39,7 +39,8 @@ export const LoginForm = () => {
             'border-2',
             'border-forestGreen',
             'rounded-md',
-            'pl-1',
+            'pl-2',
+            'py-2',
             'shadow-md',
             'mb-4',
             'bg-whiteLinen'
@@ -62,7 +63,8 @@ export const LoginForm = () => {
               'border-2',
               'border-forestGreen',
               'rounded-md',
-              'pl-1',
+              'pl-2',
+              'py-2',
               'shadow-md',
               'mb-2',
               'bg-whiteLinen'
@@ -74,8 +76,9 @@ export const LoginForm = () => {
                 'mb-2',
                 'text-forestGreen',
                 'absolute',
-                'right-2',
-                'top-1.5'
+                'right-3',
+                'top-2.5',
+                'text-2xl'
               )}
               onClick={() => setShowPassword(!showPassword)}
             />
@@ -85,14 +88,15 @@ export const LoginForm = () => {
                 'mb-2',
                 'text-forestGreen',
                 'absolute',
-                'right-2',
-                'top-1.5'
+                'right-3',
+                'top-2.5',
+                'text-2xl'
               )}
               onClick={() => setShowPassword(!showPassword)}
             />
           )}
         </div>
-        <Link to="/" className={clsx('text-forestGreen')}>
+        <Link to="/forgot-password" className={clsx('text-forestGreen')}>
           Zaboravljen password?
         </Link>
         <div className={clsx('w-full', 'flex', 'justify-center', 'mt-10')}>

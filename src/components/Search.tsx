@@ -115,9 +115,11 @@ export const Search = () => {
           'border-2',
           'border-forestGreen',
           'rounded-md',
-          'pl-1',
+          'pl-2',
+          'py-2',
           'shadow-md',
-          'mb-4',
+          'mt-4',
+          'mb-8',
           'bg-whiteLinen'
         )}
         onChange={handleSearchForm}
