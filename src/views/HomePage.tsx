@@ -1,7 +1,7 @@
 import { Search } from '@green-world/components/Search';
 import clsx from 'clsx';
 
-export const Home = () => {
+export const HomePage = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
       <div
