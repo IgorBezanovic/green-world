@@ -1,4 +1,4 @@
-import { Logo } from '@green-world/components/Logo';
+import { Logo } from '@green-world/components';
 import { navigationItems } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';

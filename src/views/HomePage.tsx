@@ -1,4 +1,4 @@
-import { Search } from '@green-world/components/Search';
+import { Search } from '@green-world/components';
 import clsx from 'clsx';
 
 export const HomePage = () => {

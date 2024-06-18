@@ -100,7 +100,7 @@ export const LoginForm = () => {
           Zaboravljen password?
         </Link>
         <div className={clsx('w-full', 'flex', 'justify-center', 'mt-10')}>
-          <Link to="/" className={clsx('text-forestGreen')}>
+          <Link to="/user-registration" className={clsx('text-forestGreen')}>
             Nemate nalog? Registrujte se
           </Link>
         </div>

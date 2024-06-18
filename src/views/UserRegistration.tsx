@@ -1,7 +1,7 @@
-import { BackButton, LoginForm } from '@green-world/components';
+import { BackButton, UserRegistrationForm } from '@green-world/components';
 import clsx from 'clsx';
 
-export const Login = () => {
+export const UserRegistration = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
       <div
@@ -15,7 +15,7 @@ export const Login = () => {
         )}
       >
         <BackButton />
-        <LoginForm />
+        <UserRegistrationForm />
       </div>
     </div>
   );
