@@ -1,6 +1,6 @@
 # Allow all web crawlers to access everything
-User-agent: *
-Disallow:
+User-agent: Mediapartners-Google
+Disallow: /
 
 # Disallow web crawlers from accessing specific directories
 Disallow: /admin/
