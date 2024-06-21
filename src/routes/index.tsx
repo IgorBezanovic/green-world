@@ -3,6 +3,7 @@ import {
   ForgotPassword,
   HomePage,
   Login,
+  Profile,
   UserRegistration
 } from '@green-world/views';
 
@@ -16,10 +17,6 @@ export const routes = [
         element: <HomePage />
       },
       {
-        path: '/users',
-        element: <div> 2 </div>
-      },
-      {
         path: '/login',
         element: <Login />
       },
@@ -30,6 +27,10 @@ export const routes = [
       {
         path: '/user-registration',
         element: <UserRegistration />
+      },
+      {
+        path: '/profile/:id',
+        element: <Profile />
       }
     ]
   },
