@@ -15,13 +15,14 @@ export const Header = () => {
         'z-20',
         'bg-teaGreen',
         'shadow',
-        'px-5',
+        'px-7',
+        'xl:px-0',
         'py-4'
       )}
     >
       <nav
         className={clsx(
-          'max-w-[1360px]',
+          'max-w-[1400px]',
           'mx-auto',
           'flex',
           'items-center',

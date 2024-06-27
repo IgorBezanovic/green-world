@@ -11,11 +11,22 @@ export const Profile = () => {
           href="https://www.green-world-six.vercel.app/profile"
         />
       </Helmet>
-      <div className={clsx('max-w-[1400px]', 'mx-auto', 'p-5', 'gap-5')}>
-        <div className={clsx('w-full', 'h-[150px]', 'bg-seaFoamGreen', 'mb-5')}>
+      <div
+        className={clsx(
+          'max-w-[1400px]',
+          'flex',
+          'flex-col',
+          'mx-auto',
+          'px-7',
+          'xl:px-0',
+          'py-7',
+          'gap-7'
+        )}
+      >
+        <div className={clsx('w-full', 'h-[150px]', 'bg-seaFoamGreen')}>
           header image radnje
         </div>
-        <div className={clsx('flex', 'gap-5')}>
+        <div className={clsx('flex', 'gap-7')}>
           <div className={clsx('w-1/4', 'bg-primary')}>
             Informacije o prodavcu
             <br />
@@ -32,7 +43,7 @@ export const Profile = () => {
             google maps box
           </div>
           <div className={clsx('w-3/4')}>
-            <div className={clsx('w-full', 'flex', 'gap-5', 'mb-5')}>
+            <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>
               <button
                 className={clsx(
                   'flex-1',

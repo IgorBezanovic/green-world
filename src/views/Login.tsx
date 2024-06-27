@@ -15,10 +15,12 @@ export const Login = () => {
         className={clsx(
           'max-w-[1400px]',
           'mx-auto',
-          'p-5',
+          'px-7',
+          'xl:px-0',
+          'py-7',
           'flex',
           'flex-col',
-          'gap-5'
+          'gap-7'
         )}
       >
         <BackButton />

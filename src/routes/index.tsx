@@ -3,6 +3,7 @@ import {
   ForgotPassword,
   HomePage,
   Login,
+  ProductsSearchPage,
   Profile,
   UserRegistration
 } from '@green-world/views';
@@ -31,6 +32,10 @@ export const routes = [
       {
         path: '/profile/:id',
         element: <Profile />
+      },
+      {
+        path: '/search',
+        element: <ProductsSearchPage />
       }
     ]
   },
