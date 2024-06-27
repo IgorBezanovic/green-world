@@ -40,7 +40,7 @@ export const Header = () => {
                 'leading-normal',
                 'font-medium',
                 'border-2',
-                'rounded-xl',
+                'rounded-md',
                 'min-h-12',
                 'p-4',
                 'max-h-12',

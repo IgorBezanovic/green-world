@@ -3,7 +3,8 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     screens: {
-      sm: '480px',
+      xs: '480px',
+      sm: '600px',
       md: '768px',
       lg: '976px',
       xl: '1440px'
@@ -51,6 +52,9 @@ export default {
       },
       gridTemplateColumns: {
         landing: 'repeat(2, minmax(0, 832px))'
+      },
+      minHeight: {
+        viewHeight: 'calc(100vh - 120px)'
       }
     }
   },
