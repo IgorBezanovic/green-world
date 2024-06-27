@@ -13,7 +13,7 @@ export const BackButton = () => {
         'leading-normal',
         'font-medium',
         'border-2',
-        'rounded-xl',
+        'rounded-md',
         'p-2',
         'w-20',
         'text-center',

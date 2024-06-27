@@ -6,7 +6,7 @@ export const ForgotPasswordForm = () => {
       className={clsx(
         'bg-teaGreen',
         'shadow-md',
-        'rounded-md',
+        'rounded',
         'p-5',
         'md:py-14',
         'w-full',
@@ -34,7 +34,7 @@ export const ForgotPasswordForm = () => {
             'w-full',
             'border-2',
             'border-forestGreen',
-            'rounded-md',
+            'rounded',
             'pl-2',
             'py-2',
             'shadow-md',
@@ -47,7 +47,7 @@ export const ForgotPasswordForm = () => {
             'mt-2',
             'w-full',
             'bg-forestGreen',
-            'rounded-md',
+            'rounded',
             'py-2',
             'shadow-md',
             'text-mintCream'

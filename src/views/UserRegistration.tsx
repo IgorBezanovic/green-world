@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 export const UserRegistration = () => {
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <link
           rel="canonical"
@@ -13,8 +13,8 @@ export const UserRegistration = () => {
       </Helmet>
       <div
         className={clsx(
-          'max-w-[1400px]',
-          'mx-auto',
+          'xl:max-w-[1400px]',
+          'w-full',
           'px-7',
           'xl:px-0',
           'py-7',

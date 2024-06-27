@@ -30,7 +30,7 @@ export const Search = () => {
         'items-start',
         'bg-teaGreen',
         'shadow-md',
-        'rounded-md',
+        'rounded',
         'p-5'
       )}
     >
@@ -55,7 +55,7 @@ export const Search = () => {
               'appearance-none',
               'w-6',
               'h-6',
-              'rounded-md',
+              'rounded',
               'shadow-md',
               'transition',
               'cursor-pointer',
@@ -78,7 +78,7 @@ export const Search = () => {
               'w-6',
               'h-6',
               'border-2',
-              'rounded-md',
+              'rounded',
               'flex-shrink-0',
               'flex justify-center items-center',
               'transition-opacity',
@@ -114,7 +114,7 @@ export const Search = () => {
           'w-full',
           'border-2',
           'border-forestGreen',
-          'rounded-md',
+          'rounded',
           'pl-2',
           'py-2',
           'shadow-md',
@@ -128,7 +128,7 @@ export const Search = () => {
         className={clsx(
           'w-full',
           'bg-forestGreen',
-          'rounded-md',
+          'rounded',
           'py-2',
           'shadow-md',
           'text-mintCream'

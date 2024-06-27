@@ -4,7 +4,7 @@ import './style.css';
 
 export const Profile = () => {
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <link
           rel="canonical"
@@ -13,7 +13,8 @@ export const Profile = () => {
       </Helmet>
       <div
         className={clsx(
-          'max-w-[1400px]',
+          'xl:max-w-[1400px]',
+          'w-full',
           'flex',
           'flex-col',
           'mx-auto',
@@ -49,7 +50,7 @@ export const Profile = () => {
                   'flex-1',
                   'border-2',
                   'border-forestGreen',
-                  'rounded-md',
+                  'rounded',
                   'py-2',
                   'px-4',
                   'shadow-md',
@@ -63,7 +64,7 @@ export const Profile = () => {
                   'flex-1',
                   'border-2',
                   'border-forestGreen',
-                  'rounded-md',
+                  'rounded',
                   'py-2',
                   'px-4',
                   'shadow-md',
@@ -77,7 +78,7 @@ export const Profile = () => {
                   'flex-1',
                   'border-2',
                   'border-forestGreen',
-                  'rounded-md',
+                  'rounded',
                   'py-2',
                   'px-4',
                   'shadow-md',
@@ -95,7 +96,7 @@ export const Profile = () => {
                 'bg-mintCream',
                 'p-2',
                 'shadow-md',
-                'rounded-md'
+                'rounded'
               )}
             >
               <div className={clsx('flex', 'gap-5')}>
@@ -105,7 +106,7 @@ export const Profile = () => {
                   className={clsx(
                     'border-2',
                     'border-forestGreen',
-                    'rounded-md',
+                    'rounded',
                     'pl-2',
                     'py-2',
                     'shadow-md',
@@ -117,7 +118,7 @@ export const Profile = () => {
                     className={clsx(
                       'border-2',
                       'border-forestGreen',
-                      'rounded-md',
+                      'rounded',
                       'py-2',
                       'px-4',
                       'shadow-md',
@@ -152,7 +153,7 @@ export const Profile = () => {
               <button
                 className={clsx(
                   'bg-forestGreen',
-                  'rounded-md',
+                  'rounded',
                   'py-2',
                   'px-4',
                   'shadow-md',

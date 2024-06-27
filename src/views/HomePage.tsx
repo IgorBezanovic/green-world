@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 
 export const HomePage = () => {
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[100vh]')}>
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <link rel="canonical" href="https://www.green-world-six.vercel.app/" />
       </Helmet>
       <div
         className={clsx(
-          'max-w-[1400px]',
+          'xl:max-w-[1400px]',
+          'w-full',
           'mx-auto',
           'px-7',
           'xl:px-0',
@@ -31,7 +32,7 @@ export const HomePage = () => {
             'leading-normal',
             'font-medium',
             'border-2',
-            'rounded-xl',
+            'rounded',
             'min-h-12',
             'p-4',
             'max-h-12',
