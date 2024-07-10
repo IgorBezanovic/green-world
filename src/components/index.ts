@@ -6,6 +6,7 @@ export * from '@green-world/components/Header';
 export * from '@green-world/components/Layout';
 export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/Logo';
+export * from '@green-world/components/RedirectSquare';
 export * from '@green-world/components/Search';
 export * from '@green-world/components/SuspenseLoader';
 export * from '@green-world/components/UserRegistrationForm';
