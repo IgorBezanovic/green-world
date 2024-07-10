@@ -1,4 +1,5 @@
-import { Divider } from '@green-world/components';
+import { Divider, RedirectSquare } from '@green-world/components';
+import { homeCategories } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
@@ -22,9 +23,34 @@ export const HomePage = () => {
           'gap-7'
         )}
       >
-        <div className={clsx('w-full', 'h-[200px]', 'bg-primary')}>
-          Reklamni prostor
-        </div>
+        <Link
+          style={{
+            backgroundImage: "url('/pikaso.jpeg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'bottom 48% center',
+            width: 'w-full',
+            height: '200px'
+          }}
+          className={clsx('flex', 'shadow-md')}
+          to="/search"
+          aria-label="Home"
+        />
+        <Divider text="Kategorije Proizvoda" />
+        <section
+          className={clsx(
+            'w-full',
+            'max-w-[1320px]',
+            'mx-auto',
+            'grid',
+            'grid-cols-2',
+            'md:grid-cols-4',
+            'gap-10'
+          )}
+        >
+          {homeCategories.map((category) => (
+            <RedirectSquare item={category} key={category.id} />
+          ))}
+        </section>
         <Link
           className={clsx(
             'text-forestGreen',
@@ -43,7 +69,7 @@ export const HomePage = () => {
             'shadow-md',
             'transition'
           )}
-          to={'/'}
+          to={'/search'}
         >
           Pretrazi sve proizvode
         </Link>
@@ -73,17 +99,6 @@ export const HomePage = () => {
         <Divider text="Izdvojeni proizvodi" />
         <section className={clsx('w-full', 'bg-primary', 'h-[200px]')}>
           Izdvojeni proizvodi
-        </section>
-        <Divider text="Kategorije Proizvoda" />
-        <section
-          className={clsx('w-full', 'bg-primary', 'h-[200px]', 'flex', 'gap-5')}
-        >
-          <div className={clsx('flex-1', 'bg-mainYellow')}>
-            Cvetni asortiman
-          </div>
-          <div className={clsx('flex-1', 'bg-mainYellow')}>Sadnice</div>
-          <div className={clsx('flex-1', 'bg-mainYellow')}>Voce i povrce</div>
-          <div className={clsx('flex-1', 'bg-mainYellow')}>biljna apoteka</div>
         </section>
       </div>
     </div>

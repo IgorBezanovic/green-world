@@ -7,9 +7,11 @@ export default {
       sm: '600px',
       md: '768px',
       lg: '976px',
+      lgm: '1024px',
       xl: '1440px'
     },
     colors: {
+      groupTransparent: 'rgba(81, 81, 81, 0.60)',
       whiteLinen: '#FDFFFB',
       snowDrift: '#FBFEF7',
       mintCream: '#F1F8E8',
