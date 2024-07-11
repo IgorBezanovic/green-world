@@ -8,14 +8,15 @@ export const HomePage = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <link rel="canonical" href="https://www.green-world-six.vercel.app/" />
+        <link rel="canonical" href="https://www.zeleni-svet.com/" />
       </Helmet>
       <div
         className={clsx(
           'xl:max-w-[1400px]',
           'w-full',
           'mx-auto',
-          'px-7',
+          'px-4',
+          'sm:px-6',
           'xl:px-0',
           'py-7',
           'flex',
@@ -44,7 +45,9 @@ export const HomePage = () => {
             'grid',
             'grid-cols-2',
             'md:grid-cols-4',
-            'gap-10'
+            'gap-4',
+            'sm:gap-6',
+            'lg:gap-10'
           )}
         >
           {homeCategories.map((category) => (

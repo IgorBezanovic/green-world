@@ -29,7 +29,7 @@ export default {
       mainGreen: '#35C89F',
       mainYellow: '#FFCC00',
       mainRed: '#F97F88',
-      red: '#F97F88',
+      red: '#c30010',
       white: '#FFFFFF',
       black: '#01082D',
       gray80: '#343957',
@@ -56,7 +56,7 @@ export default {
         landing: 'repeat(2, minmax(0, 832px))'
       },
       minHeight: {
-        viewHeight: 'calc(100vh - 120px)'
+        viewHeight: 'calc(100vh - 358px)'
       }
     }
   },

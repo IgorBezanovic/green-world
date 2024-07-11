@@ -15,7 +15,8 @@ export const Header = () => {
         'z-20',
         'bg-teaGreen',
         'shadow',
-        'px-7',
+        'px-4',
+        'sm:px-7',
         'xl:px-0',
         'py-4'
       )}
