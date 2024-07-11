@@ -17,7 +17,7 @@ export const RedirectSquare = ({ ...props }) => {
       style={style}
       className={clsx(
         'flex',
-        'shadow-md',
+        'shadow-xl',
         'relative',
         'w-full',
         'h-[200px]',
