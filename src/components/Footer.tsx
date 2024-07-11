@@ -9,7 +9,14 @@ import clsx from 'clsx';
 export const Footer = () => {
   return (
     <footer
-      className={clsx('bg-forestGreen', 'shadow', 'px-7', 'xl:px-0', 'py-10')}
+      className={clsx(
+        'bg-forestGreen',
+        'shadow',
+        'px-4',
+        'sm:px-7',
+        'xl:px-0',
+        'py-10'
+      )}
     >
       <section
         className={clsx(

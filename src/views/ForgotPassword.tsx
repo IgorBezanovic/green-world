@@ -8,7 +8,7 @@ export const ForgotPassword = () => {
       <Helmet>
         <link
           rel="canonical"
-          href="https://www.green-world-six.vercel.app/forgot-password"
+          href="https://www.zeleni-svet.com/forgot-password"
         />
       </Helmet>
       <div

@@ -8,7 +8,7 @@ export const UserRegistration = () => {
       <Helmet>
         <link
           rel="canonical"
-          href="https://www.green-world-six.vercel.app/user-registration"
+          href="https://www.zeleni-svet.com/user-registration"
         />
       </Helmet>
       <div

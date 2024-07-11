@@ -6,7 +6,7 @@ export const ProductsSearchPage = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <link rel="canonical" href="https://www.green-world-six.vercel.app/" />
+        <link rel="canonical" href="https://www.zeleni-svet.com/" />
       </Helmet>
       <div
         className={clsx(

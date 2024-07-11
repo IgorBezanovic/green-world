@@ -1,14 +1,20 @@
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 export const RedirectSquare = ({ ...props }) => {
+  const style = useMemo(
+    () => ({
+      backgroundImage: props.item.image,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }),
+    [props.item.image]
+  );
+
   return (
     <Link
-      style={{
-        backgroundImage: props.item.image,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
+      style={style}
       className={clsx(
         'flex',
         'shadow-md',

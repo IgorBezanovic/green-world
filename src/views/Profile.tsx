@@ -6,10 +6,7 @@ export const Profile = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <link
-          rel="canonical"
-          href="https://www.green-world-six.vercel.app/profile"
-        />
+        <link rel="canonical" href="https://www.zeleni-svet.com/profile" />
       </Helmet>
       <div
         className={clsx(
