@@ -26,9 +26,9 @@ export const HomePage = () => {
       >
         <Link
           style={{
-            backgroundImage: "url('/pikaso.jpeg')",
+            backgroundImage: "url('/welcome.jpg')",
             backgroundSize: 'cover',
-            backgroundPosition: 'bottom 48% center',
+            backgroundPosition: 'bottom 45% center',
             width: 'w-full',
             height: '200px'
           }}

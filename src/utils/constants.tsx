@@ -66,49 +66,49 @@ export const legalType = [
 export const homeCategories = [
   {
     id: 1,
-    image: "url('/cvece.jpg')",
+    image: "url('/bouqeut_of_flowers-min.jpg')",
     route: '/search',
     text: 'Cvetni asortiman'
   },
   {
     id: 2,
-    image: "url('/sadnica.jpg')",
-    route: '/search',
-    text: 'Sadnice'
-  },
-  {
-    id: 3,
-    image: "url('/voce_i_povrce.jpg')",
-    route: '/search',
-    text: 'Voce i povrce'
-  },
-  {
-    id: 4,
-    image: "url('/poljo_apoteka.jpg')",
-    route: '/search',
-    text: 'Biljna apoteka'
-  },
-  {
-    id: 5,
-    image: "url('/zimzelene_sadnice.jpg')",
+    image: "url('/evergreen_seedlings-min.jpg')",
     route: '/search',
     text: 'Zimzelene sadnice'
   },
   {
-    id: 6,
-    image: "url('/saksisko_cvece.jpg')",
+    id: 3,
+    image: "url('/potted_flowers-min.jpg')",
     route: '/search',
     text: 'Saksijsko cvece'
   },
   {
+    id: 4,
+    image: "url('/seedlings-min.jpg')",
+    route: '/search',
+    text: 'Sadnice'
+  },
+  {
+    id: 5,
+    image: "url('/fruits_and_vege-min.jpg')",
+    route: '/search',
+    text: 'Voce i povrce'
+  },
+  {
+    id: 6,
+    image: "url('/pharmacy-min.jpg')",
+    route: '/search',
+    text: 'Biljna apoteka'
+  },
+  {
     id: 7,
-    image: "url('/bastenska_dekoracija.jpg')",
+    image: "url('/garden_decoration-min.jpg')",
     route: '/search',
     text: 'Bastenska dekoracija'
   },
   {
     id: 8,
-    image: "url('/sve_za_biljke.jpg')",
+    image: "url('/all_for_plants-min.jpg')",
     route: '/search',
     text: 'Sve za biljke'
   }

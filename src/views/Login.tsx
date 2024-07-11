@@ -7,8 +7,16 @@ export const Login = () => {
   const { mutate, error, isLoading } = useLogin();
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <div
+      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
+      style={{
+        backgroundImage: "url('/bckgr_login.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
       <Helmet>
+        <title>Zeleni svet | Prijavi se</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/login" />
       </Helmet>
       <div
@@ -18,7 +26,8 @@ export const Login = () => {
           'mx-auto',
           'px-7',
           'xl:px-0',
-          'py-7',
+          'pt-20',
+          'pb-40',
           'flex',
           'flex-col',
           'gap-7'
