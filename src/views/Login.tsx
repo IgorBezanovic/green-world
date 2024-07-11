@@ -10,7 +10,7 @@ export const Login = () => {
     <div
       className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
       style={{
-        backgroundImage: "url('/bckgr_login.jpg')",
+        backgroundImage: "url('/background_login.jpeg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
