@@ -26,7 +26,7 @@ export const HomePage = () => {
       >
         <Link
           style={{
-            backgroundImage: "url('/welcome.jpg')",
+            backgroundImage: "url('/welcome-min.jpg')",
             backgroundSize: 'cover',
             backgroundPosition: 'bottom 45% center',
             width: 'w-full',
