@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 export const Divider = ({ text }: { text: string }) => {
   return (
-    <div className={clsx('flex', 'items-center')}>
+    <section className={clsx('flex', 'items-center')}>
       <div
         className={clsx(
           'flex-1',
@@ -12,11 +12,9 @@ export const Divider = ({ text }: { text: string }) => {
           'bg-forestGreen'
         )}
       />
-      <span
-        className={clsx('mx-5', 'text-forestGreen', 'uppercase', 'text-xl')}
-      >
+      <h2 className={clsx('mx-5', 'text-forestGreen', 'uppercase', 'text-xl')}>
         {text}
-      </span>
+      </h2>
       <div
         className={clsx(
           'flex-1',
@@ -26,6 +24,6 @@ export const Divider = ({ text }: { text: string }) => {
           'bg-forestGreen'
         )}
       />
-    </div>
+    </section>
   );
 };
