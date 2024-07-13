@@ -1,11 +1,25 @@
+import { setUnauthenticated } from '@green-world/context/authSlice';
+import { removeItem } from '@green-world/utils/cookie';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 
-export const Profile = () => {
+export const UserProfile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    removeItem('token');
+    dispatch(setUnauthenticated());
+    navigate('/');
+  };
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
+        <title>Zeleni svet | Profil</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/profile" />
       </Helmet>
       <div
@@ -15,7 +29,8 @@ export const Profile = () => {
           'flex',
           'flex-col',
           'mx-auto',
-          'px-7',
+          'px-4',
+          'sm:px-6',
           'xl:px-0',
           'py-7',
           'gap-7'
@@ -163,6 +178,21 @@ export const Profile = () => {
             <section className={clsx('py-5', 'bg-primary')}>Ponuda</section>
           </div>
         </div>
+        <button
+          className={clsx(
+            'flex-1',
+            'border-2',
+            'border-forestGreen',
+            'rounded',
+            'py-2',
+            'px-4',
+            'shadow-md',
+            'bg-whiteLinen'
+          )}
+          onClick={handleLogout}
+        >
+          Log out
+        </button>
       </div>
     </div>
   );

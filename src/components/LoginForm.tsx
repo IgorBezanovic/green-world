@@ -2,7 +2,8 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
   MailOutlined,
-  LockOutlined
+  LockOutlined,
+  LoadingOutlined
 } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
 import clsx from 'clsx';
@@ -165,11 +166,19 @@ export const LoginForm = ({ ...props }) => {
             'rounded',
             'py-2',
             'shadow-md',
-            'text-mintCream'
+            'text-mintCream',
+            'transition-all',
+            'flex',
+            'justify-center',
+            'items-center'
           )}
           disabled={props.isLoading}
         >
-          Prijavi se
+          {props.isLoading ? (
+            <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
+          ) : (
+            'Prijavi se'
+          )}
         </button>
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>

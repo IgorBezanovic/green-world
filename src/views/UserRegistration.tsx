@@ -6,6 +6,7 @@ export const UserRegistration = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
+        <title>Zeleni svet | Registracija</title>
         <link
           rel="canonical"
           href="https://www.zeleni-svet.com/user-registration"
@@ -15,7 +16,8 @@ export const UserRegistration = () => {
         className={clsx(
           'xl:max-w-[1400px]',
           'w-full',
-          'px-7',
+          'px-4',
+          'sm:px-6',
           'xl:px-0',
           'py-7',
           'flex',
