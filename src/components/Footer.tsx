@@ -26,17 +26,27 @@ export const Footer = () => {
           'grid-cols-1',
           'xs:grid-cols-2',
           'lg:grid-cols-4',
-          'gap-20'
+          'gap-10',
+          'md:gap-20'
         )}
       >
         <div className={clsx('text-whiteLinen')}>
           <p className={clsx('mb-2')}>Pratite/Kontaktirajte nas na:</p>
-          <LinkedinFilled
-            className={clsx('text-2xl', 'mr-2', 'cursor-pointer')}
-          />
-          <InstagramFilled className={clsx('text-2xl', 'cursor-pointer')} />
+          <div className={clsx('flex', 'gap-1')}>
+            <a href="https://www.instagram.com/zeleni_svet_rs/" target="blanc">
+              <InstagramFilled className={clsx('text-2xl', 'cursor-pointer')} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/zeleni-svet/"
+              target="blanc"
+            >
+              <LinkedinFilled
+                className={clsx('text-2xl', 'mr-2', 'cursor-pointer')}
+              />
+            </a>
+          </div>
           <form className={clsx('flex', 'flex-col', 'mt-4')}>
-            <label>Prijavi se da primas Letak na email: </label>
+            <label>Prijavi se da primas katalog na email: </label>
             <input
               type="text"
               name="email"
@@ -74,7 +84,9 @@ export const Footer = () => {
         <div className={clsx('text-whiteLinen')}>
           <p className={clsx('mb-0.5')}>Kontaktirajte nas mailom:</p>
           <p className={clsx('mb-4')}>
-            <a href="mailto:nas@email.com">nas@email.com</a>
+            <a href="mailto:zelenisvetinfo@gmail.com">
+              zelenisvetinfo@gmail.com
+            </a>
           </p>
           <Logo width="100px" height="100px" />
         </div>
@@ -98,7 +110,9 @@ export const Footer = () => {
             Zelite da istaknete svoj oglas/radnju na pocetnoj strani?
           </p>
           <p className={clsx('mb-4')}>
-            <a href="mailto:nas@email.com">nas@email.com</a>
+            <a href="mailto:zelenisvetinfo@gmail.com">
+              zelenisvetinfo@gmail.com
+            </a>
           </p>
           <p>
             Takodje mozete da zakupite reklamni baner u periodu{' '}
