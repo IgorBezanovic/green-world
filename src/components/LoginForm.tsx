@@ -2,7 +2,8 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
   MailOutlined,
-  LockOutlined
+  LockOutlined,
+  LoadingOutlined
 } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
 import clsx from 'clsx';
@@ -60,16 +61,20 @@ export const LoginForm = ({ ...props }) => {
             className={clsx(
               'w-full',
               'border-2',
-              'border-forestGreen',
               'rounded',
               'pl-9',
               'py-2',
               'shadow-md',
               'mb-4',
               'bg-whiteLinen',
-              { 'border-red': props.error?.response?.data }
+              {
+                'border-red': props.error?.response?.data,
+                'border-forestGreen': !props.isLoading,
+                'border-groupTransparent': props.isLoading
+              }
             )}
             onChange={(e) => setAuth({ ...auth, email: e.target.value })}
+            disabled={props.isLoading}
           />
           <MailOutlined
             className={clsx(
@@ -102,16 +107,20 @@ export const LoginForm = ({ ...props }) => {
             className={clsx(
               'w-full',
               'border-2',
-              'border-forestGreen',
               'rounded',
               'pl-9',
               'py-2',
               'shadow-md',
               'mb-2',
               'bg-whiteLinen',
-              { 'border-red': props.error?.response?.data }
+              {
+                'border-red': props.error?.response?.data,
+                'border-forestGreen': !props.isLoading,
+                'border-groupTransparent': props.isLoading
+              }
             )}
             onChange={(e) => setAuth({ ...auth, password: e.target.value })}
+            disabled={props.isLoading}
           />
           <LockOutlined
             className={clsx(
@@ -148,28 +157,51 @@ export const LoginForm = ({ ...props }) => {
             />
           )}
         </div>
-        <Link to="/forgot-password" className={clsx('text-forestGreen')}>
-          Zaboravljen password?
-        </Link>
-        <div className={clsx('w-full', 'flex', 'justify-center', 'mt-10')}>
-          <Link to="/user-registration" className={clsx('text-forestGreen')}>
-            Nemate nalog? Registrujte se
+        {props.isLoading ? (
+          <span className={clsx('text-groupTransparent')}>
+            Zaboravljen password?
+          </span>
+        ) : (
+          <Link to="/forgot-password" className={clsx('text-forestGreen')}>
+            Zaboravljen password?
           </Link>
+        )}
+        <div className={clsx('w-full', 'flex', 'justify-center', 'mt-10')}>
+          {props.isLoading ? (
+            <span className={clsx('text-groupTransparent')}>
+              Nemate nalog? Registrujte se
+            </span>
+          ) : (
+            <Link to="/user-registration" className={clsx('text-forestGreen')}>
+              Nemate nalog? Registrujte se
+            </Link>
+          )}
         </div>
         <button
           type="submit"
           className={clsx(
             'mt-2',
             'w-full',
-            'bg-forestGreen',
             'rounded',
             'py-2',
             'shadow-md',
-            'text-mintCream'
+            'text-mintCream',
+            'transition-all',
+            'flex',
+            'justify-center',
+            'items-center',
+            {
+              'bg-forestGreen': !props.isLoading,
+              'bg-groupTransparent': props.isLoading
+            }
           )}
           disabled={props.isLoading}
         >
-          Prijavi se
+          {props.isLoading ? (
+            <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
+          ) : (
+            'Prijavi se'
+          )}
         </button>
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>

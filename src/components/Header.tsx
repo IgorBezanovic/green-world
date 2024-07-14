@@ -1,10 +1,12 @@
 import { Logo } from '@green-world/components';
+import { useAuth } from '@green-world/context/AuthContext';
 import { navigationItems } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header
@@ -53,7 +55,11 @@ export const Header = () => {
                 'transition',
                 { 'text-deepTeal': item.route === location.pathname }
               )}
-              to={item.route}
+              to={
+                item.slug === 'user' && isAuthenticated
+                  ? item.loggedRoute
+                  : item.route
+              }
             >
               {typeof item.title === 'string' ? (
                 item.title

@@ -1,13 +1,5 @@
-# Allow all web crawlers to access everything
-User-agent: Mediapartners-Google
-Disallow: /
+user-agent: *
+disallow: /downloads/
 
-# Disallow web crawlers from accessing specific directories
-Disallow: /admin/
-Disallow: /private/
-
-# Allow specific directories (if disallowed in a broader rule)
-Allow: /public/
-
-# Specify the location of your sitemap
-Sitemap: https://green-world-six.vercel.app/
+user-agent: magicsearchbot
+disallow: /uploads/

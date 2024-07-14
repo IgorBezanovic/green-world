@@ -4,7 +4,7 @@ import {
   HomePage,
   Login,
   ProductsSearchPage,
-  Profile,
+  UserProfile,
   UserRegistration
 } from '@green-world/views';
 
@@ -30,8 +30,8 @@ export const routes = [
         element: <UserRegistration />
       },
       {
-        path: '/profile/:id',
-        element: <Profile />
+        path: '/profile',
+        element: <UserProfile />
       },
       {
         path: '/search',

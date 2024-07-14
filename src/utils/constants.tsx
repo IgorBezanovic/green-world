@@ -7,13 +7,17 @@ import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 export const navigationItems = [
   {
     id: 1,
+    slug: 'ad',
     title: 'Dodaj oglas',
-    route: '/dodaj-oglas'
+    route: '/dodaj-oglas',
+    loggedRoute: '/dodaj-oglas'
   },
   {
     id: 2,
+    slug: 'user',
     title: UserOutlined,
-    route: '/login'
+    route: '/login',
+    loggedRoute: '/profile'
   }
 ];
 
