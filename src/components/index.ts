@@ -12,4 +12,3 @@ export * from '@green-world/components/RegistrationForm';
 export * from '@green-world/components/ScrollToTop';
 export * from '@green-world/components/Search';
 export * from '@green-world/components/SuspenseLoader';
-export * from '@green-world/components/UserRegistrationForm';
