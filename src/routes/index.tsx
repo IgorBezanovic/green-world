@@ -1,3 +1,4 @@
+import { ProtectedRoute } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
   ForgotPassword,
@@ -31,7 +32,7 @@ export const routes = [
       },
       {
         path: '/profile',
-        element: <UserProfile />
+        element: <ProtectedRoute element={UserProfile} />
       },
       {
         path: '/search',
