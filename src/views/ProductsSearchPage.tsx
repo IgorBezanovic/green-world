@@ -1,6 +1,6 @@
 import { Search } from '@green-world/components';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export const ProductsSearchPage = () => {
   return (

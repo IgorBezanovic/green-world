@@ -1,7 +1,7 @@
 import { Divider, RedirectSquare } from '@green-world/components';
 import { homeCategories } from '@green-world/utils/constants';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export const HomePage = () => {

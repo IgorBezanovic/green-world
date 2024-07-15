@@ -1,11 +1,8 @@
-import { LoginForm } from '@green-world/components';
-import { useLogin } from '@green-world/hooks/useLogin';
+import { RegistrationForm } from '@green-world/components';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 
-export const Login = () => {
-  const { mutate, error, isLoading } = useLogin();
-
+export const Registration = () => {
   return (
     <div
       className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
@@ -16,8 +13,8 @@ export const Login = () => {
       }}
     >
       <Helmet>
-        <title>Zeleni svet | Prijavi se</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/login" />
+        <title>Zeleni svet | Registruj se</title>
+        <link rel="canonical" href="https://www.zeleni-svet.com/registration" />
       </Helmet>
       <div
         className={clsx(
@@ -34,7 +31,7 @@ export const Login = () => {
           'gap-7'
         )}
       >
-        <LoginForm mutate={mutate} error={error} isLoading={isLoading} />
+        <RegistrationForm />
       </div>
     </div>
   );
