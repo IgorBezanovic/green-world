@@ -5,6 +5,7 @@ import {
   HomePage,
   Login,
   ProductsSearchPage,
+  Registration,
   UserProfile,
   UserRegistration
 } from '@green-world/views';
@@ -21,6 +22,10 @@ export const routes = [
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/registration',
+        element: <Registration />
       },
       {
         path: '/forgot-password',

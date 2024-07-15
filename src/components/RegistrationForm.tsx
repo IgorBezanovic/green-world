@@ -3,23 +3,26 @@ import {
   EyeOutlined,
   MailOutlined,
   LockOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  UserOutlined
 } from '@ant-design/icons';
-import { AuthValues } from '@green-world/utils/types';
+import { RegistrationValues } from '@green-world/utils/types';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-export const LoginForm = ({ ...props }) => {
+export const RegistrationForm = ({ ...props }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [auth, setAuth] = useState<AuthValues>({
+  const [registrationData, setRegistrationData] = useState<RegistrationValues>({
+    name: '',
+    lastname: '',
     email: '',
     password: ''
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.mutate(auth);
+    console.log(registrationData);
+    // props.mutate(auth);
   };
 
   return (
@@ -37,6 +40,33 @@ export const LoginForm = ({ ...props }) => {
         'mt-10'
       )}
     >
+      <section
+        className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
+      >
+        <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
+          <strong>Registrujte se brzo, lako i jednostavno!</strong>
+        </h1>
+        <p className={clsx('mb-4', 'text-forestGreen', 'text-lg')}>
+          Nakon registracije idite na svoj profil i popunite svoje dodatne
+          podatke.
+        </p>
+        <p className={clsx('mb-4', 'text-forestGreen', 'text-lg')}>
+          Na taj način će drugi korisnici lakše kotaktirati sa Vama.
+        </p>
+      </section>
+      <div
+        className={clsx(
+          'flex-1',
+          'h-[2px]',
+          'shadow-md',
+          'rounded-md',
+          'bg-white',
+          'max-w-96',
+          'w-full',
+          'mx-auto',
+          'mb-4'
+        )}
+      />
       <form
         className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
         onSubmit={handleSubmit}
@@ -50,15 +80,15 @@ export const LoginForm = ({ ...props }) => {
             'text-lg'
           )}
         >
-          Unesite email:
+          Unesite Vaše ime:
         </label>
         <div className={clsx('w-full', 'relative')}>
           <input
             required
-            type="email"
-            name="email"
-            id="e-mail"
-            placeholder="Unesite email"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Ime"
             className={clsx(
               'w-full',
               'border-2',
@@ -74,7 +104,111 @@ export const LoginForm = ({ ...props }) => {
                 'border-groupTransparent': props.isLoading
               }
             )}
-            onChange={(e) => setAuth({ ...auth, email: e.target.value })}
+            onChange={(e) =>
+              setRegistrationData({ ...registrationData, name: e.target.value })
+            }
+            disabled={props.isLoading}
+          />
+          <UserOutlined
+            className={clsx(
+              'text-gray',
+              'absolute',
+              'left-3',
+              'top-[11px]',
+              'text-xl'
+            )}
+          />
+        </div>
+        <label
+          htmlFor="password"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          Unesite Vaše prezime:
+        </label>
+        <div className={clsx('w-full', 'relative')}>
+          <input
+            required
+            type="text"
+            name="lastname"
+            id="lastname"
+            placeholder="Prezime"
+            className={clsx(
+              'w-full',
+              'border-2',
+              'rounded',
+              'pl-9',
+              'py-2',
+              'shadow-md',
+              'mb-2',
+              'bg-whiteLinen',
+              {
+                'border-red': props.error?.response?.data,
+                'border-forestGreen': !props.isLoading,
+                'border-groupTransparent': props.isLoading
+              }
+            )}
+            onChange={(e) =>
+              setRegistrationData({
+                ...registrationData,
+                lastname: e.target.value
+              })
+            }
+            disabled={props.isLoading}
+          />
+          <UserOutlined
+            className={clsx(
+              'text-gray',
+              'absolute',
+              'left-3',
+              'top-[11px]',
+              'text-xl'
+            )}
+          />
+        </div>
+        <label
+          htmlFor="password"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          Kontakt e-mail:
+        </label>
+        <div className={clsx('w-full', 'relative')}>
+          <input
+            required
+            type="email"
+            name="email"
+            id="mail"
+            placeholder="Unesite e-mail"
+            className={clsx(
+              'w-full',
+              'border-2',
+              'rounded',
+              'pl-9',
+              'py-2',
+              'shadow-md',
+              'mb-4',
+              'bg-whiteLinen',
+              {
+                'border-red': props.error?.response?.data,
+                'border-forestGreen': !props.isLoading,
+                'border-groupTransparent': props.isLoading
+              }
+            )}
+            onChange={(e) =>
+              setRegistrationData({
+                ...registrationData,
+                email: e.target.value
+              })
+            }
             disabled={props.isLoading}
           />
           <MailOutlined
@@ -96,7 +230,7 @@ export const LoginForm = ({ ...props }) => {
             'text-lg'
           )}
         >
-          Unesite password:
+          Željena lozinka:
         </label>
         <div className={clsx('w-full', 'relative')}>
           <input
@@ -112,7 +246,7 @@ export const LoginForm = ({ ...props }) => {
               'pl-9',
               'py-2',
               'shadow-md',
-              'mb-3',
+              'mb-2',
               'bg-whiteLinen',
               {
                 'border-red': props.error?.response?.data,
@@ -120,7 +254,12 @@ export const LoginForm = ({ ...props }) => {
                 'border-groupTransparent': props.isLoading
               }
             )}
-            onChange={(e) => setAuth({ ...auth, password: e.target.value })}
+            onChange={(e) =>
+              setRegistrationData({
+                ...registrationData,
+                password: e.target.value
+              })
+            }
             disabled={props.isLoading}
           />
           <LockOutlined
@@ -158,30 +297,10 @@ export const LoginForm = ({ ...props }) => {
             />
           )}
         </div>
-        {props.isLoading ? (
-          <span className={clsx('text-groupTransparent')}>
-            Zaboravljen password?
-          </span>
-        ) : (
-          <Link to="/forgot-password" className={clsx('text-forestGreen')}>
-            Zaboravljen password?
-          </Link>
-        )}
-        <div className={clsx('w-full', 'flex', 'justify-center', 'mt-12')}>
-          {props.isLoading ? (
-            <span className={clsx('text-groupTransparent')}>
-              Nemate nalog? Registrujte se
-            </span>
-          ) : (
-            <Link to="/registration" className={clsx('text-forestGreen')}>
-              Nemate nalog? Registrujte se
-            </Link>
-          )}
-        </div>
         <button
           type="submit"
           className={clsx(
-            'mt-4',
+            'mt-6',
             'w-full',
             'rounded',
             'py-2',
@@ -201,7 +320,7 @@ export const LoginForm = ({ ...props }) => {
           {props.isLoading ? (
             <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
           ) : (
-            'Prijavi se'
+            'Registruj se'
           )}
         </button>
         {props.error && (

@@ -1,7 +1,7 @@
 import { setUnauthenticated } from '@green-world/context/authSlice';
 import { removeItem } from '@green-world/utils/cookie';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
