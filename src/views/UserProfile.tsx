@@ -19,7 +19,7 @@ export const UserProfile = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <title>Zeleni svet | Profil</title>
+        <title>Zeleni svet | Korisnicki profil</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/profile" />
       </Helmet>
       <div

@@ -13,6 +13,7 @@ export const ForgotPassword = () => {
       }}
     >
       <Helmet>
+        <title>Zeleni svet | Zaboravljen password</title>
         <link
           rel="canonical"
           href="https://www.zeleni-svet.com/forgot-password"
