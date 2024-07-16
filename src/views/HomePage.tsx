@@ -8,6 +8,7 @@ export const HomePage = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
+        <title>Zeleni svet | Green world</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/" />
       </Helmet>
       <div

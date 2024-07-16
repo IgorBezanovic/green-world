@@ -18,12 +18,14 @@ export const ForgotPasswordForm = () => {
       <form
         className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
       >
+        <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
+          <strong>Ukoliko ste zaboravili svoj password, nije problem.</strong>
+        </h1>
         <label
           htmlFor="email"
-          className={clsx('mb-4', 'text-forestGreen', 'cursor-pointer')}
+          className={clsx('mb-4', 'text-forestGreen', 'text-lg')}
         >
-          Ukoliko ste zaboravili svoj password, nije problem. Kontaktiracemo Vas
-          da promenu svoje lozinke:
+          Kontaktiracemo Vas da promenu svoje lozinke:
         </label>
         <input
           type="email"
