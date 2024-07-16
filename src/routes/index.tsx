@@ -4,6 +4,7 @@ import {
   ForgotPassword,
   HomePage,
   Login,
+  NotFound,
   ProductsSearchPage,
   Registration,
   UserProfile
@@ -42,6 +43,6 @@ export const routes = [
   },
   {
     path: '*',
-    element: <div> Not Found </div>
+    element: <NotFound />
   }
 ];
