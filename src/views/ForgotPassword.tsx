@@ -4,8 +4,16 @@ import { Helmet } from 'react-helmet-async';
 
 export const ForgotPassword = () => {
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <div
+      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
+      style={{
+        backgroundImage: "url('/background_login.jpeg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
       <Helmet>
+        <title>Zeleni svet | Zaboravljen password</title>
         <link
           rel="canonical"
           href="https://www.zeleni-svet.com/forgot-password"
