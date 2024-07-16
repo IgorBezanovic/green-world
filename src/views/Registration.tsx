@@ -1,4 +1,4 @@
-import { RegistrationForm } from '@green-world/components';
+import { BackButton, RegistrationForm } from '@green-world/components';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 
@@ -24,13 +24,14 @@ export const Registration = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'pt-20',
+          'pt-10',
           'pb-40',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
+        <BackButton />
         <RegistrationForm />
       </div>
     </div>

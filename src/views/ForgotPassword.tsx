@@ -4,7 +4,14 @@ import { Helmet } from 'react-helmet-async';
 
 export const ForgotPassword = () => {
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <div
+      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
+      style={{
+        backgroundImage: "url('/background_login.jpeg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
       <Helmet>
         <link
           rel="canonical"
