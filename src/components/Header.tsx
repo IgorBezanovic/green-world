@@ -1,12 +1,15 @@
+import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { Logo } from '@green-world/components';
 import { useAuth } from '@green-world/context/AuthContext';
-import { navigationItems } from '@green-world/utils/constants';
+import { useCreateAd } from '@green-world/context/CreateAdContext';
 import clsx from 'clsx';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const { handleOpenPopup } = useCreateAd();
+  const navigate = useNavigate();
 
   return (
     <header
@@ -34,40 +37,52 @@ export const Header = () => {
       >
         <Logo />
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
-          {navigationItems.map((item) => (
-            <Link
-              key={item.id}
-              className={clsx(
-                'text-forestGreen',
-                'hover:text-seaFoamGreen',
-                'leading-normal',
-                'font-medium',
-                'border-2',
-                'rounded-md',
-                'min-h-12',
-                'p-4',
-                'max-h-12',
-                'flex',
-                'items-center',
-                'justify-center',
-                'text-center',
-                'shadow-md',
-                'transition',
-                { 'text-deepTeal': item.route === location.pathname }
-              )}
-              to={
-                item.slug === 'user' && isAuthenticated
-                  ? item.loggedRoute
-                  : item.route
-              }
-            >
-              {typeof item.title === 'string' ? (
-                item.title
-              ) : (
-                <item.title className={clsx('text-2xl')} />
-              )}
-            </Link>
-          ))}
+          <button
+            onClick={handleOpenPopup}
+            className={clsx(
+              'text-forestGreen',
+              'hover:text-seaFoamGreen',
+              'leading-normal',
+              'font-medium',
+              'border-2',
+              'rounded-md',
+              'min-h-12',
+              'p-4',
+              'max-h-12',
+              'flex',
+              'items-center',
+              'justify-center',
+              'text-center',
+              'shadow-md',
+              'transition',
+              { 'text-deepTeal': '/dodaj-oglas' === location.pathname }
+            )}
+          >
+            Dodaj oglas
+          </button>
+          <button
+            className={clsx(
+              'text-forestGreen',
+              'hover:text-seaFoamGreen',
+              'leading-normal',
+              'font-medium',
+              'border-2',
+              'rounded-md',
+              'min-h-12',
+              'p-4',
+              'max-h-12',
+              'flex',
+              'items-center',
+              'justify-center',
+              'text-center',
+              'shadow-md',
+              'transition',
+              { 'text-deepTeal': '/login' === location.pathname }
+            )}
+            onClick={() => navigate(isAuthenticated ? '/profile' : '/login')}
+          >
+            <UserOutlined />
+          </button>
         </nav>
       </nav>
     </header>
