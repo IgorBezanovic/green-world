@@ -72,48 +72,67 @@ export const homeCategories = [
     id: 1,
     image: "url('/bouqeut_of_flowers-min.jpg')",
     route: '/search',
-    text: 'Cvetni asortiman'
+    text: 'Cvetni asortiman',
+    slug: 'flower_assortment'
   },
   {
     id: 2,
     image: "url('/evergreen_seedlings-min.jpg')",
     route: '/search',
-    text: 'Zimzelene sadnice'
+    text: 'Sukulenti',
+    slug: 'succulents'
   },
   {
     id: 3,
     image: "url('/potted_flowers-min.jpg')",
     route: '/search',
-    text: 'Saksijsko cvece'
+    text: 'Saksijsko cvece',
+    slug: 'potted_flowers'
   },
   {
     id: 4,
     image: "url('/seedlings-min.jpg')",
     route: '/search',
-    text: 'Sadnice'
+    text: 'Sadnice',
+    slug: 'seedlings'
   },
   {
     id: 5,
     image: "url('/fruits_and_vege-min.jpg')",
     route: '/search',
-    text: 'Voce i povrce'
+    text: 'Voce i povrce',
+    slug: 'fruits_and_vegetables'
   },
   {
     id: 6,
     image: "url('/pharmacy-min.jpg')",
     route: '/search',
-    text: 'Biljna apoteka'
+    text: 'Biljna apoteka',
+    slug: 'herbal_pharmacy'
   },
   {
     id: 7,
     image: "url('/garden_decoration-min.jpg')",
     route: '/search',
-    text: 'Bastenska dekoracija'
+    text: 'Bastenska dekoracija',
+    slug: 'garden_decoration'
   },
   {
     id: 8,
     image: "url('/all_for_plants-min.jpg')",
     route: '/search',
-    text: 'Sve za biljke'
+    text: 'Sve za biljke',
+    slug: 'everything_for_plants'
   }
 ];
+
+export const mainGroups = [
+  'flower_assortment',
+  'succulents',
+  'potted_flowers',
+  'seedlings',
+  'fruits_and_vegetables',
+  'herbal_pharmacy',
+  'garden_decoration',
+  'everything_for_plants'
+] as const;
