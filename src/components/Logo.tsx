@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Logo = ({
   width,
@@ -8,8 +8,10 @@ export const Logo = ({
   width?: string;
   height?: string;
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <Link
+    <button
       style={{
         backgroundImage: "url('/green-world.svg')",
         backgroundSize: 'cover',
@@ -18,7 +20,7 @@ export const Logo = ({
         height: height || '3.5rem'
       }}
       className={clsx('flex', 'shadow-md', 'rounded-[50%]')}
-      to="/"
+      onClick={() => navigate('/')}
       aria-label="Home"
     />
   );

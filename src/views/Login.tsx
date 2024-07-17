@@ -2,9 +2,13 @@ import { LoginForm } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 export const Login = () => {
   const { mutate, error, isLoading } = useLogin();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isUserLogged = queryParams.get('isUserLogged');
 
   return (
     <div
@@ -34,7 +38,12 @@ export const Login = () => {
           'gap-7'
         )}
       >
-        <LoginForm mutate={mutate} error={error} isLoading={isLoading} />
+        <LoginForm
+          mutate={mutate}
+          error={error}
+          isLoading={isLoading}
+          isUserLogged={isUserLogged}
+        />
       </div>
     </div>
   );

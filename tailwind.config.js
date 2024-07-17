@@ -56,7 +56,7 @@ export default {
         landing: 'repeat(2, minmax(0, 832px))'
       },
       minHeight: {
-        viewHeight: 'calc(100vh - 358px)'
+        viewHeight: 'calc(100vh - 360px)'
       }
     }
   },

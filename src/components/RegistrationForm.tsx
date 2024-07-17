@@ -14,7 +14,6 @@ export const RegistrationForm = ({ ...props }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [registrationData, setRegistrationData] = useState<RegistrationValues>({
     name: '',
-    lastname: '',
     email: '',
     password: ''
   });
@@ -120,58 +119,7 @@ export const RegistrationForm = ({ ...props }) => {
           />
         </div>
         <label
-          htmlFor="password"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Unesite Vaše prezime:
-        </label>
-        <div className={clsx('w-full', 'relative')}>
-          <input
-            required
-            type="text"
-            name="lastname"
-            id="lastname"
-            placeholder="Prezime"
-            className={clsx(
-              'w-full',
-              'border-2',
-              'rounded',
-              'pl-9',
-              'py-2',
-              'shadow-md',
-              'mb-2',
-              'bg-whiteLinen',
-              {
-                'border-red': props.error?.response?.data,
-                'border-forestGreen': !props.isLoading,
-                'border-groupTransparent': props.isLoading
-              }
-            )}
-            onChange={(e) =>
-              setRegistrationData({
-                ...registrationData,
-                lastname: e.target.value
-              })
-            }
-            disabled={props.isLoading}
-          />
-          <UserOutlined
-            className={clsx(
-              'text-gray',
-              'absolute',
-              'left-3',
-              'top-[11px]',
-              'text-xl'
-            )}
-          />
-        </div>
-        <label
-          htmlFor="password"
+          htmlFor="email"
           className={clsx(
             'mb-2',
             'text-forestGreen',
