@@ -37,6 +37,17 @@ export const LoginForm = ({ ...props }) => {
         'mt-10'
       )}
     >
+      {props.isUserLogged === 'false' && (
+        <section
+          className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
+        >
+          <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
+            <strong>
+              Treba da se ulogujete ukoliko želite da postavite oglas.
+            </strong>
+          </h1>
+        </section>
+      )}
       <form
         className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
         onSubmit={handleSubmit}
