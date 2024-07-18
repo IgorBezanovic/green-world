@@ -58,7 +58,7 @@ export const HomePage = () => {
         <Link
           className={clsx(
             'text-forestGreen',
-            'hover:text-seaFoamGreen',
+            'md:hover:text-seaFoamGreen',
             'leading-normal',
             'font-medium',
             'border-2',
