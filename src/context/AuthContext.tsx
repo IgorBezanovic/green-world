@@ -7,8 +7,8 @@ import { RootState } from './store';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  userId: string | null;
-  userRole: string | null;
+  userId: string | undefined;
+  userRole: string | undefined;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);

@@ -1,6 +1,7 @@
 import { ProtectedRoute } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
+  CreateAd,
   ForgotPassword,
   HomePage,
   Login,
@@ -34,6 +35,10 @@ export const routes = [
       {
         path: '/profile',
         element: <ProtectedRoute element={UserProfile} />
+      },
+      {
+        path: '/create-ad',
+        element: <ProtectedRoute element={CreateAd} />
       },
       {
         path: '/search',

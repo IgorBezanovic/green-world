@@ -1,14 +1,10 @@
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { Logo } from '@green-world/components';
-import { useAuth } from '@green-world/context/AuthContext';
-import { useCreateAd } from '@green-world/context/CreateAdContext';
 import clsx from 'clsx';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
-  const { handleOpenPopup } = useCreateAd();
   const navigate = useNavigate();
 
   return (
@@ -38,10 +34,10 @@ export const Header = () => {
         <Logo />
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
           <button
-            onClick={handleOpenPopup}
+            onClick={() => navigate('/create-ad')}
             className={clsx(
               'text-forestGreen',
-              'hover:text-seaFoamGreen',
+              'md:hover:text-seaFoamGreen',
               'leading-normal',
               'font-medium',
               'border-2',
@@ -55,7 +51,7 @@ export const Header = () => {
               'text-center',
               'shadow-md',
               'transition',
-              { 'text-deepTeal': '/dodaj-oglas' === location.pathname }
+              { 'text-deepTeal': '/create-ad' === location.pathname }
             )}
           >
             Dodaj oglas
@@ -63,7 +59,7 @@ export const Header = () => {
           <button
             className={clsx(
               'text-forestGreen',
-              'hover:text-seaFoamGreen',
+              'md:hover:text-seaFoamGreen',
               'leading-normal',
               'font-medium',
               'border-2',
@@ -79,7 +75,7 @@ export const Header = () => {
               'transition',
               { 'text-deepTeal': '/login' === location.pathname }
             )}
-            onClick={() => navigate(isAuthenticated ? '/profile' : '/login')}
+            onClick={() => navigate('/profile')}
           >
             <UserOutlined />
           </button>
