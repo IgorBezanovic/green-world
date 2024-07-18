@@ -3,17 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
 
 interface AuthState {
-  token: string | null | undefined;
+  token: string | undefined | undefined;
   isAuthenticated: boolean;
-  userId: string | null;
-  userRole: string | null;
+  userId: string | undefined;
+  userRole: string | undefined;
 }
 
 const initialState: AuthState = {
-  token: null,
+  token: undefined,
   isAuthenticated: false,
-  userId: null,
-  userRole: null
+  userId: undefined,
+  userRole: undefined
 };
 
 const authSlice = createSlice({
@@ -22,14 +22,13 @@ const authSlice = createSlice({
   reducers: {
     setAuthenticated: (state) => {
       const token = getItem('token');
-      let userId = null;
-      let userRole = null;
+      let userId = undefined;
+      let userRole = undefined;
       if (token) {
         try {
           const decodedToken: any = jwtDecode(token);
-          console.log(decodedToken);
-          userId = decodedToken._id || null;
-          userRole = decodedToken.role || null;
+          userId = decodedToken._id || undefined;
+          userRole = decodedToken.role || undefined;
         } catch (error) {
           console.error('Invalid token');
         }
@@ -40,10 +39,10 @@ const authSlice = createSlice({
       state.userRole = userRole;
     },
     setUnauthenticated: (state) => {
-      state.token = null;
+      state.token = undefined;
       state.isAuthenticated = false;
-      state.userId = null;
-      state.userRole = null;
+      state.userId = undefined;
+      state.userRole = undefined;
     }
   }
 });

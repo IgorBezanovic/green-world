@@ -1,6 +1,6 @@
-import { SuspenseLoader } from '@green-world/components';
+import { Loader } from '@green-world/components';
 import { AuthProvider } from '@green-world/context/AuthContext';
-import { CreateAdProvider } from '@green-world/context/CreateAdContext';
+import { SuccessProvider } from '@green-world/context/PopupContext';
 import { store } from '@green-world/context/store';
 import { routes } from '@green-world/routes';
 import React, { Suspense } from 'react';
@@ -24,12 +24,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <AuthProvider>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            <CreateAdProvider>
-              <Suspense fallback={<SuspenseLoader />}>
+            <SuccessProvider>
+              <Suspense fallback={<Loader />}>
                 <RouterProvider router={router} />
                 <ToastContainer />
               </Suspense>
-            </CreateAdProvider>
+            </SuccessProvider>
           </QueryClientProvider>
         </HelmetProvider>
       </AuthProvider>

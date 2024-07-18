@@ -1,16 +1,18 @@
+import { LoginOutlined } from '@ant-design/icons';
 import ContactsOutlined from '@ant-design/icons/lib/icons/ContactsOutlined';
 import MailOutlined from '@ant-design/icons/lib/icons/MailOutlined';
 import NumberOutlined from '@ant-design/icons/lib/icons/NumberOutlined';
 import PhoneOutlined from '@ant-design/icons/lib/icons/PhoneOutlined';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import type { MenuProps } from 'antd';
 
 export const navigationItems = [
   {
     id: 1,
     slug: 'ad',
     title: 'Dodaj oglas',
-    route: '/dodaj-oglas',
-    loggedRoute: '/dodaj-oglas'
+    route: '/create-ad',
+    loggedRoute: '/create-ad'
   },
   {
     id: 2,
@@ -136,3 +138,46 @@ export const mainGroups = [
   'garden_decoration',
   'everything_for_plants'
 ] as const;
+
+export const groupItemsCreateAd: MenuProps['items'] = [
+  {
+    key: 'flower_assortment',
+    label: 'Cvetni asortiman',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'succulents',
+    label: 'Sukulenti',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'potted_flowers',
+    label: 'Saksijsko cvece',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'seedlings',
+    label: 'Sadnice',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'fruits_and_vegetables',
+    label: 'Voce i povrce',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'herbal_pharmacy',
+    label: 'Biljna apoteka',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'garden_decoration',
+    label: 'Bastenska dekoracija',
+    icon: <LoginOutlined />
+  },
+  {
+    key: 'everything_for_plants',
+    label: 'Sve za biljke',
+    icon: <LoginOutlined />
+  }
+];
