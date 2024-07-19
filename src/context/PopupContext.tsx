@@ -65,10 +65,19 @@ export const SuccessProvider = ({ children }: { children: ReactNode }) => {
               }
               subTitle="Posetite stranicu profil, kako bi ste popunili podatke Vašeg biznisa"
               extra={
-                <div key="home" className={clsx('w-full')}>
+                <div
+                  key="home"
+                  className={clsx(
+                    'w-full',
+                    'flex',
+                    'justify-center',
+                    'flex-col',
+                    'md:flex-row',
+                    'gap-6'
+                  )}
+                >
                   <a
                     href={'/'}
-                    key="home"
                     className={clsx(
                       'text-forestGreen',
                       'md:hover:text-seaFoamGreen',
@@ -85,11 +94,33 @@ export const SuccessProvider = ({ children }: { children: ReactNode }) => {
                       'justify-center',
                       'text-center',
                       'shadow-md',
-                      'transition',
-                      'mx-auto'
+                      'transition'
                     )}
                   >
                     Početna
+                  </a>
+                  <a
+                    href={'/profile'}
+                    className={clsx(
+                      'text-forestGreen',
+                      'md:hover:text-seaFoamGreen',
+                      'leading-normal',
+                      'font-medium',
+                      'border-2',
+                      'rounded-md',
+                      'min-h-12',
+                      'max-h-12',
+                      'w-28',
+                      'p-4',
+                      'flex',
+                      'items-center',
+                      'justify-center',
+                      'text-center',
+                      'shadow-md',
+                      'transition'
+                    )}
+                  >
+                    Profil
                   </a>
                 </div>
               }

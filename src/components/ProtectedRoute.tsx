@@ -1,6 +1,4 @@
-import { Loader } from '@green-world/components';
-import { useAuth } from '@green-world/context/AuthContext';
-import { useEffect, useState } from 'react';
+import { getItem } from '@green-world/utils/cookie';
 import { ElementType } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -10,18 +8,7 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const { userId } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
+  const token = getItem('token');
 
-  useEffect(() => {
-    if (userId !== null) {
-      setIsLoading(false);
-    }
-  }, [userId]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  return userId ? <Component {...rest} /> : <Navigate to="/login" />;
+  return token ? <Component {...rest} /> : <Navigate to="/login" />;
 };
