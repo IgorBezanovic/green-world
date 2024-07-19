@@ -73,11 +73,18 @@ export const Header = () => {
               'text-center',
               'shadow-md',
               'transition',
+              'group',
               { 'text-deepTeal': '/login' === location.pathname }
             )}
             onClick={() => navigate('/profile')}
           >
-            <UserOutlined />
+            <UserOutlined
+              className={clsx(
+                'text-forestGreen',
+                'md:group-hover:text-seaFoamGreen',
+                'text-xl'
+              )}
+            />
           </button>
         </nav>
       </nav>
