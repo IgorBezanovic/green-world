@@ -83,7 +83,7 @@ export const UserProfile = () => {
                 height="450"
                 loading="lazy"
                 allowFullScreen
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDmgmIP3ziSO3mxkj8mgsiDVe-QbUVvG8k&q=23+Kotorska,+Novi+Sad,+Srbija+21000"
+                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_API_GOOGLE_API_KEY}&q=23+Kotorska,+Novi+Sad,+Srbija+21000`}
               ></iframe>
             </div>
           </section>
