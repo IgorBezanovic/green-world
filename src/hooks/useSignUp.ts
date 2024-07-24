@@ -11,14 +11,13 @@ export const useSignUp = () => {
   const { setIsOpen } = useSuccess();
 
   return useMutation(
-    ({ email, password, name }: RegistrationValues) =>
+    ({ email, password }: RegistrationValues) =>
       request({
         url: `/auth/sign-up`,
         method: 'post',
         data: {
           email,
-          password,
-          name
+          password
         }
       }),
     {
