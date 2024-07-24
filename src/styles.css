@@ -16,10 +16,12 @@ body {
 @font-face {
   font-family: 'GreenWorld';
   src:
-    url('Allison.ttf') format('truetype'),
-    url('Allison-Regular.eot'),
-    url('Allison-Regular.woff') format('woff'),
-    url('Allison-Regular.woff2') format('woff2'),
+    url('https://green-world-stage.vercel.app/Allison.ttf') format('truetype'),
+    url('https://green-world-stage.vercel.app/Allison-Regular.eot'),
+    url('https://green-world-stage.vercel.app/Allison-Regular.woff')
+      format('woff'),
+    url('https://green-world-stage.vercel.app/Allison-Regular.woff2')
+      format('woff2'),
     url('https://fonts.googleapis.com/css2?family=Allison&display=swap');
   font-weight: normal;
   font-style: normal;
