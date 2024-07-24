@@ -13,7 +13,7 @@ export const Logo = ({
   return (
     <button
       style={{
-        backgroundImage: "url('/green-world.svg')",
+        backgroundImage: "url('/zeleni-svet-yellow-nd-transparent.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: width || '3.5rem',

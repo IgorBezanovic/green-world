@@ -32,7 +32,7 @@ export const Footer = () => {
       >
         <div className={clsx('text-whiteLinen')}>
           <p className={clsx('mb-2')}>Pratite/Kontaktirajte nas na:</p>
-          <div className={clsx('flex', 'gap-1')}>
+          <div className={clsx('flex', 'gap-2')}>
             <a href="https://www.instagram.com/zeleni_svet_rs/" target="blanc">
               <InstagramFilled className={clsx('text-2xl', 'cursor-pointer')} />
             </a>

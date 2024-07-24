@@ -4,7 +4,6 @@ export type AuthValues = {
 };
 
 export type RegistrationValues = {
-  name: string;
   email: string;
   password: string;
 };
@@ -17,4 +16,10 @@ export type AdValues = {
   shortDescription: string;
   image: string;
   price: string;
+};
+
+export type NewPasswordValues = {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 };
