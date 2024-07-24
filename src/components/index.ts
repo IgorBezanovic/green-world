@@ -1,4 +1,5 @@
 export * from '@green-world/components/BackButton';
+export * from '@green-world/components/ChangePassword';
 export * from '@green-world/components/Divider';
 export * from '@green-world/components/Footer';
 export * from '@green-world/components/ForgotPasswordForm';
@@ -12,3 +13,4 @@ export * from '@green-world/components/RedirectSquare';
 export * from '@green-world/components/RegistrationForm';
 export * from '@green-world/components/ScrollToTop';
 export * from '@green-world/components/Search';
+export * from '@green-world/components/VisibleEye';

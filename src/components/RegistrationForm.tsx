@@ -3,8 +3,7 @@ import {
   EyeOutlined,
   MailOutlined,
   LockOutlined,
-  LoadingOutlined,
-  UserOutlined
+  LoadingOutlined
 } from '@ant-design/icons';
 import { RegistrationValues } from '@green-world/utils/types';
 import clsx from 'clsx';
@@ -13,7 +12,6 @@ import { useState } from 'react';
 export const RegistrationForm = ({ ...props }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [registrationData, setRegistrationData] = useState<RegistrationValues>({
-    name: '',
     email: '',
     password: ''
   });
@@ -70,54 +68,6 @@ export const RegistrationForm = ({ ...props }) => {
         className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
         onSubmit={handleSubmit}
       >
-        <label
-          htmlFor="email"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Unesite Vaše ime:
-        </label>
-        <div className={clsx('w-full', 'relative')}>
-          <input
-            required
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Ime"
-            className={clsx(
-              'w-full',
-              'border-2',
-              'rounded',
-              'pl-9',
-              'py-2',
-              'shadow-md',
-              'mb-4',
-              'bg-whiteLinen',
-              {
-                'border-red': props.error?.response?.data,
-                'border-forestGreen': !props.isLoading,
-                'border-groupTransparent': props.isLoading
-              }
-            )}
-            onChange={(e) =>
-              setRegistrationData({ ...registrationData, name: e.target.value })
-            }
-            disabled={props.isLoading}
-          />
-          <UserOutlined
-            className={clsx(
-              'text-gray',
-              'absolute',
-              'left-3',
-              'top-[11px]',
-              'text-xl'
-            )}
-          />
-        </div>
         <label
           htmlFor="email"
           className={clsx(

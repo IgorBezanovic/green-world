@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const CreateAd = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [product, setProduct] = useState<AdValues>({
     group: '',
@@ -35,6 +37,20 @@ export const CreateAd = () => {
     onClick: handleMenuClick
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+
+    if (selectedFile) {
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        setError('File size must be less than 5MB');
+        setFile(null);
+      } else {
+        setError(null);
+        setFile(selectedFile);
+      }
+    }
+  };
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
@@ -49,27 +65,35 @@ export const CreateAd = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-7',
+          'py-10',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        <BackButton />
-        <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl', 'md:mt-4')}>
-          <strong>Kreirajte svoj proizvod</strong>
-        </h1>
+        <section
+          className={clsx(
+            'flex',
+            'items-center',
+            'w-full',
+            'justify-center',
+            'relative',
+            'mb-4'
+          )}
+        >
+          <div className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}>
+            <BackButton />
+          </div>
+          <h1
+            className={clsx('text-forestGreen', 'text-5xl', 'md:text-6xl')}
+            style={{ fontFamily: 'GreenWorld' }}
+          >
+            Kreirajte svoj proizvod
+          </h1>
+        </section>
         <form className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
-            <label
-              htmlFor="title"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <label className={clsx('mb-2', 'text-forestGreen', 'text-lg')}>
               Odaberite pripadajuću grupu:
             </label>
             <Space wrap>
@@ -89,14 +113,7 @@ export const CreateAd = () => {
               </Dropdown.Button>
             </Space>
             <label
-              htmlFor="title"
-              className={clsx(
-                'mt-4',
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
+              className={clsx('mt-4', 'mb-2', 'text-forestGreen', 'text-lg')}
             >
               Odaberite pripadajuću podgrupu:
             </label>
@@ -126,6 +143,23 @@ export const CreateAd = () => {
                 'text-lg'
               )}
             >
+              Dodajte fotografiju proizvoda:
+            </label>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {file && <img src={URL.createObjectURL(file)} />}
+            {file && <p>File name: {file.name}</p>}
+          </div>
+          <div className={clsx('flex-1', 'flex', 'flex-col')}>
+            <label
+              htmlFor="title"
+              className={clsx(
+                'mb-2',
+                'text-forestGreen',
+                'cursor-pointer',
+                'text-lg'
+              )}
+            >
               Naziv proizvoda:
             </label>
             <div className={clsx('w-full', 'relative')}>
@@ -138,6 +172,7 @@ export const CreateAd = () => {
                 className={clsx(
                   'w-full',
                   'border-2',
+                  'border-forestGreen',
                   'rounded',
                   'pl-9',
                   'py-2',
@@ -176,6 +211,7 @@ export const CreateAd = () => {
                 className={clsx(
                   'w-full',
                   'border-2',
+                  'border-forestGreen',
                   'rounded',
                   'pl-9',
                   'py-2',
@@ -194,8 +230,6 @@ export const CreateAd = () => {
                 )}
               />
             </div>
-          </div>
-          <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
               htmlFor="opisProizvoda"
               className={clsx(
@@ -216,6 +250,7 @@ export const CreateAd = () => {
                 className={clsx(
                   'w-full',
                   'border-2',
+                  'border-forestGreen',
                   'rounded',
                   'pl-9',
                   'py-2',
@@ -255,6 +290,7 @@ export const CreateAd = () => {
                 className={clsx(
                   'w-full',
                   'border-2',
+                  'border-forestGreen',
                   'rounded',
                   'pl-9',
                   'py-2',
