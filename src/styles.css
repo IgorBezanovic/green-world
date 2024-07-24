@@ -16,10 +16,10 @@ body {
 @font-face {
   font-family: 'GreenWorld';
   src:
-    url('https://zeleni-svet.com/Allison.ttf') format('truetype'),
-    url('https://zeleni-svet.com/Allison-Regular.eot'),
-    url('https://zeleni-svet.com/Allison-Regular.woff') format('woff'),
-    url('https://zeleni-svet.com/Allison-Regular.woff2') format('woff2'),
+    url('https://www.zeleni-svet.com/Allison.ttf') format('truetype'),
+    url('https://www.zeleni-svet.com/Allison-Regular.eot'),
+    url('https://www.zeleni-svet.com/Allison-Regular.woff') format('woff'),
+    url('https://www.zeleni-svet.com/Allison-Regular.woff2') format('woff2'),
     url('https://fonts.googleapis.com/css2?family=Allison&display=swap');
   font-weight: normal;
   font-style: normal;
