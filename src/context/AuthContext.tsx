@@ -1,5 +1,5 @@
 import { getItem } from '@green-world/utils/cookie';
-import React, { createContext, ReactNode, useContext, useEffect } from 'react';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setAuthenticated, setUnauthenticated } from './authSlice';
@@ -7,15 +7,13 @@ import { RootState } from './store';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  userId: string | null;
-  userRole: string | null;
+  userId: string | undefined;
+  userRole: string | undefined;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children
-}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
   const { isAuthenticated, userId, userRole } = useSelector(
     (state: RootState) => state.auth

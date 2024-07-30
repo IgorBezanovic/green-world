@@ -1,8 +1,11 @@
 import { BackButton, RegistrationForm } from '@green-world/components';
+import { useSignUp } from '@green-world/hooks/useSignUp';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 
 export const Registration = () => {
+  const { mutate, error, isLoading } = useSignUp();
+
   return (
     <div
       className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
@@ -32,7 +35,7 @@ export const Registration = () => {
         )}
       >
         <BackButton />
-        <RegistrationForm />
+        <RegistrationForm mutate={mutate} error={error} isLoading={isLoading} />
       </div>
     </div>
   );

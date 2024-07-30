@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Logo = ({
   width,
@@ -8,17 +8,19 @@ export const Logo = ({
   width?: string;
   height?: string;
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <Link
+    <button
       style={{
-        backgroundImage: "url('/green-world.svg')",
+        backgroundImage: "url('/zeleni-svet-yellow-nd-transparent.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: width || '3.5rem',
         height: height || '3.5rem'
       }}
       className={clsx('flex', 'shadow-md', 'rounded-[50%]')}
-      to="/"
+      onClick={() => navigate('/')}
       aria-label="Home"
     />
   );

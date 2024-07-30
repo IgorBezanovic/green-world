@@ -1,4 +1,4 @@
-import { useAuth } from '@green-world/context/AuthContext';
+import { getItem } from '@green-world/utils/cookie';
 import { ElementType } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const { userId } = useAuth();
+  const token = getItem('token');
 
-  return userId ? <Component {...rest} /> : <Navigate to="/login" />;
+  return token ? <Component {...rest} /> : <Navigate to="/login" />;
 };

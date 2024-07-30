@@ -1,14 +1,18 @@
+import { UserInfo } from '@green-world/components';
 import { setUnauthenticated } from '@green-world/context/authSlice';
+import { useUser } from '@green-world/hooks/useUser';
 import { removeItem } from '@green-world/utils/cookie';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import './style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { data } = useUser();
 
   const handleLogout = () => {
     removeItem('token');
@@ -36,25 +40,19 @@ export const UserProfile = () => {
           'gap-7'
         )}
       >
-        <div className={clsx('w-full', 'h-[150px]', 'bg-seaFoamGreen')}>
-          header image radnje
-        </div>
+        <div
+          className={clsx('w-full', 'h-[200px]', 'shadow')}
+          style={{
+            backgroundImage:
+              'url(https://res.cloudinary.com/dijofqxeu/image/upload/v1721477880/ttkwlmkmjwui4avw2dkb.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        ></div>
         <div className={clsx('flex', 'gap-7')}>
-          <div className={clsx('w-1/4', 'bg-primary')}>
-            Informacije o prodavcu
-            <br />
-            - profilna slika
-            <br />
-            - naziv prodavnice
-            <br />
-            dugme prikazi kontakt
-            <br />
-            - kontakt telefon
-            <br />
-            - kontakt email
-            <br />
-            google maps box
-          </div>
+          <section className={clsx('w-1/4')}>
+            <UserInfo user={data} />
+          </section>
           <div className={clsx('w-3/4')}>
             <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>
               <button
