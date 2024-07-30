@@ -1,4 +1,4 @@
-import { ChangePassword } from '@green-world/components';
+import { UserInfo } from '@green-world/components';
 import { setUnauthenticated } from '@green-world/context/authSlice';
 import { useUser } from '@green-world/hooks/useUser';
 import { removeItem } from '@green-world/utils/cookie';
@@ -7,7 +7,6 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import Ozelenimo from '/ozelenimo-transparent.png';
 import './style.css';
 
 export const UserProfile = () => {
@@ -15,7 +14,6 @@ export const UserProfile = () => {
   const dispatch = useDispatch();
   const { data } = useUser();
 
-  console.log(data);
   const handleLogout = () => {
     removeItem('token');
     dispatch(setUnauthenticated());
@@ -53,39 +51,7 @@ export const UserProfile = () => {
         ></div>
         <div className={clsx('flex', 'gap-7')}>
           <section className={clsx('w-1/4')}>
-            <div>
-              Informacije o prodavcu
-              <br />
-              - profilna slika
-              <br />
-              - naziv prodavnice
-              <br />
-              dugme prikazi kontakt
-              <br />
-              - kontakt telefon
-              <br />
-              - kontakt email
-              <br />
-              google maps box
-            </div>
-            <div>
-              <ChangePassword />
-              <p className={clsx('mb-2', 'text-forestGreen')}>
-                Klikom na 'directions' ili 'View larger map' dobijate putanju do
-                odabranog objekta.
-              </p>
-              <p className={clsx('mb-2', 'text-forestGreen')}>
-                Ugodan i bezbedan put Vam zelimo!
-              </p>
-              <img src={Ozelenimo} alt="Ozelenimo" />
-              <iframe
-                width="100%"
-                height="450"
-                loading="lazy"
-                allowFullScreen
-                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_API_GOOGLE_API_KEY}&q=23+Kotorska,+Novi+Sad,+Srbija+21000`}
-              ></iframe>
-            </div>
+            <UserInfo user={data} />
           </section>
           <div className={clsx('w-3/4')}>
             <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>

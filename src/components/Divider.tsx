@@ -1,6 +1,7 @@
 import clsx from 'clsx';
+import React from 'react';
 
-export const Divider = ({ text }: { text: string }) => {
+export const Divider = ({ text }: { text?: string }) => {
   return (
     <section className={clsx('flex', 'items-center')}>
       <div
@@ -12,18 +13,24 @@ export const Divider = ({ text }: { text: string }) => {
           'bg-forestGreen'
         )}
       />
-      <h2 className={clsx('mx-5', 'text-forestGreen', 'uppercase', 'text-xl')}>
-        {text}
-      </h2>
-      <div
-        className={clsx(
-          'flex-1',
-          'h-[2px]',
-          'shadow-md',
-          'rounded-md',
-          'bg-forestGreen'
-        )}
-      />
+      {text && (
+        <React.Fragment>
+          <h2
+            className={clsx('mx-5', 'text-forestGreen', 'uppercase', 'text-xl')}
+          >
+            {text}
+          </h2>
+          <div
+            className={clsx(
+              'flex-1',
+              'h-[2px]',
+              'shadow-md',
+              'rounded-md',
+              'bg-forestGreen'
+            )}
+          />
+        </React.Fragment>
+      )}
     </section>
   );
 };
