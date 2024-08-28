@@ -2,6 +2,7 @@ import { ProtectedRoute } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
   CreateAd,
+  EditProfile,
   ForgotPassword,
   HomePage,
   Login,
@@ -43,6 +44,10 @@ export const routes = [
       {
         path: '/search',
         element: <ProductsSearchPage />
+      },
+      {
+        path: '/edit-profile',
+        element: <EditProfile />
       }
     ]
   },

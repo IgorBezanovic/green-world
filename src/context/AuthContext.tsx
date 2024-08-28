@@ -9,13 +9,14 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   userId: string | undefined;
   userRole: string | undefined;
+  isInitialized: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
-  const { isAuthenticated, userId, userRole } = useSelector(
+  const { isAuthenticated, userId, userRole, isInitialized } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -28,8 +29,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [dispatch]);
 
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userId, userRole }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, userId, userRole, isInitialized }}
+    >
       {children}
     </AuthContext.Provider>
   );

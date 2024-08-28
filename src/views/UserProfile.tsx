@@ -94,6 +94,7 @@ export const UserProfile = () => {
                   'shadow-md',
                   'bg-whiteLinen'
                 )}
+                onClick={() => navigate('/edit-profile')}
               >
                 Podesavanje profila
               </button>

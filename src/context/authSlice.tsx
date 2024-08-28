@@ -7,13 +7,15 @@ interface AuthState {
   isAuthenticated: boolean;
   userId: string | undefined;
   userRole: string | undefined;
+  isInitialized: boolean;
 }
 
 const initialState: AuthState = {
   token: undefined,
   isAuthenticated: false,
   userId: undefined,
-  userRole: undefined
+  userRole: undefined,
+  isInitialized: false
 };
 
 const authSlice = createSlice({
@@ -22,8 +24,8 @@ const authSlice = createSlice({
   reducers: {
     setAuthenticated: (state) => {
       const token = getItem('token');
-      let userId = undefined;
-      let userRole = undefined;
+      let userId, userRole;
+
       if (token) {
         try {
           const decodedToken: any = jwtDecode(token);
@@ -37,12 +39,14 @@ const authSlice = createSlice({
       state.isAuthenticated = !!userId;
       state.userId = userId;
       state.userRole = userRole;
+      state.isInitialized = true;
     },
     setUnauthenticated: (state) => {
       state.token = undefined;
       state.isAuthenticated = false;
       state.userId = undefined;
       state.userRole = undefined;
+      state.isInitialized = false;
     }
   }
 });
