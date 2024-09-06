@@ -39,6 +39,7 @@ export const EditProfile = () => {
         name: data?.name,
         lastname: data?.lastname,
         shopName: data?.shopName,
+        phone: data?.phone,
         address: data?.address,
         shopDescription: data?.shopDescription,
         website: data?.website,
@@ -668,7 +669,6 @@ export const EditProfile = () => {
             </div>
             <button
               type="submit"
-              onClick={() => console.log(user)}
               className={clsx(
                 'mt-6',
                 'w-full',
