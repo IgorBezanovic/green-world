@@ -36,15 +36,6 @@ export const UserProfile = () => {
           'gap-7'
         )}
       >
-        <div
-          className={clsx('w-full', 'h-[200px]', 'shadow')}
-          style={{
-            backgroundImage:
-              'url(https://res.cloudinary.com/dijofqxeu/image/upload/v1721477880/ttkwlmkmjwui4avw2dkb.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
         <div className={clsx('flex', 'gap-7')}>
           <section className={clsx('w-1/4')}>
             <UserInfo user={data} />

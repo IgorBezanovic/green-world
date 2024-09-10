@@ -421,6 +421,98 @@ export const EditProfile = () => {
                 )}
               />
             </div>
+            <div className={clsx('flex', 'w-full', 'gap-4')}>
+              <div className={clsx('w-full')}>
+                <label
+                  htmlFor="zipCode"
+                  className={clsx(
+                    'flex',
+                    'mb-2',
+                    'text-forestGreen',
+                    'cursor-pointer',
+                    'text-lg'
+                  )}
+                >
+                  Poštanski broj:
+                </label>
+                <div className={clsx('w-full', 'relative')}>
+                  <input
+                    required
+                    type="string"
+                    name="zipCode"
+                    id="zipCode"
+                    value={user?.address?.zipCode || ''}
+                    onChange={handleAddressChange}
+                    placeholder="Unesite poštanski broj"
+                    className={clsx(
+                      'w-full',
+                      'border-2',
+                      'border-forestGreen',
+                      'rounded',
+                      'pl-9',
+                      'py-2',
+                      'shadow-md',
+                      'mb-4',
+                      'bg-whiteLinen'
+                    )}
+                  />
+                  <SignatureOutlined
+                    className={clsx(
+                      'text-gray',
+                      'absolute',
+                      'left-3',
+                      'top-[11px]',
+                      'text-xl'
+                    )}
+                  />
+                </div>
+              </div>
+              <div className={clsx('w-full')}>
+                <label
+                  htmlFor="city"
+                  className={clsx(
+                    'flex',
+                    'mb-2',
+                    'text-forestGreen',
+                    'cursor-pointer',
+                    'text-lg'
+                  )}
+                >
+                  Grad:
+                </label>
+                <div className={clsx('w-full', 'relative')}>
+                  <input
+                    required
+                    type="text"
+                    name="city"
+                    id="city"
+                    value={user?.address?.city || ''}
+                    onChange={handleAddressChange}
+                    placeholder="Unesite grad"
+                    className={clsx(
+                      'w-full',
+                      'border-2',
+                      'border-forestGreen',
+                      'rounded',
+                      'pl-9',
+                      'py-2',
+                      'shadow-md',
+                      'mb-4',
+                      'bg-whiteLinen'
+                    )}
+                  />
+                  <SignatureOutlined
+                    className={clsx(
+                      'text-gray',
+                      'absolute',
+                      'left-3',
+                      'top-[11px]',
+                      'text-xl'
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
             <label
               htmlFor="street"
               className={clsx(
@@ -441,90 +533,6 @@ export const EditProfile = () => {
                 value={user?.address?.street || ''}
                 onChange={handleAddressChange}
                 placeholder="Unesite ulicu"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-            <label
-              htmlFor="zipCode"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
-              Poštanski broj:
-            </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="number"
-                name="zipCode"
-                id="zipCode"
-                value={user?.address?.zipCode || ''}
-                onChange={handleAddressChange}
-                placeholder="Unesite poštanski broj"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-            <label
-              htmlFor="city"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
-              Grad:
-            </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="city"
-                id="city"
-                value={user?.address?.city || ''}
-                onChange={handleAddressChange}
-                placeholder="Unesite grad"
                 className={clsx(
                   'w-full',
                   'border-2',
