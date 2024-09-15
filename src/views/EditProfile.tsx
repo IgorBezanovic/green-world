@@ -1,15 +1,23 @@
 import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
 import { BackButton } from '@green-world/components';
 import { useEditUser } from '@green-world/hooks/useEditUser';
+import { useImage } from '@green-world/hooks/useImage';
 import { useUser } from '@green-world/hooks/useUser';
 import { User } from '@green-world/utils/types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
+import ZSLogo from '/zeleni-svet-yellow-transparent.png';
+
 export const EditProfile = () => {
   const { data, isLoading } = useUser();
   const { mutate, isLoading: isLoadingUser } = useEditUser();
+  const {
+    mutate: imageMutate,
+    isLoading: isImageLoadingUser,
+    data: profileImage
+  } = useImage();
 
   const [user, setUser] = useState<User>({
     email: '',
@@ -35,6 +43,7 @@ export const EditProfile = () => {
     if (data) {
       setUser({
         ...user,
+        profileImage: profileImage || data?.profileImage,
         email: data?.email,
         name: data?.name,
         lastname: data?.lastname,
@@ -48,7 +57,16 @@ export const EditProfile = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, profileImage]);
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = Array.from(e.target.files!)[0];
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    imageMutate(formData);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -121,6 +139,21 @@ export const EditProfile = () => {
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}
         >
+          <div>
+            <img
+              src={user?.profileImage || ZSLogo}
+              alt="Biznis logo"
+              height="100px"
+              width="100px"
+            />
+            <input
+              type="file"
+              name="profileImage"
+              id="profileImage"
+              accept="image/*"
+              onChange={handleImage}
+            />
+          </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
               htmlFor="shopName"
@@ -693,9 +726,9 @@ export const EditProfile = () => {
                   'bg-groupTransparent': isLoadingUser
                 }
               )}
-              disabled={isLoadingUser}
+              disabled={isLoadingUser || isImageLoadingUser}
             >
-              {isLoadingUser ? (
+              {isLoadingUser || isImageLoadingUser ? (
                 <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
               ) : (
                 'Azuriraj profil'
