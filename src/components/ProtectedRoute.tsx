@@ -1,4 +1,5 @@
 import { getItem } from '@green-world/utils/cookie';
+import { jwtDecode } from 'jwt-decode';
 import { ElementType } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const token = getItem('token');
+  const token: any = jwtDecode(getItem('token') || '');
 
-  return token ? <Component {...rest} /> : <Navigate to="/login" />;
+  return token._id ? <Component {...rest} /> : <Navigate to="/login" />;
 };

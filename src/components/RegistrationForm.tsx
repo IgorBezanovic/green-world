@@ -18,7 +18,6 @@ export const RegistrationForm = ({ ...props }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(registrationData);
     props.mutate(registrationData);
   };
 

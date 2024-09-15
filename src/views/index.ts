@@ -1,4 +1,6 @@
+export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateAd';
+export * from '@green-world/views/EditProfile';
 export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ForgotPassword';
 export * from '@green-world/views/HomePage';

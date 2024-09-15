@@ -50,14 +50,15 @@ export const UserInfo = ({ ...props }) => {
       <p className={clsx('text-forestGreen', 'mb-1', 'italic')}>
         {props?.user?.shopDescription || 'N/A'}
       </p>
-      <p
+      <a
         className={clsx('text-forestGreen', 'transition-all', {
           'mb-4': !isContactOpen,
           'mb-1': isContactOpen
         })}
+        href={props?.user?.website || '/'}
       >
-        <GlobalOutlined />: {props?.user?.website || 'N/A'}
-      </p>
+        <GlobalOutlined /> {props?.user?.website || 'N/A'}
+      </a>
       {isContactOpen || (
         <button
           onClick={() => setIsContactOpen(!isContactOpen)}
@@ -89,10 +90,10 @@ export const UserInfo = ({ ...props }) => {
           })}
         >
           <p className={clsx('text-forestGreen', 'mb-1')}>
-            <PhoneOutlined />: {props?.user?.phone || 'N/A'}
+            <PhoneOutlined /> {props?.user?.phone || 'N/A'}
           </p>
           <p className={clsx('text-forestGreen')}>
-            <MailOutlined />: {props?.user?.email || 'N/A'}
+            <MailOutlined /> {props?.user?.email || 'N/A'}
           </p>
         </section>
       )}
@@ -110,7 +111,7 @@ export const UserInfo = ({ ...props }) => {
           height="450"
           loading="lazy"
           allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_API_GOOGLE_API_KEY}&q=23+Kotorska,+Novi+Sad,+Srbija+21000`}
+          src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_API_GOOGLE_API_KEY}&q=${props?.user?.address?.street},+${props?.user?.address?.city},+${props?.user?.address?.country}+${props?.user?.address?.zipCode}`}
         ></iframe>
         <img src={Ozelenimo} alt="Ozelenimo" className={clsx('mt-4')} />
       </section>
