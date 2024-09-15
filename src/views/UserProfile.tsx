@@ -67,8 +67,9 @@ export const UserProfile = () => {
                   'shadow-md',
                   'bg-whiteLinen'
                 )}
+                onClick={() => navigate('/contact-us')}
               >
-                Kontaktirajte nas
+                Kontaktirajte podršku
               </button>
               <button
                 className={clsx(
