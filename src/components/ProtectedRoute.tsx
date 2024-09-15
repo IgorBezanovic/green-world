@@ -1,7 +1,11 @@
 import { getItem } from '@green-world/utils/cookie';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { ElementType } from 'react';
 import { Navigate } from 'react-router-dom';
+
+interface CustomJwtPayload extends JwtPayload {
+  _id: string;
+}
 
 export const ProtectedRoute = ({
   element: Component,
@@ -9,7 +13,14 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const token: any = jwtDecode(getItem('token') || '');
+  const localStorageToken = getItem('token');
+  const token: false | CustomJwtPayload = localStorageToken
+    ? jwtDecode(localStorageToken)
+    : false;
 
-  return token._id ? <Component {...rest} /> : <Navigate to="/login" />;
+  return token && token._id ? (
+    <Component {...rest} />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
