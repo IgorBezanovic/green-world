@@ -135,25 +135,62 @@ export const EditProfile = () => {
             Azurirajte profil
           </h1>
         </section>
+        <div
+          className={clsx(
+            'w-[150px]',
+            'h-[150px]',
+            'overflow-hidden',
+            'rounded-full',
+            'shadow-md',
+            'relative',
+            'mx-auto',
+            'md:mx-0'
+          )}
+        >
+          <img src={user?.profileImage || ZSLogo} height="100%" width="100%" />
+          <div
+            className={clsx(
+              'absolute',
+              'top-0',
+              'left-0',
+              'bg-custom-gradient',
+              'w-full',
+              'h-full'
+            )}
+          ></div>
+        </div>
+        <label
+          htmlFor="profileImage"
+          className={clsx(
+            'flex-1',
+            'max-w-[150px]',
+            'border-2',
+            'border-forestGreen',
+            'rounded',
+            'py-2',
+            'px-4',
+            'shadow-md',
+            'bg-whiteLinen',
+            'text-center',
+            'cursor-pointer',
+            'mx-auto',
+            'md:mx-0'
+          )}
+        >
+          Odaberi sliku
+        </label>
+        <input
+          type="file"
+          name="profileImage"
+          id="profileImage"
+          accept="image/*"
+          onChange={handleImage}
+          className={clsx('hidden')}
+        ></input>
         <form
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}
         >
-          <div>
-            <img
-              src={user?.profileImage || ZSLogo}
-              alt="Biznis logo"
-              height="100px"
-              width="100px"
-            />
-            <input
-              type="file"
-              name="profileImage"
-              id="profileImage"
-              accept="image/*"
-              onChange={handleImage}
-            />
-          </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
               htmlFor="shopName"

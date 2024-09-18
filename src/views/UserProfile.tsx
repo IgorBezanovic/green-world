@@ -54,22 +54,7 @@ export const UserProfile = () => {
                   'bg-whiteLinen'
                 )}
               >
-                Ponuda
-              </button>
-              <button
-                className={clsx(
-                  'flex-1',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'py-2',
-                  'px-4',
-                  'shadow-md',
-                  'bg-whiteLinen'
-                )}
-                onClick={() => navigate('/contact-us')}
-              >
-                Kontaktirajte podršku
+                Dodaj proizvod
               </button>
               <button
                 className={clsx(
@@ -85,6 +70,21 @@ export const UserProfile = () => {
                 onClick={() => navigate('/edit-profile')}
               >
                 Podesavanje profila
+              </button>
+              <button
+                className={clsx(
+                  'flex-1',
+                  'border-2',
+                  'border-forestGreen',
+                  'rounded',
+                  'py-2',
+                  'px-4',
+                  'shadow-md',
+                  'bg-whiteLinen'
+                )}
+                onClick={() => navigate('/contact-us')}
+              >
+                Kontaktirajte podršku
               </button>
             </div>
             <form

@@ -21,11 +21,33 @@ export const UserInfo = ({ ...props }) => {
           'mb-10'
         )}
       >
-        <img
-          src={props?.user?.profileImage || ZSLogo}
-          height="100px"
-          width="100px"
-        />
+        <div
+          className={clsx(
+            'w-[150px]',
+            'h-[150px]',
+            'overflow-hidden',
+            'mx-auto',
+            'rounded-full',
+            'shadow-md',
+            'relative'
+          )}
+        >
+          <img
+            src={props?.user?.profileImage || ZSLogo}
+            height="100%"
+            width="100%"
+          />
+          <div
+            className={clsx(
+              'absolute',
+              'top-0',
+              'left-0',
+              'bg-custom-gradient',
+              'w-full',
+              'h-full'
+            )}
+          ></div>
+        </div>
         {!props?.user?.profileImage && (
           <p
             className={clsx(
@@ -41,20 +63,33 @@ export const UserInfo = ({ ...props }) => {
         )}
       </div>
       <p className={clsx('text-forestGreen', 'mb-1')}>
-        Kontakt osoba: {props?.user?.name || 'N/A'} {props?.user?.lastname}
+        Predstavnik:{' '}
+        <span className={clsx('text-black', 'font-extralight')}>
+          {props?.user?.name || 'N/A'} {props?.user?.lastname}
+        </span>
       </p>
       <p className={clsx('text-forestGreen', 'mb-1')}>
-        Naziv radnje: {props?.user?.shopName || 'N/A'}
+        Radnje:{' '}
+        <span className={clsx('text-black', 'font-extralight')}>
+          {props?.user?.shopName || 'N/A'}
+        </span>
       </p>
-      <p className={clsx('text-forestGreen', 'mb-1')}>Kratak opis:</p>
-      <p className={clsx('text-forestGreen', 'mb-1', 'italic')}>
-        {props?.user?.shopDescription || 'N/A'}
+      <p className={clsx('text-forestGreen', 'mb-1')}>
+        Kratak opis:{' '}
+        <span className={clsx('text-black', 'font-extralight')}>
+          {props?.user?.shopDescription || 'N/A'}
+        </span>
       </p>
       <a
-        className={clsx('text-forestGreen', 'transition-all', {
-          'mb-4': !isContactOpen,
-          'mb-1': isContactOpen
-        })}
+        className={clsx(
+          'text-forestGreen',
+          'transition-all',
+          'font-extralight',
+          {
+            'mb-4': !isContactOpen,
+            'mb-1': isContactOpen
+          }
+        )}
         href={props?.user?.website || '/'}
       >
         <GlobalOutlined /> {props?.user?.website || 'N/A'}
@@ -89,10 +124,10 @@ export const UserInfo = ({ ...props }) => {
             'mb-5': isContactOpen
           })}
         >
-          <p className={clsx('text-forestGreen', 'mb-1')}>
+          <p className={clsx('text-forestGreen', 'mb-1', 'font-extralight')}>
             <PhoneOutlined /> {props?.user?.phone || 'N/A'}
           </p>
-          <p className={clsx('text-forestGreen')}>
+          <p className={clsx('text-forestGreen', 'font-extralight')}>
             <MailOutlined /> {props?.user?.email || 'N/A'}
           </p>
         </section>

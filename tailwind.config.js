@@ -57,6 +57,10 @@ export default {
       },
       minHeight: {
         viewHeight: 'calc(100vh - 360px)'
+      },
+      backgroundImage: {
+        'custom-gradient':
+          'linear-gradient(145deg, rgba(202, 202, 202, 0.2), rgba(240, 240, 240, 0.2))'
       }
     }
   },
