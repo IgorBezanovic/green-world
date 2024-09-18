@@ -2,7 +2,7 @@ import { ProtectedRoute } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
-  CreateAd,
+  CreateEditProduct,
   EditProfile,
   ForgotPassword,
   HomePage,
@@ -39,8 +39,12 @@ export const routes = [
         element: <ProtectedRoute element={UserProfile} />
       },
       {
-        path: '/create-ad',
-        element: <ProtectedRoute element={CreateAd} />
+        path: '/create-product',
+        element: <ProtectedRoute element={CreateEditProduct} />
+      },
+      {
+        path: '/edit-product/:productId',
+        element: <ProtectedRoute element={CreateEditProduct} />
       },
       {
         path: '/search',
@@ -48,7 +52,7 @@ export const routes = [
       },
       {
         path: '/edit-profile',
-        element: <EditProfile />
+        element: <ProtectedRoute element={EditProfile} />
       },
       {
         path: '/contact-us',
