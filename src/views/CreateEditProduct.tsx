@@ -1,7 +1,7 @@
 import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
 import { BackButton } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
-import { useEditProduct } from '@green-world/hooks/useEditproduct';
+import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { groupItemsCreateProduct } from '@green-world/utils/constants';
