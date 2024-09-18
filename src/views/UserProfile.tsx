@@ -1,4 +1,5 @@
 import { UserInfo } from '@green-world/components';
+import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { removeItem } from '@green-world/utils/cookie';
 import clsx from 'clsx';
@@ -10,6 +11,7 @@ import './style.css';
 export const UserProfile = () => {
   const navigate = useNavigate();
   const { data } = useUser();
+  const { data: products } = useAllUserProducts();
 
   const handleLogout = () => {
     removeItem('token');
@@ -51,8 +53,11 @@ export const UserProfile = () => {
                   'py-2',
                   'px-4',
                   'shadow-md',
-                  'bg-whiteLinen'
+                  'bg-whiteLinen',
+                  'font-extralight',
+                  'uppercase'
                 )}
+                onClick={() => navigate('/create-product')}
               >
                 Dodaj proizvod
               </button>
@@ -65,7 +70,9 @@ export const UserProfile = () => {
                   'py-2',
                   'px-4',
                   'shadow-md',
-                  'bg-whiteLinen'
+                  'bg-whiteLinen',
+                  'font-extralight',
+                  'uppercase'
                 )}
                 onClick={() => navigate('/edit-profile')}
               >
@@ -80,89 +87,20 @@ export const UserProfile = () => {
                   'py-2',
                   'px-4',
                   'shadow-md',
-                  'bg-whiteLinen'
+                  'bg-whiteLinen',
+                  'font-extralight',
+                  'uppercase'
                 )}
                 onClick={() => navigate('/contact-us')}
               >
                 Kontaktirajte podršku
               </button>
             </div>
-            <form
-              className={clsx(
-                'w-full',
-                'flex',
-                'justify-between',
-                'bg-mintCream',
-                'p-2',
-                'shadow-md',
-                'rounded'
-              )}
-            >
-              <div className={clsx('flex', 'gap-5')}>
-                <input
-                  type="text"
-                  placeholder="Pretrazi proizvod"
-                  className={clsx(
-                    'border-2',
-                    'border-forestGreen',
-                    'rounded',
-                    'pl-2',
-                    'py-2',
-                    'shadow-md',
-                    'bg-whiteLinen'
-                  )}
-                />
-                <div className="dropdown">
-                  <button
-                    className={clsx(
-                      'border-2',
-                      'border-forestGreen',
-                      'rounded',
-                      'py-2',
-                      'px-4',
-                      'shadow-md',
-                      'bg-whiteLinen'
-                    )}
-                  >
-                    Select Options
-                  </button>
-                  <div className="dropdown-content">
-                    <label>
-                      <input type="checkbox" name="plant" value="zimzeleno" />
-                      Zimzeleno
-                    </label>
-                    <label>
-                      <input type="checkbox" name="plant" value="cvece" /> Cvece
-                    </label>
-                    <label>
-                      <input type="checkbox" name="plant" value="saksijsko" />
-                      Saksijsko
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="plant"
-                        value="visegodisnje"
-                      />
-                      Visegodisnje
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <button
-                className={clsx(
-                  'bg-forestGreen',
-                  'rounded',
-                  'py-2',
-                  'px-4',
-                  'shadow-md',
-                  'text-mintCream'
-                )}
-              >
-                Pretrazi
-              </button>
-            </form>
-            <section className={clsx('py-5', 'bg-primary')}>Ponuda</section>
+            <section className={clsx('py-5', 'bg-primary')}>
+              {products?.map((product: any) => (
+                <p key={product.title}>{JSON.stringify(product)}</p>
+              ))}
+            </section>
           </div>
         </div>
         <button

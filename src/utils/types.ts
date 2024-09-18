@@ -8,14 +8,18 @@ export type RegistrationValues = {
   password: string;
 };
 
-export type AdValues = {
+export type ProductValues = {
   group: string;
   subGroup: string;
   title: string;
   description: string;
   shortDescription: string;
-  image: string;
+  images: string[];
   price: string;
+  height: number;
+  width: number;
+  weight: number;
+  milliliters: number;
 };
 
 export type NewPasswordValues = {

@@ -18,7 +18,9 @@ export const BackButton = () => {
         'w-20',
         'text-center',
         'shadow-md',
-        'transition'
+        'transition',
+        'font-extralight',
+        'uppercase'
       )}
     >
       Nazad

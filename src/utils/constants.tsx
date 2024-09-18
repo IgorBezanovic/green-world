@@ -139,7 +139,7 @@ export const mainGroups = [
   'everything_for_plants'
 ] as const;
 
-export const groupItemsCreateAd: MenuProps['items'] = [
+export const groupItemsCreateProduct: MenuProps['items'] = [
   {
     key: 'flower_assortment',
     label: 'Cvetni asortiman',
