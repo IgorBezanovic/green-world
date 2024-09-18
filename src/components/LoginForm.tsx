@@ -147,25 +147,31 @@ export const LoginForm = ({ ...props }) => {
             <EyeOutlined
               className={clsx(
                 'mb-2',
-                'text-forestGreen',
                 'absolute',
                 'right-3',
                 'top-2.5',
-                'text-2xl'
+                'text-2xl',
+                {
+                  'text-forestGreen': !props.isLoading,
+                  'text-groupTransparent': props.isLoading
+                }
               )}
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => !props.isLoading && setShowPassword(!showPassword)}
             />
           ) : (
             <EyeInvisibleOutlined
               className={clsx(
                 'mb-2',
-                'text-forestGreen',
                 'absolute',
                 'right-3',
                 'top-2.5',
-                'text-2xl'
+                'text-2xl',
+                {
+                  'text-forestGreen': !props.isLoading,
+                  'text-groupTransparent': props.isLoading
+                }
               )}
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => !props.isLoading && setShowPassword(!showPassword)}
             />
           )}
         </div>
