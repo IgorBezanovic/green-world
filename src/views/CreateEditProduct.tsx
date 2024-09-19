@@ -1,4 +1,8 @@
-import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  LoadingOutlined,
+  SignatureOutlined
+} from '@ant-design/icons';
 import { BackButton } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
@@ -81,6 +85,17 @@ export const CreateEditProduct = () => {
     e.preventDefault();
 
     productId ? editMutation(product) : createMutation(product);
+  };
+
+  const handleDeleteImage = (indexToDelete: number) => {
+    const updatedImages = product.images.filter(
+      (_, index) => index !== indexToDelete
+    );
+
+    setProduct({
+      ...product,
+      images: updatedImages
+    });
   };
 
   if (isLoading) {
@@ -175,62 +190,97 @@ export const CreateEditProduct = () => {
               htmlFor="title"
               className={clsx(
                 'mt-4',
-                'mb-2',
                 'text-forestGreen',
                 'cursor-pointer',
                 'text-lg'
               )}
             >
-              Dodajte fotografiju proizvoda:
+              Dodajte fotografije proizvoda:
             </label>
-            {product?.images.map((image, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  'w-[150px]',
-                  'h-[150px]',
-                  'overflow-hidden',
-                  'shadow-md',
-                  'relative',
-                  'mx-auto',
-                  'md:mx-0'
-                )}
-              >
-                <img
-                  src={image}
-                  alt={`product-image-${index}`}
-                  height="100%"
-                  width="100%"
-                />
-              </div>
-            ))}
-            <label
-              htmlFor="profileImage"
+            <small className={clsx('mb-2')}>Maksimum 10 fotografija</small>
+            <div
               className={clsx(
-                'max-w-[150px]',
-                'border-2',
-                'border-forestGreen',
-                'rounded',
-                'py-2',
-                'px-4',
+                'w-full',
+                'min-h-20',
+                'mb-4',
+                'bg-image-box-gradient',
+                'gap-4',
+                'rounded-md',
                 'shadow-md',
-                'bg-whiteLinen',
-                'text-center',
-                'cursor-pointer',
-                'mx-auto',
-                'md:mx-0'
+                'border-2',
+                'border-gray40',
+                'p-4',
+                'grid',
+                'grid-cols-2',
+                'md:grid-cols-4'
               )}
             >
-              Dodaj sliku proizvoda
-            </label>
-            <input
-              type="file"
-              name="profileImage"
-              id="profileImage"
-              accept="image/*"
-              onChange={handleImage}
-              className={clsx('hidden')}
-            ></input>
+              {product?.images.map((image, index) => (
+                <div
+                  key={index}
+                  className={clsx(
+                    'w-full',
+                    'max-h-[150px]',
+                    'overflow-hidden',
+                    'shadow-md',
+                    'relative'
+                  )}
+                >
+                  <DeleteOutlined
+                    className={clsx(
+                      'absolute',
+                      'top-2',
+                      'right-2',
+                      'font-2xl',
+                      'text-forestGreen'
+                    )}
+                    onClick={() => handleDeleteImage(index)}
+                    alt="Obrisi sliku"
+                    title="Obrisi sliku"
+                  />
+                  <img
+                    src={image}
+                    alt={`product-image-${index}`}
+                    height="100%"
+                    width="100%"
+                  />
+                </div>
+              ))}
+            </div>
+            {product?.images.length < 10 && (
+              <>
+                <label
+                  htmlFor="profileImage"
+                  className={clsx(
+                    'border-2',
+                    'border-forestGreen',
+                    'rounded',
+                    'py-2',
+                    'px-4',
+                    'shadow-md',
+                    'bg-whiteLinen',
+                    'text-center',
+                    'cursor-pointer',
+                    'mx-auto',
+                    'md:mx-0',
+                    'uppercase',
+                    'font-extralight',
+                    'mb-4',
+                    'md:mb-0'
+                  )}
+                >
+                  Dodaj sliku proizvoda
+                </label>
+                <input
+                  type="file"
+                  name="profileImage"
+                  id="profileImage"
+                  accept="image/*"
+                  onChange={handleImage}
+                  className={clsx('hidden')}
+                ></input>
+              </>
+            )}
           </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label

@@ -18,7 +18,7 @@ export const UserInfo = ({ ...props }) => {
           'items-center',
           'justify-center',
           'w-full',
-          'mb-10'
+          'mb-8'
         )}
       >
         <div
@@ -28,8 +28,7 @@ export const UserInfo = ({ ...props }) => {
             'overflow-hidden',
             'mx-auto',
             'rounded-full',
-            'shadow-md',
-            'relative'
+            'shadow-xl'
           )}
         >
           <img
@@ -37,30 +36,10 @@ export const UserInfo = ({ ...props }) => {
             height="100%"
             width="100%"
           />
-          <div
-            className={clsx(
-              'absolute',
-              'top-0',
-              'left-0',
-              'bg-custom-gradient',
-              'w-full',
-              'h-full'
-            )}
-          ></div>
         </div>
-        {!props?.user?.profileImage && (
-          <p
-            className={clsx(
-              'text-forestGreen',
-              'mt-2',
-              'text-center',
-              'w-full'
-            )}
-          >
-            Ovo je prostor za Vaš logo kompanije. Dodajte ga u ažuriranju
-            profila.
-          </p>
-        )}
+        <small className={clsx('mt-2', 'text-center', 'w-full')}>
+          Ovo je prostor za Vaš logo kompanije. Dodajte ga u ažuriranju profila.
+        </small>
       </div>
       <p className={clsx('text-forestGreen', 'mb-1')}>
         Predstavnik:{' '}
@@ -101,7 +80,6 @@ export const UserInfo = ({ ...props }) => {
             'text-forestGreen',
             'md:hover:text-seaFoamGreen',
             'leading-normal',
-            'font-medium',
             'border-2',
             'rounded-md',
             'min-h-12',
@@ -112,7 +90,9 @@ export const UserInfo = ({ ...props }) => {
             'justify-center',
             'text-center',
             'shadow-md',
-            'transition'
+            'transition',
+            'uppercase',
+            'font-extralight'
           )}
         >
           Kontaktirajte nas

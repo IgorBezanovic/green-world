@@ -60,7 +60,9 @@ export default {
       },
       backgroundImage: {
         'custom-gradient':
-          'linear-gradient(145deg, rgba(202, 202, 202, 0.2), rgba(240, 240, 240, 0.2))'
+          'linear-gradient(145deg, rgba(202, 202, 202, 0.2), rgba(240, 240, 240, 0.2))',
+        'image-box-gradient':
+          'linear-gradient(145deg, rgba(202, 202, 202, 0.4), rgba(240, 240, 240, 0.4))'
       }
     }
   },

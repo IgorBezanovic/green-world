@@ -34,12 +34,11 @@ export const Header = () => {
         <Logo />
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
           <button
-            onClick={() => navigate('/create-ad')}
+            onClick={() => navigate('/create-product')}
             className={clsx(
               'text-forestGreen',
               'md:hover:text-seaFoamGreen',
               'leading-normal',
-              'font-medium',
               'border-2',
               'rounded-md',
               'min-h-12',
@@ -51,6 +50,8 @@ export const Header = () => {
               'text-center',
               'shadow-md',
               'transition',
+              'uppercase',
+              'font-extralight',
               { 'text-deepTeal': '/create-ad' === location.pathname }
             )}
           >
