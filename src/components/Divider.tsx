@@ -16,7 +16,13 @@ export const Divider = ({ text }: { text?: string }) => {
       {text && (
         <React.Fragment>
           <h2
-            className={clsx('mx-5', 'text-forestGreen', 'uppercase', 'text-xl')}
+            className={clsx(
+              'mx-5',
+              'text-forestGreen',
+              'uppercase',
+              'text-xl',
+              'text-center'
+            )}
           >
             {text}
           </h2>

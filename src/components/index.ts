@@ -8,6 +8,7 @@ export * from '@green-world/components/Layout';
 export * from '@green-world/components/Loader';
 export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/Logo';
+export * from '@green-world/components/ProductCard';
 export * from '@green-world/components/ProtectedRoute';
 export * from '@green-world/components/RedirectSquare';
 export * from '@green-world/components/RegistrationForm';
