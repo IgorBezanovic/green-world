@@ -1,4 +1,4 @@
-import { UserInfo } from '@green-world/components';
+import { ProductCard, UserInfo } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { removeItem } from '@green-world/utils/cookie';
@@ -11,7 +11,7 @@ import './style.css';
 export const UserProfile = () => {
   const navigate = useNavigate();
   const { data } = useUser();
-  const { data: products } = useAllUserProducts();
+  const { data: products, isLoading } = useAllUserProducts();
 
   const handleLogout = () => {
     removeItem('token');
@@ -96,9 +96,21 @@ export const UserProfile = () => {
                 Kontaktirajte podršku
               </button>
             </div>
-            <section className={clsx('py-5', 'bg-primary')}>
+            <section
+              className={clsx(
+                'gap-4',
+                'grid',
+                'grid-cols-2',
+                'sm:grid-cols-3',
+                'lgm:grid-cols-4'
+              )}
+            >
               {products?.map((product: any) => (
-                <p key={product.title}>{JSON.stringify(product)}</p>
+                <ProductCard
+                  key={product.title}
+                  product={product}
+                  loading={isLoading}
+                />
               ))}
             </section>
           </div>

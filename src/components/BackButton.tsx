@@ -11,7 +11,6 @@ export const BackButton = () => {
         'text-forestGreen',
         'md:hover:text-seaFoamGreen',
         'leading-normal',
-        'font-medium',
         'border-2',
         'rounded-md',
         'p-2',
