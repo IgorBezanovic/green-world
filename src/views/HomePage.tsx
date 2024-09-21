@@ -1,10 +1,14 @@
-import { Divider, RedirectSquare } from '@green-world/components';
+import { Divider, ProductCard, RedirectSquare } from '@green-world/components';
+import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { homeCategories } from '@green-world/utils/constants';
+import { Carousel } from 'antd';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 export const HomePage = () => {
+  const { data: products, isLoading } = useAllProducts();
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
@@ -101,9 +105,31 @@ export const HomePage = () => {
           </div>
         </div>
         <Divider text="Izdvojeni proizvodi" />
-        <section className={clsx('w-full', 'bg-primary', 'h-[200px]')}>
-          Izdvojeni proizvodi
-        </section>
+        <Carousel
+          autoplay
+          autoplaySpeed={3000}
+          slidesToShow={4}
+          responsive={[
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2
+              }
+            }
+          ]}
+          slidesToScroll={1}
+          className={clsx('w-full')}
+        >
+          {products?.map((product: any) => (
+            <div key={product.title} className="px-1">
+              <ProductCard
+                product={product}
+                loading={isLoading}
+                style={'h-100%'}
+              />
+            </div>
+          ))}
+        </Carousel>
       </div>
     </div>
   );

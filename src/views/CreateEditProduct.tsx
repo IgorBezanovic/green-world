@@ -51,9 +51,7 @@ export const CreateEditProduct = () => {
   useEffect(() => {
     setProduct((prevProduct) => ({
       ...data,
-      images: productImage
-        ? [...prevProduct.images, productImage]
-        : prevProduct.images
+      images: productImage ? [...prevProduct.images, productImage] : data.images
     }));
   }, [data, productImage]);
 
