@@ -1,7 +1,6 @@
-import { Divider, ProductCard, RedirectSquare } from '@green-world/components';
+import { Divider, HomeCarousel, RedirectSquare } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { homeCategories } from '@green-world/utils/constants';
-import { Carousel } from 'antd';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -29,18 +28,8 @@ export const HomePage = () => {
           'gap-7'
         )}
       >
-        <Link
-          style={{
-            backgroundImage: "url('/welcome-min.jpg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'bottom 45% center',
-            width: 'w-full',
-            height: '200px'
-          }}
-          className={clsx('flex', 'shadow-md')}
-          to="/search"
-          aria-label="Home"
-        />
+        <Divider text="Izdvojeni proizvodi" />
+        <HomeCarousel products={products} isLoading={isLoading} />
         <Divider text="Kategorije Proizvoda" />
         <section
           className={clsx(
@@ -64,7 +53,9 @@ export const HomePage = () => {
             'text-forestGreen',
             'md:hover:text-seaFoamGreen',
             'leading-normal',
-            'font-medium',
+            'text-xl',
+            'font-extralight',
+            'uppercase',
             'border-2',
             'rounded',
             'min-h-12',
@@ -75,12 +66,29 @@ export const HomePage = () => {
             'justify-center',
             'text-center',
             'shadow-md',
-            'transition'
+            'transition',
+            'my-4'
           )}
           to={'/search'}
         >
           Pretrazi sve proizvode
         </Link>
+        <Divider text="Cvetni asortiman" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Sukulenti" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Saksijsko cvece" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Sadnice" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Voce i povrce" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Biljna apoteka" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Bastenska dekoracija" />
+        <HomeCarousel products={products} isLoading={isLoading} />
+        <Divider text="Sve za biljke" />
+        <HomeCarousel products={products} isLoading={isLoading} />
         <div className={clsx('w-full', 'flex', 'gap-7')}>
           <aside className={clsx('w-1/4', 'h-[400px]', 'bg-forestGreen')}>
             Katalog:
@@ -104,32 +112,6 @@ export const HomePage = () => {
             <p className={clsx('bg-mainRed')}>Blog post: 8</p>
           </div>
         </div>
-        <Divider text="Izdvojeni proizvodi" />
-        <Carousel
-          autoplay
-          autoplaySpeed={3000}
-          slidesToShow={4}
-          responsive={[
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 2
-              }
-            }
-          ]}
-          slidesToScroll={1}
-          className={clsx('w-full')}
-        >
-          {products?.map((product: any) => (
-            <div key={product.title} className="px-1">
-              <ProductCard
-                product={product}
-                loading={isLoading}
-                style={'h-100%'}
-              />
-            </div>
-          ))}
-        </Carousel>
       </div>
     </div>
   );
