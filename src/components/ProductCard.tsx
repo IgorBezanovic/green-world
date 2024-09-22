@@ -1,25 +1,37 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  ShoppingCartOutlined
-} from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { Card } from 'antd';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import { PopDelete } from '.';
 
 import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
 export const ProductCard = ({ ...props }) => {
+  const { mutate } = useDeleteProduct(props?.product?._id);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const actions: React.ReactNode[] = [
-    <EditOutlined
-      key="edit"
-      onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
-    />,
-    <ShoppingCartOutlined key="shopping" />,
-    <DeleteOutlined key="delete" />
-  ];
+  const actions: React.ReactNode[] = location.pathname.includes('/profile')
+    ? [
+        <EditOutlined
+          key="edit"
+          onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
+        />,
+        <PopDelete
+          key="delete"
+          title={'Brisanje proizvoda'}
+          description={'Da li ste sigurni da zelite da orisete proizvod?'}
+          okText={'Da'}
+          cancelText={'Ne'}
+          id={props?.product?._id}
+          mutate={mutate}
+        >
+          <DeleteOutlined style={{ color: 'red' }} />
+        </PopDelete>
+      ]
+    : [];
 
   return (
     <Card

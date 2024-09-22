@@ -21,7 +21,8 @@ export const Divider = ({ text }: { text?: string }) => {
               'text-forestGreen',
               'uppercase',
               'text-xl',
-              'text-center'
+              'text-center',
+              'font-extralight'
             )}
           >
             {text}

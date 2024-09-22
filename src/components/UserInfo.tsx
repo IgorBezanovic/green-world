@@ -1,5 +1,6 @@
 import { GlobalOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Divider } from '@green-world/components';
+import { Card } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
 
@@ -10,7 +11,7 @@ export const UserInfo = ({ ...props }) => {
   const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
 
   return (
-    <section className={clsx('flex', 'flex-col', 'w-full')}>
+    <Card className={clsx('flex', 'flex-col', 'w-full')}>
       <div
         className={clsx(
           'flex',
@@ -92,10 +93,11 @@ export const UserInfo = ({ ...props }) => {
             'shadow-md',
             'transition',
             'uppercase',
-            'font-extralight'
+            'font-extralight',
+            'mt-4'
           )}
         >
-          Kontaktirajte nas
+          Kontakt podatci
         </button>
       )}
       {isContactOpen && (
@@ -130,6 +132,6 @@ export const UserInfo = ({ ...props }) => {
         ></iframe>
         <img src={Ozelenimo} alt="Ozelenimo" className={clsx('mt-4')} />
       </section>
-    </section>
+    </Card>
   );
 };

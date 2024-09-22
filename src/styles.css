@@ -12,6 +12,10 @@ body {
 * {
   font-family: 'Montserrat', sans-serif;
 }
+.slick-next,
+.slick-prev {
+  color: #316357 !important;
+}
 
 @font-face {
   font-family: 'GreenWorld';
