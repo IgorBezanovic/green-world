@@ -1,4 +1,4 @@
-import { ProductCard, UserInfo } from '@green-world/components';
+import { CustomButton, ProductCard, UserInfo } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { removeItem } from '@green-world/utils/cookie';
@@ -44,57 +44,21 @@ export const UserProfile = () => {
           </section>
           <div className={clsx('w-3/4')}>
             <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>
-              <button
-                className={clsx(
-                  'flex-1',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'py-2',
-                  'px-4',
-                  'shadow-md',
-                  'bg-whiteLinen',
-                  'font-extralight',
-                  'uppercase'
-                )}
+              <CustomButton
+                text={'Dodaj proizvod'}
+                type={'outlined'}
                 onClick={() => navigate('/create-product')}
-              >
-                Dodaj proizvod
-              </button>
-              <button
-                className={clsx(
-                  'flex-1',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'py-2',
-                  'px-4',
-                  'shadow-md',
-                  'bg-whiteLinen',
-                  'font-extralight',
-                  'uppercase'
-                )}
+              />
+              <CustomButton
+                text={'Podesavanje profila'}
+                type={'outlined'}
                 onClick={() => navigate('/edit-profile')}
-              >
-                Podesavanje profila
-              </button>
-              <button
-                className={clsx(
-                  'flex-1',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'py-2',
-                  'px-4',
-                  'shadow-md',
-                  'bg-whiteLinen',
-                  'font-extralight',
-                  'uppercase'
-                )}
+              />
+              <CustomButton
+                text={'Kontaktirajte podršku'}
+                type={'outlined'}
                 onClick={() => navigate('/contact-us')}
-              >
-                Kontaktirajte podršku
-              </button>
+              />
             </div>
             <section
               className={clsx(

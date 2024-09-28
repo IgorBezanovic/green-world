@@ -1,5 +1,5 @@
 import { GlobalOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
-import { Divider } from '@green-world/components';
+import { CustomButton, Divider } from '@green-world/components';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -75,35 +75,18 @@ export const UserInfo = ({ ...props }) => {
         <GlobalOutlined /> {props?.user?.website || 'N/A'}
       </a>
       {isContactOpen || (
-        <button
+        <CustomButton
           onClick={() => setIsContactOpen(!isContactOpen)}
-          className={clsx(
-            'text-forestGreen',
-            'md:hover:text-seaFoamGreen',
-            'leading-normal',
-            'border-2',
-            'rounded-md',
-            'min-h-12',
-            'p-4',
-            'max-h-12',
-            'flex',
-            'items-center',
-            'justify-center',
-            'text-center',
-            'shadow-md',
-            'transition',
-            'uppercase',
-            'font-extralight',
-            'mt-4'
-          )}
-        >
-          Kontakt podatci
-        </button>
+          text={'Kontakt podatci'}
+          type={'outlined'}
+          customStyle={['mt-2', 'w-full']}
+        />
       )}
       {isContactOpen && (
         <section
           className={clsx({
-            'mb-5': isContactOpen
+            'mb-5': isContactOpen,
+            'mt-1': isContactOpen
           })}
         >
           <p className={clsx('text-forestGreen', 'mb-1', 'font-extralight')}>
