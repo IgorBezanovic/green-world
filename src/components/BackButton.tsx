@@ -1,28 +1,15 @@
-import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
+
+import { CustomButton } from './CustomButton';
 
 export const BackButton = () => {
   const navigate = useNavigate();
 
   return (
-    <button
+    <CustomButton
       onClick={() => navigate(-1)}
-      className={clsx(
-        'text-forestGreen',
-        'md:hover:text-seaFoamGreen',
-        'leading-normal',
-        'border-2',
-        'rounded-md',
-        'p-2',
-        'w-20',
-        'text-center',
-        'shadow-md',
-        'transition',
-        'font-extralight',
-        'uppercase'
-      )}
-    >
-      Nazad
-    </button>
+      text={'Nazad'}
+      type={'outlined'}
+    />
   );
 };

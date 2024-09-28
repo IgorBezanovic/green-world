@@ -1,10 +1,9 @@
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
-import { Logo } from '@green-world/components';
+import { CustomButton, Logo } from '@green-world/components';
 import clsx from 'clsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   return (
@@ -33,60 +32,17 @@ export const Header = () => {
       >
         <Logo />
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
-          <button
+          <CustomButton
+            text={'Dodaj oglas'}
+            type={'outlined'}
             onClick={() => navigate('/create-product')}
-            className={clsx(
-              'text-forestGreen',
-              'md:hover:text-seaFoamGreen',
-              'leading-normal',
-              'border-2',
-              'rounded-md',
-              'min-h-12',
-              'p-4',
-              'max-h-12',
-              'flex',
-              'items-center',
-              'justify-center',
-              'text-center',
-              'shadow-md',
-              'transition',
-              'uppercase',
-              'font-extralight',
-              { 'text-deepTeal': '/create-ad' === location.pathname }
-            )}
-          >
-            Dodaj oglas
-          </button>
-          <button
-            className={clsx(
-              'text-forestGreen',
-              'md:hover:text-seaFoamGreen',
-              'leading-normal',
-              'font-medium',
-              'border-2',
-              'rounded-md',
-              'min-h-12',
-              'p-4',
-              'max-h-12',
-              'flex',
-              'items-center',
-              'justify-center',
-              'text-center',
-              'shadow-md',
-              'transition',
-              'group',
-              { 'text-deepTeal': '/login' === location.pathname }
-            )}
-            onClick={() => navigate('/profile')}
-          >
+          />
+          <CustomButton type={'outlined'} onClick={() => navigate('/profile')}>
             <UserOutlined
-              className={clsx(
-                'text-forestGreen',
-                'md:group-hover:text-seaFoamGreen',
-                'text-xl'
-              )}
+              className={clsx('text-forestGreen', 'text-[20px]')}
+              style={{ font: 'light' }}
             />
-          </button>
+          </CustomButton>
         </nav>
       </nav>
     </header>
