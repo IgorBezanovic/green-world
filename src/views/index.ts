@@ -1,3 +1,4 @@
+export * from '@green-world/views/ChangePassword';
 export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateEditProduct';
 export * from '@green-world/views/EditProfile';

@@ -46,17 +46,17 @@ export const UserProfile = () => {
             <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>
               <CustomButton
                 text={'Dodaj proizvod'}
-                type={'outlined'}
+                type={'text'}
                 onClick={() => navigate('/create-product')}
               />
               <CustomButton
                 text={'Podesavanje profila'}
-                type={'outlined'}
+                type={'text'}
                 onClick={() => navigate('/edit-profile')}
               />
               <CustomButton
                 text={'Kontaktirajte podršku'}
-                type={'outlined'}
+                type={'text'}
                 onClick={() => navigate('/contact-us')}
               />
             </div>
@@ -79,21 +79,7 @@ export const UserProfile = () => {
             </section>
           </div>
         </div>
-        <button
-          className={clsx(
-            'flex-1',
-            'border-2',
-            'border-forestGreen',
-            'rounded',
-            'py-2',
-            'px-4',
-            'shadow-md',
-            'bg-whiteLinen'
-          )}
-          onClick={handleLogout}
-        >
-          Log out
-        </button>
+        <CustomButton type={'text'} onClick={handleLogout} text={'Log out'} />
       </div>
     </div>
   );

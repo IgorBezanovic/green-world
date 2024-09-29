@@ -34,7 +34,9 @@ export const Registration = () => {
           'gap-7'
         )}
       >
-        <BackButton />
+        <div className={clsx('hidden', 'md:flex', 'absolute', 'left-6')}>
+          <BackButton />
+        </div>
         <RegistrationForm mutate={mutate} error={error} isLoading={isLoading} />
       </div>
     </div>

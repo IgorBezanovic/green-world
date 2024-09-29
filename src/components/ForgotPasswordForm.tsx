@@ -1,6 +1,19 @@
+import { LoadingOutlined } from '@ant-design/icons';
+import { useForgotPassword } from '@green-world/hooks/useForgotPassword';
 import clsx from 'clsx';
+import { useState } from 'react';
+
+import { CustomButton } from './CustomButton';
 
 export const ForgotPasswordForm = () => {
+  const { mutate, error, isLoading } = useForgotPassword();
+  const [email, setEmail] = useState<string>('');
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate(email);
+  };
+
   return (
     <section
       className={clsx(
@@ -12,11 +25,12 @@ export const ForgotPasswordForm = () => {
         'w-full',
         'max-w-2xl',
         'mx-auto',
-        'mt-10'
+        'md:mt-14'
       )}
     >
       <form
         className={clsx('flex', 'flex-col', 'max-w-96', 'w-full', 'mx-auto')}
+        onSubmit={handleSubmit}
       >
         <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
           <strong>Ukoliko ste zaboravili svoj password, nije problem.</strong>
@@ -43,20 +57,33 @@ export const ForgotPasswordForm = () => {
             'mb-4',
             'bg-whiteLinen'
           )}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <button
-          className={clsx(
+        <CustomButton
+          htmlType="submit"
+          type="text"
+          text={
+            isLoading ? (
+              <LoadingOutlined
+                className={clsx('text-groupTransparent', 'my-2')}
+              />
+            ) : (
+              'Promeni password'
+            )
+          }
+          customStyle={[
             'mt-2',
-            'w-full',
-            'bg-forestGreen',
-            'rounded',
-            'py-2',
-            'shadow-md',
-            'text-mintCream'
-          )}
-        >
-          Promeni password
-        </button>
+            {
+              'border-groupTransparent': isLoading
+            }
+          ]}
+          disabled={isLoading}
+        />
+        {(error as any) && (
+          <p className={clsx('font-medium', 'text-red', 'mt-2')}>
+            {(error as any)?.response?.data}
+          </p>
+        )}
       </form>
     </section>
   );

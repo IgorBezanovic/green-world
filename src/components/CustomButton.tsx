@@ -3,14 +3,18 @@ import clsx from 'clsx';
 
 export const CustomButton = ({
   children,
+  customStyle,
+  type,
   ...props
 }: {
   [x: string]: any;
+  type: 'link' | 'text' | 'primary' | 'default' | 'dashed' | undefined;
+  customStyle?: any;
   children?: any;
 }) => {
   return (
     <Button
-      type={props.type || 'primary'}
+      type={type || 'primary'}
       className={clsx(
         'flex-1',
         'border-1',
@@ -30,7 +34,7 @@ export const CustomButton = ({
         'md:hover:translate-y-[-1px]',
         'md:active:translate-y-0',
         'md:active:shadow-md',
-        props.customStyle
+        customStyle
       )}
       {...props}
     >

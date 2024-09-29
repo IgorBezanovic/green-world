@@ -6,10 +6,6 @@ export const BackButton = () => {
   const navigate = useNavigate();
 
   return (
-    <CustomButton
-      onClick={() => navigate(-1)}
-      text={'Nazad'}
-      type={'outlined'}
-    />
+    <CustomButton onClick={() => navigate(-1)} text={'Nazad'} type={'text'} />
   );
 };

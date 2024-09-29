@@ -1,6 +1,7 @@
 import { ProtectedRoute } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
+  ChangePassword,
   ContactUs,
   CreateEditProduct,
   EditProfile,
@@ -57,6 +58,10 @@ export const routes = [
       {
         path: '/contact-us',
         element: <ContactUs />
+      },
+      {
+        path: '/change-password',
+        element: <ChangePassword />
       }
     ]
   },

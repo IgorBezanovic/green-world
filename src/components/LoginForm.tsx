@@ -1,14 +1,11 @@
-import {
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  MailOutlined,
-  LockOutlined,
-  LoadingOutlined
-} from '@ant-design/icons';
+import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { CustomButton } from './CustomButton';
+import { VisibleEye } from './VisibleEye';
 
 export const LoginForm = ({ ...props }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -143,37 +140,11 @@ export const LoginForm = ({ ...props }) => {
               'text-xl'
             )}
           />
-          {showPassword ? (
-            <EyeOutlined
-              className={clsx(
-                'mb-2',
-                'absolute',
-                'right-3',
-                'top-2.5',
-                'text-2xl',
-                {
-                  'text-forestGreen': !props.isLoading,
-                  'text-groupTransparent': props.isLoading
-                }
-              )}
-              onClick={() => !props.isLoading && setShowPassword(!showPassword)}
-            />
-          ) : (
-            <EyeInvisibleOutlined
-              className={clsx(
-                'mb-2',
-                'absolute',
-                'right-3',
-                'top-2.5',
-                'text-2xl',
-                {
-                  'text-forestGreen': !props.isLoading,
-                  'text-groupTransparent': props.isLoading
-                }
-              )}
-              onClick={() => !props.isLoading && setShowPassword(!showPassword)}
-            />
-          )}
+          <VisibleEye
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+            isLoading={props.isLoading}
+          />
         </div>
         {props.isLoading ? (
           <span className={clsx('text-groupTransparent')}>
@@ -195,32 +166,26 @@ export const LoginForm = ({ ...props }) => {
             </Link>
           )}
         </div>
-        <button
-          type="submit"
-          className={clsx(
-            'mt-4',
-            'w-full',
-            'rounded',
-            'py-2',
-            'shadow-md',
-            'text-mintCream',
-            'transition-all',
-            'flex',
-            'justify-center',
-            'items-center',
+        <CustomButton
+          htmlType="submit"
+          type="text"
+          text={
+            props.isLoading ? (
+              <LoadingOutlined
+                className={clsx('text-groupTransparent', 'my-2')}
+              />
+            ) : (
+              'Prijavi se'
+            )
+          }
+          customStyle={[
+            'mt-2',
             {
-              'bg-forestGreen': !props.isLoading,
-              'bg-groupTransparent': props.isLoading
+              'border-groupTransparent': props.isLoading
             }
-          )}
+          ]}
           disabled={props.isLoading}
-        >
-          {props.isLoading ? (
-            <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
-          ) : (
-            'Prijavi se'
-          )}
-        </button>
+        />
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>
             {props.error?.response?.data}

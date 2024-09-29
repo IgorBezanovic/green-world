@@ -3,7 +3,7 @@ import {
   LoadingOutlined,
   SignatureOutlined
 } from '@ant-design/icons';
-import { BackButton } from '@green-world/components';
+import { BackButton, CustomButton } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
@@ -621,37 +621,31 @@ export const CreateEditProduct = () => {
                 ML
               </span>
             </div>
-            <button
-              type="submit"
-              className={clsx(
+            <CustomButton
+              htmlType="submit"
+              type="text"
+              text={
+                isLoading ||
+                isImageLoading ||
+                isLoadingCreateProduct ||
+                isLoadingEditProduct ? (
+                  <LoadingOutlined
+                    className={clsx('text-groupTransparent', 'my-2')}
+                  />
+                ) : productId ? (
+                  'Azuriraj proizvod'
+                ) : (
+                  'Kreiraj proizvod'
+                )
+              }
+              customStyle={[
                 'mt-6',
-                'w-full',
-                'rounded',
-                'py-2',
-                'shadow-md',
-                'text-mintCream',
-                'transition-all',
-                'flex',
-                'justify-center',
-                'items-center',
                 {
-                  'bg-forestGreen': !isLoading,
-                  'bg-groupTransparent': isLoading
+                  'border-groupTransparent': isLoading || isImageLoading
                 }
-              )}
+              ]}
               disabled={isLoading || isImageLoading}
-            >
-              {isLoading ||
-              isImageLoading ||
-              isLoadingCreateProduct ||
-              isLoadingEditProduct ? (
-                <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
-              ) : productId ? (
-                'Azuriraj proizvod'
-              ) : (
-                'Kreiraj proizvod'
-              )}
-            </button>
+            />
           </div>
         </form>
       </div>
