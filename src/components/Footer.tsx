@@ -3,7 +3,7 @@ import {
   InstagramFilled,
   LinkedinFilled
 } from '@ant-design/icons';
-import { Logo } from '@green-world/components';
+import { CustomButton, Logo } from '@green-world/components';
 import clsx from 'clsx';
 
 export const Footer = () => {
@@ -34,14 +34,21 @@ export const Footer = () => {
           <p className={clsx('mb-2')}>Pratite/Kontaktirajte nas na:</p>
           <div className={clsx('flex', 'gap-2')}>
             <a href="https://www.instagram.com/zeleni_svet_rs/" target="blanc">
-              <InstagramFilled className={clsx('text-2xl', 'cursor-pointer')} />
+              <InstagramFilled
+                className={clsx('text-3xl', 'cursor-pointer', 'shadow-xl')}
+              />
             </a>
             <a
               href="https://www.linkedin.com/company/zeleni-svet/"
               target="blanc"
             >
               <LinkedinFilled
-                className={clsx('text-2xl', 'mr-2', 'cursor-pointer')}
+                className={clsx(
+                  'text-3xl',
+                  'mr-2',
+                  'cursor-pointer',
+                  'shadow-xl'
+                )}
               />
             </a>
           </div>
@@ -64,20 +71,12 @@ export const Footer = () => {
                 'bg-whiteLinen'
               )}
             />
-            <button
-              className={clsx(
-                'mt-4',
-                'w-full',
-                'bg-whiteLinen',
-                'rounded',
-                'py-1',
-                'shadow-md',
-                'text-forestGreen'
-              )}
+            <CustomButton
+              type={'text'}
+              customStyle={['bg-whiteLinen', 'mt-4', 'min-h-[22px]']}
               onClick={() => console.log('aa')}
-            >
-              Prijavi se
-            </button>
+              text={'Prijavi se'}
+            />
           </form>
         </div>
 

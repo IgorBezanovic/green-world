@@ -78,7 +78,7 @@ export const UserInfo = ({ ...props }) => {
         <CustomButton
           onClick={() => setIsContactOpen(!isContactOpen)}
           text={'Kontakt podatci'}
-          type={'outlined'}
+          type={'text'}
           customStyle={['mt-2', 'w-full']}
         />
       )}

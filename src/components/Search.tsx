@@ -2,6 +2,8 @@ import { legalType } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
 
+import { CustomButton } from './CustomButton';
+
 type FormState = {
   [key: string]: boolean | string;
 };
@@ -124,19 +126,7 @@ export const Search = () => {
         )}
         onChange={handleSearchForm}
       />
-      <button
-        className={clsx(
-          'w-full',
-          'bg-forestGreen',
-          'rounded',
-          'py-2',
-          'shadow-md',
-          'text-mintCream'
-        )}
-        onClick={() => console.log(searchFormState)}
-      >
-        Pretrazi
-      </button>
+      <CustomButton type="text" text={'pretrazi'} customStyle={['w-full']} />
     </section>
   );
 };

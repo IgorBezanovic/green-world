@@ -1,5 +1,5 @@
 import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
-import { BackButton } from '@green-world/components';
+import { BackButton, CustomButton } from '@green-world/components';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -194,33 +194,26 @@ export const ContactUs = () => {
               )}
             />
           </div>
-          <button
-            type="submit"
-            className={clsx(
+          <CustomButton
+            htmlType="submit"
+            type="text"
+            text={
+              isLoading ? (
+                <LoadingOutlined
+                  className={clsx('text-groupTransparent', 'my-2')}
+                />
+              ) : (
+                'Posalji poruku'
+              )
+            }
+            customStyle={[
               'mt-6',
-              'w-full',
-              'rounded',
-              'py-2',
-              'shadow-md',
-              'text-mintCream',
-              'transition-all',
-              'flex',
-              'justify-center',
-              'items-center',
-              'uppercase',
               {
-                'bg-forestGreen': !isLoading,
-                'bg-groupTransparent': isLoading
+                'border-groupTransparent': isLoading
               }
-            )}
+            ]}
             disabled={isLoading}
-          >
-            {isLoading ? (
-              <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
-            ) : (
-              'Posalji poruku'
-            )}
-          </button>
+          />
         </form>
       </div>
     </div>

@@ -6,11 +6,11 @@ export const VisibleEye = ({ ...props }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    props.setShowPassword();
+    props.setShowPassword(!props.showPassword);
   };
 
   return (
-    <button onClick={changeVisibility}>
+    <button onClick={changeVisibility} disabled={props.isLoading}>
       {props.showPassword ? (
         <EyeOutlined
           className={clsx(
@@ -19,7 +19,10 @@ export const VisibleEye = ({ ...props }) => {
             'absolute',
             'right-3',
             'top-2.5',
-            'text-2xl'
+            'text-2xl',
+            {
+              'text-groupTransparent': props.isLoading
+            }
           )}
         />
       ) : (
@@ -30,7 +33,10 @@ export const VisibleEye = ({ ...props }) => {
             'absolute',
             'right-3',
             'top-2.5',
-            'text-2xl'
+            'text-2xl',
+            {
+              'text-groupTransparent': props.isLoading
+            }
           )}
         />
       )}
