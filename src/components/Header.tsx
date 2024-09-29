@@ -34,10 +34,10 @@ export const Header = () => {
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
           <CustomButton
             text={'Dodaj oglas'}
-            type={'outlined'}
+            type={'text'}
             onClick={() => navigate('/create-product')}
           />
-          <CustomButton type={'outlined'} onClick={() => navigate('/profile')}>
+          <CustomButton type={'text'} onClick={() => navigate('/profile')}>
             <UserOutlined
               className={clsx('text-forestGreen', 'text-[20px]')}
               style={{ font: 'light' }}

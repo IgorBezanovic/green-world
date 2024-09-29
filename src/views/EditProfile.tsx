@@ -1,5 +1,5 @@
 import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
-import { BackButton } from '@green-world/components';
+import { BackButton, CustomButton } from '@green-world/components';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
 import { useUser } from '@green-world/hooks/useUser';
@@ -745,32 +745,26 @@ export const EditProfile = () => {
                 <span>Ne</span>
               </div>
             </div>
-            <button
-              type="submit"
-              className={clsx(
-                'mt-6',
-                'w-full',
-                'rounded',
-                'py-2',
-                'shadow-md',
-                'text-mintCream',
-                'transition-all',
-                'flex',
-                'justify-center',
-                'items-center',
+            <CustomButton
+              htmlType="submit"
+              type="text"
+              text={
+                isLoadingUser || isImageLoadingUser ? (
+                  <LoadingOutlined
+                    className={clsx('text-groupTransparent', 'my-2')}
+                  />
+                ) : (
+                  'Azuriraj profil'
+                )
+              }
+              customStyle={[
+                'mt-2',
                 {
-                  'bg-forestGreen': !isLoadingUser,
-                  'bg-groupTransparent': isLoadingUser
+                  'border-groupTransparent': isLoadingUser || isImageLoadingUser
                 }
-              )}
+              ]}
               disabled={isLoadingUser || isImageLoadingUser}
-            >
-              {isLoadingUser || isImageLoadingUser ? (
-                <LoadingOutlined className={clsx('text-whiteLinen', 'my-2')} />
-              ) : (
-                'Azuriraj profil'
-              )}
-            </button>
+            />
           </div>
         </form>
       </div>

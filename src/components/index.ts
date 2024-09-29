@@ -1,5 +1,5 @@
 export * from '@green-world/components/BackButton';
-export * from '@green-world/components/ChangePassword';
+export * from '@green-world/components/ChangePasswordComponent';
 export * from '@green-world/components/CustomButton';
 export * from '@green-world/components/Divider';
 export * from '@green-world/components/Footer';
