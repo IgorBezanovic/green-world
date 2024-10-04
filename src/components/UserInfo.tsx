@@ -38,42 +38,21 @@ export const UserInfo = ({ ...props }) => {
             width="100%"
           />
         </div>
-        <small className={clsx('mt-2', 'text-center', 'w-full')}>
+        <p className={clsx('mt-2', 'text-center', 'w-full')}>
           Ovo je prostor za Vaš logo kompanije. Dodajte ga u ažuriranju profila.
-        </small>
+        </p>
       </div>
-      <p className={clsx('text-forestGreen', 'mb-1')}>
-        Predstavnik:{' '}
-        <span className={clsx('text-black', 'font-extralight')}>
-          {props?.user?.name || 'N/A'} {props?.user?.lastname}
-        </span>
+      <p className={clsx('text-black')}>
+        {props?.user?.name || 'N/A'} {props?.user?.lastname}
       </p>
-      <p className={clsx('text-forestGreen', 'mb-1')}>
-        Radnje:{' '}
-        <span className={clsx('text-black', 'font-extralight')}>
-          {props?.user?.shopName || 'N/A'}
-        </span>
+      <p className={clsx('text-forestGreen', 'mb-2')}>
+        {props?.user?.shopName || 'N/A'}
       </p>
-      <p className={clsx('text-forestGreen', 'mb-1')}>
-        Kratak opis:{' '}
-        <span className={clsx('text-black', 'font-extralight')}>
+      <p className={clsx('mb-4')}>
+        <q className={clsx('text-black', 'font-extralight')}>
           {props?.user?.shopDescription || 'N/A'}
-        </span>
+        </q>
       </p>
-      <a
-        className={clsx(
-          'text-forestGreen',
-          'transition-all',
-          'font-extralight',
-          {
-            'mb-4': !isContactOpen,
-            'mb-1': isContactOpen
-          }
-        )}
-        href={props?.user?.website || '/'}
-      >
-        <GlobalOutlined /> {props?.user?.website || 'N/A'}
-      </a>
       {isContactOpen || (
         <CustomButton
           onClick={() => setIsContactOpen(!isContactOpen)}
@@ -89,6 +68,20 @@ export const UserInfo = ({ ...props }) => {
             'mt-1': isContactOpen
           })}
         >
+          <a
+            className={clsx(
+              'text-forestGreen',
+              'transition-all',
+              'font-extralight',
+              {
+                'mb-4': !isContactOpen,
+                'mb-1': isContactOpen
+              }
+            )}
+            href={props?.user?.website || '/'}
+          >
+            <GlobalOutlined /> {props?.user?.website || 'N/A'}
+          </a>
           <p className={clsx('text-forestGreen', 'mb-1', 'font-extralight')}>
             <PhoneOutlined /> {props?.user?.phone || 'N/A'}
           </p>

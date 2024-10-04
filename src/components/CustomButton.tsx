@@ -17,6 +17,7 @@ export const CustomButton = ({
       type={type || 'primary'}
       className={clsx(
         'flex-1',
+        'flex-grow-0',
         'border-1',
         'border-forestGreen',
         'text-forestGreen',
@@ -24,7 +25,6 @@ export const CustomButton = ({
         'py-2',
         'px-4',
         'shadow-md',
-        'font-extralight',
         'uppercase',
         'h-full',
         'min-h-[42px]',

@@ -1,12 +1,18 @@
-import { Divider, HomeCarousel, RedirectSquare } from '@green-world/components';
+import {
+  CustomButton,
+  Divider,
+  HomeCarousel,
+  RedirectSquare
+} from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
   const { data: products, isLoading } = useAllProducts();
+  const navigate = useNavigate();
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -48,31 +54,13 @@ export const HomePage = () => {
             <RedirectSquare item={category} key={category.id} />
           ))}
         </section>
-        <Link
-          className={clsx(
-            'text-forestGreen',
-            'md:hover:text-seaFoamGreen',
-            'leading-normal',
-            'text-xl',
-            'font-extralight',
-            'uppercase',
-            'border-2',
-            'rounded',
-            'min-h-12',
-            'p-4',
-            'max-h-12',
-            'flex',
-            'items-center',
-            'justify-center',
-            'text-center',
-            'shadow-md',
-            'transition',
-            'my-4'
-          )}
-          to={'/search'}
+        <CustomButton
+          type="text"
+          customStyle={['py-4', 'text-lg']}
+          onClick={() => navigate('/search')}
         >
           Pretrazi sve proizvode
-        </Link>
+        </CustomButton>
         <Divider text="Cvetni asortiman" />
         <HomeCarousel products={products} isLoading={isLoading} />
         <Divider text="Sukulenti" />
