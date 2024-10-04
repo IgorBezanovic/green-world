@@ -1,14 +1,14 @@
 import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
+import { Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CustomButton } from './CustomButton';
-import { VisibleEye } from './VisibleEye';
+import { CustomInput } from './CustomInput';
 
 export const LoginForm = ({ ...props }) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [auth, setAuth] = useState<AuthValues>({
     email: '',
     password: ''
@@ -50,102 +50,46 @@ export const LoginForm = ({ ...props }) => {
         onSubmit={handleSubmit}
       >
         <label
-          htmlFor="email"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
+          htmlFor="e-mail"
+          className={clsx('mb-2', 'text-forestGreen', 'cursor-pointer')}
         >
           Unesite email:
         </label>
-        <div className={clsx('w-full', 'relative')}>
-          <input
-            required
-            type="email"
-            name="email"
-            id="e-mail"
-            placeholder="Unesite email"
-            className={clsx(
-              'w-full',
-              'border-2',
-              'rounded',
-              'pl-9',
-              'py-2',
-              'shadow-md',
-              'mb-4',
-              'bg-whiteLinen',
-              {
-                'border-red': props.error?.response?.data,
-                'border-forestGreen': !props.isLoading,
-                'border-groupTransparent': props.isLoading
-              }
-            )}
-            onChange={(e) => setAuth({ ...auth, email: e.target.value })}
-            disabled={props.isLoading}
-          />
-          <MailOutlined
-            className={clsx(
-              'text-gray',
-              'absolute',
-              'left-3',
-              'top-[11px]',
-              'text-xl'
-            )}
-          />
-        </div>
+        <CustomInput
+          required
+          type="email"
+          name="email"
+          id="e-mail"
+          placeholder="Unesite email"
+          error={props.error?.response?.data}
+          isLoading={props.isLoading}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setAuth({ ...auth, email: e.target.value })
+          }
+          disabled={props.isLoading}
+          prefix={<MailOutlined className={clsx('text-groupTransparent')} />}
+        />
         <label
           htmlFor="password"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
+          className={clsx('mb-2', 'text-forestGreen', 'cursor-pointer')}
         >
-          Unesite password:
+          Unesite lozinku:
         </label>
-        <div className={clsx('w-full', 'relative')}>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            required
-            name="password"
-            id="password"
-            placeholder="Unesite password"
-            className={clsx(
-              'w-full',
-              'border-2',
-              'rounded',
-              'pl-9',
-              'py-2',
-              'shadow-md',
-              'mb-3',
-              'bg-whiteLinen',
-              {
-                'border-red': props.error?.response?.data,
-                'border-forestGreen': !props.isLoading,
-                'border-groupTransparent': props.isLoading
-              }
-            )}
-            onChange={(e) => setAuth({ ...auth, password: e.target.value })}
-            disabled={props.isLoading}
-          />
-          <LockOutlined
-            className={clsx(
-              'text-gray',
-              'absolute',
-              'left-3',
-              'top-[11px]',
-              'text-xl'
-            )}
-          />
-          <VisibleEye
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            isLoading={props.isLoading}
-          />
-        </div>
+        <Input.Password
+          required
+          size="large"
+          name="password"
+          id="password"
+          placeholder="Unesite lozinku"
+          className={clsx('rounded-xs', 'mb-2', {
+            'border-red': props.error?.response?.data,
+            'border-forestGreen': !props.isLoading,
+            'border-groupTransparent': props.isLoading
+          })}
+          onChange={(e) => setAuth({ ...auth, password: e.target.value })}
+          disabled={props.isLoading}
+          prefix={<LockOutlined className={clsx('text-groupTransparent')} />}
+        />
         {props.isLoading ? (
           <span className={clsx('text-groupTransparent')}>
             Zaboravljen password?
