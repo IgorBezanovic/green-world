@@ -48,16 +48,19 @@ export const UserProfile = () => {
                 text={'Dodaj proizvod'}
                 type={'text'}
                 onClick={() => navigate('/create-product')}
+                customStyle={'!flex-1'}
               />
               <CustomButton
                 text={'Podesavanje profila'}
                 type={'text'}
                 onClick={() => navigate('/edit-profile')}
+                customStyle={'!flex-1'}
               />
               <CustomButton
                 text={'Kontaktirajte podršku'}
                 type={'text'}
                 onClick={() => navigate('/contact-us')}
+                customStyle={'!flex-1'}
               />
             </div>
             <section

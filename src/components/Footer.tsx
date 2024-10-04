@@ -72,10 +72,10 @@ export const Footer = () => {
               )}
             />
             <CustomButton
-              type={'text'}
+              type="text"
               customStyle={['bg-whiteLinen', 'mt-4', 'min-h-[22px]']}
               onClick={() => console.log('aa')}
-              text={'Prijavi se'}
+              text="Prijavi se"
             />
           </form>
         </div>

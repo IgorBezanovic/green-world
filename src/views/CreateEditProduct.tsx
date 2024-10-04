@@ -1,9 +1,5 @@
-import {
-  DeleteOutlined,
-  LoadingOutlined,
-  SignatureOutlined
-} from '@ant-design/icons';
-import { BackButton, CustomButton } from '@green-world/components';
+import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
+import { BackButton, CustomButton, CustomInput } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
@@ -11,6 +7,7 @@ import { useProduct } from '@green-world/hooks/useProduct';
 import { groupItemsCreateProduct } from '@green-world/utils/constants';
 import { ProductValues } from '@green-world/utils/types';
 import { Radio } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -46,14 +43,16 @@ export const CreateEditProduct = () => {
   const { mutate: editMutation, isLoading: isLoadingEditProduct } =
     useEditProduct(productId);
 
-  const [product, setProduct] = useState<ProductValues>(initProduct);
+  const [product, setProduct] = useState<ProductValues>(data);
 
   useEffect(() => {
     setProduct((prevProduct) => ({
-      ...data,
-      images: productImage ? [...prevProduct.images, productImage] : data.images
+      ...prevProduct,
+      images: productImage
+        ? [...prevProduct.images, productImage]
+        : prevProduct.images
     }));
-  }, [data, productImage]);
+  }, [productImage]);
 
   const handleGroupChange = (e: any) => {
     setProduct({ ...product, group: e.target.value });
@@ -201,12 +200,9 @@ export const CreateEditProduct = () => {
                 'w-full',
                 'min-h-20',
                 'mb-4',
-                'bg-image-box-gradient',
                 'gap-4',
-                'rounded-md',
+                'rounded',
                 'shadow-md',
-                'border-2',
-                'border-gray40',
                 'p-4',
                 'grid',
                 'grid-cols-2',
@@ -250,8 +246,9 @@ export const CreateEditProduct = () => {
                 <label
                   htmlFor="profileImage"
                   className={clsx(
-                    'border-2',
+                    'border',
                     'border-forestGreen',
+                    'text-forestGreen',
                     'rounded',
                     'py-2',
                     'px-4',
@@ -262,9 +259,16 @@ export const CreateEditProduct = () => {
                     'mx-auto',
                     'md:mx-0',
                     'uppercase',
-                    'font-extralight',
+                    'font-light',
                     'mb-4',
-                    'md:mb-0'
+                    'md:mb-0',
+                    'transition-all',
+                    'duration-300',
+                    'md:hover:text-black',
+                    'md:hover:shadow-lg',
+                    'md:hover:translate-y-[-1px]',
+                    'md:active:translate-y-0',
+                    'md:active:shadow-md'
                   )}
                 >
                   Dodaj sliku proizvoda
@@ -292,37 +296,15 @@ export const CreateEditProduct = () => {
             >
               Naziv proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Unesite naziv proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.title || ''}
-                onChange={handleChange}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Unesite naziv proizvoda"
+              value={product?.title || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="shortDescription"
               className={clsx(
@@ -334,36 +316,28 @@ export const CreateEditProduct = () => {
             >
               Kratak opis proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <textarea
-                required
-                name="shortDescription"
-                id="shortDescription"
-                placeholder="Unesite kratak opis proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.shortDescription || ''}
-                onChange={handleChange}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <TextArea
+              required
+              rows={4}
+              name="shortDescription"
+              id="shortDescription"
+              className={clsx(
+                'flex-1',
+                'rounded-xs',
+                'shadow-md',
+                'h-full',
+                'min-h-[42px]',
+                'md:hover:shadow-lg',
+                'mb-4',
+                {
+                  'border-forestGreen': !isLoading,
+                  'border-groupTransparent': isLoading
+                }
+              )}
+              placeholder="Unesite kratak opis proizvoda"
+              value={product?.shortDescription || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="description"
               className={clsx(
@@ -375,36 +349,28 @@ export const CreateEditProduct = () => {
             >
               Opis proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <textarea
-                required
-                name="description"
-                id="description"
-                placeholder="Unesite opis proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.description || ''}
-                onChange={handleChange}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <TextArea
+              required
+              rows={4}
+              name="description"
+              id="description"
+              placeholder="Unesite opis proizvoda"
+              className={clsx(
+                'flex-1',
+                'rounded-xs',
+                'shadow-md',
+                'h-full',
+                'min-h-[42px]',
+                'md:hover:shadow-lg',
+                'mb-4',
+                {
+                  'border-forestGreen': !isLoading,
+                  'border-groupTransparent': isLoading
+                }
+              )}
+              value={product?.description || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="price"
               className={clsx(
@@ -416,39 +382,15 @@ export const CreateEditProduct = () => {
             >
               Cena proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="price"
-                id="price"
-                placeholder="Unesite cenu proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-12',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.price || ''}
-                onChange={handleChange}
-              />
-              <span
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[10px]',
-                  'font-extralight'
-                )}
-              >
-                RSD
-              </span>
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="price"
+              id="price"
+              placeholder="Unesite cenu proizvoda"
+              value={product?.price || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="height"
               className={clsx(
@@ -460,38 +402,14 @@ export const CreateEditProduct = () => {
             >
               Visina proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                type="text"
-                name="height"
-                id="height"
-                placeholder="Unesite visinu proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-12',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.height || ''}
-                onChange={handleChange}
-              />
-              <span
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[10px]',
-                  'font-extralight'
-                )}
-              >
-                CM
-              </span>
-            </div>
+            <CustomInput
+              type="text"
+              name="height"
+              id="height"
+              placeholder="Unesite visinu proizvoda"
+              value={product?.height || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="width"
               className={clsx(
@@ -503,38 +421,14 @@ export const CreateEditProduct = () => {
             >
               Sirina proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                type="text"
-                name="width"
-                id="width"
-                placeholder="Unesite sirinu proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-12',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.width || ''}
-                onChange={handleChange}
-              />
-              <span
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[10px]',
-                  'font-extralight'
-                )}
-              >
-                CM
-              </span>
-            </div>
+            <CustomInput
+              type="text"
+              name="width"
+              id="width"
+              placeholder="Unesite sirinu proizvoda"
+              value={product?.width || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="weight"
               className={clsx(
@@ -546,38 +440,14 @@ export const CreateEditProduct = () => {
             >
               Tezina proizvoda:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                type="text"
-                name="weight"
-                id="weight"
-                placeholder="Unesite tezinu proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-12',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.weight || ''}
-                onChange={handleChange}
-              />
-              <span
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[10px]',
-                  'font-extralight'
-                )}
-              >
-                KG
-              </span>
-            </div>
+            <CustomInput
+              type="text"
+              name="weight"
+              id="weight"
+              placeholder="Unesite tezinu proizvoda"
+              value={product?.weight || ''}
+              onChange={handleChange}
+            />
             <label
               htmlFor="milliliters"
               className={clsx(
@@ -589,38 +459,14 @@ export const CreateEditProduct = () => {
             >
               Koliko millilitara:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                type="text"
-                name="milliliters"
-                id="milliliters"
-                placeholder="Unesite cenu proizvoda"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-12',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-                value={product?.milliliters || ''}
-                onChange={handleChange}
-              />
-              <span
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[10px]',
-                  'font-extralight'
-                )}
-              >
-                ML
-              </span>
-            </div>
+            <CustomInput
+              type="text"
+              name="milliliters"
+              id="milliliters"
+              placeholder="Unesite Mililitre"
+              value={product?.milliliters || ''}
+              onChange={handleChange}
+            />
             <CustomButton
               htmlType="submit"
               type="text"

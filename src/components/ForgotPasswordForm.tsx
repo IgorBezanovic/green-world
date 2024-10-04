@@ -1,9 +1,10 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, MailOutlined } from '@ant-design/icons';
 import { useForgotPassword } from '@green-world/hooks/useForgotPassword';
 import clsx from 'clsx';
 import { useState } from 'react';
 
 import { CustomButton } from './CustomButton';
+import { CustomInput } from './CustomInput';
 
 export const ForgotPasswordForm = () => {
   const { mutate, error, isLoading } = useForgotPassword();
@@ -21,7 +22,7 @@ export const ForgotPasswordForm = () => {
         'shadow-md',
         'rounded',
         'p-5',
-        'md:py-14',
+        'md:py-16',
         'w-full',
         'max-w-2xl',
         'mx-auto',
@@ -33,31 +34,24 @@ export const ForgotPasswordForm = () => {
         onSubmit={handleSubmit}
       >
         <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
-          <strong>Ukoliko ste zaboravili svoj password, nije problem.</strong>
+          Ukoliko ste zaboravili svoj password, nije problem.
         </h1>
-        <label
-          htmlFor="email"
-          className={clsx('mb-4', 'text-forestGreen', 'text-lg')}
-        >
+        <label htmlFor="e-mail" className={clsx('mb-4', 'text-forestGreen')}>
           Kontaktiracemo Vas da promenu svoje lozinke:
         </label>
-        <input
+        <CustomInput
+          required
           type="email"
           name="email"
-          id="email"
+          id="e-mail"
           placeholder="Unesite email"
-          className={clsx(
-            'w-full',
-            'border-2',
-            'border-forestGreen',
-            'rounded',
-            'pl-2',
-            'py-2',
-            'shadow-md',
-            'mb-4',
-            'bg-whiteLinen'
-          )}
-          onChange={(e) => setEmail(e.target.value)}
+          error={(error as any)?.response?.data}
+          isLoading={isLoading}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
+          disabled={isLoading}
+          prefix={<MailOutlined className={clsx('text-groupTransparent')} />}
         />
         <CustomButton
           htmlType="submit"

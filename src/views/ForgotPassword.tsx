@@ -33,7 +33,15 @@ export const ForgotPassword = () => {
           'gap-7'
         )}
       >
-        <div className={clsx('hidden', 'md:flex', 'absolute', 'left-6')}>
+        <div
+          className={clsx(
+            'hidden',
+            'md:flex',
+            'xl:max-w-[1400px]',
+            'w-full',
+            'mx-auto'
+          )}
+        >
           <BackButton />
         </div>
         <ForgotPasswordForm />
