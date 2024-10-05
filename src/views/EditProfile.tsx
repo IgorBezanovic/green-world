@@ -1,5 +1,10 @@
 import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton } from '@green-world/components';
+import {
+  BackButton,
+  CustomButton,
+  CustomInput,
+  EditUserImageSection
+} from '@green-world/components';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
 import { useUser } from '@green-world/hooks/useUser';
@@ -7,8 +12,6 @@ import { User } from '@green-world/utils/types';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-
-import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
 export const EditProfile = () => {
   const { data, isLoading } = useUser();
@@ -135,58 +138,7 @@ export const EditProfile = () => {
             Azurirajte profil
           </h1>
         </section>
-        <div
-          className={clsx(
-            'w-[150px]',
-            'h-[150px]',
-            'overflow-hidden',
-            'rounded-full',
-            'shadow-md',
-            'relative',
-            'mx-auto',
-            'md:mx-0'
-          )}
-        >
-          <img src={user?.profileImage || ZSLogo} height="100%" width="100%" />
-          <div
-            className={clsx(
-              'absolute',
-              'top-0',
-              'left-0',
-              'bg-custom-gradient',
-              'w-full',
-              'h-full'
-            )}
-          ></div>
-        </div>
-        <label
-          htmlFor="profileImage"
-          className={clsx(
-            'flex-1',
-            'max-w-[150px]',
-            'border-2',
-            'border-forestGreen',
-            'rounded',
-            'py-2',
-            'px-4',
-            'shadow-md',
-            'bg-whiteLinen',
-            'text-center',
-            'cursor-pointer',
-            'mx-auto',
-            'md:mx-0'
-          )}
-        >
-          Odaberi sliku
-        </label>
-        <input
-          type="file"
-          name="profileImage"
-          id="profileImage"
-          accept="image/*"
-          onChange={handleImage}
-          className={clsx('hidden')}
-        ></input>
+        <EditUserImageSection user={user} handleImage={handleImage} />
         <form
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}
@@ -203,38 +155,15 @@ export const EditProfile = () => {
             >
               Naziv Vaseg biznisa:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="shopName"
-                id="shopName"
-                value={user?.shopName || ''}
-                onChange={handleChange}
-                placeholder="Unesite naziv Vaseg biznisa"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-
+            <CustomInput
+              required
+              type="text"
+              name="shopName"
+              id="shopName"
+              value={user?.shopName || ''}
+              onChange={handleChange}
+              placeholder="Unesite naziv Vaseg biznisa"
+            />
             <label
               htmlFor="name"
               className={clsx(
@@ -246,38 +175,15 @@ export const EditProfile = () => {
             >
               Vase ime:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="name"
-                id="name"
-                value={user?.name || ''}
-                onChange={handleChange}
-                placeholder="Unesite Vase ime"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-
+            <CustomInput
+              required
+              type="text"
+              name="name"
+              id="name"
+              value={user?.name || ''}
+              onChange={handleChange}
+              placeholder="Unesite Vase ime"
+            />
             <label
               htmlFor="lastname"
               className={clsx(
@@ -289,38 +195,15 @@ export const EditProfile = () => {
             >
               Vase prezime:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="lastname"
-                id="lastname"
-                value={user?.lastname || ''}
-                onChange={handleChange}
-                placeholder="Unesite Vase prezime"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-
+            <CustomInput
+              required
+              type="text"
+              name="lastname"
+              id="lastname"
+              value={user?.lastname || ''}
+              onChange={handleChange}
+              placeholder="Unesite Vase prezime"
+            />
             <label
               htmlFor="mail"
               className={clsx(
@@ -332,37 +215,14 @@ export const EditProfile = () => {
             >
               Vas email:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="email"
-                id="mail"
-                value={user?.email || ''}
-                disabled
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
-
+            <CustomInput
+              required
+              type="text"
+              name="email"
+              id="mail"
+              value={user?.email || ''}
+              disabled
+            />
             <label
               htmlFor="shopDescription"
               className={clsx(
@@ -415,37 +275,15 @@ export const EditProfile = () => {
             >
               Website vase radnje:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="website"
-                id="website"
-                value={user?.website || ''}
-                onChange={handleChange}
-                placeholder="Unesite URL vase radnje"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="website"
+              id="website"
+              value={user?.website || ''}
+              onChange={handleChange}
+              placeholder="Unesite URL vase radnje"
+            />
           </div>
 
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
@@ -460,37 +298,15 @@ export const EditProfile = () => {
             >
               Kontakt telefon:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="phone"
-                id="phone"
-                value={user?.phone || ''}
-                onChange={handleChange}
-                placeholder="Unesite Vas kontakt telefon"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="phone"
+              id="phone"
+              value={user?.phone || ''}
+              onChange={handleChange}
+              placeholder="Unesite Vas kontakt telefon"
+            />
             <div className={clsx('flex', 'w-full', 'gap-4')}>
               <div className={clsx('w-full')}>
                 <label
@@ -505,37 +321,16 @@ export const EditProfile = () => {
                 >
                   Poštanski broj:
                 </label>
-                <div className={clsx('w-full', 'relative')}>
-                  <input
-                    required
-                    type="string"
-                    name="zipCode"
-                    id="zipCode"
-                    value={user?.address?.zipCode || ''}
-                    onChange={handleAddressChange}
-                    placeholder="Unesite poštanski broj"
-                    className={clsx(
-                      'w-full',
-                      'border-2',
-                      'border-forestGreen',
-                      'rounded',
-                      'pl-9',
-                      'py-2',
-                      'shadow-md',
-                      'mb-4',
-                      'bg-whiteLinen'
-                    )}
-                  />
-                  <SignatureOutlined
-                    className={clsx(
-                      'text-gray',
-                      'absolute',
-                      'left-3',
-                      'top-[11px]',
-                      'text-xl'
-                    )}
-                  />
-                </div>
+                <CustomInput
+                  required
+                  type="string"
+                  name="zipCode"
+                  id="zipCode"
+                  value={user?.address?.zipCode || ''}
+                  onChange={handleAddressChange}
+                  placeholder="Unesite poštanski broj"
+                  customStyle={'!flex-grow-0'}
+                />
               </div>
               <div className={clsx('w-full')}>
                 <label
@@ -550,37 +345,16 @@ export const EditProfile = () => {
                 >
                   Grad:
                 </label>
-                <div className={clsx('w-full', 'relative')}>
-                  <input
-                    required
-                    type="text"
-                    name="city"
-                    id="city"
-                    value={user?.address?.city || ''}
-                    onChange={handleAddressChange}
-                    placeholder="Unesite grad"
-                    className={clsx(
-                      'w-full',
-                      'border-2',
-                      'border-forestGreen',
-                      'rounded',
-                      'pl-9',
-                      'py-2',
-                      'shadow-md',
-                      'mb-4',
-                      'bg-whiteLinen'
-                    )}
-                  />
-                  <SignatureOutlined
-                    className={clsx(
-                      'text-gray',
-                      'absolute',
-                      'left-3',
-                      'top-[11px]',
-                      'text-xl'
-                    )}
-                  />
-                </div>
+                <CustomInput
+                  required
+                  type="text"
+                  name="city"
+                  id="city"
+                  value={user?.address?.city || ''}
+                  onChange={handleAddressChange}
+                  placeholder="Unesite grad"
+                  customStyle={'!flex-grow-0'}
+                />
               </div>
             </div>
             <label
@@ -594,37 +368,15 @@ export const EditProfile = () => {
             >
               Ulica:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="street"
-                id="street"
-                value={user?.address?.street || ''}
-                onChange={handleAddressChange}
-                placeholder="Unesite ulicu"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="street"
+              id="street"
+              value={user?.address?.street || ''}
+              onChange={handleAddressChange}
+              placeholder="Unesite ulicu"
+            />
             <label
               htmlFor="country"
               className={clsx(
@@ -636,37 +388,15 @@ export const EditProfile = () => {
             >
               Država:
             </label>
-            <div className={clsx('w-full', 'relative')}>
-              <input
-                required
-                type="text"
-                name="country"
-                id="country"
-                value={user?.address?.country || ''}
-                onChange={handleAddressChange}
-                placeholder="Unesite državu"
-                className={clsx(
-                  'w-full',
-                  'border-2',
-                  'border-forestGreen',
-                  'rounded',
-                  'pl-9',
-                  'py-2',
-                  'shadow-md',
-                  'mb-4',
-                  'bg-whiteLinen'
-                )}
-              />
-              <SignatureOutlined
-                className={clsx(
-                  'text-gray',
-                  'absolute',
-                  'left-3',
-                  'top-[11px]',
-                  'text-xl'
-                )}
-              />
-            </div>
+            <CustomInput
+              required
+              type="text"
+              name="country"
+              id="country"
+              value={user?.address?.country || ''}
+              onChange={handleAddressChange}
+              placeholder="Unesite državu"
+            />
             <label
               htmlFor="onlyOnline"
               className={clsx(
