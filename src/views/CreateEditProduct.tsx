@@ -4,11 +4,15 @@ import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
 import { useProduct } from '@green-world/hooks/useProduct';
-import { groupItemsCreateProduct } from '@green-world/utils/constants';
-import { ProductValues } from '@green-world/utils/types';
+import {
+  groupItemsCreateProduct,
+  subGroups
+} from '@green-world/utils/constants';
+import { ProductValues, SubGroupKeys } from '@green-world/utils/types';
 import { Radio } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -166,23 +170,32 @@ export const CreateEditProduct = () => {
                 </Radio>
               ))}
             </Radio.Group>
-            <label
-              htmlFor="subGroup"
-              className={clsx('mt-4', 'mb-2', 'text-forestGreen', 'text-lg')}
-            >
-              Odaberite pripadajuću podgrupu:
-            </label>
-            <Radio.Group
-              name="subGroup"
-              onChange={handleSubGroupChange}
-              value={product.subGroup}
-            >
-              {groupItemsCreateProduct!.map((item: any) => (
-                <Radio key={item?.key} value={item?.key} name="subGroup">
-                  {item?.label}
-                </Radio>
-              ))}
-            </Radio.Group>
+            {product.group && (
+              <React.Fragment>
+                <label
+                  htmlFor="subGroup"
+                  className={clsx(
+                    'mt-4',
+                    'mb-2',
+                    'text-forestGreen',
+                    'text-lg'
+                  )}
+                >
+                  Odaberite pripadajuću podgrupu:
+                </label>
+                <Radio.Group
+                  name="subGroup"
+                  onChange={handleSubGroupChange}
+                  value={product.subGroup}
+                >
+                  {subGroups[product.group as SubGroupKeys].map((item: any) => (
+                    <Radio key={item.label} value={item.label} name="subGroup">
+                      {item.sr_RS}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </React.Fragment>
+            )}
             <label
               htmlFor="title"
               className={clsx(
