@@ -1,3 +1,7 @@
+import { subGroups } from './constants';
+
+export type SubGroupKeys = keyof typeof subGroups;
+
 export type AuthValues = {
   email: string;
   password: string;
