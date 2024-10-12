@@ -1,5 +1,6 @@
-import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton } from '@green-world/components';
+import { LoadingOutlined } from '@ant-design/icons';
+import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -78,38 +79,15 @@ export const ContactUs = () => {
           >
             Tema poruke:
           </label>
-          <div className={clsx('w-full', 'relative')}>
-            <input
-              required
-              type="text"
-              name="subject"
-              id="subject"
-              value={contactForm?.subject || ''}
-              onChange={handleChange}
-              placeholder="Unesite naziv Vaseg biznisa"
-              className={clsx(
-                'w-full',
-                'border-2',
-                'border-forestGreen',
-                'rounded',
-                'pl-9',
-                'py-2',
-                'shadow-md',
-                'mb-4',
-                'bg-whiteLinen'
-              )}
-            />
-            <SignatureOutlined
-              className={clsx(
-                'text-gray',
-                'absolute',
-                'left-3',
-                'top-[11px]',
-                'text-xl'
-              )}
-            />
-          </div>
-
+          <CustomInput
+            required
+            type="text"
+            name="subject"
+            id="subject"
+            value={contactForm?.subject || ''}
+            onChange={handleChange}
+            placeholder="Tema poruke"
+          />
           <label
             htmlFor="contact"
             className={clsx(
@@ -121,38 +99,15 @@ export const ContactUs = () => {
           >
             Unesite kontat telefon ili e-mail:
           </label>
-          <div className={clsx('w-full', 'relative')}>
-            <input
-              required
-              type="text"
-              name="contact"
-              id="contact"
-              value={contactForm?.contact || ''}
-              onChange={handleChange}
-              placeholder="Unesite Vase ime"
-              className={clsx(
-                'w-full',
-                'border-2',
-                'border-forestGreen',
-                'rounded',
-                'pl-9',
-                'py-2',
-                'shadow-md',
-                'mb-4',
-                'bg-whiteLinen'
-              )}
-            />
-            <SignatureOutlined
-              className={clsx(
-                'text-gray',
-                'absolute',
-                'left-3',
-                'top-[11px]',
-                'text-xl'
-              )}
-            />
-          </div>
-
+          <CustomInput
+            required
+            type="text"
+            name="contact"
+            id="contact"
+            value={contactForm?.contact || ''}
+            onChange={handleChange}
+            placeholder="Kako da vas kontaktiramo"
+          />
           <label
             htmlFor="message"
             className={clsx(
@@ -162,38 +117,29 @@ export const ContactUs = () => {
               'text-lg'
             )}
           >
-            Vase poruka:
+            Poruka:
           </label>
-          <div className={clsx('w-full', 'relative')}>
-            <textarea
-              required
-              name="message"
-              id="message"
-              value={contactForm?.message || ''}
-              onChange={handleChange}
-              placeholder="Unesite opis"
-              className={clsx(
-                'w-full',
-                'border-2',
-                'border-forestGreen',
-                'rounded',
-                'pl-9',
-                'py-2',
-                'shadow-md',
-                'mb-4',
-                'bg-whiteLinen'
-              )}
-            />
-            <SignatureOutlined
-              className={clsx(
-                'text-gray',
-                'absolute',
-                'left-3',
-                'top-[11px]',
-                'text-xl'
-              )}
-            />
-          </div>
+          <TextArea
+            required
+            name="message"
+            id="message"
+            value={contactForm?.message || ''}
+            onChange={handleChange}
+            placeholder="Unesite poruku"
+            className={clsx(
+              'flex-1',
+              'rounded-xs',
+              'shadow-md',
+              'h-full',
+              'min-h-[42px]',
+              'md:hover:shadow-lg',
+              'mb-4',
+              {
+                'border-forestGreen': !isLoading,
+                'border-groupTransparent': isLoading
+              }
+            )}
+          />
           <CustomButton
             htmlType="submit"
             type="text"
@@ -203,7 +149,7 @@ export const ContactUs = () => {
                   className={clsx('text-groupTransparent', 'my-2')}
                 />
               ) : (
-                'Posalji poruku'
+                'Pošalji poruku'
               )
             }
             customStyle={[

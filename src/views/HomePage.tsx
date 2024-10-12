@@ -77,7 +77,7 @@ export const HomePage = () => {
         <HomeCarousel products={products} isLoading={isLoading} />
         <Divider text="Sve za biljke" />
         <HomeCarousel products={products} isLoading={isLoading} />
-        <div className={clsx('w-full', 'flex', 'gap-7')}>
+        {/* <div className={clsx('w-full', 'flex', 'gap-7')}>
           <aside className={clsx('w-1/4', 'h-[400px]', 'bg-forestGreen')}>
             Katalog:
           </aside>
@@ -99,7 +99,7 @@ export const HomePage = () => {
             <p className={clsx('bg-mainRed')}>Blog post: 7</p>
             <p className={clsx('bg-mainRed')}>Blog post: 8</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import {
   InstagramFilled,
   LinkedinFilled
 } from '@ant-design/icons';
-import { CustomButton, Logo } from '@green-world/components';
+import { CustomButton, CustomInput, Logo } from '@green-world/components';
 import clsx from 'clsx';
 
 export const Footer = () => {
@@ -53,23 +53,15 @@ export const Footer = () => {
             </a>
           </div>
           <form className={clsx('flex', 'flex-col', 'mt-4')}>
-            <label>Prijavi se da primas katalog na email: </label>
-            <input
+            <label htmlFor="email">
+              Prijavi se da primas katalog na email:
+            </label>
+            <CustomInput
               type="text"
               name="email"
               id="email"
               placeholder="Unesite email"
-              className={clsx(
-                'w-full',
-                'border-2',
-                'border-whiteLinen',
-                'rounded',
-                'pl-1',
-                'py-1',
-                'shadow-md',
-                'mt-2',
-                'bg-whiteLinen'
-              )}
+              autoComplete="true"
             />
             <CustomButton
               type="text"
