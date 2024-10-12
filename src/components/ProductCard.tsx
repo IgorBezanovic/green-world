@@ -69,7 +69,13 @@ export const ProductCard = ({ ...props }) => {
               {props?.product?.description.slice(0, 50)}
               {props?.product?.description.length > 50 && '...'}
             </p>
-            <p className={clsx('text-black')}>RSD {props?.product?.price}</p>
+            <p className={clsx('text-black', 'font-semibold')}>
+              RSD{' '}
+              {props?.product?.price
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+              <small>,00</small>
+            </p>
           </section>
         }
       />
