@@ -18,7 +18,7 @@ export const Header = () => {
         'px-4',
         'sm:px-7',
         'xl:px-0',
-        'py-4'
+        'py-3'
       )}
     >
       <nav
