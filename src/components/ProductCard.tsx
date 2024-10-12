@@ -38,26 +38,45 @@ export const ProductCard = ({ ...props }) => {
       loading={props.loading}
       actions={actions}
       cover={
-        <img
-          alt={props?.product?.title}
-          src={
-            props?.product?.images?.[0]
-              ? props?.product?.images[0].includes('cloudinary')
-                ? props?.product?.images[0]
+        <div className={clsx('h-[150px]', 'w-[150px]', 'mx-auto', 'mt-2')}>
+          <img
+            alt={props?.product?.title}
+            src={
+              props?.product?.images?.[0]
+                ? props?.product?.images[0].includes('cloudinary')
+                  ? props?.product?.images[0]
+                  : ZSLogo
                 : ZSLogo
-              : ZSLogo
-          }
-          className={clsx('max-h-[150px]', 'max-w-[150px]', 'mx-auto', 'mt-2')}
-        />
+            }
+            className={clsx('max-h-[150px]', 'max-w-[150px]', 'mx-auto')}
+          />
+        </div>
       }
     >
       <Card.Meta
         title={props?.product?.title}
         description={
-          <>
-            <p>{props?.product?.description}</p>
-            <p className={clsx('text-black')}>RSD {props?.product?.price}</p>
-          </>
+          <section
+            className={clsx(
+              'h-[75px]',
+              'overflow-hidden',
+              'flex',
+              'flex-col',
+              'justify-between'
+            )}
+          >
+            <p>
+              {props?.product?.description.slice(0, 50)}
+              {props?.product?.description.length > 50 && '...'}
+            </p>
+            <p className={clsx('text-black', 'font-semibold')}>
+              RSD{' '}
+              {props?.product?.price
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+              <small>,00</small>
+            </p>
+          </section>
         }
       />
     </Card>
