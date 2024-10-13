@@ -9,6 +9,7 @@ import {
   HomePage,
   Login,
   NotFound,
+  ProductPage,
   ProductsSearchPage,
   Registration,
   UserProfile
@@ -62,6 +63,10 @@ export const routes = [
       {
         path: '/change-password',
         element: <ChangePassword />
+      },
+      {
+        path: '/product/:productId',
+        element: <ProductPage />
       }
     ]
   },

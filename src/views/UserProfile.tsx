@@ -1,8 +1,9 @@
 import { CustomButton, ProductCard, UserInfo } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { removeItem } from '@green-world/utils/cookie';
+import { getItem, removeItem } from '@green-world/utils/cookie';
 import clsx from 'clsx';
+import { jwtDecode } from 'jwt-decode';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +11,8 @@ import './style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
-  const { data } = useUser();
+  const decodedToken: any = jwtDecode(getItem('token')!);
+  const { data } = useUser(decodedToken._id);
   const { data: products, isLoading } = useAllUserProducts();
 
   const handleLogout = () => {
