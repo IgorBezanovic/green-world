@@ -37,6 +37,10 @@ export const ProductCard = ({ ...props }) => {
     <Card
       loading={props.loading}
       actions={actions}
+      onClick={() =>
+        !location.pathname.includes('/profile') &&
+        navigate(`/product/${props?.product._id}`)
+      }
       cover={
         <div className={clsx('h-[150px]', 'w-[150px]', 'mx-auto', 'mt-2')}>
           <img
