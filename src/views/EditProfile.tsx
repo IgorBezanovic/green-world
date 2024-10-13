@@ -8,13 +8,16 @@ import {
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
 import { useUser } from '@green-world/hooks/useUser';
+import { getItem } from '@green-world/utils/cookie';
 import { User } from '@green-world/utils/types';
 import clsx from 'clsx';
+import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const EditProfile = () => {
-  const { data, isLoading } = useUser();
+  const decodedToken: any = jwtDecode(getItem('token')!);
+  const { data, isLoading } = useUser(decodedToken._id);
   const { mutate, isLoading: isLoadingUser } = useEditUser();
   const {
     mutate: imageMutate,
