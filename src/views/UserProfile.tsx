@@ -12,7 +12,7 @@ import './style.css';
 export const UserProfile = () => {
   const navigate = useNavigate();
   const decodedToken: any = jwtDecode(getItem('token')!);
-  const { data } = useUser(decodedToken._id);
+  const { data: userData, isLoading: userLoading } = useUser(decodedToken._id);
   const { data: products, isLoading } = useAllUserProducts();
 
   const handleLogout = () => {
@@ -40,11 +40,13 @@ export const UserProfile = () => {
           'gap-7'
         )}
       >
-        <div className={clsx('flex', 'gap-7')}>
-          <section className={clsx('w-1/4')}>
-            <UserInfo user={data} />
-          </section>
-          <div className={clsx('w-3/4')}>
+        <div className={clsx('gap-7')}>
+          <UserInfo
+            user={userData}
+            userLoading={userLoading}
+            customStyle={['mb-7']}
+          />
+          <div>
             <div className={clsx('w-full', 'flex', 'gap-7', 'mb-7')}>
               <CustomButton
                 text={'Dodaj proizvod'}
