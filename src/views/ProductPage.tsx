@@ -1,4 +1,4 @@
-import { Divider, HomeCarousel } from '@green-world/components';
+import { Divider, HomeCarousel, UserInfo } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useUser } from '@green-world/hooks/useUser';
@@ -58,22 +58,7 @@ export const ProductPage = () => {
             />
           </Card>
         </Skeleton>
-        <Skeleton loading={userLoading} active avatar>
-          <Card
-            style={{ width: '100%' }}
-            // actions={[
-            //   <SettingOutlined key="setting" />,
-            //   <EditOutlined key="edit" />,
-            //   <EllipsisOutlined key="ellipsis" />
-            // ]}
-          >
-            <Meta
-              avatar={<Avatar src={sellerData?.profileImage} />}
-              title={sellerData?.shopName}
-              description={sellerData?.shopDescription}
-            />
-          </Card>
-        </Skeleton>
+        <UserInfo userLoading={userLoading} user={sellerData} />
         <Divider text="Proizvodi iz {{grupe}}" />
         <HomeCarousel products={products} isLoading={isLoading} />
         <Divider text="Svi proizvodi ovog prodavca" />

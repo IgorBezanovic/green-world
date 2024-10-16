@@ -41,6 +41,9 @@ export const ProductCard = ({ ...props }) => {
         !location.pathname.includes('/profile') &&
         navigate(`/product/${props?.product._id}`)
       }
+      className={clsx({
+        'cursor-pointer': !location.pathname.includes('/profile')
+      })}
       cover={
         <div className={clsx('h-[150px]', 'w-[150px]', 'mx-auto', 'mt-2')}>
           <img
