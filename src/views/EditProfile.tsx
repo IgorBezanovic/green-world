@@ -302,7 +302,6 @@ export const EditProfile = () => {
               Kontakt telefon:
             </label>
             <CustomInput
-              required
               type="text"
               name="phone"
               id="phone"
@@ -310,56 +309,49 @@ export const EditProfile = () => {
               onChange={handleChange}
               placeholder="Unesite Vas kontakt telefon"
             />
-            <div className={clsx('flex', 'w-full', 'gap-4')}>
-              <div className={clsx('w-full')}>
-                <label
-                  htmlFor="zipCode"
-                  className={clsx(
-                    'flex',
-                    'mb-2',
-                    'text-forestGreen',
-                    'cursor-pointer',
-                    'text-lg'
-                  )}
-                >
-                  Poštanski broj:
-                </label>
-                <CustomInput
-                  required
-                  type="string"
-                  name="zipCode"
-                  id="zipCode"
-                  value={user?.address?.zipCode || ''}
-                  onChange={handleAddressChange}
-                  placeholder="Unesite poštanski broj"
-                  customStyle={'!flex-grow-0'}
-                />
-              </div>
-              <div className={clsx('w-full')}>
-                <label
-                  htmlFor="city"
-                  className={clsx(
-                    'flex',
-                    'mb-2',
-                    'text-forestGreen',
-                    'cursor-pointer',
-                    'text-lg'
-                  )}
-                >
-                  Grad:
-                </label>
-                <CustomInput
-                  required
-                  type="text"
-                  name="city"
-                  id="city"
-                  value={user?.address?.city || ''}
-                  onChange={handleAddressChange}
-                  placeholder="Unesite grad"
-                  customStyle={'!flex-grow-0'}
-                />
-              </div>
-            </div>
+            <label
+              htmlFor="zipCode"
+              className={clsx(
+                'flex',
+                'flex-1',
+                'mb-2',
+                'text-forestGreen',
+                'cursor-pointer',
+                'text-lg'
+              )}
+            >
+              Poštanski broj:
+            </label>
+            <CustomInput
+              type="string"
+              name="zipCode"
+              id="zipCode"
+              value={user?.address?.zipCode || ''}
+              onChange={handleAddressChange}
+              placeholder="Unesite poštanski broj"
+              customStyle={'!flex-grow-0'}
+            />
+            <label
+              htmlFor="city"
+              className={clsx(
+                'flex',
+                'mb-2',
+                'text-forestGreen',
+                'cursor-pointer',
+                'text-lg'
+              )}
+            >
+              Grad:
+            </label>
+            <CustomInput
+              type="text"
+              name="city"
+              id="city"
+              value={user?.address?.city || ''}
+              onChange={handleAddressChange}
+              placeholder="Unesite grad"
+              customStyle={'!flex-grow-0'}
+            />
             <label
               htmlFor="street"
               className={clsx(
@@ -372,7 +364,6 @@ export const EditProfile = () => {
               Ulica:
             </label>
             <CustomInput
-              required
               type="text"
               name="street"
               id="street"
