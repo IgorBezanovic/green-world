@@ -9,9 +9,10 @@ import {
   HomePage,
   Login,
   NotFound,
-  ProductPage,
-  ProductsSearchPage,
+  // ProductPage,
+  // ProductsSearchPage,
   Registration,
+  UnderConstruction,
   UserProfile
 } from '@green-world/views';
 
@@ -50,7 +51,7 @@ export const routes = [
       },
       {
         path: '/search',
-        element: <ProductsSearchPage />
+        element: <UnderConstruction />
       },
       {
         path: '/edit-profile',
@@ -66,7 +67,7 @@ export const routes = [
       },
       {
         path: '/product/:productId',
-        element: <ProductPage />
+        element: <UnderConstruction />
       }
     ]
   },

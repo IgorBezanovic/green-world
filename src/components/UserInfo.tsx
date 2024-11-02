@@ -8,7 +8,7 @@ import { Avatar, Card, Skeleton } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import clsx from 'clsx';
 
-// import Ozelenimo from '/ozelenimo-transparent.png';
+import ZSlogo from '/zeleni-svet-yellow-transparent.png';
 
 export const UserInfo = ({ ...props }) => {
   return (
@@ -26,7 +26,7 @@ export const UserInfo = ({ ...props }) => {
           <Meta
             avatar={
               <Avatar
-                src={props?.user?.profileImage}
+                src={props?.user?.profileImage || ZSlogo}
                 className={clsx('h-24', 'w-24')}
               />
             }
@@ -40,11 +40,11 @@ export const UserInfo = ({ ...props }) => {
                     {props?.user?.shopDescription || 'N/A'}
                   </q>
                   <p className={clsx('text-black', 'mt-1')}>
-                    {`${props?.user?.address.zipCode}, ${props?.user?.address.city}, ${props?.user?.address.country}` ||
+                    {`${props?.user?.address?.zipCode || 'N/A'}, ${props?.user?.address?.city || 'N/A'}, ${props?.user?.address?.country}` ||
                       'N/A'}
                   </p>
                   <p className={clsx('text-black')}>
-                    {props?.user?.address.street || 'N/A'}
+                    {props?.user?.address?.street || 'N/A'}
                   </p>
                 </section>
                 <section className={clsx('w-1/2')}>

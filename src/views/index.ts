@@ -9,4 +9,5 @@ export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ProductPage';
 export * from '@green-world/views/ProductsSearchPage';
 export * from '@green-world/views/Registration';
+export * from '@green-world/views/UnderConstruction';
 export * from '@green-world/views/UserProfile';
