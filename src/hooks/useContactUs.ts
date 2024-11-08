@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 export const useContactUs = () => {
   return useMutation(({ subject, email, message }: ContactUsValues) =>
     request({
-      url: `/contact-us`,
+      url: `/user/contact-us`,
       method: 'post',
       data: {
         subject,
