@@ -24,7 +24,16 @@ export const ContactUs = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate(contactForm);
+
+    mutate(contactForm, {
+      onSuccess: () => {
+        setContactForm({
+          subject: '',
+          email: '',
+          message: ''
+        });
+      }
+    });
   };
 
   return (
