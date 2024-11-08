@@ -53,3 +53,9 @@ export type User = {
   onlyOnline: boolean;
   onlyOnThisSite: boolean;
 };
+
+export type ContactUsValues = {
+  subject: string;
+  email: string;
+  message: string;
+};
