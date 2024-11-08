@@ -1,15 +1,17 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import { useContactUs } from '@green-world/hooks/useContactUs';
+import { ContactUsValues } from '@green-world/utils/types';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const ContactUs = () => {
-  const isLoading = false;
-  const [contactForm, setContactForm] = useState({
+  const { mutate, error, isLoading } = useContactUs();
+  const [contactForm, setContactForm] = useState<ContactUsValues>({
     subject: '',
-    contact: '',
+    email: '',
     message: ''
   });
 
@@ -20,15 +22,16 @@ export const ContactUs = () => {
     setContactForm({ ...contactForm, [name]: value });
   };
 
-  const handleSubmit = () => {
-    console.log(contactForm);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate(contactForm);
   };
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Kontaktirajte nas</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/contac-us" />
+        <link rel="canonical" href="https://www.zeleni-svet.com/contact-us" />
       </Helmet>
       <div
         className={clsx(
@@ -84,12 +87,13 @@ export const ContactUs = () => {
             type="text"
             name="subject"
             id="subject"
+            disabled={isLoading}
             value={contactForm?.subject || ''}
             onChange={handleChange}
             placeholder="Tema poruke"
           />
           <label
-            htmlFor="contact"
+            htmlFor="email"
             className={clsx(
               'mb-2',
               'text-forestGreen',
@@ -102,9 +106,10 @@ export const ContactUs = () => {
           <CustomInput
             required
             type="text"
-            name="contact"
-            id="contact"
-            value={contactForm?.contact || ''}
+            name="email"
+            id="email"
+            disabled={isLoading}
+            value={contactForm?.email || ''}
             onChange={handleChange}
             placeholder="Kako da vas kontaktiramo"
           />
@@ -123,6 +128,8 @@ export const ContactUs = () => {
             required
             name="message"
             id="message"
+            rows={10}
+            disabled={isLoading}
             value={contactForm?.message || ''}
             onChange={handleChange}
             placeholder="Unesite poruku"
@@ -160,6 +167,14 @@ export const ContactUs = () => {
             ]}
             disabled={isLoading}
           />
+          {(error as ReactNode) && (
+            <p className={clsx('font-medium', 'text-red', 'mt-2')}>
+              {String(
+                (error as { response?: { data?: string } })?.response?.data ||
+                  'An error occurred. Please try again.'
+              )}
+            </p>
+          )}
         </form>
       </div>
     </div>

@@ -5,7 +5,9 @@ import '../styles.css';
 import { ProductCard } from './ProductCard';
 
 export const HomeCarousel = ({ ...props }) => {
-  return props?.products && props.products.length > 0 ? (
+  const products = Array.isArray(props.products) ? props.products : [];
+
+  return products && products.length > 0 ? (
     <Carousel
       arrows
       draggable={true}
@@ -22,7 +24,7 @@ export const HomeCarousel = ({ ...props }) => {
       slidesToScroll={1}
       className={clsx('w-full')}
     >
-      {props.products?.map((product: any) => (
+      {products.map((product: any) => (
         <div key={product.title} className="px-1">
           <ProductCard
             product={product}
