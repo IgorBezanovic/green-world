@@ -31,7 +31,7 @@ export const Footer = () => {
         )}
       >
         <div className={clsx('text-whiteLinen')}>
-          <p className={clsx('mb-2')}>Pratite/Kontaktirajte nas na:</p>
+          <p className={clsx('mb-2')}>Social media</p>
           <div className={clsx('flex', 'gap-2')}>
             <a href="https://www.instagram.com/zeleni_svet_rs/" target="blanc">
               <InstagramFilled
@@ -54,7 +54,7 @@ export const Footer = () => {
           </div>
           <form className={clsx('flex', 'flex-col', 'mt-4')}>
             <label htmlFor="email">
-              Prijavi se da primas katalog na email:
+              Prijavi se da primaš katalog na email:
             </label>
             <CustomInput
               type="text"
@@ -73,7 +73,7 @@ export const Footer = () => {
         </div>
 
         <div className={clsx('text-whiteLinen')}>
-          <p className={clsx('mb-0.5')}>Kontaktirajte nas mailom:</p>
+          <p className={clsx('mb-0.5')}>Kontaktirajte nas:</p>
           <p className={clsx('mb-4')}>
             <a href="mailto:zelenisvetinfo@gmail.com">
               zelenisvetinfo@gmail.com
@@ -83,7 +83,7 @@ export const Footer = () => {
         </div>
 
         <div className={clsx('text-whiteLinen')}>
-          <p className={clsx('mb-4')}>Nudimo korisnicku podrsku:</p>
+          <p className={clsx('mb-4')}>Nudimo korisničku podršku:</p>
           <ul>
             <li className={clsx('mb-2')}>
               <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje naloga
@@ -91,8 +91,12 @@ export const Footer = () => {
             <li className={clsx('mb-2')}>
               <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje radnje
             </li>
-            <li>
+            <li className={clsx('mb-2')}>
               <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje oglasa
+            </li>
+            <li>
+              <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje
+              događaja
             </li>
           </ul>
         </div>
@@ -105,12 +109,12 @@ export const Footer = () => {
               zelenisvetinfo@gmail.com
             </a>
           </p>
-          <p>
+          {/* <p>
             Takodje mozete da zakupite reklamni baner u periodu{' '}
             <span className={clsx('font-bold')}>7</span> /{' '}
             <span className={clsx('font-bold')}>14</span> /{' '}
             <span className={clsx('font-bold')}>28</span> dana
-          </p>
+          </p> */}
         </div>
       </section>
     </footer>
