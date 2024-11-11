@@ -9,7 +9,7 @@ import {
   subGroups
 } from '@green-world/utils/constants';
 import { ProductValues, SubGroupKeys } from '@green-world/utils/types';
-import { Radio } from 'antd';
+import { Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
 import React from 'react';
@@ -59,11 +59,11 @@ export const CreateEditProduct = () => {
   }, [productImage]);
 
   const handleGroupChange = (e: any) => {
-    setProduct({ ...product, group: e.target.value });
+    setProduct({ ...product, group: e });
   };
 
   const handleSubGroupChange = (e: any) => {
-    setProduct({ ...product, subGroup: e.target.value });
+    setProduct({ ...product, subGroup: e });
   };
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,17 +159,15 @@ export const CreateEditProduct = () => {
             >
               Odaberite pripadajuću grupu:
             </label>
-            <Radio.Group
-              name="group"
+            <Select
+              value={product.group || 'Odaberi grupu proizvoda'}
+              className={clsx('shadow-md', 'md:hover:shadow-lg')}
               onChange={handleGroupChange}
-              value={product.group}
-            >
-              {groupItemsCreateProduct!.map((item: any) => (
-                <Radio key={item?.key} value={item?.key} name="group">
-                  {item?.label}
-                </Radio>
-              ))}
-            </Radio.Group>
+              options={groupItemsCreateProduct!.map((item: any) => ({
+                value: item?.key,
+                label: item?.label
+              }))}
+            />
             {product.group && (
               <React.Fragment>
                 <label
@@ -183,17 +181,17 @@ export const CreateEditProduct = () => {
                 >
                   Odaberite pripadajuću podgrupu:
                 </label>
-                <Radio.Group
-                  name="subGroup"
+                <Select
+                  value={product.subGroup || 'Odaberi podgrupu proizvoda'}
+                  className={clsx('shadow-md', 'md:hover:shadow-lg')}
                   onChange={handleSubGroupChange}
-                  value={product.subGroup}
-                >
-                  {subGroups[product.group as SubGroupKeys].map((item: any) => (
-                    <Radio key={item.label} value={item.label} name="subGroup">
-                      {item.sr_RS}
-                    </Radio>
-                  ))}
-                </Radio.Group>
+                  options={subGroups[product.group as SubGroupKeys]!.map(
+                    (item: any) => ({
+                      value: item?.label,
+                      label: item?.sr_RS
+                    })
+                  )}
+                />
               </React.Fragment>
             )}
             <label
