@@ -30,7 +30,7 @@ export const HomePage = () => {
   const { data: everythingForPlants, isLoading: everythingForPlantsLoading } =
     useProductsByGroup('everything_for_plants');
   const navigate = useNavigate();
-
+  console.log(everythingForPlants);
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
