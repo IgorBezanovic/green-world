@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 
 export const useProductsByGroup = (productGroup: string) => {
   return useQuery(
-    ['allProducts'],
+    ['productsByGroup', productGroup],
     () =>
       request({
         url: `/product/group/${productGroup}`,
