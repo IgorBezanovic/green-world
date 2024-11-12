@@ -42,7 +42,7 @@ export const ChangePasswordComponent = () => {
     >
       <form onSubmit={handleSubmit}>
         <label
-          htmlFor="oldPassword"
+          htmlFor="currentPassword"
           className={clsx(
             'flex',
             'text-forestGreen',
@@ -57,8 +57,8 @@ export const ChangePasswordComponent = () => {
           required
           size="large"
           placeholder="Stara lozinka"
-          name="oldPassword"
-          id="oldPassword"
+          name="currentPassword"
+          id="currentPassword"
           onChange={handleChange}
           disabled={isLoading}
         />
