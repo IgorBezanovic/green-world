@@ -9,6 +9,7 @@ import {
   HomePage,
   Login,
   NotFound,
+  ProductsSearchPage,
   // ProductPage,
   // ProductsSearchPage,
   Registration,
@@ -51,7 +52,7 @@ export const routes = [
       },
       {
         path: '/search',
-        element: <UnderConstruction />
+        element: <ProductsSearchPage />
       },
       {
         path: '/edit-profile',

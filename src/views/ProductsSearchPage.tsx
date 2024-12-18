@@ -1,4 +1,5 @@
 import { Search } from '@green-world/components';
+import { Card } from 'antd';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 
@@ -6,7 +7,8 @@ export const ProductsSearchPage = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <link rel="canonical" href="https://www.zeleni-svet.com/" />
+        <title>Zeleni svet | Pretraga proizvoda</title>
+        <link rel="canonical" href="https://www.zeleni-svet.com/search" />
       </Helmet>
       <div
         className={clsx(
@@ -21,12 +23,12 @@ export const ProductsSearchPage = () => {
           'gap-7'
         )}
       >
-        <div className={clsx('w-1/4')}>
+        <Card className={clsx('w-1/3')}>
           <Search />
-        </div>
-        <div className={clsx('w-3/4', 'bg-primary')}>
-          <section>Igorica</section>
-        </div>
+        </Card>
+        <Card className={clsx('w-2/3')}>
+          <section>Fetch data</section>
+        </Card>
       </div>
     </div>
   );
