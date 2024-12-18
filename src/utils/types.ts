@@ -59,3 +59,20 @@ export type ContactUsValues = {
   email: string;
   message: string;
 };
+
+export type SubGroup = {
+  label: string;
+  sr_RS: string;
+};
+
+export type SubGroups = {
+  [key in
+    | 'flower_assortment'
+    | 'succulents'
+    | 'potted_flowers'
+    | 'seedlings'
+    | 'fruits_and_vegetables'
+    | 'herbal_pharmacy'
+    | 'garden_decoration'
+    | 'everything_for_plants']: SubGroup[];
+};

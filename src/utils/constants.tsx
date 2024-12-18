@@ -4,6 +4,7 @@ import MailOutlined from '@ant-design/icons/lib/icons/MailOutlined';
 import NumberOutlined from '@ant-design/icons/lib/icons/NumberOutlined';
 import PhoneOutlined from '@ant-design/icons/lib/icons/PhoneOutlined';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import { SubGroups } from '@green-world/utils/types';
 import type { MenuProps } from 'antd';
 
 export const navigationItems = [
@@ -139,7 +140,7 @@ export const mainGroups = [
   'everything_for_plants'
 ] as const;
 
-export const subGroups = {
+export const subGroups: SubGroups = {
   flower_assortment: [
     { label: 'bouquets', sr_RS: 'Buketi' },
     { label: 'cut_flowers', sr_RS: 'Cveće za sečenje' },
