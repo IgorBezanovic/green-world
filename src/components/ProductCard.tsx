@@ -41,42 +41,45 @@ export const ProductCard = ({ ...props }) => {
         !location.pathname.includes('/profile') &&
         navigate(`/product/${props?.product._id}`)
       }
-      className={clsx('max-h-[378px]', {
+      className={clsx('flex', 'flex-col', 'justify-between', {
+        'max-h-[340px]': !location.pathname.includes('/profile'),
         'cursor-pointer': !location.pathname.includes('/profile')
       })}
-      cover={
-        <div
-          className={clsx(
-            'max-h-[100px]',
-            'max-w-[100px]',
-            'xs:max-h-[150px]',
-            'xs:max-w-[150px]',
-            'mx-auto',
-            'mt-2'
-          )}
-        >
-          <img
-            alt={props?.product?.title}
-            src={
-              props?.product?.images?.[0]
-                ? props?.product?.images[0].includes('cloudinary')
-                  ? props?.product?.images[0]
-                  : ZSLogo
-                : ZSLogo
-            }
-            className={clsx(
-              'max-h-[100px]',
-              'max-w-[100px]',
-              'xs:max-h-[150px]',
-              'xs:max-w-[150px]',
-              'mx-auto'
-            )}
-          />
-        </div>
-      }
     >
       <Card.Meta
-        title={props?.product?.title}
+        title={
+          <>
+            <div
+              className={clsx(
+                'max-h-[100px]',
+                'max-w-[100px]',
+                'xs:max-h-[150px]',
+                'xs:max-w-[150px]',
+                'mx-auto',
+                'mb-4'
+              )}
+            >
+              <img
+                alt={props?.product?.title}
+                src={
+                  props?.product?.images?.[0]
+                    ? props?.product?.images[0].includes('cloudinary')
+                      ? props?.product?.images[0]
+                      : ZSLogo
+                    : ZSLogo
+                }
+                className={clsx(
+                  'max-h-[100px]',
+                  'max-w-[100px]',
+                  'xs:max-h-[150px]',
+                  'xs:max-w-[150px]',
+                  'mx-auto'
+                )}
+              />
+            </div>
+            {props?.product?.title}
+          </>
+        }
         description={
           <section
             className={clsx(
@@ -85,15 +88,12 @@ export const ProductCard = ({ ...props }) => {
               'flex-col',
               'justify-between',
               'w-full',
-              {
-                'h-[75px]': !location.pathname.includes('/profile'),
-                'h-[95px]': location.pathname.includes('/profile')
-              }
+              'h-full'
             )}
           >
             <p>
-              {props?.product?.description.slice(0, 50)}
-              {props?.product?.description.length > 50 && '...'}
+              {props?.product?.description.slice(0, 85)}
+              {props?.product?.description.length > 85 && '...'}
             </p>
             <p className={clsx('text-black', 'font-semibold')}>
               RSD{' '}
