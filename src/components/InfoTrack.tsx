@@ -21,7 +21,7 @@ export const InfoTrack = () => {
       )}
     >
       <button
-        className={clsx('text-xs')}
+        className={clsx('text-sm')}
         onClick={() => navigate('/contact-us')}
       >
         <MailOutlined /> Pišite nam

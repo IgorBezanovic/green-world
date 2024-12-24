@@ -1,10 +1,16 @@
-import { CustomButton, ProductCard, UserInfo } from '@green-world/components';
+import {
+  CustomButton,
+  CustomInput,
+  ProductCard,
+  UserInfo
+} from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,11 +20,24 @@ export const UserProfile = () => {
   const navigate = useNavigate();
   const decodedToken: any = jwtDecode(getItem('token')!);
   const { data: userData, isLoading: userLoading } = useUser(decodedToken._id);
-  const { data: products, isLoading } = useAllUserProducts();
+  const { data: products = [], isLoading } = useAllUserProducts();
+  const [productsToDisplay, setProductsToDisplay] = useState(
+    !isLoading ? products : []
+  );
 
   const handleLogout = () => {
     removeItem('token');
     navigate('/');
+  };
+
+  const filterProducts = (searchTerm: string) => {
+    const filtered = products.filter((product: any) =>
+      product.title
+        .toLowerCase()
+        .trim()
+        .includes(searchTerm.toLowerCase().trim())
+    );
+    setProductsToDisplay(filtered);
   };
 
   return (
@@ -43,7 +62,7 @@ export const UserProfile = () => {
         )}
       >
         <section
-          className={clsx('w-full', 'md:w-1/3', 'flex', 'flex-col', 'gap-5')}
+          className={clsx('w-full', 'md:w-1/4', 'flex', 'flex-col', 'gap-5')}
         >
           <UserInfo
             user={userData}
@@ -54,41 +73,60 @@ export const UserProfile = () => {
             text={'Dodaj proizvod'}
             type={'text'}
             onClick={() => navigate('/create-product')}
-            customStyle={'!flex-1'}
+            customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton
             text={'Podesavanje profila'}
             type={'text'}
             onClick={() => navigate('/edit-profile')}
-            customStyle={'!flex-1'}
+            customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton
             text={'Kontaktirajte podršku'}
             type={'text'}
             onClick={() => navigate('/contact-us')}
-            customStyle={'!flex-1'}
+            customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton type={'text'} onClick={handleLogout} text={'Log out'} />
         </section>
-        <Card
-          className={clsx(
-            'w-full',
-            'md:w-2/3',
-            'gap-4',
-            'grid',
-            'grid-cols-2',
-            'sm:grid-cols-3',
-            'lgm:grid-cols-4'
-          )}
+        <section
+          className={clsx('w-full', 'md:w-3/4', 'gap-7', 'flex', 'flex-col')}
         >
-          {products?.map((product: any) => (
-            <ProductCard
-              key={product.title}
-              product={product}
-              loading={isLoading}
+          <Card>
+            <CustomInput
+              type="text"
+              placeholder="Pretrazi po nazivu proizvoda"
+              customStyle={['!mb-0']}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                filterProducts(e.target.value)
+              }
             />
-          ))}
-        </Card>
+          </Card>
+          <section
+            className={clsx(
+              'w-full',
+              'grid',
+              'grid-cols-2',
+              'sm:grid-cols-3',
+              'lgm:grid-cols-4',
+              'gap-5'
+            )}
+          >
+            {productsToDisplay.length > 0 ? (
+              productsToDisplay?.map((product: any) => (
+                <ProductCard
+                  key={product.title}
+                  product={product}
+                  loading={isLoading}
+                />
+              ))
+            ) : (
+              <p className={clsx('col-span-full')}>
+                Jos uvek niste dodali proizvode
+              </p>
+            )}
+          </section>
+        </section>
       </div>
     </div>
   );
