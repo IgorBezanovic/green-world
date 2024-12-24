@@ -24,53 +24,57 @@ export const UserInfo = ({ ...props }) => {
           }
         >
           <Meta
-            avatar={
-              <Avatar
-                src={props?.user?.profileImage || ZSlogo}
-                className={clsx('h-24', 'w-24')}
-              />
-            }
             description={
-              <section className={clsx('w-full', 'flex')}>
-                <section className={clsx('w-1/2')}>
-                  <p className={clsx('text-black')}>
-                    {props?.user?.name || 'N/A'} {props?.user?.lastname}
-                  </p>
-                  <q className={clsx('text-black', 'font-extralight', 'mt-1')}>
-                    {props?.user?.shopDescription || 'N/A'}
-                  </q>
-                  <p className={clsx('text-black', 'mt-1')}>
-                    {`${props?.user?.address?.zipCode || 'N/A'}, ${props?.user?.address?.city || 'N/A'}, ${props?.user?.address?.country}` ||
-                      'N/A'}
-                  </p>
-                  <p className={clsx('text-black')}>
-                    {props?.user?.address?.street || 'N/A'}
-                  </p>
-                </section>
-                <section className={clsx('w-1/2')}>
-                  <a
-                    className={clsx(
-                      'text-forestGreen',
-                      'transition-all',
-                      'font-extralight'
-                    )}
-                    href={props?.user?.website || '/'}
-                  >
-                    <GlobalOutlined /> {props?.user?.website || 'N/A'}
-                  </a>
-                  <p
-                    className={clsx(
-                      'text-forestGreen',
-                      'mb-1',
-                      'font-extralight'
-                    )}
-                  >
-                    <PhoneOutlined /> {props?.user?.phone || 'N/A'}
-                  </p>
-                  <p className={clsx('text-forestGreen', 'font-extralight')}>
-                    <MailOutlined /> {props?.user?.email || 'N/A'}
-                  </p>
-                </section>
+              <section
+                className={clsx('w-full', 'flex', props?.customStyleMeta)}
+              >
+                <Avatar
+                  src={props?.user?.profileImage || ZSlogo}
+                  className={clsx('h-24', 'w-24', 'mx-auto', 'mb-5')}
+                />
+                <p className={clsx('text-black')}>
+                  {props?.user?.name || 'N/A'} {props?.user?.lastname}
+                </p>
+                <q className={clsx('text-black', 'font-extralight', 'mt-1')}>
+                  {props?.user?.shopDescription || 'N/A'}
+                </q>
+                <p className={clsx('text-black', 'mt-1')}>
+                  Mesto:{' '}
+                  {`${props?.user?.address?.zipCode || 'N/A'}, ${props?.user?.address?.city || 'N/A'}, ${props?.user?.address?.country}` ||
+                    'N/A'}
+                </p>
+                <p className={clsx('text-black')}>
+                  Ulica: {props?.user?.address?.street || 'N/A'}
+                </p>
+                <a
+                  className={clsx(
+                    'text-forestGreen',
+                    'transition-all',
+                    'font-extralight',
+                    'mt-2'
+                  )}
+                  href={props?.user?.website || '/'}
+                >
+                  <GlobalOutlined /> {props?.user?.website || 'N/A'}
+                </a>
+                <p
+                  className={clsx(
+                    'text-forestGreen',
+                    'font-extralight',
+                    'mt-2'
+                  )}
+                >
+                  <PhoneOutlined /> {props?.user?.phone || 'N/A'}
+                </p>
+                <p
+                  className={clsx(
+                    'text-forestGreen',
+                    'font-extralight',
+                    'mt-2'
+                  )}
+                >
+                  <MailOutlined /> {props?.user?.email || 'N/A'}
+                </p>
               </section>
             }
           />
