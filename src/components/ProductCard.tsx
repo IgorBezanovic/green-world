@@ -41,11 +41,20 @@ export const ProductCard = ({ ...props }) => {
         !location.pathname.includes('/profile') &&
         navigate(`/product/${props?.product._id}`)
       }
-      className={clsx({
+      className={clsx('max-h-[378px]', {
         'cursor-pointer': !location.pathname.includes('/profile')
       })}
       cover={
-        <div className={clsx('h-[150px]', 'w-[150px]', 'mx-auto', 'mt-2')}>
+        <div
+          className={clsx(
+            'max-h-[100px]',
+            'max-w-[100px]',
+            'xs:max-h-[150px]',
+            'xs:max-w-[150px]',
+            'mx-auto',
+            'mt-2'
+          )}
+        >
           <img
             alt={props?.product?.title}
             src={
@@ -55,7 +64,13 @@ export const ProductCard = ({ ...props }) => {
                   : ZSLogo
                 : ZSLogo
             }
-            className={clsx('max-h-[150px]', 'max-w-[150px]', 'mx-auto')}
+            className={clsx(
+              'max-h-[100px]',
+              'max-w-[100px]',
+              'xs:max-h-[150px]',
+              'xs:max-w-[150px]',
+              'mx-auto'
+            )}
           />
         </div>
       }
@@ -65,11 +80,15 @@ export const ProductCard = ({ ...props }) => {
         description={
           <section
             className={clsx(
-              'h-[75px]',
               'overflow-hidden',
               'flex',
               'flex-col',
-              'justify-between'
+              'justify-between',
+              'w-full',
+              {
+                'h-[75px]': !location.pathname.includes('/profile'),
+                'h-[95px]': location.pathname.includes('/profile')
+              }
             )}
           >
             <p>
