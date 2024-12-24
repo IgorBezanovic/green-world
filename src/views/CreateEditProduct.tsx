@@ -8,7 +8,11 @@ import {
   groupItemsCreateProduct,
   subGroups
 } from '@green-world/utils/constants';
-import { ProductValues, SubGroupKeys } from '@green-world/utils/types';
+import {
+  ProductValues,
+  SubGroup,
+  SubGroupKeys
+} from '@green-world/utils/types';
 import { Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
@@ -64,11 +68,11 @@ export const CreateEditProduct = () => {
     }));
   }, [productImage]);
 
-  const handleGroupChange = (e: any) => {
+  const handleGroupChange = (e: string) => {
     setProduct({ ...product, group: e });
   };
 
-  const handleSubGroupChange = (e: any) => {
+  const handleSubGroupChange = (e: string) => {
     setProduct({ ...product, subGroup: e });
   };
 
@@ -173,9 +177,9 @@ export const CreateEditProduct = () => {
               value={product.group || 'Odaberi grupu proizvoda'}
               className={clsx('shadow-md', 'md:hover:shadow-lg')}
               onChange={handleGroupChange}
-              options={groupItemsCreateProduct!.map((item: any) => ({
+              options={groupItemsCreateProduct!.map((item) => ({
                 value: item?.key,
-                label: item?.label
+                label: (item as { label: string }).label
               }))}
             />
             {product.group && (
@@ -196,7 +200,7 @@ export const CreateEditProduct = () => {
                   className={clsx('shadow-md', 'md:hover:shadow-lg')}
                   onChange={handleSubGroupChange}
                   options={subGroups[product.group as SubGroupKeys]!.map(
-                    (item: any) => ({
+                    (item: SubGroup) => ({
                       value: item?.label,
                       label: item?.sr_RS
                     })
