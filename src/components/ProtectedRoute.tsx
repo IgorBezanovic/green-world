@@ -1,6 +1,7 @@
 import { getItem } from '@green-world/utils/cookie';
+import clsx from 'clsx';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { ElementType } from 'react';
+import { ElementType, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface CustomJwtPayload extends JwtPayload {
@@ -13,14 +14,39 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const localStorageToken = getItem('token');
-  const token: false | CustomJwtPayload = localStorageToken
-    ? jwtDecode(localStorageToken)
-    : false;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  return token && token._id ? (
-    <Component {...rest} />
-  ) : (
-    <Navigate to="/login" />
-  );
+  useEffect(() => {
+    const localStorageToken = getItem('token');
+    if (localStorageToken) {
+      try {
+        const token = jwtDecode<CustomJwtPayload>(localStorageToken);
+        if (token && token._id) {
+          setIsAuthenticated(true);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div
+        className={clsx(
+          'min-h-viewHeight',
+          'w-full',
+          'flex',
+          'justify-center',
+          'items-center'
+        )}
+      >
+        Loading...
+      </div>
+    );
+  }
+
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
 };
