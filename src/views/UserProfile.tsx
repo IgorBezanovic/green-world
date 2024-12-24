@@ -10,7 +10,7 @@ import { getItem, removeItem } from '@green-world/utils/cookie';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,9 +21,13 @@ export const UserProfile = () => {
   const decodedToken: any = jwtDecode(getItem('token')!);
   const { data: userData, isLoading: userLoading } = useUser(decodedToken._id);
   const { data: products = [], isLoading } = useAllUserProducts();
-  const [productsToDisplay, setProductsToDisplay] = useState(
-    !isLoading ? products : []
-  );
+  const [productsToDisplay, setProductsToDisplay] = useState([]);
+
+  useEffect(() => {
+    if (!isLoading && products.length > 0) {
+      setProductsToDisplay(products);
+    }
+  }, [products, isLoading]);
 
   const handleLogout = () => {
     removeItem('token');
