@@ -29,7 +29,16 @@ export const ProductsSearchPage = () => {
         <Card className={clsx('w-1/3')}>
           <Search />
         </Card>
-        <Card className={clsx('w-2/3')}>
+        <section
+          className={clsx(
+            'w-full',
+            'grid',
+            'grid-cols-2',
+            'sm:grid-cols-3',
+            'lgm:grid-cols-4',
+            'gap-5'
+          )}
+        >
           {allProducts && allProducts.length ? (
             allProducts.map((product: any) => (
               <ProductCard key={product.id} product={product} />
@@ -37,7 +46,7 @@ export const ProductsSearchPage = () => {
           ) : (
             <div>No data</div>
           )}
-        </Card>
+        </section>
       </div>
     </div>
   );
