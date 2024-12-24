@@ -47,7 +47,13 @@ export const CreateEditProduct = () => {
   const { mutate: editMutation, isLoading: isLoadingEditProduct } =
     useEditProduct(productId);
 
-  const [product, setProduct] = useState<ProductValues>(data);
+  const [product, setProduct] = useState<ProductValues>(initProduct);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setProduct(data);
+    }
+  }, [data, isLoading]);
 
   useEffect(() => {
     setProduct((prevProduct) => ({
@@ -100,7 +106,11 @@ export const CreateEditProduct = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingOutlined className="text-forestGreen text-4xl" />
+      </div>
+    );
   }
 
   return (
