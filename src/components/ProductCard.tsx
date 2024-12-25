@@ -77,7 +77,26 @@ export const ProductCard = ({ ...props }) => {
                 )}
               />
             </div>
-            {props?.product?.title}
+            <div
+              className={clsx(
+                'relative',
+                'overflow-hidden',
+                'w-full',
+                'h-[1.5rem]', // Fixed height for single-line text
+                'hover:overflow-visible' // Ensure text becomes visible when animation starts
+              )}
+            >
+              <span
+                className={clsx(
+                  'absolute',
+                  'whitespace-nowrap',
+                  'translate-x-full', // Start offscreen
+                  'hover:animate-marquee' // Trigger animation on hover
+                )}
+              >
+                {props?.product?.title}
+              </span>
+            </div>
           </>
         }
         description={
@@ -87,11 +106,10 @@ export const ProductCard = ({ ...props }) => {
               'flex',
               'flex-col',
               'justify-between',
-              'w-full',
-              'h-full'
+              'w-full'
             )}
           >
-            <p>
+            <p className="line-clamp-3">
               {props?.product?.shortDescription ||
                 `${props?.product?.description.slice(0, 80)}${props?.product?.description.length > 80 ? '...' : ''}`}
             </p>
