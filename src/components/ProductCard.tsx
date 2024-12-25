@@ -77,26 +77,7 @@ export const ProductCard = ({ ...props }) => {
                 )}
               />
             </div>
-            <div
-              className={clsx(
-                'relative',
-                'overflow-hidden',
-                'w-full',
-                'h-[1.5rem]', // Fixed height for single-line text
-                'hover:overflow-visible' // Ensure text becomes visible when animation starts
-              )}
-            >
-              <span
-                className={clsx(
-                  'absolute',
-                  'whitespace-nowrap',
-                  'translate-x-full', // Start offscreen
-                  'hover:animate-marquee' // Trigger animation on hover
-                )}
-              >
-                {props?.product?.title}
-              </span>
-            </div>
+            {props?.product?.title}
           </>
         }
         description={
