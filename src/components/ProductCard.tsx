@@ -87,11 +87,10 @@ export const ProductCard = ({ ...props }) => {
               'flex',
               'flex-col',
               'justify-between',
-              'w-full',
-              'h-full'
+              'w-full'
             )}
           >
-            <p>
+            <p className="line-clamp-3">
               {props?.product?.shortDescription ||
                 `${props?.product?.description.slice(0, 80)}${props?.product?.description.length > 80 ? '...' : ''}`}
             </p>
