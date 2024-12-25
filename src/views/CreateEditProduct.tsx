@@ -14,12 +14,13 @@ import {
   SubGroupKeys
 } from '@green-world/utils/types';
 import { Select } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import ReactQuill from 'react-quill';
 import { useParams } from 'react-router-dom';
+import 'react-quill/dist/quill.snow.css';
 
 const initProduct = {
   group: '',
@@ -38,6 +39,29 @@ const initProduct = {
 export const CreateEditProduct = () => {
   const { productId = '' } = useParams();
   const { data = initProduct, isLoading } = useProduct(productId);
+  const quillRef = useRef<ReactQuill>(null);
+
+  const modules = {
+    toolbar: [
+      { header: [false, '1', '2', '3', '4', '5', '6'] },
+      { font: [] },
+      { color: [] },
+      { background: [] },
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { align: [] },
+      'bold',
+      'italic',
+      'underline',
+      'strike',
+      'link',
+      'image',
+      'video',
+      'blockquote',
+      { script: 'sub' },
+      { script: 'super' }
+    ]
+  };
 
   const {
     mutate: imageMutate,
@@ -103,10 +127,17 @@ export const CreateEditProduct = () => {
       (_, index) => index !== indexToDelete
     );
 
-    setProduct({
-      ...product,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       images: updatedImages
-    });
+    }));
+  };
+
+  const handleRichTextDescription = (richText: string) => {
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      description: richText
+    }));
   };
 
   if (isLoading) {
@@ -339,10 +370,12 @@ export const CreateEditProduct = () => {
                 'text-lg'
               )}
             >
-              Kratak opis proizvoda:
+              Kratak opis proizvoda:{' '}
+              <small className={clsx('text-gray40', 'italic')}>
+                max 80 karaktera
+              </small>
             </label>
-            <TextArea
-              rows={4}
+            <CustomInput
               name="shortDescription"
               id="shortDescription"
               maxLength={80}
@@ -353,7 +386,6 @@ export const CreateEditProduct = () => {
                 'h-full',
                 'min-h-[42px]',
                 'md:hover:shadow-lg',
-                'mb-4',
                 {
                   'border-forestGreen': !isLoading,
                   'border-groupTransparent': isLoading
@@ -363,6 +395,9 @@ export const CreateEditProduct = () => {
               value={product?.shortDescription || ''}
               onChange={handleChange}
             />
+            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
+              Opis se prikazuje na početnoj stranici
+            </small>
             <label
               htmlFor="description"
               className={clsx(
@@ -374,28 +409,16 @@ export const CreateEditProduct = () => {
             >
               Opis proizvoda:
             </label>
-            <TextArea
-              required
-              rows={4}
-              name="description"
-              id="description"
-              placeholder="Unesite opis proizvoda"
-              className={clsx(
-                'flex-1',
-                'rounded-xs',
-                'shadow-md',
-                'h-full',
-                'min-h-[42px]',
-                'md:hover:shadow-lg',
-                'mb-4',
-                {
-                  'border-forestGreen': !isLoading,
-                  'border-groupTransparent': isLoading
-                }
-              )}
-              value={product?.description || ''}
-              onChange={handleChange}
-            />
+            <div className={clsx('mb-4')}>
+              <ReactQuill
+                ref={quillRef}
+                modules={modules}
+                value={product?.description || ''}
+                onChange={handleRichTextDescription}
+                id="description"
+                theme="snow"
+              />
+            </div>
             <label
               htmlFor="price"
               className={clsx(
