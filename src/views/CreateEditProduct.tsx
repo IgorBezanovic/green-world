@@ -342,10 +342,10 @@ export const CreateEditProduct = () => {
               Kratak opis proizvoda:
             </label>
             <TextArea
-              required
               rows={4}
               name="shortDescription"
               id="shortDescription"
+              maxLength={80}
               className={clsx(
                 'flex-1',
                 'rounded-xs',
