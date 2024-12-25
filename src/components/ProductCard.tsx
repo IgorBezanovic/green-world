@@ -92,8 +92,8 @@ export const ProductCard = ({ ...props }) => {
             )}
           >
             <p>
-              {props?.product?.description.slice(0, 85)}
-              {props?.product?.description.length > 85 && '...'}
+              {props?.product?.shortDescription ||
+                `${props?.product?.description.slice(0, 80)}${props?.product?.description.length > 80 ? '...' : ''}`}
             </p>
             <p className={clsx('text-black', 'font-semibold')}>
               RSD{' '}
