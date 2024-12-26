@@ -18,9 +18,9 @@ import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill-new';
 import { useParams } from 'react-router-dom';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 
 const initProduct = {
   group: '',
