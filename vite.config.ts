@@ -16,8 +16,5 @@ export default defineConfig({
     watch: {
       ignored: ['**/coverage/**']
     }
-  },
-  css: {
-    devSourcemap: false
   }
 });
