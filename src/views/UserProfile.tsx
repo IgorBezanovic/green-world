@@ -82,7 +82,7 @@ export const UserProfile = () => {
           <CustomButton
             text={'Podesavanje profila'}
             type={'text'}
-            onClick={() => navigate('/edit-profile')}
+            onClick={() => navigate('/profile-settings/edit-profile')}
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton

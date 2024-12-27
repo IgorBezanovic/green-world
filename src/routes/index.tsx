@@ -1,15 +1,19 @@
-import { ProtectedRoute } from '@green-world/components';
+import {
+  ChangePasswordComponent,
+  EditUserData,
+  EditUserImageSection,
+  ProtectedRoute
+} from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
-  ChangePassword,
   ContactUs,
   CreateEditProduct,
-  EditProfile,
   ForgotPassword,
   HomePage,
   Login,
   NotFound,
   ProductsSearchPage,
+  ProfileSettings,
   // ProductPage,
   // ProductsSearchPage,
   Registration,
@@ -43,6 +47,24 @@ export const routes = [
         element: <ProtectedRoute element={UserProfile} />
       },
       {
+        path: '/profile-settings',
+        element: <ProtectedRoute element={ProfileSettings} />,
+        children: [
+          {
+            path: '/profile-settings/edit-profile',
+            element: <EditUserData />
+          },
+          {
+            path: '/profile-settings/change-image',
+            element: <EditUserImageSection />
+          },
+          {
+            path: '/profile-settings/change-password',
+            element: <ChangePasswordComponent />
+          }
+        ]
+      },
+      {
         path: '/create-product',
         element: <ProtectedRoute element={CreateEditProduct} />
       },
@@ -55,16 +77,8 @@ export const routes = [
         element: <ProductsSearchPage />
       },
       {
-        path: '/edit-profile',
-        element: <ProtectedRoute element={EditProfile} />
-      },
-      {
         path: '/contact-us',
         element: <ContactUs />
-      },
-      {
-        path: '/change-password',
-        element: <ChangePassword />
       },
       {
         path: '/product/:productId',
