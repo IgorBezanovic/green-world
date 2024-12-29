@@ -1,12 +1,9 @@
+import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
-import { useUser } from '@green-world/hooks/useUser';
-import { getItem } from '@green-world/utils/cookie';
-import { User } from '@green-world/utils/types';
 import { Divider } from 'antd';
 import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { CustomButton, CustomQRCode } from '.';
@@ -14,43 +11,9 @@ import { CustomButton, CustomQRCode } from '.';
 import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
 export const EditUserImageSection = () => {
-  const decodedToken: any = jwtDecode(getItem('token')!);
-  const { data, isLoading } = useUser(decodedToken._id);
+  const { user, isLoading } = useContext(UserContext);
   const { mutate, isLoading: isLoadingUser } = useEditUser();
-  const {
-    mutate: imageMutate,
-    isLoading: isImageLoadingUser,
-    data: profileImage
-  } = useImage();
-
-  const [user, setUser] = useState<User>({
-    email: '',
-    name: '',
-    lastname: '',
-    coverImage: '',
-    profileImage: '',
-    shopName: '',
-    phone: '',
-    address: {
-      street: '',
-      zipCode: 0,
-      city: '',
-      country: ''
-    },
-    shopDescription: '',
-    website: '',
-    onlyOnline: false,
-    onlyOnThisSite: false
-  });
-
-  useEffect(() => {
-    if (data && !isLoading) {
-      setUser({
-        ...data,
-        profileImage: profileImage || data?.profileImage
-      });
-    }
-  }, [data, isLoading, profileImage]);
+  const { mutate: imageMutate, isLoading: isImageLoadingUser } = useImage();
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = Array.from(e.target.files!)[0];
@@ -150,7 +113,7 @@ export const EditUserImageSection = () => {
           <p className={clsx('text-gray40', 'italic', 'mb-4', 'text-center')}>
             Generisani QR kod vašeg prodavnice na našem sajtu Zeleni svet.
           </p>
-          <CustomQRCode link={user?.website} icon={ZSLogo} />
+          <CustomQRCode link={'https://zeleni-svet.com'} icon={ZSLogo} />
         </div>
       </section>
     </section>

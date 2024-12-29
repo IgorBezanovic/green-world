@@ -1,7 +1,12 @@
+import UserContext from '@green-world/context/UserContext';
 import { request } from '@green-world/utils/api';
-import { useQuery } from 'react-query';
+import { User } from '@green-world/utils/types';
+import { useContext } from 'react';
+import { useQuery, UseQueryResult } from 'react-query';
 
-export const useUser = (userID: string) => {
+export const useUser = (userID: string): UseQueryResult<User> => {
+  const { setUserDataInCTX } = useContext(UserContext);
+
   return useQuery(
     ['userDetails', userID],
     () =>
@@ -10,7 +15,10 @@ export const useUser = (userID: string) => {
         method: 'get'
       }),
     {
-      enabled: !!userID
+      enabled: !!userID,
+      onSuccess: (data: User) => {
+        setUserDataInCTX(data);
+      }
     }
   );
 };

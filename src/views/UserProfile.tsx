@@ -4,13 +4,12 @@ import {
   ProductCard,
   UserInfo
 } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
-import { useUser } from '@green-world/hooks/useUser';
-import { getItem, removeItem } from '@green-world/utils/cookie';
+import { removeItem } from '@green-world/utils/cookie';
 import { Card } from 'antd';
 import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,8 +17,8 @@ import './style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
-  const decodedToken: any = jwtDecode(getItem('token')!);
-  const { data: userData, isLoading: userLoading } = useUser(decodedToken._id);
+  const { user: userData, isLoading: userLoading } = useContext(UserContext);
+
   const { data: products = [], isLoading } = useAllUserProducts();
   const [productsToDisplay, setProductsToDisplay] = useState([]);
 
@@ -48,6 +47,7 @@ export const UserProfile = () => {
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Korisnicki profil</title>
+        <meta property="og:image" content={`${userData.profileImage}`} />
         <link rel="canonical" href="https://www.zeleni-svet.com/profile" />
       </Helmet>
       <div

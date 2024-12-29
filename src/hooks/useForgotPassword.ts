@@ -15,8 +15,7 @@ export const useForgotPassword = () => {
         }
       }),
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
         navigate('/login');
       }
     }

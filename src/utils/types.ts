@@ -76,3 +76,10 @@ export type SubGroups = {
     | 'garden_decoration'
     | 'everything_for_plants']: SubGroup[];
 };
+
+export type DecodedToken = {
+  exp: number;
+  iat: number;
+  role: string;
+  _id: string;
+};
