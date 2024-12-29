@@ -1,59 +1,15 @@
-import { LoadingOutlined, SignatureOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
+import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
-import { useUser } from '@green-world/hooks/useUser';
-import { getItem } from '@green-world/utils/cookie';
-import { User } from '@green-world/utils/types';
 import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { CustomInput, CustomButton } from '.';
 
 export const EditUserData = () => {
-  const decodedToken: any = jwtDecode(getItem('token')!);
-  const { data, isLoading } = useUser(decodedToken._id);
+  const { user, setUser, isLoading } = useContext(UserContext);
   const { mutate, isLoading: isLoadingUser } = useEditUser();
-
-  const [user, setUser] = useState<User>({
-    email: '',
-    name: '',
-    lastname: '',
-    coverImage: '',
-    profileImage: '',
-    shopName: '',
-    phone: '',
-    address: {
-      street: '',
-      zipCode: 0,
-      city: '',
-      country: ''
-    },
-    shopDescription: '',
-    website: '',
-    onlyOnline: false,
-    onlyOnThisSite: false
-  });
-
-  useEffect(() => {
-    if (data) {
-      setUser({
-        ...user,
-        profileImage: data?.profileImage,
-        email: data?.email,
-        name: data?.name,
-        lastname: data?.lastname,
-        shopName: data?.shopName,
-        phone: data?.phone,
-        address: data?.address,
-        shopDescription: data?.shopDescription,
-        website: data?.website,
-        onlyOnline: data?.onlyOnline,
-        onlyOnThisSite: data?.onlyOnThisSite
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -185,36 +141,25 @@ export const EditUserData = () => {
         >
           Opisite Vas biznis ili unesite viziju ili slogan:
         </label>
-        <div className={clsx('w-full', 'relative')}>
-          <textarea
-            required
-            name="shopDescription"
-            id="shopDescription"
-            value={user?.shopDescription || ''}
-            onChange={handleChange}
-            placeholder="Unesite opis"
-            className={clsx(
-              'w-full',
-              'border-2',
-              'border-forestGreen',
-              'rounded',
-              'pl-9',
-              'py-2',
-              'shadow-md',
-              'mb-4',
-              'bg-whiteLinen'
-            )}
-          />
-          <SignatureOutlined
-            className={clsx(
-              'text-gray',
-              'absolute',
-              'left-3',
-              'top-[11px]',
-              'text-xl'
-            )}
-          />
-        </div>
+        <textarea
+          required
+          name="shopDescription"
+          id="shopDescription"
+          value={user?.shopDescription || ''}
+          onChange={handleChange}
+          placeholder="Unesite opis"
+          className={clsx(
+            'w-full',
+            'border',
+            'border-forestGreen',
+            'rounded',
+            'p-2',
+            'pl-3',
+            'shadow-md',
+            'mb-4',
+            'bg-whiteLinen'
+          )}
+        />
         <label
           htmlFor="website"
           className={clsx(

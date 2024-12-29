@@ -45,9 +45,15 @@ export const CustomQRCode = ({
   const [renderType, setRenderType] =
     React.useState<QRCodeProps['type']>('canvas');
 
+  const isValidURL = (url: string): boolean => {
+    const regex =
+      /((https:\/\/|ftp:\/\/|www\.)\S+\.[^()\n ]+((?:\([^)]*\))|[^.,;:?!"'\n)\]<* ])+)/;
+    return regex.test(url);
+  };
+
   useEffect(() => {
-    if (link) return;
-  }, [link, icon]);
+    if (isValidURL(link)) return;
+  }, [link]);
 
   return (
     <Space id="myqrcode" direction="vertical" className={clsx('flex')}>
@@ -56,24 +62,26 @@ export const CustomQRCode = ({
         options={['canvas', 'svg']}
         onChange={(val) => setRenderType(val as QRCodeProps['type'])}
       />
-      <div>
-        <QRCode
-          type={renderType}
-          value={link}
-          bgColor="#fff"
-          style={{ marginBottom: 16 }}
-          icon={icon}
-        />
-        <CustomButton
-          type="text"
-          customStyle={'w-full'}
-          onClick={
-            renderType === 'canvas' ? downloadCanvasQRCode : downloadSvgQRCode
-          }
-        >
-          Download
-        </CustomButton>
-      </div>
+      {isValidURL(link) && (
+        <div>
+          <QRCode
+            type={renderType}
+            value={link}
+            bgColor="#fff"
+            style={{ marginBottom: 16 }}
+            icon={icon}
+          />
+          <CustomButton
+            type="text"
+            customStyle={'w-full'}
+            onClick={
+              renderType === 'canvas' ? downloadCanvasQRCode : downloadSvgQRCode
+            }
+          >
+            Download
+          </CustomButton>
+        </div>
+      )}
     </Space>
   );
 };
