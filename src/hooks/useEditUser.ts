@@ -1,11 +1,8 @@
 import { request } from '@green-world/utils/api';
 import { User } from '@green-world/utils/types';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 export const useEditUser = () => {
-  const navigate = useNavigate();
-
   return useMutation(
     ({
       email,
@@ -41,7 +38,7 @@ export const useEditUser = () => {
       }),
     {
       onSuccess: () => {
-        navigate('/profile');
+        // navigate('/profile');
       }
     }
   );
