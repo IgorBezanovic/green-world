@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 export const CustomInput = ({
   customStyle,
+  isLoading,
   ...props
 }: {
   [x: string]: any;
@@ -21,8 +22,8 @@ export const CustomInput = ({
         'mb-4',
         {
           'border-red': props.error,
-          'border-forestGreen': !props.isLoading,
-          'border-groupTransparent': props.isLoading
+          'border-forestGreen': !isLoading,
+          'border-groupTransparent': isLoading
         },
         customStyle
       )}
