@@ -53,7 +53,7 @@ export const HomePage = () => {
       >
         <Divider text="Izdvojeni proizvodi" />
         <HomeCarousel
-          products={allProducts.products}
+          products={allProducts?.products}
           isLoading={allProductsLoading}
         />
         <Divider text="Kategorije Proizvoda" />
