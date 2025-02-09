@@ -12,12 +12,11 @@ import {
   HomePage,
   Login,
   NotFound,
+  ProductPage,
   ProductsSearchPage,
   ProfileSettings,
-  // ProductPage,
   // ProductsSearchPage,
   Registration,
-  UnderConstruction,
   UserProfile
 } from '@green-world/views';
 
@@ -82,7 +81,7 @@ export const routes = [
       },
       {
         path: '/product/:productId',
-        element: <UnderConstruction />
+        element: <ProductPage />
       }
     ]
   },
