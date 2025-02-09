@@ -52,7 +52,10 @@ export const HomePage = () => {
         )}
       >
         <Divider text="Izdvojeni proizvodi" />
-        <HomeCarousel products={allProducts} isLoading={allProductsLoading} />
+        <HomeCarousel
+          products={allProducts?.products}
+          isLoading={allProductsLoading}
+        />
         <Divider text="Kategorije Proizvoda" />
         <section
           className={clsx(
