@@ -3,12 +3,12 @@ import { getItem } from '@green-world/utils/cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useQuery } from 'react-query';
 
-export const useAllUserProducts = () => {
+export const useAllUserProducts = (userId?: string) => {
   const decodedToken: any = jwtDecode(getItem('token')!);
 
   return useQuery(['allUserProducts', decodedToken._id], () =>
     request({
-      url: `/product/personal/${decodedToken._id}`,
+      url: `/product/personal/${userId ? userId : decodedToken._id}`,
       method: 'get'
     })
   );
