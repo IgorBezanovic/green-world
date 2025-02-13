@@ -25,7 +25,6 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
 
-  console.log(productData);
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
