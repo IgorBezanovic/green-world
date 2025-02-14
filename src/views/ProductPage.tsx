@@ -103,27 +103,28 @@ export const ProductPage = () => {
                   'p-6',
                   'rounded-lg',
                   'shadow-lg',
-                  'bg-white'
+                  'bg-white',
+                  'overflow-hidden'
                 )}
               >
                 {/* Naslov proizvoda */}
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                   {productData?.title}
                 </h1>
 
                 {/* Cena proizvoda */}
-                <p className="mt-4 text-2xl font-semibold text-green-600">
+                <p className="mt-4 text-xl font-semibold text-green-600">
                   {productData?.price},00 RSD
                 </p>
 
                 {/* Kratak opis */}
-                <p className="mt-4 text-lg text-gray-700">
+                <p className="mt-4 text-lg text-gray-700 text-wrap break-words italic">
                   {productData?.shortDescription}
                 </p>
 
                 {/* Status - dostupno i spremno za slanje */}
                 <div className="mt-6 flex items-center space-x-2 text-green-600">
-                  <CheckCircle className="w-6 h-6" />
+                  <CheckCircle className="w-6 h-6 text-forestGreen" />
                   <span className="text-lg font-medium">
                     Na stanju – spremno za slanje
                   </span>
@@ -132,19 +133,19 @@ export const ProductPage = () => {
                 {/* Podaci o prodavcu */}
                 <div className="mt-8 space-y-2 text-gray-700">
                   <div className="flex items-center space-x-2">
-                    <Store className="w-5 h-5 text-gray-500" />
+                    <Store className="w-5 h-5 text-forestGreen" />
                     <span className="text-lg">
                       {sellerData?.shopName}, {sellerData?.name}
                     </span>
                   </div>
                   {sellerData?.phone && (
                     <div className="flex items-center space-x-2">
-                      <Phone className="w-5 h-5 text-gray-500" />
+                      <Phone className="w-5 h-5 text-forestGreen" />
                       <span className="text-lg">{sellerData?.phone}</span>
                     </div>
                   )}
                   <div className="flex items-center space-x-2">
-                    <Mail className="w-5 h-5 text-gray-500" />
+                    <Mail className="w-5 h-5 text-forestGreen" />
                     <span className="text-lg">{sellerData?.email}</span>
                   </div>
                 </div>
