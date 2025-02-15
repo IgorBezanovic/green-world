@@ -51,119 +51,141 @@ export const ProductPage = () => {
         )}
       >
         <Skeleton loading={productLoading} active avatar>
-          <Card style={{ width: '100%' }}>
-            <section
-              className={clsx(
-                'flex',
-                'flex-col',
-                'md:flex-row',
-                'gap-4',
+          <section className={clsx('flex', 'w-full', 'gap-4')}>
+            <UserInfo
+              userLoading={userLoading}
+              user={sellerData}
+              customStyleMeta={['flex-col']}
+              customStyle={[
                 'w-full',
-                'mb-20'
-              )}
-            >
-              <div
+                'flex-col',
+                'hidden',
+                'md:flex',
+                'max-w-[270px]'
+              ]}
+            />
+
+            <Card style={{ width: '100%' }}>
+              <section
                 className={clsx(
                   'flex',
                   'flex-col',
+                  'md:flex-row',
+                  'gap-4',
                   'w-full',
-                  'md:w-1/2',
-                  'gap-4'
+                  'mb-20'
                 )}
               >
-                <img
-                  src={productData?.images[idexOfImage]}
-                  alt={productData?.title}
-                  className={clsx('rounded-md', 'shadow-lg')}
-                />
-                <footer
-                  className={clsx('grid', 'grid-cols-4', 'w-full', 'gap-2')}
+                <div
+                  className={clsx(
+                    'flex',
+                    'flex-col',
+                    'w-full',
+                    'md:w-1/2',
+                    'gap-4'
+                  )}
                 >
-                  {productData?.images.map((image: string, index: number) => (
-                    <img
-                      src={image}
-                      alt={image}
-                      key={image}
-                      onClick={() => setIndexOfImage(index)}
-                      className={clsx(
-                        'rounded-md',
-                        'shadow',
-                        'aspect-square',
-                        'w-full',
-                        'cursor-pointer'
-                      )}
-                    />
-                  ))}
-                </footer>
-              </div>
-              <div
-                className={clsx(
-                  'w-full',
-                  'md:w-1/2',
-                  'p-6',
-                  'rounded-lg',
-                  'shadow-lg',
-                  'bg-white',
-                  'overflow-hidden'
-                )}
-              >
-                {/* Naslov proizvoda */}
-                <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  {productData?.title}
-                </h1>
-
-                {/* Cena proizvoda */}
-                <p className="mt-4 text-xl font-semibold text-green-600">
-                  {productData?.price},00 RSD
-                </p>
-
-                {/* Kratak opis */}
-                <p className="mt-4 text-lg text-gray-700 text-wrap break-words italic">
-                  {productData?.shortDescription}
-                </p>
-
-                {/* Status - dostupno i spremno za slanje */}
-                <div className="mt-6 flex items-center space-x-2 text-green-600">
-                  <CheckCircle className="w-6 h-6 text-forestGreen" />
-                  <span className="text-lg font-medium">
-                    Na stanju – spremno za slanje
-                  </span>
+                  <img
+                    src={productData?.images[idexOfImage]}
+                    alt={productData?.title}
+                    className={clsx('rounded-md', 'shadow-lg')}
+                  />
+                  <footer
+                    className={clsx('grid', 'grid-cols-4', 'w-full', 'gap-2')}
+                  >
+                    {productData?.images.map((image: string, index: number) => (
+                      <img
+                        src={image}
+                        alt={image}
+                        key={image}
+                        onClick={() => setIndexOfImage(index)}
+                        className={clsx(
+                          'rounded-md',
+                          'shadow',
+                          'aspect-square',
+                          'w-full',
+                          'cursor-pointer',
+                          {
+                            'shadow-xl': idexOfImage === index,
+                            'border-2': idexOfImage === index,
+                            'border-forestGreen': idexOfImage === index,
+                            'transition-all': idexOfImage === index
+                          }
+                        )}
+                      />
+                    ))}
+                  </footer>
                 </div>
+                <div
+                  className={clsx(
+                    'w-full',
+                    'md:w-1/2',
+                    'p-6',
+                    'rounded-lg',
+                    'shadow-lg',
+                    'bg-white',
+                    'overflow-hidden'
+                  )}
+                >
+                  <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    {productData?.title}
+                  </h1>
 
-                {/* Podaci o prodavcu */}
-                <div className="mt-8 space-y-2 text-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <Store className="w-5 h-5 text-forestGreen" />
-                    <span className="text-lg">
-                      {sellerData?.shopName}, {sellerData?.name}
+                  <p className="mt-4 text-xl font-semibold text-green-600">
+                    {productData?.price},00 RSD
+                  </p>
+
+                  <p className="mt-4 text-lg text-gray-700 text-wrap break-words italic">
+                    {productData?.shortDescription}
+                  </p>
+
+                  <div className="mt-6 flex items-center space-x-2 text-green-600">
+                    <CheckCircle className="w-6 h-6 text-forestGreen" />
+                    <span className="text-lg font-medium">
+                      Na stanju – spremno za slanje
                     </span>
                   </div>
-                  {sellerData?.phone && (
+
+                  <div className="mt-8 space-y-2 text-gray-700">
                     <div className="flex items-center space-x-2">
-                      <Phone className="w-5 h-5 text-forestGreen" />
-                      <span className="text-lg">{sellerData?.phone}</span>
+                      <Store className="w-5 h-5 text-forestGreen" />
+                      <span className="text-lg">
+                        {sellerData?.shopName}, {sellerData?.name}
+                      </span>
                     </div>
-                  )}
-                  <div className="flex items-center space-x-2">
-                    <Mail className="w-5 h-5 text-forestGreen" />
-                    <span className="text-lg">{sellerData?.email}</span>
+                    {sellerData?.phone && (
+                      <div className="flex items-center space-x-2">
+                        <Phone className="w-5 h-5 text-forestGreen" />
+                        <span className="text-lg">{sellerData?.phone}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center space-x-2">
+                      <Mail className="w-5 h-5 text-forestGreen" />
+                      <span className="text-lg">{sellerData?.email}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
-            <Card style={{ width: '100%' }} title={productData?.title}>
-              <section
-                dangerouslySetInnerHTML={{ __html: productData?.description }}
-              />
+              </section>
+              <Card
+                style={{ width: '100%' }}
+                className={clsx('shadow-lg')}
+                title={productData?.title}
+              >
+                <section
+                  dangerouslySetInnerHTML={{ __html: productData?.description }}
+                />
+              </Card>
             </Card>
-          </Card>
+          </section>
         </Skeleton>
-        <Divider text="Kontakt prodavca" />
-        <UserInfo
-          userLoading={userLoading}
-          user={sellerData}
-          customStyleMeta={['flex', 'flex-col']}
-        />
+        <section className={clsx('md:hidden')}>
+          <Divider text="Kontakt prodavca" />
+          <UserInfo
+            userLoading={userLoading}
+            user={sellerData}
+            customStyleMeta={['flex', 'flex-col', 'md:hidden']}
+          />
+        </section>
         <Divider
           text={`Proizvodi iz ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
         />
