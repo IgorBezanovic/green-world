@@ -6,7 +6,14 @@ import { useUser } from '@green-world/hooks/useUser';
 import { homeCategories } from '@green-world/utils/constants';
 import { Card, Skeleton } from 'antd';
 import clsx from 'clsx';
-import { CheckCircle, Store, Phone, Mail } from 'lucide-react';
+import {
+  CheckCircle,
+  Store,
+  Phone,
+  Mail,
+  ArrowLeft,
+  ArrowRight
+} from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -85,11 +92,41 @@ export const ProductPage = () => {
                     'gap-4'
                   )}
                 >
-                  <img
-                    src={productData?.images[idexOfImage]}
-                    alt={productData?.title}
-                    className={clsx('rounded-md', 'shadow-lg')}
-                  />
+                  <div className="relative">
+                    {productData?.images.length !== 1 && (
+                      <button
+                        className="absolute left-0 top-0 bottom-0 w-[50px] hover:bg-groupTransparent transition-all flex items-center justify-center rounded-md group"
+                        onClick={() =>
+                          setIndexOfImage((prevIndex) =>
+                            prevIndex === 0
+                              ? productData?.images.length - 1
+                              : prevIndex - 1
+                          )
+                        }
+                      >
+                        <ArrowLeft className="text-white hidden group-hover:flex" />
+                      </button>
+                    )}
+                    <img
+                      src={productData?.images[idexOfImage]}
+                      alt={productData?.title}
+                      className={clsx('rounded-md', 'shadow-lg')}
+                    />
+                    {productData?.images.length !== 1 && (
+                      <button
+                        className="absolute right-0 top-0 bottom-0 w-[50px] hover:bg-groupTransparent transition-all flex items-center justify-center rounded-md group"
+                        onClick={() =>
+                          setIndexOfImage((prevIndex) =>
+                            prevIndex === productData?.images.length - 1
+                              ? 0
+                              : prevIndex + 1
+                          )
+                        }
+                      >
+                        <ArrowRight className="text-white text-lg hidden group-hover:flex" />
+                      </button>
+                    )}
+                  </div>
                   <footer
                     className={clsx('grid', 'grid-cols-4', 'w-full', 'gap-2')}
                   >
