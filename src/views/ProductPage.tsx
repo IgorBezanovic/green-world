@@ -95,7 +95,7 @@ export const ProductPage = () => {
                   <div className="relative">
                     {productData?.images.length !== 1 && (
                       <button
-                        className="absolute left-0 top-0 bottom-0 w-[50px] hover:bg-groupTransparent transition-all flex items-center justify-center rounded-md group"
+                        className="absolute left-0 top-0 bottom-0 w-[50px] md:opacity-0 bg-groupTransparent md:hover:opacity-100 transition-all flex items-center justify-center rounded-md group"
                         onClick={() =>
                           setIndexOfImage((prevIndex) =>
                             prevIndex === 0
@@ -104,7 +104,7 @@ export const ProductPage = () => {
                           )
                         }
                       >
-                        <ArrowLeft className="text-white hidden group-hover:flex" />
+                        <ArrowLeft className="text-white text-lg flex md:hidden md:group-hover:flex" />
                       </button>
                     )}
                     <img
@@ -114,7 +114,7 @@ export const ProductPage = () => {
                     />
                     {productData?.images.length !== 1 && (
                       <button
-                        className="absolute right-0 top-0 bottom-0 w-[50px] hover:bg-groupTransparent transition-all flex items-center justify-center rounded-md group"
+                        className="absolute right-0 top-0 bottom-0 w-[50px] md:opacity-0 bg-groupTransparent md:hover:opacity-100 transition-all flex items-center justify-center rounded-md group"
                         onClick={() =>
                           setIndexOfImage((prevIndex) =>
                             prevIndex === productData?.images.length - 1
@@ -123,7 +123,7 @@ export const ProductPage = () => {
                           )
                         }
                       >
-                        <ArrowRight className="text-white text-lg hidden group-hover:flex" />
+                        <ArrowRight className="text-white text-lg flex md:hidden md:group-hover:flex" />
                       </button>
                     )}
                   </div>
