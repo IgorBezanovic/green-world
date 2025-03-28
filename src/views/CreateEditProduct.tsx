@@ -140,6 +140,20 @@ export const CreateEditProduct = () => {
     }));
   };
 
+  const handleSetAsProfileImage = (index: number) => {
+    setProduct((prevProduct) => {
+      if (index === 0) return prevProduct;
+
+      const updatedImages = [...prevProduct.images];
+      const selectedImage = updatedImages.splice(index, 1)[0];
+      updatedImages.unshift(selectedImage);
+      return {
+        ...prevProduct,
+        images: updatedImages
+      };
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -266,16 +280,7 @@ export const CreateEditProduct = () => {
               )}
             >
               {product?.images.map((image, index) => (
-                <div
-                  key={index}
-                  className={clsx(
-                    'w-full',
-                    'max-h-[150px]',
-                    'overflow-hidden',
-                    'shadow-md',
-                    'relative'
-                  )}
-                >
+                <div key={index} className={clsx('w-full', 'relative')}>
                   <DeleteOutlined
                     className={clsx(
                       'absolute',
@@ -291,12 +296,39 @@ export const CreateEditProduct = () => {
                   <img
                     src={image}
                     alt={`product-image-${index}`}
+                    className={clsx('aspect-square', 'shadow-md')}
                     height="100%"
                     width="100%"
                   />
+                  {index !== 0 && (
+                    <button
+                      onClick={() => handleSetAsProfileImage(index)}
+                      className={clsx(
+                        'mt-2',
+                        'px-3',
+                        'py-1',
+                        'w-full',
+                        'text-sm',
+                        'font-semibold',
+                        'text-white',
+                        'bg-forestGreen',
+                        'rounded-full',
+                        'shadow-md',
+                        'transition-all',
+                        'md:hover:text-cream',
+                        'md:hover:shadow-lg',
+                        'md:hover:translate-y-[-1px]'
+                      )}
+                    >
+                      <small>Profilna</small>
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
+            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
+              Prva slika u nizu je profilna
+            </small>
             {product?.images.length < 10 && (
               <>
                 <label
