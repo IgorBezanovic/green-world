@@ -9,7 +9,9 @@ type FormState = {
   [key: string]: boolean | string;
 };
 
-export const Search = () => {
+type Params = { onFilterChange: React.Dispatch<React.SetStateAction<{}>> };
+
+export const Search = ({ onFilterChange }: Params) => {
   const initialCategory: FormState = homeCategories.reduce(
     (o, key) => ({ ...o, [key.slug]: false }),
     {}
@@ -19,7 +21,14 @@ export const Search = () => {
   const [subGroupList, setSubGroupList] = useState<SubGroup[]>([]);
 
   const handleSearchForm = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
     const { name, checked } = e.target;
+    onFilterChange((prevState: any) => {
+      const updatedGroups = checked
+        ? [...(prevState.group || []), name]
+        : (prevState.group || []).filter((group: any) => group !== name);
+      return { ...prevState, group: updatedGroups };
+    });
     setCategoryState((prevState) => ({
       ...prevState,
       [name]: checked
@@ -167,7 +176,7 @@ export const Search = () => {
               'text-forestGreen',
               'cursor-pointer'
             )}
-            key={subGroup.label}
+            key={`${subGroup.label}_${Math.random()}`}
           >
             <input
               type="checkbox"

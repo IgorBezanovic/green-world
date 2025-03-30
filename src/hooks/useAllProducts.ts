@@ -1,11 +1,12 @@
 import { request } from '@green-world/utils/api';
 import { useQuery } from 'react-query';
 
-export const useAllProducts = () => {
-  return useQuery(['allProducts'], () =>
+export const useAllProducts = (filters: any) => {
+  return useQuery(['allProducts', filters], () =>
     request({
       url: '/product/all',
-      method: 'get'
+      method: 'get',
+      params: filters
     })
   );
 };

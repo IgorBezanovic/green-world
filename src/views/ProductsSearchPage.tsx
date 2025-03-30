@@ -2,10 +2,12 @@ import { ProductCard, Search } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { Card } from 'antd';
 import clsx from 'clsx';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const ProductsSearchPage = () => {
-  const { data: allProducts } = useAllProducts();
+  const [filters, setFilters] = useState<any>({ group: [] });
+  const { data: allProducts } = useAllProducts(filters);
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -27,7 +29,7 @@ export const ProductsSearchPage = () => {
         )}
       >
         <Card className={clsx('w-1/3')}>
-          <Search />
+          <Search onFilterChange={setFilters} />
         </Card>
         <section
           className={clsx(
@@ -39,8 +41,8 @@ export const ProductsSearchPage = () => {
             'gap-5'
           )}
         >
-          {allProducts && allProducts.length ? (
-            allProducts.map((product: any) => (
+          {allProducts?.products && allProducts?.products.length ? (
+            allProducts?.products.map((product: any) => (
               <ProductCard key={product.id} product={product} />
             ))
           ) : (
