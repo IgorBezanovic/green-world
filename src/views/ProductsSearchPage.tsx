@@ -1,12 +1,13 @@
 import { ProductCard, Search } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
+import { ProductFiltersParams } from '@green-world/utils/types';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const ProductsSearchPage = () => {
-  const [filters, setFilters] = useState<any>({ group: [] });
+  const [filters, setFilters] = useState<ProductFiltersParams>();
   const { data: allProducts } = useAllProducts(filters);
 
   return (

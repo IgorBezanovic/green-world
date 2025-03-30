@@ -83,3 +83,22 @@ export type DecodedToken = {
   role: string;
   _id: string;
 };
+
+export type ProductFiltersParams = {
+  group?: string[];
+  subGroup?: string[];
+  title?: string;
+  description?: string;
+  priceMin?: number;
+  priceMax?: number;
+  heightMin?: number;
+  heightMax?: number;
+  weightMin?: number;
+  weightMax?: number;
+  widthMin?: number;
+  widthMax?: number;
+  millilitersMin?: number;
+  millilitersMax?: number;
+  status?: 'active' | 'inactive' | 'archived';
+  currentPage?: number;
+};

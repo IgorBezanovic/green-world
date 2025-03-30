@@ -1,15 +1,22 @@
-import { CustomButton } from '@green-world/components';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
-import { SubGroup } from '@green-world/utils/types';
-import { Divider } from 'antd';
-import clsx from 'clsx';
+import { ProductFiltersParams, SubGroup } from '@green-world/utils/types';
+import { Divider } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import FormLabel from '@mui/material/FormLabel';
 import { ChangeEvent, useState } from 'react';
 
 type FormState = {
   [key: string]: boolean | string;
 };
 
-type Params = { onFilterChange: React.Dispatch<React.SetStateAction<{}>> };
+type Params = {
+  onFilterChange: React.Dispatch<
+    React.SetStateAction<ProductFiltersParams | undefined>
+  >;
+};
 
 export const Search = ({ onFilterChange }: Params) => {
   const initialCategory: FormState = homeCategories.reduce(
@@ -20,19 +27,25 @@ export const Search = ({ onFilterChange }: Params) => {
   const [searchCategoryState, setCategoryState] = useState(initialCategory);
   const [subGroupList, setSubGroupList] = useState<SubGroup[]>([]);
 
-  const handleSearchForm = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
+  const handleSearchForm = (
+    e: ChangeEvent<HTMLInputElement>,
+    type: 'group' | 'subGroup'
+  ) => {
     const { name, checked } = e.target;
-    onFilterChange((prevState: any) => {
-      const updatedGroups = checked
-        ? [...(prevState.group || []), name]
-        : (prevState.group || []).filter((group: any) => group !== name);
-      return { ...prevState, group: updatedGroups };
+
+    onFilterChange((prevState = {}) => {
+      const updatedList = checked
+        ? [...(prevState[type] || []), name]
+        : (prevState[type] || []).filter((item: any) => item !== name);
+
+      return { ...prevState, [type]: updatedList };
     });
+
     setCategoryState((prevState) => ({
       ...prevState,
       [name]: checked
     }));
+
     setSubGroupList((prevList) => {
       const currentSubGroups: SubGroup[] =
         subGroups[
@@ -60,185 +73,82 @@ export const Search = ({ onFilterChange }: Params) => {
   };
 
   return (
-    <section className={clsx('flex', 'flex-col', 'items-start')}>
-      <label
-        className={clsx(
-          'mb-2',
-          'text-forestGreen',
-          'cursor-pointer',
-          'text-lg'
-        )}
-      >
-        Kategorija
-      </label>
-      {homeCategories.map((homeCategory) => (
-        <label
-          htmlFor={homeCategory.slug}
-          className={clsx(
-            'flex',
-            'items-center',
-            'relative',
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer'
-          )}
-          key={homeCategory.slug}
-        >
-          <input
-            type="checkbox"
-            name={homeCategory.slug}
-            id={homeCategory.slug}
-            className={clsx(
-              'appearance-none',
-              'w-6',
-              'h-6',
-              'rounded',
-              'shadow-md',
-              'transition',
-              'cursor-pointer',
-              'border-2',
-              'bg-whiteLinen',
-              'focus:outline-none',
-              'focus:ring-2',
-              'focus:ring-forestGreen',
-              'mr-2',
-              'border-forestGreen'
-            )}
-            onChange={handleSearchForm}
-            checked={searchCategoryState[homeCategory.slug] as boolean}
-          />
-          <span
-            className={clsx(
-              'inline-block',
-              'absolute',
-              'left-0',
-              'w-6',
-              'h-6',
-              'border-2',
-              'rounded',
-              'flex-shrink-0',
-              'flex justify-center items-center',
-              'transition-opacity',
-              'border-forestGreen',
-              {
-                'opacity-100': searchCategoryState[homeCategory.slug],
-                'opacity-0': !searchCategoryState[homeCategory.slug]
-              }
-            )}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-teal-500"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <path
-                fill="#448A7C"
-                stroke="#448A7C"
-                d="M3.707 8.293a1 1 0 0 1 1.414-1.414l2 2a1 1 0 0 0 1.414 0l7-7a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1-.082-1.497z"
+    <FormControl component="fieldset" sx={{ width: '100%', gap: '12px' }}>
+      <FormLabel component="legend">Kategorija</FormLabel>
+      <FormGroup aria-label="position">
+        {homeCategories.map((homeCategory) => (
+          <FormControlLabel
+            key={homeCategory.slug}
+            value={homeCategory.slug}
+            control={
+              <Checkbox
+                onChange={(e) => handleSearchForm(e, 'group')}
+                checked={searchCategoryState[homeCategory.slug] as boolean}
+                name={homeCategory.slug}
+                id={homeCategory.slug}
+                sx={{
+                  '&.Mui-checked': {
+                    color: '#448A7C'
+                  },
+                  '&:hover': {
+                    backgroundColor: 'rgba(68, 138, 124, 0.1)'
+                  },
+                  '&.Mui-focusVisible': {
+                    outline: '2px solid #448A7C'
+                  }
+                }}
               />
-            </svg>
-          </span>
-          {homeCategory.text}
-        </label>
-      ))}
-      <Divider />
-      {subGroupList.length !== 0 && (
-        <label
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Podkategorija
-        </label>
-      )}
-      <section
-        className={clsx(
-          'grid',
-          'grid-cols-2',
-          'gap-2',
-          'max-h-[400px]',
-          'overflow-y-auto',
-          'w-full'
-        )}
-      >
-        {subGroupList.map((subGroup) => (
-          <label
-            htmlFor={subGroup.label}
-            className={clsx(
-              'flex',
-              'items-center',
-              'relative',
-              'mb-2',
-              'text-forestGreen',
-              'cursor-pointer'
-            )}
-            key={`${subGroup.label}_${Math.random()}`}
-          >
-            <input
-              type="checkbox"
-              name={subGroup.label}
-              id={subGroup.label}
-              className={clsx(
-                'appearance-none',
-                'w-6',
-                'h-6',
-                'rounded',
-                'shadow-md',
-                'transition',
-                'cursor-pointer',
-                'border-2',
-                'bg-whiteLinen',
-                'focus:outline-none',
-                'focus:ring-2',
-                'focus:ring-forestGreen',
-                'mr-2',
-                'border-forestGreen'
-              )}
-              // onChange={handleSearchForm}
-              checked={searchCategoryState[subGroup.label] as boolean}
-            />
-            <span
-              className={clsx(
-                'inline-block',
-                'absolute',
-                'left-0',
-                'w-6',
-                'h-6',
-                'border-2',
-                'rounded',
-                'flex-shrink-0',
-                'flex justify-center items-center',
-                'transition-opacity',
-                'border-forestGreen',
-                {
-                  'opacity-100': searchCategoryState[subGroup.label],
-                  'opacity-0': !searchCategoryState[subGroup.label]
-                }
-              )}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-teal-500"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  fill="#448A7C"
-                  stroke="#448A7C"
-                  d="M3.707 8.293a1 1 0 0 1 1.414-1.414l2 2a1 1 0 0 0 1.414 0l7-7a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1-.082-1.497z"
-                />
-              </svg>
-            </span>
-            {subGroup.sr_RS}
-          </label>
+            }
+            label={homeCategory.text}
+            labelPlacement="end"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              color: '#245a46',
+              cursor: 'pointer'
+            }}
+          />
         ))}
-      </section>
-      <Divider />
-      <CustomButton type="text" text={'pretrazi'} customStyle={['w-full']} />
-    </section>
+      </FormGroup>
+      <Divider orientation="horizontal" flexItem />
+      {subGroupList.length !== 0 && (
+        <FormLabel component="p">Podkategorija</FormLabel>
+      )}
+      <FormGroup className="grid grid-cols-2 max-h-[400px] overflow-y-auto">
+        {subGroupList.map((subGroup) => (
+          <FormControlLabel
+            key={subGroup.label}
+            value={subGroup.label}
+            control={
+              <Checkbox
+                onChange={(e) => handleSearchForm(e, 'subGroup')}
+                checked={searchCategoryState[subGroup.label] as boolean}
+                name={subGroup.label}
+                id={subGroup.label}
+                sx={{
+                  '&.Mui-checked': {
+                    color: '#448A7C'
+                  },
+                  '&:hover': {
+                    backgroundColor: 'rgba(68, 138, 124, 0.1)'
+                  },
+                  '&.Mui-focusVisible': {
+                    outline: '2px solid #448A7C'
+                  }
+                }}
+              />
+            }
+            label={subGroup.sr_RS}
+            labelPlacement="end"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              color: '#245a46',
+              cursor: 'pointer'
+            }}
+          />
+        ))}
+      </FormGroup>
+    </FormControl>
   );
 };
