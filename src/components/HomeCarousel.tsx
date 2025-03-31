@@ -13,7 +13,7 @@ export const HomeCarousel = ({ ...props }) => {
         arrows
         draggable={true}
         infinite
-        slidesToShow={4}
+        slidesToShow={5}
         responsive={[
           {
             breakpoint: 768,
@@ -27,11 +27,7 @@ export const HomeCarousel = ({ ...props }) => {
       >
         {products.map((product: any) => (
           <div key={product.title} className="px-1">
-            <ProductCard
-              product={product}
-              loading={props.isLoading}
-              style={'h-100%'}
-            />
+            <ProductCard product={product} loading={props.isLoading} />
           </div>
         ))}
       </Carousel>
