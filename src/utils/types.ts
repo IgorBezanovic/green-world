@@ -102,3 +102,14 @@ export type ProductFiltersParams = {
   status?: 'active' | 'inactive' | 'archived';
   currentPage?: number;
 };
+
+export type Event = {
+  title: string;
+  description: string;
+  place: string;
+  coverImage: string,
+  dateAction: string;
+  timeAction: string;
+  typeAction: string;
+  status: string;
+}

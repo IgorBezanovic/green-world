@@ -4,6 +4,9 @@ import {
   HomeCarousel,
   RedirectSquare
 } from '@green-world/components';
+import { EventCard } from '@green-world/components/Events/EventCard';
+import { EventCarousel } from '@green-world/components/Events/EventCarousel';
+import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
@@ -30,7 +33,8 @@ export const HomePage = () => {
   const { data: everythingForPlants, isLoading: everythingForPlantsLoading } =
     useProductsByGroup('everything_for_plants');
   const navigate = useNavigate();
-
+  const { data: allEvents, isLoading: allEventsLoading} = useAllEvents();
+  console.log(allEvents, allEventsLoading);
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
@@ -81,6 +85,9 @@ export const HomePage = () => {
         >
           Pretrazi sve proizvode
         </CustomButton>
+        <Divider text = "Događaji"/>
+        <EventCarousel events={allEvents} isLoading={allEventsLoading}/>
+        <HomeCarousel events={allEvents} isLoading={allEventsLoading} />
         <Divider text="Cvetni asortiman" />
         <HomeCarousel
           products={flowerAssortment}
