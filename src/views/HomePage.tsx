@@ -2,8 +2,10 @@ import {
   CustomButton,
   Divider,
   HomeCarousel,
-  RedirectSquare
+  RedirectSquare,
+  EventCarousel
 } from '@green-world/components';
+import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
@@ -29,6 +31,7 @@ export const HomePage = () => {
     useProductsByGroup('garden_decoration');
   const { data: everythingForPlants, isLoading: everythingForPlantsLoading } =
     useProductsByGroup('everything_for_plants');
+  const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
   const navigate = useNavigate();
 
   return (
@@ -56,6 +59,8 @@ export const HomePage = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
+        <Divider text="Događaji" />
+        <EventCarousel events={allEvents} isLoading={allEventsLoading} />
         <Divider text="Kategorije Proizvoda" />
         <section
           className={clsx(
