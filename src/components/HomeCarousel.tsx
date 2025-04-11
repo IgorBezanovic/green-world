@@ -10,7 +10,6 @@ export const HomeCarousel = ({ ...props }) => {
   return products && products.length > 0 ? (
     <Skeleton loading={props.isLoading} active>
       <Carousel
-        arrows
         draggable={true}
         infinite
         slidesToShow={5}

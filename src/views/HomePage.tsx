@@ -2,9 +2,9 @@ import {
   CustomButton,
   Divider,
   HomeCarousel,
-  RedirectSquare
+  RedirectSquare,
+  EventCarousel
 } from '@green-world/components';
-import { EventCarousel } from '@green-world/components/EventCard/EventCarousel';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';

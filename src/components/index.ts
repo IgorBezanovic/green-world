@@ -5,6 +5,8 @@ export * from '@green-world/components/CustomButton';
 export * from '@green-world/components/CustomInput';
 export * from '@green-world/components/CustomQRCode';
 export * from '@green-world/components/Divider';
+export * from '@green-world/components/EventCard';
+export * from '@green-world/components/EventCarousel';
 export * from '@green-world/components/EditUserData';
 export * from '@green-world/components/EditUserImageSection';
 export * from '@green-world/components/Footer';

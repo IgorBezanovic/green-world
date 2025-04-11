@@ -107,9 +107,9 @@ export type Event = {
   title: string;
   description: string;
   place: string;
-  coverImage: string,
+  coverImage: string;
   dateAction: string;
   timeAction: string;
-  typeAction: string;
+  typeAction: 'cleaning' | 'selling' | 'planting';
   status: string;
-}
+};

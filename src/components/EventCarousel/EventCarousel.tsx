@@ -1,27 +1,20 @@
+import { EventCard } from '@green-world/components';
 import { Carousel, Empty, Skeleton } from 'antd';
 import clsx from 'clsx';
-import { EventCard } from './EventCard.tsx';
 
 export const EventCarousel = ({ ...props }) => {
-  console.log(props);
   const events = Array.isArray(props.events) ? props.events : [];
-  console.log(events);
+
   return events && events.length > 0 ? (
     <Skeleton loading={props.isLoading} active>
       <Carousel
-        arrows
         draggable={true}
         infinite
-        slidesToShow={3}
+        slidesToShow={2}
+        rows={2}
         responsive={[
           {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 2
-            }
-          },
-          {
-            breakpoint: 768,
+            breakpoint: 900,
             settings: {
               slidesToShow: 1
             }
@@ -31,7 +24,7 @@ export const EventCarousel = ({ ...props }) => {
         className={clsx('w-full')}
       >
         {events.map((event) => (
-          <div key={event.title}>
+          <div key={event.title} className="p-2">
             <EventCard event={event} />
           </div>
         ))}
