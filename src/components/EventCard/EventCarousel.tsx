@@ -15,7 +15,7 @@ export const EventCarousel = ({ ...props }) => {
         slidesToShow={3}
         responsive={[
           {
-            breakpoint: 1024, // ekran manji od 1024px (tablet)
+            breakpoint: 1024,
             settings: {
               slidesToShow: 2
             }

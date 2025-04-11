@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PlaceIcon from '@mui/icons-material/Place';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -27,9 +23,9 @@ export const EventCard = ({ event }: EventCardProps) => {
     <Card
       sx={{
         display: 'flex',
-        width: 460, // fiksna širina
-        height: 200, // fiksna visina
-        overflow: 'hidden', // sprečava da sadržaj "curi" van kartice
+        width: 460,
+        height: 200,
+        overflow: 'hidden',
         padding: "10px",
       }}
     >
@@ -58,7 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
             component="div"
             sx={{
               wordBreak: 'break-word',
-              maxWidth: '25ch', // Ograničava širinu teksta na otprilike 40 karaktera
+              maxWidth: '25ch',
               whiteSpace: 'pre-wrap'
             }}
           >
