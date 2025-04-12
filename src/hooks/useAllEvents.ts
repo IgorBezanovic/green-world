@@ -5,7 +5,7 @@ export const useAllEvents = () => {
   return useQuery('allEvents', () =>
     request({
       url: 'action/all',
-      method: 'get',
+      method: 'get'
     })
   );
 };
