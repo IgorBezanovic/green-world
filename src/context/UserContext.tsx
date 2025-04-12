@@ -60,7 +60,6 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
     if (data && !isLoading) {
       setUserDataInCTX(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   return (
