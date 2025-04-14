@@ -8,14 +8,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 interface EventCardProps {
   event: Event;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
+  const navigate = useNavigate();
   const dateAction = event?.dateAction ?? null;
-  const timeAction = event?.timeAction ?? null;
+  const timeAction = event?.startTime ?? null;
   const typeAction = event?.typeAction ?? null;
 
   return (
@@ -24,7 +26,13 @@ export const EventCard = ({ event }: EventCardProps) => {
         display: 'flex',
         width: '100%',
         minHeight: 220,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        cursor: !location.pathname.includes('/profile') ? 'pointer' : 'default'
+      }}
+      onClick={() => {
+        if (event?._id) {
+          navigate(`/event/${event?._id}`);
+        }
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
