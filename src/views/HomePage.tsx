@@ -120,29 +120,6 @@ export const HomePage = () => {
           products={everythingForPlants}
           isLoading={everythingForPlantsLoading}
         />
-        {/* <div className={clsx('w-full', 'flex', 'gap-7')}>
-          <aside className={clsx('w-1/4', 'h-[400px]', 'bg-forestGreen')}>
-            Katalog:
-          </aside>
-          <div
-            className={clsx(
-              'w-3/4',
-              'bg-mainYellow',
-              'grid',
-              'grid-cols-4',
-              'gap-5'
-            )}
-          >
-            <p className={clsx('bg-mainRed')}>Blog post: 1</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 2</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 3</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 4</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 5</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 6</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 7</p>
-            <p className={clsx('bg-mainRed')}>Blog post: 8</p>
-          </div>
-        </div> */}
       </div>
     </div>
   );
