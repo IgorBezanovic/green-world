@@ -20,6 +20,12 @@ export const EventCard = ({ event }: EventCardProps) => {
   const timeAction = event?.startTime ?? null;
   const typeAction = event?.typeAction ?? null;
 
+  const handleNavigate = () => {
+    if (event._id) {
+      navigate(`/event/${event?._id}`);
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -29,11 +35,7 @@ export const EventCard = ({ event }: EventCardProps) => {
         overflow: 'hidden',
         cursor: !location.pathname.includes('/profile') ? 'pointer' : 'default'
       }}
-      onClick={() => {
-        if (event?._id) {
-          navigate(`/event/${event?._id}`);
-        }
-      }}
+      onClick={() => handleNavigate()}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <CardContent sx={{ flex: 1, gap: 2 }}>
