@@ -7,6 +7,7 @@ import {
 import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
+  Event,
   CreateEditProduct,
   ForgotPassword,
   HomePage,
@@ -82,6 +83,10 @@ export const routes = [
       {
         path: '/product/:productId',
         element: <ProductPage />
+      },
+      {
+        path: '/event/:eventId',
+        element: <Event />
       }
     ]
   },
