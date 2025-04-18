@@ -73,4 +73,13 @@ declare module '@mui/material/styles' {
     selectedHover?: string;
     selectedFocus?: string;
   }
+
+  interface BreakpointOverrides {
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    lgm: true;
+  }
 }

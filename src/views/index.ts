@@ -2,7 +2,7 @@ export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/Event';
 export * from '@green-world/views/CreateEditProduct';
 export * from '@green-world/views/ForgotPassword';
-export * from '@green-world/views/HomePage';
+export * from '@green-world/views/Home';
 export * from '@green-world/views/Login';
 export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ProductPage';

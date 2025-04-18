@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material';
 
 import { breakpoints, components, typography } from './common';
-import { darkPalette } from './palette/dark';
+// import { darkPalette } from './palette/dark';
 import { lightPalette } from './palette/light';
 
 export const theme = createTheme({
@@ -10,7 +10,7 @@ export const theme = createTheme({
   breakpoints,
   cssVariables: { colorSchemeSelector: 'class' },
   colorSchemes: {
-    dark: { palette: darkPalette },
+    // dark: { palette: darkPalette },
     light: { palette: lightPalette }
   },
   components

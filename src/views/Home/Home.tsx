@@ -2,18 +2,19 @@ import {
   CustomButton,
   Divider,
   HomeCarousel,
-  RedirectSquare,
+  GroupButton,
   EventCarousel
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
+import { Grid } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-export const HomePage = () => {
+export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
   const { data: flowerAssortment, isLoading: flowerAssortmentLoading } =
     useProductsByGroup('flower_assortment');
@@ -62,23 +63,29 @@ export const HomePage = () => {
         <Divider text="Događaji" />
         <EventCarousel events={allEvents} isLoading={allEventsLoading} />
         <Divider text="Kategorije Proizvoda" />
-        <section
-          className={clsx(
-            'w-full',
-            'max-w-[1320px]',
-            'mx-auto',
-            'grid',
-            'grid-cols-2',
-            'md:grid-cols-4',
-            'gap-4',
-            'sm:gap-6',
-            'lg:gap-10'
-          )}
+        <Grid
+          container
+          component="section"
+          spacing={{ xs: 2, sm: 3 }}
+          sx={{
+            maxWidth: 1200,
+            width: '100%',
+            mx: 'auto'
+          }}
         >
           {homeCategories.map((category) => (
-            <RedirectSquare item={category} key={category.id} />
+            <Grid
+              key={category.id}
+              size={{
+                xs: 6,
+                sm: 4,
+                lg: 3
+              }}
+            >
+              <GroupButton item={category} />
+            </Grid>
           ))}
-        </section>
+        </Grid>
         <CustomButton
           type="text"
           customStyle={['py-4', 'text-lg']}

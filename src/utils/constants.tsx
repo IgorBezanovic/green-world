@@ -4,7 +4,7 @@ import MailOutlined from '@ant-design/icons/lib/icons/MailOutlined';
 import NumberOutlined from '@ant-design/icons/lib/icons/NumberOutlined';
 import PhoneOutlined from '@ant-design/icons/lib/icons/PhoneOutlined';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
-import { SubGroups } from '@green-world/utils/types';
+import { HomeCategory, SubGroups } from '@green-world/utils/types';
 import type { MenuProps } from 'antd';
 
 export const navigationItems = [
@@ -70,59 +70,59 @@ export const legalType = [
   }
 ];
 
-export const homeCategories = [
+export const homeCategories: HomeCategory[] = [
   {
     id: 1,
-    image: "url('/bouqeut_of_flowers-min.jpg')",
+    image: '/bouqeut_of_flowers-min.jpg',
     route: '/search',
     text: 'Cvetni asortiman',
     slug: 'flower_assortment'
   },
   {
     id: 2,
-    image: "url('/evergreen_seedlings-min.jpg')",
+    image: '/evergreen_seedlings-min.jpg',
     route: '/search',
     text: 'Sukulenti',
     slug: 'succulents'
   },
   {
     id: 3,
-    image: "url('/potted_flowers-min.jpg')",
+    image: '/potted_flowers-min.jpg',
     route: '/search',
     text: 'Saksijsko cvece',
     slug: 'potted_flowers'
   },
   {
     id: 4,
-    image: "url('/seedlings-min.jpg')",
+    image: '/seedlings-min.jpg',
     route: '/search',
     text: 'Sadnice',
     slug: 'seedlings'
   },
   {
     id: 5,
-    image: "url('/fruits_and_vege-min.jpg')",
+    image: '/fruits_and_vege-min.jpg',
     route: '/search',
     text: 'Voce i povrce',
     slug: 'fruits_and_vegetables'
   },
   {
     id: 6,
-    image: "url('/pharmacy-min.jpg')",
+    image: '/pharmacy-min.jpg',
     route: '/search',
     text: 'Biljna apoteka',
     slug: 'herbal_pharmacy'
   },
   {
     id: 7,
-    image: "url('/garden_decoration-min.jpg')",
+    image: '/garden_decoration-min.jpg',
     route: '/search',
     text: 'Bastenska dekoracija',
     slug: 'garden_decoration'
   },
   {
     id: 8,
-    image: "url('/all_for_plants-min.jpg')",
+    image: '/all_for_plants-min.jpg',
     route: '/search',
     text: 'Sve za biljke',
     slug: 'everything_for_plants'

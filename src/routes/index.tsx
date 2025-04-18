@@ -10,7 +10,7 @@ import {
   Event,
   CreateEditProduct,
   ForgotPassword,
-  HomePage,
+  Home,
   Login,
   NotFound,
   ProductPage,
@@ -28,7 +28,7 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <HomePage />
+        element: <Home />
       },
       {
         path: '/login',
