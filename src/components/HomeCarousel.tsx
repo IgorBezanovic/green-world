@@ -12,6 +12,7 @@ export const HomeCarousel = ({ ...props }) => {
       <Carousel
         draggable={true}
         infinite
+        autoplay
         slidesToShow={5}
         responsive={[
           {
