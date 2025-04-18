@@ -104,12 +104,18 @@ export type ProductFiltersParams = {
 };
 
 export type Event = {
+  _id: string;
   title: string;
   description: string;
   place: string;
+  address?: string;
   coverImage: string;
   dateAction: string;
-  timeAction: string;
+  startTime: string;
+  endTime?: string;
   typeAction: 'cleaning' | 'selling' | 'planting';
+  contactPerson?: string;
+  contactPhone?: string;
+  contactMail?: string;
   status: string;
 };

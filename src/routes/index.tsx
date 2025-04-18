@@ -19,6 +19,7 @@ import {
   Registration,
   UserProfile
 } from '@green-world/views';
+import { EventPage } from '@green-world/views/EventPage';
 
 export const routes = [
   {
@@ -82,6 +83,10 @@ export const routes = [
       {
         path: '/product/:productId',
         element: <ProductPage />
+      },
+      {
+        path: '/event/:eventId',
+        element: <EventPage />
       }
     ]
   },
