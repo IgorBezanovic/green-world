@@ -7,9 +7,10 @@ import {
 import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
+  Event,
   CreateEditProduct,
   ForgotPassword,
-  HomePage,
+  Home,
   Login,
   NotFound,
   ProductPage,
@@ -19,7 +20,6 @@ import {
   Registration,
   UserProfile
 } from '@green-world/views';
-import { EventPage } from '@green-world/views/EventPage';
 
 export const routes = [
   {
@@ -28,7 +28,7 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <HomePage />
+        element: <Home />
       },
       {
         path: '/login',
@@ -86,7 +86,7 @@ export const routes = [
       },
       {
         path: '/event/:eventId',
-        element: <EventPage />
+        element: <Event />
       }
     ]
   },

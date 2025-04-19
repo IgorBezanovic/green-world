@@ -20,7 +20,7 @@ export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/Logo';
 export * from '@green-world/components/PopDelete';
 export * from '@green-world/components/ProtectedRoute';
-export * from '@green-world/components/RedirectSquare';
+export * from '@green-world/components/GroupButton';
 export * from '@green-world/components/RegistrationForm';
 export * from '@green-world/components/ScrollToTop';
 export * from '@green-world/components/Search';

@@ -8,14 +8,17 @@ export const NavTrack = () => {
   return (
     <Box
       component="nav"
-      sx={{
+      sx={(theme) => ({
         py: 0.5,
         px: { xs: 2, sm: 3, xl: 0 },
-        display: { xs: 'none', md: 'flex' },
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+          display: 'flex'
+        },
         maxWidth: 1400,
         width: '100%',
         mx: 'auto'
-      }}
+      })}
     >
       <Button
         onClick={() => navigate('/contact-us')}

@@ -12,6 +12,7 @@ export const HomeCarousel = ({ ...props }) => {
       <Carousel
         draggable={true}
         infinite
+        autoplay
         slidesToShow={5}
         responsive={[
           {
@@ -25,7 +26,7 @@ export const HomeCarousel = ({ ...props }) => {
         className={clsx('w-full')}
       >
         {products.map((product: any) => (
-          <div key={product.title} className="px-1">
+          <div key={product.title} className="p-2">
             <ProductCard product={product} loading={props.isLoading} />
           </div>
         ))}

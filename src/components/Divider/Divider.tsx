@@ -7,32 +7,20 @@ interface CustomDividerProps {
 export const Divider = ({ text }: CustomDividerProps) => {
   return (
     <Box component="section" display="flex" alignItems="center" width="100%">
-      <MUIDivider
-        sx={{
-          flex: 1,
-          bgcolor: 'forestGreen'
-        }}
-      />
+      <MUIDivider sx={{ flex: 1 }} />
       {text && (
         <>
           <Typography
-            variant="h6"
+            variant="subtitle1"
+            color="forestGreen"
             sx={{
               mx: 2,
-              textTransform: 'uppercase',
-              color: 'forestGreen',
-              fontWeight: 300,
-              textAlign: 'center'
+              textTransform: 'uppercase'
             }}
           >
             {text}
           </Typography>
-          <MUIDivider
-            sx={{
-              flex: 1,
-              bgcolor: 'forestGreen'
-            }}
-          />
+          <MUIDivider sx={{ flex: 1 }} />
         </>
       )}
     </Box>

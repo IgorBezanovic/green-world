@@ -21,7 +21,7 @@ import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
-export const EventPage = () => {
+export const Event = () => {
   const { eventId } = useParams();
   const { data: eventData } = useEvent(eventId!);
 
@@ -51,7 +51,7 @@ export const EventPage = () => {
           'gap-7'
         )}
       >
-        <Typography variant="h4" fontWeight="bold">
+        <Typography variant="h1" color="custom.forestGreen">
           {eventData.title}
         </Typography>
 

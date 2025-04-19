@@ -119,3 +119,11 @@ export type Event = {
   contactMail?: string;
   status: string;
 };
+
+export type HomeCategory = {
+  id: number;
+  image: string;
+  route: string;
+  text: string;
+  slug: string;
+};
