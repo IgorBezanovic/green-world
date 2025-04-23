@@ -106,6 +106,7 @@ export type ProductFiltersParams = {
 };
 
 export type Event = {
+  _id?: string;
   title: string;
   description: string;
   place: string;
