@@ -8,13 +8,14 @@ import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
   Event,
+  GroupProducts,
+  Home,
+  Products,
   CreateEditProduct,
   ForgotPassword,
-  Home,
   Login,
   NotFound,
   ProductPage,
-  ProductsSearchPage,
   ProfileSettings,
   // ProductsSearchPage,
   Registration,
@@ -74,7 +75,11 @@ export const routes = [
       },
       {
         path: '/search',
-        element: <ProductsSearchPage />
+        element: <Products />
+      },
+      {
+        path: '/search/:category',
+        element: <GroupProducts />
       },
       {
         path: '/contact-us',
