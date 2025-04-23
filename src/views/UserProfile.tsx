@@ -85,6 +85,12 @@ export const UserProfile = () => {
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton
+            text={'Dodaj dogadjaj'}
+            type={'text'}
+            onClick={() => navigate('/create-event')}
+            customStyle={['!flex-1', 'max-h-[45px]']}
+          />
+          <CustomButton
             text={'Podesavanje profila'}
             type={'text'}
             onClick={() => navigate('/profile-settings/edit-profile')}

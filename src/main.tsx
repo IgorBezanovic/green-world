@@ -3,6 +3,8 @@ import { SuccessProvider } from '@green-world/context/PopupContext';
 import { UserContextProvider } from '@green-world/context/UserContext';
 import { routes } from '@green-world/routes';
 import { ThemeProvider } from '@green-world/theme';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
@@ -24,8 +26,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <UserContextProvider>
             <SuccessProvider>
               <Suspense fallback={<Loader />}>
-                <RouterProvider router={router} />
-                <ToastContainer />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <RouterProvider router={router} />
+                  <ToastContainer />
+                </LocalizationProvider>
               </Suspense>
             </SuccessProvider>
           </UserContextProvider>

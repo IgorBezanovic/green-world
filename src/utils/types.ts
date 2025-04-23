@@ -1,3 +1,5 @@
+import { PickerValue } from '@mui/x-date-pickers/internals';
+
 import { subGroups } from './constants';
 
 export type SubGroupKeys = keyof typeof subGroups;
@@ -104,13 +106,13 @@ export type ProductFiltersParams = {
 };
 
 export type Event = {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   place: string;
   address?: string;
   coverImage: string;
-  dateAction: string;
+  dateAction: PickerValue | string | undefined;
   startTime: string;
   endTime?: string;
   typeAction: 'cleaning' | 'selling' | 'planting';
