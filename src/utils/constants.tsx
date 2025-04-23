@@ -74,62 +74,62 @@ export const homeCategories: HomeCategory[] = [
   {
     id: 1,
     image: '/bouqeut_of_flowers-min.jpg',
-    route: '/search',
+    route: '/search/flower_assortment',
     text: 'Cvetni asortiman',
     slug: 'flower_assortment'
   },
   {
     id: 2,
     image: '/evergreen_seedlings-min.jpg',
-    route: '/search',
+    route: '/search/succulents',
     text: 'Sukulenti',
     slug: 'succulents'
   },
   {
     id: 3,
     image: '/potted_flowers-min.jpg',
-    route: '/search',
+    route: '/search/potted_flowers',
     text: 'Saksijsko cvece',
     slug: 'potted_flowers'
   },
   {
     id: 4,
     image: '/seedlings-min.jpg',
-    route: '/search',
+    route: '/search/seedlings',
     text: 'Sadnice',
     slug: 'seedlings'
   },
   {
     id: 5,
     image: '/fruits_and_vege-min.jpg',
-    route: '/search',
+    route: '/search/fruits_and_vegetables',
     text: 'Voce i povrce',
     slug: 'fruits_and_vegetables'
   },
   {
     id: 6,
     image: '/pharmacy-min.jpg',
-    route: '/search',
+    route: '/search/herbal_pharmacy',
     text: 'Biljna apoteka',
     slug: 'herbal_pharmacy'
   },
   {
     id: 7,
     image: '/garden_decoration-min.jpg',
-    route: '/search',
+    route: '/search/garden_decoration',
     text: 'Bastenska dekoracija',
     slug: 'garden_decoration'
   },
   {
     id: 8,
     image: '/all_for_plants-min.jpg',
-    route: '/search',
+    route: '/search/everything_for_plants',
     text: 'Sve za biljke',
     slug: 'everything_for_plants'
   }
 ];
 
-export const mainGroups = [
+export const categories = [
   'flower_assortment',
   'succulents',
   'potted_flowers',
@@ -138,7 +138,7 @@ export const mainGroups = [
   'herbal_pharmacy',
   'garden_decoration',
   'everything_for_plants'
-] as const;
+];
 
 export const subGroups: SubGroups = {
   flower_assortment: [
