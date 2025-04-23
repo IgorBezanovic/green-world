@@ -19,7 +19,8 @@ import {
   ProfileSettings,
   // ProductsSearchPage,
   Registration,
-  UserProfile
+  UserProfile,
+  CreateEditEvent
 } from '@green-world/views';
 
 export const routes = [
@@ -92,6 +93,14 @@ export const routes = [
       {
         path: '/event/:eventId',
         element: <Event />
+      },
+      {
+        path: '/create-event',
+        element: <ProtectedRoute element={CreateEditEvent} />
+      },
+      {
+        path: '/edit-event/:eventID',
+        element: <ProtectedRoute element={CreateEditEvent} />
       }
     ]
   },

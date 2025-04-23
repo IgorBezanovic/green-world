@@ -1,4 +1,5 @@
 export * from '@green-world/views/ContactUs';
+export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/Event';
 export * from '@green-world/views/GroupProducts';
 export * from '@green-world/views/Home';
