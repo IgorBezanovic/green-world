@@ -1,4 +1,5 @@
 export * from '@green-world/components/ProductCard';
+export * from '@green-world/components/EventProfilCard';
 export * from '@green-world/components/BackButton';
 export * from '@green-world/components/ChangePasswordComponent';
 export * from '@green-world/components/CustomButton';
