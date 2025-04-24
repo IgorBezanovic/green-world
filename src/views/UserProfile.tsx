@@ -2,7 +2,8 @@ import {
   ProductCard,
   CustomButton,
   CustomInput,
-  UserInfo
+  UserInfo,
+  EventProfilCard
 } from '@green-world/components';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -17,7 +18,6 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 import './style.css';
-import { EventProfilCard } from '@green-world/components/EventProfilCard';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
