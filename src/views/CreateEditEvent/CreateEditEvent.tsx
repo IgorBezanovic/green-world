@@ -35,7 +35,7 @@ const initEvent: Event = {
 
 export const CreateEditEvent = () => {
   const { eventID = '' } = useParams();
-  const { data = initEvent, isLoading: isLoadingGetEvent } = useEvent(eventID);
+  const { data = initEvent, isLoading } = useEvent(eventID);
   const quillRef = useRef<ReactQuill>(null);
 
   const modules = {
@@ -69,16 +69,16 @@ export const CreateEditEvent = () => {
   const { mutate: createMutation, isLoading: isLoadingCreateEvent } =
     useCreateEvent();
 
-  const { mutate: editMutation, isLoading: isLoadingEditProduct } =
+  const { mutate: editMutation, isLoading: isLoadingEditEvent } =
     useEditEvent(eventID);
 
   const [event, setEvent] = useState<Event>(initEvent);
 
   useEffect(() => {
-    if (!isLoadingGetEvent) {
+    if (!isLoading) {
       setEvent(data);
     }
-  }, [data, isLoadingGetEvent]);
+  }, [data, isLoading]);
 
   useEffect(() => {
     if (eventImage) {
@@ -121,8 +121,6 @@ export const CreateEditEvent = () => {
       description: richText
     }));
   };
-
-  const isLoading = isLoadingGetEvent;
 
   if (isLoading) {
     return (
@@ -390,11 +388,11 @@ export const CreateEditEvent = () => {
             >
               Opis dogadjaja:
             </label>
-            <div className="mb-4">
+            <div className={clsx('mb-4')}>
               <ReactQuill
                 ref={quillRef}
                 modules={modules}
-                value={data ? data.description : event?.description || ''}
+                value={event?.description || ''}
                 onChange={handleRichTextDescription}
                 id="description"
                 theme="snow"
@@ -553,7 +551,7 @@ export const CreateEditEvent = () => {
               htmlType="submit"
               type="text"
               text={
-                isLoadingCreateEvent || isLoadingEditProduct ? (
+                isLoadingCreateEvent || isLoadingEditEvent ? (
                   <LoadingOutlined
                     className={clsx('text-groupTransparent', 'my-2')}
                   />
@@ -567,10 +565,10 @@ export const CreateEditEvent = () => {
                 'mt-6',
                 {
                   'border-groupTransparent':
-                    isLoadingCreateEvent || isLoadingEditProduct
+                    isLoadingCreateEvent || isLoadingEditEvent
                 }
               ]}
-              disabled={isLoadingCreateEvent || isLoadingEditProduct}
+              disabled={isLoadingCreateEvent || isLoadingEditEvent}
             />
           </div>
         </form>

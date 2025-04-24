@@ -1,10 +1,11 @@
 import { useDeleteEvent } from '@green-world/hooks/useDeleteEvent';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import PlaceIcon from '@mui/icons-material/Place';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ShareIcon from '@mui/icons-material/Share';
+import StopIcon from '@mui/icons-material/Stop';
 import {
   Box,
   Card,
@@ -129,10 +130,36 @@ export const EventProfilCard = ({ ...props }) => {
               <CalendarMonthIcon />
               {props.event?.dateAction}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              <AccessTimeIcon />
-              {props.event?.timeAction}
-            </Typography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5
+                }}
+              >
+                <PlayArrowIcon fontSize="small" />
+                {props.event?.startTime}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5
+                }}
+              >
+                <StopIcon fontSize="small" />
+                {props.event?.endTime}
+              </Typography>
+            </Box>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               <PlaceIcon />
               {props.event?.place}
