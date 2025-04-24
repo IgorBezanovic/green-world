@@ -138,7 +138,7 @@ export const UserProfile = () => {
 
           <Tabs
             value={activeTab}
-            onChange={(e, newValue) => setActiveTab(newValue)}
+            onChange={(_e, newValue) => setActiveTab(newValue)}
             aria-label="product-event-tabs"
           >
             <Tab label="Proizvodi" value="products" />
