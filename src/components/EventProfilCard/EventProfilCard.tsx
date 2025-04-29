@@ -3,9 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import PlaceIcon from '@mui/icons-material/Place';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ShareIcon from '@mui/icons-material/Share';
-import StopIcon from '@mui/icons-material/Stop';
 import {
   Box,
   Card,
@@ -13,6 +11,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  Divider,
   IconButton,
   Typography
 } from '@mui/material';
@@ -101,11 +100,13 @@ export const EventProfilCard = ({ ...props }) => {
               {props.event?.title}
             </Typography>
           </Tooltip>
+          <Divider variant="fullWidth" />
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              flexGrow: 1
+              flexGrow: 1,
+              paddingTop: '8px'
             }}
           >
             <Typography
@@ -120,54 +121,39 @@ export const EventProfilCard = ({ ...props }) => {
                 minHeight: '3.0em'
               }}
             >
-              {props.event?.description.length > 45
-                ? props.event?.description.substring(0, 45) + '...'
+              {props.event?.description.length > 50
+                ? props.event?.description.substring(0, 50) + '...'
                 : props.event?.description}
             </Typography>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ flexGrow: 1 }} />
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              <CalendarMonthIcon />
-              {props.event?.dateAction}
+              <Box
+                component="span"
+                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+              >
+                <CalendarMonthIcon sx={{ fontSize: 18 }} />
+                {props.event?.dateAction}
+              </Box>
             </Typography>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+            <Typography
+              variant="body2"
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                color: 'text.secondary',
+                paddingTop: '6px',
+                gap: 0.5 // ili gap: '4px'
+              }}
             >
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'text.secondary',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5
-                }}
-              >
-                <PlayArrowIcon fontSize="small" />
-                {props.event?.startTime}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'text.secondary',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5
-                }}
-              >
-                <StopIcon fontSize="small" />
-                {props.event?.endTime}
-              </Typography>
-            </Box>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              <PlaceIcon />
-              {props.event?.place}
+              <PlaceIcon sx={{ fontSize: 18 }} />
+              {props.event?.place.length > 20
+                ? props.event?.place.substring(0, 20) + '...'
+                : props.event?.place}
             </Typography>
           </Box>
         </CardContent>
+        <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
-          <CardActions disableSpacing>
+          <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
             <IconButton aria-label="add to favorites">
               <EditIcon
                 onClick={() => navigate(`/edit-event/${props.event?._id}`)}
