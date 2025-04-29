@@ -8,6 +8,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Divider,
   IconButton,
   Typography
 } from '@mui/material';
@@ -75,6 +76,7 @@ export const ProductCard = ({ ...props }) => {
               {props?.product?.title}
             </Typography>
           </Tooltip>
+          <Divider variant="fullWidth" />
           <Box
             sx={{
               display: 'flex',
@@ -91,7 +93,8 @@ export const ProductCard = ({ ...props }) => {
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 3,
                 overflow: 'hidden',
-                minHeight: '4.5em'
+                minHeight: '4.5em',
+                paddingTop: '8px'
               }}
             >
               {props?.product?.shortDescription.slice(0, 80) ||
@@ -107,8 +110,9 @@ export const ProductCard = ({ ...props }) => {
             </Typography>
           </Box>
         </CardContent>
+        <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
-          <CardActions disableSpacing>
+          <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
             <IconButton aria-label="add to favorites">
               <EditIcon
                 onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
