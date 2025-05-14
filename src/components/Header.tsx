@@ -32,11 +32,11 @@ export const Header = () => {
       >
         <Logo />
         <nav className={clsx('flex', 'items-center', 'gap-x-5')}>
-          <CustomButton
+          {/* <CustomButton
             text={'Dodaj oglas'}
             type={'text'}
             onClick={() => navigate('/create-product')}
-          />
+          /> */}
           <CustomButton type={'text'} onClick={() => navigate('/profile')}>
             <UserOutlined
               className={clsx('text-forestGreen', 'text-[20px]')}

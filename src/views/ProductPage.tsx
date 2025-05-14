@@ -92,7 +92,7 @@ export const ProductPage = () => {
                     'gap-4'
                   )}
                 >
-                  <div className="relative">
+                  <div className="relative m-auto">
                     {productData?.images.length !== 1 && (
                       <button
                         className="absolute left-0 top-0 bottom-0 w-[50px] md:opacity-0 bg-groupTransparent md:hover:opacity-100 transition-all flex items-center justify-center rounded-md group"
@@ -128,7 +128,13 @@ export const ProductPage = () => {
                     )}
                   </div>
                   <footer
-                    className={clsx('grid', 'grid-cols-4', 'w-full', 'gap-2')}
+                    className={clsx(
+                      'grid',
+                      'grid-cols-2',
+                      'xs:grid-cols-4',
+                      'w-full',
+                      'gap-2'
+                    )}
                   >
                     {productData?.images.map((image: string, index: number) => (
                       <img

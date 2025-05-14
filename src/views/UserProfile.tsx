@@ -2,13 +2,15 @@ import {
   ProductCard,
   CustomButton,
   CustomInput,
-  UserInfo
+  UserInfo,
+  EventProfilCard
 } from '@green-world/components';
+import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
-import { Card } from 'antd';
+import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
@@ -21,31 +23,49 @@ export const UserProfile = () => {
   const navigate = useNavigate();
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+
   const { data: userData, isLoading: userLoading } = useUser(
-    decodedToken?._id ? decodedToken._id : ''
+    decodedToken?._id || ''
   );
-  const { data: products = [], isLoading } = useAllUserProducts();
+  const { data: products = [], isLoading: productsLoading } =
+    useAllUserProducts();
+  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents(); // Fetch eventi
+
   const [productsToDisplay, setProductsToDisplay] = useState([]);
+  const [eventsToDisplay, setEventsToDisplay] = useState([]);
+  const [activeTab, setActiveTab] = useState('products');
 
   useEffect(() => {
-    if (!isLoading && products.length > 0) {
+    if (!productsLoading && products.length > 0) {
       setProductsToDisplay(products);
     }
-  }, [products, isLoading]);
+  }, [products, productsLoading]);
+
+  useEffect(() => {
+    if (!eventsLoading && events.length > 0) {
+      setEventsToDisplay(events);
+    }
+  }, [events, eventsLoading]);
 
   const handleLogout = () => {
     removeItem('token');
     navigate('/');
   };
 
-  const filterProducts = (searchTerm: string) => {
-    const filtered = products.filter((product: any) =>
-      product.title
-        .toLowerCase()
-        .trim()
-        .includes(searchTerm.toLowerCase().trim())
-    );
-    setProductsToDisplay(filtered);
+  const filterContent = (searchTerm: string) => {
+    const term = searchTerm.toLowerCase().trim();
+
+    if (activeTab === 'products') {
+      const filtered = products.filter((product: any) =>
+        product.title.toLowerCase().includes(term)
+      );
+      setProductsToDisplay(filtered);
+    } else {
+      const filtered = events.filter((event: any) =>
+        event.title.toLowerCase().includes(term)
+      );
+      setEventsToDisplay(filtered);
+    }
   };
 
   return (
@@ -55,6 +75,7 @@ export const UserProfile = () => {
         <meta property="og:image" content={`${userData?.profileImage}`} />
         <link rel="canonical" href="https://www.zeleni-svet.com/profile" />
       </Helmet>
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -70,6 +91,7 @@ export const UserProfile = () => {
           'gap-7'
         )}
       >
+        {/* LEVA STRANA */}
         <section
           className={clsx('w-full', 'md:w-1/4', 'flex', 'flex-col', 'gap-5')}
         >
@@ -82,6 +104,12 @@ export const UserProfile = () => {
             text={'Dodaj proizvod'}
             type={'text'}
             onClick={() => navigate('/create-product')}
+            customStyle={['!flex-1', 'max-h-[45px]']}
+          />
+          <CustomButton
+            text={'Dodaj dogadjaj'}
+            type={'text'}
+            onClick={() => navigate('/create-event')}
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton
@@ -98,43 +126,54 @@ export const UserProfile = () => {
           />
           <CustomButton type={'text'} onClick={handleLogout} text={'Log out'} />
         </section>
+
+        {/* DESNA STRANA */}
         <section
-          className={clsx('w-full', 'md:w-3/4', 'gap-7', 'flex', 'flex-col')}
+          className={clsx('w-full', 'md:w-3/4', 'flex', 'flex-col', 'gap-5')}
         >
           <Card>
             <CustomInput
               type="text"
-              placeholder="Pretrazi po nazivu proizvoda"
+              placeholder={`Pretrazi po nazivu ${activeTab === 'products' ? 'proizvoda' : 'dogadjaja'}`}
               customStyle={['!mb-0']}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                filterProducts(e.target.value)
+                filterContent(e.target.value)
               }
             />
           </Card>
-          <section
-            className={clsx(
-              'w-full',
-              'grid',
-              'grid-cols-2',
-              'sm:grid-cols-3',
-              'lgm:grid-cols-4',
-              'gap-5'
-            )}
+
+          <Tabs
+            value={activeTab}
+            onChange={(_e, newValue) => setActiveTab(newValue)}
+            aria-label="product-event-tabs"
           >
-            {productsToDisplay.length > 0 ? (
-              productsToDisplay?.map((product: any) => (
-                <ProductCard
-                  key={product.title}
-                  product={product}
-                  loading={isLoading}
-                />
-              ))
-            ) : (
-              <p className={clsx('col-span-full')}>
-                Jos uvek niste dodali proizvode
-              </p>
-            )}
-          </section>
+            <Tab label="Proizvodi" value="products" />
+            <Tab label="Događaji" value="events" />
+          </Tabs>
+
+          {activeTab === 'products' && (
+            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+              {productsToDisplay.length > 0 ? (
+                productsToDisplay.map((product: any) => (
+                  <ProductCard key={product._id} product={product} />
+                ))
+              ) : (
+                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+              )}
+            </section>
+          )}
+
+          {activeTab === 'events' && (
+            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+              {eventsToDisplay.length > 0 ? (
+                eventsToDisplay.map((event: any) => (
+                  <EventProfilCard key={event._id} event={event} />
+                ))
+              ) : (
+                <p className="col-span-full">Još uvek niste dodali događaje</p>
+              )}
+            </section>
+          )}
         </section>
       </div>
     </div>

@@ -12,6 +12,7 @@ body {
 * {
   font-family: 'Montserrat', sans-serif;
 }
+
 .slick-next,
 .slick-prev {
   color: #316357 !important;
@@ -37,10 +38,11 @@ input[data-autocompleted] {
 
 @font-face {
   font-family: 'GreenWorld';
-  src: url('https://www.zeleni-svet.com/Allison-Regular.woff2') format('woff2'),
-       url('https://www.zeleni-svet.com/Allison-Regular.woff') format('woff'),
-       url('https://www.zeleni-svet.com/Allison-Regular.eot'),
-       url('https://www.zeleni-svet.com/Allison.ttf') format('truetype');
+  src:
+    url('https://www.zeleni-svet.com/Allison-Regular.woff2') format('woff2'),
+    url('https://www.zeleni-svet.com/Allison-Regular.woff') format('woff'),
+    url('https://www.zeleni-svet.com/Allison-Regular.eot'),
+    url('https://www.zeleni-svet.com/Allison.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

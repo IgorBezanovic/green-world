@@ -7,17 +7,20 @@ import {
 import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
+  Event,
+  GroupProducts,
+  Home,
+  Products,
   CreateEditProduct,
   ForgotPassword,
-  HomePage,
   Login,
   NotFound,
   ProductPage,
-  ProductsSearchPage,
   ProfileSettings,
   // ProductsSearchPage,
   Registration,
-  UserProfile
+  UserProfile,
+  CreateEditEvent
 } from '@green-world/views';
 
 export const routes = [
@@ -27,7 +30,7 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <HomePage />
+        element: <Home />
       },
       {
         path: '/login',
@@ -73,7 +76,11 @@ export const routes = [
       },
       {
         path: '/search',
-        element: <ProductsSearchPage />
+        element: <Products />
+      },
+      {
+        path: '/search/:category',
+        element: <GroupProducts />
       },
       {
         path: '/contact-us',
@@ -82,6 +89,18 @@ export const routes = [
       {
         path: '/product/:productId',
         element: <ProductPage />
+      },
+      {
+        path: '/event/:eventId',
+        element: <Event />
+      },
+      {
+        path: '/create-event',
+        element: <ProtectedRoute element={CreateEditEvent} />
+      },
+      {
+        path: '/edit-event/:eventID',
+        element: <ProtectedRoute element={CreateEditEvent} />
       }
     ]
   },

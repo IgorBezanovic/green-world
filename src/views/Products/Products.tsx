@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-export const ProductsSearchPage = () => {
+export const Products = () => {
   const [filters, setFilters] = useState<ProductFiltersParams>();
   const { data: allProducts } = useAllProducts(filters);
 

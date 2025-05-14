@@ -10,9 +10,9 @@ export const HomeCarousel = ({ ...props }) => {
   return products && products.length > 0 ? (
     <Skeleton loading={props.isLoading} active>
       <Carousel
-        arrows
         draggable={true}
         infinite
+        autoplay
         slidesToShow={5}
         responsive={[
           {
@@ -26,7 +26,7 @@ export const HomeCarousel = ({ ...props }) => {
         className={clsx('w-full')}
       >
         {products.map((product: any) => (
-          <div key={product.title} className="px-1">
+          <div key={product.title} className="p-2">
             <ProductCard product={product} loading={props.isLoading} />
           </div>
         ))}
