@@ -93,7 +93,7 @@ export const ProductCard = ({ ...props }) => {
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 3,
                 overflow: 'hidden',
-                minHeight: '4.5em',
+                minHeight: '5em',
                 paddingTop: '8px'
               }}
             >
