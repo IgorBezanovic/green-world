@@ -13,6 +13,7 @@ export const HomeCarousel = ({ ...props }) => {
         draggable={true}
         infinite
         autoplay
+        autoplaySpeed={2000}
         slidesToShow={5}
         responsive={[
           {
