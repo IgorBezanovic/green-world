@@ -8,7 +8,7 @@ import {
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { getItem, removeItem } from '@green-world/utils/cookie';
+import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
@@ -46,11 +46,6 @@ export const UserProfile = () => {
       setEventsToDisplay(events);
     }
   }, [events, eventsLoading]);
-
-  const handleLogout = () => {
-    removeItem('token');
-    navigate('/');
-  };
 
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
@@ -112,19 +107,6 @@ export const UserProfile = () => {
             onClick={() => navigate('/create-event')}
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
-          <CustomButton
-            text={'Podesavanje profila'}
-            type={'text'}
-            onClick={() => navigate('/profile-settings/edit-profile')}
-            customStyle={['!flex-1', 'max-h-[45px]']}
-          />
-          <CustomButton
-            text={'Kontaktirajte podršku'}
-            type={'text'}
-            onClick={() => navigate('/contact-us')}
-            customStyle={['!flex-1', 'max-h-[45px]']}
-          />
-          <CustomButton type={'text'} onClick={handleLogout} text={'Log out'} />
         </section>
 
         {/* DESNA STRANA */}
