@@ -11,8 +11,8 @@ export const HomeCarousel = ({ ...props }) => {
     <Skeleton loading={props.isLoading} active>
       <Carousel
         draggable={true}
-        infinite
-        autoplay
+        infinite={products.length > 5}
+        autoplay={products.length > 5}
         autoplaySpeed={2000}
         slidesToShow={5}
         responsive={[
