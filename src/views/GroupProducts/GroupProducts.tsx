@@ -1,11 +1,12 @@
-import { ProductCard } from '@green-world/components';
+import { GroupButton, ProductCard } from '@green-world/components';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { categories, homeCategories } from '@green-world/utils/constants';
+import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Checkbox,
-  FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -110,78 +111,189 @@ export const GroupProducts = () => {
         })}
       >
         {/* Filters */}
-        <Box className="mb-6 grid grid-cols-1">
-          <TextField
-            label="Pretraga po nazivu"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            slotProps={{
-              input: {
-                endAdornment: <SearchIcon color="action" />
-              }
+        {Boolean(products.length) && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px'
             }}
-            fullWidth
-          />
+          >
+            <Box>
+              <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
+              <TextField
+                aria-describedby="name"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px'
+                  }
+                }}
+                slotProps={{
+                  input: {
+                    // endAdornment: <SearchIcon color="action" />
+                    endAdornment: search ? (
+                      <ClearIcon
+                        onClick={() => setSearch('')}
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    ) : (
+                      <SearchIcon color="action" />
+                    )
+                  }
+                }}
+                fullWidth
+              />
+            </Box>
 
-          <FormControl fullWidth>
-            <InputLabel id="subgroup-select-label">Podkategorija</InputLabel>
-            <Select
-              labelId="subgroup-select-label"
-              value={selectedSubgroup}
-              label="Podkategorija"
-              onChange={(e) => setSelectedSubgroup(e.target.value)}
-            >
-              <MenuItem value="">Sve</MenuItem>
-              {subGroups.map((sg) => (
-                <MenuItem key={sg} value={sg}>
-                  {sg}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            <Box>
+              <InputLabel id="subgroup-select-label">Podkategorija</InputLabel>
+              <Select
+                labelId="subgroup-select-label"
+                value={selectedSubgroup}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px'
+                  }
+                }}
+                onChange={(e) => setSelectedSubgroup(e.target.value)}
+                fullWidth
+              >
+                <MenuItem value="">Sve</MenuItem>
+                {subGroups.map((sg) => (
+                  <MenuItem key={sg} value={sg}>
+                    {sg}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
 
-          <Box>
-            <Typography gutterBottom>
-              Cena: {priceRange[0]} - {priceRange[1]} RSD
-            </Typography>
-            <Slider
-              value={priceRange}
-              onChange={(_, value) => setPriceRange(value as [number, number])}
-              valueLabelDisplay="auto"
-              min={priceLimits[0]}
-              max={priceLimits[1]}
-              disabled={priceLimits[0] === priceLimits[1]}
-            />
+            <Box>
+              <Typography gutterBottom>
+                Cena: {priceRange[0]} - {priceRange[1]} RSD
+              </Typography>
+              <Slider
+                value={priceRange}
+                onChange={(_, value) =>
+                  setPriceRange(value as [number, number])
+                }
+                valueLabelDisplay="auto"
+                min={priceLimits[0]}
+                max={priceLimits[1]}
+                disabled={priceLimits[0] === priceLimits[1]}
+              />
+            </Box>
+
+            <Box display="flex" alignItems="center" gap={1}>
+              <Checkbox
+                checked={inStockOnly}
+                onChange={(e) => setInStockOnly(e.target.checked)}
+              />
+              <Typography>Na stanju</Typography>
+            </Box>
           </Box>
-
-          <Box display="flex" alignItems="center" gap={1}>
-            <Checkbox
-              checked={inStockOnly}
-              onChange={(e) => setInStockOnly(e.target.checked)}
-            />
-            <Typography>Na stanju</Typography>
-          </Box>
-        </Box>
+        )}
 
         {/* Products Grid */}
-        <Box
-          className={clsx(
-            'w-full',
-            'grid',
-            'grid-cols-2',
-            'sm:grid-cols-3',
-            'lgm:grid-cols-4',
-            'gap-5'
-          )}
-        >
-          {filteredProducts.length ? (
-            filteredProducts.map((product: any) => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          ) : (
-            <Box>Nema rezultata</Box>
-          )}
-        </Box>
+        {products.length ? (
+          <Box
+            className={clsx('w-full', 'grid', 'gap-5', {
+              'grid-cols-2': filteredProducts.length,
+              'sm:grid-cols-3': filteredProducts.length,
+              'lgm:grid-cols-4': filteredProducts.length
+            })}
+          >
+            {filteredProducts.length ? (
+              filteredProducts.map((product: any) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            ) : (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  width: '100%'
+                }}
+              >
+                <Typography variant="h4">
+                  Trenutno nema proizvoda za izabrane filtere
+                </Typography>
+                <Typography variant="body1" color="text.secondary" gutterBottom>
+                  Izaberite neku drugu kombinaciju filtera
+                </Typography>
+                <Box
+                  component="img"
+                  sx={{
+                    height: '300px'
+                  }}
+                  src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                />
+              </Box>
+            )}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              width: '100%',
+              textAlign: 'center',
+              mb: 8,
+              px: 2
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '8px',
+                marginBottom: '16px'
+              }}
+            >
+              <Typography variant="h4">
+                Trenutno nema proizvoda za izabranu kategoriju
+              </Typography>
+              <Typography variant="body1" color="text.secondary" gutterBottom>
+                Izaberite neku drugu od ponuđenih kategorija
+              </Typography>
+              <Box
+                component="img"
+                sx={{
+                  height: '300px'
+                }}
+                src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+              />
+            </Box>
+
+            <Grid
+              container
+              component="section"
+              spacing={{ xs: 2, sm: 3 }}
+              sx={{
+                maxWidth: 1200,
+                width: '100%',
+                mx: 'auto'
+              }}
+            >
+              {homeCategories.map((category) => (
+                <Grid
+                  key={category.id}
+                  size={{
+                    xs: 6,
+                    sm: 4,
+                    lg: 3
+                  }}
+                >
+                  <GroupButton item={category} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
       </Box>
     </Box>
   );
