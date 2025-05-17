@@ -11,7 +11,7 @@ type AllProducts = {
 
 export const useAllProducts = (
   filters?: ProductFiltersParams
-): UseQueryResult<AllProducts> => {
+): UseQueryResult<AllProducts | undefined> => {
   return useQuery(['allProducts', filters], () =>
     request({
       url: '/product/all',
