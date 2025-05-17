@@ -1,5 +1,5 @@
 import { request } from '@green-world/utils/api';
-import { ProductValues } from '@green-world/utils/types';
+import { Product } from '@green-world/utils/types';
 import { useMutation } from 'react-query';
 
 export const useEditProduct = (id: string) => {
@@ -16,7 +16,7 @@ export const useEditProduct = (id: string) => {
       width,
       weight,
       milliliters
-    }: ProductValues) =>
+    }: Product) =>
       request({
         url: `/product/${id}`,
         method: 'put',
