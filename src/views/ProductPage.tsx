@@ -24,11 +24,11 @@ export const ProductPage = () => {
     productId!
   );
   const { data: sellerData, isLoading: userLoading } = useUser(
-    productData?.createdBy
+    productData?.createdBy || ''
   );
   const [idexOfImage, setIndexOfImage] = useState(0);
   const { data: groupProducts, isLoading: groupProductsLoading } =
-    useProductsByGroup(productData?.group);
+    useProductsByGroup(productData?.group || '');
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
 
@@ -98,7 +98,7 @@ export const ProductPage = () => {
                         className="absolute left-0 top-0 bottom-0 w-[50px] md:opacity-0 bg-groupTransparent md:hover:opacity-100 transition-all flex items-center justify-center rounded-md group"
                         onClick={() =>
                           setIndexOfImage((prevIndex) =>
-                            prevIndex === 0
+                            prevIndex === 0 && productData?.images
                               ? productData?.images.length - 1
                               : prevIndex - 1
                           )
@@ -117,7 +117,9 @@ export const ProductPage = () => {
                         className="absolute right-0 top-0 bottom-0 w-[50px] md:opacity-0 bg-groupTransparent md:hover:opacity-100 transition-all flex items-center justify-center rounded-md group"
                         onClick={() =>
                           setIndexOfImage((prevIndex) =>
-                            prevIndex === productData?.images.length - 1
+                            prevIndex ===
+                            (productData?.images &&
+                              productData?.images.length - 1)
                               ? 0
                               : prevIndex + 1
                           )
@@ -215,7 +217,9 @@ export const ProductPage = () => {
                 title={productData?.title}
               >
                 <section
-                  dangerouslySetInnerHTML={{ __html: productData?.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: productData?.description ?? ''
+                  }}
                 />
               </Card>
             </Card>

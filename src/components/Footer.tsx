@@ -10,6 +10,7 @@ export const Footer = () => {
   return (
     <footer
       className={clsx(
+        'relative',
         'bg-forestGreen',
         'shadow',
         'px-4',
@@ -86,9 +87,6 @@ export const Footer = () => {
           <p className={clsx('mb-4')}>Nudimo korisničku podršku:</p>
           <ul>
             <li className={clsx('mb-2')}>
-              <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje naloga
-            </li>
-            <li className={clsx('mb-2')}>
               <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje radnje
             </li>
             <li className={clsx('mb-2')}>
@@ -109,12 +107,11 @@ export const Footer = () => {
               zelenisvetinfo@gmail.com
             </a>
           </p>
-          {/* <p>
-            Takodje mozete da zakupite reklamni baner u periodu{' '}
-            <span className={clsx('font-bold')}>7</span> /{' '}
-            <span className={clsx('font-bold')}>14</span> /{' '}
-            <span className={clsx('font-bold')}>28</span> dana
-          </p> */}
+          <img
+            src="https://res.cloudinary.com/dijofqxeu/image/upload/v1745438146/uqdzbq3113jypz6ercok.png"
+            alt="gardener"
+            className="absolute bottom-0 right-10 h-[180px]"
+          />
         </div>
       </section>
     </footer>

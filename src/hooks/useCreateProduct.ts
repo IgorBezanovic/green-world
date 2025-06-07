@@ -1,5 +1,5 @@
 import { request } from '@green-world/utils/api';
-import { ProductValues } from '@green-world/utils/types';
+import { Product } from '@green-world/utils/types';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ export const useCreateProduct = () => {
       width,
       weight,
       milliliters
-    }: ProductValues) =>
+    }: Product) =>
       request({
         url: `/product`,
         method: 'post',

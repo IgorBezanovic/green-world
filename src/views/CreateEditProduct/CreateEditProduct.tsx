@@ -8,11 +8,7 @@ import {
   groupItemsCreateProduct,
   subGroups
 } from '@green-world/utils/constants';
-import {
-  ProductValues,
-  SubGroup,
-  SubGroupKeys
-} from '@green-world/utils/types';
+import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
 import { Select } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
@@ -22,18 +18,21 @@ import ReactQuill from 'react-quill-new';
 import { useParams } from 'react-router-dom';
 import 'react-quill-new/dist/quill.snow.css';
 
-const initProduct = {
+const initProduct: Product = {
   group: '',
   subGroup: '',
   title: '',
   description: '',
   shortDescription: '',
   images: [],
-  price: '',
+  price: 0,
   height: 0,
   width: 0,
   weight: 0,
-  milliliters: 0
+  milliliters: 0,
+  createdBy: '',
+  status: '',
+  onStock: true
 };
 
 export const CreateEditProduct = () => {
@@ -75,7 +74,7 @@ export const CreateEditProduct = () => {
   const { mutate: editMutation, isLoading: isLoadingEditProduct } =
     useEditProduct(productId);
 
-  const [product, setProduct] = useState<ProductValues>(initProduct);
+  const [product, setProduct] = useState<Product>(initProduct);
 
   useEffect(() => {
     if (!isLoading) {

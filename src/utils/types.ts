@@ -14,19 +14,24 @@ export type RegistrationValues = {
   password: string;
 };
 
-export type ProductValues = {
+export interface Product {
+  createdBy: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   group: string;
   subGroup: string;
   title: string;
   description: string;
   shortDescription: string;
+  price: number;
   images: string[];
-  price: string;
   height: number;
-  width: number;
   weight: number;
+  width: number;
   milliliters: number;
-};
+  status: string;
+  onStock: boolean;
+}
 
 export type NewPasswordValues = {
   currentPassword: string;
