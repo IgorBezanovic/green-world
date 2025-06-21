@@ -134,7 +134,7 @@ export const CreateEditEvent = () => {
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>
-          Zeleni svet | {eventID ? 'Azuziraj dogadjaj' : 'Kreiraj dogadjaj'}
+          Zeleni svet | {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
         </title>
         <link rel="canonical" href="https://www.zeleni-svet.com/create-event" />
       </Helmet>
@@ -172,7 +172,7 @@ export const CreateEditEvent = () => {
             className={clsx('text-forestGreen', 'text-5xl', 'md:text-6xl')}
             style={{ fontFamily: 'GreenWorld' }}
           >
-            {eventID ? 'Azuziraj dogadjaj' : 'Kreiraj dogadjaj'}
+            {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
           </h1>
         </section>
         <form
@@ -189,14 +189,14 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Naziv dogadjaja:
+              Naziv aktivnosti:
             </label>
             <CustomInput
               required
               type="text"
               name="title"
               id="title"
-              placeholder="Unesite naziv dogadjaja"
+              placeholder="Unesite naziv daktivnosti"
               value={event?.title || ''}
               onChange={handleChange}
             />
@@ -209,7 +209,7 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Tip dogadjaja:
+              Tip aktivnosti:
             </label>
             <select
               name="typeAction"
@@ -231,7 +231,7 @@ export const CreateEditEvent = () => {
               )}
             >
               <option value="" disabled>
-                Izaberite tip dogadjaja
+                Izaberite tip aktivnosti
               </option>
               <option value="cleaning">Čišćenje</option>
               <option value="selling">Prodaja</option>
@@ -265,7 +265,7 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Mesto dogadjaja:
+              Mesto aktivnosti:
             </label>
             <CustomInput
               required
@@ -285,13 +285,13 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Adresa dogadjaja:
+              Adresa aktivnosti:
             </label>
             <CustomInput
               type="text"
               name="address"
               id="address"
-              placeholder="Unesite adresu dogadjaja"
+              placeholder="Unesite adresu aktivnosti"
               value={event?.address || ''}
               onChange={handleChange}
             />
@@ -304,7 +304,7 @@ export const CreateEditEvent = () => {
                 'mb-2'
               )}
             >
-              Dodajte fotografiju dogadjaja:
+              Dodajte fotografiju aktivnosti:
             </label>
             <div
               className={clsx(
@@ -386,7 +386,7 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Opis dogadjaja:
+              Opis aktivnosti:
             </label>
             <div className={clsx('mb-4')}>
               <ReactQuill
@@ -407,7 +407,7 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Datum dogadjaja:
+              Datum aktivnosti:
             </label>
             <MobileDatePicker
               name="dateAction"
@@ -441,14 +441,14 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Vreme pocetka dogadjaja:
+              Vreme pocetka aktivnosti:
             </label>
             <CustomInput
               required
               type="text"
               name="startTime"
               id="startTime"
-              placeholder="Unesite vreme pocetka dogadjaja"
+              placeholder="Unesite vreme pocetka aktivnosti"
               value={event?.startTime || ''}
               onChange={handleChange}
             />
@@ -461,13 +461,13 @@ export const CreateEditEvent = () => {
                 'text-lg'
               )}
             >
-              Vreme zavrsetka dogadjaja:
+              Vreme zavrsetka aktivnosti:
             </label>
             <CustomInput
               type="text"
               name="endTime"
               id="endTime"
-              placeholder="Unesite vreme zatvaranja dogadjaja"
+              placeholder="Unesite vreme zatvaranja aktivnosti"
               value={event?.endTime || ''}
               onChange={handleChange}
             />
@@ -556,9 +556,9 @@ export const CreateEditEvent = () => {
                     className={clsx('text-groupTransparent', 'my-2')}
                   />
                 ) : eventID ? (
-                  'Azuriraj dogadjaj'
+                  'Azuriraj aktivnosti'
                 ) : (
-                  'Kreiraj dogadjaj'
+                  'Kreiraj aktivnost'
                 )
               }
               customStyle={[

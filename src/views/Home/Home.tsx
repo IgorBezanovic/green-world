@@ -60,7 +60,7 @@ export const Home = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <Divider text="Događaji" />
+        <Divider text="Aktivnosti" />
         <EventCarousel events={allEvents} isLoading={allEventsLoading} />
         <Divider text="Kategorije Proizvoda" />
         <Grid
