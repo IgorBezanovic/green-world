@@ -171,8 +171,8 @@ export const EventProfilCard = ({ ...props }) => {
 
             <PopDelete
               key="delete"
-              title={'Brisanje događaja'}
-              description={'Da li ste sigurni da želite da obrišete događaj?'}
+              title={'Brisanje aktivnosti'}
+              description={'Da li ste sigurni da želite da obrišete aktivnost?'}
               okText={'Da'}
               cancelText={'Ne'}
               id={props.event?._id}

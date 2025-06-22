@@ -102,7 +102,7 @@ export const UserProfile = () => {
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
           <CustomButton
-            text={'Dodaj dogadjaj'}
+            text={'Dodaj aktivnost'}
             type={'text'}
             onClick={() => navigate('/create-event')}
             customStyle={['!flex-1', 'max-h-[45px]']}
@@ -116,7 +116,7 @@ export const UserProfile = () => {
           <Card>
             <CustomInput
               type="text"
-              placeholder={`Pretrazi po nazivu ${activeTab === 'products' ? 'proizvoda' : 'dogadjaja'}`}
+              placeholder={`Pretrazi po nazivu ${activeTab === 'products' ? 'proizvoda' : 'aktivnosti'}`}
               customStyle={['!mb-0']}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 filterContent(e.target.value)
@@ -130,7 +130,7 @@ export const UserProfile = () => {
             aria-label="product-event-tabs"
           >
             <Tab label="Proizvodi" value="products" />
-            <Tab label="Događaji" value="events" />
+            <Tab label="Aktivnosti" value="events" />
           </Tabs>
 
           {activeTab === 'products' && (
@@ -152,7 +152,7 @@ export const UserProfile = () => {
                   <EventProfilCard key={event._id} event={event} />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali događaje</p>
+                <p className="col-span-full">Još uvek niste dodali aktivnost</p>
               )}
             </section>
           )}
