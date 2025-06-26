@@ -2,7 +2,7 @@ import { request } from '@green-world/utils/api';
 import { Product, ProductFiltersParams } from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from 'react-query';
 
-type AllProducts = {
+export type Products = {
   currentPage: number;
   pages: number;
   products: Product[];
@@ -11,7 +11,7 @@ type AllProducts = {
 
 export const useAllProducts = (
   filters?: ProductFiltersParams
-): UseQueryResult<AllProducts | undefined> => {
+): UseQueryResult<Products> => {
   return useQuery(['allProducts', filters], () =>
     request({
       url: '/product/all',
