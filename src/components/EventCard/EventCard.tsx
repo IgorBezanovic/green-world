@@ -26,8 +26,9 @@ export const EventCard = ({ event }: EventCardProps) => {
   const timeAction = event?.startTime ?? null;
   const typeAction = event?.typeAction ?? null;
 
-const parsedDate = dayjs(dateAction, 'DD/MM/YYYY');
-const isFinished = parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day'));
+  const parsedDate = dayjs(dateAction, 'DD/MM/YYYY');
+  const isFinished =
+    parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day'));
 
   const handleNavigate = () => {
     if (event._id) {
@@ -45,7 +46,9 @@ const isFinished = parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day
           maxWidth: isTablet ? 600 : '100%',
           margin: isTablet ? 'auto' : 0,
           overflow: 'hidden',
-          cursor: !location.pathname.includes('/profile') ? 'pointer' : 'default',
+          cursor: !location.pathname.includes('/profile')
+            ? 'pointer'
+            : 'default',
           boxShadow: 3,
           height: isMobile ? 'auto' : 240
         }}
@@ -88,15 +91,15 @@ const isFinished = parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day
                   typeAction === 'cleaning'
                     ? 'Čišćenje'
                     : typeAction === 'selling'
-                    ? 'Prodaja'
-                    : 'Sadnja'
+                      ? 'Prodaja'
+                      : 'Sadnja'
                 }
                 color={
                   typeAction === 'cleaning'
                     ? 'error'
                     : typeAction === 'selling'
-                    ? 'info'
-                    : 'success'
+                      ? 'info'
+                      : 'success'
                 }
                 size="small"
               />
@@ -172,36 +175,35 @@ const isFinished = parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day
         </Box>
       </Card>
 
-{isFinished && (
-  <Box
-    sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      bgcolor: 'rgba(0, 0, 0, 0.5)',
-      zIndex: 10,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 1
-    }}
-  >
-    <img
-      src="https://res.cloudinary.com/dijofqxeu/image/upload/v1750070602/qjj5peqvwjdrqonnop7n.png
+      {isFinished && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            bgcolor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 10,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 1
+          }}
+        >
+          <img
+            src="https://res.cloudinary.com/dijofqxeu/image/upload/v1750070602/qjj5peqvwjdrqonnop7n.png
 "
-      alt="Završeno"
-      style={{
-        maxWidth: '80%',
-        maxHeight: '80%',
-        objectFit: 'contain',
-        filter: 'drop-shadow(2px 2px 4px black)'
-      }}
-    />
-  </Box>
-)}
-
+            alt="Završeno"
+            style={{
+              maxWidth: '80%',
+              maxHeight: '80%',
+              objectFit: 'contain',
+              filter: 'drop-shadow(2px 2px 4px black)'
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
