@@ -1,7 +1,7 @@
 import { EventCard } from '@green-world/components';
-import { Carousel, Empty, Skeleton } from 'antd';
-import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Carousel, Empty, Skeleton } from 'antd';
 import { useRef } from 'react';
 
 export const EventCarousel = ({ ...props }) => {
@@ -27,10 +27,10 @@ export const EventCarousel = ({ ...props }) => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          px: isDesktop ? 6 : 0,
+          px: isDesktop ? 6 : 0
         }}
       >
-        {isDesktop && (
+        {events.length > 4 && isDesktop && (
           <>
             <IconButton
               onClick={handlePrev}
@@ -40,7 +40,7 @@ export const EventCarousel = ({ ...props }) => {
                 zIndex: 2,
                 backgroundColor: 'white',
                 boxShadow: 3,
-                '&:hover': { backgroundColor: '#f0f0f0' },
+                '&:hover': { backgroundColor: '#f0f0f0' }
               }}
             >
               <ArrowBackIosNew />
@@ -53,7 +53,7 @@ export const EventCarousel = ({ ...props }) => {
                 zIndex: 2,
                 backgroundColor: 'white',
                 boxShadow: 3,
-                '&:hover': { backgroundColor: '#f0f0f0' },
+                '&:hover': { backgroundColor: '#f0f0f0' }
               }}
             >
               <ArrowForwardIos />
@@ -71,9 +71,9 @@ export const EventCarousel = ({ ...props }) => {
               {
                 breakpoint: 900,
                 settings: {
-                  slidesToShow: 1,
-                },
-              },
+                  slidesToShow: 1
+                }
+              }
             ]}
             slidesToScroll={1}
           >

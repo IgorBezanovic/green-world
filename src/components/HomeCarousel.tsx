@@ -1,11 +1,11 @@
-import { Carousel, Empty, Skeleton } from 'antd';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
-import clsx from 'clsx';
-
-import '../styles.css';
-import { ProductCard } from './ProductCard';
 import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Carousel, Empty, Skeleton } from 'antd';
+import clsx from 'clsx';
+import '../styles.css';
 import { useRef } from 'react';
+
+import { ProductCard } from './ProductCard';
 
 export const HomeCarousel = ({ ...props }) => {
   const products = Array.isArray(props.products) ? props.products : [];
@@ -32,7 +32,7 @@ export const HomeCarousel = ({ ...props }) => {
           px: isDesktop ? 6 : 0
         }}
       >
-        {isDesktop && (
+        {products.length > 5 && isDesktop && (
           <>
             <IconButton
               onClick={handlePrev}
