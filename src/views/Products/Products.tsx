@@ -67,21 +67,29 @@ export const Products = () => {
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
-        <title>Zeleni svet | Pretraga proizvoda</title>
+        <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/search" />
       </Helmet>
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: 0,
+          [theme.breakpoints.down('xl')]: {
+            px: 4
+          },
+          [theme.breakpoints.down('xs')]: {
+            px: 4
+          },
+          py: 7,
+          display: 'flex',
+          flexDirection: 'row',
+          [theme.breakpoints.down('md')]: {
+            flexDirection: 'column'
+          },
+          gap: 10
+        })}
       >
         {Boolean(products?.products.length) && (
           <Box
