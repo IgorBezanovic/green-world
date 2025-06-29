@@ -126,7 +126,7 @@ export const Header = () => {
             <ListItemIcon>
               <PostAddIcon fontSize="small" />
             </ListItemIcon>
-            Akreiraj dogadjaj
+            Kreiraj aktivnost
           </MenuItem>
           <MenuItem onClick={() => navigate('/profile-settings/edit-profile')}>
             <ListItemIcon>

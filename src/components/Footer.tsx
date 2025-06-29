@@ -94,7 +94,7 @@ export const Footer = () => {
             </li>
             <li>
               <CheckCircleOutlined className={clsx('mr-2')} /> Kreiranje
-              događaja
+              aktivnosti
             </li>
           </ul>
         </div>
