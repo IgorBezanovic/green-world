@@ -70,7 +70,7 @@ export const Footer = () => {
             </IconButton>
             <IconButton
               component="a"
-              href="https://www.facebook.com/zelenisvet"
+              href="https://www.facebook.com/profile.php?id=61577326298021"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
