@@ -1,27 +1,32 @@
-import clsx from 'clsx';
+import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export const Logo = ({
   width,
-  height
+  height,
+  sx
 }: {
   width?: string;
   height?: string;
+  sx?: React.CSSProperties;
 }) => {
   const navigate = useNavigate();
 
   return (
-    <button
-      style={{
+    <IconButton
+      onClick={() => navigate('/')}
+      aria-label="Home"
+      sx={{
+        display: 'flex',
         backgroundImage: "url('/zeleni-svet-yellow-nd-transparent.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: width || '3.5rem',
-        height: height || '3.5rem'
+        height: height || '3.5rem',
+        borderRadius: '50%',
+        boxShadow: 2,
+        ...sx
       }}
-      className={clsx('flex', 'shadow-md', 'rounded-[50%]')}
-      onClick={() => navigate('/')}
-      aria-label="Home"
     />
   );
 };
