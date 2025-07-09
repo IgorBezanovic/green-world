@@ -35,7 +35,7 @@ export const EventCard = ({ event }: EventCardProps) => {
       navigate(`/event/${event._id}`);
     }
   };
-  console.log(isFinished);
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
