@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import 'react-quill-new/dist/quill.snow.css';
 
 const initProduct: Product = {
+  _id: '',
   group: '',
   subGroup: '',
   title: '',

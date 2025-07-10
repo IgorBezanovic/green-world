@@ -1,4 +1,8 @@
 import { request } from '@green-world/utils/api';
+import {
+  getDecryptedProduct,
+  storeEncryptedProduct
+} from '@green-world/utils/localStogareProducts';
 import { Product } from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from 'react-query';
 
@@ -11,7 +15,9 @@ export const useProduct = (id: string): UseQueryResult<Product> => {
         method: 'get'
       }),
     {
-      enabled: !!id
+      enabled: !!id,
+      initialData: () => getDecryptedProduct(id),
+      onSuccess: (data) => storeEncryptedProduct(data)
     }
   );
 };

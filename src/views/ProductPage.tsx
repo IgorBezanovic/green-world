@@ -32,7 +32,7 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
 
-  if (!productId) return null;
+  if (!productId) return <></>;
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
