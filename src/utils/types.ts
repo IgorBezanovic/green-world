@@ -15,6 +15,7 @@ export type RegistrationValues = {
 };
 
 export interface Product {
+  _id: string;
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
