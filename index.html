@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="7MvEmWB5iB1_cw6YTBfAVjkwI6KMsoDls1pSF-7id2g" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>  
+    <meta name="google-signin-client_id" content="210817086921-to5kln86hcsep0281jhkghgca6da7iga.apps.googleusercontent.com.apps.googleusercontent.com">
     <link rel="icon" type="image/svg+xml" href="https://www.zeleni-svet.com/green-world.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Besplatna web platforma za oglašavanje proizvoda iz oblasti cvećarstva, baštovanstva, biljnih dekoracija i poljoprivrednih apoteka. Gradimo zajednicu ljubitelja biljaka i prirode.">
@@ -30,6 +32,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log("ID: " + profile.getId());
+          console.log("Name: " + profile.getName());
+          console.log("Email: " + profile.getEmail());
+      }
+    </script>  
   </body>
 </html>
