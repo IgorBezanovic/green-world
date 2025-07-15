@@ -5,6 +5,7 @@ import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Button,
   Checkbox,
   InputLabel,
   MenuItem,
@@ -13,12 +14,17 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material';
+import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const Products = () => {
   const { data: products } = useAllProducts();
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [search, setSearch] = useState<string>('');
   const [selectedSubgroup, setSelectedSubgroup] = useState<string>('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
@@ -91,89 +97,110 @@ export const Products = () => {
           gap: 10
         })}
       >
-        {Boolean(products?.products.length) && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px'
-            }}
-          >
-            <Box>
-              <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
-              <TextField
-                aria-describedby="name"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+        <Box>
+          {isMobile && (
+            <Button
+              variant="outlined"
+              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+              sx={{
+                width: '100%',
+                marginBottom: '16px'
+              }}
+            >
+              {!isFiltersOpen ? 'Filteri' : 'Zatvori filtere'}
+            </Button>
+          )}
+          {/* Filters */}
+          {(isMobile
+            ? Boolean(products?.products.length) && isFiltersOpen && isMobile
+            : Boolean(products?.products.length)) && (
+            <Grow in={isFiltersOpen || !isMobile}>
+              <Box
                 sx={{
-                  '& .MuiInputBase-input': {
-                    padding: '8px'
-                  }
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px'
                 }}
-                slotProps={{
-                  input: {
-                    // endAdornment: <SearchIcon color="action" />
-                    endAdornment: search ? (
-                      <ClearIcon
-                        onClick={() => setSearch('')}
-                        sx={{ cursor: 'pointer' }}
-                      />
-                    ) : (
-                      <SearchIcon color="action" />
-                    )
-                  }
-                }}
-                fullWidth
-              />
-            </Box>
-
-            <Box>
-              <InputLabel id="subgroup-select-label">Podkategorija</InputLabel>
-              <Select
-                labelId="subgroup-select-label"
-                value={selectedSubgroup}
-                sx={{
-                  '& .MuiInputBase-input': {
-                    padding: '8px'
-                  }
-                }}
-                onChange={(e) => setSelectedSubgroup(e.target.value)}
-                fullWidth
               >
-                <MenuItem value="">Sve</MenuItem>
-                {subGroups.map((sg) => (
-                  <MenuItem key={sg} value={sg}>
-                    {sg}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
+                <Box>
+                  <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
+                  <TextField
+                    aria-describedby="name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    sx={{
+                      '& .MuiInputBase-input': {
+                        padding: '8px'
+                      }
+                    }}
+                    slotProps={{
+                      input: {
+                        endAdornment: search ? (
+                          <ClearIcon
+                            onClick={() => setSearch('')}
+                            sx={{ cursor: 'pointer' }}
+                          />
+                        ) : (
+                          <SearchIcon color="action" />
+                        )
+                      }
+                    }}
+                    fullWidth
+                  />
+                </Box>
 
-            <Box>
-              <Typography gutterBottom>
-                Cena: {priceRange[0]} - {priceRange[1]} RSD
-              </Typography>
-              <Slider
-                value={priceRange}
-                onChange={(_, value) =>
-                  setPriceRange(value as [number, number])
-                }
-                valueLabelDisplay="auto"
-                min={priceLimits[0]}
-                max={priceLimits[1]}
-                disabled={priceLimits[0] === priceLimits[1]}
-              />
-            </Box>
+                <Box>
+                  <InputLabel id="subgroup-select-label">
+                    Podkategorija
+                  </InputLabel>
+                  <Select
+                    labelId="subgroup-select-label"
+                    value={selectedSubgroup}
+                    sx={{
+                      '& .MuiInputBase-input': {
+                        padding: '8px'
+                      }
+                    }}
+                    onChange={(e) => setSelectedSubgroup(e.target.value)}
+                    fullWidth
+                  >
+                    <MenuItem value="">Sve</MenuItem>
+                    {subGroups.map((sg) => (
+                      <MenuItem key={sg} value={sg}>
+                        {sg}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Box>
 
-            <Box display="flex" alignItems="center" gap={1}>
-              <Checkbox
-                checked={inStockOnly}
-                onChange={(e) => setInStockOnly(e.target.checked)}
-              />
-              <Typography>Na stanju</Typography>
-            </Box>
-          </Box>
-        )}
+                <Box>
+                  <Typography gutterBottom>
+                    Cena: {priceRange[0]} - {priceRange[1]} RSD
+                  </Typography>
+                  <Slider
+                    value={priceRange}
+                    onChange={(_, value) =>
+                      setPriceRange(value as [number, number])
+                    }
+                    valueLabelDisplay="auto"
+                    min={priceLimits[0]}
+                    max={priceLimits[1]}
+                    disabled={priceLimits[0] === priceLimits[1]}
+                  />
+                </Box>
+
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Checkbox
+                    checked={inStockOnly}
+                    onChange={(e) => setInStockOnly(e.target.checked)}
+                  />
+                  <Typography>Na stanju</Typography>
+                </Box>
+              </Box>
+            </Grow>
+          )}
+        </Box>
+
         <Box
           component={'section'}
           className={clsx('w-full', 'grid', 'gap-5', {
