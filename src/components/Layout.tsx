@@ -1,4 +1,10 @@
-import { Footer, Header, NavTrack, ScrollToTop } from '@green-world/components';
+import {
+  Footer,
+  Header,
+  NavTrack,
+  ScrollToTop,
+  AllRights
+} from '@green-world/components';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -10,6 +16,7 @@ export const Layout = () => {
       <Header />
       <Outlet />
       <Footer />
+      <AllRights />
     </React.Fragment>
   );
 };

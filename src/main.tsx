@@ -5,6 +5,7 @@ import { routes } from '@green-world/routes';
 import { ThemeProvider } from '@green-world/theme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
@@ -20,21 +21,23 @@ const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <UserContextProvider>
-            <SuccessProvider>
-              <Suspense fallback={<Loader />}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <RouterProvider router={router} />
-                  <ToastContainer />
-                </LocalizationProvider>
-              </Suspense>
-            </SuccessProvider>
-          </UserContextProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <ThemeProvider>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <UserContextProvider>
+              <SuccessProvider>
+                <Suspense fallback={<Loader />}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <RouterProvider router={router} />
+                    <ToastContainer />
+                  </LocalizationProvider>
+                </Suspense>
+              </SuccessProvider>
+            </UserContextProvider>
+          </QueryClientProvider>
+        </HelmetProvider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );

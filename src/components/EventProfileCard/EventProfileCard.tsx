@@ -22,7 +22,7 @@ import { PopDelete } from '../PopDelete';
 
 import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
-export const EventProfilCard = ({ ...props }) => {
+export const EventProfileCard = ({ ...props }) => {
   const { mutate } = useDeleteEvent(props.event?._id);
   const navigate = useNavigate();
   const location = useLocation();
