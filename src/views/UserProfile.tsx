@@ -3,7 +3,7 @@ import {
   CustomButton,
   CustomInput,
   UserInfo,
-  EventProfilCard
+  EventProfileCard
 } from '@green-world/components';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -149,7 +149,7 @@ export const UserProfile = () => {
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               {eventsToDisplay.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
-                  <EventProfilCard key={event._id} event={event} />
+                  <EventProfileCard key={event._id} event={event} />
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>
