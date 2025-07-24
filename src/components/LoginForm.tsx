@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { GoogleLoginAuth } from '../components';
 import { CustomButton } from './CustomButton';
 import { CustomInput } from './CustomInput';
 
@@ -130,6 +131,7 @@ export const LoginForm = ({ ...props }) => {
           ]}
           disabled={props.isLoading}
         />
+        <GoogleLoginAuth />
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>
             {props.error?.response?.data}

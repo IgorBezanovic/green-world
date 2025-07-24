@@ -18,6 +18,8 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@mui/x-date-pickers": "^8.1.0",
+    "@react-oauth/google": "^0.12.2",
+    "@tanstack/react-query": "^5.83.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "antd": "^5.21.1",
     "axios": "^1.6.5",
@@ -35,10 +37,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
+    "react-oauth": "^0.0.1",
     "react-query": "^3.39.3",
     "react-quill-new": "^3.4.6",
     "react-router-dom": "^6.21.3",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
