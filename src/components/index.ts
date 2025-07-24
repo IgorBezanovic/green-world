@@ -27,3 +27,4 @@ export * from '@green-world/components/ScrollToTop';
 export * from '@green-world/components/Search';
 export * from '@green-world/components/UserInfo';
 export * from '@green-world/components/VisibleEye';
+export * from '@green-world/components/GoogleLoginAuth';
