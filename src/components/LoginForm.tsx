@@ -1,14 +1,20 @@
 import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
+import { setItem } from '@green-world/utils/cookie';
 import { AuthValues } from '@green-world/utils/types';
+import { GoogleLogin } from '@react-oauth/google';
 import { Input } from 'antd';
+import axios from 'axios';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { CustomButton } from './CustomButton';
 import { CustomInput } from './CustomInput';
 
 export const LoginForm = ({ ...props }) => {
+  const navigate = useNavigate();
+
   const [auth, setAuth] = useState<AuthValues>({
     email: '',
     password: ''
@@ -129,6 +135,40 @@ export const LoginForm = ({ ...props }) => {
             }
           ]}
           disabled={props.isLoading}
+        />
+        <GoogleLogin
+          containerProps={{
+            style: {
+              paddingTop: '12px',
+              paddingLeft: '0px',
+              paddingRight: '0px'
+            }
+          }}
+          theme="outline"
+          text="continue_with"
+          logo_alignment="center"
+          onSuccess={async (credentialResponse) => {
+            try {
+              const res = await axios.post(
+                'http://localhost:5050/api/auth/google',
+                {
+                  credential: credentialResponse.credential
+                }
+              );
+
+              const token = res.data.token;
+              console.log(res);
+              localStorage.setItem('token', token);
+              setItem('token', token);
+              navigate('/');
+            } catch (err: any) {
+              const msg = err?.response?.data || 'Greška pri loginu.';
+              toast.error(msg);
+            }
+          }}
+          onError={() => {
+            toast.error('Google login nije uspeo.');
+          }}
         />
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>
