@@ -17,7 +17,7 @@ import {
   NotFound,
   ProductPage,
   ProfileSettings,
-  // ProductsSearchPage,
+  PrivacyPolicy,
   Registration,
   UserProfile,
   CreateEditEvent
@@ -101,6 +101,10 @@ export const routes = [
       {
         path: '/edit-event/:eventID',
         element: <ProtectedRoute element={CreateEditEvent} />
+      },
+      {
+        path: '/privacy-policy',
+        element: <PrivacyPolicy />
       }
     ]
   },

@@ -93,12 +93,12 @@ export const ProductCard = ({ ...props }) => {
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 3,
                 overflow: 'hidden',
+                textOverflow: 'ellipsis',
                 minHeight: '5em',
                 paddingTop: '8px'
               }}
             >
-              {props?.product?.shortDescription.slice(0, 80) ||
-                `${props?.product?.description.slice(0, 80)}${props?.product?.description.length > 80 ? '...' : ''}`}
+              {props?.product?.shortDescription || props?.product?.description}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -112,20 +112,22 @@ export const ProductCard = ({ ...props }) => {
         </CardContent>
         <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
-          <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
-            <IconButton aria-label="add to favorites">
-              <EditIcon
-                onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
-              />
+          <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
+            >
+              <EditIcon />
             </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `https://www.zeleni-svet.com/product/${props?.product?._id}`
-                  )
-                }
-              />
+            <IconButton
+              aria-label="share"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `https://www.zeleni-svet.com/product/${props?.product?._id}`
+                )
+              }
+            >
+              <ShareIcon />
             </IconButton>
 
             <PopDelete

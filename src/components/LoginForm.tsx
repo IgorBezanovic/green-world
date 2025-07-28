@@ -1,11 +1,12 @@
 import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
+import { Box, Typography } from '@mui/material';
 import { Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { GoogleLoginAuth } from '../components';
+import { Divider, GoogleLoginAuth, MetaLoginAuth } from '../components';
 import { CustomButton } from './CustomButton';
 import { CustomInput } from './CustomInput';
 
@@ -92,21 +93,27 @@ export const LoginForm = ({ ...props }) => {
           prefix={<LockOutlined className={clsx('text-groupTransparent')} />}
         />
         {props.isLoading ? (
-          <span className={clsx('text-groupTransparent')}>
+          <span className={clsx('text-groupTransparent', 'text-sm')}>
             Zaboravljen password?
           </span>
         ) : (
-          <Link to="/forgot-password" className={clsx('text-forestGreen')}>
+          <Link
+            to="/forgot-password"
+            className={clsx('text-forestGreen', 'text-sm')}
+          >
             Zaboravljen password?
           </Link>
         )}
         <div className={clsx('w-full', 'flex', 'justify-center', 'mt-12')}>
           {props.isLoading ? (
-            <span className={clsx('text-groupTransparent')}>
+            <span className={clsx('text-groupTransparent', 'text-sm')}>
               Nemate nalog? Registrujte se
             </span>
           ) : (
-            <Link to="/registration" className={clsx('text-forestGreen')}>
+            <Link
+              to="/registration"
+              className={clsx('text-forestGreen', 'text-sm')}
+            >
               Nemate nalog? Registrujte se
             </Link>
           )}
@@ -131,7 +138,24 @@ export const LoginForm = ({ ...props }) => {
           ]}
           disabled={props.isLoading}
         />
-        <GoogleLoginAuth />
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '12px',
+            marginTop: '12px'
+          }}
+        >
+          <Divider />
+          <GoogleLoginAuth />
+          <MetaLoginAuth />
+          <Typography variant="caption" align="center">
+            Prijavom prihvatate našu{' '}
+            <Link to="/privacy-policy">Politiku privatnosti</Link>.
+          </Typography>
+        </Box>
         {props.error && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>
             {props.error?.response?.data}
