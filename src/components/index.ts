@@ -21,6 +21,7 @@ export * from '@green-world/components/Layout';
 export * from '@green-world/components/Loader';
 export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/Logo';
+export * from '@green-world/components/MetaLoginAuth';
 export * from '@green-world/components/PopDelete';
 export * from '@green-world/components/ProtectedRoute';
 export * from '@green-world/components/GroupButton';

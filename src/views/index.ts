@@ -3,6 +3,7 @@ export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/Event';
 export * from '@green-world/views/GroupProducts';
 export * from '@green-world/views/Home';
+export * from '@green-world/views/PrivacyPolicy';
 export * from '@green-world/views/Products';
 export * from '@green-world/views/CreateEditProduct';
 export * from '@green-world/views/ForgotPassword';

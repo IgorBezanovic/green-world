@@ -12,9 +12,7 @@ export const GoogleLoginAuth = () => {
     <GoogleLogin
       containerProps={{
         style: {
-          paddingTop: '12px',
-          paddingLeft: '0px',
-          paddingRight: '0px'
+          width: '100%'
         }
       }}
       theme="outline"

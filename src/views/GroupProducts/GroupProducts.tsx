@@ -137,7 +137,9 @@ export const GroupProducts = () => {
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '16px'
+                  gap: '16px',
+                  position: 'sticky',
+                  top: '100px'
                 }}
               >
                 <Box>

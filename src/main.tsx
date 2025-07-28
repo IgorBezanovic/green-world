@@ -17,7 +17,12 @@ import '@green-world/styles.css';
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_relativeSplatPath: true,
+    v7_normalizeFormMethod: true
+  }
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -29,7 +34,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <SuccessProvider>
                 <Suspense fallback={<Loader />}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <RouterProvider router={router} />
+                    <RouterProvider
+                      router={router}
+                      future={{
+                        v7_startTransition: true
+                      }}
+                    />
                     <ToastContainer />
                   </LocalizationProvider>
                 </Suspense>
