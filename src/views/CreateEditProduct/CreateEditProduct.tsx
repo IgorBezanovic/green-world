@@ -88,7 +88,7 @@ export const CreateEditProduct = () => {
       ...prevProduct,
       images: productImage
         ? [...prevProduct.images, productImage]
-        : prevProduct.images
+        : prevProduct?.images || []
     }));
   }, [productImage]);
 
@@ -123,7 +123,7 @@ export const CreateEditProduct = () => {
   };
 
   const handleDeleteImage = (indexToDelete: number) => {
-    const updatedImages = product.images.filter(
+    const updatedImages = product?.images.filter(
       (_, index) => index !== indexToDelete
     );
 
@@ -264,7 +264,9 @@ export const CreateEditProduct = () => {
             >
               Dodajte fotografije proizvoda:
             </label>
-            <small className={clsx('mb-2')}>Maksimum 10 fotografija</small>
+            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
+              Prva slika u nizu je profilna. Maksimum 10 fotografija
+            </small>
             <div
               className={clsx(
                 'w-full',
@@ -279,98 +281,92 @@ export const CreateEditProduct = () => {
                 'md:grid-cols-4'
               )}
             >
-              {product?.images.map((image, index) => (
-                <div key={index} className={clsx('w-full', 'relative')}>
-                  <DeleteOutlined
-                    className={clsx(
-                      'absolute',
-                      'top-2',
-                      'right-2',
-                      'font-2xl',
-                      'text-forestGreen'
-                    )}
-                    onClick={() => handleDeleteImage(index)}
-                    alt="Obrisi sliku"
-                    title="Obrisi sliku"
-                  />
-                  <img
-                    src={image}
-                    alt={`product-image-${index}`}
-                    className={clsx('aspect-square', 'shadow-md')}
-                    height="100%"
-                    width="100%"
-                  />
-                  {index !== 0 && (
-                    <button
-                      onClick={() => handleSetAsProfileImage(index)}
+              {product?.images &&
+                product?.images?.map((image, index) => (
+                  <div key={index} className={clsx('w-full', 'relative')}>
+                    <DeleteOutlined
                       className={clsx(
-                        'mt-2',
-                        'px-3',
-                        'py-1',
-                        'w-full',
-                        'text-sm',
-                        'font-semibold',
-                        'text-white',
-                        'bg-forestGreen',
-                        'rounded-full',
-                        'shadow-md',
-                        'transition-all',
-                        'md:hover:text-cream',
-                        'md:hover:shadow-lg',
-                        'md:hover:translate-y-[-1px]'
+                        'absolute',
+                        'top-2',
+                        'right-2',
+                        'font-2xl',
+                        'text-forestGreen'
                       )}
-                    >
-                      <small>Profilna</small>
-                    </button>
-                  )}
-                </div>
-              ))}
+                      onClick={() => handleDeleteImage(index)}
+                      alt="Obrisi sliku"
+                      title="Obrisi sliku"
+                    />
+                    <img
+                      src={image}
+                      alt={`product-image-${index}`}
+                      className={clsx('aspect-square', 'shadow-md')}
+                      height="100%"
+                      width="100%"
+                    />
+                    {index !== 0 && (
+                      <button
+                        onClick={() => handleSetAsProfileImage(index)}
+                        className={clsx(
+                          'mt-2',
+                          'px-3',
+                          'py-1',
+                          'w-full',
+                          'text-sm',
+                          'font-semibold',
+                          'text-white',
+                          'bg-forestGreen',
+                          'rounded-full',
+                          'shadow-md',
+                          'transition-all',
+                          'md:hover:text-cream',
+                          'md:hover:shadow-lg',
+                          'md:hover:translate-y-[-1px]'
+                        )}
+                      >
+                        <small>Profilna</small>
+                      </button>
+                    )}
+                  </div>
+                ))}
             </div>
-            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
-              Prva slika u nizu je profilna
-            </small>
-            {product?.images.length < 10 && (
-              <>
-                <label
-                  htmlFor="profileImage"
-                  className={clsx(
-                    'border',
-                    'border-forestGreen',
-                    'text-forestGreen',
-                    'rounded',
-                    'py-2',
-                    'px-4',
-                    'shadow-md',
-                    'bg-whiteLinen',
-                    'text-center',
-                    'cursor-pointer',
-                    'mx-auto',
-                    'md:mx-0',
-                    'uppercase',
-                    'font-light',
-                    'mb-4',
-                    'md:mb-0',
-                    'transition-all',
-                    'duration-300',
-                    'md:hover:text-black',
-                    'md:hover:shadow-lg',
-                    'md:hover:translate-y-[-1px]',
-                    'md:active:translate-y-0',
-                    'md:active:shadow-md'
-                  )}
-                >
-                  Dodaj sliku proizvoda
-                </label>
-                <input
-                  type="file"
-                  name="profileImage"
-                  id="profileImage"
-                  accept="image/*"
-                  onChange={handleImage}
-                  className={clsx('hidden')}
-                ></input>
-              </>
-            )}
+            <label
+              htmlFor={
+                product?.images?.length >= 10 ? undefined : 'profileImage'
+              }
+              className={clsx(
+                'border',
+                product?.images?.length >= 10
+                  ? 'border-gray40 text-gray40 bg-gray10 cursor-not-allowed'
+                  : 'border-forestGreen text-forestGreen bg-whiteLinen cursor-pointer md:hover:text-black md:hover:shadow-lg md:hover:translate-y-[-1px] md:active:translate-y-0 md:active:shadow-md',
+                'rounded',
+                'py-2',
+                'px-4',
+                'shadow-md',
+                'text-center',
+                'mx-auto',
+                'md:mx-0',
+                'uppercase',
+                'font-light',
+                'mb-4',
+                'md:mb-0',
+                'transition-all',
+                'duration-300'
+              )}
+              aria-disabled={product?.images?.length >= 10}
+            >
+              {product?.images?.length >= 10
+                ? 'Maksimalno 10 slika'
+                : 'Dodaj sliku proizvoda'}
+            </label>
+            <input
+              type="file"
+              disabled={product?.images?.length >= 10}
+              name="profileImage"
+              id="profileImage"
+              accept="image/*"
+              onChange={handleImage}
+              className={clsx('hidden')}
+            ></input>
           </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
