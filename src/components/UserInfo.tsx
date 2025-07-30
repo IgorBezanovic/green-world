@@ -33,12 +33,12 @@ export const UserInfo = ({ ...props }) => {
               />
               {props?.user?.name && (
                 <p className={clsx('text-black')}>
-                  {props?.user?.name || 'N/A'} {props?.user?.lastname}
+                  {props?.user?.name} {props?.user?.lastname}
                 </p>
               )}
               {props?.user?.shopDescription && (
                 <q className={clsx('text-black', 'font-extralight', 'mt-1')}>
-                  {props?.user?.shopDescription || 'N/A'}
+                  {props?.user?.shopDescription}
                 </q>
               )}
               {props?.user?.address?.city && props?.user?.address?.country && (
