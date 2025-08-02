@@ -9,10 +9,12 @@ import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+
+import ZSBanner from '../../assets/ZS Banner.png';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
@@ -55,6 +57,13 @@ export const Home = () => {
           'gap-7'
         )}
       >
+        <Box
+          component="img"
+          loading="eager"
+          src={ZSBanner}
+          alt="Zeleni svet banner"
+          className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
+        />
         <Divider text="Izdvojeni proizvodi" />
         <HomeCarousel
           products={allProducts?.products}

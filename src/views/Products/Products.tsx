@@ -20,6 +20,8 @@ import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
+import ProductBanner from '../../assets/Products.png';
+
 export const Products = () => {
   const { data: products } = useAllProducts();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -76,6 +78,24 @@ export const Products = () => {
         <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/search" />
       </Helmet>
+
+      <Box
+        component="img"
+        loading="eager"
+        src={ProductBanner}
+        alt="Zeleni svet banner"
+        className={clsx(
+          'max-w-[1400px]',
+          'mx-auto',
+          'w-full',
+          'h-auto',
+          'rounded',
+          'my-8',
+          'shadow',
+          'h-[320px]'
+        )}
+      />
+
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
