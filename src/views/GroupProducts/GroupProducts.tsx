@@ -22,6 +22,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import ProductBanner from '../../assets/Products.png';
+
 export const GroupProducts = () => {
   const navigate = useNavigate();
   const { category = '' } = useParams();
@@ -94,6 +96,22 @@ export const GroupProducts = () => {
         />
       </Helmet>
 
+      <Box
+        component="img"
+        loading="eager"
+        src={ProductBanner}
+        alt="Zeleni svet banner"
+        className={clsx(
+          'max-w-[1400px]',
+          'mx-auto',
+          'w-full',
+          'h-auto',
+          'rounded',
+          'my-8',
+          'shadow',
+          'h-[320px]'
+        )}
+      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
