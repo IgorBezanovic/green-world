@@ -7,7 +7,7 @@ export const lightPalette: PaletteOptions = {
     white: '#FFFFFF'
   },
   custom: {
-    forestGreen: '#316357',
+    forestGreen: '#266041',
     mint: '#92C7CF',
     lightMint: '#AAD7D9',
     lightCream: '#FBF9F1',

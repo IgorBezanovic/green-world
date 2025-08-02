@@ -1,4 +1,5 @@
 import { Divider as MUIDivider, Typography, Box } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 
 interface CustomDividerProps {
   text?: string;
@@ -12,11 +13,11 @@ export const Divider = ({ text }: CustomDividerProps) => {
         <>
           <Typography
             variant="subtitle1"
-            color="forestGreen"
-            sx={{
+            sx={(theme: Theme) => ({
+              color: theme.palette.custom.forestGreen,
               mx: 2,
               textTransform: 'uppercase'
-            }}
+            })}
           >
             {text}
           </Typography>
