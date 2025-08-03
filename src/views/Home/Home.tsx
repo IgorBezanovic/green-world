@@ -9,12 +9,13 @@ import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Theme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 import ZSBanner from '../../assets/ZS Banner.png';
+import ZSBannerTablet from '../../assets/ZS-Banner-tablet.png';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
@@ -36,6 +37,10 @@ export const Home = () => {
     useProductsByGroup('everything_for_plants');
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('md')
+  );
+  const bannerImage = isMobile ? ZSBannerTablet : ZSBanner;
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -60,7 +65,7 @@ export const Home = () => {
         <Box
           component="img"
           loading="eager"
-          src={ZSBanner}
+          src={bannerImage}
           alt="Zeleni svet banner"
           className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
         />
