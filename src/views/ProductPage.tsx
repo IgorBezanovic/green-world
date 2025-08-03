@@ -110,7 +110,14 @@ export const ProductPage = () => {
                     <img
                       src={productData?.images[idexOfImage]}
                       alt={productData?.title}
-                      className={clsx('rounded-md', 'shadow-lg')}
+                      className={clsx(
+                        'rounded-md',
+                        'shadow-lg',
+                        'max-w-[500px]',
+                        'max-h-[500px]',
+                        'w-full',
+                        'object-cover'
+                      )}
                     />
                     {productData?.images.length !== 1 && (
                       <button
