@@ -67,23 +67,11 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
         >
           <Typography
             className="group-text"
-            variant="subtitle1"
+            variant="subtitle2"
             sx={(theme) => ({
               textTransform: 'uppercase',
               color: theme.palette.text.secondary,
-              letterSpacing: 1,
-              fontSize: {
-                xs: theme.typography.subtitle2.fontSize,
-                sm: theme.typography.subtitle1.fontSize
-              },
-              fontWeight: {
-                xs: theme.typography.subtitle2.fontWeight,
-                sm: theme.typography.subtitle1.fontWeight
-              },
-              lineHeight: {
-                xs: theme.typography.subtitle2.lineHeight,
-                sm: theme.typography.subtitle1.lineHeight
-              }
+              letterSpacing: 1
             })}
           >
             {item.text}

@@ -63,7 +63,7 @@ export const typography: TypographyVariantsOptions = {
     letterSpacing: '-0.011em'
   },
   subtitle2: {
-    fontSize: '0.875rem',
+    fontSize: '1rem',
     fontWeight: 500,
     letterSpacing: '-0.005em',
     lineHeight: 1.43
