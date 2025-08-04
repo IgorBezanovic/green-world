@@ -80,199 +80,203 @@ export const Products = () => {
       </Helmet>
 
       <Box
-        component="img"
-        loading="eager"
-        src={ProductBanner}
-        alt="Zeleni svet banner"
         className={clsx(
-          'max-w-[1400px]',
-          'mx-auto',
+          'xl:max-w-[1400px]',
           'w-full',
-          'h-auto',
-          'rounded',
-          'my-8',
-          'shadow',
-          'h-[320px]'
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7',
+          'flex',
+          'flex-col',
+          'gap-7'
         )}
-      />
-
-      <Box
-        sx={(theme) => ({
-          maxWidth: '1400px',
-          width: '100%',
-          mx: 'auto',
-          px: 0,
-          [theme.breakpoints.down('xl')]: {
-            px: 4
-          },
-          [theme.breakpoints.down('xs')]: {
-            px: 4
-          },
-          py: 7,
-          display: 'flex',
-          flexDirection: 'row',
-          [theme.breakpoints.down('md')]: {
-            flexDirection: 'column'
-          },
-          gap: 10
-        })}
       >
-        <Box>
-          {isMobile && (
-            <Button
-              variant="outlined"
-              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-              sx={{
-                width: '100%',
-                marginBottom: '16px'
-              }}
-            >
-              {!isFiltersOpen ? 'Filteri' : 'Zatvori filtere'}
-            </Button>
-          )}
-          {/* Filters */}
-          {(isMobile
-            ? Boolean(products?.products.length) && isFiltersOpen && isMobile
-            : Boolean(products?.products.length)) && (
-            <Grow in={isFiltersOpen || !isMobile}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px',
-                  position: 'sticky',
-                  top: '100px'
-                }}
-              >
-                <Box>
-                  <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
-                  <TextField
-                    aria-describedby="name"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    sx={{
-                      '& .MuiInputBase-input': {
-                        padding: '8px'
-                      }
-                    }}
-                    slotProps={{
-                      input: {
-                        endAdornment: search ? (
-                          <ClearIcon
-                            onClick={() => setSearch('')}
-                            sx={{ cursor: 'pointer' }}
-                          />
-                        ) : (
-                          <SearchIcon color="action" />
-                        )
-                      }
-                    }}
-                    fullWidth
-                  />
-                </Box>
-
-                <Box>
-                  <InputLabel id="subgroup-select-label">
-                    Podkategorija
-                  </InputLabel>
-                  <Select
-                    labelId="subgroup-select-label"
-                    value={selectedSubgroup}
-                    sx={{
-                      '& .MuiInputBase-input': {
-                        padding: '8px'
-                      }
-                    }}
-                    onChange={(e) => setSelectedSubgroup(e.target.value)}
-                    fullWidth
-                  >
-                    <MenuItem value="">Sve</MenuItem>
-                    {subGroups.map((sg) => (
-                      <MenuItem key={sg} value={sg}>
-                        {sg}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Box>
-
-                <Box>
-                  <Typography gutterBottom>
-                    Cena: {priceRange[0]} - {priceRange[1]} RSD
-                  </Typography>
-                  <Slider
-                    value={priceRange}
-                    onChange={(_, value) =>
-                      setPriceRange(value as [number, number])
-                    }
-                    valueLabelDisplay="auto"
-                    min={priceLimits[0]}
-                    max={priceLimits[1]}
-                    disabled={priceLimits[0] === priceLimits[1]}
-                  />
-                </Box>
-
-                <Box display="flex" alignItems="center" gap={1}>
-                  <Checkbox
-                    checked={inStockOnly}
-                    onChange={(e) => setInStockOnly(e.target.checked)}
-                  />
-                  <Typography>Na stanju</Typography>
-                </Box>
-              </Box>
-            </Grow>
-          )}
-        </Box>
-
         <Box
-          component={'section'}
-          className={clsx('w-full', 'grid', 'gap-5', {
-            'grid-cols-2': filteredProducts?.length,
-            'sm:grid-cols-3': filteredProducts?.length,
-            'lgm:grid-cols-4': filteredProducts?.length
-          })}
+          component="img"
+          loading="eager"
+          src={ProductBanner}
+          alt="Zeleni svet banner"
+          className={clsx(
+            'max-w-[1400px]',
+            'mx-auto',
+            'w-full',
+            'h-auto',
+            'rounded',
+            'shadow',
+            'h-[320px]'
+          )}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            gap: isMobile ? 2 : 7,
+            flexDirection: isMobile ? 'column' : 'row',
+            minHeight: '100vh'
+          }}
         >
-          {filteredProducts && filteredProducts.length ? (
-            filteredProducts.map((product: Product) => (
-              <ProductCard
-                key={`${product.createdAt}_${product.createdBy}`}
-                product={product}
-              />
-            ))
-          ) : (
-            <Box
-              sx={{
-                width: '100%',
-                textAlign: 'center',
-                mb: 8,
-                px: 2
-              }}
-            >
-              <Box
+          <Box>
+            {isMobile && (
+              <Button
+                variant="outlined"
+                onClick={() => setIsFiltersOpen(!isFiltersOpen)}
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  gap: '8px',
+                  width: '100%',
                   marginBottom: '16px'
                 }}
               >
-                <Typography variant="h4">
-                  Trenutno nema proizvoda za izabrane filtere
-                </Typography>
-                <Typography variant="body1" color="text.secondary" gutterBottom>
-                  Izaberite neku drugu kombinaciju filtera
-                </Typography>
+                {!isFiltersOpen ? 'Filteri' : 'Zatvori filtere'}
+              </Button>
+            )}
+            {/* Filters */}
+            {(isMobile
+              ? Boolean(products?.products.length) && isFiltersOpen && isMobile
+              : Boolean(products?.products.length)) && (
+              <Grow in={isFiltersOpen || !isMobile}>
                 <Box
-                  component="img"
                   sx={{
-                    height: '300px'
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                    position: 'sticky',
+                    top: '100px'
                   }}
-                  src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                >
+                  <Box>
+                    <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
+                    <TextField
+                      aria-describedby="name"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      sx={{
+                        '& .MuiInputBase-input': {
+                          padding: '8px'
+                        }
+                      }}
+                      slotProps={{
+                        input: {
+                          endAdornment: search ? (
+                            <ClearIcon
+                              onClick={() => setSearch('')}
+                              sx={{ cursor: 'pointer' }}
+                            />
+                          ) : (
+                            <SearchIcon color="action" />
+                          )
+                        }
+                      }}
+                      fullWidth
+                    />
+                  </Box>
+
+                  <Box>
+                    <InputLabel id="subgroup-select-label">
+                      Podkategorija
+                    </InputLabel>
+                    <Select
+                      labelId="subgroup-select-label"
+                      value={selectedSubgroup}
+                      sx={{
+                        '& .MuiInputBase-input': {
+                          padding: '8px'
+                        }
+                      }}
+                      onChange={(e) => setSelectedSubgroup(e.target.value)}
+                      fullWidth
+                    >
+                      <MenuItem value="">Sve</MenuItem>
+                      {subGroups.map((sg) => (
+                        <MenuItem key={sg} value={sg}>
+                          {sg}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+
+                  <Box>
+                    <Typography gutterBottom>
+                      Cena: {priceRange[0]} - {priceRange[1]} RSD
+                    </Typography>
+                    <Slider
+                      value={priceRange}
+                      onChange={(_, value) =>
+                        setPriceRange(value as [number, number])
+                      }
+                      valueLabelDisplay="auto"
+                      min={priceLimits[0]}
+                      max={priceLimits[1]}
+                      disabled={priceLimits[0] === priceLimits[1]}
+                    />
+                  </Box>
+
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Checkbox
+                      checked={inStockOnly}
+                      onChange={(e) => setInStockOnly(e.target.checked)}
+                    />
+                    <Typography>Na stanju</Typography>
+                  </Box>
+                </Box>
+              </Grow>
+            )}
+          </Box>
+
+          <Box
+            component={'section'}
+            className={clsx('w-full', 'grid', 'gap-5', {
+              'grid-cols-2': filteredProducts?.length,
+              'sm:grid-cols-3': filteredProducts?.length,
+              'lgm:grid-cols-4': filteredProducts?.length
+            })}
+          >
+            {filteredProducts && filteredProducts.length ? (
+              filteredProducts.map((product: Product) => (
+                <ProductCard
+                  key={`${product.createdAt}_${product.createdBy}`}
+                  product={product}
                 />
+              ))
+            ) : (
+              <Box
+                sx={{
+                  width: '100%',
+                  textAlign: 'center',
+                  mb: 8,
+                  px: 2
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}
+                >
+                  <Typography variant="h4">
+                    Trenutno nema proizvoda za izabrane filtere
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Izaberite neku drugu kombinaciju filtera
+                  </Typography>
+                  <Box
+                    component="img"
+                    sx={{
+                      height: '300px'
+                    }}
+                    src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                  />
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
+          </Box>
         </Box>
       </Box>
     </Box>

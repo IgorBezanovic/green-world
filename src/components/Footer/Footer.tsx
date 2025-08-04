@@ -1,4 +1,4 @@
-import { CustomButton, Logo } from '@green-world/components';
+import { CustomButton, Logo, TikTokIcon } from '@green-world/components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -76,6 +76,15 @@ export const Footer = () => {
               aria-label="Facebook"
             >
               <FacebookIcon sx={{ color: 'white', fontSize: '32px' }} />
+            </IconButton>
+            <IconButton
+              component="a"
+              href="https://www.tiktok.com/@zelenisvetinfo"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+            >
+              <TikTokIcon />
             </IconButton>
           </Box>
           <Box
