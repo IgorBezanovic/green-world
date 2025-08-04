@@ -43,12 +43,12 @@ export const Home = () => {
   const bannerImage = isMobile ? ZSBannerTablet : ZSBanner;
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Green world</title>
         <link rel="canonical" href="https://www.zeleni-svet.com/" />
       </Helmet>
-      <div
+      <Box
         className={clsx(
           'xl:max-w-[1400px]',
           'w-full',
@@ -141,7 +141,7 @@ export const Home = () => {
           products={everythingForPlants}
           isLoading={everythingForPlantsLoading}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
