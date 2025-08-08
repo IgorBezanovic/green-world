@@ -13,9 +13,11 @@ import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import PhoneInput from 'react-phone-input-2';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
+import 'react-phone-input-2/lib/style.css';
 
 const initEvent: Event = {
   title: '',
@@ -23,7 +25,7 @@ const initEvent: Event = {
   place: '',
   address: '',
   coverImage: '',
-  dateAction: undefined,
+  dateAction: dayjs(),
   startTime: '',
   endTime: '',
   typeAction: 'cleaning',
@@ -411,7 +413,7 @@ export const CreateEditEvent = () => {
             </label>
             <MobileDatePicker
               name="dateAction"
-              value={dayjs(event.dateAction, 'DD/MM/YYYY')}
+              value={dayjs(event?.dateAction, 'DD/MM/YYYY')}
               format="DD/MM/YYYY"
               minDate={dayjs()}
               onChange={(newDate) =>
@@ -421,6 +423,7 @@ export const CreateEditEvent = () => {
                 })
               }
               sx={(theme) => ({
+                borderRadius: '8px',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
                   boxShadow: '0 6px 10px rgba(0, 0, 0, 0.15)'
@@ -482,13 +485,37 @@ export const CreateEditEvent = () => {
             >
               Kontakt telefon:
             </label>
-            <CustomInput
-              type="text"
-              name="contactPhone"
-              id="contactPhone"
-              placeholder="Kontakt telefon"
+            <PhoneInput
+              country="rs"
               value={event?.contactPhone || ''}
-              onChange={handleChange}
+              onChange={(value) =>
+                setEvent((prevEvent) => ({
+                  ...prevEvent,
+                  contactPhone: value
+                }))
+              }
+              inputStyle={{
+                width: '100%',
+                height: '42px',
+                background: 'white',
+                borderRadius: '6px',
+                border: '1px solid #266041',
+                boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
+                paddingLeft: '55px'
+              }}
+              buttonStyle={{
+                background: 'white',
+                width: '50px',
+                border: '1px solid #266041',
+                borderRadius: '6px 0 0 6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              containerStyle={{
+                marginBottom: '16px'
+              }}
+              placeholder="+381 60 123 456 7"
             />
             <label
               htmlFor="contactMail"
