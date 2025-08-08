@@ -87,8 +87,8 @@ export const CreateEditProduct = () => {
     setProduct((prevProduct) => ({
       ...prevProduct,
       images: productImage
-        ? [...(prevProduct.images || []), productImage]
-        : prevProduct.images || []
+        ? [...(prevProduct?.images || []), productImage]
+        : prevProduct?.images || []
     }));
   }, [productImage]);
 
