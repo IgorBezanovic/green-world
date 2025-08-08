@@ -72,7 +72,7 @@ export const UserInfo = ({ ...props }) => {
                     'mt-2'
                   )}
                 >
-                  <PhoneOutlined /> {props?.user?.phone}
+                  <PhoneOutlined /> +{props?.user?.phone}
                 </p>
               )}
               {props?.user?.email && (
