@@ -4,6 +4,8 @@ import { useEditUser } from '@green-world/hooks/useEditUser';
 import clsx from 'clsx';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 import { CustomInput, CustomButton } from '.';
 
@@ -194,13 +196,32 @@ export const EditUserData = () => {
         >
           Kontakt telefon:
         </label>
-        <CustomInput
-          type="text"
-          name="phone"
-          id="phone"
+        <PhoneInput
+          country="rs"
           value={user?.phone || ''}
-          onChange={handleChange}
-          placeholder="Unesite Vas kontakt telefon"
+          onChange={(value) => setUser({ ...user, phone: value })}
+          inputStyle={{
+            width: '100%',
+            height: '42px',
+            background: 'white',
+            borderRadius: '6px',
+            border: '1px solid #266041',
+            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
+            paddingLeft: '55px'
+          }}
+          buttonStyle={{
+            background: 'white',
+            width: '50px',
+            border: '1px solid #266041',
+            borderRadius: '6px 0 0 6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          containerStyle={{
+            marginBottom: '16px'
+          }}
+          placeholder="+381 60 123 456 7"
         />
         <label
           htmlFor="zipCode"
