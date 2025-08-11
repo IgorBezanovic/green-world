@@ -76,7 +76,7 @@ export const Products = () => {
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/search" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/search" />
       </Helmet>
 
       <Box

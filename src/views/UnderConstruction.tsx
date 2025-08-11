@@ -13,7 +13,7 @@ export const UnderConstruction = () => {
     >
       <Helmet>
         <title>Zeleni svet | Prijavi se</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/u-izradi" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/u-izradi" />
       </Helmet>
       <div className="bg-gray-100">
         <div className="min-h-screen flex flex-col justify-center items-center">

@@ -163,7 +163,7 @@ export const EventProfileCard = ({ ...props }) => {
               <ShareIcon
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `https://www.zeleni-svet.com/event/${props.event?._id}`
+                    `https://www.zelenisvet.rs/event/${props.event?._id}`
                   )
                 }
               />

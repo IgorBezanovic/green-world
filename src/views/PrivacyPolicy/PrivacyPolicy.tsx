@@ -9,7 +9,7 @@ export const PrivacyPolicy = () => {
         <title>Zeleni svet | Politika privatnosti</title>
         <link
           rel="canonical"
-          href={`https://www.zeleni-svet.com/privacy-policy`}
+          href={`https://www.zelenisvet.rs/privacy-policy`}
         />
       </Helmet>
 

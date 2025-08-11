@@ -40,7 +40,7 @@ export const ProductPage = () => {
         <title>Zeleni svet | {productData?.title ?? 'Green World'}</title>
         <link
           rel="canonical"
-          href={`https://www.zeleni-svet.com/product/${productId}`}
+          href={`https://www.zelenisvet.rs/product/${productId}`}
         />
       </Helmet>
       <div

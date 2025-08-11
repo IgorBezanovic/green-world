@@ -10,7 +10,7 @@ export const NotFound = () => {
     <React.Fragment>
       <Helmet>
         <title>Zeleni svet | 404 Not Found</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/*" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/*" />
       </Helmet>
       <Header />
       <section
