@@ -33,7 +33,7 @@ export const Event = () => {
         <title>Zeleni svet | {eventData?.title ?? 'Green World'}</title>
         <link
           rel="canonical"
-          href={`https://www.zeleni-svet.com/event/${eventId}`}
+          href={`https://www.zelenisvet.rs/event/${eventId}`}
         />
       </Helmet>
 

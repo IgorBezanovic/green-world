@@ -114,16 +114,16 @@ export const ProductCard = ({ ...props }) => {
         {location.pathname.includes('/profile') && (
           <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
             <IconButton
-              aria-label="add to favorites"
+              aria-label="Edit Product"
               onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
             >
               <EditIcon />
             </IconButton>
             <IconButton
-              aria-label="share"
+              aria-label="Share Product"
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `https://www.zeleni-svet.com/product/${props?.product?._id}`
+                  `https://www.zelenisvet.rs/product/${props?.product?._id}`
                 )
               }
             >
@@ -139,7 +139,7 @@ export const ProductCard = ({ ...props }) => {
               id={props?.product?._id}
               mutate={mutate}
             >
-              <IconButton aria-label="share">
+              <IconButton aria-label="Delete Product">
                 <DeleteIcon />
               </IconButton>
             </PopDelete>

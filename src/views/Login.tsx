@@ -11,17 +11,10 @@ export const Login = () => {
   const isUserLogged = queryParams.get('isUserLogged');
 
   return (
-    <div
-      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
-      style={{
-        backgroundImage: "url('/background_login.jpeg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Prijavi se</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/login" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/login" />
       </Helmet>
       <div
         className={clsx(

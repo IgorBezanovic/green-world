@@ -2,7 +2,7 @@ export const TikTokIcon = ({ color = 'white' }) => {
   return (
     <svg
       fill={color}
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="https://www.w3.org/2000/svg"
       viewBox="0 0 50 50"
       width="29px"
       height="29px"

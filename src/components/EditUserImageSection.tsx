@@ -44,7 +44,7 @@ export const EditUserImageSection = () => {
           <title>Zeleni svet | Podešavanje profilne slike | QR kod</title>
           <link
             rel="canonical"
-            href="https://www.zeleni-svet.com/profile-settings/change-image"
+            href="https://www.zelenisvet.rs/profile-settings/change-image"
           />
         </Helmet>
         <p className={clsx('text-gray40', 'italic', 'mb-4')}>

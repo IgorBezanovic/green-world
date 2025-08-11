@@ -40,7 +40,7 @@ export const ContactUs = () => {
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Kontaktirajte nas</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/contact-us" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/contact-us" />
       </Helmet>
       <div
         className={clsx(

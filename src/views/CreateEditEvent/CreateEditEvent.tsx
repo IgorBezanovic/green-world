@@ -138,7 +138,7 @@ export const CreateEditEvent = () => {
         <title>
           Zeleni svet | {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
         </title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/create-event" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/create-event" />
       </Helmet>
       <div
         className={clsx(

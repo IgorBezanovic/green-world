@@ -59,7 +59,7 @@ export const SuccessProvider = ({ children }: { children: ReactNode }) => {
                 <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
                   <strong>
                     Uspesno ste se registrovali na{' '}
-                    <a href="https://www.zeleni-svet.com">zeleni-svet.com</a> !
+                    <a href="https://www.zelenisvet.rs">zelenisvet.rs</a> !
                   </strong>
                 </h1>
               }

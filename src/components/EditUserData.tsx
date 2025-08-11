@@ -49,7 +49,7 @@ export const EditUserData = () => {
         <title>Zeleni svet | Podešavanje profila</title>
         <link
           rel="canonical"
-          href="https://www.zeleni-svet.com/profile-settings/edit-profile"
+          href="https://www.zelenisvet.rs/profile-settings/edit-profile"
         />
       </Helmet>
       <div className={clsx('flex-1', 'flex', 'flex-col')}>

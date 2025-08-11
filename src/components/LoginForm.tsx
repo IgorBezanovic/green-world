@@ -153,7 +153,10 @@ export const LoginForm = ({ ...props }) => {
           <MetaLoginAuth />
           <Typography variant="caption" align="center">
             Prijavom prihvatate našu{' '}
-            <Link to="/privacy-policy">Politiku privatnosti</Link>.
+            <Link to="/privacy-policy" className={'underline'}>
+              Politiku privatnosti
+            </Link>
+            .
           </Typography>
         </Box>
         {props.error && (
