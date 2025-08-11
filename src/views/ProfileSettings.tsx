@@ -13,7 +13,7 @@ export const ProfileSettings = () => {
         <title>Zeleni svet | Podešavanje profila</title>
         <link
           rel="canonical"
-          href="https://www.zeleni-svet.com/profile-settings"
+          href="https://www.zelenisvet.rs/profile-settings"
         />
       </Helmet>
       <div

@@ -36,7 +36,7 @@ export const ChangePasswordComponent = () => {
         <title>Zeleni svet | Promena lozinke</title>
         <link
           rel="canonical"
-          href="https://www.zeleni-svet.com/profile-settings/change-password"
+          href="https://www.zelenisvet.rs/profile-settings/change-password"
         />
       </Helmet>
       <label

@@ -17,7 +17,7 @@ export const Registration = () => {
     >
       <Helmet>
         <title>Zeleni svet | Registruj se</title>
-        <link rel="canonical" href="https://www.zeleni-svet.com/registration" />
+        <link rel="canonical" href="https://www.zelenisvet.rs/registration" />
       </Helmet>
       <div
         className={clsx(

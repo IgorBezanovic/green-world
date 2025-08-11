@@ -15,6 +15,7 @@ export const GoogleLoginAuth = () => {
           width: '100%'
         }
       }}
+      width={'100% !important'}
       theme="outline"
       text="continue_with"
       logo_alignment="center"

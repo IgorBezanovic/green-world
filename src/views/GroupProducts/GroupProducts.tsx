@@ -92,7 +92,7 @@ export const GroupProducts = () => {
         <title>Zeleni svet | Pretraga proizvoda | {categoryName}</title>
         <link
           rel="canonical"
-          href={`https://www.zeleni-svet.com/search/${category}`}
+          href={`https://www.zelenisvet.rs/search/${category}`}
         />
       </Helmet>
 

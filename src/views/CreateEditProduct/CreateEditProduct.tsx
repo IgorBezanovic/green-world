@@ -168,10 +168,7 @@ export const CreateEditProduct = () => {
         <title>
           Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
         </title>
-        <link
-          rel="canonical"
-          href="https://www.zeleni-svet.com/create-product"
-        />
+        <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
       </Helmet>
       <div
         className={clsx(
