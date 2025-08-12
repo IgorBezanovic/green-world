@@ -32,7 +32,9 @@ export const LoginForm = ({ ...props }) => {
         'md:py-14',
         'w-full',
         'max-w-xl',
-        'mx-auto'
+        'mx-auto',
+        'mb-8',
+        'md:my-8'
       )}
     >
       {props.isUserLogged === 'false' && (

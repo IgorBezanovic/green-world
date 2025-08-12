@@ -14,8 +14,8 @@ import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-import ZSBanner from '../../assets/ZS Banner.png';
-import ZSBannerTablet from '../../assets/ZS-Banner-tablet.png';
+import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.png';
+import ZSBannerRs from '/ZS-Banner-rs.png';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
@@ -40,7 +40,7 @@ export const Home = () => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
-  const bannerImage = isMobile ? ZSBannerTablet : ZSBanner;
+  const bannerImage = isMobile ? ZSBannerRsTablet : ZSBannerRs;
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>

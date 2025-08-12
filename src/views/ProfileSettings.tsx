@@ -56,7 +56,7 @@ export const ProfileSettings = () => {
               type="text"
               onClick={() => navigate('/profile-settings/edit-profile')}
             >
-              Podatci profila
+              Podaci profila
             </CustomButton>
             <CustomButton
               type="text"
