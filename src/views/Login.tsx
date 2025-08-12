@@ -24,8 +24,8 @@ export const Login = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'pt-20',
-          'pb-40',
+          'py-4',
+          'xl:py-0-20',
           'flex',
           'flex-col',
           'gap-7'
