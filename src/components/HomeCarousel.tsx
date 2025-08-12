@@ -67,8 +67,6 @@ export const HomeCarousel = ({ ...props }) => {
             ref={carouselRef}
             draggable={true}
             infinite={products.length > 5}
-            autoplay={products.length > 5}
-            autoplaySpeed={2000}
             slidesToShow={5}
             responsive={[
               {

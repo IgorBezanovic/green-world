@@ -146,10 +146,10 @@ export const Footer = () => {
           <Typography variant="body1">Kontaktirajte nas:</Typography>
           <Typography
             component="a"
-            href="mailto:zelenisvetinfo@gmail.com"
+            href="mailto:info@zelenisvet.rs"
             sx={{ color: 'inherit' }}
           >
-            zelenisvetinfo@gmail.com
+            info@zelenisvet.rs
           </Typography>
           <Logo width="100px" height="100px" sx={{ marginTop: '16px' }} />
         </Box>
@@ -189,10 +189,10 @@ export const Footer = () => {
           </Typography>
           <Typography
             component="a"
-            href="mailto:zelenisvetinfo@gmail.com"
+            href="mailto:info@zelenisvet.rs"
             sx={{ color: 'inherit' }}
           >
-            zelenisvetinfo@gmail.com
+            info@zelenisvet.rs
           </Typography>
           <img
             src="https://res.cloudinary.com/dijofqxeu/image/upload/v1745438146/uqdzbq3113jypz6ercok.png"

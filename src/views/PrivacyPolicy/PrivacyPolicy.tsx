@@ -77,7 +77,7 @@ export const PrivacyPolicy = () => {
             </Typography>
             <Typography variant="body1">
               Ukoliko želite da obrišemo vaš nalog ili vaše podatke, možete nas
-              kontaktirati na <strong>zelenisvetinfo@gmail.com</strong>.
+              kontaktirati na <strong>info@zelenisvet.rs</strong>.
             </Typography>
           </Box>
 

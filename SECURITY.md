@@ -18,7 +18,7 @@ up-to-date version of our software.
 ## Reporting a Vulnerability
 
 If you notice a vulnerability in our application,
-please contact us at: zelenisvetinfo@gmail.com.
+please contact us at: info@zelenisvet.rs.
 We take security very seriously and appreciate
 your help in keeping our application safe.
 

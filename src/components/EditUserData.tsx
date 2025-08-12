@@ -65,7 +65,6 @@ export const EditUserData = () => {
           Naziv Vaseg biznisa:
         </label>
         <CustomInput
-          required
           type="text"
           name="shopName"
           id="shopName"
@@ -85,7 +84,6 @@ export const EditUserData = () => {
           Vase ime:
         </label>
         <CustomInput
-          required
           type="text"
           name="name"
           id="name"
@@ -105,7 +103,6 @@ export const EditUserData = () => {
           Vase prezime:
         </label>
         <CustomInput
-          required
           type="text"
           name="lastname"
           id="lastname"
@@ -125,7 +122,6 @@ export const EditUserData = () => {
           Vas email:
         </label>
         <CustomInput
-          required
           type="text"
           name="email"
           id="mail"
@@ -144,7 +140,6 @@ export const EditUserData = () => {
           Opisite Vas biznis ili unesite viziju ili slogan:
         </label>
         <textarea
-          required
           name="shopDescription"
           id="shopDescription"
           value={user?.shopDescription || ''}
@@ -174,7 +169,6 @@ export const EditUserData = () => {
           Website vase radnje:
         </label>
         <CustomInput
-          required
           type="text"
           name="website"
           id="website"
@@ -297,7 +291,6 @@ export const EditUserData = () => {
           Država:
         </label>
         <CustomInput
-          required
           type="text"
           name="country"
           id="country"
