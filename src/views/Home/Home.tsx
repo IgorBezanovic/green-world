@@ -9,13 +9,13 @@ import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
-import { Box, Grid, Theme, useMediaQuery } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.png';
-import ZSBannerRs from '/ZS-Banner-rs.png';
+import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.webp';
+import ZSBannerRs from '/ZS-Banner-rs.webp';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
@@ -37,10 +37,6 @@ export const Home = () => {
     useProductsByGroup('everything_for_plants');
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
   const navigate = useNavigate();
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('md')
-  );
-  const bannerImage = isMobile ? ZSBannerRsTablet : ZSBannerRs;
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -65,7 +61,10 @@ export const Home = () => {
         <Box
           component="img"
           loading="eager"
-          src={bannerImage}
+          decoding="async"
+          src={ZSBannerRs}
+          srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
+          sizes="(max-width: 768px) 100vw, 1400px"
           alt="Zeleni svet banner"
           className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
         />
@@ -74,8 +73,6 @@ export const Home = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <Divider text="Aktivnosti" />
-        <EventCarousel events={allEvents} isLoading={allEventsLoading} />
         <Divider text="Kategorije Proizvoda" />
         <Grid
           container
@@ -141,6 +138,8 @@ export const Home = () => {
           products={everythingForPlants}
           isLoading={everythingForPlantsLoading}
         />
+        <Divider text="Aktivnosti" />
+        <EventCarousel events={allEvents} isLoading={allEventsLoading} />
       </Box>
     </Box>
   );
