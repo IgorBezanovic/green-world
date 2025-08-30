@@ -7,22 +7,35 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Divider,
   IconButton,
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PopDelete } from '../PopDelete';
 
 import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
-export const ProductCard = ({ ...props }) => {
-  const { mutate } = useDeleteProduct(props?.product?._id);
+interface ProductCardProps {
+  product: any;
+  isHero?: boolean;
+}
+
+export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
+  const { mutate } = useDeleteProduct(product?._id);
   const navigate = useNavigate();
   const location = useLocation();
+  const [loaded, setLoaded] = useState(false);
+
+  const mainImage = product?.images?.[0]?.includes('cloudinary')
+    ? `${product.images[0]}?format=webp&width=400`
+    : ZSLogo;
+  const blurImage = product?.images?.[0]?.includes('cloudinary')
+    ? `${product.images[0]}?format=webp&width=20&blur=200`
+    : ZSLogo;
 
   return (
     <Card
@@ -35,55 +48,64 @@ export const ProductCard = ({ ...props }) => {
       }}
       onClick={() =>
         !location.pathname.includes('/profile') &&
-        navigate(`/product/${props?.product._id}`)
+        navigate(`/product/${product._id}`)
       }
     >
-      <CardMedia
-        component="img"
-        height="194"
-        sx={{
-          width: '100%',
-          height: 'auto',
-          maxHeight: '250px',
-          aspectRatio: '1 / 1',
-          objectFit: 'cover'
-        }}
-        image={
-          props?.product?.images?.[0]
-            ? props?.product?.images[0].includes('cloudinary')
-              ? props?.product?.images[0]
-              : ZSLogo
-            : ZSLogo
-        }
-        alt="Product Image"
-      />
       <Box
+        component="div"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '1/1',
+          overflow: 'hidden'
         }}
       >
-        <CardContent
+        {/* Blur placeholder */}
+        <Box
+          component="img"
+          src={blurImage}
+          alt={product.title}
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'blur(20px)',
+            transform: 'scale(1.05)',
+            transition: 'opacity 0.5s ease',
+            opacity: loaded ? 0 : 1
           }}
+        />
+        {/* Main image */}
+        <Box
+          component="img"
+          src={mainImage}
+          alt={product.title}
+          loading={isHero ? 'eager' : 'lazy'}
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'opacity 0.5s ease',
+            opacity: loaded ? 1 : 0
+          }}
+        />
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <CardContent
+          sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
         >
-          <Tooltip title={props?.product?.title} arrow>
+          <Tooltip title={product.title} arrow>
             <Typography gutterBottom variant="h6" noWrap>
-              {props?.product?.title}
+              {product.title}
             </Typography>
           </Tooltip>
           <Divider variant="fullWidth" />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flexGrow: 1
-            }}
-          >
+          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
             <Typography
               gutterBottom
               variant="body2"
@@ -98,24 +120,23 @@ export const ProductCard = ({ ...props }) => {
                 paddingTop: '8px'
               }}
             >
-              {props?.product?.shortDescription || props?.product?.description}
+              {product.shortDescription || product.description}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               RSD{' '}
-              {props?.product?.price
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+              {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
               <small>,00</small>
             </Typography>
           </Box>
         </CardContent>
+
         <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
           <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
             <IconButton
               aria-label="Edit Product"
-              onClick={() => navigate(`/edit-product/${props?.product?._id}`)}
+              onClick={() => navigate(`/edit-product/${product._id}`)}
             >
               <EditIcon />
             </IconButton>
@@ -123,7 +144,7 @@ export const ProductCard = ({ ...props }) => {
               aria-label="Share Product"
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `https://www.zelenisvet.rs/product/${props?.product?._id}`
+                  `https://www.zelenisvet.rs/product/${product._id}`
                 )
               }
             >
@@ -136,7 +157,7 @@ export const ProductCard = ({ ...props }) => {
               description={'Da li ste sigurni da zelite da orisete proizvod?'}
               okText={'Da'}
               cancelText={'Ne'}
-              id={props?.product?._id}
+              id={product._id}
               mutate={mutate}
             >
               <IconButton aria-label="Delete Product">

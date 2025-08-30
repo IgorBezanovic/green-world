@@ -68,20 +68,13 @@ export const HomeCarousel = ({ ...props }) => {
             draggable={true}
             infinite={products.length > 5}
             slidesToShow={5}
-            responsive={[
-              {
-                breakpoint: 768,
-                settings: {
-                  slidesToShow: 2
-                }
-              }
-            ]}
+            responsive={[{ breakpoint: 768, settings: { slidesToShow: 2 } }]}
             slidesToScroll={1}
             className={clsx('w-full')}
           >
-            {products.map((product: any) => (
+            {products.map((product: any, index: number) => (
               <div key={product.title} className="p-2">
-                <ProductCard product={product} loading={props.isLoading} />
+                <ProductCard product={product} isHero={index === 0} />
               </div>
             ))}
           </Carousel>
