@@ -39,8 +39,8 @@ const initProduct: Product = {
 export const CreateEditProduct = () => {
   const { productId = '' } = useParams();
   const { data = initProduct, isLoading } = useProduct(productId);
-  const quillRef = useRef<ReactQuill>(null);
 
+  const quillRef = useRef<ReactQuill>(null);
   const modules = {
     toolbar: [
       { header: [false, '1', '2', '3', '4', '5', '6'] },
@@ -224,34 +224,27 @@ export const CreateEditProduct = () => {
                 label: (item as { label: string }).label
               }))}
             />
-            {product.group && (
-              <React.Fragment>
-                <label
-                  htmlFor="subGroup"
-                  className={clsx(
-                    'mt-4',
-                    'mb-2',
-                    'text-forestGreen',
-                    'text-lg'
-                  )}
-                >
-                  Odaberite pripadajuću podgrupu:
-                </label>
-                <Select
-                  value={product.subGroup || 'Odaberi podgrupu proizvoda'}
-                  className={clsx('shadow-md', 'md:hover:shadow-lg')}
-                  onChange={handleSubGroupChange}
-                  options={subGroups[product.group as SubGroupKeys]!.map(
-                    (item: SubGroup) => ({
-                      value: item?.label,
-                      label: item?.sr_RS
-                    })
-                  )}
-                />
-              </React.Fragment>
-            )}
             <label
-              htmlFor="title"
+              htmlFor="subGroup"
+              className={clsx('mt-4', 'mb-2', 'text-forestGreen', 'text-lg')}
+            >
+              Odaberite pripadajuću podgrupu:
+            </label>
+            <Select
+              value={product.subGroup || 'Odaberi podgrupu proizvoda'}
+              className={clsx('shadow-md', 'md:hover:shadow-lg')}
+              onChange={handleSubGroupChange}
+              options={subGroups[
+                (product.group as SubGroupKeys) || 'flower_assortment'
+              ]!.map((item: SubGroup) => ({
+                value: item?.label,
+                label: item?.sr_RS
+              }))}
+            />
+            <label
+              htmlFor={
+                product?.images?.length >= 10 ? undefined : 'profileImage'
+              }
               className={clsx(
                 'mt-4',
                 'text-forestGreen',
@@ -264,22 +257,24 @@ export const CreateEditProduct = () => {
             <small className={clsx('text-gray40', 'italic', 'mb-4')}>
               Prva slika u nizu je profilna. Maksimum 10 fotografija
             </small>
-            <div
-              className={clsx(
-                'w-full',
-                'min-h-20',
-                'mb-4',
-                'gap-4',
-                'rounded',
-                'shadow-md',
-                'p-4',
-                'grid',
-                'grid-cols-2',
-                'md:grid-cols-4'
-              )}
-            >
-              {product?.images &&
-                product?.images?.map((image, index) => (
+            {Boolean(product?.images.length) && (
+              <div
+                className={clsx(
+                  'w-full',
+                  'min-h-20',
+                  'mb-4',
+                  'gap-4',
+                  'rounded',
+                  'shadow-md',
+                  'p-4',
+                  'grid',
+                  'grid-cols-2',
+                  'md:grid-cols-4',
+                  'border',
+                  'border-forestGreen'
+                )}
+              >
+                {product?.images?.map((image, index) => (
                   <div key={index} className={clsx('w-full', 'relative')}>
                     <DeleteOutlined
                       className={clsx(
@@ -325,7 +320,8 @@ export const CreateEditProduct = () => {
                     )}
                   </div>
                 ))}
-            </div>
+              </div>
+            )}
             <label
               htmlFor={
                 product?.images?.length >= 10 ? undefined : 'profileImage'
@@ -347,7 +343,11 @@ export const CreateEditProduct = () => {
                 'mb-4',
                 'md:mb-0',
                 'transition-all',
-                'duration-300'
+                'duration-300',
+                {
+                  'mt-4': Boolean(!product?.images.length),
+                  'mb-8': Boolean(!product?.images.length)
+                }
               )}
               aria-disabled={product?.images?.length >= 10}
             >
@@ -442,7 +442,30 @@ export const CreateEditProduct = () => {
                 onChange={handleRichTextDescription}
                 id="description"
                 theme="snow"
+                style={{ minHeight: 200 }}
               />
+              <style>
+                {`
+                .ql-toolbar.ql-snow{
+                  border-top-left-radius: 0.375rem;
+                  border-top-right-radius: 0.375rem;
+                  /* Remove shadow below the bottom border */
+                  box-shadow: 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-container {
+                  min-height: 200px !important;
+                  border-bottom-left-radius: 0.375rem;
+                  border-bottom-right-radius: 0.375rem;
+                  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-editor {
+                  word-break: break-word;
+                  overflow-wrap: break-word;
+                }
+                `}
+              </style>
             </div>
             <label
               htmlFor="price"

@@ -1,4 +1,4 @@
-import { CustomButton, Logo } from '@green-world/components';
+import { Logo } from '@green-world/components';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import { Settings, Logout } from '@mui/icons-material';
@@ -6,7 +6,14 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import { Box, Divider, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import {
+  Box,
+  Divider,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Button
+} from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
@@ -64,15 +71,17 @@ export const Header = () => {
         )}
       >
         <Logo />
-        <CustomButton
-          type="text"
+        <Button
+          variant="outlined"
+          color="inherit"
+          sx={{ textTransform: 'uppercase' }}
           onClick={handleUser}
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <PersonOutlineOutlinedIcon />
-        </CustomButton>
+          {decodedToken?._id ? <PersonOutlineOutlinedIcon /> : 'Prijavi se'}
+        </Button>
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
