@@ -73,7 +73,7 @@ export const ContactUs = () => {
             className={clsx('text-forestGreen', 'text-5xl', 'md:text-6xl')}
             style={{ fontFamily: 'GreenWorld' }}
           >
-            Kontektirajte nas
+            Kontaktirajte nas
           </h1>
         </section>
         <form

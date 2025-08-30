@@ -1,6 +1,6 @@
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
-import { Carousel, Empty, Skeleton } from 'antd';
+import { Carousel, Skeleton } from 'antd';
 import clsx from 'clsx';
 import '../styles.css';
 import { useRef } from 'react';
@@ -21,7 +21,7 @@ export const HomeCarousel = ({ ...props }) => {
     carouselRef.current?.next();
   };
 
-  return products && products.length > 0 ? (
+  return (
     <Skeleton loading={props.isLoading} active>
       <Box
         sx={{
@@ -81,7 +81,5 @@ export const HomeCarousel = ({ ...props }) => {
         </Box>
       </Box>
     </Skeleton>
-  ) : (
-    <Empty />
   );
 };

@@ -14,8 +14,11 @@ import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.webp';
+// import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.webp';
 import ZSBannerRs from '/ZS-Banner-rs.webp';
+
+const ZSBannerRsTablet =
+  'https://res.cloudinary.com/dijofqxeu/image/upload/v1756590090/lecthlwnmexiidnb3ek9.png';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
