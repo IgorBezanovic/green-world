@@ -67,7 +67,14 @@ export const Home = () => {
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
           className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
-          style={{ objectFit: 'cover' }}
+          style={{
+            objectFit: 'cover',
+            filter: 'blur(10px)',
+            transition: 'filter 0.5s ease'
+          }}
+          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+            (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
+          }}
         />
         <Divider text="Izdvojeni proizvodi" />
         <HomeCarousel
