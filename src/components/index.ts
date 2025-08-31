@@ -15,6 +15,7 @@ export * from '@green-world/components/EditUserImageSection';
 export * from '@green-world/components/Footer';
 export * from '@green-world/components/ForgotPasswordForm';
 export * from '@green-world/components/Header';
+export * from '@green-world/components/LazySection';
 export * from '@green-world/components/HomeCarousel';
 export * from '@green-world/components/NavTrack';
 export * from '@green-world/components/Layout';

@@ -3,7 +3,8 @@ import {
   Divider,
   HomeCarousel,
   GroupButton,
-  EventCarousel
+  EventCarousel,
+  LazySection
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
@@ -60,8 +61,9 @@ export const Home = () => {
           component="img"
           src={ZSBannerRs}
           alt="Zeleni svet banner"
-          loading="lazy"
+          loading="eager"
           decoding="async"
+          fetchPriority="high"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
           className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
@@ -72,73 +74,95 @@ export const Home = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <Divider text="Kategorije Proizvoda" />
-        <Grid
-          container
-          component="section"
-          spacing={{ xs: 2, sm: 3 }}
-          sx={{
-            maxWidth: 1200,
-            width: '100%',
-            mx: 'auto'
-          }}
-        >
-          {homeCategories.map((category) => (
-            <Grid
-              key={category.id}
-              size={{
-                xs: 6,
-                sm: 4,
-                lg: 3
-              }}
-            >
-              <GroupButton item={category} />
-            </Grid>
-          ))}
-        </Grid>
-        <CustomButton
-          type="text"
-          customStyle={['py-4', 'text-lg']}
-          onClick={() => navigate('/search')}
-        >
-          Pretrazi sve proizvode
-        </CustomButton>
-        <Divider text="Cvetni asortiman" />
-        <HomeCarousel
-          products={flowerAssortment}
-          isLoading={flowerAssortmentLoading}
-        />
-        <Divider text="Sukulenti" />
-        <HomeCarousel products={succulents} isLoading={succulentsLoading} />
-        <Divider text="Saksijsko cvece" />
-        <HomeCarousel
-          products={pottedFlowers}
-          isLoading={pottedFlowersLoading}
-        />
-        <Divider text="Sadnice" />
-        <HomeCarousel products={seedlings} isLoading={seedlingsLoading} />
-        <Divider text="Voce i povrce" />
-        <HomeCarousel
-          products={fruitsAndVegetables}
-          isLoading={fruitsAndVegetablesLoading}
-        />
-        <Divider text="Biljna apoteka" />
-        <HomeCarousel
-          products={herbalPharmacy}
-          isLoading={herbalPharmacyLoading}
-        />
-        <Divider text="Bastenska dekoracija" />
-        <HomeCarousel
-          products={gardenDecoration}
-          isLoading={gardenDecorationLoading}
-        />
-        <Divider text="Sve za biljke" />
-        <HomeCarousel
-          products={everythingForPlants}
-          isLoading={everythingForPlantsLoading}
-        />
-        <Divider text="Aktivnosti" />
-        <EventCarousel events={allEvents} isLoading={allEventsLoading} />
+        <LazySection>
+          <Divider text="Kategorije Proizvoda" />
+          <Grid
+            container
+            component="section"
+            spacing={{ xs: 2, sm: 3 }}
+            sx={{
+              maxWidth: 1200,
+              width: '100%',
+              mx: 'auto'
+            }}
+          >
+            {homeCategories.map((category) => (
+              <Grid
+                key={category.id}
+                size={{
+                  xs: 6,
+                  sm: 4,
+                  lg: 3
+                }}
+              >
+                <GroupButton item={category} />
+              </Grid>
+            ))}
+          </Grid>
+        </LazySection>
+        <LazySection>
+          <CustomButton
+            type="text"
+            customStyle={['py-4', 'text-lg']}
+            onClick={() => navigate('/search')}
+          >
+            Pretrazi sve proizvode
+          </CustomButton>
+        </LazySection>
+        <LazySection>
+          <Divider text="Cvetni asortiman" />
+          <HomeCarousel
+            products={flowerAssortment}
+            isLoading={flowerAssortmentLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Sukulenti" />
+          <HomeCarousel products={succulents} isLoading={succulentsLoading} />
+        </LazySection>
+        <LazySection>
+          <Divider text="Saksijsko cvece" />
+          <HomeCarousel
+            products={pottedFlowers}
+            isLoading={pottedFlowersLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Sadnice" />
+          <HomeCarousel products={seedlings} isLoading={seedlingsLoading} />
+        </LazySection>
+        <LazySection>
+          <Divider text="Voce i povrce" />
+          <HomeCarousel
+            products={fruitsAndVegetables}
+            isLoading={fruitsAndVegetablesLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Biljna apoteka" />
+          <HomeCarousel
+            products={herbalPharmacy}
+            isLoading={herbalPharmacyLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Bastenska dekoracija" />
+          <HomeCarousel
+            products={gardenDecoration}
+            isLoading={gardenDecorationLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Sve za biljke" />
+          <HomeCarousel
+            products={everythingForPlants}
+            isLoading={everythingForPlantsLoading}
+          />
+        </LazySection>
+        <LazySection>
+          <Divider text="Aktivnosti" />
+          <EventCarousel events={allEvents} isLoading={allEventsLoading} />
+        </LazySection>
       </Box>
     </Box>
   );

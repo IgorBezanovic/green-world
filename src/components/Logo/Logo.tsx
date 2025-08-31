@@ -2,8 +2,8 @@ import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export const Logo = ({
-  width,
-  height,
+  width = '3.5rem',
+  height = '3.5rem',
   sx
 }: {
   width?: string;
@@ -18,15 +18,23 @@ export const Logo = ({
       aria-label="Home"
       sx={{
         display: 'flex',
-        backgroundImage: "url('/zeleni-svet-yellow-nd-transparent.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        width: width || '3.5rem',
-        height: height || '3.5rem',
         borderRadius: '50%',
         boxShadow: 2,
+        padding: 0,
+        width,
+        height,
         ...sx
       }}
-    />
+    >
+      <img
+        src="/zeleni-svet-yellow-nd-transparent.webp"
+        alt="Zeleni svet logo"
+        width="100%"
+        height="100%"
+        style={{ objectFit: 'cover', borderRadius: '50%' }}
+        decoding="async"
+        fetchPriority="high"
+      />
+    </IconButton>
   );
 };
