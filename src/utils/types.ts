@@ -25,6 +25,7 @@ export interface Product {
   description: string;
   shortDescription: string;
   price: number;
+  priceOnRequest?: boolean;
   images: string[];
   height: number;
   weight: number;

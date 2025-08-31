@@ -123,19 +123,25 @@ export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
               {product.shortDescription || product.description}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            {typeof product.price === 'boolean' ? (
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                Na upit
-              </Typography>
-            ) : (
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                RSD{' '}
-                {product.price
-                  ?.toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                <small>,00</small>
-              </Typography>
-            )}
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {product.priceOnRequest ? (
+                'Na Upit'
+              ) : (
+                <>
+                  RSD{' '}
+                  {product.price
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                  <Typography
+                    component="span"
+                    variant="caption"
+                    sx={{ fontSize: '0.75em' }}
+                  >
+                    ,00
+                  </Typography>
+                </>
+              )}
+            </Typography>
           </Box>
         </CardContent>
 

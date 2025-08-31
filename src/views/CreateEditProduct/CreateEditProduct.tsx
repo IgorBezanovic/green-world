@@ -28,6 +28,7 @@ const initProduct: Product = {
   shortDescription: '',
   images: [],
   price: 0,
+  priceOnRequest: false,
   height: 0,
   width: 0,
   weight: 0,
@@ -93,7 +94,7 @@ export const CreateEditProduct = () => {
     const checked = e.target.checked;
     setProduct((prev) => ({
       ...prev,
-      price: checked ? (true as unknown as number) : 0
+      priceOnRequest: checked
     }));
   };
 
@@ -515,11 +516,11 @@ export const CreateEditProduct = () => {
               placeholder="Unesite cenu proizvoda"
               value={typeof product?.price === 'number' ? product.price : ''}
               onChange={handleChange}
-              disabled={product?.price === (true as unknown as number)}
+              disabled={product?.priceOnRequest}
             />
             <div className="flex items-center mt-2 mb-4">
               <Checkbox
-                checked={product?.price === (true as unknown as number)}
+                checked={product?.priceOnRequest}
                 onChange={handleCheckboxPrice}
                 color="success"
                 id="priceOnDemand"
