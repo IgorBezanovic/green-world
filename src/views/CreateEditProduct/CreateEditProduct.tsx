@@ -92,10 +92,11 @@ export const CreateEditProduct = () => {
 
   const handleCheckboxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-    setProduct((prev) => ({
-      ...prev,
+
+    setProduct({
+      ...product,
       priceOnRequest: checked
-    }));
+    });
   };
 
   useEffect(() => {
@@ -514,19 +515,19 @@ export const CreateEditProduct = () => {
               name="price"
               id="price"
               placeholder="Unesite cenu proizvoda"
-              value={typeof product?.price === 'number' ? product.price : ''}
+              value={product?.price || ''}
               onChange={handleChange}
               disabled={product?.priceOnRequest}
             />
             <div className="flex items-center mt-2 mb-4">
               <Checkbox
-                checked={product?.priceOnRequest}
+                checked={product?.priceOnRequest ?? false}
                 onChange={handleCheckboxPrice}
                 color="success"
-                id="priceOnDemand"
+                id="priceOnRequest"
               />
               <label
-                htmlFor="priceOnDemand"
+                htmlFor="priceOnRequest"
                 className="text-forestGreen text-md"
               >
                 Cena: <strong>Na upit</strong>
