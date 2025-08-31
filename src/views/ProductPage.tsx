@@ -185,7 +185,7 @@ export const ProductPage = () => {
 
                   <p className="mt-4 text-xl font-semibold text-green-600">
                     {productData?.priceOnRequest
-                      ? 'Na Upit'
+                      ? 'Cena Na Upit'
                       : `${productData?.price},00 RSD`}
                   </p>
 

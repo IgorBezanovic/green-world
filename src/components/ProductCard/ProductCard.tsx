@@ -125,7 +125,7 @@ export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
             <Box sx={{ flexGrow: 1 }} />
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               {product.priceOnRequest ? (
-                'Na Upit'
+                'Cena Na Upit'
               ) : (
                 <>
                   RSD{' '}
