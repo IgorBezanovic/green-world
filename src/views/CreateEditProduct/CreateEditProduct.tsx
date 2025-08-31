@@ -9,6 +9,7 @@ import {
   subGroups
 } from '@green-world/utils/constants';
 import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
+import { Alert, Checkbox, Snackbar } from '@mui/material';
 import { Select } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
@@ -27,6 +28,7 @@ const initProduct: Product = {
   shortDescription: '',
   images: [],
   price: 0,
+  priceOnRequest: false,
   height: 0,
   width: 0,
   weight: 0,
@@ -36,9 +38,12 @@ const initProduct: Product = {
   onStock: true
 };
 
+const MAX_IMAGE_MB = 10 * 1024 * 1024; // 10MB
+
 export const CreateEditProduct = () => {
   const { productId = '' } = useParams();
   const { data = initProduct, isLoading } = useProduct(productId);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const quillRef = useRef<ReactQuill>(null);
   const modules = {
@@ -63,6 +68,14 @@ export const CreateEditProduct = () => {
     ]
   };
 
+  const handleCloseSnackbar = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') return;
+    setSnackbarOpen(false);
+  };
+
   const {
     mutate: imageMutate,
     isLoading: isImageLoading,
@@ -76,6 +89,15 @@ export const CreateEditProduct = () => {
     useEditProduct(productId);
 
   const [product, setProduct] = useState<Product>(initProduct);
+
+  const handleCheckboxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+
+    setProduct({
+      ...product,
+      priceOnRequest: checked
+    });
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -102,11 +124,19 @@ export const CreateEditProduct = () => {
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = Array.from(e.target.files!)[0];
+    if (!file) return;
+
+    if (file.size > MAX_IMAGE_MB) {
+      setSnackbarOpen(true);
+      e.target.value = '';
+      return;
+    }
 
     const formData = new FormData();
     formData.append('file', file);
 
     imageMutate(formData);
+    e.target.value = '';
   };
 
   const handleChange = (
@@ -363,7 +393,8 @@ export const CreateEditProduct = () => {
               accept="image/*"
               onChange={handleImage}
               className={clsx('hidden')}
-            ></input>
+              data-max-size={MAX_IMAGE_MB}
+            />
           </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
@@ -486,7 +517,22 @@ export const CreateEditProduct = () => {
               placeholder="Unesite cenu proizvoda"
               value={product?.price || ''}
               onChange={handleChange}
+              disabled={product?.priceOnRequest}
             />
+            <div className="flex items-center mt-2 mb-4">
+              <Checkbox
+                checked={product?.priceOnRequest ?? false}
+                onChange={handleCheckboxPrice}
+                color="success"
+                id="priceOnRequest"
+              />
+              <label
+                htmlFor="priceOnRequest"
+                className="text-forestGreen text-md"
+              >
+                Cena: <strong>Na upit</strong>
+              </label>
+            </div>
             <label
               htmlFor="height"
               className={clsx(
@@ -591,6 +637,21 @@ export const CreateEditProduct = () => {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Maksimalna veličina fajla je 10MB!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

@@ -9,16 +9,11 @@ import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
+import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Grid } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-
-// import ZSBannerRsTablet from '/ZS-Banner-rs-tablet.webp';
-import ZSBannerRs from '/ZS-Banner-rs.webp';
-
-const ZSBannerRsTablet =
-  'https://res.cloudinary.com/dijofqxeu/image/upload/v1756590090/lecthlwnmexiidnb3ek9.png';
 
 export const Home = () => {
   const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
@@ -63,13 +58,14 @@ export const Home = () => {
       >
         <Box
           component="img"
-          loading="eager"
-          decoding="async"
           src={ZSBannerRs}
+          alt="Zeleni svet banner"
+          loading="lazy"
+          decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
-          alt="Zeleni svet banner"
           className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
+          style={{ objectFit: 'cover' }}
         />
         <Divider text="Izdvojeni proizvodi" />
         <HomeCarousel

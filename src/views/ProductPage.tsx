@@ -184,7 +184,9 @@ export const ProductPage = () => {
                   </h1>
 
                   <p className="mt-4 text-xl font-semibold text-green-600">
-                    {productData?.price},00 RSD
+                    {productData?.priceOnRequest
+                      ? 'Na Upit'
+                      : `${productData?.price},00 RSD`}
                   </p>
 
                   <p className="mt-4 text-lg text-gray-700 text-wrap break-words italic">
