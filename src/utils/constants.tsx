@@ -73,56 +73,64 @@ export const legalType = [
 export const homeCategories: HomeCategory[] = [
   {
     id: 1,
-    image: '/bouqeut_of_flowers-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734375/rolkuumcojvnay4srdbl.webp',
     route: '/search/flower_assortment',
     text: 'Cvetni asortiman',
     slug: 'flower_assortment'
   },
   {
     id: 2,
-    image: '/evergreen_seedlings-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734437/nwhuyfbqntll4chzwrys.webp',
     route: '/search/succulents',
     text: 'Sukulenti',
     slug: 'succulents'
   },
   {
     id: 3,
-    image: '/potted_flowers-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734487/dh61q6w6vhvufl2nqsju.webp',
     route: '/search/potted_flowers',
     text: 'Saksijsko cvece',
     slug: 'potted_flowers'
   },
   {
     id: 4,
-    image: '/seedlings-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734524/e2c7yyqu2wxmosyosfap.webp',
     route: '/search/seedlings',
     text: 'Sadnice',
     slug: 'seedlings'
   },
   {
     id: 5,
-    image: '/fruits_and_vege-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734567/qi6vrxr7ck98fdqqvb83.webp',
     route: '/search/fruits_and_vegetables',
     text: 'Voce i povrce',
     slug: 'fruits_and_vegetables'
   },
   {
     id: 6,
-    image: '/pharmacy-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734608/qkv49cwxehh6osu3cfx4.webp',
     route: '/search/herbal_pharmacy',
     text: 'Biljna apoteka',
     slug: 'herbal_pharmacy'
   },
   {
     id: 7,
-    image: '/garden_decoration-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734642/jofstgnbcqqlpsnbt7pp.webp',
     route: '/search/garden_decoration',
     text: 'Bastenska dekoracija',
     slug: 'garden_decoration'
   },
   {
     id: 8,
-    image: '/all_for_plants-min.jpg',
+    image:
+      'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734674/yc4pttb6sp02jmnjz9hh.webp',
     route: '/search/everything_for_plants',
     text: 'Sve za biljke',
     slug: 'everything_for_plants'

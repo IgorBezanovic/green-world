@@ -81,32 +81,30 @@ export const Home = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <LazySection>
-          <Divider text="Kategorije Proizvoda" />
-          <Grid
-            container
-            component="section"
-            spacing={{ xs: 2, sm: 3 }}
-            sx={{
-              maxWidth: 1200,
-              width: '100%',
-              mx: 'auto'
-            }}
-          >
-            {homeCategories.map((category) => (
-              <Grid
-                key={category.id}
-                size={{
-                  xs: 6,
-                  sm: 4,
-                  lg: 3
-                }}
-              >
-                <GroupButton item={category} />
-              </Grid>
-            ))}
-          </Grid>
-        </LazySection>
+        <Divider text="Kategorije Proizvoda" />
+        <Grid
+          container
+          component="section"
+          spacing={{ xs: 2, sm: 3 }}
+          sx={{
+            maxWidth: 1200,
+            width: '100%',
+            mx: 'auto'
+          }}
+        >
+          {homeCategories.map((category) => (
+            <Grid
+              key={category.id}
+              size={{
+                xs: 6,
+                sm: 4,
+                lg: 3
+              }}
+            >
+              <GroupButton item={category} />
+            </Grid>
+          ))}
+        </Grid>
         <LazySection>
           <CustomButton
             type="text"

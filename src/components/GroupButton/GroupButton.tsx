@@ -18,7 +18,6 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
         borderRadius: 4,
         overflow: 'hidden',
         boxShadow: 2,
-        height: { xs: 200, sm: 250, lg: 280 },
         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
         [theme.breakpoints.up('lgm')]: {
           '&:hover': {
@@ -37,7 +36,6 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
       <Box
         sx={{
           width: '100%',
-          height: '100%',
           aspectRatio: '1 / 1',
           backgroundImage: `url(${item?.image})`,
           backgroundSize: 'cover',
