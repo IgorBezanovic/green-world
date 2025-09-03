@@ -19,7 +19,7 @@ export const Logo = ({
       sx={{
         display: 'flex',
         borderRadius: '50%',
-        boxShadow: 2,
+        boxShadow: 1,
         padding: 0,
         width,
         height,

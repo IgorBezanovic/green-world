@@ -76,12 +76,26 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
-        <Divider text="Izdvojeni proizvodi" />
+        <div className="text-center my-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-forestGreen mb-4">
+            Izdvojeni Proizvodi
+          </h2>
+          <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
+            Najnoviji proizvodi naših partnera
+          </p>
+        </div>
         <HomeCarousel
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <Divider text="Kategorije Proizvoda" />
+        <div className="text-center my-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-forestGreen mb-4">
+            Kategorije Proizvoda
+          </h2>
+          <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
+            Pronađite sve što vam je potrebno za savršenu baštu i dom
+          </p>
+        </div>
         <Grid
           container
           component="section"

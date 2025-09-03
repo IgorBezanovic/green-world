@@ -17,18 +17,15 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
         display: 'block',
         borderRadius: 4,
         overflow: 'hidden',
-        boxShadow: 2,
+        boxShadow: 1,
         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
         [theme.breakpoints.up('lgm')]: {
           '&:hover': {
-            transform: 'scale(1.02)',
-            boxShadow: 4
+            transform: 'scale(1.01)',
+            boxShadow: 2
           },
           '&:hover .group-overlay': {
             backgroundColor: theme.palette.common.white
-          },
-          '&:hover .group-text': {
-            fontWeight: 600
           }
         }
       })}

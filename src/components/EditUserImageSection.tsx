@@ -5,6 +5,7 @@ import { Divider } from 'antd';
 import clsx from 'clsx';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { toast } from 'react-toastify';
 
 import { CustomButton, CustomQRCode } from '.';
 
@@ -22,6 +23,7 @@ export const EditUserImageSection = () => {
     formData.append('file', file);
 
     imageMutate(formData);
+    toast.success('Uspešno ste dodali novu sliku.');
   };
 
   const handleSave = () => {
@@ -98,7 +100,7 @@ export const EditUserImageSection = () => {
           onClick={handleSave}
           disabled={isLoading || isImageLoadingUser || isLoadingUser}
         >
-          Sačuvaj novi profilnu sliku
+          Sačuvaj novu profilnu sliku
         </CustomButton>
       </section>
       <Divider />

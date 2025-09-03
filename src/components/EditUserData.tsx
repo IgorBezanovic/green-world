@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { toast } from 'react-toastify';
 
 import { CustomInput, CustomButton } from '.';
 
@@ -16,6 +17,7 @@ export const EditUserData = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate(user);
+    toast.success('Uspešno ste editovali profil.');
   };
 
   const handleChange = (
