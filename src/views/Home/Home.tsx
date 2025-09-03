@@ -4,7 +4,8 @@ import {
   HomeCarousel,
   GroupButton,
   EventCarousel,
-  LazySection
+  LazySection,
+  HeroSection
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
@@ -43,6 +44,7 @@ export const Home = () => {
         <title>Zeleni svet | Green world</title>
         <link rel="canonical" href="https://www.zelenisvet.rs/" />
       </Helmet>
+      <HeroSection />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
@@ -57,25 +59,6 @@ export const Home = () => {
           'gap-7'
         )}
       >
-        <Box
-          component="img"
-          src={ZSBannerRs}
-          alt="Zeleni svet banner"
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-          srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
-          sizes="(max-width: 768px) 100vw, 1400px"
-          className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
-          style={{
-            objectFit: 'cover',
-            filter: 'blur(10px)',
-            transition: 'filter 0.5s ease'
-          }}
-          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
-          }}
-        />
         <div className="text-center my-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forestGreen mb-4">
             Izdvojeni Proizvodi
@@ -119,6 +102,33 @@ export const Home = () => {
             </Grid>
           ))}
         </Grid>
+        <LazySection>
+          <Box
+            component="img"
+            src={ZSBannerRs}
+            alt="Zeleni svet banner"
+            loading="lazy"
+            decoding="async"
+            srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
+            sizes="(max-width: 768px) 100vw, 1400px"
+            className={clsx(
+              'w-full',
+              'h-auto',
+              'rounded',
+              'mt-4',
+              'mb-2',
+              'shadow'
+            )}
+            style={{
+              objectFit: 'cover',
+              filter: 'blur(10px)',
+              transition: 'filter 0.5s ease'
+            }}
+            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
+            }}
+          />
+        </LazySection>
         <LazySection>
           <CustomButton
             type="text"

@@ -33,7 +33,6 @@ export const Logo = ({
         height="100%"
         style={{ objectFit: 'cover', borderRadius: '50%' }}
         decoding="async"
-        fetchPriority="high"
       />
     </IconButton>
   );

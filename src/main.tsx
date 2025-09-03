@@ -6,6 +6,7 @@ import { ThemeProvider } from '@green-world/theme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Analytics } from '@vercel/analytics/react';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
@@ -40,6 +41,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                         v7_startTransition: true
                       }}
                     />
+                    <Analytics />
                     <ToastContainer />
                   </LocalizationProvider>
                 </Suspense>

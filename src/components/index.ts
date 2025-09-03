@@ -1,4 +1,5 @@
 export * from '@green-world/components/AllRights';
+export * from '@green-world/components/AnalyticsTracker';
 export * from '@green-world/components/ProductCard';
 export * from '@green-world/components/TikTokIcon';
 export * from '@green-world/components/EventProfileCard';

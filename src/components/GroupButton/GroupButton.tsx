@@ -15,7 +15,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
       underline="none"
       sx={(theme) => ({
         display: 'block',
-        borderRadius: 4,
+        borderRadius: 1,
         overflow: 'hidden',
         boxShadow: 1,
         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
