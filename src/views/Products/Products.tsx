@@ -1,5 +1,6 @@
 import { ProductCard } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
+import { homeCategories, subGroups } from '@green-world/utils/constants';
 import { Product } from '@green-world/utils/types';
 import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
@@ -28,36 +29,20 @@ export const Products = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [search, setSearch] = useState<string>('');
+  const [selectedGroup, setSelectedGroup] = useState<string>('');
   const [selectedSubgroup, setSelectedSubgroup] = useState<string>('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-
-  const subGroups = useMemo(() => {
-    const groups = new Set<string>();
-    products?.products.forEach((p) => {
-      if (p.subGroup) groups.add(p.subGroup);
-    });
-    return Array.from(groups);
-  }, [products]);
-
-  const priceLimits = useMemo(() => {
-    if (!products?.products.length) return [0, 0];
-
-    const prices = products.products.map((p) => p.price || 0);
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    return [min, max];
-  }, [products]);
-
-  useEffect(() => {
-    setPriceRange(priceLimits as [number, number]);
-  }, [priceLimits]);
+  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   const filteredProducts = useMemo(() => {
     return products?.products.filter((prod) => {
       const matchesName = prod.title
         .toLowerCase()
         .includes(search.toLowerCase());
+
+      const matchesGroup = selectedGroup ? prod.group === selectedGroup : true;
 
       const matchesSubgroup = selectedSubgroup
         ? prod.subGroup === selectedSubgroup
@@ -68,9 +53,91 @@ export const Products = () => {
 
       const matchesStock = inStockOnly ? prod.onStock : true;
 
-      return matchesName && matchesSubgroup && matchesPrice && matchesStock;
+      return (
+        matchesName &&
+        matchesGroup &&
+        matchesSubgroup &&
+        matchesPrice &&
+        matchesStock
+      );
     });
-  }, [products, search, selectedSubgroup, priceRange, inStockOnly]);
+  }, [
+    products,
+    search,
+    selectedGroup,
+    selectedSubgroup,
+    priceRange,
+    inStockOnly
+  ]);
+
+  const availableSubgroups = useMemo(() => {
+    if (!products?.products?.length) return [];
+
+    if (!selectedGroup) {
+      // Ako je izabrano "Sve grupe", uzmi sve subgrupe koje backend vraća iz svih proizvoda
+      const backendSubs = new Set(
+        products.products
+          .filter((p) => p.subGroup) // samo proizvodi sa subgrupom
+          .map((p) => p.subGroup)
+      );
+
+      // Od svih definisanih subgrupa, prikazi samo one koje postoje u backendSubs
+      const allSubgroups: (typeof subGroups)[keyof typeof subGroups] = [];
+      Object.values(subGroups).forEach((sgList) => {
+        sgList.forEach((sg) => {
+          if (backendSubs.has(sg.label)) allSubgroups.push(sg);
+        });
+      });
+
+      return allSubgroups;
+    }
+
+    // Ako je izabrana konkretna grupa
+    const backendSubs = new Set(
+      products.products
+        .filter((p) => p.group === selectedGroup && p.subGroup)
+        .map((p) => p.subGroup)
+    );
+
+    return (subGroups[selectedGroup as keyof typeof subGroups] || []).filter(
+      (sg) => backendSubs.has(sg.label)
+    );
+  }, [products, selectedGroup]);
+
+  useEffect(() => {
+    setSelectedSubgroup('');
+  }, [selectedGroup]);
+
+  const priceLimits = useMemo(() => {
+    const base =
+      products?.products.filter((p) => {
+        const byGroup = selectedGroup ? p.group === selectedGroup : true;
+        const bySub = selectedSubgroup ? p.subGroup === selectedSubgroup : true;
+        return byGroup && bySub;
+      }) ?? [];
+
+    if (!base.length) return [0, 0] as [number, number];
+
+    const prices = base.map((p) => p.price || 0);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    return [min, max] as [number, number];
+  }, [products, selectedGroup, selectedSubgroup]);
+
+  useEffect(() => {
+    setPriceRange(priceLimits as [number, number]);
+  }, [priceLimits]);
+
+  useEffect(() => {
+    setIsFiltering(true);
+
+    const timer = setTimeout(() => {
+      setDisplayedProducts(filteredProducts || []);
+      setIsFiltering(false);
+    }, 100); // 100ms debounce da izbegne flicker
+
+    return () => clearTimeout(timer);
+  }, [filteredProducts]);
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -171,24 +238,55 @@ export const Products = () => {
                   </Box>
 
                   <Box>
-                    <InputLabel id="subgroup-select-label">
-                      Podkategorija
-                    </InputLabel>
+                    <InputLabel id="group-select-label">Grupa</InputLabel>
+                    <Select
+                      labelId="group-select-label"
+                      value={selectedGroup}
+                      onChange={(e) => setSelectedGroup(e.target.value)}
+                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
+                      fullWidth
+                      displayEmpty
+                      renderValue={(selected) => {
+                        if (!selected) return 'Sve grupe';
+                        const cat = homeCategories.find(
+                          (c) => c.slug === selected
+                        );
+                        return cat ? cat.text : 'Sve grupe';
+                      }}
+                    >
+                      <MenuItem value="">Sve grupe</MenuItem>
+                      {homeCategories.map((cat) => (
+                        <MenuItem key={cat.slug} value={cat.slug}>
+                          {cat.text}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+
+                  <Box>
+                    <InputLabel id="subgroup-select-label">Podgrupa</InputLabel>
                     <Select
                       labelId="subgroup-select-label"
                       value={selectedSubgroup}
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          padding: '8px'
-                        }
-                      }}
                       onChange={(e) => setSelectedSubgroup(e.target.value)}
+                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       fullWidth
+                      displayEmpty
+                      disabled={
+                        selectedGroup !== '' && !availableSubgroups.length
+                      }
+                      renderValue={(selected) => {
+                        if (!selected) return 'Sve podgrupe';
+                        const sg = availableSubgroups.find(
+                          (s) => s.label === selected
+                        );
+                        return sg ? sg.sr_RS : 'Sve podgrupe';
+                      }}
                     >
-                      <MenuItem value="">Sve</MenuItem>
-                      {subGroups.map((sg) => (
-                        <MenuItem key={sg} value={sg}>
-                          {sg}
+                      <MenuItem value="">Sve Podgrupe</MenuItem>
+                      {availableSubgroups.map((sg) => (
+                        <MenuItem key={sg.label} value={sg.label}>
+                          {sg.sr_RS}
                         </MenuItem>
                       ))}
                     </Select>
@@ -203,6 +301,9 @@ export const Products = () => {
                       onChange={(_, value) =>
                         setPriceRange(value as [number, number])
                       }
+                      sx={(theme) => ({
+                        color: theme.palette.custom.forestGreen
+                      })}
                       valueLabelDisplay="auto"
                       min={priceLimits[0]}
                       max={priceLimits[1]}
@@ -225,13 +326,21 @@ export const Products = () => {
           <Box
             component={'section'}
             className={clsx('w-full', 'grid', 'gap-5', {
-              'grid-cols-2': filteredProducts?.length,
-              'sm:grid-cols-3': filteredProducts?.length,
-              'lgm:grid-cols-4': filteredProducts?.length
+              'grid-cols-2': displayedProducts?.length,
+              'sm:grid-cols-3': displayedProducts?.length,
+              'lgm:grid-cols-4': displayedProducts?.length
             })}
           >
-            {filteredProducts && filteredProducts.length ? (
-              filteredProducts.map((product: Product) => (
+            {isFiltering ? (
+              // dok traje filtriranje zadrži stare proizvode
+              displayedProducts.map((product: Product) => (
+                <ProductCard
+                  key={`${product.createdAt}_${product.createdBy}`}
+                  product={product}
+                />
+              ))
+            ) : displayedProducts.length ? (
+              displayedProducts.map((product: Product) => (
                 <ProductCard
                   key={`${product.createdAt}_${product.createdBy}`}
                   product={product}
