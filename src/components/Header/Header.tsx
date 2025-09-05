@@ -1,21 +1,26 @@
 import { Logo } from '@green-world/components';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
-import { Settings, Logout } from '@mui/icons-material';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PersonIcon from '@mui/icons-material/Person';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   Box,
-  Divider,
+  List,
   ListItemIcon,
-  Menu,
-  MenuItem,
-  Button
+  ListItemText,
+  Drawer,
+  Button,
+  ListItemButton
 } from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
+import {
+  User,
+  UserPen,
+  Menu as MenuLucide,
+  PackagePlus,
+  Mail,
+  MapPinPlus,
+  LogOut
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,140 +29,113 @@ export const Header = () => {
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleLogout = () => {
     removeItem('token');
     navigate('/');
+    setDrawerOpen(false);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleToggleDrawer = () => {
+    setDrawerOpen((prev) => !prev);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleUser = () => {
+    if (decodedToken?._id) {
+      handleToggleDrawer();
+    } else {
+      navigate('/login');
+    }
   };
 
-  const handleUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    return decodedToken?._id ? handleClick(e) : navigate('/login');
-  };
+  const menuItems = [
+    {
+      text: 'Korisnički Profil',
+      icon: <User className="!w-6 !h-6 ml-2" />,
+      onClick: () => navigate('/profile')
+    },
+    {
+      text: 'Kreiraj proizvod',
+      icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
+      onClick: () => navigate('/create-product')
+    },
+    {
+      text: 'Kreiraj aktivnost',
+      icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
+      onClick: () => navigate('/create-event')
+    },
+    {
+      text: 'Podešavanje profila',
+      icon: <UserPen className="!w-6 !h-6 ml-2" />,
+      onClick: () => navigate('/profile-settings/edit-profile')
+    },
+    {
+      text: 'Kontaktirajte nas',
+      icon: <Mail className="!w-6 !h-6 ml-2" />,
+      onClick: () => navigate('/contact-us')
+    }
+  ];
 
   return (
     <Box
       component="header"
       className={clsx(
-        'sticky',
-        'inset-x-0',
-        'top-0',
-        'z-20',
-        'bg-teaGreen',
-        'shadow',
-        'px-4',
-        'sm:px-7',
-        'xl:px-0',
-        'py-3'
+        'sticky inset-x-0 top-0 z-20 bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3'
       )}
     >
-      <Box
-        component="nav"
-        className={clsx(
-          'max-w-[1400px]',
-          'mx-auto',
-          'flex',
-          'items-center',
-          'justify-between'
-        )}
-      >
+      <Box className="max-w-[1400px] mx-auto flex items-center justify-between">
         <Logo />
         <Button
           variant="outlined"
           color="inherit"
           sx={{ textTransform: 'uppercase' }}
           onClick={handleUser}
-          aria-controls={open ? 'account-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
         >
-          {decodedToken?._id ? <PersonOutlineOutlinedIcon /> : 'Prijavi se'}
+          {decodedToken?._id ? (
+            <MenuLucide className="!w-6 !h-6 !text-inherit" />
+          ) : (
+            'Prijavi se'
+          )}
         </Button>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          slotProps={{
-            paper: {
-              elevation: 0,
-              sx: {
-                overflow: 'visible',
-                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                mt: 1.5,
-                '& .MuiAvatar-root': {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1
-                },
-                '&::before': {
-                  content: '""',
-                  display: 'block',
-                  position: 'absolute',
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: 'background.paper',
-                  transform: 'translateY(-50%) rotate(45deg)',
-                  zIndex: 0
-                }
-              }
-            }
-          }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          <MenuItem onClick={() => navigate('/profile')}>
-            <ListItemIcon>
-              <PersonIcon fontSize="small" />
-            </ListItemIcon>
-            Profil
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/create-product')}>
-            <ListItemIcon>
-              <PostAddIcon fontSize="small" />
-            </ListItemIcon>
-            Kreiraj proizvod
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/create-event')}>
-            <ListItemIcon>
-              <PostAddIcon fontSize="small" />
-            </ListItemIcon>
-            Kreiraj aktivnost
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/profile-settings/edit-profile')}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Podesavanje profila
-          </MenuItem>
-          <MenuItem onClick={() => navigate('/contact-us')}>
-            <ListItemIcon>
-              <MailOutlineIcon fontSize="small" />
-            </ListItemIcon>
-            Kontaktirajte nas
-          </MenuItem>
-          <Divider />
-          <MenuItem onClick={handleLogout}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
       </Box>
+
+      <Drawer anchor="right" open={drawerOpen} onClose={handleToggleDrawer}>
+        <Box
+          sx={{
+            width: 250,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            py: 2
+          }}
+          role="presentation"
+        >
+          {/* Glavni meni */}
+          <Box sx={{ flex: 1, overflowY: 'auto' }}>
+            <List>
+              {menuItems.map((item) => (
+                <ListItemButton key={item.text} onClick={item.onClick}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Box>
+
+          {/* Logout - footer */}
+          <Box>
+            <List>
+              <ListItemButton onClick={handleLogout}>
+                <ListItemIcon>
+                  <LogOut className="!w-6 !h-6 ml-2" />
+                </ListItemIcon>
+                <ListItemText primary="Izloguj se" />
+              </ListItemButton>
+            </List>
+          </Box>
+        </Box>
+      </Drawer>
     </Box>
   );
 };

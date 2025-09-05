@@ -92,6 +92,7 @@ export const UserProfile = () => {
         >
           <UserInfo
             user={userData}
+            isUserProfile={true}
             userLoading={userLoading}
             customStyleMeta={['flex', 'flex-col']}
           />

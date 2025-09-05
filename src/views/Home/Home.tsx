@@ -1,11 +1,9 @@
 import {
   CustomButton,
-  Divider,
   HomeCarousel,
   GroupButton,
   EventCarousel,
-  LazySection,
-  HeroSection
+  LazySection
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
@@ -44,7 +42,7 @@ export const Home = () => {
         <title>Zeleni svet | Green world</title>
         <link rel="canonical" href="https://www.zelenisvet.rs/" />
       </Helmet>
-      <HeroSection />
+
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
@@ -59,8 +57,33 @@ export const Home = () => {
           'gap-7'
         )}
       >
+        <Box
+          component="img"
+          src={ZSBannerRs}
+          alt="Zeleni svet banner"
+          loading="eager"
+          decoding="async"
+          srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
+          sizes="(max-width: 768px) 100vw, 1400px"
+          className={clsx(
+            'w-full',
+            'h-auto',
+            'rounded',
+            'mt-4',
+            'mb-2',
+            'shadow'
+          )}
+          style={{
+            objectFit: 'cover',
+            filter: 'blur(10px)',
+            transition: 'filter 0.5s ease'
+          }}
+          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+            (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
+          }}
+        />
         <div className="text-center my-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-forestGreen mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
             Izdvojeni Proizvodi
           </h2>
           <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
@@ -72,7 +95,7 @@ export const Home = () => {
           isLoading={allProductsLoading}
         />
         <div className="text-center my-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-forestGreen mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
             Kategorije Proizvoda
           </h2>
           <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
@@ -103,33 +126,6 @@ export const Home = () => {
           ))}
         </Grid>
         <LazySection>
-          <Box
-            component="img"
-            src={ZSBannerRs}
-            alt="Zeleni svet banner"
-            loading="lazy"
-            decoding="async"
-            srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
-            sizes="(max-width: 768px) 100vw, 1400px"
-            className={clsx(
-              'w-full',
-              'h-auto',
-              'rounded',
-              'mt-4',
-              'mb-2',
-              'shadow'
-            )}
-            style={{
-              objectFit: 'cover',
-              filter: 'blur(10px)',
-              transition: 'filter 0.5s ease'
-            }}
-            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
-            }}
-          />
-        </LazySection>
-        <LazySection>
           <CustomButton
             type="text"
             customStyle={['py-4', 'text-lg']}
@@ -139,57 +135,93 @@ export const Home = () => {
           </CustomButton>
         </LazySection>
         <LazySection>
-          <Divider text="Cvetni asortiman" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Cvetni asortiman
+            </h2>
+          </div>
           <HomeCarousel
             products={flowerAssortment}
             isLoading={flowerAssortmentLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Sukulenti" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Sukulenti
+            </h2>
+          </div>
           <HomeCarousel products={succulents} isLoading={succulentsLoading} />
         </LazySection>
         <LazySection>
-          <Divider text="Saksijsko cvece" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Saksijsko cvece
+            </h2>
+          </div>
           <HomeCarousel
             products={pottedFlowers}
             isLoading={pottedFlowersLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Sadnice" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Sadnice
+            </h2>
+          </div>
           <HomeCarousel products={seedlings} isLoading={seedlingsLoading} />
         </LazySection>
         <LazySection>
-          <Divider text="Voce i povrce" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Voce i povrce
+            </h2>
+          </div>
           <HomeCarousel
             products={fruitsAndVegetables}
             isLoading={fruitsAndVegetablesLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Biljna apoteka" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Biljna apoteka
+            </h2>
+          </div>
           <HomeCarousel
             products={herbalPharmacy}
             isLoading={herbalPharmacyLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Bastenska dekoracija" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Bastenska dekoracija
+            </h2>
+          </div>
           <HomeCarousel
             products={gardenDecoration}
             isLoading={gardenDecorationLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Sve za biljke" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Sve za Biljke
+            </h2>
+          </div>
           <HomeCarousel
             products={everythingForPlants}
             isLoading={everythingForPlantsLoading}
           />
         </LazySection>
         <LazySection>
-          <Divider text="Aktivnosti" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Aktivnosti
+            </h2>
+          </div>
           <EventCarousel events={allEvents} isLoading={allEventsLoading} />
         </LazySection>
       </Box>

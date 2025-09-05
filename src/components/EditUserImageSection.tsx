@@ -115,7 +115,7 @@ export const EditUserImageSection = () => {
           <p className={clsx('text-gray40', 'italic', 'mb-4', 'text-center')}>
             Generisani QR kod vašeg prodavnice na našem sajtu Zeleni svet.
           </p>
-          <CustomQRCode link={'https://zeleni-svet.com'} icon={ZSLogo} />
+          <CustomQRCode link={'https://zelenisvet.rs'} icon={ZSLogo} />
         </div>
       </section>
     </section>

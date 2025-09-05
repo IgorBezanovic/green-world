@@ -171,8 +171,12 @@ export const CreateEditEvent = () => {
             <BackButton />
           </Box>
           <h1
-            className={clsx('text-forestGreen', 'text-5xl', 'md:text-6xl')}
-            style={{ fontFamily: 'GreenWorld' }}
+            className={clsx(
+              'text-forestGreen',
+              'text-5xl',
+              'md:text-6xl',
+              'font-ephesis'
+            )}
           >
             {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
           </h1>

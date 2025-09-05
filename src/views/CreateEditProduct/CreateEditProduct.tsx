@@ -228,8 +228,12 @@ export const CreateEditProduct = () => {
             <BackButton />
           </div>
           <h1
-            className={clsx('text-forestGreen', 'text-5xl', 'md:text-6xl')}
-            style={{ fontFamily: 'GreenWorld' }}
+            className={clsx(
+              'text-forestGreen',
+              'text-5xl',
+              'md:text-6xl',
+              'font-ephesis'
+            )}
           >
             {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
           </h1>

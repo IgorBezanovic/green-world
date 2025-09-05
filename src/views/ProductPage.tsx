@@ -1,4 +1,4 @@
-import { Divider, HomeCarousel, UserInfo } from '@green-world/components';
+import { HomeCarousel, UserInfo } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -173,29 +173,29 @@ export const ProductPage = () => {
                     'w-full',
                     'md:w-1/2',
                     'p-6',
-                    'rounded-lg',
-                    'shadow-lg',
+                    'rounded',
+                    'shadow',
                     'bg-white',
                     'overflow-hidden'
                   )}
                 >
-                  <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  <h1 className="text-lg font-bold tracking-tight text-gray-900 md:text-2xl">
                     {productData?.title}
                   </h1>
 
-                  <p className="mt-4 text-xl font-semibold text-green-600">
+                  <p className="mt-4 font-extralight">
                     {productData?.priceOnRequest
                       ? 'Cena Na Upit'
                       : `${productData?.price},00 RSD`}
                   </p>
 
-                  <p className="mt-4 text-lg text-gray-700 text-wrap break-words italic">
+                  <p className="mt-4 text-gray-700 text-wrap break-words italic">
                     {productData?.shortDescription}
                   </p>
 
-                  <div className="mt-6 flex items-center space-x-2 text-green-600">
+                  <div className="mt-6 flex items-center space-x-2">
                     <CheckCircle className="w-6 h-6 text-forestGreen" />
-                    <span className="text-lg font-medium">
+                    <span className=" font-medium">
                       Na stanju – spremno za slanje
                     </span>
                   </div>
@@ -203,26 +203,32 @@ export const ProductPage = () => {
                   <div className="mt-8 space-y-2 text-gray-700">
                     <div className="flex items-center space-x-2">
                       <Store className="w-5 h-5 text-forestGreen" />
-                      <span className="text-lg">
+                      <span>
                         {sellerData?.shopName}, {sellerData?.name}
                       </span>
                     </div>
                     {sellerData?.phone && (
-                      <div className="flex items-center space-x-2">
+                      <a
+                        href={`tel:00${sellerData.phone}`}
+                        className="flex items-center space-x-2 cursor-pointer"
+                      >
                         <Phone className="w-5 h-5 text-forestGreen" />
-                        <span className="text-lg">{sellerData?.phone}</span>
-                      </div>
+                        <span>{sellerData.phone}</span>
+                      </a>
                     )}
-                    <div className="flex items-center space-x-2">
+                    <a
+                      href={`mailto:${sellerData?.email}`}
+                      className="flex items-center space-x-2 cursor-pointer"
+                    >
                       <Mail className="w-5 h-5 text-forestGreen" />
-                      <span className="text-lg">{sellerData?.email}</span>
-                    </div>
+                      <span>{sellerData?.email}</span>
+                    </a>
                   </div>
                 </div>
               </section>
               <Card
                 style={{ width: '100%' }}
-                className={clsx('shadow-lg')}
+                className={clsx('shadow')}
                 title={productData?.title}
               >
                 <section
@@ -235,21 +241,31 @@ export const ProductPage = () => {
           </section>
         </Skeleton>
         <section className={clsx('md:hidden')}>
-          <Divider text="Kontakt prodavca" />
+          <div className="text-center my-8">
+            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+              Kontakt prodavca
+            </h2>
+          </div>
           <UserInfo
             userLoading={userLoading}
             user={sellerData}
             customStyleMeta={['flex', 'flex-col', 'md:hidden']}
           />
         </section>
-        <Divider
-          text={`Proizvodi iz ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
-        />
+        <div className="text-center my-8">
+          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+            {`Proizvodi iz ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
+          </h2>
+        </div>
         <HomeCarousel
           products={groupProducts}
           isLoading={groupProductsLoading}
         />
-        <Divider text="Svi proizvodi ovog prodavca" />
+        <div className="text-center my-8">
+          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+            Svi proizvodi ovog prodavca
+          </h2>
+        </div>
         <HomeCarousel
           products={sellerProducts}
           isLoading={sellerProductsLoading}
