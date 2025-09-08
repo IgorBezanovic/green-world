@@ -9,7 +9,15 @@ import {
   subGroups
 } from '@green-world/utils/constants';
 import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
-import { Alert, Checkbox, Snackbar } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Checkbox,
+  List,
+  ListItem,
+  ListItemText,
+  Snackbar
+} from '@mui/material';
 import { Select } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
@@ -288,9 +296,6 @@ export const CreateEditProduct = () => {
             >
               Dodajte fotografije proizvoda:
             </label>
-            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
-              Prva slika u nizu je profilna. Maksimum 10 fotografija
-            </small>
             {Boolean(product?.images.length) && (
               <div
                 className={clsx(
@@ -399,6 +404,23 @@ export const CreateEditProduct = () => {
               className={clsx('hidden')}
               data-max-size={MAX_IMAGE_MB}
             />
+            <Alert severity="info" className="mt-4">
+              <AlertTitle>Informacije o dodavanju fotografijama</AlertTitle>
+              <List sx={{ pl: 3, listStyleType: 'disc' }}>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText primary="Idealna razmera za fotografije 1/1 square." />
+                </ListItem>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText primary="Prva slika u nizu je profilna." />
+                </ListItem>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText primary="Maksimum 10 fotografija." />
+                </ListItem>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText primary="Jedna fotografija maximum 10MB." />
+                </ListItem>
+              </List>
+            </Alert>
           </div>
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
@@ -504,15 +526,14 @@ export const CreateEditProduct = () => {
             </div>
             <label
               htmlFor="price"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
+              className={clsx('text-forestGreen', 'cursor-pointer', 'text-lg')}
             >
               Cena proizvoda:
             </label>
+            <small className={clsx('mb-2', 'text-gray40', 'italic')}>
+              Cenu proizvoda unesite bez tacki i zareza, na nama je da
+              formatiramo. e.g. 1490 - 1.490,00 RSD
+            </small>
             <CustomInput
               required
               type="text"
