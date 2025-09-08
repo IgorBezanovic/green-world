@@ -31,25 +31,25 @@ export const Footer = () => {
         }
       })}
     >
+      {/* Sekcija sa društvenim mrežama i newsletter */}
       <Box
         component="section"
         sx={(theme) => ({
-          maxWidth: '1400px',
-          margin: '0 auto',
+          maxWidth: 1400,
+          mx: 'auto',
           display: 'grid',
-          gridTemplateColumns: '1fr',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            lg: 'repeat(4, 1fr)'
+          },
           gap: '40px',
-          [theme.breakpoints.up('xs')]: {
-            gridTemplateColumns: 'repeat(2, 1fr)'
-          },
-          [theme.breakpoints.up('lg')]: {
-            gridTemplateColumns: 'repeat(4, 1fr)'
-          },
           [theme.breakpoints.up('md')]: {
             gap: '80px'
           }
         })}
       >
+        {/* Društvene mreže + newsletter */}
         <Box>
           <Box sx={{ display: 'flex' }}>
             <IconButton
@@ -59,7 +59,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <InstagramIcon sx={{ color: 'white', fontSize: '32px' }} />
+              <InstagramIcon sx={{ color: 'white', fontSize: 32 }} />
             </IconButton>
             <IconButton
               component="a"
@@ -68,7 +68,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               aria-label="LinkedIn"
             >
-              <LinkedInIcon sx={{ color: 'white', fontSize: '32px' }} />
+              <LinkedInIcon sx={{ color: 'white', fontSize: 32 }} />
             </IconButton>
             <IconButton
               component="a"
@@ -77,7 +77,7 @@ export const Footer = () => {
               rel="noopener noreferrer"
               aria-label="Facebook"
             >
-              <FacebookIcon sx={{ color: 'white', fontSize: '32px' }} />
+              <FacebookIcon sx={{ color: 'white', fontSize: 32 }} />
             </IconButton>
             <IconButton
               component="a"
@@ -89,28 +89,28 @@ export const Footer = () => {
               <TikTokIcon />
             </IconButton>
           </Box>
+
           <Box
             component="form"
             sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}
           >
             <Typography
-              variant="body1"
               component="label"
               htmlFor="email"
-              color="white"
+              variant="body1"
+              sx={{ color: 'white' }}
             >
               Prijavi se da primaš novosti i informacije:
             </Typography>
             <TextField
-              type="text"
+              type="email"
               name="email"
               id="email"
               placeholder="Unesite email"
-              autoComplete="true"
+              aria-label="Email za prijavu na novosti"
+              autoComplete="email"
               size="small"
-              sx={{
-                mt: 1
-              }}
+              sx={{ mt: 1 }}
               slotProps={{
                 input: {
                   sx: {
@@ -127,9 +127,7 @@ export const Footer = () => {
                   }
                 },
                 inputLabel: {
-                  sx: {
-                    color: 'white'
-                  }
+                  sx: { color: 'white' }
                 }
               }}
               value={userEmail}
@@ -144,105 +142,124 @@ export const Footer = () => {
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            color: 'white',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1
-          }}
-        >
+        {/* Brzi linkovi */}
+        <Box component="nav" aria-label="Brzi linkovi" sx={{ color: 'white' }}>
           <Typography variant="body1">Brzi linkovi:</Typography>
-          <Typography
-            component="span"
-            variant="body2"
+          <Box
+            component="ul"
             sx={{
-              color: 'inherit',
-              cursor: 'pointer',
-              textDecoration: 'underline'
-            }}
-            onClick={() => navigate('/contact-us')}
-          >
-            Kontakt
-          </Typography>
-          <Typography
-            component="a"
-            variant="body2"
-            href="https://www.instagram.com/zeleni_svet_rs/"
-            sx={{ color: 'inherit', textDecoration: 'underline' }}
-          >
-            O Nama
-          </Typography>
-          <Typography
-            component="a"
-            variant="body2"
-            onClick={() => navigate('/search')}
-            sx={{
-              color: 'inherit',
-              cursor: 'pointer',
-              textDecoration: 'underline'
+              listStyle: 'none',
+              p: 0,
+              m: 0,
+              mt: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 0.5
             }}
           >
-            Proizvodi
-          </Typography>
-          <Typography
-            component="a"
-            variant="body2"
-            onClick={() => navigate('/login')}
-            sx={{
-              color: 'inherit',
-              cursor: 'pointer',
-              textDecoration: 'underline'
-            }}
-          >
-            Prijavi Se
-          </Typography>
-        </Box>
-
-        <Box sx={{ color: 'white' }}>
-          <Typography variant="body1">Nudimo korisničku podršku:</Typography>
-          <Box component="ul" sx={{ mt: 1 }}>
-            <Box
-              component="li"
-              sx={{ display: 'flex', alignItems: 'center', mb: '8px' }}
-            >
-              <CheckCircleOutlineIcon sx={{ mr: 1 }} />
-              <Typography component="span" variant="body2">
-                Kreiranje radnje
+            <Box component="li">
+              <Typography
+                component="span"
+                variant="body2"
+                sx={{
+                  color: 'inherit',
+                  textDecoration: 'underline',
+                  cursor: 'pointer'
+                }}
+                onClick={() => navigate('/contact-us')}
+              >
+                Kontakt
               </Typography>
             </Box>
-            <Box
-              component="li"
-              sx={{ display: 'flex', alignItems: 'center', mb: '8px' }}
-            >
-              <CheckCircleOutlineIcon sx={{ mr: 1 }} />
-              <Typography component="span" variant="body2">
-                Kreiranje oglasa
+            <Box component="li">
+              <Typography
+                component="a"
+                variant="body2"
+                href="https://www.instagram.com/zeleni_svet_rs/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: 'inherit', textDecoration: 'underline' }}
+              >
+                O Nama
               </Typography>
             </Box>
-            <Box component="li" sx={{ display: 'flex', alignItems: 'center' }}>
-              <CheckCircleOutlineIcon sx={{ mr: 1 }} />
-              <Typography component="span" variant="body2">
-                Kreiranje aktivnosti
+            <Box component="li">
+              <Typography
+                component="span"
+                variant="body2"
+                sx={{
+                  color: 'inherit',
+                  textDecoration: 'underline',
+                  cursor: 'pointer'
+                }}
+                onClick={() => navigate('/search')}
+              >
+                Proizvodi
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography
+                component="span"
+                variant="body2"
+                sx={{
+                  color: 'inherit',
+                  textDecoration: 'underline',
+                  cursor: 'pointer'
+                }}
+                onClick={() => navigate('/login')}
+              >
+                Prijavi Se
               </Typography>
             </Box>
           </Box>
         </Box>
+
+        {/* Korisnička podrška */}
         <Box sx={{ color: 'white' }}>
-          <Typography variant="h5">
-            Zelite da istaknete svoj oglas/radnju na pocetnoj strani?
+          <Typography variant="body1">Nudimo korisničku podršku:</Typography>
+          <Box component="ul" sx={{ mt: 1 }}>
+            {[
+              'Kreiranje radnje',
+              'Kreiranje oglasa',
+              'Kreiranje aktivnosti'
+            ].map((text) => (
+              <Box
+                component="li"
+                key={text}
+                sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
+              >
+                <CheckCircleOutlineIcon sx={{ mr: 1 }} />
+                <Typography component="span" variant="body2">
+                  {text}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        {/* Kontakt info / promocija */}
+        <Box sx={{ color: 'white' }}>
+          <Typography component="h2" variant="h5">
+            Želite da istaknete svoj oglas/radnju na početnoj strani?
           </Typography>
           <Typography
             component="a"
             href="mailto:info@zelenisvet.rs"
-            sx={{ color: 'inherit' }}
+            sx={{ color: 'inherit', textDecoration: 'underline', mt: 1 }}
           >
             info@zelenisvet.rs
           </Typography>
-          <img
+          <Box
+            component="img"
             src="https://res.cloudinary.com/dijofqxeu/image/upload/v1745438146/uqdzbq3113jypz6ercok.png"
-            alt="gardener"
-            className="absolute bottom-0 right-10 h-[180px]"
+            alt="Gardener illustration"
+            loading="lazy"
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              right: 10,
+              height: 180
+            }}
           />
         </Box>
       </Box>
