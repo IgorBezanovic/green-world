@@ -3,7 +3,8 @@ import {
   HomeCarousel,
   GroupButton,
   EventCarousel,
-  LazySection
+  LazySection,
+  ProductSection
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
@@ -65,14 +66,7 @@ export const Home = () => {
           decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
-          className={clsx(
-            'w-full',
-            'h-auto',
-            'rounded',
-            'mt-4',
-            'mb-2',
-            'shadow'
-          )}
+          className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
           style={{
             objectFit: 'cover',
             filter: 'blur(10px)',
@@ -82,11 +76,11 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
-        <div className="text-center my-8">
+        <div className="text-center my-6 md:my-8">
           <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
             Izdvojeni Proizvodi
           </h2>
-          <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
+          <p className="text-muted-forestGreen max-w-2xl mx-auto">
             Najnoviji proizvodi naših partnera
           </p>
         </div>
@@ -94,11 +88,11 @@ export const Home = () => {
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
-        <div className="text-center my-8">
+        <div className="text-center my-6 md:my-8">
           <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
             Kategorije Proizvoda
           </h2>
-          <p className="text-muted-forestGreen text-lg max-w-2xl mx-auto">
+          <p className="text-muted-forestGreen max-w-2xl mx-auto">
             Pronađite sve što vam je potrebno za savršenu baštu i dom
           </p>
         </div>
@@ -134,90 +128,48 @@ export const Home = () => {
             Pretrazi sve proizvode
           </CustomButton>
         </LazySection>
+        <ProductSection
+          title="Cvetni asortiman"
+          products={flowerAssortment}
+          isLoading={flowerAssortmentLoading}
+        />
+        <ProductSection
+          title="Sukulenti"
+          products={succulents}
+          isLoading={succulentsLoading}
+        />
+        <ProductSection
+          title="Saksijsko cveće"
+          products={pottedFlowers}
+          isLoading={pottedFlowersLoading}
+        />
+        <ProductSection
+          title="Sadnice"
+          products={seedlings}
+          isLoading={seedlingsLoading}
+        />
+        <ProductSection
+          title="Voće i povrće"
+          products={fruitsAndVegetables}
+          isLoading={fruitsAndVegetablesLoading}
+        />
+        <ProductSection
+          title="Biljna apoteka"
+          products={herbalPharmacy}
+          isLoading={herbalPharmacyLoading}
+        />
+        <ProductSection
+          title="Baštenska dekoracija"
+          products={gardenDecoration}
+          isLoading={gardenDecorationLoading}
+        />
+        <ProductSection
+          title="Sve za Biljke"
+          products={everythingForPlants}
+          isLoading={everythingForPlantsLoading}
+        />
         <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Cvetni asortiman
-            </h2>
-          </div>
-          <HomeCarousel
-            products={flowerAssortment}
-            isLoading={flowerAssortmentLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Sukulenti
-            </h2>
-          </div>
-          <HomeCarousel products={succulents} isLoading={succulentsLoading} />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Saksijsko cvece
-            </h2>
-          </div>
-          <HomeCarousel
-            products={pottedFlowers}
-            isLoading={pottedFlowersLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Sadnice
-            </h2>
-          </div>
-          <HomeCarousel products={seedlings} isLoading={seedlingsLoading} />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Voce i povrce
-            </h2>
-          </div>
-          <HomeCarousel
-            products={fruitsAndVegetables}
-            isLoading={fruitsAndVegetablesLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Biljna apoteka
-            </h2>
-          </div>
-          <HomeCarousel
-            products={herbalPharmacy}
-            isLoading={herbalPharmacyLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Bastenska dekoracija
-            </h2>
-          </div>
-          <HomeCarousel
-            products={gardenDecoration}
-            isLoading={gardenDecorationLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Sve za Biljke
-            </h2>
-          </div>
-          <HomeCarousel
-            products={everythingForPlants}
-            isLoading={everythingForPlantsLoading}
-          />
-        </LazySection>
-        <LazySection>
-          <div className="text-center my-8">
+          <div className="text-center my-6 md:my-8">
             <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
               Aktivnosti
             </h2>

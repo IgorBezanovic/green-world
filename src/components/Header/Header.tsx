@@ -1,4 +1,3 @@
-import { Logo } from '@green-world/components';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -8,7 +7,8 @@ import {
   ListItemText,
   Drawer,
   Button,
-  ListItemButton
+  ListItemButton,
+  useTheme
 } from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
@@ -24,9 +24,12 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ZSLogoHorizontal } from '../AppLogos';
+
 export const Header = () => {
   const navigate = useNavigate();
   const token = getItem('token');
+  const theme = useTheme();
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -49,31 +52,37 @@ export const Header = () => {
     }
   };
 
+  const handleMenuClick = (callback: () => void) => {
+    setDrawerOpen(false); // zatvori drawer
+    callback(); // izvrši originalnu funkciju
+  };
+
   const menuItems = [
     {
       text: 'Korisnički Profil',
       icon: <User className="!w-6 !h-6 ml-2" />,
-      onClick: () => navigate('/profile')
+      onClick: () => handleMenuClick(() => navigate('/profile'))
     },
     {
       text: 'Kreiraj proizvod',
       icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
-      onClick: () => navigate('/create-product')
+      onClick: () => handleMenuClick(() => navigate('/create-product'))
     },
     {
       text: 'Kreiraj aktivnost',
       icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
-      onClick: () => navigate('/create-event')
+      onClick: () => handleMenuClick(() => navigate('/create-event'))
     },
     {
       text: 'Podešavanje profila',
       icon: <UserPen className="!w-6 !h-6 ml-2" />,
-      onClick: () => navigate('/profile-settings/edit-profile')
+      onClick: () =>
+        handleMenuClick(() => navigate('/profile-settings/edit-profile'))
     },
     {
       text: 'Kontaktirajte nas',
       icon: <Mail className="!w-6 !h-6 ml-2" />,
-      onClick: () => navigate('/contact-us')
+      onClick: () => handleMenuClick(() => navigate('/contact-us'))
     }
   ];
 
@@ -85,7 +94,13 @@ export const Header = () => {
       )}
     >
       <Box className="max-w-[1400px] mx-auto flex items-center justify-between">
-        <Logo />
+        <Box
+          onClick={() => navigate('/')}
+          className="w-40 flex items-center cursor-pointer"
+        >
+          <ZSLogoHorizontal color={theme.palette.custom.forestGreen} />
+        </Box>
+        {/* <Logo /> */}
         <Button
           variant="outlined"
           color="inherit"

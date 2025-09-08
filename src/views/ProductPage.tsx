@@ -1,4 +1,4 @@
-import { HomeCarousel, UserInfo } from '@green-world/components';
+import { ProductSection, UserInfo } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -252,21 +252,13 @@ export const ProductPage = () => {
             customStyleMeta={['flex', 'flex-col', 'md:hidden']}
           />
         </section>
-        <div className="text-center my-8">
-          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-            {`Proizvodi iz ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
-          </h2>
-        </div>
-        <HomeCarousel
+        <ProductSection
+          title={`Proizvodi iz grupe ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
           products={groupProducts}
           isLoading={groupProductsLoading}
         />
-        <div className="text-center my-8">
-          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-            Svi proizvodi ovog prodavca
-          </h2>
-        </div>
-        <HomeCarousel
+        <ProductSection
+          title="Svi proizvodi prodavca"
           products={sellerProducts}
           isLoading={sellerProductsLoading}
         />

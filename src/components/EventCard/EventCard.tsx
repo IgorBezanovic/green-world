@@ -72,7 +72,7 @@ export const EventCard = ({ event }: EventCardProps) => {
             flexDirection: 'column',
             flex: 1,
             px: 2,
-            py: 1
+            py: 2
           }}
         >
           <CardContent sx={{ flex: 1, p: 0 }}>
@@ -117,7 +117,7 @@ export const EventCard = ({ event }: EventCardProps) => {
               </Typography>
             </Box>
 
-            <Typography variant="h6" sx={{ mb: 0.5 }}>
+            <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
               {event?.title}
             </Typography>
 

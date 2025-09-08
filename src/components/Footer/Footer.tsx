@@ -1,13 +1,15 @@
-import { CustomButton, Logo, TikTokIcon } from '@green-world/components';
+import { CustomButton, TikTokIcon } from '@green-world/components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { Box, Typography, IconButton, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -142,16 +144,59 @@ export const Footer = () => {
           </Box>
         </Box>
 
-        <Box sx={{ color: 'white' }}>
-          <Typography variant="body1">Kontaktirajte nas:</Typography>
+        <Box
+          sx={{
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1
+          }}
+        >
+          <Typography variant="body1">Brzi linkovi:</Typography>
+          <Typography
+            component="span"
+            variant="body2"
+            sx={{
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+            onClick={() => navigate('/contact-us')}
+          >
+            Kontakt
+          </Typography>
           <Typography
             component="a"
-            href="mailto:info@zelenisvet.rs"
-            sx={{ color: 'inherit' }}
+            variant="body2"
+            href="https://www.instagram.com/zeleni_svet_rs/"
+            sx={{ color: 'inherit', textDecoration: 'underline' }}
           >
-            info@zelenisvet.rs
+            O Nama
           </Typography>
-          <Logo width="100px" height="100px" sx={{ marginTop: '16px' }} />
+          <Typography
+            component="a"
+            variant="body2"
+            onClick={() => navigate('/search')}
+            sx={{
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            Proizvodi
+          </Typography>
+          <Typography
+            component="a"
+            variant="body2"
+            onClick={() => navigate('/login')}
+            sx={{
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            Prijavi Se
+          </Typography>
         </Box>
 
         <Box sx={{ color: 'white' }}>
