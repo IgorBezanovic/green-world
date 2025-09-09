@@ -96,7 +96,7 @@ export const Header = () => {
       <Box className="max-w-[1400px] mx-auto flex items-center justify-between">
         <Box
           onClick={() => navigate('/')}
-          className="w-40 flex items-center cursor-pointer"
+          className="w-28 sm:w-40 flex items-center cursor-pointer"
         >
           <ZSLogoHorizontal color={theme.palette.custom.forestGreen} />
         </Box>

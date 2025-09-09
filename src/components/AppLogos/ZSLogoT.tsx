@@ -1,12 +1,18 @@
 import { LogoProps } from './types';
 
-export const ZSLogoT = ({ color }: LogoProps) => {
+export const ZSLogoT = ({
+  color,
+  width = '100%',
+  height = 'auto'
+}: LogoProps) => {
   return (
     <svg
       id="Layer_2"
       data-name="Layer 2"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1615.52 496.24"
+      width={width}
+      height={height}
     >
       <g id="Layer_1-2" data-name="Layer 1" fill={color}>
         <g>
