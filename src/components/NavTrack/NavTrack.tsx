@@ -10,10 +10,7 @@ export const NavTrack = () => {
       component="nav"
       sx={(theme) => ({
         py: 0.5,
-        px: 0,
-        [theme.breakpoints.down('xl')]: {
-          px: 2
-        },
+        px: 1,
         display: 'none',
         [theme.breakpoints.up('sm')]: {
           display: 'flex'

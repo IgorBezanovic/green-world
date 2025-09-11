@@ -2,7 +2,8 @@ import {
   ChangePasswordComponent,
   EditUserData,
   EditUserImageSection,
-  ProtectedRoute
+  ProtectedRoute,
+  GoogleAnalytics
 } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
@@ -20,8 +21,10 @@ import {
   PrivacyPolicy,
   Registration,
   UserProfile,
-  CreateEditEvent
+  CreateEditEvent,
+  AdminPanel
 } from '@green-world/views';
+import { Navigate } from 'react-router-dom';
 
 export const routes = [
   {
@@ -105,6 +108,20 @@ export const routes = [
       {
         path: '/privacy-policy',
         element: <PrivacyPolicy />
+      },
+      {
+        path: '/admin',
+        element: <ProtectedRoute element={AdminPanel} />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="/admin/google-analytics" replace />
+          },
+          {
+            path: '/admin/google-analytics',
+            element: <GoogleAnalytics />
+          }
+        ]
       }
     ]
   },

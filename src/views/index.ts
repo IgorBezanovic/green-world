@@ -1,3 +1,4 @@
+export * from '@green-world/views/AdminPanel';
 export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/Event';

@@ -13,6 +13,7 @@ export * from '@green-world/components/EventCard';
 export * from '@green-world/components/EventCarousel';
 export * from '@green-world/components/EventProfileCard';
 export * from '@green-world/components/Footer';
+export * from '@green-world/components/GoogleAnalytics';
 export * from '@green-world/components/ForgotPasswordForm';
 export * from '@green-world/components/GoogleLoginAuth';
 export * from '@green-world/components/GroupButton';

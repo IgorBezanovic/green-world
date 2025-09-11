@@ -43,7 +43,12 @@ async function generateSitemap() {
     },
     { url: '/search/herbal_pharmacy', changefreq: 'daily', priority: 0.9 },
     { url: '/search/garden_decoration', changefreq: 'daily', priority: 0.9 },
-    { url: '/search/everything_for_plants', changefreq: 'daily', priority: 0.9 }
+    {
+      url: '/search/everything_for_plants',
+      changefreq: 'daily',
+      priority: 0.9
+    },
+    { url: '/admin/google-analytics', changefreq: 'daily', priority: 0.9 }
   ];
 
   // statične stranice
