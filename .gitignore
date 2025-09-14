@@ -27,4 +27,4 @@ dist-ssr
 
 .env
 
-public/sitemap.xml
+sitemap.xml
