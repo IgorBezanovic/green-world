@@ -1,3 +1,4 @@
+export * from '@green-world/components/AISearch';
 export * from '@green-world/components/AllRights';
 export * from '@green-world/components/AnalyticsTracker';
 export * from '@green-world/components/AppLogos';

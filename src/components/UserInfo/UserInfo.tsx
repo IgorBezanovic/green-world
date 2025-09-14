@@ -28,7 +28,6 @@ export const UserInfo = ({ ...props }) => {
     );
   }
 
-  console.log(props);
   return (
     <Card className={clsx('w-full', props?.customStyle)}>
       {props?.user?.shopName && (

@@ -8,9 +8,9 @@ import {
   Drawer,
   Button,
   ListItemButton,
+  IconButton,
   useTheme
 } from '@mui/material';
-import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import {
   User,
@@ -19,11 +19,13 @@ import {
   PackagePlus,
   Mail,
   MapPinPlus,
-  LogOut
+  LogOut,
+  Search
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AISearch } from '../AISearch';
 import { ZSLogoHorizontal } from '../AppLogos';
 
 export const Header = () => {
@@ -33,6 +35,7 @@ export const Header = () => {
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   const handleLogout = () => {
     removeItem('token');
@@ -53,8 +56,8 @@ export const Header = () => {
   };
 
   const handleMenuClick = (callback: () => void) => {
-    setDrawerOpen(false); // zatvori drawer
-    callback(); // izvrši originalnu funkciju
+    setDrawerOpen(false);
+    callback();
   };
 
   const menuItems = [
@@ -86,35 +89,58 @@ export const Header = () => {
     }
   ];
 
+  const toggleMobileSearch = () => setMobileSearchOpen((prev) => !prev);
+
   return (
     <Box
       component="header"
-      className={clsx(
-        'sticky inset-x-0 top-0 z-20 bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3'
-      )}
+      className="sticky inset-x-0 top-0 z-20 bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3"
     >
-      <Box className="max-w-[1400px] mx-auto flex items-center justify-between">
+      <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
+        {/* Logo levo */}
         <Box
           onClick={() => navigate('/')}
           className="w-40 flex items-center cursor-pointer"
         >
           <ZSLogoHorizontal color={theme.palette.custom.forestGreen} />
         </Box>
-        {/* <Logo /> */}
-        <Button
-          variant="outlined"
-          color="inherit"
-          sx={{ textTransform: 'uppercase' }}
-          onClick={handleUser}
-        >
-          {decodedToken?._id ? (
-            <MenuLucide className="!w-6 !h-6 !text-inherit" />
-          ) : (
-            'Prijavi se'
-          )}
-        </Button>
+
+        {/* Desktop search centar */}
+        <Box className="flex-1 max-w-[700px] hidden md:block">
+          <AISearch />
+        </Box>
+
+        {/* Desno: dugme / ikonica lupice za mobile */}
+        <Box className="flex items-center gap-4">
+          {/* Mobile search icon */}
+          <IconButton onClick={toggleMobileSearch} className="md:!hidden">
+            <Search className="!w-6 !h-6 !text-inherit" />
+          </IconButton>
+          {/* Desktop dugme */}
+          <Button
+            variant="outlined"
+            color="inherit"
+            sx={{ textTransform: 'uppercase' }}
+            onClick={handleUser}
+            className="hidden md:block"
+          >
+            {decodedToken?._id ? (
+              <MenuLucide className="!w-6 !h-6 !text-inherit" />
+            ) : (
+              'Prijavi se'
+            )}
+          </Button>
+        </Box>
       </Box>
 
+      {/* Mobile expanded search */}
+      {mobileSearchOpen && (
+        <Box className="mt-5 md:hidden transition-all duration-300">
+          <AISearch />
+        </Box>
+      )}
+
+      {/* Drawer meni */}
       <Drawer anchor="right" open={drawerOpen} onClose={handleToggleDrawer}>
         <Box
           sx={{
@@ -126,7 +152,6 @@ export const Header = () => {
           }}
           role="presentation"
         >
-          {/* Glavni meni */}
           <Box sx={{ flex: 1, overflowY: 'auto' }}>
             <List>
               {menuItems.map((item) => (
@@ -138,7 +163,6 @@ export const Header = () => {
             </List>
           </Box>
 
-          {/* Logout - footer */}
           <Box>
             <List>
               <ListItemButton onClick={handleLogout}>
