@@ -18,7 +18,7 @@ import {
   ListItemText,
   Snackbar
 } from '@mui/material';
-import { Select } from 'antd';
+import { Select, message } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
@@ -46,7 +46,7 @@ const initProduct: Product = {
   onStock: true
 };
 
-const MAX_IMAGE_MB = 10 * 1024 * 1024; // 10MB
+const MAX_IMAGE_MB = 10 * 1024 * 1024;
 
 export const CreateEditProduct = () => {
   const { productId = '' } = useParams();
@@ -98,9 +98,11 @@ export const CreateEditProduct = () => {
 
   const [product, setProduct] = useState<Product>(initProduct);
 
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
   const handleCheckboxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-
     setProduct({
       ...product,
       priceOnRequest: checked
@@ -156,7 +158,6 @@ export const CreateEditProduct = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     productId ? editMutation(product) : createMutation(product);
   };
 
@@ -190,6 +191,46 @@ export const CreateEditProduct = () => {
         images: updatedImages
       };
     });
+  };
+
+  const canGenerate =
+    (product?.title?.trim()?.length ?? 0) > 2 &&
+    (product?.images?.length ?? 0) > 0 &&
+    keywords.length >= 2 &&
+    keywords.length <= 10;
+
+  const handleGenerateAiDescription = async () => {
+    try {
+      setIsAiLoading(true);
+      const baseUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(baseUrl + 'ai/description', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: product.title,
+          keywords,
+          images: product.images,
+          context: {
+            group: product.group,
+            subGroup: product.subGroup
+          }
+        })
+      });
+
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: 'Greška' }));
+        throw new Error(error || 'Greška pri generisanju opisa.');
+      }
+
+      const { descriptionHtml } = await res.json();
+      handleRichTextDescription(descriptionHtml);
+      message.success('AI opis generisan ✅');
+    } catch (e: any) {
+      console.error(e);
+      message.error(e?.message || 'Nije uspelo generisanje opisa.');
+    } finally {
+      setIsAiLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -422,6 +463,7 @@ export const CreateEditProduct = () => {
               </List>
             </Alert>
           </div>
+
           <div className={clsx('flex-1', 'flex', 'flex-col')}>
             <label
               htmlFor="title"
@@ -443,6 +485,101 @@ export const CreateEditProduct = () => {
               value={product?.title || ''}
               onChange={handleChange}
             />
+
+            <label
+              className={clsx('mb-2', 'mt-4', 'text-forestGreen', 'text-lg')}
+            >
+              Ključne reči (min 2 / max 10):
+            </label>
+            <Select
+              mode="tags"
+              value={keywords}
+              onChange={(vals) => {
+                const cleaned = (vals as string[])
+                  .map((v) => v.trim())
+                  .filter(Boolean)
+                  .slice(0, 10);
+                setKeywords(cleaned);
+              }}
+              tokenSeparators={[',']}
+              placeholder="Dodaj ključne reči (ENTER ili ,)"
+              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-3')}
+            />
+            <small className={clsx('text-gray40', 'italic', 'mb-2')}>
+              Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo,
+              fikus, zalivanje…
+            </small>
+
+            <div className="flex items-center gap-4 mt-3 mb-2">
+              <label
+                htmlFor="description"
+                className={clsx(
+                  'text-forestGreen',
+                  'cursor-pointer',
+                  'text-lg',
+                  'm-0'
+                )}
+              >
+                Opis proizvoda:
+              </label>
+
+              <CustomButton
+                htmlType="button"
+                type="text"
+                text={
+                  isAiLoading ? (
+                    <LoadingOutlined
+                      className={clsx('text-groupTransparent', 'my-2')}
+                    />
+                  ) : (
+                    'Generiši AI opis'
+                  )
+                }
+                onClick={handleGenerateAiDescription}
+                disabled={!canGenerate || isAiLoading}
+                customStyle={[
+                  'px-4',
+                  {
+                    'border-groupTransparent': isAiLoading
+                  }
+                ]}
+              />
+            </div>
+
+            <div className={clsx('mb-4')}>
+              <ReactQuill
+                ref={quillRef}
+                modules={modules}
+                value={product?.description || ''}
+                onChange={handleRichTextDescription}
+                id="description"
+                theme="snow"
+                style={{ minHeight: 200 }}
+              />
+              <style>
+                {`
+                .ql-toolbar.ql-snow{
+                  border-top-left-radius: 0.375rem;
+                  border-top-right-radius: 0.375rem;
+                  /* Remove shadow below the bottom border */
+                  box-shadow: 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-container {
+                  min-height: 200px !important;
+                  border-bottom-left-radius: 0.375rem;
+                  border-bottom-right-radius: 0.375rem;
+                  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-editor {
+                  word-break: break-word;
+                  overflow-wrap: break-word;
+                }
+                `}
+              </style>
+            </div>
+
             <label
               htmlFor="shortDescription"
               className={clsx(
@@ -480,50 +617,7 @@ export const CreateEditProduct = () => {
             <small className={clsx('text-gray40', 'italic', 'mb-4')}>
               Opis se prikazuje na početnoj stranici
             </small>
-            <label
-              htmlFor="description"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
-              Opis proizvoda:
-            </label>
-            <div className={clsx('mb-4')}>
-              <ReactQuill
-                ref={quillRef}
-                modules={modules}
-                value={product?.description || ''}
-                onChange={handleRichTextDescription}
-                id="description"
-                theme="snow"
-                style={{ minHeight: 200 }}
-              />
-              <style>
-                {`
-                .ql-toolbar.ql-snow{
-                  border-top-left-radius: 0.375rem;
-                  border-top-right-radius: 0.375rem;
-                  /* Remove shadow below the bottom border */
-                  box-shadow: 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-                  border-color: rgb(38 96 65) !important;
-                }
-                .ql-container {
-                  min-height: 200px !important;
-                  border-bottom-left-radius: 0.375rem;
-                  border-bottom-right-radius: 0.375rem;
-                  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
-                  border-color: rgb(38 96 65) !important;
-                }
-                .ql-editor {
-                  word-break: break-word;
-                  overflow-wrap: break-word;
-                }
-                `}
-              </style>
-            </div>
+
             <label
               htmlFor="price"
               className={clsx('text-forestGreen', 'cursor-pointer', 'text-lg')}
@@ -558,6 +652,7 @@ export const CreateEditProduct = () => {
                 Cena: <strong>Na upit</strong>
               </label>
             </div>
+
             <label
               htmlFor="height"
               className={clsx(
@@ -634,6 +729,7 @@ export const CreateEditProduct = () => {
               value={product?.milliliters || ''}
               onChange={handleChange}
             />
+
             <CustomButton
               htmlType="submit"
               type="text"
