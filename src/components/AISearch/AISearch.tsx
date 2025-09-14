@@ -41,8 +41,8 @@ export const AISearch = () => {
   const { data = [], isLoading } = useSearch(debouncedValue);
 
   useEffect(() => {
-    if (data.length && !isLoading) {
-      setListOptions(data);
+    if (!isLoading) {
+      setListOptions(data || []);
     }
   }, [data, isLoading]);
 
