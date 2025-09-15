@@ -1,10 +1,27 @@
 import { ProductCard } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { Box, Typography, Avatar, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Avatar,
+  CircularProgress,
+  IconButton,
+  TextField
+} from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
-import { Phone, Mail, Store, Globe, User } from 'lucide-react';
+import {
+  Phone,
+  Mail,
+  Store,
+  Globe,
+  User,
+  MapPin,
+  X,
+  Search
+} from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
@@ -13,8 +30,27 @@ export const UsersPage = () => {
   const { data, isLoading } = useUser(userId || '');
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(userId);
+  const [search, setSearch] = useState<string>('');
   const PLACEHOLDER_IMG =
     'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
+
+  const handleClear = () => {
+    setSearch('');
+  };
+
+  const filteredProducts = useMemo(() => {
+    return sellerProducts?.filter((prod) => {
+      const matchesName = prod.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesDescription = prod.description
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      return matchesName || matchesDescription;
+    });
+  }, [sellerProducts, search]);
 
   if (!userId) return <></>;
   if (isLoading) {
@@ -165,7 +201,7 @@ export const UsersPage = () => {
             )}
             {data.address && (
               <Box className="flex items-center gap-2">
-                📍 {data.address.street}, {data.address.city},{' '}
+                <MapPin /> {data.address.street}, {data.address.city},{' '}
                 {data.address.country}
               </Box>
             )}
@@ -174,9 +210,44 @@ export const UsersPage = () => {
 
         {/* PRODUCTS */}
         <Box>
-          <Typography variant="h3" sx={{ mb: 4 }}>
+          <Typography variant="h3" className="!text-gray-700" sx={{ mb: 1 }}>
             Proizvodi korisnika
           </Typography>
+          <TextField
+            aria-describedby="name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+              '& .css-xvd2dw-MuiInputBase-input-MuiOutlinedInput-input': {
+                padding: '8px !important'
+              },
+              '& .css-10myi6-MuiInputBase-root-MuiOutlinedInput-root': {
+                paddingRight: '0 !important'
+              },
+              backgroundColor: 'white',
+              borderRadius: '1rem',
+              border: (theme) =>
+                `1px solid ${theme.palette.custom.forestGreen}`,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+              height: 40,
+              mb: 4
+            }}
+            slotProps={{
+              input: {
+                endAdornment: search ? (
+                  <IconButton onClick={handleClear}>
+                    <X />
+                  </IconButton>
+                ) : (
+                  <IconButton>
+                    <Search />
+                  </IconButton>
+                )
+              }
+            }}
+          />
+
           {sellerProductsLoading ? (
             <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -187,7 +258,7 @@ export const UsersPage = () => {
                 </Card>
               ))}
             </Box>
-          ) : sellerProducts && sellerProducts.length > 0 ? (
+          ) : filteredProducts && filteredProducts.length > 0 ? (
             <Box
               component={'section'}
               className={clsx(
@@ -199,7 +270,7 @@ export const UsersPage = () => {
                 'lgm:grid-cols-4'
               )}
             >
-              {sellerProducts.map((product) => (
+              {filteredProducts.map((product) => (
                 <ProductCard product={product} key={product._id} />
               ))}
             </Box>

@@ -9,7 +9,14 @@ import {
   CircularProgress,
   IconButton
 } from '@mui/material';
-import { Search, Sparkles, X } from 'lucide-react';
+import {
+  CalendarDays,
+  HandCoins,
+  Phone,
+  Search,
+  Sparkles,
+  X
+} from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -86,19 +93,34 @@ export const AISearch = () => {
                 {option.title}
               </Typography>
               {option.type === 'user' && (
-                <Typography variant="caption" color="text.secondary">
-                  📞 {option.phone}
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <Phone className="mr-1" /> {option.phone}
                 </Typography>
               )}
               {option.type === 'product' && (
-                <Typography variant="caption" color="text.secondary">
-                  💰 {option.price}{' '}
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <HandCoins className="mr-1" />{' '}
+                  {option.price
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
                   {option.price === 'Cena Na Upit' ? '' : 'RSD'}
                 </Typography>
               )}
               {option.type === 'event' && (
-                <Typography variant="caption" color="text.secondary">
-                  📅 {option.date}
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <CalendarDays className="mr-1" /> {option.date}
                 </Typography>
               )}
             </Box>
