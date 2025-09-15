@@ -10,7 +10,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Search, Sparkles, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export type SearchOptionType = {
@@ -28,7 +28,6 @@ export const AISearch = () => {
   const [value, setValue] = useState<SearchOptionType | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
-  const [listOptions, setListOptions] = useState<SearchOptionType[] | []>([]);
 
   // ⏳ debounce efekat
   useEffect(() => {
@@ -39,22 +38,16 @@ export const AISearch = () => {
   }, [inputValue]);
 
   const { data = [], isLoading } = useSearch(debouncedValue);
-
-  useEffect(() => {
-    if (!isLoading) {
-      setListOptions(data || []);
-    }
-  }, [data, isLoading]);
+  const memoizedData = useMemo(() => data ?? [], [data]);
 
   const handleClear = () => {
     setValue(null);
     setInputValue('');
-    setListOptions([]);
   };
 
   return (
     <Autocomplete
-      options={listOptions}
+      options={memoizedData}
       groupBy={(option) =>
         option.type === 'product'
           ? 'Proizvodi'
@@ -74,39 +67,44 @@ export const AISearch = () => {
       onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
       isOptionEqualToValue={(option, val) => option.id === val.id}
-      renderOption={(props, option) => (
-        <Box
-          component="li"
-          {...props}
-          sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
-        >
-          <Avatar
-            src={option.image}
-            alt={option.title}
-            sx={{ width: 32, height: 32 }}
-          />
-          <Box>
-            <Typography variant="body2" fontWeight={500}>
-              {option.title}
-            </Typography>
-            {option.type === 'user' && (
-              <Typography variant="caption" color="text.secondary">
-                📞 {option.phone}
+      renderOption={(props, option) => {
+        const { key, ...otherProps } = props;
+        return (
+          <Box
+            component="li"
+            key={key}
+            {...otherProps}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
+          >
+            <Avatar
+              src={option.image}
+              alt={option.title}
+              sx={{ width: 32, height: 32 }}
+            />
+            <Box>
+              <Typography variant="body2" fontWeight={500}>
+                {option.title}
               </Typography>
-            )}
-            {option.type === 'product' && (
-              <Typography variant="caption" color="text.secondary">
-                💰 {option.price} {option.price === 'Cena Na Upit' ? '' : 'RSD'}
-              </Typography>
-            )}
-            {option.type === 'event' && (
-              <Typography variant="caption" color="text.secondary">
-                📅 {option.date}
-              </Typography>
-            )}
+              {option.type === 'user' && (
+                <Typography variant="caption" color="text.secondary">
+                  📞 {option.phone}
+                </Typography>
+              )}
+              {option.type === 'product' && (
+                <Typography variant="caption" color="text.secondary">
+                  💰 {option.price}{' '}
+                  {option.price === 'Cena Na Upit' ? '' : 'RSD'}
+                </Typography>
+              )}
+              {option.type === 'event' && (
+                <Typography variant="caption" color="text.secondary">
+                  📅 {option.date}
+                </Typography>
+              )}
+            </Box>
           </Box>
-        </Box>
-      )}
+        );
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
