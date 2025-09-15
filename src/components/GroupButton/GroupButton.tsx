@@ -42,7 +42,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
       >
         <Box
           className="group-overlay"
-          sx={(theme) => ({
+          sx={{
             position: 'absolute',
             bottom: 0,
             left: 0,
@@ -50,15 +50,8 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
             height: 60,
             bgcolor: 'rgba(255, 255, 255, 0.8)',
             display: 'flex',
-            alignItems: 'center',
-            pl: 2,
-            [theme.breakpoints.up('xs')]: {
-              pl: 1
-            },
-            [theme.breakpoints.up('md')]: {
-              pl: 2
-            }
-          })}
+            alignItems: 'center'
+          }}
         >
           <Typography
             className="group-text"
@@ -66,7 +59,19 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
             sx={(theme) => ({
               textTransform: 'uppercase',
               color: theme.palette.text.secondary,
-              letterSpacing: 1
+              letterSpacing: 1,
+              ml: 2,
+              [theme.breakpoints.up('xs')]: {
+                ml: 1
+              },
+              [theme.breakpoints.up('md')]: {
+                ml: 2
+              },
+              [theme.breakpoints.down('md')]: {
+                width: '90%',
+                mx: 'auto',
+                textAlign: 'center'
+              }
             })}
           >
             {item.text}
