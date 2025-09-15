@@ -9,7 +9,7 @@ import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem } from '@green-world/utils/cookie';
-import { DecodedToken } from '@green-world/utils/types';
+import { DecodedToken, Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
@@ -29,9 +29,9 @@ export const UserProfile = () => {
   );
   const { data: products = [], isLoading: productsLoading } =
     useAllUserProducts();
-  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents(); // Fetch eventi
+  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
 
-  const [productsToDisplay, setProductsToDisplay] = useState([]);
+  const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
   const [activeTab, setActiveTab] = useState('products');
 
