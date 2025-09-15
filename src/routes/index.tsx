@@ -22,7 +22,8 @@ import {
   Registration,
   UserProfile,
   CreateEditEvent,
-  AdminPanel
+  AdminPanel,
+  UsersPage
 } from '@green-world/views';
 import { Navigate } from 'react-router-dom';
 
@@ -50,6 +51,10 @@ export const routes = [
       {
         path: '/profile',
         element: <ProtectedRoute element={UserProfile} />
+      },
+      {
+        path: '/user/:userId',
+        element: <ProtectedRoute element={UsersPage} />
       },
       {
         path: '/profile-settings',
