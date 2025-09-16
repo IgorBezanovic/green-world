@@ -94,7 +94,7 @@ export const Header = () => {
   return (
     <Box
       component="header"
-      className="sticky inset-x-0 top-0 z-20 bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3"
+      className="bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
         {/* Logo levo */}

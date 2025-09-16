@@ -26,6 +26,7 @@ export * from '@green-world/components/Loader';
 export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/Logo';
 export * from '@green-world/components/MetaLoginAuth';
+export * from '@green-world/components/Navbar';
 export * from '@green-world/components/NavTrack';
 export * from '@green-world/components/PopDelete';
 export * from '@green-world/components/ProductCard';

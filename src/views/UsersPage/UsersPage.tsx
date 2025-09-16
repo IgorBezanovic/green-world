@@ -81,7 +81,7 @@ export const UsersPage = () => {
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
-        {data.address.street || data.address.city || data.address.country ? (
+        {data?.address.street || data?.address.city || data?.address.country ? (
           <iframe
             width="100%"
             height="100%"
@@ -89,7 +89,7 @@ export const UsersPage = () => {
             loading="lazy"
             allowFullScreen
             src={`https://www.google.com/maps?q=${encodeURIComponent(
-              `${data.address.street}, ${data.address.city}, ${data.address.country}`
+              `${data?.address.street}, ${data?.address.city}, ${data?.address.country}`
             )}&output=embed`}
           />
         ) : sellerProducts?.length ? (
@@ -145,8 +145,8 @@ export const UsersPage = () => {
         )}
 
         <Avatar
-          src={data.profileImage}
-          alt={data.name}
+          src={data?.profileImage}
+          alt={data?.name}
           sx={{
             width: 120,
             height: 120,
@@ -170,39 +170,39 @@ export const UsersPage = () => {
         {/* USER INFO */}
         <Card className="shadow-md rounded-2xl p-6">
           <Typography variant="h5" className="flex items-center font-bold">
-            <Store className="mr-1" /> {data.shopName || data.name}
+            <Store className="mr-1" /> {data?.shopName || data?.name}
           </Typography>
           <Typography variant="subtitle1" className="text-gray-600 mb-4">
-            {data.shopDescription}
+            {data?.shopDescription}
           </Typography>
 
           <Box className="flex flex-col gap-2 text-gray-700">
             <Box className="flex items-center gap-2">
-              <User /> {data.name}
+              <User /> {data?.name}
             </Box>
             <Box className="flex items-center gap-2">
-              <Phone /> {data.phone}
+              <Phone /> {data?.phone}
             </Box>
             <Box className="flex items-center gap-2">
-              <Mail /> {data.email}
+              <Mail /> {data?.email}
             </Box>
-            {data.website && (
+            {data?.website && (
               <Box className="flex items-center gap-2">
                 <Globe />
                 <a
-                  href={data.website}
+                  href={data?.website}
                   target="_blank"
                   rel="noreferrer"
                   className="text-green-600 hover:underline"
                 >
-                  {data.website}
+                  {data?.website}
                 </a>
               </Box>
             )}
-            {data.address && (
+            {data?.address && (
               <Box className="flex items-center gap-2">
-                <MapPin /> {data.address.street}, {data.address.city},{' '}
-                {data.address.country}
+                <MapPin /> {data?.address.street}, {data?.address.city},{' '}
+                {data?.address.country}
               </Box>
             )}
           </Box>
