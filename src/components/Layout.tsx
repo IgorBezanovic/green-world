@@ -4,8 +4,10 @@ import {
   NavTrack,
   ScrollToTop,
   AllRights,
-  AnalyticsTracker
+  AnalyticsTracker,
+  Navbar
 } from '@green-world/components';
+import { Box } from '@mui/material';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -15,7 +17,18 @@ export const Layout = () => {
       <ScrollToTop />
       <AnalyticsTracker />
       <NavTrack />
-      <Header />
+      <Box
+        sx={{
+          width: '100%',
+          position: 'sticky',
+          zIndex: 20,
+          insetX: 0,
+          top: 0
+        }}
+      >
+        <Header />
+        <Navbar />
+      </Box>
       <Outlet />
       <Footer />
       <AllRights />

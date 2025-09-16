@@ -201,12 +201,16 @@ export const ProductPage = () => {
                   </div>
 
                   <div className="mt-8 space-y-2 text-gray-700">
-                    <div className="flex items-center space-x-2">
-                      <Store className="w-5 h-5 text-forestGreen" />
-                      <span>
-                        {sellerData?.shopName}, {sellerData?.name}
-                      </span>
-                    </div>
+                    {(sellerData?.shopName || sellerData?.name) && (
+                      <div className="flex items-center space-x-2">
+                        <Store className="w-5 h-5 text-forestGreen" />
+                        <span>
+                          {sellerData?.shopName}
+                          {sellerData?.shopName && sellerData?.name && ', '}
+                          {sellerData?.name}
+                        </span>
+                      </div>
+                    )}
                     {sellerData?.phone && (
                       <a
                         href={`tel:00${sellerData.phone}`}
