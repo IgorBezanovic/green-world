@@ -219,11 +219,11 @@ export const UsersPage = () => {
             onChange={(e) => setSearch(e.target.value)}
             sx={{
               '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-              '& .css-xvd2dw-MuiInputBase-input-MuiOutlinedInput-input': {
-                padding: '8px !important'
-              },
-              '& .css-10myi6-MuiInputBase-root-MuiOutlinedInput-root': {
-                paddingRight: '0 !important'
+              '& .MuiOutlinedInput-root': {
+                paddingRight: 0,
+                '& input': {
+                  padding: '8px'
+                }
               },
               backgroundColor: 'white',
               borderRadius: '1rem',
