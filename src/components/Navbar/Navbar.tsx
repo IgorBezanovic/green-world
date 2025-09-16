@@ -22,7 +22,7 @@ export const Navbar = () => {
     <Box
       sx={{
         height: 40,
-        backgroundColor: theme.palette.custom.forestGreen,
+        backgroundColor: '#15803d',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
