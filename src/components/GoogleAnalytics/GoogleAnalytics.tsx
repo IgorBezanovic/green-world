@@ -149,10 +149,7 @@ export const GoogleAnalytics = () => {
               </Typography>
             </Box>
           </Box>
-          <Typography
-            variant="caption"
-            sx={{ mt: 2, textAlign: 'center', color: 'text.secondary' }}
-          >
+          <Typography variant="caption" sx={{ mt: 2, textAlign: 'center' }}>
             Bounce Rate predstavlja procenat posetilaca koji su napustili sajt
             nakon posete samo jedne stranice, bez interakcije sa drugim
             sadržajem. Podaci dolaze iz Google Analytics-a.

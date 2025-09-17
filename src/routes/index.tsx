@@ -23,7 +23,8 @@ import {
   UserProfile,
   CreateEditEvent,
   AdminPanel,
-  UsersPage
+  UsersPage,
+  Events
 } from '@green-world/views';
 import { Navigate } from 'react-router-dom';
 
@@ -127,6 +128,10 @@ export const routes = [
             element: <GoogleAnalytics />
           }
         ]
+      },
+      {
+        path: '/events',
+        element: <Events />
       }
     ]
   },

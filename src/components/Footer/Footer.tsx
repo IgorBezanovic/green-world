@@ -16,7 +16,7 @@ export const Footer = () => {
       component="footer"
       sx={(theme) => ({
         position: 'relative',
-        backgroundColor: theme.palette.custom.forestGreen,
+        backgroundColor: theme.palette.secondary.main,
         paddingX: '16px',
         paddingY: '40px',
         shadow: theme.shadows[1],

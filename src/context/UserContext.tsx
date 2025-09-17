@@ -49,7 +49,8 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
   const { data, isLoading } = useUser(
-    decodedToken?._id ? decodedToken._id : ''
+    decodedToken?._id ? decodedToken._id : '',
+    true
   );
 
   const setUserDataInCTX = (data: User) => {

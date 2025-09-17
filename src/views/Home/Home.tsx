@@ -2,16 +2,14 @@ import {
   CustomButton,
   HomeCarousel,
   GroupButton,
-  EventCarousel,
   LazySection,
   ProductSection
 } from '@green-world/components';
-import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +32,6 @@ export const Home = () => {
     useProductsByGroup('garden_decoration');
   const { data: everythingForPlants, isLoading: everythingForPlantsLoading } =
     useProductsByGroup('everything_for_plants');
-  const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
   const navigate = useNavigate();
 
   return (
@@ -77,24 +74,50 @@ export const Home = () => {
           }}
         />
         <div className="text-center my-6 md:my-8">
-          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+          <Typography
+            variant="h2"
+            sx={(theme) => ({
+              fontSize: '3.75rem !important',
+              [theme.breakpoints.down('md')]: {
+                fontSize: '3rem !important'
+              },
+              color: 'secondary.main',
+              fontFamily: 'Ephesis'
+            })}
+          >
             Izdvojeni Proizvodi
-          </h2>
-          <p className="text-muted-forestGreen max-w-2xl mx-auto">
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+          >
             Najnoviji proizvodi naših partnera
-          </p>
+          </Typography>
         </div>
         <HomeCarousel
           products={allProducts?.products}
           isLoading={allProductsLoading}
         />
         <div className="text-center my-6 md:my-8">
-          <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
+          <Typography
+            variant="h2"
+            sx={(theme) => ({
+              fontSize: '3.75rem !important',
+              [theme.breakpoints.down('md')]: {
+                fontSize: '3rem !important'
+              },
+              color: 'secondary.main',
+              fontFamily: 'Ephesis'
+            })}
+          >
             Kategorije Proizvoda
-          </h2>
-          <p className="text-muted-forestGreen max-w-2xl mx-auto">
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+          >
             Pronađite sve što vam je potrebno za savršenu baštu i dom
-          </p>
+          </Typography>
         </div>
         <Grid
           container
@@ -130,52 +153,52 @@ export const Home = () => {
         </LazySection>
         <ProductSection
           title="Cvetni asortiman"
+          subTitle="Raznovrsno cveće za sve prilike i idealan poklon."
           products={flowerAssortment}
           isLoading={flowerAssortmentLoading}
         />
         <ProductSection
           title="Sukulenti"
+          subTitle="Niske potrebe za negom, idealni za kuću i kancelariju."
           products={succulents}
           isLoading={succulentsLoading}
         />
         <ProductSection
           title="Saksijsko cveće"
+          subTitle="Lepo uređenje doma sa dugotrajnim cvećem u saksijama."
           products={pottedFlowers}
           isLoading={pottedFlowersLoading}
         />
         <ProductSection
           title="Sadnice"
+          subTitle="Mladi biljni izdanci za sadnju u bašti ili vrtu."
           products={seedlings}
           isLoading={seedlingsLoading}
         />
         <ProductSection
           title="Voće i povrće"
+          subTitle="Sveže i kvalitetno voće i povrće za vašu baštu."
           products={fruitsAndVegetables}
           isLoading={fruitsAndVegetablesLoading}
         />
         <ProductSection
           title="Biljna apoteka"
+          subTitle="Lekovi, preparati, dohrana i zaštita za sve vrste biljaka."
           products={herbalPharmacy}
           isLoading={herbalPharmacyLoading}
         />
         <ProductSection
           title="Baštenska dekoracija"
+          subTitle="Unesite šarm i stil u baštu sa dekorativnim elementima."
           products={gardenDecoration}
           isLoading={gardenDecorationLoading}
         />
         <ProductSection
           title="Sve za Biljke"
+          subTitle="Sve što vam treba za negu i održavanje biljaka."
           products={everythingForPlants}
           isLoading={everythingForPlantsLoading}
         />
-        <LazySection>
-          <div className="text-center my-6 md:my-8">
-            <h2 className="text-5xl md:text-6xl font-bold text-forestGreen mb-4 font-ephesis">
-              Aktivnosti
-            </h2>
-          </div>
-          <EventCarousel events={allEvents} isLoading={allEventsLoading} />
-        </LazySection>
       </Box>
     </Box>
   );

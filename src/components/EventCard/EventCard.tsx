@@ -124,7 +124,6 @@ export const EventCard = ({ event }: EventCardProps) => {
             <Typography
               variant="body2"
               sx={{
-                color: 'text.secondary',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',

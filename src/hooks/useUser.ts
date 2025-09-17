@@ -8,7 +8,7 @@ import { User } from '@green-world/utils/types';
 import { useContext } from 'react';
 import { useQuery, UseQueryResult } from 'react-query';
 
-export const useUser = (userID: string): UseQueryResult<User> => {
+export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
   const { setUserDataInCTX } = useContext(UserContext);
 
   return useQuery(
@@ -23,7 +23,7 @@ export const useUser = (userID: string): UseQueryResult<User> => {
       initialData: () => getDecrypted('product', userID),
       onSuccess: (data: User) => {
         storeEncrypted('user', data as User & { _id: string });
-        setUserDataInCTX(data);
+        me && setUserDataInCTX(data);
       }
     }
   );

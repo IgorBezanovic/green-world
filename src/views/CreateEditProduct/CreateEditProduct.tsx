@@ -446,7 +446,7 @@ export const CreateEditProduct = () => {
               data-max-size={MAX_IMAGE_MB}
             />
             <Alert severity="info" className="mt-4">
-              <AlertTitle>Informacije o dodavanju fotografijama</AlertTitle>
+              <AlertTitle>Informacije o dodavanju fotografija</AlertTitle>
               <List sx={{ pl: 3, listStyleType: 'disc' }}>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
                   <ListItemText primary="Idealna razmera za fotografije 1/1 square." />

@@ -82,7 +82,7 @@ export const PrivacyPolicy = () => {
           </Box>
 
           <Box mt={4}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2">
               Poslednje ažuriranje: 28. jul 2025.
             </Typography>
           </Box>

@@ -6,14 +6,6 @@ export const darkPalette: PaletteOptions = {
     black: '#000000',
     white: '#FFFFFF'
   },
-  custom: {
-    forestGreen: '#316357',
-    mint: '#92C7CF',
-    lightMint: '#AAD7D9',
-    lightCream: '#1E1E1E',
-    lightGray: '#2D2D2D',
-    teaGreen: '#445C44'
-  },
   primary: {
     main: '#E0E0E0',
     dark: '#FFFFFF',

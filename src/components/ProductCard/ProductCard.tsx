@@ -110,7 +110,6 @@ export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
               gutterBottom
               variant="body2"
               sx={{
-                color: 'text.secondary',
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 3,
@@ -123,7 +122,7 @@ export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
               {product.shortDescription || product.description}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2">
               {product.priceOnRequest ? (
                 'Cena Na Upit'
               ) : (

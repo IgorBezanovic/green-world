@@ -9,7 +9,15 @@ import {
   CircularProgress
 } from '@mui/material';
 import clsx from 'clsx';
-import { Camera, Edit3, Globe, Mail, Phone, Store, MapPin } from 'lucide-react';
+import {
+  Camera,
+  Globe,
+  Mail,
+  Phone,
+  Store,
+  MapPin,
+  Settings
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import ZSlogo from '/zeleni-svet-yellow-transparent.png';
@@ -44,7 +52,7 @@ export const UserInfo = ({ ...props }) => {
                 aria-label="Edit profile"
                 onClick={() => navigate('/profile-settings/edit-profile')}
               >
-                <Edit3 />
+                <Settings />
               </IconButton>
             )
           }
@@ -84,7 +92,6 @@ export const UserInfo = ({ ...props }) => {
             <Typography
               variant="body2"
               sx={{
-                color: 'text.secondary',
                 my: 1
               }}
             >
@@ -98,7 +105,7 @@ export const UserInfo = ({ ...props }) => {
               variant="body2"
               sx={{
                 mt: 1,
-                color: 'custom.forestGreen',
+                color: 'secondary.main',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1
@@ -114,7 +121,7 @@ export const UserInfo = ({ ...props }) => {
               variant="body2"
               sx={{
                 mt: 1,
-                color: 'custom.forestGreen'
+                color: 'secondary.main'
               }}
             >
               {props?.user?.address?.street}
@@ -129,7 +136,7 @@ export const UserInfo = ({ ...props }) => {
               href={props?.user?.website || '/'}
               sx={{
                 mt: 1,
-                color: 'custom.forestGreen',
+                color: 'secondary.main',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1
@@ -147,7 +154,7 @@ export const UserInfo = ({ ...props }) => {
               href={`tel:+${props.user.phone}`}
               sx={{
                 mt: 1,
-                color: 'custom.forestGreen',
+                color: 'secondary.main',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1
@@ -166,7 +173,7 @@ export const UserInfo = ({ ...props }) => {
               href={`mailto:${props.user.email}`}
               sx={{
                 mt: 1,
-                color: 'custom.forestGreen',
+                color: 'secondary.main',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1

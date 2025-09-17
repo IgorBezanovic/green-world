@@ -58,7 +58,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
             variant="subtitle2"
             sx={(theme) => ({
               textTransform: 'uppercase',
-              color: theme.palette.text.secondary,
+              color: theme.palette.text.primary,
               letterSpacing: 1,
               ml: 2,
               [theme.breakpoints.up('xs')]: {

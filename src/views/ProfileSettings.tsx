@@ -45,7 +45,7 @@ export const ProfileSettings = () => {
             'top-7'
           )}
         >
-          <BackButton route={'/profile'} />
+          <BackButton />
         </div>
         <Card className={clsx('w-full', 'md:w-1/4')}>
           <section className={clsx('flex', 'flex-col', 'gap-3')}>
