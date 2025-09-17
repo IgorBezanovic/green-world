@@ -14,7 +14,7 @@ export const Divider = ({ text }: CustomDividerProps) => {
           <Typography
             variant="subtitle1"
             sx={(theme: Theme) => ({
-              color: theme.palette.custom.forestGreen,
+              color: theme.palette.secondary.main,
               mx: 2,
               textTransform: 'uppercase'
             })}

@@ -113,7 +113,6 @@ export const EventProfileCard = ({ ...props }) => {
               gutterBottom
               variant="body2"
               sx={{
-                color: 'text.secondary',
                 display: '-webkit-box',
                 WebkitBoxOrient: 'vertical',
                 WebkitLineClamp: 3,
@@ -125,7 +124,7 @@ export const EventProfileCard = ({ ...props }) => {
                 ? props.event?.description.substring(0, 50) + '...'
                 : props.event?.description}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2">
               <Box
                 component="span"
                 sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
@@ -139,7 +138,6 @@ export const EventProfileCard = ({ ...props }) => {
               sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                color: 'text.secondary',
                 paddingTop: '6px',
                 gap: 0.5 // ili gap: '4px'
               }}

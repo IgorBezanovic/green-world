@@ -94,7 +94,8 @@ export const Header = () => {
   return (
     <Box
       component="header"
-      className="bg-teaGreen shadow px-4 sm:px-7 xl:px-0 py-3"
+      sx={{ backgroundColor: (theme) => theme.palette.background.default }}
+      className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
         {/* Logo levo */}
@@ -102,7 +103,7 @@ export const Header = () => {
           onClick={() => navigate('/')}
           className="w-40 flex items-center cursor-pointer"
         >
-          <ZSLogoHorizontal color={theme.palette.custom.forestGreen} />
+          <ZSLogoHorizontal color={theme.palette.secondary.main} />
         </Box>
 
         {/* Desktop search centar */}

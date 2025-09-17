@@ -2,13 +2,19 @@ import { Box, Typography } from '@mui/material';
 
 export const AllRights = () => {
   return (
-    <Box sx={{ marginY: '10px', textAlign: 'center' }}>
+    <Box
+      sx={{
+        paddingY: '10px',
+        textAlign: 'center',
+        backgroundColor: (theme) => theme.palette.background.paper
+      }}
+    >
       <Typography variant="body2" sx={{ width: '90%', mx: 'auto' }}>
         &copy; {new Date().getFullYear()}{' '}
         <Box
           component="a"
           href="https://www.linkedin.com/company/zeleni-svet"
-          sx={{ textDecoration: 'underline', color: 'custom.forestGreen' }}
+          sx={{ textDecoration: 'underline', color: 'secondary.main' }}
         >
           Zeleni Svet
         </Box>

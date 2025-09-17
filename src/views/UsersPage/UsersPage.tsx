@@ -227,8 +227,7 @@ export const UsersPage = () => {
               },
               backgroundColor: 'white',
               borderRadius: '1rem',
-              border: (theme) =>
-                `1px solid ${theme.palette.custom.forestGreen}`,
+              border: (theme) => `1px solid ${theme.palette.secondary.main}`,
               boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
               height: 40,
               mb: 4

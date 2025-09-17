@@ -5,15 +5,13 @@ import {
   UserInfo,
   EventProfileCard
 } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
-import { useUser } from '@green-world/hooks/useUser';
-import { getItem } from '@green-world/utils/cookie';
-import { DecodedToken, Product } from '@green-world/utils/types';
+import { Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,12 +19,8 @@ import './style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
-  const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
-  const { data: userData, isLoading: userLoading } = useUser(
-    decodedToken?._id || ''
-  );
+  const { user, isLoading } = useContext(UserContext);
   const { data: products = [], isLoading: productsLoading } =
     useAllUserProducts();
   const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
@@ -67,7 +61,7 @@ export const UserProfile = () => {
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Korisnicki profil</title>
-        <meta property="og:image" content={`${userData?.profileImage}`} />
+        <meta property="og:image" content={`${user?.profileImage}`} />
         <link rel="canonical" href="https://www.zelenisvet.rs/profile" />
       </Helmet>
 
@@ -91,9 +85,9 @@ export const UserProfile = () => {
           className={clsx('w-full', 'md:w-1/4', 'flex', 'flex-col', 'gap-5')}
         >
           <UserInfo
-            user={userData}
+            user={user}
             isUserProfile={true}
-            userLoading={userLoading}
+            userLoading={isLoading}
             customStyleMeta={['flex', 'flex-col']}
           />
           <CustomButton

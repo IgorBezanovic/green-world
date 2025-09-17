@@ -435,7 +435,7 @@ export const CreateEditEvent = () => {
                 marginBottom: '16px',
                 '& .MuiPickersSectionList-root': {
                   padding: '10px 0',
-                  borderColor: theme.palette.custom.forestGreen
+                  borderColor: theme.palette.secondary.main
                 }
               })}
             />

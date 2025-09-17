@@ -51,7 +51,7 @@ export const Event = () => {
           'gap-7'
         )}
       >
-        <Typography variant="h1" color="custom.forestGreen">
+        <Typography variant="h1" color="secondary.main">
           {eventData.title}
         </Typography>
 
@@ -139,7 +139,7 @@ export const Event = () => {
               </Stack>
 
               {eventData.address && (
-                <Typography variant="body2" color="text.secondary" mb={2}>
+                <Typography variant="body2" mb={2}>
                   Adresa: {eventData.address}
                 </Typography>
               )}

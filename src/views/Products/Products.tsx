@@ -21,8 +21,6 @@ import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import ProductBanner from '../../assets/Products.png';
-
 export const Products = () => {
   const { data: products } = useAllProducts();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -161,21 +159,6 @@ export const Products = () => {
         )}
       >
         <Box
-          component="img"
-          loading="eager"
-          src={ProductBanner}
-          alt="Zeleni svet banner"
-          className={clsx(
-            'max-w-[1400px]',
-            'mx-auto',
-            'w-full',
-            'h-auto',
-            'rounded',
-            'shadow',
-            'h-[320px]'
-          )}
-        />
-        <Box
           sx={{
             display: 'flex',
             gap: isMobile ? 2 : 7,
@@ -207,11 +190,16 @@ export const Products = () => {
                     flexDirection: 'column',
                     gap: '16px',
                     position: 'sticky',
-                    top: '100px'
+                    top: '133px'
                   }}
                 >
                   <Box>
-                    <InputLabel htmlFor="name">Pretraga po nazivu</InputLabel>
+                    <InputLabel
+                      sx={{ color: (theme) => theme.palette.text.primary }}
+                      htmlFor="name"
+                    >
+                      Pretraga po nazivu
+                    </InputLabel>
                     <TextField
                       aria-describedby="name"
                       value={search}
@@ -238,7 +226,12 @@ export const Products = () => {
                   </Box>
 
                   <Box>
-                    <InputLabel id="group-select-label">Grupa</InputLabel>
+                    <InputLabel
+                      sx={{ color: (theme) => theme.palette.text.primary }}
+                      id="group-select-label"
+                    >
+                      Grupa
+                    </InputLabel>
                     <Select
                       labelId="group-select-label"
                       value={selectedGroup}
@@ -264,7 +257,12 @@ export const Products = () => {
                   </Box>
 
                   <Box>
-                    <InputLabel id="subgroup-select-label">Podgrupa</InputLabel>
+                    <InputLabel
+                      sx={{ color: (theme) => theme.palette.text.primary }}
+                      id="subgroup-select-label"
+                    >
+                      Podgrupa
+                    </InputLabel>
                     <Select
                       labelId="subgroup-select-label"
                       value={selectedSubgroup}
@@ -302,7 +300,7 @@ export const Products = () => {
                         setPriceRange(value as [number, number])
                       }
                       sx={(theme) => ({
-                        color: theme.palette.custom.forestGreen
+                        color: theme.palette.secondary.main
                       })}
                       valueLabelDisplay="auto"
                       min={priceLimits[0]}
@@ -368,11 +366,7 @@ export const Products = () => {
                   <Typography variant="h4">
                     Trenutno nema proizvoda za izabrane filtere
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <Typography variant="body1" gutterBottom>
                     Izaberite neku drugu kombinaciju filtera
                   </Typography>
                   <Box

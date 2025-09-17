@@ -12,6 +12,7 @@ export const NavTrack = () => {
         py: 0.5,
         px: 1,
         display: 'none',
+        backgroundColor: (theme) => theme.palette.background.paper,
         [theme.breakpoints.up('sm')]: {
           display: 'flex'
         },

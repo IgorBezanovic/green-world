@@ -11,28 +11,6 @@ declare module '@mui/material/styles' {
     display2?: React.CSSProperties;
   }
 
-  interface Palette {
-    custom: {
-      forestGreen: string;
-      mint: string;
-      lightMint: string;
-      lightCream: string;
-      lightGray: string;
-      teaGreen: string;
-    };
-  }
-
-  interface PaletteOptions {
-    custom?: {
-      forestGreen: string;
-      mint: string;
-      lightMint: string;
-      lightCream: string;
-      lightGray: string;
-      teaGreen: string;
-    };
-  }
-
   interface CustomColorExtension {
     subtle?: string;
     subtleHover?: string;

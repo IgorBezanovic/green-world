@@ -6,165 +6,74 @@ export const lightPalette: PaletteOptions = {
     black: '#000000',
     white: '#FFFFFF'
   },
-  custom: {
-    forestGreen: '#266041',
-    mint: '#92C7CF',
-    lightMint: '#AAD7D9',
-    lightCream: '#FBF9F1',
-    lightGray: '#E5E1DA',
-    teaGreen: '#D8EFD3'
-  },
   primary: {
-    main: '#303030',
-    dark: '#1A1A1A',
-    light: '#828282',
-    contrastText: '#FFFFFF',
-    subtle: '#E0E0E0',
-    subtleHover: '#CFCFCF',
-    subtleContrast: '#000000'
+    main: '#ef8354', // coral
+    dark: '#b04010',
+    light: '#f29a75',
+    contrastText: '#ffffff'
   },
   secondary: {
-    main: '#5F249F',
-    dark: '#42196F',
-    light: '#B280FF',
-    contrastText: '#FFFFFF',
-    subtle: '#ECE1FE',
-    subtleHover: '#E0CDFE',
-    subtleContrast: '#2F124F'
+    main: '#266041', // hunter green (najzastupljenija)
+    dark: '#173927',
+    light: '#5dbe8b',
+    contrastText: '#ffffff'
   },
   error: {
-    main: '#DD1708',
-    dark: '#890802',
-    light: '#FB9189',
-    contrastText: '#FFFFFF',
-    subtle: '#FDE3E3',
-    subtleHover: '#FBCCCB',
-    subtleContrast: '#710B01'
+    main: '#b04010', // tamna nijansa corala
+    dark: '#762b0b',
+    light: '#f9cdba',
+    contrastText: '#ffffff'
   },
   warning: {
-    main: '#AB5A05',
-    dark: '#653700',
-    light: '#F99934',
-    contrastText: '#FFFFFF',
-    subtle: '#FCE3CA',
-    subtleHover: '#FAD4AD',
-    subtleContrast: '#552C07'
+    main: '#f29a75', // svetliji coral kao warning
+    dark: '#e95718',
+    light: '#fce6dc',
+    contrastText: '#000000'
   },
   info: {
-    main: '#086DD9',
-    dark: '#134085',
-    light: '#70B3FA',
-    contrastText: '#FFFFFF',
-    subtle: '#D8ECFD',
-    subtleHover: '#BBDEFB',
-    subtleContrast: '#053570'
+    main: '#82a0bc', // air superiority blue
+    dark: '#42607b',
+    light: '#b3c5d6',
+    contrastText: '#ffffff'
   },
   success: {
-    main: '#24802D',
-    dark: '#064E05',
-    light: '#3CC84A',
-    contrastText: '#FFFFFF',
-    subtle: '#DAEED8',
-    subtleHover: '#C3E3C0',
-    subtleContrast: '#08400E'
+    main: '#308d29', // iz nyanza skale (zelena)
+    dark: '#184614',
+    light: '#D4F2D2', // nyanza
+    contrastText: '#ffffff'
   },
   grey: {
-    50: '#FAFAFA',
-    100: '#F5F5F5',
-    200: '#EEEEEE',
-    300: '#E0E0E0',
-    400: '#BDBDBD',
-    500: '#9E9E9E',
+    50: '#fafafa',
+    100: '#f5f5f5',
+    200: '#eeeeee',
+    300: '#e0e0e0',
+    400: '#bdbdbd',
+    500: '#9e9e9e',
     600: '#757575',
     700: '#616161',
     800: '#424242',
-    900: '#212121',
-    A100: '#F5F5F5',
-    A200: '#EEEEEE',
-    A400: '#BDBDBD',
-    A700: '#616161'
-  },
-  tonalOffset: 0.5,
-  contrastThreshold: 4.5,
-  text: {
-    primary: '#212121',
-    secondary: '#656565',
-    disabled: '#9E9E9E'
+    900: '#212121'
   },
   background: {
-    default: '#FAFAFA',
-    paper: '#FFFFFF'
+    default: '#D4F2D2', // nyanza
+    paper: '#ffffff'
   },
+  text: {
+    primary: '#12263a', // prussian blue (tamna)
+    secondary: '#54807f', // myrtle green
+    disabled: '#9e9e9e'
+  },
+  divider: '#e0e0e0',
   action: {
-    active: 'rgba(0,0,0,54%)',
-    hover: 'rgba(0,0,0,4%)',
+    active: 'rgba(0,0,0,0.54)',
+    hover: 'rgba(0,0,0,0.04)',
     hoverOpacity: 0.04,
-    selected: 'rgba(0,0,0,8%)',
-    selectedHover: 'rgba(0,0,0,12%)',
-    selectedFocus: 'rgba(0,0,0,20%)',
-    selectedOpacity: 0.08,
-    disabled: 'rgba(0,0,0,26%)',
-    disabledBackground: 'rgba(0,0,0,12%)',
-    disabledOpacity: 0.38,
-    focus: 'rgba(0,0,0,12%)',
-    focusOpacity: 0.12,
+    selected: 'rgba(0,0,0,0.08)',
+    disabled: 'rgba(0,0,0,0.26)',
+    disabledBackground: 'rgba(0,0,0,0.12)',
+    focus: 'rgba(0,0,0,0.12)',
     activatedOpacity: 0.12
   },
-  divider: '#E0E0E0',
-  category1: {
-    main: '#2B69DD',
-    contrastText: '#FFFFFF',
-    subtle: '#E2EBFD',
-    subtleHover: '#B7CEFB',
-    subtleContrast: '#07307D'
-  },
-  category2: {
-    main: '#139A7F',
-    contrastText: '#FFFFFF',
-    subtle: '#E4F6F4',
-    subtleHover: '#94E0D7',
-    subtleContrast: '#07453E'
-  },
-  category3: {
-    main: '#A6305C',
-    contrastText: '#FFFFFF',
-    subtle: '#F8E2EC',
-    subtleHover: '#F1C6D8',
-    subtleContrast: '#621E3A'
-  },
-  category4: {
-    main: '#B9840E',
-    contrastText: '#FFFFFF',
-    subtle: '#FCF4E4',
-    subtleHover: '#EFCD80',
-    subtleContrast: '#583C0E'
-  },
-  category5: {
-    main: '#C461C6',
-    contrastText: '#FFFFFF',
-    subtle: '#F7E8F7',
-    subtleHover: '#EBC5EC',
-    subtleContrast: '#69156A'
-  },
-  category6: {
-    main: '#213873',
-    contrastText: '#FFFFFF',
-    subtle: '#E7ECF8',
-    subtleHover: '#C4CFEE',
-    subtleContrast: '#1E3267'
-  },
-  category7: {
-    main: '#D85337',
-    contrastText: '#FFFFFF',
-    subtle: '#F9E5E1',
-    subtleHover: '#F3C8BF',
-    subtleContrast: '#622113'
-  },
-  category8: {
-    main: '#5F249F',
-    contrastText: '#FFFFFF',
-    subtle: '#F0E6F9',
-    subtleHover: '#DDC9F3',
-    subtleContrast: '#48157F'
-  }
+  contrastThreshold: 4.5,
+  tonalOffset: 0.5
 } as const;

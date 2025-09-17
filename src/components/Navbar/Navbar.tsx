@@ -7,13 +7,13 @@ export const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { label: 'Pocetna', path: '/' },
+    { label: 'Početna', path: '/' },
     { label: 'Proizvodi', path: '/search' },
-    { label: 'Dogadjaji', path: '/dogadjaji' },
+    { label: 'Događaji', path: '/events' },
     { label: 'Prodavnice', path: '/prodavnice' },
-    { label: 'Cvecara u blizini', path: '/prodavnice' },
+    { label: 'Cvećara u blizini', path: '/prodavnice' },
     { label: 'Blog', path: '/blog' },
-    { label: 'Menjajmo se', path: '/menjajmo-se' },
+    { label: 'Trampimo se', path: '/menjajmo-se' },
     { label: 'AI Savetovanje', path: '/ai-savetovanje' },
     { label: 'Dokumenta', path: '/dokumenta' }
   ];
@@ -22,7 +22,7 @@ export const Navbar = () => {
     <Box
       sx={{
         height: 40,
-        backgroundColor: '#15803d',
+        backgroundColor: (theme) => theme.palette.secondary.main,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -39,7 +39,9 @@ export const Navbar = () => {
       {navItems.map((item) => {
         const isActive = location.pathname === item.path;
         const showBadge =
-          item.label !== 'Proizvodi' && item.label !== 'Pocetna';
+          item.label !== 'Proizvodi' &&
+          item.label !== 'Događaji' &&
+          item.label !== 'Početna';
 
         return (
           <Box
@@ -56,10 +58,12 @@ export const Navbar = () => {
               component="span"
               variant="body2"
               sx={{
-                color: theme.palette.custom.lightCream,
-                textDecoration: isActive ? 'underline' : 'none',
-                px: 1,
-                transition: 'all 0.2s ease',
+                color: theme.palette.common.white,
+                paddingBottom: isActive ? '3px' : 0,
+                borderBottom: (theme) =>
+                  isActive ? `2px solid ${theme.palette.primary.main}` : 'none',
+                transition: 'all 0.3s ease',
+                mx: 1,
                 '&:hover': {
                   opacity: !isActive ? 0.9 : 1
                 }
@@ -74,7 +78,7 @@ export const Navbar = () => {
                   position: 'absolute',
                   bottom: -3,
                   right: -15,
-                  bgcolor: theme.palette.info.main,
+                  bgcolor: theme.palette.success.main,
                   color: 'white',
                   px: 0.5,
                   py: '2px',

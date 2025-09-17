@@ -70,6 +70,36 @@ export const AISearch = () => {
         if (newValue) navigate(`/${newValue.type}/${newValue.id}`);
       }}
       noOptionsText={isLoading ? 'Učitavanje...' : 'Nema rezultata'}
+      slotProps={{
+        paper: {
+          sx: {
+            '& .MuiAutocomplete-noOptions': {
+              color: (theme) => theme.palette.secondary.dark
+            }
+          }
+        },
+        listbox: {
+          sx: {
+            '& .MuiAutocomplete-groupLabel': {
+              color: (theme) => theme.palette.secondary.dark
+            }
+          }
+        }
+      }}
+      //   renderGroup={(params) => (
+      //     <li key={params.key}>
+      //       <Box
+      //         sx={{
+      //           color: (theme) => theme.palette.text.primary,
+      //           px: 1,
+      //           py: 0.5
+      //         }}
+      //       >
+      //         {params.group}
+      //       </Box>
+      //       <ul style={{ padding: 0 }}>{params.children}</ul>
+      //     </li>
+      //   )}
       inputValue={inputValue}
       onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
@@ -95,7 +125,6 @@ export const AISearch = () => {
               {option.type === 'user' && (
                 <Typography
                   variant="caption"
-                  color="text.secondary"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
                   <Phone className="mr-1" /> {option.phone}
@@ -104,7 +133,6 @@ export const AISearch = () => {
               {option.type === 'product' && (
                 <Typography
                   variant="caption"
-                  color="text.secondary"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
                   <HandCoins className="mr-1" />{' '}
@@ -117,7 +145,6 @@ export const AISearch = () => {
               {option.type === 'event' && (
                 <Typography
                   variant="caption"
-                  color="text.secondary"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
                   <CalendarDays className="mr-1" /> {option.date}
@@ -138,7 +165,7 @@ export const AISearch = () => {
             },
             backgroundColor: 'white',
             borderRadius: '1rem',
-            border: (theme) => `1px solid ${theme.palette.custom.forestGreen}`,
+            border: (theme) => `1px solid ${theme.palette.secondary.main}`,
             boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
             height: 40
           }}

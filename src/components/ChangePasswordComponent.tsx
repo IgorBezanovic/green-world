@@ -2,6 +2,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { CustomButton } from '@green-world/components';
 import { useChangePassword } from '@green-world/hooks/useChangePassword';
 import { NewPasswordValues } from '@green-world/utils/types';
+import { Box } from '@mui/material';
 import { Badge, Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -39,18 +40,20 @@ export const ChangePasswordComponent = () => {
           href="https://www.zelenisvet.rs/profile-settings/change-password"
         />
       </Helmet>
-      <label
+      <Box
+        component="label"
         htmlFor="currentPassword"
-        className={clsx(
-          'flex',
-          'text-forestGreen',
-          'cursor-pointer',
-          'text-lg',
-          'font-extralight'
-        )}
+        sx={{
+          display: 'flex',
+          color: (theme) => theme.palette.secondary.main,
+          cursor: 'pointer',
+          fontSize: '1.125rem',
+          lineHeight: '1.75rem',
+          fontWeight: 200
+        }}
       >
         Unesite stari password:
-      </label>
+      </Box>
       <Input.Password
         required
         size="large"
@@ -60,19 +63,21 @@ export const ChangePasswordComponent = () => {
         onChange={handleChange}
         disabled={isLoading}
       />
-      <label
+      <Box
+        component="label"
         htmlFor="newPassword"
-        className={clsx(
-          'flex',
-          'text-forestGreen',
-          'cursor-pointer',
-          'text-lg',
-          'font-extralight',
-          'mt-4'
-        )}
+        sx={{
+          display: 'flex',
+          color: (theme) => theme.palette.secondary.main,
+          cursor: 'pointer',
+          fontSize: '1.125rem',
+          lineHeight: '1.75rem',
+          fontWeight: 200,
+          marginTop: 4
+        }}
       >
         Unesite novi password:
-      </label>
+      </Box>
       <Input.Password
         required
         size="large"
@@ -82,19 +87,21 @@ export const ChangePasswordComponent = () => {
         onChange={handleChange}
         disabled={isLoading}
       />
-      <label
+      <Box
+        component="label"
         htmlFor="confirmNewPassword"
-        className={clsx(
-          'flex',
-          'text-forestGreen',
-          'cursor-pointer',
-          'text-lg',
-          'font-extralight',
-          'mt-4'
-        )}
+        sx={{
+          display: 'flex',
+          color: (theme) => theme.palette.secondary.main,
+          cursor: 'pointer',
+          fontSize: '1.125rem',
+          lineHeight: '1.75rem',
+          fontWeight: 200,
+          marginTop: 4
+        }}
       >
         Ponovite novi password:
-      </label>
+      </Box>
       <Badge.Ribbon
         text="Lozinke se ne poklapaju"
         color="cyan"
