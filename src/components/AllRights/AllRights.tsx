@@ -5,8 +5,7 @@ export const AllRights = () => {
     <Box
       sx={{
         paddingY: '10px',
-        textAlign: 'center',
-        backgroundColor: (theme) => theme.palette.background.paper
+        textAlign: 'center'
       }}
     >
       <Typography variant="body2" sx={{ width: '90%', mx: 'auto' }}>

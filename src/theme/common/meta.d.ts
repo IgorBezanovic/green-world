@@ -17,6 +17,12 @@ declare module '@mui/material/styles' {
     subtleContrast?: string;
   }
 
+  interface TypeBackground {
+    default?: string;
+    paper?: string;
+    main?: string;
+  }
+
   interface PaletteColor extends CustomColorExtension {}
   interface SimplePaletteColorOptions extends CustomColorExtension {}
 

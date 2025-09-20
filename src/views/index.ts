@@ -7,6 +7,7 @@ export * from '@green-world/views/GroupProducts';
 export * from '@green-world/views/Home';
 export * from '@green-world/views/PrivacyPolicy';
 export * from '@green-world/views/Products';
+export * from '@green-world/views/Shops';
 export * from '@green-world/views/CreateEditProduct';
 export * from '@green-world/views/ForgotPassword';
 export * from '@green-world/views/Login';

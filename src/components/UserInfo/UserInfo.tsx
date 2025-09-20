@@ -20,8 +20,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import ZSlogo from '/zeleni-svet-yellow-transparent.png';
-
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
 
@@ -70,8 +68,15 @@ export const UserInfo = ({ ...props }) => {
             onClick={() => props?.isUserProfile && navigate('/Edit-image')}
           >
             <Avatar
-              src={props?.user?.profileImage || ZSlogo}
-              sx={{ width: 96, height: 96 }}
+              src={props?.user?.profileImage}
+              alt={props?.user?.name}
+              sx={{
+                width: 96,
+                height: 96,
+                mb: 2,
+                border: '3px solid white',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+              }}
             />
             {props?.isUserProfile && (
               <Box className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-30 transition duration-300 rounded-full group">

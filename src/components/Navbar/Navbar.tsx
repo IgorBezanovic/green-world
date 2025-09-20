@@ -11,7 +11,7 @@ export const Navbar = () => {
     { label: 'Početna', path: '/' },
     { label: 'Proizvodi', path: '/search' },
     { label: 'Događaji', path: '/events' },
-    { label: 'Prodavnice', path: '/prodavnice' },
+    { label: 'Prodavnice', path: '/shops' },
     { label: 'Cvećara u blizini', path: '/prodavnice' },
     { label: 'Blog', path: '/blog' },
     { label: 'Trampimo se', path: '/menjajmo-se' },
@@ -42,7 +42,8 @@ export const Navbar = () => {
         const showBadge =
           item.label !== 'Proizvodi' &&
           item.label !== 'Događaji' &&
-          item.label !== 'Početna';
+          item.label !== 'Početna' &&
+          item.label !== 'Prodavnice';
 
         return (
           <Box
