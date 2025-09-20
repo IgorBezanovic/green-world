@@ -24,7 +24,8 @@ import {
   CreateEditEvent,
   AdminPanel,
   UsersPage,
-  Events
+  Events,
+  Shops
 } from '@green-world/views';
 import { Navigate } from 'react-router-dom';
 
@@ -132,6 +133,10 @@ export const routes = [
       {
         path: '/events',
         element: <Events />
+      },
+      {
+        path: '/shops',
+        element: <Shops />
       }
     ]
   },

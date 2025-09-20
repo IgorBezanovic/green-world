@@ -1,6 +1,7 @@
 import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
+import { Avatar } from '@mui/material';
 import { Divider } from 'antd';
 import clsx from 'clsx';
 import { useContext } from 'react';
@@ -64,7 +65,16 @@ export const EditUserImageSection = () => {
             'md:mx-0'
           )}
         >
-          <img src={user?.profileImage || ZSLogo} height="100%" width="100%" />
+          <Avatar
+            src={user?.profileImage}
+            alt={user?.name}
+            sx={{
+              width: '100%',
+              height: '100%',
+              border: '3px solid white',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+            }}
+          />
         </div>
         <label
           htmlFor="profileImage"

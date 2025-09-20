@@ -55,8 +55,9 @@ export const lightPalette: PaletteOptions = {
     900: '#212121'
   },
   background: {
-    default: '#D4F2D2', // nyanza
-    paper: '#ffffff'
+    default: '#ffffff',
+    paper: '#FDFFFB',
+    main: '#D4F2D2' // nyanza
   },
   text: {
     primary: '#12263a', // prussian blue (tamna)

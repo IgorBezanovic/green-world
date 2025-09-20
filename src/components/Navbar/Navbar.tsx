@@ -1,3 +1,4 @@
+import { ZSLogoLogoMark } from '@green-world/components';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ export const Navbar = () => {
     { label: 'Početna', path: '/' },
     { label: 'Proizvodi', path: '/search' },
     { label: 'Događaji', path: '/events' },
-    { label: 'Prodavnice', path: '/prodavnice' },
+    { label: 'Prodavnice', path: '/shops' },
     { label: 'Cvećara u blizini', path: '/prodavnice' },
     { label: 'Blog', path: '/blog' },
     { label: 'Trampimo se', path: '/menjajmo-se' },
@@ -41,7 +42,8 @@ export const Navbar = () => {
         const showBadge =
           item.label !== 'Proizvodi' &&
           item.label !== 'Događaji' &&
-          item.label !== 'Početna';
+          item.label !== 'Početna' &&
+          item.label !== 'Prodavnice';
 
         return (
           <Box
@@ -78,15 +80,22 @@ export const Navbar = () => {
                   position: 'absolute',
                   bottom: -3,
                   right: -15,
-                  bgcolor: theme.palette.success.main,
+                  bgcolor: theme.palette.primary.dark,
                   color: 'white',
                   px: 0.5,
                   py: '2px',
                   fontSize: '0.5rem',
-                  borderRadius: 1
+                  borderRadius: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.3
                 }}
               >
-                uskoro
+                <ZSLogoLogoMark
+                  color={theme.palette.primary.contrastText}
+                  width="9px"
+                />{' '}
+                Uskoro
               </Box>
             )}
           </Box>

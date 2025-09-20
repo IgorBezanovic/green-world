@@ -20,8 +20,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PopDelete } from '../PopDelete';
 
-import ZSLogo from '/zeleni-svet-yellow-transparent.png';
-
 export const EventProfileCard = ({ ...props }) => {
   const { mutate } = useDeleteEvent(props.event?._id);
   const navigate = useNavigate();
@@ -54,7 +52,7 @@ export const EventProfileCard = ({ ...props }) => {
             aspectRatio: '1 / 1',
             objectFit: 'cover'
           }}
-          image={props?.event?.coverImage || ZSLogo}
+          image={props?.event?.coverImage}
           alt="Event Image"
         />
         <Chip

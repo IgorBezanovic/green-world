@@ -94,7 +94,7 @@ export const Header = () => {
   return (
     <Box
       component="header"
-      sx={{ backgroundColor: (theme) => theme.palette.background.default }}
+      sx={{ backgroundColor: (theme) => theme.palette.background.main }}
       className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
@@ -114,7 +114,11 @@ export const Header = () => {
         {/* Desno: dugme / ikonica lupice za mobile */}
         <Box className="flex items-center gap-4">
           {/* Mobile search icon */}
-          <IconButton onClick={toggleMobileSearch} className="md:!hidden">
+          <IconButton
+            onClick={toggleMobileSearch}
+            className="md:!hidden"
+            aria-label="Search in application"
+          >
             <Search className="!w-6 !h-6 !text-inherit" />
           </IconButton>
           {/* Desktop dugme */}
@@ -124,6 +128,7 @@ export const Header = () => {
             sx={{ textTransform: 'uppercase' }}
             onClick={handleUser}
             className="hidden md:block"
+            aria-label="Menu"
           >
             {decodedToken?._id ? (
               <MenuLucide className="!w-6 !h-6 !text-inherit" />

@@ -17,8 +17,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PopDelete } from '../PopDelete';
 
-import ZSLogo from '/zeleni-svet-yellow-transparent.png';
-
 interface ProductCardProps {
   product: any;
   isHero?: boolean;
@@ -32,10 +30,10 @@ export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
 
   const mainImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=400`
-    : ZSLogo;
+    : '';
   const blurImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=20&blur=200`
-    : ZSLogo;
+    : '';
 
   return (
     <Card
