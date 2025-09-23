@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@green-world/styles.css';
 
 const queryClient = new QueryClient();
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const router = createBrowserRouter(routes, {
   future: {
@@ -27,7 +28,7 @@ const router = createBrowserRouter(routes, {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={googleClientId}>
       <ThemeProvider>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
