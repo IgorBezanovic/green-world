@@ -21,7 +21,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PopDelete } from '../PopDelete';
 
 export const EventProfileCard = ({ ...props }) => {
-  const { mutate } = useDeleteEvent(props.event?._id);
+  const { mutate } = useDeleteEvent(props.event?._id, {
+    onSuccess: () => {
+      if (props?.eventsRefetch) {
+        props?.eventsRefetch();
+      }
+    }
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -122,47 +128,49 @@ export const EventProfileCard = ({ ...props }) => {
                 ? props.event?.description.substring(0, 50) + '...'
                 : props.event?.description}
             </Typography>
-            <Typography variant="body2">
-              <Box
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography
+                variant="body2"
                 component="span"
                 sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               >
                 <CalendarMonthIcon sx={{ fontSize: 18 }} />
                 {props.event?.dateAction}
-              </Box>
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                paddingTop: '6px',
-                gap: 0.5 // ili gap: '4px'
-              }}
-            >
-              <PlaceIcon sx={{ fontSize: 18 }} />
-              {props.event?.place.length > 20
-                ? props.event?.place.substring(0, 20) + '...'
-                : props.event?.place}
-            </Typography>
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5
+                }}
+              >
+                <PlaceIcon sx={{ fontSize: 18 }} />
+                {props.event?.place.length > 20
+                  ? props.event?.place.substring(0, 20) + '...'
+                  : props.event?.place}
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
         <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
-          <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
-            <IconButton aria-label="add to favorites">
-              <EditIcon
-                onClick={() => navigate(`/edit-event/${props.event?._id}`)}
-              />
+          <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => navigate(`/edit-event/${props.event?._id}`)}
+            >
+              <EditIcon />
             </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `https://www.zelenisvet.rs/event/${props.event?._id}`
-                  )
-                }
-              />
+            <IconButton
+              aria-label="share"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `https://www.zelenisvet.rs/event/${props.event?._id}`
+                )
+              }
+            >
+              <ShareIcon />
             </IconButton>
 
             <PopDelete

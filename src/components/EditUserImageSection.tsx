@@ -15,7 +15,7 @@ import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 export const EditUserImageSection = () => {
   const { user, isLoading } = useContext(UserContext);
   const { mutate, isLoading: isLoadingUser } = useEditUser();
-  const { mutate: imageMutate, isLoading: isImageLoadingUser } = useImage();
+  const { mutate: imageMutate, isLoading: isImageLoadingUser } = useImage(true);
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = Array.from(e.target.files!)[0];
