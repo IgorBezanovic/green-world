@@ -21,9 +21,16 @@ export const UserProfile = () => {
   const navigate = useNavigate();
 
   const { user, isLoading } = useContext(UserContext);
-  const { data: products = [], isLoading: productsLoading } =
-    useAllUserProducts();
-  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
+  const {
+    data: products = [],
+    isLoading: productsLoading,
+    refetch: productsRefetch
+  } = useAllUserProducts();
+  const {
+    data: events = [],
+    isLoading: eventsLoading,
+    refetch: eventsRefetch
+  } = useAllUserEvents();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
@@ -132,7 +139,11 @@ export const UserProfile = () => {
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               {productsToDisplay.length > 0 ? (
                 productsToDisplay.map((product: any) => (
-                  <ProductCard key={product._id} product={product} />
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    productsRefetch={productsRefetch}
+                  />
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali proizvode</p>
@@ -144,7 +155,11 @@ export const UserProfile = () => {
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               {eventsToDisplay.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
-                  <EventProfileCard key={event._id} event={event} />
+                  <EventProfileCard
+                    key={event._id}
+                    event={event}
+                    eventsRefetch={eventsRefetch}
+                  />
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>

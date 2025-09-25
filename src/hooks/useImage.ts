@@ -3,7 +3,7 @@ import { request } from '@green-world/utils/api';
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
 
-export const useImage = () => {
+export const useImage = (isUserProfileImage?: boolean) => {
   const { user, setUser } = useContext(UserContext);
 
   return useMutation(
@@ -18,10 +18,11 @@ export const useImage = () => {
       }),
     {
       onSuccess: (data: string) => {
-        setUser({
-          ...user,
-          profileImage: data
-        });
+        isUserProfileImage &&
+          setUser({
+            ...user,
+            profileImage: data
+          });
       }
     }
   );

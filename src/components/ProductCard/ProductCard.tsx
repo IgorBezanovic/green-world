@@ -1,4 +1,5 @@
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
+import { Product } from '@green-world/utils/types';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import ShareIcon from '@mui/icons-material/Share';
@@ -13,6 +14,11 @@ import {
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
+import {
+  RefetchOptions,
+  RefetchQueryFilters,
+  QueryObserverResult
+} from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PopDelete } from '../PopDelete';
@@ -20,10 +26,23 @@ import { PopDelete } from '../PopDelete';
 interface ProductCardProps {
   product: any;
   isHero?: boolean;
+  productsRefetch?: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Product[], unknown>>;
 }
 
-export const ProductCard = ({ product, isHero = false }: ProductCardProps) => {
-  const { mutate } = useDeleteProduct(product?._id);
+export const ProductCard = ({
+  product,
+  isHero = false,
+  productsRefetch
+}: ProductCardProps) => {
+  const { mutate } = useDeleteProduct(product?._id, {
+    onSuccess: () => {
+      if (productsRefetch) {
+        productsRefetch();
+      }
+    }
+  });
   const navigate = useNavigate();
   const location = useLocation();
   const [loaded, setLoaded] = useState(false);
