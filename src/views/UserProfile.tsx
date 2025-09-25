@@ -37,13 +37,13 @@ export const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('products');
 
   useEffect(() => {
-    if (!productsLoading && products.length > 0) {
+    if (!productsLoading) {
       setProductsToDisplay(products);
     }
   }, [products, productsLoading]);
 
   useEffect(() => {
-    if (!eventsLoading && events.length > 0) {
+    if (!eventsLoading) {
       setEventsToDisplay(events);
     }
   }, [events, eventsLoading]);
