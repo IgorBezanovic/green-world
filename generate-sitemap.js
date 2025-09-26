@@ -168,6 +168,7 @@ async function generateSitemap() {
     })
   );
 
+  // API user-a
   const resUser = await fetch(`${hostname}/api/user/all-users`);
   const user = await resUser.json();
   user.forEach((u) =>
@@ -178,7 +179,8 @@ async function generateSitemap() {
       img: [
         {
           url: u.profileImage || '',
-          title: u.shopName || u.name || ''
+          title: u.shopName || u.name || '',
+          caption: u.shopDescription || ''
         }
       ]
     })

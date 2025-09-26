@@ -69,6 +69,11 @@ export const UserProfile = () => {
       <Helmet>
         <title>Zeleni svet | Korisnicki profil</title>
         <meta property="og:image" content={`${user?.profileImage}`} />
+        <meta
+          property="og:title"
+          content={`${user?.shopName} | ${user?.name}`}
+        />
+        <meta property="og:description" content={`${user?.shopDescription}`} />
         <link rel="canonical" href="https://www.zelenisvet.rs/profile" />
       </Helmet>
 

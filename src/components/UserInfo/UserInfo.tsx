@@ -6,7 +6,8 @@ import {
   IconButton,
   Typography,
   Box,
-  CircularProgress
+  CircularProgress,
+  Button
 } from '@mui/material';
 import clsx from 'clsx';
 import {
@@ -16,12 +17,25 @@ import {
   Phone,
   Store,
   MapPin,
-  Settings
+  Settings,
+  Milestone
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
+
+  const goToDestination = () => {
+    const addressParts = [
+      props?.user?.address?.street,
+      props?.user?.address?.city,
+      props?.user?.address?.country
+    ].filter(Boolean); // uklanja undefined, null, prazne stringove
+
+    const destination = encodeURIComponent(addressParts.join(', '));
+
+    return `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+  };
 
   if (props?.userLoading) {
     return (
@@ -187,6 +201,27 @@ export const UserInfo = ({ ...props }) => {
               <Mail />
               <span>{props.user.email}</span>
             </Typography>
+          )}
+
+          {/* Navigation */}
+          {props?.user?.address?.city && props?.user?.address?.country && (
+            <Button
+              component="a"
+              href={goToDestination()}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              color="primary"
+              startIcon={<Milestone />}
+              sx={{
+                mt: 2,
+                p: 1
+              }}
+            >
+              <Typography variant="body2" component="span">
+                Navigacija
+              </Typography>
+            </Button>
           )}
         </Box>
       </CardContent>

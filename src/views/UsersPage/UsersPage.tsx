@@ -73,6 +73,12 @@ export const UsersPage = () => {
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
       <Helmet>
         <title>Zeleni svet | {data?.shopName || data?.name}</title>
+        <meta property="og:image" content={`${data?.profileImage}`} />
+        <meta
+          property="og:title"
+          content={`${data?.shopName} | ${data?.name}`}
+        />
+        <meta property="og:description" content={`${data?.shopDescription}`} />
         <link
           rel="canonical"
           href={`https://www.zelenisvet.rs/user/${userId}`}

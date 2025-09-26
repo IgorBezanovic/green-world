@@ -300,6 +300,14 @@ export const EditUserData = () => {
           onChange={handleAddressChange}
           placeholder="Unesite državu"
         />
+        <small className={clsx('text-gray40', 'italic', '-mt-2', 'mb-2')}>
+          Za funkcionalnost 'Navigacija' potrebno je da se minimum popuni Država
+          i Grad, kako bi funkcionalnost radila preciznije unesite i ulicu i
+          broj vaše poslovnice.
+          <br />
+          Nakon unosa proverite ispravnost navigacije i po potrebi editujte
+          adresu.
+        </small>
         <label
           htmlFor="onlyOnline"
           className={clsx(
