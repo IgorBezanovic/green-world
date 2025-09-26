@@ -73,6 +73,12 @@ export const UsersPage = () => {
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
       <Helmet>
         <title>Zeleni svet | {data?.shopName || data?.name}</title>
+        <meta property="og:image" content={`${data?.profileImage}`} />
+        <meta
+          property="og:title"
+          content={`${data?.shopName} | ${data?.name}`}
+        />
+        <meta property="og:description" content={`${data?.shopDescription}`} />
         <link
           rel="canonical"
           href={`https://www.zelenisvet.rs/user/${userId}`}
@@ -169,23 +175,33 @@ export const UsersPage = () => {
       >
         {/* USER INFO */}
         <Card className="shadow-md rounded-2xl p-6">
-          <Typography variant="h5" className="flex items-center font-bold">
-            <Store className="mr-1" /> {data?.shopName || data?.name}
-          </Typography>
-          <Typography variant="subtitle1" className="text-gray-600 mb-4">
-            {data?.shopDescription}
-          </Typography>
-
+          {data?.shopName ||
+            (data?.name && (
+              <Typography variant="h5" className="flex items-center font-bold">
+                <Store className="mr-1" /> {data?.shopName || data?.name}
+              </Typography>
+            ))}
+          {data?.shopDescription && (
+            <Typography variant="subtitle1" className="text-gray-600 mb-4">
+              {data?.shopDescription}
+            </Typography>
+          )}
           <Box className="flex flex-col gap-2 text-gray-700">
-            <Box className="flex items-center gap-2">
-              <User /> {data?.name}
-            </Box>
-            <Box className="flex items-center gap-2">
-              <Phone /> {data?.phone}
-            </Box>
-            <Box className="flex items-center gap-2">
-              <Mail /> {data?.email}
-            </Box>
+            {data?.name && (
+              <Box className="flex items-center gap-2">
+                <User /> {data?.name}
+              </Box>
+            )}
+            {data?.phone && (
+              <Box className="flex items-center gap-2">
+                <Phone /> {data?.phone}
+              </Box>
+            )}
+            {data?.email && (
+              <Box className="flex items-center gap-2">
+                <Mail /> {data?.email}
+              </Box>
+            )}
             {data?.website && (
               <Box className="flex items-center gap-2">
                 <Globe />
@@ -201,8 +217,14 @@ export const UsersPage = () => {
             )}
             {data?.address && (
               <Box className="flex items-center gap-2">
-                <MapPin /> {data?.address.street}, {data?.address.city},{' '}
-                {data?.address.country}
+                <MapPin />
+                {[
+                  data?.address?.street,
+                  data?.address?.city,
+                  data?.address?.country
+                ]
+                  .filter(Boolean)
+                  .join(', ')}
               </Box>
             )}
           </Box>
