@@ -16,5 +16,10 @@ export default defineConfig({
     watch: {
       ignored: ['**/coverage/**']
     }
+  },
+  build: {
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    sourcemap: false
   }
 });

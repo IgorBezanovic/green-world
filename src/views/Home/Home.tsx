@@ -9,12 +9,13 @@ import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Grid, Typography } from '@mui/material';
+import { Skeleton } from 'antd';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const { data, isLoading } = useHomeProducts();
+  const { data, isLoading, isFetching } = useHomeProducts();
   const navigate = useNavigate();
 
   return (
@@ -77,9 +78,11 @@ export const Home = () => {
             Najnoviji proizvodi naših partnera
           </Typography>
         </div>
-        {data?.recentProducts.length && (
-          <GridProducts products={data?.recentProducts} />
-        )}
+        <Skeleton loading={isFetching} active paragraph={{ rows: 4 }}>
+          {data?.recentProducts.length && (
+            <GridProducts products={data?.recentProducts} />
+          )}
+        </Skeleton>
         <LazySection>
           <CustomButton
             type="text"
