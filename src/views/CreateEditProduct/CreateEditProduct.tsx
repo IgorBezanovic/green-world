@@ -25,7 +25,9 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import ReactQuill from 'react-quill-new';
 import { useParams } from 'react-router-dom';
+
 import 'react-quill-new/dist/quill.snow.css';
+import { AiButton } from './component';
 
 const initProduct: Product = {
   _id: '',
@@ -203,7 +205,7 @@ export const CreateEditProduct = () => {
     try {
       setIsAiLoading(true);
       const baseUrl = import.meta.env.VITE_API_URL;
-      const res = await fetch(baseUrl + 'ai/description', {
+      const res = await fetch(baseUrl + '/ai/description', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -489,7 +491,7 @@ export const CreateEditProduct = () => {
             <label
               className={clsx('mb-2', 'mt-4', 'text-forestGreen', 'text-lg')}
             >
-              Ključne reči (min 2 / max 10):
+              Ključne fraze za generisanje (min 2 / max 10):
             </label>
             <Select
               mode="tags"
@@ -502,15 +504,15 @@ export const CreateEditProduct = () => {
                 setKeywords(cleaned);
               }}
               tokenSeparators={[',']}
-              placeholder="Dodaj ključne reči (ENTER ili ,)"
-              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-3')}
+              placeholder="Dodaj ključne fraze (ENTER ili ,)"
+              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-1')}
             />
             <small className={clsx('text-gray40', 'italic', 'mb-2')}>
               Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo,
               fikus, zalivanje…
             </small>
 
-            <div className="flex items-center gap-4 mt-3 mb-2">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-3 mb-2">
               <label
                 htmlFor="description"
                 className={clsx(
@@ -522,27 +524,10 @@ export const CreateEditProduct = () => {
               >
                 Opis proizvoda:
               </label>
-
-              <CustomButton
-                htmlType="button"
-                type="text"
-                text={
-                  isAiLoading ? (
-                    <LoadingOutlined
-                      className={clsx('text-groupTransparent', 'my-2')}
-                    />
-                  ) : (
-                    'Generiši AI opis'
-                  )
-                }
+              <AiButton
+                isAiLoading={isAiLoading}
+                canGenerate={canGenerate}
                 onClick={handleGenerateAiDescription}
-                disabled={!canGenerate || isAiLoading}
-                customStyle={[
-                  'px-4',
-                  {
-                    'border-groupTransparent': isAiLoading
-                  }
-                ]}
               />
             </div>
 
