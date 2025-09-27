@@ -16,6 +16,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@green-world/styles.css';
 
+import '@fontsource/montserrat';
+import '@fontsource/ephesis';
+
 const queryClient = new QueryClient();
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 

@@ -1,37 +1,21 @@
 import {
   CustomButton,
-  HomeCarousel,
   GroupButton,
   LazySection,
-  ProductSection
+  ProductSection,
+  GridProducts
 } from '@green-world/components';
-import { useAllProducts } from '@green-world/hooks/useAllProducts';
-import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
+import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Grid, Typography } from '@mui/material';
+import { Skeleton } from 'antd';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const { data: allProducts, isLoading: allProductsLoading } = useAllProducts();
-  const { data: flowerAssortment, isLoading: flowerAssortmentLoading } =
-    useProductsByGroup('flower_assortment');
-  const { data: succulents, isLoading: succulentsLoading } =
-    useProductsByGroup('succulents');
-  const { data: pottedFlowers, isLoading: pottedFlowersLoading } =
-    useProductsByGroup('potted_flowers');
-  const { data: seedlings, isLoading: seedlingsLoading } =
-    useProductsByGroup('seedlings');
-  const { data: fruitsAndVegetables, isLoading: fruitsAndVegetablesLoading } =
-    useProductsByGroup('fruits_and_vegetables');
-  const { data: herbalPharmacy, isLoading: herbalPharmacyLoading } =
-    useProductsByGroup('herbal_pharmacy');
-  const { data: gardenDecoration, isLoading: gardenDecorationLoading } =
-    useProductsByGroup('garden_decoration');
-  const { data: everythingForPlants, isLoading: everythingForPlantsLoading } =
-    useProductsByGroup('everything_for_plants');
+  const { data, isLoading, isFetching } = useHomeProducts();
   const navigate = useNavigate();
 
   return (
@@ -85,7 +69,7 @@ export const Home = () => {
               fontFamily: 'Ephesis'
             })}
           >
-            Izdvojeni Proizvodi
+            Najnoviji Proizvodi
           </Typography>
           <Typography
             variant="body1"
@@ -94,10 +78,28 @@ export const Home = () => {
             Najnoviji proizvodi naših partnera
           </Typography>
         </div>
-        <HomeCarousel
-          products={allProducts?.products}
-          isLoading={allProductsLoading}
-        />
+        <Skeleton loading={isFetching} active paragraph={{ rows: 4 }}>
+          {data?.recentProducts.length && (
+            <GridProducts products={data?.recentProducts} />
+          )}
+        </Skeleton>
+        <LazySection>
+          <CustomButton
+            type="text"
+            customStyle={[
+              'py-4',
+              'text-lg',
+              'max-w-[350px]',
+              'w-full',
+              'mx-auto',
+              'rounded-lg',
+              'mt-6'
+            ]}
+            onClick={() => navigate('/search')}
+          >
+            Pretrazi sve proizvode
+          </CustomButton>
+        </LazySection>
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"
@@ -145,7 +147,15 @@ export const Home = () => {
         <LazySection>
           <CustomButton
             type="text"
-            customStyle={['py-4', 'text-lg']}
+            customStyle={[
+              'py-4',
+              'text-lg',
+              'max-w-[350px]',
+              'w-full',
+              'mx-auto',
+              'rounded-lg',
+              'mt-6'
+            ]}
             onClick={() => navigate('/search')}
           >
             Pretrazi sve proizvode
@@ -154,50 +164,58 @@ export const Home = () => {
         <ProductSection
           title="Cvetni asortiman"
           subTitle="Raznovrsno cveće za sve prilike i idealan poklon."
-          products={flowerAssortment}
-          isLoading={flowerAssortmentLoading}
+          products={data?.flower_assortment}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Sukulenti"
           subTitle="Niske potrebe za negom, idealni za kuću i kancelariju."
-          products={succulents}
-          isLoading={succulentsLoading}
+          products={data?.succulents}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Saksijsko cveće"
           subTitle="Lepo uređenje doma sa dugotrajnim cvećem u saksijama."
-          products={pottedFlowers}
-          isLoading={pottedFlowersLoading}
+          products={data?.potted_flowers}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Sadnice"
           subTitle="Mladi biljni izdanci za sadnju u bašti ili vrtu."
-          products={seedlings}
-          isLoading={seedlingsLoading}
+          products={data?.seedlings}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Voće i povrće"
           subTitle="Sveže i kvalitetno voće i povrće za vašu baštu."
-          products={fruitsAndVegetables}
-          isLoading={fruitsAndVegetablesLoading}
+          products={data?.fruits_and_vegetables}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Biljna apoteka"
           subTitle="Lekovi, preparati, dohrana i zaštita za sve vrste biljaka."
-          products={herbalPharmacy}
-          isLoading={herbalPharmacyLoading}
+          products={data?.herbal_pharmacy}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Baštenska dekoracija"
           subTitle="Unesite šarm i stil u baštu sa dekorativnim elementima."
-          products={gardenDecoration}
-          isLoading={gardenDecorationLoading}
+          products={data?.garden_decoration}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
         <ProductSection
           title="Sve za Biljke"
           subTitle="Sve što vam treba za negu i održavanje biljaka."
-          products={everythingForPlants}
-          isLoading={everythingForPlantsLoading}
+          products={data?.everything_for_plants}
+          isLoading={isLoading}
+          isGridDisplay={true}
         />
       </Box>
     </Box>
