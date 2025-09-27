@@ -1,4 +1,5 @@
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
+import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { Product } from '@green-world/utils/types';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -24,7 +25,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PopDelete } from '../PopDelete';
 
 interface ProductCardProps {
-  product: any;
+  product: Product | ProductPreview;
   isHero?: boolean;
   productsRefetch?: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined

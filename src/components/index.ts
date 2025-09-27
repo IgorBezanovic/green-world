@@ -17,6 +17,7 @@ export * from '@green-world/components/Footer';
 export * from '@green-world/components/GoogleAnalytics';
 export * from '@green-world/components/ForgotPasswordForm';
 export * from '@green-world/components/GoogleLoginAuth';
+export * from '@green-world/components/GridProducts';
 export * from '@green-world/components/GroupButton';
 export * from '@green-world/components/Header';
 export * from '@green-world/components/HomeCarousel';
