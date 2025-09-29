@@ -156,6 +156,7 @@ export const ProductPage = () => {
                           'shadow',
                           'aspect-square',
                           'w-full',
+                          'object-cover',
                           'cursor-pointer',
                           {
                             'shadow-xl': idexOfImage === index,

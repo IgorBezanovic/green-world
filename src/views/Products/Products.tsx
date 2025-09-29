@@ -1,171 +1,123 @@
 import { ProductCard } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
-import { Product } from '@green-world/utils/types';
 import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Button,
   Checkbox,
   InputLabel,
   MenuItem,
   Select,
   Slider,
   TextField,
-  Typography
+  Typography,
+  Button
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export const Products = () => {
-  const { data: products } = useAllProducts();
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [search, setSearch] = useState<string>('');
-  const [selectedGroup, setSelectedGroup] = useState<string>('');
-  const [selectedSubgroup, setSelectedSubgroup] = useState<string>('');
+
+  const [search, setSearch] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedSubgroup, setSelectedSubgroup] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
-  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
-  const [isFiltering, setIsFiltering] = useState(false);
+  const [inStockOnly, setInStockOnly] = useState(false);
+  const [priceOnRequest, setPriceOnRequest] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const filteredProducts = useMemo(() => {
-    return products?.products.filter((prod) => {
-      const matchesName = prod.title
-        .toLowerCase()
-        .includes(search.toLowerCase());
+  const [oldProducts, setOldProducts] = useState<ProductPreview[]>([]);
+  const [filtersToSend, setFiltersToSend] = useState({});
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-      const matchesGroup = selectedGroup ? prod.group === selectedGroup : true;
+  const { data, isFetching, refetch } = useAllProducts(filtersToSend);
 
-      const matchesSubgroup = selectedSubgroup
-        ? prod.subGroup === selectedSubgroup
-        : true;
+  // Zadrži stare proizvode dok ne stigne nova lista
+  useEffect(() => {
+    if (!isFetching && data?.products) {
+      setOldProducts(data.products);
+    }
+  }, [data, isFetching]);
 
-      const matchesPrice =
-        prod.price >= priceRange[0] && prod.price <= priceRange[1];
+  // Ručni debounce za filtere
+  useEffect(() => {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
-      const matchesStock = inStockOnly ? prod.onStock : true;
+    debounceTimer.current = setTimeout(() => {
+      const newFilters: any = {
+        title: search.length >= 3 ? search : undefined,
+        group: selectedGroup || undefined,
+        subGroup: selectedSubgroup || undefined,
+        minPrice: priceRange[0] || undefined,
+        maxPrice: priceRange[1] || undefined,
+        priceOnRequest: priceOnRequest || undefined,
+        inStock: inStockOnly || undefined,
+        page
+      };
+      setFiltersToSend(newFilters);
+      refetch();
+    }, 300); // 300ms debounce
 
-      return (
-        matchesName &&
-        matchesGroup &&
-        matchesSubgroup &&
-        matchesPrice &&
-        matchesStock
-      );
-    });
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
   }, [
-    products,
     search,
     selectedGroup,
     selectedSubgroup,
     priceRange,
-    inStockOnly
+    inStockOnly,
+    priceOnRequest,
+    page,
+    refetch
   ]);
 
   const availableSubgroups = useMemo(() => {
-    if (!products?.products?.length) return [];
-
     if (!selectedGroup) {
-      // Ako je izabrano "Sve grupe", uzmi sve subgrupe koje backend vraća iz svih proizvoda
-      const backendSubs = new Set(
-        products.products
-          .filter((p) => p.subGroup) // samo proizvodi sa subgrupom
-          .map((p) => p.subGroup)
-      );
-
-      // Od svih definisanih subgrupa, prikazi samo one koje postoje u backendSubs
-      const allSubgroups: (typeof subGroups)[keyof typeof subGroups] = [];
-      Object.values(subGroups).forEach((sgList) => {
-        sgList.forEach((sg) => {
-          if (backendSubs.has(sg.label)) allSubgroups.push(sg);
-        });
-      });
-
-      return allSubgroups;
+      // Flatten svih subgrupa u jednu listu
+      return Object.values(subGroups).flat();
     }
-
-    // Ako je izabrana konkretna grupa
-    const backendSubs = new Set(
-      products.products
-        .filter((p) => p.group === selectedGroup && p.subGroup)
-        .map((p) => p.subGroup)
-    );
-
-    return (subGroups[selectedGroup as keyof typeof subGroups] || []).filter(
-      (sg) => backendSubs.has(sg.label)
-    );
-  }, [products, selectedGroup]);
-
-  useEffect(() => {
-    setSelectedSubgroup('');
+    return subGroups[selectedGroup as keyof typeof subGroups] || [];
   }, [selectedGroup]);
 
-  const priceLimits = useMemo(() => {
-    const base =
-      products?.products.filter((p) => {
-        const byGroup = selectedGroup ? p.group === selectedGroup : true;
-        const bySub = selectedSubgroup ? p.subGroup === selectedSubgroup : true;
-        return byGroup && bySub;
-      }) ?? [];
-
-    if (!base.length) return [0, 0] as [number, number];
-
-    const prices = base.map((p) => p.price || 0);
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    return [min, max] as [number, number];
-  }, [products, selectedGroup, selectedSubgroup]);
-
   useEffect(() => {
-    setPriceRange(priceLimits as [number, number]);
-  }, [priceLimits]);
-
-  useEffect(() => {
-    setIsFiltering(true);
-
-    const timer = setTimeout(() => {
-      setDisplayedProducts(filteredProducts || []);
-      setIsFiltering(false);
-    }, 100); // 100ms debounce da izbegne flicker
-
-    return () => clearTimeout(timer);
-  }, [filteredProducts]);
+    if (data?.priceLimits) {
+      setPriceRange((prev) => {
+        if (prev[0] === 0 && prev[1] === 0) {
+          return [data?.priceLimits?.[0], data?.priceLimits?.[1]];
+        }
+        return prev;
+      });
+    }
+  }, [data?.priceLimits]);
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <Helmet>
         <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/search" />
       </Helmet>
 
       <Box
         className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
+          'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7 flex flex-col gap-7'
         )}
       >
         <Box
           sx={{
             display: 'flex',
             gap: isMobile ? 2 : 7,
-            flexDirection: isMobile ? 'column' : 'row',
-            minHeight: '100vh'
+            flexDirection: isMobile ? 'column' : 'row'
           }}
         >
+          {/* Filters */}
           <Box>
             {isMobile && (
               <Button
@@ -180,9 +132,7 @@ export const Products = () => {
               </Button>
             )}
             {/* Filters */}
-            {(isMobile
-              ? Boolean(products?.products.length) && isFiltersOpen && isMobile
-              : Boolean(products?.products.length)) && (
+            {(isMobile ? isFiltersOpen && isMobile : true) && (
               <Grow in={isFiltersOpen || !isMobile}>
                 <Box
                   sx={{
@@ -193,17 +143,39 @@ export const Products = () => {
                     top: '133px'
                   }}
                 >
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Typography
+                      variant="h1"
+                      color="secondary.main"
+                      sx={{ fontFamily: 'Ephesis' }}
+                    >
+                      Proizvodi
+                    </Typography>
+                    {isFetching && (
+                      <Typography variant="overline">Učitavam..</Typography>
+                    )}
+                  </Box>
+
                   <Box>
                     <InputLabel
                       sx={{ color: (theme) => theme.palette.text.primary }}
-                      htmlFor="name"
+                      htmlFor="product-title"
                     >
-                      Pretraga po nazivu
+                      Naziv proizvoda
                     </InputLabel>
                     <TextField
-                      aria-describedby="name"
+                      name="product-title"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Naziv proizvoda"
+                      fullWidth
                       sx={{
                         '& .MuiInputBase-input': {
                           padding: '8px'
@@ -221,23 +193,22 @@ export const Products = () => {
                           )
                         }
                       }}
-                      fullWidth
                     />
                   </Box>
 
                   <Box>
                     <InputLabel
                       sx={{ color: (theme) => theme.palette.text.primary }}
-                      id="group-select-label"
+                      id="group"
                     >
                       Grupa
                     </InputLabel>
                     <Select
-                      labelId="group-select-label"
+                      labelId="group"
                       value={selectedGroup}
                       onChange={(e) => setSelectedGroup(e.target.value)}
-                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       fullWidth
+                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       displayEmpty
                       renderValue={(selected) => {
                         if (!selected) return 'Sve grupe';
@@ -255,33 +226,30 @@ export const Products = () => {
                       ))}
                     </Select>
                   </Box>
-
                   <Box>
                     <InputLabel
                       sx={{ color: (theme) => theme.palette.text.primary }}
-                      id="subgroup-select-label"
+                      id="subGroup"
                     >
                       Podgrupa
                     </InputLabel>
                     <Select
-                      labelId="subgroup-select-label"
+                      labelId="subGroup"
                       value={selectedSubgroup}
                       onChange={(e) => setSelectedSubgroup(e.target.value)}
-                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       fullWidth
+                      disabled={!availableSubgroups.length}
+                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       displayEmpty
-                      disabled={
-                        selectedGroup !== '' && !availableSubgroups.length
-                      }
                       renderValue={(selected) => {
-                        if (!selected) return 'Sve podgrupe';
+                        if (!selected) return 'Sve Podgrupe';
                         const sg = availableSubgroups.find(
                           (s) => s.label === selected
                         );
                         return sg ? sg.sr_RS : 'Sve podgrupe';
                       }}
                     >
-                      <MenuItem value="">Sve Podgrupe</MenuItem>
+                      <MenuItem value="">Sve podgrupe</MenuItem>
                       {availableSubgroups.map((sg) => (
                         <MenuItem key={sg.label} value={sg.label}>
                           {sg.sr_RS}
@@ -303,81 +271,117 @@ export const Products = () => {
                         color: theme.palette.secondary.main
                       })}
                       valueLabelDisplay="auto"
-                      min={priceLimits[0]}
-                      max={priceLimits[1]}
-                      disabled={priceLimits[0] === priceLimits[1]}
+                      min={data?.priceLimits?.[0] ?? 0}
+                      max={data?.priceLimits?.[1] ?? 10000}
+                      disabled={priceOnRequest}
                     />
                   </Box>
 
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <Checkbox
-                      checked={inStockOnly}
-                      onChange={(e) => setInStockOnly(e.target.checked)}
-                    />
-                    <Typography>Na stanju</Typography>
+                  <Box>
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Checkbox
+                        checked={inStockOnly}
+                        onChange={(e) => setInStockOnly(e.target.checked)}
+                      />
+                      <Typography>Na stanju</Typography>
+                    </Box>
+
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Checkbox
+                        checked={priceOnRequest}
+                        onChange={(e) => setPriceOnRequest(e.target.checked)}
+                      />
+                      <Typography>Cena na upit</Typography>
+                    </Box>
                   </Box>
                 </Box>
               </Grow>
             )}
           </Box>
 
-          <Box
-            component={'section'}
-            className={clsx('w-full', 'grid', 'gap-5', {
-              'grid-cols-2': displayedProducts?.length,
-              'sm:grid-cols-3': displayedProducts?.length,
-              'lgm:grid-cols-4': displayedProducts?.length
-            })}
-          >
-            {isFiltering ? (
-              // dok traje filtriranje zadrži stare proizvode
-              displayedProducts.map((product: Product) => (
-                <ProductCard
-                  key={`${product.createdAt}_${product.createdBy}`}
-                  product={product}
-                />
-              ))
-            ) : displayedProducts.length ? (
-              displayedProducts.map((product: Product) => (
-                <ProductCard
-                  key={`${product.createdAt}_${product.createdBy}`}
-                  product={product}
-                />
-              ))
-            ) : (
-              <Box
-                sx={{
-                  width: '100%',
-                  textAlign: 'center',
-                  mb: 8,
-                  px: 2
-                }}
-              >
+          {/* Products grid */}
+          <Box className="w-full flex flex-col gap-4">
+            <Box
+              component={'section'}
+              className={clsx('w-full', 'grid', 'gap-5', {
+                'grid-cols-2': data?.products?.length,
+                'sm:grid-cols-3': data?.products?.length,
+                'lgm:grid-cols-4': data?.products?.length
+              })}
+            >
+              {isFetching ? (
+                oldProducts.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))
+              ) : data?.products.length ? (
+                data?.products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))
+              ) : (
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    gap: '8px',
-                    marginBottom: '16px'
+                    width: '100%',
+                    textAlign: 'center',
+                    mb: 8,
+                    px: 2
                   }}
                 >
-                  <Typography variant="h4">
-                    Trenutno nema proizvoda za izabrane filtere
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Izaberite neku drugu kombinaciju filtera
-                  </Typography>
                   <Box
-                    component="img"
                     sx={{
-                      height: '300px'
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      gap: '8px',
+                      marginBottom: '16px'
                     }}
-                    src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
-                  />
+                  >
+                    <Typography variant="h4">
+                      Trenutno nema proizvoda za izabrane filtere
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Izaberite neku drugu kombinaciju filtera
+                    </Typography>
+                    <Box
+                      component="img"
+                      sx={{
+                        height: '300px'
+                      }}
+                      src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                    />
+                  </Box>
                 </Box>
+              )}
+            </Box>
+
+            {/* Pagination */}
+            {data?.pages && data.pages > 1 ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: 1,
+                  mt: 4,
+                  flexWrap: 'wrap'
+                }}
+              >
+                {Array.from({ length: data.pages }, (_, i) => i + 1).map(
+                  (p) => (
+                    <Button
+                      key={p}
+                      variant={p === page ? 'contained' : 'outlined'}
+                      onClick={() => {
+                        setPage(p);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    >
+                      {p}
+                    </Button>
+                  )
+                )}
               </Box>
+            ) : (
+              <></>
             )}
           </Box>
         </Box>
