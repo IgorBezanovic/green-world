@@ -10,7 +10,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Slider,
   TextField,
   Typography,
   Button
@@ -28,7 +27,9 @@ export const Products = () => {
   const [search, setSearch] = useState('');
   const [selectedGroup, setSelectedGroup] = useState('');
   const [selectedSubgroup, setSelectedSubgroup] = useState('');
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
+  const [priceRange, setPriceRange] = useState<
+    [number | undefined, number | undefined]
+  >([undefined, undefined]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [priceOnRequest, setPriceOnRequest] = useState(false);
   const [page, setPage] = useState(1);
@@ -87,17 +88,6 @@ export const Products = () => {
     }
     return subGroups[selectedGroup as keyof typeof subGroups] || [];
   }, [selectedGroup]);
-
-  useEffect(() => {
-    if (data?.priceLimits) {
-      setPriceRange((prev) => {
-        if (prev[0] === 0 && prev[1] === 0) {
-          return [data?.priceLimits?.[0], data?.priceLimits?.[1]];
-        }
-        return prev;
-      });
-    }
-  }, [data?.priceLimits]);
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -259,22 +249,43 @@ export const Products = () => {
                   </Box>
 
                   <Box>
-                    <Typography gutterBottom>
-                      Cena: {priceRange[0]} - {priceRange[1]} RSD
-                    </Typography>
-                    <Slider
-                      value={priceRange}
-                      onChange={(_, value) =>
-                        setPriceRange(value as [number, number])
-                      }
-                      sx={(theme) => ({
-                        color: theme.palette.secondary.main
-                      })}
-                      valueLabelDisplay="auto"
-                      min={data?.priceLimits?.[0] ?? 0}
-                      max={data?.priceLimits?.[1] ?? 10000}
-                      disabled={priceOnRequest}
-                    />
+                    <Typography gutterBottom>Cena</Typography>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        type="number"
+                        placeholder="Od"
+                        value={priceRange[0] || ''}
+                        sx={{
+                          '& .MuiInputBase-input': {
+                            padding: '8px'
+                          }
+                        }}
+                        onChange={(e) => {
+                          const value = Number(e.target.value);
+                          setPriceRange([value || undefined, priceRange[1]]);
+                          setPriceOnRequest(false);
+                        }}
+                        fullWidth
+                        inputProps={{ min: 0 }}
+                      />
+                      <TextField
+                        type="number"
+                        placeholder="Do"
+                        value={priceRange[1] || ''}
+                        sx={{
+                          '& .MuiInputBase-input': {
+                            padding: '8px'
+                          }
+                        }}
+                        onChange={(e) => {
+                          const value = Number(e.target.value);
+                          setPriceRange([priceRange[0], value || undefined]);
+                          setPriceOnRequest(false);
+                        }}
+                        fullWidth
+                        inputProps={{ min: 0 }}
+                      />
+                    </Box>
                   </Box>
 
                   <Box>
@@ -289,7 +300,13 @@ export const Products = () => {
                     <Box display="flex" alignItems="center" gap={1}>
                       <Checkbox
                         checked={priceOnRequest}
-                        onChange={(e) => setPriceOnRequest(e.target.checked)}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setPriceOnRequest(checked);
+                          if (checked) {
+                            setPriceRange([undefined, undefined]);
+                          }
+                        }}
                       />
                       <Typography>Cena na upit</Typography>
                     </Box>
