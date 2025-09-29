@@ -79,7 +79,9 @@ export const UserInfo = ({ ...props }) => {
               'relative w-24 h-24 mx-auto mb-5',
               props?.isUserProfile && 'cursor-pointer'
             )}
-            onClick={() => props?.isUserProfile && navigate('/Edit-image')}
+            onClick={() =>
+              props?.isUserProfile && navigate('/profile-settings/change-image')
+            }
           >
             <Avatar
               src={props?.user?.profileImage}
