@@ -18,7 +18,7 @@ import {
   X
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export type SearchOptionType = {
   id: string;

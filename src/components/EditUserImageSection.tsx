@@ -5,7 +5,6 @@ import { Avatar } from '@mui/material';
 import { Divider } from 'antd';
 import clsx from 'clsx';
 import { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 
 import { CustomButton, CustomQRCode } from '.';
@@ -14,8 +13,8 @@ import ZSLogo from '/zeleni-svet-yellow-transparent.png';
 
 export const EditUserImageSection = () => {
   const { user, isLoading } = useContext(UserContext);
-  const { mutate, isLoading: isLoadingUser } = useEditUser();
-  const { mutate: imageMutate, isLoading: isImageLoadingUser } = useImage(true);
+  const { mutate, isPending: isLoadingUser } = useEditUser();
+  const { mutate: imageMutate, isPending: isImageLoadingUser } = useImage(true);
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = Array.from(e.target.files!)[0];
@@ -43,13 +42,12 @@ export const EditUserImageSection = () => {
           'gap-4'
         )}
       >
-        <Helmet>
-          <title>Zeleni svet | Podešavanje profilne slike | QR kod</title>
-          <link
-            rel="canonical"
-            href="https://www.zelenisvet.rs/profile-settings/change-image"
-          />
-        </Helmet>
+        <title>Zeleni svet | Podešavanje profilne slike | QR kod</title>
+        <link
+          rel="canonical"
+          href="https://www.zelenisvet.rs/profile-settings/change-image"
+        />
+
         <p className={clsx('text-gray40', 'italic', 'mb-4')}>
           Fotografija koju prikazujemo kao Vašu profilnu sliku.
         </p>

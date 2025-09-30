@@ -24,8 +24,7 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export const GroupProducts = () => {
   const navigate = useNavigate();
@@ -117,13 +116,11 @@ export const GroupProducts = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Pretraga proizvoda | {categoryName}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/search/${category}`}
-        />
-      </Helmet>
+      <title>Zeleni svet | Pretraga proizvoda | {categoryName}</title>
+      <link
+        rel="canonical"
+        href={`https://www.zelenisvet.rs/search/${category}`}
+      />
 
       <Box
         className={clsx(

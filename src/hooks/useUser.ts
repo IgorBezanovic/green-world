@@ -5,26 +5,24 @@ import {
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
 import { User } from '@green-world/utils/types';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { useQuery, UseQueryResult } from 'react-query';
 
 export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
   const { setUserDataInCTX } = useContext(UserContext);
 
-  return useQuery(
-    ['userDetails', userID],
-    () =>
-      request({
+  return useQuery({
+    queryKey: ['userDetails', userID],
+    queryFn: async () => {
+      const data = await request({
         url: `/user/details/${userID}`,
         method: 'get'
-      }),
-    {
-      enabled: !!userID,
-      initialData: () => getDecrypted('product', userID),
-      onSuccess: (data: User) => {
-        storeEncrypted('user', data as User & { _id: string });
-        me && setUserDataInCTX(data);
-      }
-    }
-  );
+      });
+      if (me) setUserDataInCTX(data);
+      storeEncrypted('user', data as User & { _id: string });
+      return data;
+    },
+    enabled: !!userID,
+    initialData: () => getDecrypted('product', userID)
+  });
 };

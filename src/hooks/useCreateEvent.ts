@@ -1,13 +1,13 @@
 import { request } from '@green-world/utils/api';
 import { Event } from '@green-world/utils/types';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 export const useCreateEvent = () => {
   const navigate = useNavigate();
 
-  return useMutation(
-    ({
+  return useMutation({
+    mutationFn: ({
       title,
       description,
       place,
@@ -41,10 +41,8 @@ export const useCreateEvent = () => {
           status
         }
       }),
-    {
-      onSuccess: () => {
-        navigate('/profile');
-      }
+    onSuccess: () => {
+      navigate('/profile');
     }
-  );
+  });
 };

@@ -27,7 +27,7 @@ import {
   Events,
   Shops
 } from '@green-world/views';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 export const routes = [
   {

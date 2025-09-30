@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { Mail } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const NavTrack = () => {
   const navigate = useNavigate();

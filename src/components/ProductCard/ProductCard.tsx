@@ -15,21 +15,14 @@ import {
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
-import {
-  RefetchOptions,
-  RefetchQueryFilters,
-  QueryObserverResult
-} from 'react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { PopDelete } from '../PopDelete';
 
 interface ProductCardProps {
   product: Product | ProductPreview;
   isHero?: boolean;
-  productsRefetch?: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<Product[], unknown>>;
+  productsRefetch?: any;
 }
 
 export const ProductCard = ({

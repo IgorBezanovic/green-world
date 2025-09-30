@@ -18,7 +18,6 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export const Products = () => {
   const theme = useTheme();
@@ -91,9 +90,7 @@ export const Products = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-      </Helmet>
+      <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
 
       <Box
         className={clsx(

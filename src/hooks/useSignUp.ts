@@ -2,13 +2,13 @@ import { useSuccess } from '@green-world/context/PopupContext';
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
 import { RegistrationValues } from '@green-world/utils/types';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useSignUp = () => {
   const { setIsOpen } = useSuccess();
 
-  return useMutation(
-    ({ email, password }: RegistrationValues) =>
+  return useMutation({
+    mutationFn: ({ email, password }: RegistrationValues) =>
       request({
         url: `/auth/sign-up`,
         method: 'post',
@@ -17,11 +17,9 @@ export const useSignUp = () => {
           password
         }
       }),
-    {
-      onSuccess: (data: string) => {
-        setItem('token', data);
-        setIsOpen(true);
-      }
+    onSuccess: (data: string) => {
+      setItem('token', data);
+      setIsOpen(true);
     }
-  );
+  });
 };

@@ -2,7 +2,7 @@ import { setItem } from '@green-world/utils/cookie';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export const GoogleLoginAuth = () => {

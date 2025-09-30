@@ -3,8 +3,7 @@ import {
   getDecrypted,
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
-import { useQuery, UseQueryResult } from 'react-query';
-
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 export interface ProductPreview {
   _id: string;
   title: string;
@@ -28,19 +27,16 @@ export interface HomepageProductsResponse {
 }
 
 export const useHomeProducts = (): UseQueryResult<HomepageProductsResponse> => {
-  return useQuery(
-    ['allProducts'],
-    () =>
-      request({
+  return useQuery({
+    queryKey: ['allProducts'],
+    queryFn: async () => {
+      const data = await request({
         url: '/product/homepage-products',
         method: 'get'
-      }),
-    {
-      initialData: () =>
-        getDecrypted(
-          'homepage-products'
-        ) as unknown as HomepageProductsResponse,
-      onSuccess: (data) => storeEncrypted('homepage-products', data)
-    }
-  );
+      });
+      storeEncrypted('homepage-products', data);
+      return data;
+    },
+    initialData: getDecrypted('homepage-products')
+  });
 };

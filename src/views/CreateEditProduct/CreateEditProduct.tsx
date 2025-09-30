@@ -22,9 +22,8 @@ import { Select, message } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import ReactQuill from 'react-quill-new';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import 'react-quill-new/dist/quill.snow.css';
 import { AiButton } from './component';
@@ -88,14 +87,14 @@ export const CreateEditProduct = () => {
 
   const {
     mutate: imageMutate,
-    isLoading: isImageLoading,
+    isPending: isImageLoading,
     data: productImage
   } = useImage();
 
-  const { mutate: createMutation, isLoading: isLoadingCreateProduct } =
+  const { mutate: createMutation, isPending: isLoadingCreateProduct } =
     useCreateProduct();
 
-  const { mutate: editMutation, isLoading: isLoadingEditProduct } =
+  const { mutate: editMutation, isPending: isLoadingEditProduct } =
     useEditProduct(productId);
 
   const [product, setProduct] = useState<Product>(initProduct);
@@ -245,12 +244,11 @@ export const CreateEditProduct = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>
-          Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-        </title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
-      </Helmet>
+      <title>
+        Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
+      </title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',

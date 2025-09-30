@@ -2,16 +2,14 @@ import { Footer, Header } from '@green-world/components';
 import { Result } from 'antd';
 import clsx from 'clsx';
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export const NotFound = () => {
   return (
     <React.Fragment>
-      <Helmet>
-        <title>Zeleni svet | 404 Not Found</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/*" />
-      </Helmet>
+      <title>Zeleni svet | 404 Not Found</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/*" />
+
       <Header />
       <section
         className={clsx(

@@ -1,6 +1,6 @@
 import { HomeCategory } from '@green-world/utils/types';
 import { Box, Typography, Link as MuiLink } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 interface GroupButtonProps {
   item: HomeCategory;

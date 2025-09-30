@@ -12,8 +12,7 @@ import { Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
 import { useContext, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import './style.css';
 
@@ -66,17 +65,11 @@ export const UserProfile = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Korisnicki profil</title>
-        <meta property="og:image" content={`${user?.profileImage}`} />
-        <meta
-          property="og:title"
-          content={`${user?.shopName} | ${user?.name}`}
-        />
-        <meta property="og:description" content={`${user?.shopDescription}`} />
-        <link rel="canonical" href="https://www.zelenisvet.rs/profile" />
-      </Helmet>
-
+      <title>Zeleni svet | Korisnicki profil</title>
+      <meta property="og:image" content={`${user?.profileImage}`} />
+      <meta property="og:title" content={`${user?.shopName} | ${user?.name}`} />
+      <meta property="og:description" content={`${user?.shopDescription}`} />
+      <link rel="canonical" href="https://www.zelenisvet.rs/profile" />
       <div
         className={clsx(
           'xl:max-w-[1400px]',

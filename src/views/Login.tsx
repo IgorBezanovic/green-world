@@ -2,11 +2,10 @@ import { LoginForm } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import { Box, Theme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 export const Login = () => {
-  const { mutate, error, isLoading } = useLogin();
+  const { mutate, error, isPending } = useLogin();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const isUserLogged = queryParams.get('isUserLogged');
@@ -16,10 +15,9 @@ export const Login = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Prijavi se</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/login" />
-      </Helmet>
+      <title>Zeleni svet | Prijavi se</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/login" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -45,7 +43,7 @@ export const Login = () => {
         <LoginForm
           mutate={mutate}
           error={error}
-          isLoading={isLoading}
+          isLoading={isPending}
           isUserLogged={isUserLogged}
         />
       </div>

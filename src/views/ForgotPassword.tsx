@@ -1,17 +1,12 @@
 import { BackButton, ForgotPasswordForm } from '@green-world/components';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const ForgotPassword = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Zaboravljen password</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/forgot-password"
-        />
-      </Helmet>
+      <title>Zeleni svet | Zaboravljen password</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/forgot-password" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',

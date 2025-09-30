@@ -1,5 +1,5 @@
 import { request } from '@green-world/utils/api';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { ProductPreview } from './useHomeProducts';
 
@@ -25,17 +25,14 @@ export type ProductFiltersParams = {
 export const useAllProducts = (
   filters: ProductFiltersParams
 ): UseQueryResult<ProductsResponse> => {
-  return useQuery<ProductsResponse>(
-    ['allProducts', filters],
-    () =>
+  return useQuery<ProductsResponse>({
+    queryKey: ['allProducts', filters],
+    queryFn: () =>
       request({
         url: '/product/all',
         method: 'get',
         params: filters
       }),
-    {
-      keepPreviousData: true,
-      staleTime: 1000 * 30
-    }
-  );
+    staleTime: 1000 * 30
+  });
 };

@@ -18,8 +18,7 @@ import {
   Divider
 } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 export const Event = () => {
   const { eventId } = useParams();
@@ -29,13 +28,11 @@ export const Event = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | {eventData?.title ?? 'Green World'}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/event/${eventId}`}
-        />
-      </Helmet>
+      <title>Zeleni svet | {eventData?.title ?? 'Green World'}</title>
+      <link
+        rel="canonical"
+        href={`https://www.zelenisvet.rs/event/${eventId}`}
+      />
 
       <div
         className={clsx(

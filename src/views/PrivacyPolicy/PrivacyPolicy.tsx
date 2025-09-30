@@ -1,17 +1,11 @@
 import { Box, Typography, Container } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const PrivacyPolicy = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Politika privatnosti</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/privacy-policy`}
-        />
-      </Helmet>
+      <title>Zeleni svet | Politika privatnosti</title>
+      <link rel="canonical" href={`https://www.zelenisvet.rs/privacy-policy`} />
 
       <div
         className={clsx(

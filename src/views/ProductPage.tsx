@@ -15,8 +15,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 export const ProductPage = () => {
   const { productId } = useParams();
@@ -36,53 +35,50 @@ export const ProductPage = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | {productData?.title ?? 'Green World'}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/product/${productId}`}
-        />
-        <meta
-          name="description"
-          content={productData?.shortDescription ?? ''}
-        />
+      {/*   */}
+      <title>Zeleni svet | {productData?.title ?? 'Green World'}</title>
+      <link
+        rel="canonical"
+        href={`https://www.zelenisvet.rs/product/${productId}`}
+      />
+      <meta name="description" content={productData?.shortDescription ?? ''} />
 
-        {/* Open Graph / Facebook / WhatsApp / Viber */}
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={`https://www.zelenisvet.rs/product/${productId}`}
-        />
-        <meta
-          property="og:title"
-          content={`${productData?.title} | Zeleni Svet`}
-        />
-        <meta
-          property="og:description"
-          content={
-            productData?.shortDescription ?? productData?.description ?? ''
-          }
-        />
-        <meta property="og:image" content={productData?.images?.[0]} />
+      {/* Open Graph / Facebook / WhatsApp / Viber */}
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:url"
+        content={`https://www.zelenisvet.rs/product/${productId}`}
+      />
+      <meta
+        property="og:title"
+        content={`${productData?.title} | Zeleni Svet`}
+      />
+      <meta
+        property="og:description"
+        content={
+          productData?.shortDescription ?? productData?.description ?? ''
+        }
+      />
+      <meta property="og:image" content={productData?.images?.[0]} />
 
-        {/* Twitter / X */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:url"
-          content={`https://www.zelenisvet.rs/product/${productId}`}
-        />
-        <meta
-          name="twitter:title"
-          content={`${productData?.title} | Zeleni Svet`}
-        />
-        <meta
-          name="twitter:description"
-          content={
-            productData?.shortDescription ?? productData?.description ?? ''
-          }
-        />
-        <meta name="twitter:image" content={productData?.images?.[0]} />
-      </Helmet>
+      {/* Twitter / X */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:url"
+        content={`https://www.zelenisvet.rs/product/${productId}`}
+      />
+      <meta
+        name="twitter:title"
+        content={`${productData?.title} | Zeleni Svet`}
+      />
+      <meta
+        name="twitter:description"
+        content={
+          productData?.shortDescription ?? productData?.description ?? ''
+        }
+      />
+      <meta name="twitter:image" content={productData?.images?.[0]} />
+      {/*   */}
       <div
         className={clsx(
           'xl:max-w-[1400px]',

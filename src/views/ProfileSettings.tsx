@@ -1,21 +1,16 @@
 import { BackButton, CustomButton } from '@green-world/components';
 import { Card } from 'antd';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router';
 
 export const ProfileSettings = () => {
   const navigate = useNavigate();
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Podešavanje profila</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/profile-settings"
-        />
-      </Helmet>
+      <title>Zeleni svet | Podešavanje profila</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/profile-settings" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',

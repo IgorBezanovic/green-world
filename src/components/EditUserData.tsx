@@ -3,7 +3,6 @@ import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import clsx from 'clsx';
 import { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
@@ -12,7 +11,7 @@ import { CustomInput, CustomButton } from '.';
 
 export const EditUserData = () => {
   const { user, setUser, isLoading } = useContext(UserContext);
-  const { mutate, isLoading: isLoadingUser } = useEditUser();
+  const { mutate, isPending: isLoadingUser } = useEditUser();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,13 +46,12 @@ export const EditUserData = () => {
       className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
       onSubmit={handleSubmit}
     >
-      <Helmet>
-        <title>Zeleni svet | Podešavanje profila</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/profile-settings/edit-profile"
-        />
-      </Helmet>
+      <title>Zeleni svet | Podešavanje profila</title>
+      <link
+        rel="canonical"
+        href="https://www.zelenisvet.rs/profile-settings/edit-profile"
+      />
+
       <div className={clsx('flex-1', 'flex', 'flex-col')}>
         <label
           htmlFor="shopName"

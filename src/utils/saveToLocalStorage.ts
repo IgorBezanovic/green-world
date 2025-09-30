@@ -25,7 +25,7 @@ export const storeEncrypted = (
 export const getDecrypted = (
   type: string,
   id?: string
-): User | Product | null => {
+): User | Product | HomepageProductsResponse | null => {
   const key =
     type === 'homepage-products' ? 'homepage-products' : `${type}-${id}`;
   const encrypted = localStorage.getItem(key);

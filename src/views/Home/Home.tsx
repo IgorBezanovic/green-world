@@ -11,8 +11,7 @@ import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Grid, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const Home = () => {
   const { data, isLoading, isFetching } = useHomeProducts();
@@ -20,10 +19,8 @@ export const Home = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Green world</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/" />
-      </Helmet>
+      <title>Zeleni svet | Green world</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/" />
 
       <Box
         className={clsx(

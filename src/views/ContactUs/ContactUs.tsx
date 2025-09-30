@@ -5,10 +5,9 @@ import { ContactUsValues } from '@green-world/utils/types';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
 import { ReactNode, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export const ContactUs = () => {
-  const { mutate, error, isLoading } = useContactUs();
+  const { mutate, error, isPending } = useContactUs();
   const [contactForm, setContactForm] = useState<ContactUsValues>({
     subject: '',
     email: '',
@@ -38,10 +37,9 @@ export const ContactUs = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Kontaktirajte nas</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/contact-us" />
-      </Helmet>
+      <title>Zeleni svet | Kontaktirajte nas</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/contact-us" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -100,7 +98,7 @@ export const ContactUs = () => {
             type="text"
             name="subject"
             id="subject"
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.subject || ''}
             onChange={handleChange}
             placeholder="Tema poruke"
@@ -121,7 +119,7 @@ export const ContactUs = () => {
             type="text"
             name="email"
             id="email"
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.email || ''}
             onChange={handleChange}
             placeholder="Kako da vas kontaktiramo"
@@ -142,7 +140,7 @@ export const ContactUs = () => {
             name="message"
             id="message"
             rows={10}
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.message || ''}
             onChange={handleChange}
             placeholder="Unesite poruku"
@@ -155,8 +153,8 @@ export const ContactUs = () => {
               'md:hover:shadow-lg',
               'mb-4',
               {
-                'border-forestGreen': !isLoading,
-                'border-groupTransparent': isLoading
+                'border-forestGreen': !isPending,
+                'border-groupTransparent': isPending
               }
             )}
           />
@@ -164,7 +162,7 @@ export const ContactUs = () => {
             htmlType="submit"
             type="text"
             text={
-              isLoading ? (
+              isPending ? (
                 <LoadingOutlined
                   className={clsx('text-groupTransparent', 'my-2')}
                 />
@@ -175,10 +173,10 @@ export const ContactUs = () => {
             customStyle={[
               'mt-6',
               {
-                'border-groupTransparent': isLoading
+                'border-groupTransparent': isPending
               }
             ]}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {(error as ReactNode) && (
             <p className={clsx('font-medium', 'text-red', 'mt-2')}>

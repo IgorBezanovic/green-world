@@ -2,17 +2,14 @@ import { EventCarousel } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { Box, Typography } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const Events = () => {
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/events" />
-      </Helmet>
+      <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/events" />
 
       <Box
         className={clsx(

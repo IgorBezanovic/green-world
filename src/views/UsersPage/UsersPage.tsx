@@ -22,8 +22,7 @@ import {
   Search
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 export const UsersPage = () => {
   const { userId } = useParams();
@@ -71,41 +70,30 @@ export const UsersPage = () => {
 
   return (
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
-      <Helmet>
-        <title>Zeleni svet | {data?.shopName || data?.name}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/user/${userId}`}
-        />
-        {/* Open Graph / Facebook / WhatsApp / Viber */}
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={`https://www.zelenisvet.rs/product/${userId}`}
-        />
-        <meta
-          property="og:title"
-          content={`${data?.shopName} | ${data?.name}`}
-        />
-        <meta property="og:description" content={`${data?.shopDescription}`} />
-        <meta property="og:image" content={`${data?.profileImage}`} />
+      <title>Zeleni svet | {data?.shopName || data?.name}</title>
+      <link rel="canonical" href={`https://www.zelenisvet.rs/user/${userId}`} />
+      {/* Open Graph / Facebook / WhatsApp / Viber */}
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:url"
+        content={`https://www.zelenisvet.rs/product/${userId}`}
+      />
+      <meta property="og:title" content={`${data?.shopName} | ${data?.name}`} />
+      <meta property="og:description" content={`${data?.shopDescription}`} />
+      <meta property="og:image" content={`${data?.profileImage}`} />
 
-        {/* Twitter / X */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:url"
-          content={`https://www.zelenisvet.rs/product/${userId}`}
-        />
-        <meta
-          name="twitter:title"
-          content={`${data?.shopName} | ${data?.name} | Zeleni Svet`}
-        />
-        <meta
-          name="twitter:description"
-          content={data?.shopDescription || ''}
-        />
-        <meta name="twitter:image" content={data?.profileImage} />
-      </Helmet>
+      {/* Twitter / X */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:url"
+        content={`https://www.zelenisvet.rs/product/${userId}`}
+      />
+      <meta
+        name="twitter:title"
+        content={`${data?.shopName} | ${data?.name} | Zeleni Svet`}
+      />
+      <meta name="twitter:description" content={data?.shopDescription || ''} />
+      <meta name="twitter:image" content={data?.profileImage} />
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">

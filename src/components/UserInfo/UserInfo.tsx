@@ -20,7 +20,7 @@ import {
   Settings,
   Milestone
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();

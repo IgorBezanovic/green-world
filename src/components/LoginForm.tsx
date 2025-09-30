@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Divider, GoogleLoginAuth, MetaLoginAuth } from '../components';
 import { CustomButton } from './CustomButton';

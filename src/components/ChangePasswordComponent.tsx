@@ -6,10 +6,9 @@ import { Box } from '@mui/material';
 import { Badge, Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export const ChangePasswordComponent = () => {
-  const { mutate, error, isLoading } = useChangePassword();
+  const { mutate, error, isPending } = useChangePassword();
 
   const [passwordCollection, setPasswordCollection] =
     useState<NewPasswordValues>({
@@ -33,13 +32,12 @@ export const ChangePasswordComponent = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Helmet>
-        <title>Zeleni svet | Promena lozinke</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/profile-settings/change-password"
-        />
-      </Helmet>
+      <title>Zeleni svet | Promena lozinke</title>
+      <link
+        rel="canonical"
+        href="https://www.zelenisvet.rs/profile-settings/change-password"
+      />
+
       <Box
         component="label"
         htmlFor="currentPassword"
@@ -61,7 +59,7 @@ export const ChangePasswordComponent = () => {
         name="currentPassword"
         id="currentPassword"
         onChange={handleChange}
-        disabled={isLoading}
+        disabled={isPending}
       />
       <Box
         component="label"
@@ -85,7 +83,7 @@ export const ChangePasswordComponent = () => {
         name="newPassword"
         id="newPassword"
         onChange={handleChange}
-        disabled={isLoading}
+        disabled={isPending}
       />
       <Box
         component="label"
@@ -118,7 +116,7 @@ export const ChangePasswordComponent = () => {
           name="confirmNewPassword"
           id="confirmNewPassword"
           onChange={handleChange}
-          disabled={isLoading}
+          disabled={isPending}
           status={
             passwordCollection.newPassword !==
             passwordCollection.confirmNewPassword
@@ -131,7 +129,7 @@ export const ChangePasswordComponent = () => {
         htmlType="submit"
         type="text"
         text={
-          isLoading ? (
+          isPending ? (
             <LoadingOutlined
               className={clsx('text-groupTransparent', 'my-2')}
             />
@@ -143,11 +141,11 @@ export const ChangePasswordComponent = () => {
           'mt-10',
           'w-full',
           {
-            'border-groupTransparent': isLoading
+            'border-groupTransparent': isPending
           }
         ]}
         disabled={
-          isLoading ||
+          isPending ||
           passwordCollection.newPassword !==
             passwordCollection.confirmNewPassword
         }

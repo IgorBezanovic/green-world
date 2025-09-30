@@ -16,7 +16,7 @@ import {
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { PopDelete } from '../PopDelete';
 

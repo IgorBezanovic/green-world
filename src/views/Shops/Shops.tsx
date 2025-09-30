@@ -10,8 +10,7 @@ import {
 import clsx from 'clsx';
 import { Store, MapPin, Mail } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 // Helper funkcija za sortiranje po prioritetu
 const sortUsersByPriority = (users: any[]) => {
@@ -62,10 +61,8 @@ export const Shops = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <Helmet>
-        <title>Zeleni svet | Prodavnice | Green world</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/shops" />
-      </Helmet>
+      <title>Zeleni svet | Prodavnice | Green world</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/shops" />
 
       <Box
         className={clsx(

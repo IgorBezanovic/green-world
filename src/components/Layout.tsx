@@ -9,7 +9,7 @@ import {
 } from '@green-world/components';
 import { Box } from '@mui/material';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 export const Layout = () => {
   return (

@@ -9,8 +9,7 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import { ChartNoAxesCombined } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router';
 
 const drawerWidth = 220;
 
@@ -22,10 +21,8 @@ export const AdminPanel = () => {
       className={clsx('w-full', 'bg-whiteLinen', 'min-h-screen', 'relative')}
       sx={{ display: 'flex' }}
     >
-      <Helmet>
-        <title>Zeleni svet | Admin Panel</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/admin" />
-      </Helmet>
+      <title>Zeleni svet | Admin Panel</title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/admin" />
 
       {/* Drawer meni */}
       <Drawer

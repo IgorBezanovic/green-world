@@ -12,11 +12,10 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import PhoneInput from 'react-phone-input-2';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import 'react-phone-input-2/lib/style.css';
 
 const initEvent: Event = {
@@ -64,14 +63,14 @@ export const CreateEditEvent = () => {
 
   const {
     mutate: imageMutate,
-    isLoading: isImageLoading,
+    isPending: isImageLoading,
     data: eventImage
   } = useImage();
 
-  const { mutate: createMutation, isLoading: isLoadingCreateEvent } =
+  const { mutate: createMutation, isPending: isLoadingCreateEvent } =
     useCreateEvent();
 
-  const { mutate: editMutation, isLoading: isLoadingEditEvent } =
+  const { mutate: editMutation, isPending: isLoadingEditEvent } =
     useEditEvent(eventID);
 
   const [event, setEvent] = useState<Event>(initEvent);
@@ -134,12 +133,11 @@ export const CreateEditEvent = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>
-          Zeleni svet | {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
-        </title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/create-event" />
-      </Helmet>
+      <title>
+        Zeleni svet | {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
+      </title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/create-event" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',

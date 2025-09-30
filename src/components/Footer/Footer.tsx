@@ -5,7 +5,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { Box, Typography, IconButton, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');

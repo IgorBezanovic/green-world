@@ -1,13 +1,13 @@
 import UserContext from '@green-world/context/UserContext';
 import { request } from '@green-world/utils/api';
+import { useMutation } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { useMutation } from 'react-query';
 
 export const useImage = (isUserProfileImage?: boolean) => {
   const { user, setUser } = useContext(UserContext);
 
-  return useMutation(
-    (file: FormData) =>
+  return useMutation({
+    mutationFn: (file: FormData) =>
       request({
         url: '/storage/upload/',
         method: 'post',
@@ -16,14 +16,12 @@ export const useImage = (isUserProfileImage?: boolean) => {
           'Content-Type': 'multipart/form-data'
         }
       }),
-    {
-      onSuccess: (data: string) => {
-        isUserProfileImage &&
-          setUser({
-            ...user,
-            profileImage: data
-          });
-      }
+    onSuccess: (data: string) => {
+      isUserProfileImage &&
+        setUser({
+          ...user,
+          profileImage: data
+        });
     }
-  );
+  });
 };
