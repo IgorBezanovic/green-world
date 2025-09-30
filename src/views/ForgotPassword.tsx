@@ -1,11 +1,14 @@
-import { BackButton, ForgotPasswordForm } from '@green-world/components';
+import {
+  BackButton,
+  ForgotPasswordForm,
+  MetaTags
+} from '@green-world/components';
 import clsx from 'clsx';
 
 export const ForgotPassword = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Zaboravljen password</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/forgot-password" />
+      <MetaTags title={'Zeleni Svet | Zaboravljena Lozinka | Green World'} />
 
       <div
         className={clsx(

@@ -3,7 +3,8 @@ import {
   GroupButton,
   LazySection,
   ProductSection,
-  GridProducts
+  GridProducts,
+  MetaTags
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
@@ -19,9 +20,7 @@ export const Home = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Green world</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/" />
-
+      <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',

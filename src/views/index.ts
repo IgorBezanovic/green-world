@@ -3,7 +3,6 @@ export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/Event';
 export * from '@green-world/views/Events';
-export * from '@green-world/views/GroupProducts';
 export * from '@green-world/views/Home';
 export * from '@green-world/views/PrivacyPolicy';
 export * from '@green-world/views/Products';

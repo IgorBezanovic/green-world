@@ -71,39 +71,41 @@ export const ProductCard = ({
           overflow: 'hidden'
         }}
       >
-        {/* Blur placeholder */}
-        <Box
-          component="img"
-          src={blurImage}
-          alt={product.title}
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'blur(20px)',
-            transform: 'scale(1.05)',
-            transition: 'opacity 0.5s ease',
-            opacity: loaded ? 0 : 1
-          }}
-        />
-        {/* Main image */}
-        <Box
-          component="img"
-          src={mainImage}
-          alt={product.title}
-          loading={isHero ? 'eager' : 'lazy'}
-          decoding="async"
-          onLoad={() => setLoaded(true)}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'opacity 0.5s ease',
-            opacity: loaded ? 1 : 0
-          }}
-        />
+        {blurImage && (
+          <Box
+            component="img"
+            src={blurImage}
+            alt={product.title}
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'blur(20px)',
+              transform: 'scale(1.05)',
+              transition: 'opacity 0.5s ease',
+              opacity: loaded ? 0 : 1
+            }}
+          />
+        )}
+        {mainImage && (
+          <Box
+            component="img"
+            src={mainImage}
+            alt={product.title}
+            loading={isHero ? 'eager' : 'lazy'}
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'opacity 0.5s ease',
+              opacity: loaded ? 1 : 0
+            }}
+          />
+        )}
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

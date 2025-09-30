@@ -1,5 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import {
+  BackButton,
+  CustomButton,
+  CustomInput,
+  MetaTags
+} from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -131,13 +136,11 @@ export const CreateEditEvent = () => {
     );
   }
 
+  const pageTitle = `Zeleni svet | ${eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}`;
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>
-        Zeleni svet | {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
-      </title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/create-event" />
-
+      <MetaTags title={pageTitle} />
       <div
         className={clsx(
           'xl:max-w-[1400px]',

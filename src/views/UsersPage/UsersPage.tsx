@@ -1,4 +1,4 @@
-import { ProductCard } from '@green-world/components';
+import { MetaTags, ProductCard } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import {
@@ -51,6 +51,19 @@ export const UsersPage = () => {
     });
   }, [sellerProducts, search]);
 
+  const metaObj = useMemo(
+    () => ({
+      title: data
+        ? ['Zeleni svet', 'Korisnicki profil', data.shopName, data.name]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | Korisnicki profil',
+      description: data?.shopDescription || 'Korisnicki profil Zeleni Svet',
+      image: data?.profileImage || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [data]
+  );
+
   if (!userId) return <></>;
   if (isLoading) {
     return (
@@ -70,30 +83,12 @@ export const UsersPage = () => {
 
   return (
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
-      <title>Zeleni svet | {data?.shopName || data?.name}</title>
-      <link rel="canonical" href={`https://www.zelenisvet.rs/user/${userId}`} />
-      {/* Open Graph / Facebook / WhatsApp / Viber */}
-      <meta property="og:type" content="website" />
-      <meta
-        property="og:url"
-        content={`https://www.zelenisvet.rs/product/${userId}`}
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
       />
-      <meta property="og:title" content={`${data?.shopName} | ${data?.name}`} />
-      <meta property="og:description" content={`${data?.shopDescription}`} />
-      <meta property="og:image" content={`${data?.profileImage}`} />
-
-      {/* Twitter / X */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:url"
-        content={`https://www.zelenisvet.rs/product/${userId}`}
-      />
-      <meta
-        name="twitter:title"
-        content={`${data?.shopName} | ${data?.name} | Zeleni Svet`}
-      />
-      <meta name="twitter:description" content={data?.shopDescription || ''} />
-      <meta name="twitter:image" content={data?.profileImage} />
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">

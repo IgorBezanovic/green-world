@@ -1,4 +1,4 @@
-import { ProductSection, UserInfo } from '@green-world/components';
+import { ProductSection, UserInfo, MetaTags } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -14,7 +14,7 @@ import {
   ArrowLeft,
   ArrowRight
 } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
 export const ProductPage = () => {
@@ -31,54 +31,29 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
 
+  const metaObj = useMemo(
+    () => ({
+      title: productData
+        ? ['Zeleni svet', 'Proizvod', productData.title]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | proizvod',
+      description: productData?.description || 'Proizvod Zeleni Svet',
+      image:
+        productData?.images[0] || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [productData]
+  );
   if (!productId) return <></>;
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      {/*   */}
-      <title>Zeleni svet | {productData?.title ?? 'Green World'}</title>
-      <link
-        rel="canonical"
-        href={`https://www.zelenisvet.rs/product/${productId}`}
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
       />
-      <meta name="description" content={productData?.shortDescription ?? ''} />
-
-      {/* Open Graph / Facebook / WhatsApp / Viber */}
-      <meta property="og:type" content="website" />
-      <meta
-        property="og:url"
-        content={`https://www.zelenisvet.rs/product/${productId}`}
-      />
-      <meta
-        property="og:title"
-        content={`${productData?.title} | Zeleni Svet`}
-      />
-      <meta
-        property="og:description"
-        content={
-          productData?.shortDescription ?? productData?.description ?? ''
-        }
-      />
-      <meta property="og:image" content={productData?.images?.[0]} />
-
-      {/* Twitter / X */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:url"
-        content={`https://www.zelenisvet.rs/product/${productId}`}
-      />
-      <meta
-        name="twitter:title"
-        content={`${productData?.title} | Zeleni Svet`}
-      />
-      <meta
-        name="twitter:description"
-        content={
-          productData?.shortDescription ?? productData?.description ?? ''
-        }
-      />
-      <meta name="twitter:image" content={productData?.images?.[0]} />
-      {/*   */}
       <div
         className={clsx(
           'xl:max-w-[1400px]',

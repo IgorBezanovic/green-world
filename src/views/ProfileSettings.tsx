@@ -1,4 +1,4 @@
-import { BackButton, CustomButton } from '@green-world/components';
+import { BackButton, CustomButton, MetaTags } from '@green-world/components';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { Outlet, useNavigate } from 'react-router';
@@ -8,8 +8,7 @@ export const ProfileSettings = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Podešavanje profila</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/profile-settings" />
+      <MetaTags title={'Zeleni svet | Podešavanje profila'} />
 
       <div
         className={clsx(

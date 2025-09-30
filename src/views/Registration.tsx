@@ -1,4 +1,8 @@
-import { BackButton, RegistrationForm } from '@green-world/components';
+import {
+  BackButton,
+  MetaTags,
+  RegistrationForm
+} from '@green-world/components';
 import { useSignUp } from '@green-world/hooks/useSignUp';
 import clsx from 'clsx';
 
@@ -14,8 +18,7 @@ export const Registration = () => {
         backgroundPosition: 'center'
       }}
     >
-      <title>Zeleni svet | Registruj se</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/registration" />
+      <MetaTags title={'Zeleni svet | Registruj se'} />
 
       <div
         className={clsx(

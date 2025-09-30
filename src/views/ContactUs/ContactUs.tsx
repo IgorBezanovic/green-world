@@ -1,5 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import {
+  BackButton,
+  CustomButton,
+  CustomInput,
+  MetaTags
+} from '@green-world/components';
 import { useContactUs } from '@green-world/hooks/useContactUs';
 import { ContactUsValues } from '@green-world/utils/types';
 import TextArea from 'antd/es/input/TextArea';
@@ -37,9 +42,7 @@ export const ContactUs = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Kontaktirajte nas</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/contact-us" />
-
+      <MetaTags title={'Zeleni svet | Kontaktirajte nas'} />
       <div
         className={clsx(
           'xl:max-w-[1400px]',

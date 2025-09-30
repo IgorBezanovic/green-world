@@ -1,3 +1,4 @@
+import { MetaTags } from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
 import {
   Box,
@@ -61,9 +62,7 @@ export const Shops = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <title>Zeleni svet | Prodavnice | Green world</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/shops" />
-
+      <MetaTags title={'Zeleni svet | Prodavnice | Green world'} />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',

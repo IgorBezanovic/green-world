@@ -1,3 +1,4 @@
+import { MetaTags } from '@green-world/components';
 import {
   Box,
   Drawer,
@@ -21,9 +22,7 @@ export const AdminPanel = () => {
       className={clsx('w-full', 'bg-whiteLinen', 'min-h-screen', 'relative')}
       sx={{ display: 'flex' }}
     >
-      <title>Zeleni svet | Admin Panel</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/admin" />
-
+      <MetaTags title={'Zeleni svet | Admin Panel'} />
       {/* Drawer meni */}
       <Drawer
         variant="permanent"

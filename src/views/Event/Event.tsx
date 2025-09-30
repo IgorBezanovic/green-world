@@ -1,3 +1,4 @@
+import { MetaTags } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
 import {
   CalendarToday,
@@ -18,22 +19,37 @@ import {
   Divider
 } from '@mui/material';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
 export const Event = () => {
   const { eventId } = useParams();
   const { data: eventData } = useEvent(eventId!);
 
+  const metaObj = useMemo(
+    () => ({
+      title: eventData
+        ? ['Zeleni svet', 'Dogadjaj', eventData.title]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | Dogadjaj',
+      description: eventData?.description || 'Dogadjaj | Zeleni Svet',
+      image:
+        eventData?.coverImage || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [eventData]
+  );
+
   if (!eventId || !eventData) return null;
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | {eventData?.title ?? 'Green World'}</title>
-      <link
-        rel="canonical"
-        href={`https://www.zelenisvet.rs/event/${eventId}`}
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
       />
-
       <div
         className={clsx(
           'xl:max-w-[1400px]',

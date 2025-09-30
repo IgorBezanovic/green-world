@@ -1,4 +1,4 @@
-import { LoginForm } from '@green-world/components';
+import { LoginForm, MetaTags } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import { Box, Theme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
@@ -15,8 +15,7 @@ export const Login = () => {
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Prijavi se</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/login" />
+      <MetaTags title={'Zeleni Svet | Prijavi se | Green World'} />
 
       <div
         className={clsx(

@@ -1,4 +1,4 @@
-import { ProductCard } from '@green-world/components';
+import { ProductCard, MetaTags } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
@@ -12,19 +12,24 @@ import {
   Select,
   TextField,
   Typography,
-  Button
+  Button,
+  CircularProgress
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState, useRef } from 'react';
+import { useParams } from 'react-router';
 
 export const Products = () => {
+  const { category = '' } = useParams();
+  const categoryName =
+    category && homeCategories.find((item) => item.slug === category)?.text;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [search, setSearch] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState(category ?? '');
   const [selectedSubgroup, setSelectedSubgroup] = useState('');
   const [priceRange, setPriceRange] = useState<
     [number | undefined, number | undefined]
@@ -40,14 +45,12 @@ export const Products = () => {
 
   const { data, isFetching, refetch } = useAllProducts(filtersToSend);
 
-  // Zadrži stare proizvode dok ne stigne nova lista
   useEffect(() => {
     if (!isFetching && data?.products) {
       setOldProducts(data.products);
     }
   }, [data, isFetching]);
 
-  // Ručni debounce za filtere
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
@@ -64,7 +67,7 @@ export const Products = () => {
       };
       setFiltersToSend(newFilters);
       refetch();
-    }, 300); // 300ms debounce
+    }, 300);
 
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
@@ -90,8 +93,7 @@ export const Products = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-
+      <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
       <Box
         className={clsx(
           'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7 flex flex-col gap-7'
@@ -143,10 +145,16 @@ export const Products = () => {
                       color="secondary.main"
                       sx={{ fontFamily: 'Ephesis' }}
                     >
-                      Proizvodi
+                      {categoryName || 'Proizvodi'}
                     </Typography>
                     {isFetching && (
-                      <Typography variant="overline">Učitavam..</Typography>
+                      <Typography
+                        variant="overline"
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <CircularProgress size={16} thickness={4} />
+                        Učitavam..
+                      </Typography>
                     )}
                   </Box>
 
@@ -182,37 +190,38 @@ export const Products = () => {
                       }}
                     />
                   </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: (theme) => theme.palette.text.primary }}
-                      id="group"
-                    >
-                      Grupa
-                    </InputLabel>
-                    <Select
-                      labelId="group"
-                      value={selectedGroup}
-                      onChange={(e) => setSelectedGroup(e.target.value)}
-                      fullWidth
-                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
-                      displayEmpty
-                      renderValue={(selected) => {
-                        if (!selected) return 'Sve grupe';
-                        const cat = homeCategories.find(
-                          (c) => c.slug === selected
-                        );
-                        return cat ? cat.text : 'Sve grupe';
-                      }}
-                    >
-                      <MenuItem value="">Sve grupe</MenuItem>
-                      {homeCategories.map((cat) => (
-                        <MenuItem key={cat.slug} value={cat.slug}>
-                          {cat.text}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
+                  {!category && (
+                    <Box>
+                      <InputLabel
+                        sx={{ color: (theme) => theme.palette.text.primary }}
+                        id="group"
+                      >
+                        Grupa
+                      </InputLabel>
+                      <Select
+                        labelId="group"
+                        value={selectedGroup}
+                        onChange={(e) => setSelectedGroup(e.target.value)}
+                        fullWidth
+                        sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (!selected) return 'Sve grupe';
+                          const cat = homeCategories.find(
+                            (c) => c.slug === selected
+                          );
+                          return cat ? cat.text : 'Sve grupe';
+                        }}
+                      >
+                        <MenuItem value="">Sve grupe</MenuItem>
+                        {homeCategories.map((cat) => (
+                          <MenuItem key={cat.slug} value={cat.slug}>
+                            {cat.text}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Box>
+                  )}
                   <Box>
                     <InputLabel
                       sx={{ color: (theme) => theme.palette.text.primary }}
@@ -318,15 +327,43 @@ export const Products = () => {
             <Box
               component={'section'}
               className={clsx('w-full', 'grid', 'gap-5', {
-                'grid-cols-2': data?.products?.length,
-                'sm:grid-cols-3': data?.products?.length,
-                'lgm:grid-cols-4': data?.products?.length
+                'grid-cols-2': oldProducts?.length || data?.products?.length,
+                'lgm:grid-cols-4': oldProducts?.length || data?.products?.length
               })}
+              sx={{
+                minHeight: 500
+              }}
             >
               {isFetching ? (
-                oldProducts.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))
+                oldProducts.length ? (
+                  oldProducts.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))
+                ) : (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: {
+                        xs: 'repeat(2, 1fr)',
+                        lg: 'repeat(4, 1fr)'
+                      }
+                    }}
+                  >
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          height: 200,
+                          width: '100%',
+                          backgroundColor: theme.palette.grey[100],
+                          borderRadius: 2
+                        }}
+                      />
+                    ))}
+                  </Box>
+                )
               ) : data?.products.length ? (
                 data?.products.map((product) => (
                   <ProductCard key={product._id} product={product} />

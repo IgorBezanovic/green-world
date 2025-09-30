@@ -3,7 +3,8 @@ import {
   CustomButton,
   CustomInput,
   UserInfo,
-  EventProfileCard
+  EventProfileCard,
+  MetaTags
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
@@ -11,7 +12,7 @@ import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import './style.css';
@@ -63,13 +64,28 @@ export const UserProfile = () => {
     }
   };
 
+  const metaObj = useMemo(
+    () => ({
+      title: user
+        ? ['Zeleni svet', 'Korisnicki profil', user.shopName, user.name]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | Korisnicki profil',
+      description: user?.shopDescription || 'Korisnicki profil Zeleni Svet',
+      image: user?.profileImage || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [user]
+  );
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Korisnicki profil</title>
-      <meta property="og:image" content={`${user?.profileImage}`} />
-      <meta property="og:title" content={`${user?.shopName} | ${user?.name}`} />
-      <meta property="og:description" content={`${user?.shopDescription}`} />
-      <link rel="canonical" href="https://www.zelenisvet.rs/profile" />
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
+      />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',

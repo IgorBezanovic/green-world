@@ -9,7 +9,6 @@ import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
   Event,
-  GroupProducts,
   Home,
   Products,
   CreateEditProduct,
@@ -90,7 +89,7 @@ export const routes = [
       },
       {
         path: '/search/:category',
-        element: <GroupProducts />
+        element: <Products />
       },
       {
         path: '/contact-us',

@@ -1,5 +1,10 @@
 import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import {
+  BackButton,
+  CustomButton,
+  CustomInput,
+  MetaTags
+} from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
@@ -242,8 +247,11 @@ export const CreateEditProduct = () => {
     );
   }
 
+  const pageTitle = `Zeleni svet | ${productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}`;
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+      <MetaTags title={pageTitle} />
       <title>
         Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
       </title>

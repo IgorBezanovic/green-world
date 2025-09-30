@@ -1,11 +1,11 @@
+import { MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
 import clsx from 'clsx';
 
 export const PrivacyPolicy = () => {
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Politika privatnosti</title>
-      <link rel="canonical" href={`https://www.zelenisvet.rs/privacy-policy`} />
+      <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
 
       <div
         className={clsx(

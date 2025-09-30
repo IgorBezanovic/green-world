@@ -21,12 +21,7 @@ import '@fontsource/ephesis';
 const queryClient = new QueryClient();
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-const router = createBrowserRouter(routes, {
-  future: {
-    v7_relativeSplatPath: true,
-    v7_normalizeFormMethod: true
-  }
-});
+const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

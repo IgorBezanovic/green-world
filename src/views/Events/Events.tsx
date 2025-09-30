@@ -1,4 +1,4 @@
-import { EventCarousel } from '@green-world/components';
+import { EventCarousel, MetaTags } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { Box, Typography } from '@mui/material';
 import clsx from 'clsx';
@@ -8,9 +8,7 @@ export const Events = () => {
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <title>Zeleni svet | Pretraga proizvoda | Svi proizvodi</title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/events" />
-
+      <MetaTags title={'Zeleni svet | Pretraga Dogadjaja '} />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
