@@ -15,17 +15,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Igor Bezanovic | igorbezanovic@gmail.com">
     <link rel="apple-touch-icon" href="https://www.zelenisvet.rs/apple-touch-icon.png">
+    <meta name="description" content="Besplatna web platforma za oglašavanje proizvoda iz oblasti cvećarstva, baštovanstva, biljnih dekoracija i poljoprivrednih apoteka. Gradimo zajednicu ljubitelja biljaka i prirode.">
+    <meta name="keywords" content="cvece, biljke, saksije, zeleno, svet, buketi cveca, oprema za baštovanstvo, baštenski alati, biljke, semena, dodaci za baštovanstvo, zeleni proizvodi, ekološko baštovanstvo, baštenski materijal, biljke za spolja, biljke za unutra, nega travnjaka, nega biljaka, održivo baštovanstvo, dekoracija bašte | gardening equipment, garden tools, plants, seeds, gardening accessories, green products, eco-friendly gardening, garden supplies, outdoor plants, indoor plants, lawn care, plant care, sustainable gardening, garden decor">
+    <meta property="og:title" content="Zeleni svet | Green World" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content='https://www.zelenisvet.rs/green-world.svg' />
+    <meta property="og:url" content="https://zelenisvet.rs" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://zelenisvet.rs" />
+    <meta name="twitter:title" content="Zeleni svet | Green World" />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content='https://www.zelenisvet.rs/green-world.svg' />
+    <link rel="canonical" href="https://www.zelenisvet.rs" />
     <script type="application/ld+json">
-      {"@context" : "https://schema.org",
-       "@type" : "Organization",  
-        "name" : "Zeleni svet",
-        "url" : "https://www.zelenisvet.rs/", 
-        "logo": "https://www.zelenisvet.rs/garden_decoration-min.jpg" }
-      </script>
+      {JSON.stringify(
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: `Zeleni svet | Green World`,
+          description: 'Besplatna web platforma za oglašavanje proizvoda iz oblasti cvećarstva, baštovanstva, biljnih dekoracija i poljoprivrednih apoteka. Gradimo zajednicu ljubitelja biljaka i prirode.',
+          url: 'https://www.zelenisvet.rs',
+          image: 'https://www.zelenisvet.rs/green-world.svg',
+          publisher: {
+            '@type': 'Organization',
+            name: 'Zeleni svet',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://media.licdn.com/dms/image/v2/D4D0BAQFVzgxtJMN08g/company-logo_100_100/B4DZlcK5XVH0AQ-/0/1758187984852/zeleni_svet_logo?e=1762387200&v=beta&t=eAPy1aq48-Bs1CJrgA84bAnPLrBmlr0iXTRzASHn22M'
+            }
+          }
+        },
+        null,
+        2
+      )}
+    </script>
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <link href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" rel="stylesheet">
     <title>Zeleni svet | Green world</title>
   </head>
   <body>
