@@ -102,14 +102,14 @@ export const Shops = () => {
           >
             {filteredUsers.map((user) => {
               const hasAddress =
-                user.address?.street ||
-                user.address?.city ||
-                user.address?.country;
+                user?.address?.street ||
+                user?.address?.city ||
+                user?.address?.country;
 
               return (
                 <Link
-                  to={`/user/${user._id}`}
-                  key={user._id}
+                  to={`/user/${user?._id}`}
+                  key={user?._id}
                   style={{ textDecoration: 'none' }}
                 >
                   <Card
@@ -142,8 +142,8 @@ export const Shops = () => {
                             loading="lazy"
                             allowFullScreen
                             src={`https://www.google.com/maps?q=${encodeURIComponent(
-                              `${user.address?.street || ''}, ${user.address?.city || ''}, ${
-                                user.address?.country || ''
+                              `${user?.address?.street || ''}, ${user?.address?.city || ''}, ${
+                                user?.address?.country || ''
                               }`
                             )}&output=embed`}
                             onLoad={() => setLoadingMap(false)}
@@ -169,8 +169,8 @@ export const Shops = () => {
                       }}
                     >
                       <Avatar
-                        src={user.profileImage}
-                        alt={user.name}
+                        src={user?.profileImage}
+                        alt={user?.name}
                         sx={{
                           width: 80,
                           height: 80,
@@ -180,22 +180,22 @@ export const Shops = () => {
                           mt: -6
                         }}
                       />
-                      {(user.shopName || user.name) && (
+                      {(user?.shopName || user?.name) && (
                         <Typography
                           variant="h6"
                           className="flex items-center font-bold text-gray-800"
                           gutterBottom
                         >
                           <Store className="inline-block mr-1 h-5 w-5" />
-                          {user.shopName || user.name}
+                          {user?.shopName || user?.name}
                         </Typography>
                       )}
-                      {user.shopDescription && (
+                      {user?.shopDescription && (
                         <Typography
                           variant="body2"
                           className="text-gray-600 line-clamp-3"
                         >
-                          {user.shopDescription}
+                          {user?.shopDescription}
                         </Typography>
                       )}
 
@@ -203,16 +203,16 @@ export const Shops = () => {
                         className="flex flex-col gap-1 mt-3 text-sm text-gray-700"
                         sx={{ flexGrow: 1 }}
                       >
-                        {user.address?.city && (
+                        {user?.address?.city && (
                           <Box className="flex items-center gap-1 justify-center">
                             <MapPin className="h-4 w-4" />
-                            {user.address.city}, {user.address.country}
+                            {user?.address?.city}, {user?.address?.country}
                           </Box>
                         )}
-                        {user.email && (
+                        {user?.email && (
                           <Box className="flex items-center gap-1 justify-center">
                             <Mail className="h-4 w-4" />
-                            {user.email}
+                            {user?.email}
                           </Box>
                         )}
                       </Box>

@@ -92,7 +92,9 @@ export const UsersPage = () => {
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
-        {data?.address.street || data?.address.city || data?.address.country ? (
+        {data?.address?.street ||
+        data?.address?.city ||
+        data?.address?.country ? (
           <iframe
             width="100%"
             height="100%"
@@ -100,7 +102,7 @@ export const UsersPage = () => {
             loading="lazy"
             allowFullScreen
             src={`https://www.google.com/maps?q=${encodeURIComponent(
-              `${data?.address.street}, ${data?.address.city}, ${data?.address.country}`
+              `${data?.address?.street}, ${data?.address?.city}, ${data?.address?.country}`
             )}&output=embed`}
           />
         ) : sellerProducts?.length ? (
