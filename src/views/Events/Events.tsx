@@ -1,14 +1,22 @@
-import { EventCarousel, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  EventCarousel,
+  MetaTags
+} from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { Box, Typography } from '@mui/material';
 import clsx from 'clsx';
 
 export const Events = () => {
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Događaji', route: '/events' }
+  ];
 
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <MetaTags title={'Zeleni svet | Pretraga Dogadjaja '} />
+      <MetaTags title={'Zeleni svet | Pretraga Događaja '} />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
@@ -20,10 +28,10 @@ export const Events = () => {
           'py-7',
           'flex',
           'flex-col',
-          'items-center',
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
         <Typography
           variant="h2"
           sx={(theme) => ({
@@ -32,16 +40,18 @@ export const Events = () => {
               fontSize: '3rem !important'
             },
             color: 'secondary.main',
-            fontFamily: 'Ephesis'
+            fontFamily: 'Ephesis',
+            marginX: 'auto'
           })}
         >
-          Aktivnosti
+          Događaji
         </Typography>
         <Typography
           variant="body1"
           sx={{
             textAlign: 'center',
-            maxWidth: '900px'
+            maxWidth: '900px',
+            marginX: 'auto'
           }}
         >
           U okviru aktivnosti koje naši korisnici mogu pratiti i učestvovati,

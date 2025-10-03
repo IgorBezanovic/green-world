@@ -1,17 +1,17 @@
-import { LoginForm, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, LoginForm, MetaTags } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
-import { Box, Theme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
-import { Link, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 
 export const Login = () => {
   const { mutate, error, isPending } = useLogin();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const isUserLogged = queryParams.get('isUserLogged');
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('md')
-  );
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Uloguj se', route: '/login' }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -25,20 +25,14 @@ export const Login = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-4',
+          'py-7',
           'xl:py-0-20',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        {isMobile && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 1 }}>
-            <Link to={'/'} className="underline text-forestGreen">
-              Nazad
-            </Link>
-          </Box>
-        )}
+        <AppBreadcrumbs pages={pages} />
         <LoginForm
           mutate={mutate}
           error={error}

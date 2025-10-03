@@ -1,8 +1,13 @@
-import { MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
 import clsx from 'clsx';
 
 export const PrivacyPolicy = () => {
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Politika privatnosti', route: '/privacy-policy' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
@@ -21,6 +26,8 @@ export const PrivacyPolicy = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="h3" gutterBottom>
             Politika privatnosti

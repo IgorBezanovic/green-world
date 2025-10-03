@@ -22,7 +22,7 @@ import {
   UserProfile,
   CreateEditEvent,
   AdminPanel,
-  UsersPage,
+  ShopPage,
   Events,
   Shops
 } from '@green-world/views';
@@ -55,7 +55,7 @@ export const routes = [
       },
       {
         path: '/user/:userId',
-        element: <ProtectedRoute element={UsersPage} />
+        element: <ProtectedRoute element={ShopPage} />
       },
       {
         path: '/profile-settings',

@@ -3,14 +3,7 @@ import clsx from 'clsx';
 
 export const UnderConstruction = () => {
   return (
-    <div
-      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
-      style={{
-        backgroundImage: "url('/background_login.jpeg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Stranica je trenutno u izradi'} />
       <div className="bg-gray-100">
         <div className="min-h-screen flex flex-col justify-center items-center">

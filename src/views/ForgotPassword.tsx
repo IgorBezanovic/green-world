@@ -1,11 +1,17 @@
 import {
-  BackButton,
+  AppBreadcrumbs,
   ForgotPasswordForm,
   MetaTags
 } from '@green-world/components';
 import clsx from 'clsx';
 
 export const ForgotPassword = () => {
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Uloguj se', route: '/login' },
+    { label: 'Zaboravljena Lozinka', route: '/forgot-password' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni Svet | Zaboravljena Lozinka | Green World'} />
@@ -24,17 +30,7 @@ export const ForgotPassword = () => {
           'gap-7'
         )}
       >
-        <div
-          className={clsx(
-            'hidden',
-            'md:flex',
-            'xl:max-w-[1400px]',
-            'w-full',
-            'mx-auto'
-          )}
-        >
-          <BackButton />
-        </div>
+        <AppBreadcrumbs pages={pages} />
         <ForgotPasswordForm />
       </div>
     </div>

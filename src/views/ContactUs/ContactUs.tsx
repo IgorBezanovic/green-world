@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import {
-  BackButton,
+  AppBreadcrumbs,
   CustomButton,
   CustomInput,
   MetaTags
@@ -40,6 +40,11 @@ export const ContactUs = () => {
     });
   };
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Pišite nam', route: '/contact-us' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Kontaktirajte nas'} />
@@ -57,30 +62,18 @@ export const ContactUs = () => {
           'gap-7'
         )}
       >
-        <section
+        <AppBreadcrumbs pages={pages} />
+        <h1
           className={clsx(
-            'flex',
-            'items-center',
-            'w-full',
-            'justify-center',
-            'relative',
-            'mb-4'
+            'text-forestGreen',
+            'text-5xl',
+            'md:text-6xl',
+            'font-ephesis',
+            'mx-auto'
           )}
         >
-          <div className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}>
-            <BackButton />
-          </div>
-          <h1
-            className={clsx(
-              'text-forestGreen',
-              'text-5xl',
-              'md:text-6xl',
-              'font-ephesis'
-            )}
-          >
-            Kontaktirajte nas
-          </h1>
-        </section>
+          Kontaktirajte nas
+        </h1>
         <form
           className={clsx('flex', 'flex-col', 'max-w-xl', 'w-full', 'mx-auto')}
           onSubmit={handleSubmit}
@@ -115,7 +108,7 @@ export const ContactUs = () => {
               'text-lg'
             )}
           >
-            Unesite kontat telefon ili e-mail:
+            Unesite kontakt telefon ili e-mail:
           </label>
           <CustomInput
             required

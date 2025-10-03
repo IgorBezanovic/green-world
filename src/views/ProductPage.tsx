@@ -1,4 +1,9 @@
-import { ProductSection, UserInfo, MetaTags } from '@green-world/components';
+import {
+  ProductSection,
+  UserInfo,
+  MetaTags,
+  AppBreadcrumbs
+} from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -46,6 +51,12 @@ export const ProductPage = () => {
   );
   if (!productId) return <></>;
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Proizvodi', route: '/search' },
+    { label: productData?.title || 'Proizvod', route: `/product/${productId}` }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags
@@ -68,6 +79,8 @@ export const ProductPage = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Skeleton loading={productLoading} active avatar>
           <section className={clsx('flex', 'w-full', 'gap-4')}>
             <UserInfo

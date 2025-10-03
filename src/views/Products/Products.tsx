@@ -1,4 +1,4 @@
-import { ProductCard, MetaTags } from '@green-world/components';
+import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
@@ -91,6 +91,11 @@ export const Products = () => {
     return subGroups[selectedGroup as keyof typeof subGroups] || [];
   }, [selectedGroup]);
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Proizvodi', route: '/search' }
+  ];
+
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
@@ -99,6 +104,7 @@ export const Products = () => {
           'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7 flex flex-col gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
         <Box
           sx={{
             display: 'flex',

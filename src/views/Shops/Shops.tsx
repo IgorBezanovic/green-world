@@ -1,4 +1,4 @@
-import { MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
 import {
   Box,
@@ -54,6 +54,11 @@ export const Shops = () => {
     }
   }, [data]);
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Prodavnice', route: '/shops' }
+  ];
+
   return (
     <Box
       sx={{
@@ -69,9 +74,11 @@ export const Shops = () => {
           'w-full',
           'mx-auto',
           'px-4 sm:px-6 xl:px-0',
-          'py-10 flex flex-col gap-7'
+          'py-7 flex flex-col gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Typography
           variant="h1"
           color="secondary"

@@ -1,6 +1,6 @@
 import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import {
-  BackButton,
+  AppBreadcrumbs,
   CustomButton,
   CustomInput,
   MetaTags
@@ -248,6 +248,14 @@ export const CreateEditProduct = () => {
   }
 
   const pageTitle = `Zeleni svet | ${productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}`;
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Korisnički profil', route: '/profile' },
+    {
+      label: `${productId ? 'Ažuriraj' : 'Kreiraj'} proizvod`,
+      route: `/${productId ? 'edit' : 'create'}-product`
+    }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -265,36 +273,24 @@ export const CreateEditProduct = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-10',
+          'py-7',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        <section
+        <AppBreadcrumbs pages={pages} />
+        <h1
           className={clsx(
-            'flex',
-            'items-center',
-            'w-full',
-            'justify-center',
-            'relative',
-            'mb-4'
+            'text-forestGreen',
+            'text-5xl',
+            'md:text-6xl',
+            'font-ephesis',
+            'mx-auto'
           )}
         >
-          <div className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}>
-            <BackButton />
-          </div>
-          <h1
-            className={clsx(
-              'text-forestGreen',
-              'text-5xl',
-              'md:text-6xl',
-              'font-ephesis'
-            )}
-          >
-            {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-          </h1>
-        </section>
+          {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
+        </h1>
         <form
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}

@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import {
-  BackButton,
+  AppBreadcrumbs,
   CustomButton,
   CustomInput,
   MetaTags
@@ -11,7 +11,6 @@ import { useEvent } from '@green-world/hooks/useEvent';
 import { useImage } from '@green-world/hooks/useImage';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { Box } from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -136,7 +135,15 @@ export const CreateEditEvent = () => {
     );
   }
 
-  const pageTitle = `Zeleni svet | ${eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}`;
+  const pageTitle = `Zeleni svet | ${eventID ? 'Ažuriraj događaj' : 'Kreiraj događaj'}`;
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Korisnički profil', route: '/profile' },
+    {
+      label: `${eventID ? 'Ažuriraj' : 'Kreiraj'} događaj`,
+      route: `/${eventID ? 'edit' : 'create'}-event`
+    }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -149,39 +156,24 @@ export const CreateEditEvent = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-10',
+          'py-7',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        <section
+        <AppBreadcrumbs pages={pages} />
+        <h1
           className={clsx(
-            'flex',
-            'items-center',
-            'w-full',
-            'justify-center',
-            'relative',
-            'mb-4'
+            'text-forestGreen',
+            'text-5xl',
+            'md:text-6xl',
+            'font-ephesis',
+            'mx-auto'
           )}
         >
-          <Box
-            component="div"
-            className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}
-          >
-            <BackButton />
-          </Box>
-          <h1
-            className={clsx(
-              'text-forestGreen',
-              'text-5xl',
-              'md:text-6xl',
-              'font-ephesis'
-            )}
-          >
-            {eventID ? 'Azuziraj aktivnost' : 'Kreiraj aktivnost'}
-          </h1>
-        </section>
+          {eventID ? 'Azuziraj događaj' : 'Kreiraj događaj'}
+        </h1>
         <form
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}

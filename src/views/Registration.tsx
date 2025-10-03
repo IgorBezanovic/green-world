@@ -1,5 +1,5 @@
 import {
-  BackButton,
+  AppBreadcrumbs,
   MetaTags,
   RegistrationForm
 } from '@green-world/components';
@@ -8,16 +8,14 @@ import clsx from 'clsx';
 
 export const Registration = () => {
   const { mutate, error, isPending } = useSignUp();
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Uloguj se', route: '/login' },
+    { label: 'Registracija', route: '/registration' }
+  ];
 
   return (
-    <div
-      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
-      style={{
-        backgroundImage: "url('/background_login.jpeg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Registruj se'} />
 
       <div
@@ -28,16 +26,13 @@ export const Registration = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'pt-10',
-          'pb-40',
+          'py-7',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        <div className={clsx('hidden', 'md:flex', 'absolute', 'left-6')}>
-          <BackButton />
-        </div>
+        <AppBreadcrumbs pages={pages} />
         <RegistrationForm mutate={mutate} error={error} isLoading={isPending} />
       </div>
     </div>

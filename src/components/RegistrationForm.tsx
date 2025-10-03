@@ -29,9 +29,7 @@ export const RegistrationForm = ({ ...props }) => {
         'md:py-14',
         'w-full',
         'max-w-xl',
-        'mx-auto',
-        'mt-10',
-        'md:mt-20'
+        'mx-auto'
       )}
     >
       <section

@@ -1,4 +1,4 @@
-import { MetaTags, ProductCard } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags, ProductCard } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import {
@@ -24,7 +24,7 @@ import {
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
-export const UsersPage = () => {
+export const ShopPage = () => {
   const { userId } = useParams();
   const { data, isLoading } = useUser(userId || '');
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
@@ -81,6 +81,15 @@ export const UsersPage = () => {
     );
   }
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Prodavnice', route: '/shops' },
+    {
+      label: data?.shopName || data?.name || 'Prodavnica',
+      route: `/user/${userId}`
+    }
+  ];
+
   return (
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
       <MetaTags
@@ -89,6 +98,20 @@ export const UsersPage = () => {
         keywords={metaObj.description}
         image={metaObj.image}
       />
+
+      <div
+        className={clsx(
+          'xl:max-w-[1400px]',
+          'w-full',
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7'
+        )}
+      >
+        <AppBreadcrumbs pages={pages} />
+      </div>
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">

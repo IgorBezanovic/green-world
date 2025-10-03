@@ -1,4 +1,4 @@
-import { MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
 import {
   CalendarToday,
@@ -41,6 +41,11 @@ export const Event = () => {
   );
 
   if (!eventId || !eventData) return null;
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Događaji', route: '/events' },
+    { label: eventData?.title, route: `/event/${eventId}` }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -64,6 +69,7 @@ export const Event = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
         <Typography variant="h1" color="secondary.main">
           {eventData.title}
         </Typography>

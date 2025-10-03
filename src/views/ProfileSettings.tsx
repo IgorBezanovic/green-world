@@ -1,10 +1,19 @@
-import { BackButton, CustomButton, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  CustomButton,
+  MetaTags
+} from '@green-world/components';
 import { Card } from 'antd';
 import clsx from 'clsx';
 import { Outlet, useNavigate } from 'react-router';
 
 export const ProfileSettings = () => {
   const navigate = useNavigate();
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Korisnički profil', route: '/profile' },
+    { label: 'Podešavanje profila', route: '/edit-profile' }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -28,19 +37,8 @@ export const ProfileSettings = () => {
           'relative'
         )}
       >
-        <div
-          className={clsx(
-            'hidden',
-            'md:flex',
-            'absolute',
-            'lg:left-7',
-            'xl:left-0',
-            'left-6',
-            'top-7'
-          )}
-        >
-          <BackButton />
-        </div>
+        <AppBreadcrumbs pages={pages} />
+
         <Card className={clsx('w-full', 'md:w-1/4')}>
           <section className={clsx('flex', 'flex-col', 'gap-3')}>
             <p className={clsx('text-gray40', 'italic', 'mb-1')}>

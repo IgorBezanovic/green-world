@@ -4,7 +4,8 @@ import {
   CustomInput,
   UserInfo,
   EventProfileCard,
-  MetaTags
+  MetaTags,
+  AppBreadcrumbs
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
@@ -77,6 +78,11 @@ export const UserProfile = () => {
     [user]
   );
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Korisnički profil', route: '/profile' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags
@@ -85,6 +91,20 @@ export const UserProfile = () => {
         keywords={metaObj.description}
         image={metaObj.image}
       />
+
+      <div
+        className={clsx(
+          'xl:max-w-[1400px]',
+          'w-full',
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7'
+        )}
+      >
+        <AppBreadcrumbs pages={pages} />
+      </div>
 
       <div
         className={clsx(
