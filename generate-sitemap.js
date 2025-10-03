@@ -173,7 +173,7 @@ async function generateSitemap() {
   const user = await resUser.json();
   user.forEach((u) =>
     smStream.write({
-      url: `/user/${u._id}`,
+      url: `/shop/${u._id}`,
       changefreq: 'daily',
       priority: 1,
       img: [

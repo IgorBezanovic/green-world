@@ -54,10 +54,6 @@ export const routes = [
         element: <ProtectedRoute element={UserProfile} />
       },
       {
-        path: '/user/:userId',
-        element: <ProtectedRoute element={ShopPage} />
-      },
-      {
         path: '/profile-settings',
         element: <ProtectedRoute element={ProfileSettings} />,
         children: [
@@ -136,6 +132,10 @@ export const routes = [
       {
         path: '/shops',
         element: <Shops />
+      },
+      {
+        path: '/shop/:userId',
+        element: <ShopPage />
       }
     ]
   },
