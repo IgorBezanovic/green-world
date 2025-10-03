@@ -86,7 +86,7 @@ export const ShopPage = () => {
     { label: 'Prodavnice', route: '/shops' },
     {
       label: data?.shopName || data?.name || 'Prodavnica',
-      route: `/user/${userId}`
+      route: `/shop/${userId}`
     }
   ];
 

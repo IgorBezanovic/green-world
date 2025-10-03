@@ -115,7 +115,7 @@ export const Shops = () => {
 
               return (
                 <Link
-                  to={`/user/${user?._id}`}
+                  to={`/shop/${user?._id}`}
                   key={user?._id}
                   style={{ textDecoration: 'none' }}
                 >
