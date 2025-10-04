@@ -23,6 +23,19 @@ export const ProfileSettings = () => {
         className={clsx(
           'xl:max-w-[1400px]',
           'w-full',
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7'
+        )}
+      >
+        <AppBreadcrumbs pages={pages} />
+      </div>
+      <div
+        className={clsx(
+          'xl:max-w-[1400px]',
+          'w-full',
           'flex',
           'flex-col',
           'md:flex-row',
@@ -30,15 +43,11 @@ export const ProfileSettings = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'pt-7',
-          'md:pt-24',
           'pb-7',
           'gap-7',
           'relative'
         )}
       >
-        <AppBreadcrumbs pages={pages} />
-
         <Card className={clsx('w-full', 'md:w-1/4')}>
           <section className={clsx('flex', 'flex-col', 'gap-3')}>
             <p className={clsx('text-gray40', 'italic', 'mb-1')}>

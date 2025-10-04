@@ -32,6 +32,7 @@ export * from '@green-world/components/NavTrack';
 export * from '@green-world/components/PopDelete';
 export * from '@green-world/components/ProductCard';
 export * from '@green-world/components/ProductSection';
+export * from '@green-world/components/SocialMedia';
 export * from '@green-world/components/ProtectedRoute';
 export * from '@green-world/components/RegistrationForm';
 export * from '@green-world/components/ScrollToTop';

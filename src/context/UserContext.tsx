@@ -29,7 +29,13 @@ const defaultUser: User = {
   shopDescription: '',
   website: '',
   onlyOnline: false,
-  onlyOnThisSite: false
+  onlyOnThisSite: false,
+  socialMedia: {
+    facebook: '',
+    instagram: '',
+    tiktok: '',
+    linkedin: ''
+  }
 };
 
 const UserContext = createContext<UserContextType>({

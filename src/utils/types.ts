@@ -61,6 +61,12 @@ export type User = {
   website: string;
   onlyOnline: boolean;
   onlyOnThisSite: boolean;
+  socialMedia: {
+    facebook: string;
+    instagram: string;
+    tiktok: string;
+    linkedin: string;
+  };
 };
 
 export type ContactUsValues = {
