@@ -1,4 +1,9 @@
-import { AppBreadcrumbs, MetaTags, ProductCard } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  MetaTags,
+  ProductCard,
+  SocialMedia
+} from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import {
@@ -7,7 +12,8 @@ import {
   Avatar,
   CircularProgress,
   IconButton,
-  TextField
+  TextField,
+  useTheme
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
@@ -30,11 +36,19 @@ export const ShopPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(userId);
   const [search, setSearch] = useState<string>('');
+  const theme = useTheme();
+
   const PLACEHOLDER_IMG =
     'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
 
   const handleClear = () => {
     setSearch('');
+  };
+  const formatUrl = (url?: string) => {
+    if (!url) return undefined;
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `https://${url}`;
   };
 
   const filteredProducts = useMemo(() => {
@@ -115,9 +129,56 @@ export const ShopPage = () => {
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
-        {data?.address?.street ||
-        data?.address?.city ||
-        data?.address?.country ? (
+        {data?.onlyOnline ? (
+          <Box
+            className="relative flex items-center justify-center w-full h-full p-6"
+            sx={{
+              background: 'linear-gradient(135deg, #f0fff4 0%, #e6f7ff 100%)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 12,
+                left: 12,
+                backgroundColor: theme.palette.primary.light,
+                color: theme.palette.primary.contrastText,
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                padding: '4px 10px',
+                borderRadius: '12px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+              }}
+            >
+              Ovaj prodavac posluje samo online
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 1.5 }}>
+              <IconButton
+                component="a"
+                href={formatUrl(data?.website)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="website"
+                sx={{ padding: 0 }}
+              >
+                <Globe
+                  color={theme.palette.primary.main}
+                  size={30}
+                  strokeWidth={3}
+                  className="override-size"
+                />
+              </IconButton>
+              <SocialMedia
+                color={theme.palette.primary.main}
+                socialMediaLinks={data?.socialMedia}
+              />
+            </Box>
+          </Box>
+        ) : data?.address?.street ||
+          data?.address?.city ||
+          data?.address?.country ? (
           <iframe
             width="100%"
             height="100%"
@@ -212,7 +273,7 @@ export const ShopPage = () => {
               </Typography>
             ))}
           {data?.shopDescription && (
-            <Typography variant="subtitle1" className="text-gray-600 mb-4">
+            <Typography variant="subtitle2" className="text-gray-600 mb-4">
               {data?.shopDescription}
             </Typography>
           )}
@@ -245,7 +306,9 @@ export const ShopPage = () => {
                 </a>
               </Box>
             )}
-            {data?.address && (
+            {(data?.address.street ||
+              data?.address?.city ||
+              data?.address?.country) && (
               <Box className="flex items-center gap-2">
                 <MapPin />
                 {[
@@ -257,10 +320,19 @@ export const ShopPage = () => {
                   .join(', ')}
               </Box>
             )}
+            {(data?.socialMedia?.facebook ||
+              data?.socialMedia?.instagram ||
+              data?.socialMedia?.linkedin ||
+              data?.socialMedia?.tiktok) && (
+              <SocialMedia
+                color={theme.palette.secondary.main}
+                socialMediaLinks={data?.socialMedia}
+                size="24px"
+              />
+            )}
           </Box>
         </Card>
 
-        {/* PRODUCTS */}
         <Box>
           <Typography variant="h3" className="!text-gray-700" sx={{ mb: 1 }}>
             Proizvodi korisnika

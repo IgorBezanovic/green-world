@@ -16,7 +16,8 @@ export const useEditUser = () => {
       shopDescription,
       website,
       onlyOnline,
-      onlyOnThisSite
+      onlyOnThisSite,
+      socialMedia
     }: User) =>
       request({
         url: `/user`,
@@ -33,7 +34,8 @@ export const useEditUser = () => {
           shopDescription,
           website,
           onlyOnline,
-          onlyOnThisSite
+          onlyOnThisSite,
+          socialMedia
         }
       }),
     onSuccess: () => {

@@ -46,9 +46,8 @@ export const Footer = () => {
           }
         })}
       >
-        {/* Društvene mreže + newsletter */}
         <Box>
-          <SocialMedia color="white" />
+          <SocialMedia color="white" isAppData={true} />
 
           <Box
             component="form"

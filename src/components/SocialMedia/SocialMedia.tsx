@@ -12,7 +12,9 @@ interface SocialMediaProps {
     tiktok?: string;
     linkedin?: string;
   };
+  isAppData?: boolean;
   color: string;
+  size?: string;
 }
 
 export const SocialMedia = (props: SocialMediaProps) => {
@@ -28,7 +30,7 @@ export const SocialMedia = (props: SocialMediaProps) => {
       linkedin: 'https://www.linkedin.com/company/zeleni-svet/'
     };
 
-    if (props?.socialMediaLinks) {
+    if (!props?.isAppData) {
       setLinksToRender(props?.socialMediaLinks);
     } else {
       setLinksToRender(defaultLinks);
@@ -36,7 +38,7 @@ export const SocialMedia = (props: SocialMediaProps) => {
   }, [props]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
       {linksToRender?.instagram && (
         <IconButton
           component="a"
@@ -44,8 +46,11 @@ export const SocialMedia = (props: SocialMediaProps) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
+          sx={{ padding: 0 }}
         >
-          <InstagramIcon sx={{ color: props?.color, fontSize: 32 }} />
+          <InstagramIcon
+            sx={{ color: props?.color, fontSize: props?.size || 32 }}
+          />
         </IconButton>
       )}
       {linksToRender?.linkedin && (
@@ -55,8 +60,11 @@ export const SocialMedia = (props: SocialMediaProps) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
+          sx={{ padding: 0 }}
         >
-          <LinkedInIcon sx={{ color: props?.color, fontSize: 32 }} />
+          <LinkedInIcon
+            sx={{ color: props?.color, fontSize: props?.size || 32 }}
+          />
         </IconButton>
       )}
       {linksToRender?.facebook && (
@@ -66,19 +74,23 @@ export const SocialMedia = (props: SocialMediaProps) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Facebook"
+          sx={{ padding: 0 }}
         >
-          <FacebookIcon sx={{ color: props?.color, fontSize: 32 }} />
+          <FacebookIcon
+            sx={{ color: props?.color, fontSize: props?.size || 32 }}
+          />
         </IconButton>
       )}
-      {linksToRender?.linkedin && (
+      {linksToRender?.tiktok && (
         <IconButton
           component="a"
-          href={linksToRender.linkedin}
+          href={linksToRender.tiktok}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="TikTok"
+          sx={{ padding: 0 }}
         >
-          <TikTokIcon />
+          <TikTokIcon color={props?.color} size={props?.size} />
         </IconButton>
       )}
     </Box>

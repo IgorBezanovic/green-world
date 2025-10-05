@@ -7,7 +7,8 @@ import {
   Typography,
   Box,
   CircularProgress,
-  Button
+  Button,
+  useTheme
 } from '@mui/material';
 import clsx from 'clsx';
 import {
@@ -22,8 +23,11 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
+import { SocialMedia } from '../SocialMedia';
+
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const goToDestination = () => {
     const addressParts = [
@@ -225,6 +229,13 @@ export const UserInfo = ({ ...props }) => {
               </Typography>
             </Button>
           )}
+          <Box sx={{ mt: 2 }}>
+            <SocialMedia
+              color={theme.palette.secondary.main}
+              socialMediaLinks={props?.user?.socialMedia}
+              size={'28px'}
+            />
+          </Box>
         </Box>
       </CardContent>
     </Card>

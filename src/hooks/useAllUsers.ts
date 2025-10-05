@@ -1,7 +1,8 @@
 import { request } from '@green-world/utils/api';
-import { useQuery } from '@tanstack/react-query';
+import { User } from '@green-world/utils/types';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-export const useAllUsers = () => {
+export const useAllUsers = (): UseQueryResult<User[]> => {
   return useQuery({
     queryKey: ['allUsers'],
     queryFn: () =>
