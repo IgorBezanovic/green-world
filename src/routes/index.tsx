@@ -25,8 +25,9 @@ import {
   AdminPanel,
   UsersPage,
   Events,
-  Shops
+  Shops,
 } from '@green-world/views';
+import { Message } from '@green-world/views/Message';
 import { Navigate } from 'react-router-dom';
 
 export const routes = [
@@ -95,6 +96,10 @@ export const routes = [
       {
         path: '/contact-us',
         element: <ContactUs />
+      },
+            {
+        path: '/message',
+        element: <Message />
       },
       {
         path: '/product/:productId',

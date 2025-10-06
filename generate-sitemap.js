@@ -62,6 +62,11 @@ async function generateSitemap() {
       changefreq: 'daily',
       priority: 0.9
     },
+        {
+      url: '/message',
+      changefreq: 'daily',
+      priority: 0.9
+    },
     {
       url: '/create-product',
       changefreq: 'daily',

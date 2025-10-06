@@ -86,6 +86,11 @@ export const Header = () => {
       text: 'Kontaktirajte nas',
       icon: <Mail className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/contact-us'))
+    },
+    {
+      text: 'Poruke',
+      icon: <Mail className="!w-6 !h-6 ml-2" />,
+      onClick: () => handleMenuClick(() => navigate('/message'))
     }
   ];
 

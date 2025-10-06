@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Avatar,
   Card,
@@ -7,30 +8,25 @@ import {
   Typography,
   Box,
   CircularProgress,
-  Button
+  Button,
+  Dialog,
+  DialogContent
 } from '@mui/material';
-import clsx from 'clsx';
-import {
-  Camera,
-  Globe,
-  Mail,
-  Phone,
-  Store,
-  MapPin,
-  Settings,
-  Milestone
-} from 'lucide-react';
+import { Camera, Globe, Mail, Phone, Store, MapPin, Settings, Milestone, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+import Chat from '@green-world/components/Chat/Chat';
 
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const goToDestination = () => {
     const addressParts = [
       props?.user?.address?.street,
       props?.user?.address?.city,
       props?.user?.address?.country
-    ].filter(Boolean); // uklanja undefined, null, prazne stringove
+    ].filter(Boolean);
 
     const destination = encodeURIComponent(addressParts.join(', '));
 
@@ -39,17 +35,14 @@ export const UserInfo = ({ ...props }) => {
 
   if (props?.userLoading) {
     return (
-      <Box
-        className="w-full flex justify-center items-center"
-        sx={{ height: 300 }}
-      >
+      <Box className="w-full flex justify-center items-center" sx={{ height: 300 }}>
         <CircularProgress />
       </Box>
     );
   }
 
   return (
-    <Card className={clsx('w-full', props?.customStyle)}>
+    <Card className={(props?.customStyle)}>
       {props?.user?.shopName && (
         <CardHeader
           title={
@@ -72,12 +65,10 @@ export const UserInfo = ({ ...props }) => {
       )}
 
       <CardContent>
-        <Box className={clsx('w-full flex flex-col', props?.customStyleMeta)}>
+        <Box className={(props?.customStyleMeta)}>
           {/* Avatar */}
           <Box
-            className={clsx(
-              'relative w-24 h-24 mx-auto mb-5',
-              props?.isUserProfile && 'cursor-pointer'
+            className={(props?.isUserProfile && 'cursor-pointer'
             )}
             onClick={() => props?.isUserProfile && navigate('/Edit-image')}
           >
@@ -202,7 +193,6 @@ export const UserInfo = ({ ...props }) => {
               <span>{props.user.email}</span>
             </Typography>
           )}
-
           {/* Navigation */}
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Button
@@ -213,18 +203,33 @@ export const UserInfo = ({ ...props }) => {
               variant="outlined"
               color="primary"
               startIcon={<Milestone />}
-              sx={{
-                mt: 2,
-                p: 1
-              }}
+              sx={{ mt: 2, p: 1 }}
             >
               <Typography variant="body2" component="span">
                 Navigacija
               </Typography>
             </Button>
           )}
+
+          {!props?.isUserProfile && (
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<MessageCircle />}
+              sx={{ mt: 2, p: 1 }}
+              onClick={() => setIsChatOpen(true)}
+            >
+              Kontaktiraj prodavca
+            </Button>
+          )}
         </Box>
       </CardContent>
+
+      <Dialog open={isChatOpen} onClose={() => setIsChatOpen(false)} fullWidth maxWidth="sm">
+        <DialogContent>
+          <Chat userId={props?.loggedInUserId} chatWithId={props?.user?._id} onClose={() => setIsChatOpen(false)}/>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
