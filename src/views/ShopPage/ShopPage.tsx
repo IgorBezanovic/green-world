@@ -6,6 +6,7 @@ import {
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
+import { formatUrl } from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
@@ -43,12 +44,6 @@ export const ShopPage = () => {
 
   const handleClear = () => {
     setSearch('');
-  };
-  const formatUrl = (url?: string) => {
-    if (!url) return undefined;
-    return url.startsWith('http://') || url.startsWith('https://')
-      ? url
-      : `https://${url}`;
   };
 
   const filteredProducts = useMemo(() => {

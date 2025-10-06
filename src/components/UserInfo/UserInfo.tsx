@@ -1,3 +1,4 @@
+import { formatUrl } from '@green-world/utils/helpers';
 import {
   Avatar,
   Card,
@@ -158,7 +159,7 @@ export const UserInfo = ({ ...props }) => {
             <Typography
               component="a"
               variant="body2"
-              href={props?.user?.website || '/'}
+              href={formatUrl(props?.user?.website || '')}
               sx={{
                 mt: 1,
                 color: 'secondary.main',
