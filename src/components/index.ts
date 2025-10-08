@@ -19,6 +19,7 @@ export * from '@green-world/components/ForgotPasswordForm';
 export * from '@green-world/components/GoogleLoginAuth';
 export * from '@green-world/components/GroupButton';
 export * from '@green-world/components/Header';
+export * from '@green-world/components/ChatLine';
 export * from '@green-world/components/HomeCarousel';
 export * from '@green-world/components/Layout';
 export * from '@green-world/components/LazySection';

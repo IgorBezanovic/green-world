@@ -15,7 +15,7 @@ export const useSendMessage = (
       request({
         url: `/message`,
         method: 'post',
-        data: payload,
+        data: payload
       }),
     options
   );

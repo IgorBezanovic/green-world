@@ -52,12 +52,15 @@ export const GoogleLoginAuth = () => {
           logo_alignment="center"
           onSuccess={async (credentialResponse) => {
             try {
-              const res = await axios.post(baseUrl + '/auth/google', {
+              const res = await axios.post(baseUrl + 'auth/google', {
                 credential: credentialResponse.credential
               });
               const token = res.data.token;
               setItem('token', token);
               navigate('/');
+              setTimeout(() => {
+                window.location.reload();
+              }, 10);
             } catch (err: any) {
               const msg = err?.response?.data || 'Greška pri loginu.';
               toast.error(msg);

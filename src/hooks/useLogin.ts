@@ -21,6 +21,9 @@ export const useLogin = () => {
       onSuccess: (data: string) => {
         setItem('token', data);
         navigate('/');
+        setTimeout(() => {
+          window.location.reload();
+        }, 10);
       }
     }
   );

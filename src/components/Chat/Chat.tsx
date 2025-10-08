@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
 import { useConversation } from '@green-world/hooks/useConversation';
+import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect, useRef } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 interface Message {
   _id?: string;
@@ -15,23 +16,40 @@ interface Message {
 }
 
 interface ChatProps {
-  userId: string;
   chatWithId: string;
   onClose: () => void;
 }
 
-const socket: Socket = io(import.meta.env.APP_URL);
-
-const Chat: React.FC<ChatProps> = ({ userId, chatWithId, onClose }) => {
+export const Chat = ({ chatWithId, onClose }: ChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   const { data, isLoading } = useConversation(chatWithId);
   const sendMessageMutation = useSendMessage();
+  const markAsRead = useMarkAsRead();
 
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
   const currentUser = decodedToken?._id;
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const newSocket = io(import.meta.env.APP_URL, {
+      transports: ['websocket'],
+      autoConnect: true
+    });
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (chatWithId) markAsRead.mutate(chatWithId);
+  }, [chatWithId]);
 
   useEffect(() => {
     if (data?.success && data.data) {
@@ -40,6 +58,14 @@ const Chat: React.FC<ChatProps> = ({ userId, chatWithId, onClose }) => {
   }, [data]);
 
   useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (!socket || !currentUser) return;
+
     socket.emit('join', currentUser);
 
     const handleReceiveMessage = (msg: Message) => {
@@ -53,10 +79,10 @@ const Chat: React.FC<ChatProps> = ({ userId, chatWithId, onClose }) => {
     return () => {
       socket.off('receive_message', handleReceiveMessage);
     };
-  }, [currentUser, chatWithId]);
+  }, [socket, currentUser, chatWithId]);
 
   const sendMessage = () => {
-    if (!message.trim()) return;
+    if (!message.trim() || !socket) return;
 
     sendMessageMutation.mutate(
       { receiverId: chatWithId, content: message },
@@ -108,17 +134,11 @@ const Chat: React.FC<ChatProps> = ({ userId, chatWithId, onClose }) => {
           ✖
         </span>
       </div>
-      <div
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: 8
-        }}
-      >
+
+      <div style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
         {isLoading && <div>Učitavanje...</div>}
         {messages.map((msg, i) => {
           const isMe = msg.sender === currentUser;
-
           return (
             <div
               key={i}
@@ -142,7 +162,9 @@ const Chat: React.FC<ChatProps> = ({ userId, chatWithId, onClose }) => {
             </div>
           );
         })}
+        <div ref={messagesEndRef} />
       </div>
+
       <div
         style={{
           display: 'flex',

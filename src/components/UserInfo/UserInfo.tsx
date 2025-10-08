@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import Chat from '@green-world/components/Chat/Chat';
 import {
   Avatar,
   Card,
@@ -12,10 +12,19 @@ import {
   Dialog,
   DialogContent
 } from '@mui/material';
-import { Camera, Globe, Mail, Phone, Store, MapPin, Settings, Milestone, MessageCircle } from 'lucide-react';
+import {
+  Camera,
+  Globe,
+  Mail,
+  Phone,
+  Store,
+  MapPin,
+  Settings,
+  Milestone,
+  MessageCircle
+} from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import Chat from '@green-world/components/Chat/Chat';
 
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
@@ -35,14 +44,17 @@ export const UserInfo = ({ ...props }) => {
 
   if (props?.userLoading) {
     return (
-      <Box className="w-full flex justify-center items-center" sx={{ height: 300 }}>
+      <Box
+        className="w-full flex justify-center items-center"
+        sx={{ height: 300 }}
+      >
         <CircularProgress />
       </Box>
     );
   }
 
   return (
-    <Card className={(props?.customStyle)}>
+    <Card className={props?.customStyle}>
       {props?.user?.shopName && (
         <CardHeader
           title={
@@ -65,11 +77,9 @@ export const UserInfo = ({ ...props }) => {
       )}
 
       <CardContent>
-        <Box className={(props?.customStyleMeta)}>
-          {/* Avatar */}
+        <Box className={props?.customStyleMeta}>
           <Box
-            className={(props?.isUserProfile && 'cursor-pointer'
-            )}
+            className={props?.isUserProfile && 'cursor-pointer'}
             onClick={() => props?.isUserProfile && navigate('/Edit-image')}
           >
             <Avatar
@@ -90,14 +100,12 @@ export const UserInfo = ({ ...props }) => {
             )}
           </Box>
 
-          {/* Name */}
           {props?.user?.name && (
             <Typography variant="body1" className="text-black">
               {props?.user?.name} {props?.user?.lastname}
             </Typography>
           )}
 
-          {/* Shop Description */}
           {props?.user?.shopDescription && (
             <Typography
               variant="body2"
@@ -109,7 +117,6 @@ export const UserInfo = ({ ...props }) => {
             </Typography>
           )}
 
-          {/* Address */}
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Typography
               variant="body2"
@@ -138,7 +145,6 @@ export const UserInfo = ({ ...props }) => {
             </Typography>
           )}
 
-          {/* Website */}
           {props?.user?.website && (
             <Typography
               component="a"
@@ -156,7 +162,6 @@ export const UserInfo = ({ ...props }) => {
             </Typography>
           )}
 
-          {/* Phone */}
           {props?.user?.phone && (
             <Typography
               component="a"
@@ -175,7 +180,6 @@ export const UserInfo = ({ ...props }) => {
             </Typography>
           )}
 
-          {/* Email */}
           {props?.user?.email && (
             <Typography
               component="a"
@@ -193,7 +197,7 @@ export const UserInfo = ({ ...props }) => {
               <span>{props.user.email}</span>
             </Typography>
           )}
-          {/* Navigation */}
+
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Button
               component="a"
@@ -225,9 +229,17 @@ export const UserInfo = ({ ...props }) => {
         </Box>
       </CardContent>
 
-      <Dialog open={isChatOpen} onClose={() => setIsChatOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogContent>
-          <Chat userId={props?.loggedInUserId} chatWithId={props?.user?._id} onClose={() => setIsChatOpen(false)}/>
+          <Chat
+            chatWithId={props?.user?._id}
+            onClose={() => setIsChatOpen(false)}
+          />
         </DialogContent>
       </Dialog>
     </Card>

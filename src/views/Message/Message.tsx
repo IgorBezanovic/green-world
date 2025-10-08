@@ -1,13 +1,12 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import { BackButton } from '@green-world/components';
 import Chat from '@green-world/components/Chat/Chat';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
-import { Dialog, DialogContent } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import { Dialog } from '@mui/material';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-export const Message = ({ ...props }) => {
+export const Message = () => {
   const { data, isLoading, error } = useUserMessage();
   const conversations = data?.data ?? [];
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -25,15 +24,11 @@ export const Message = ({ ...props }) => {
           'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-10 flex flex-col gap-7'
         )}
       >
-        {/* Header */}
         <section
           className={clsx(
             'flex items-center w-full justify-center relative mb-4'
           )}
         >
-          <div className={clsx('hidden md:flex absolute left-0')}>
-            <BackButton />
-          </div>
           <h1
             className={clsx(
               'text-forestGreen text-5xl md:text-6xl font-ephesis'
@@ -43,11 +38,10 @@ export const Message = ({ ...props }) => {
           </h1>
         </section>
 
-        {/* Konverzacije */}
         <section className="w-full flex flex-col gap-4">
           {isLoading && (
             <div className="flex justify-center items-center py-10">
-              <LoadingOutlined style={{ fontSize: 24 }} />
+              <CircularProgress style={{ fontSize: 24 }} />
             </div>
           )}
 
@@ -64,7 +58,6 @@ export const Message = ({ ...props }) => {
           )}
 
           {conversations.map((conv: any) => {
-            const unreadCount = conv.unreadCount || 0;
             const lastMessageDate = conv.lastMessage?.createdAt
               ? new Date(conv.lastMessage.createdAt).toLocaleString()
               : '';
@@ -78,7 +71,6 @@ export const Message = ({ ...props }) => {
                 }}
                 className="border p-4 rounded-lg bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition flex items-center justify-between"
               >
-                {/* Leva strana: ime i datum */}
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-700">
                     {conv.otherUserName || 'Nepoznat korisnik'}
@@ -88,16 +80,13 @@ export const Message = ({ ...props }) => {
                   </span>
                 </div>
 
-                {/* Sredina: poslednja poruka */}
                 <div className="flex-1 px-4 text-gray-600 text-sm">
                   {conv.lastMessage?.content || 'Nema poruka'}
                 </div>
 
-                {/* Sredina: poslednja poruka */}
                 <div className="flex-1 px-4 text-gray-600 text-sm">
-                  {conv.unreadCount || 'Nema poruka'}
+                  {conv.unreadCount || 'Nema novih poruka'}
                 </div>
-                {/* Desna strana: broj nepročitanih */}
               </div>
             );
           })}
@@ -111,8 +100,7 @@ export const Message = ({ ...props }) => {
         >
           {activeChatUserId && (
             <Chat
-              userId={props.userId}
-              chatWithId={activeChatUserId} // ✅ sada prosleđuješ pravog korisnika
+              chatWithId={activeChatUserId}
               onClose={() => setIsChatOpen(false)}
             />
           )}
