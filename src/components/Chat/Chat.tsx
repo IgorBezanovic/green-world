@@ -48,8 +48,10 @@ export const Chat = ({ chatWithId, onClose }: ChatProps) => {
   }, []);
 
   useEffect(() => {
-    if (chatWithId) markAsRead.mutate(chatWithId);
-  }, [chatWithId]);
+    if (chatWithId) {
+      markAsRead.mutate(chatWithId);
+    }
+  }, [chatWithId, markAsRead]);
 
   useEffect(() => {
     if (data?.success && data.data) {
