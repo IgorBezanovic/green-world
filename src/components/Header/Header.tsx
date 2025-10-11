@@ -98,7 +98,6 @@ export const Header = () => {
       className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
-        {/* Logo levo */}
         <Box
           onClick={() => navigate('/')}
           className="w-40 flex items-center cursor-pointer"
@@ -106,14 +105,11 @@ export const Header = () => {
           <ZSLogoHorizontal color={theme.palette.secondary.main} />
         </Box>
 
-        {/* Desktop search centar */}
         <Box className="flex-1 max-w-[700px] hidden md:block">
           <AISearch />
         </Box>
 
-        {/* Desno: dugme / ikonica lupice za mobile */}
         <Box className="flex items-center gap-4">
-          {/* Mobile search icon */}
           <IconButton
             onClick={toggleMobileSearch}
             className="md:!hidden"
@@ -121,7 +117,6 @@ export const Header = () => {
           >
             <Search className="!w-6 !h-6 !text-inherit" />
           </IconButton>
-          {/* Desktop dugme */}
           <Button
             variant="outlined"
             color="inherit"
@@ -139,14 +134,12 @@ export const Header = () => {
         </Box>
       </Box>
 
-      {/* Mobile expanded search */}
       {mobileSearchOpen && (
         <Box className="mt-5 md:hidden transition-all duration-300">
           <AISearch />
         </Box>
       )}
 
-      {/* Drawer meni */}
       <Drawer anchor="right" open={drawerOpen} onClose={handleToggleDrawer}>
         <Box
           sx={{

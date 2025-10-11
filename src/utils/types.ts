@@ -19,7 +19,7 @@ export interface Product {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  group: string;
+  group: keyof typeof subGroups;
   subGroup: string;
   title: string;
   description: string;
@@ -62,6 +62,7 @@ export type User = {
   website: string;
   onlyOnline: boolean;
   onlyOnThisSite: boolean;
+  createdAt?: string;
   socialMedia: {
     facebook: string;
     instagram: string;
