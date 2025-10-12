@@ -1,5 +1,10 @@
 import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  CustomButton,
+  CustomInput,
+  MetaTags
+} from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
@@ -22,10 +27,11 @@ import { Select, message } from 'antd';
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import ReactQuill from 'react-quill-new';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
+
 import 'react-quill-new/dist/quill.snow.css';
+import { AiButton } from './component';
 
 const initProduct: Product = {
   _id: '',
@@ -86,14 +92,14 @@ export const CreateEditProduct = () => {
 
   const {
     mutate: imageMutate,
-    isLoading: isImageLoading,
+    isPending: isImageLoading,
     data: productImage
   } = useImage();
 
-  const { mutate: createMutation, isLoading: isLoadingCreateProduct } =
+  const { mutate: createMutation, isPending: isLoadingCreateProduct } =
     useCreateProduct();
 
-  const { mutate: editMutation, isLoading: isLoadingEditProduct } =
+  const { mutate: editMutation, isPending: isLoadingEditProduct } =
     useEditProduct(productId);
 
   const [product, setProduct] = useState<Product>(initProduct);
@@ -203,7 +209,7 @@ export const CreateEditProduct = () => {
     try {
       setIsAiLoading(true);
       const baseUrl = import.meta.env.VITE_API_URL;
-      const res = await fetch(baseUrl + 'ai/description', {
+      const res = await fetch(baseUrl + '/ai/description', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -241,14 +247,24 @@ export const CreateEditProduct = () => {
     );
   }
 
+  const pageTitle = `Zeleni svet | ${productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}`;
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Korisnički profil', route: '/profile' },
+    {
+      label: `${productId ? 'Ažuriraj' : 'Kreiraj'} proizvod`,
+      route: `/${productId ? 'edit' : 'create'}-product`
+    }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>
-          Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-        </title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
-      </Helmet>
+      <MetaTags title={pageTitle} />
+      <title>
+        Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
+      </title>
+      <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -257,36 +273,24 @@ export const CreateEditProduct = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-10',
+          'py-7',
           'flex',
           'flex-col',
           'gap-7'
         )}
       >
-        <section
+        <AppBreadcrumbs pages={pages} />
+        <h1
           className={clsx(
-            'flex',
-            'items-center',
-            'w-full',
-            'justify-center',
-            'relative',
-            'mb-4'
+            'text-forestGreen',
+            'text-5xl',
+            'md:text-6xl',
+            'font-ephesis',
+            'mx-auto'
           )}
         >
-          <div className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}>
-            <BackButton />
-          </div>
-          <h1
-            className={clsx(
-              'text-forestGreen',
-              'text-5xl',
-              'md:text-6xl',
-              'font-ephesis'
-            )}
-          >
-            {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-          </h1>
-        </section>
+          {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
+        </h1>
         <form
           className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
           onSubmit={handleSubmit}
@@ -489,7 +493,7 @@ export const CreateEditProduct = () => {
             <label
               className={clsx('mb-2', 'mt-4', 'text-forestGreen', 'text-lg')}
             >
-              Ključne reči (min 2 / max 10):
+              Ključne fraze za generisanje (min 2 / max 10):
             </label>
             <Select
               mode="tags"
@@ -502,15 +506,15 @@ export const CreateEditProduct = () => {
                 setKeywords(cleaned);
               }}
               tokenSeparators={[',']}
-              placeholder="Dodaj ključne reči (ENTER ili ,)"
-              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-3')}
+              placeholder="Dodaj ključne fraze (ENTER ili ,)"
+              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-1')}
             />
             <small className={clsx('text-gray40', 'italic', 'mb-2')}>
               Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo,
               fikus, zalivanje…
             </small>
 
-            <div className="flex items-center gap-4 mt-3 mb-2">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-3 mb-2">
               <label
                 htmlFor="description"
                 className={clsx(
@@ -522,27 +526,10 @@ export const CreateEditProduct = () => {
               >
                 Opis proizvoda:
               </label>
-
-              <CustomButton
-                htmlType="button"
-                type="text"
-                text={
-                  isAiLoading ? (
-                    <LoadingOutlined
-                      className={clsx('text-groupTransparent', 'my-2')}
-                    />
-                  ) : (
-                    'Generiši AI opis'
-                  )
-                }
+              <AiButton
+                isAiLoading={isAiLoading}
+                canGenerate={canGenerate}
                 onClick={handleGenerateAiDescription}
-                disabled={!canGenerate || isAiLoading}
-                customStyle={[
-                  'px-4',
-                  {
-                    'border-groupTransparent': isAiLoading
-                  }
-                ]}
               />
             </div>
 

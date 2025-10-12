@@ -1,11 +1,8 @@
-import { CustomButton, TikTokIcon } from '@green-world/components';
+import { CustomButton, SocialMedia } from '@green-world/components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { Box, Typography, IconButton, TextField } from '@mui/material';
+import { Box, Typography, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');
@@ -49,46 +46,8 @@ export const Footer = () => {
           }
         })}
       >
-        {/* Društvene mreže + newsletter */}
         <Box>
-          <Box sx={{ display: 'flex' }}>
-            <IconButton
-              component="a"
-              href="https://www.instagram.com/zeleni_svet_rs/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <InstagramIcon sx={{ color: 'white', fontSize: 32 }} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="https://www.linkedin.com/company/zeleni-svet/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <LinkedInIcon sx={{ color: 'white', fontSize: 32 }} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="https://www.facebook.com/profile.php?id=61577326298021"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-            >
-              <FacebookIcon sx={{ color: 'white', fontSize: 32 }} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="https://www.tiktok.com/@zelenisvetinfo"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="TikTok"
-            >
-              <TikTokIcon />
-            </IconButton>
-          </Box>
+          <SocialMedia color="white" isAppData={true} />
 
           <Box
             component="form"

@@ -1,14 +1,18 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { BackButton, CustomButton, CustomInput } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  CustomButton,
+  CustomInput,
+  MetaTags
+} from '@green-world/components';
 import { useContactUs } from '@green-world/hooks/useContactUs';
 import { ContactUsValues } from '@green-world/utils/types';
 import TextArea from 'antd/es/input/TextArea';
 import clsx from 'clsx';
 import { ReactNode, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export const ContactUs = () => {
-  const { mutate, error, isLoading } = useContactUs();
+  const { mutate, error, isPending } = useContactUs();
   const [contactForm, setContactForm] = useState<ContactUsValues>({
     subject: '',
     email: '',
@@ -36,12 +40,14 @@ export const ContactUs = () => {
     });
   };
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Pišite nam', route: '/contact-us' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Kontaktirajte nas</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/contact-us" />
-      </Helmet>
+      <MetaTags title={'Zeleni svet | Kontaktirajte nas'} />
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -56,30 +62,18 @@ export const ContactUs = () => {
           'gap-7'
         )}
       >
-        <section
+        <AppBreadcrumbs pages={pages} />
+        <h1
           className={clsx(
-            'flex',
-            'items-center',
-            'w-full',
-            'justify-center',
-            'relative',
-            'mb-4'
+            'text-forestGreen',
+            'text-5xl',
+            'md:text-6xl',
+            'font-ephesis',
+            'mx-auto'
           )}
         >
-          <div className={clsx('hidden', 'md:flex', 'absolute', 'left-0')}>
-            <BackButton />
-          </div>
-          <h1
-            className={clsx(
-              'text-forestGreen',
-              'text-5xl',
-              'md:text-6xl',
-              'font-ephesis'
-            )}
-          >
-            Kontaktirajte nas
-          </h1>
-        </section>
+          Kontaktirajte nas
+        </h1>
         <form
           className={clsx('flex', 'flex-col', 'max-w-xl', 'w-full', 'mx-auto')}
           onSubmit={handleSubmit}
@@ -100,7 +94,7 @@ export const ContactUs = () => {
             type="text"
             name="subject"
             id="subject"
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.subject || ''}
             onChange={handleChange}
             placeholder="Tema poruke"
@@ -114,14 +108,14 @@ export const ContactUs = () => {
               'text-lg'
             )}
           >
-            Unesite kontat telefon ili e-mail:
+            Unesite kontakt telefon ili e-mail:
           </label>
           <CustomInput
             required
             type="text"
             name="email"
             id="email"
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.email || ''}
             onChange={handleChange}
             placeholder="Kako da vas kontaktiramo"
@@ -142,7 +136,7 @@ export const ContactUs = () => {
             name="message"
             id="message"
             rows={10}
-            disabled={isLoading}
+            disabled={isPending}
             value={contactForm?.message || ''}
             onChange={handleChange}
             placeholder="Unesite poruku"
@@ -155,8 +149,8 @@ export const ContactUs = () => {
               'md:hover:shadow-lg',
               'mb-4',
               {
-                'border-forestGreen': !isLoading,
-                'border-groupTransparent': isLoading
+                'border-forestGreen': !isPending,
+                'border-groupTransparent': isPending
               }
             )}
           />
@@ -164,7 +158,7 @@ export const ContactUs = () => {
             htmlType="submit"
             type="text"
             text={
-              isLoading ? (
+              isPending ? (
                 <LoadingOutlined
                   className={clsx('text-groupTransparent', 'my-2')}
                 />
@@ -175,10 +169,10 @@ export const ContactUs = () => {
             customStyle={[
               'mt-6',
               {
-                'border-groupTransparent': isLoading
+                'border-groupTransparent': isPending
               }
             ]}
-            disabled={isLoading}
+            disabled={isPending}
           />
           {(error as ReactNode) && (
             <p className={clsx('font-medium', 'text-red', 'mt-2')}>

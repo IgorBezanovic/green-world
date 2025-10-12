@@ -1,9 +1,9 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
+import { Typography } from '@mui/material';
 import clsx from 'clsx';
-import { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useContext, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
@@ -12,11 +12,38 @@ import { CustomInput, CustomButton } from '.';
 
 export const EditUserData = () => {
   const { user, setUser, isLoading } = useContext(UserContext);
-  const { mutate, isLoading: isLoadingUser } = useEditUser();
+  const { mutate, isPending: isLoadingUser } = useEditUser();
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+  type SocialMediaKeys = 'instagram' | 'facebook' | 'tiktok' | 'linkedin';
+  const socialMediaRegex = {
+    instagram: /^https?:\/\/(www\.)?instagram\.com\/[A-Za-z0-9._%-]+\/?$/,
+    facebook: /^https?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9._%-]+\/?$/,
+    tiktok: /^https?:\/\/(www\.)?tiktok\.com\/@?[A-Za-z0-9._%-]+\/?$/,
+    linkedin:
+      /^https?:\/\/(www\.)?linkedin\.com\/(in|company)\/[A-Za-z0-9._%-]+\/?$/
+  };
+
+  const handleBlurSocialMedia = (key: SocialMediaKeys) => {
+    const value = user?.socialMedia?.[key] || '';
+    const error = validateSocialMedia(key, value);
+    setErrors((prev) => ({
+      ...prev,
+      [key]: error || undefined
+    }));
+  };
+
+  const validateSocialMedia = (name: string, value: string) => {
+    if (!value) return '';
+    if (!socialMediaRegex[name as keyof typeof socialMediaRegex].test(value)) {
+      return `Unesite validan ${name} URL.`;
+    }
+    return '';
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate(user);
+    setErrors({});
     toast.success('Uspešno ste editovali profil.');
   };
 
@@ -47,13 +74,12 @@ export const EditUserData = () => {
       className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
       onSubmit={handleSubmit}
     >
-      <Helmet>
-        <title>Zeleni svet | Podešavanje profila</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/profile-settings/edit-profile"
-        />
-      </Helmet>
+      <title>Zeleni svet | Podešavanje profila</title>
+      <link
+        rel="canonical"
+        href="https://www.zelenisvet.rs/profile-settings/edit-profile"
+      />
+
       <div className={clsx('flex-1', 'flex', 'flex-col')}>
         <label
           htmlFor="shopName"
@@ -131,6 +157,44 @@ export const EditUserData = () => {
           disabled
         />
         <label
+          htmlFor="phone"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          Kontakt telefon:
+        </label>
+        <PhoneInput
+          country="rs"
+          value={user?.phone || ''}
+          onChange={(value) => setUser({ ...user, phone: value })}
+          inputStyle={{
+            width: '100%',
+            height: '42px',
+            background: 'white',
+            borderRadius: '6px',
+            border: '1px solid #266041',
+            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
+            paddingLeft: '55px'
+          }}
+          buttonStyle={{
+            background: 'white',
+            width: '50px',
+            border: '1px solid #266041',
+            borderRadius: '6px 0 0 6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          containerStyle={{
+            marginBottom: '16px'
+          }}
+          placeholder="+381 60 123 456 7"
+        />
+        <label
           htmlFor="shopDescription"
           className={clsx(
             'mb-2',
@@ -179,10 +243,9 @@ export const EditUserData = () => {
           placeholder="Unesite URL vase radnje"
         />
       </div>
-
       <div className={clsx('flex-1', 'flex', 'flex-col')}>
         <label
-          htmlFor="phone"
+          htmlFor="instagram"
           className={clsx(
             'mb-2',
             'text-forestGreen',
@@ -190,35 +253,209 @@ export const EditUserData = () => {
             'text-lg'
           )}
         >
-          Kontakt telefon:
+          Instagram:
         </label>
-        <PhoneInput
-          country="rs"
-          value={user?.phone || ''}
-          onChange={(value) => setUser({ ...user, phone: value })}
-          inputStyle={{
-            width: '100%',
-            height: '42px',
-            background: 'white',
-            borderRadius: '6px',
-            border: '1px solid #266041',
-            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
-            paddingLeft: '55px'
-          }}
-          buttonStyle={{
-            background: 'white',
-            width: '50px',
-            border: '1px solid #266041',
-            borderRadius: '6px 0 0 6px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          containerStyle={{
-            marginBottom: '16px'
-          }}
-          placeholder="+381 60 123 456 7"
+        <CustomInput
+          type="text"
+          name="instagram"
+          id="instagram"
+          value={user?.socialMedia?.instagram || ''}
+          customStyle={errors.instagram ? '!border-red-500' : ''}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUser({
+              ...user,
+              socialMedia: {
+                ...user.socialMedia,
+                instagram: e.target.value
+              }
+            })
+          }
+          onBlur={() => handleBlurSocialMedia('instagram')}
+          placeholder="Unesite Instagram profil (npr. https://instagram.com/vasprofil)"
         />
+        {errors.instagram && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'red',
+              fontStyle: 'italic',
+              marginTop: '-0.8rem'
+            }}
+          >
+            {errors.instagram || ''}
+          </Typography>
+        )}
+        <label
+          htmlFor="facebook"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          Facebook:
+        </label>
+        <CustomInput
+          type="text"
+          name="facebook"
+          id="facebook"
+          value={user?.socialMedia?.facebook || ''}
+          customStyle={errors.facebook ? '!border-red-500' : ''}
+          onBlur={() => handleBlurSocialMedia('facebook')}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUser({
+              ...user,
+              socialMedia: {
+                ...user.socialMedia,
+                facebook: e.target.value
+              }
+            })
+          }
+          placeholder="Unesite Facebook profil (npr. https://facebook.com/vasprofil)"
+        />
+        {errors.facebook && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'red',
+              fontStyle: 'italic',
+              marginTop: '-0.8rem'
+            }}
+          >
+            {errors.facebook || ''}
+          </Typography>
+        )}
+        <label
+          htmlFor="tiktok"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          TikTok:
+        </label>
+        <CustomInput
+          type="text"
+          name="tiktok"
+          id="tiktok"
+          value={user?.socialMedia?.tiktok || ''}
+          customStyle={errors.tiktok ? '!border-red-500' : ''}
+          onBlur={() => handleBlurSocialMedia('tiktok')}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUser({
+              ...user,
+              socialMedia: {
+                ...user.socialMedia,
+                tiktok: e.target.value
+              }
+            })
+          }
+          placeholder="Unesite TikTok profil (npr. https://tiktok.com/@vasprofil)"
+        />
+        {errors.tiktok && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'red',
+              fontStyle: 'italic',
+              marginTop: '-0.8rem'
+            }}
+          >
+            {errors.tiktok || ''}
+          </Typography>
+        )}
+        <label
+          htmlFor="linkedin"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          LinkedIn:
+        </label>
+        <CustomInput
+          type="text"
+          name="linkedin"
+          id="linkedin"
+          value={user?.socialMedia?.linkedin || ''}
+          customStyle={errors.linkedin ? '!border-red-500' : ''}
+          onBlur={() => handleBlurSocialMedia('linkedin')}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUser({
+              ...user,
+              socialMedia: {
+                ...user.socialMedia,
+                linkedin: e.target.value
+              }
+            })
+          }
+          placeholder="Unesite LinkedIn profil (npr. https://linkedin.com/in/vasprofil)"
+        />
+        {errors.linkedin && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'red',
+              fontStyle: 'italic',
+              marginTop: '-0.8rem'
+            }}
+          >
+            {errors.linkedin || ''}
+          </Typography>
+        )}
+        <label
+          htmlFor="onlyOnline"
+          className={clsx(
+            'mb-2',
+            'text-forestGreen',
+            'cursor-pointer',
+            'text-lg'
+          )}
+        >
+          Radite samo online?
+        </label>
+        <div className={clsx('w-full', 'relative', 'mb-4', 'flex', 'gap-4')}>
+          <div>
+            <input
+              type="radio"
+              name="onlyOnline"
+              id="onlyOnlineYes"
+              value="true"
+              checked={user?.onlyOnline === true}
+              onChange={() =>
+                setUser({
+                  ...user,
+                  onlyOnline: true,
+                  address: {
+                    zipCode: 0,
+                    city: '',
+                    street: '',
+                    country: ''
+                  }
+                })
+              }
+              className={clsx('mr-2')}
+            />
+            <span>Da</span>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="onlyOnline"
+              id="onlyOnlineNo"
+              value="false"
+              checked={user?.onlyOnline === false}
+              onChange={() => setUser({ ...user, onlyOnline: false })}
+              className={clsx('mr-2')}
+            />
+            <span>Ne</span>
+          </div>
+        </div>
         <label
           htmlFor="zipCode"
           className={clsx(
@@ -236,6 +473,7 @@ export const EditUserData = () => {
           type="string"
           name="zipCode"
           id="zipCode"
+          disabled={user?.onlyOnline}
           value={user?.address?.zipCode || ''}
           onChange={handleAddressChange}
           placeholder="Unesite poštanski broj"
@@ -257,6 +495,7 @@ export const EditUserData = () => {
           type="text"
           name="city"
           id="city"
+          disabled={user?.onlyOnline}
           value={user?.address?.city || ''}
           onChange={handleAddressChange}
           placeholder="Unesite grad"
@@ -277,6 +516,7 @@ export const EditUserData = () => {
           type="text"
           name="street"
           id="street"
+          disabled={user?.onlyOnline}
           value={user?.address?.street || ''}
           onChange={handleAddressChange}
           placeholder="Unesite ulicu"
@@ -296,6 +536,7 @@ export const EditUserData = () => {
           type="text"
           name="country"
           id="country"
+          disabled={user?.onlyOnline}
           value={user?.address?.country || ''}
           onChange={handleAddressChange}
           placeholder="Unesite državu"
@@ -308,43 +549,6 @@ export const EditUserData = () => {
           Nakon unosa proverite ispravnost navigacije i po potrebi editujte
           adresu.
         </small>
-        <label
-          htmlFor="onlyOnline"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Radite samo online?
-        </label>
-        <div className={clsx('w-full', 'relative', 'mb-4', 'flex', 'gap-4')}>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnline"
-              id="onlyOnlineYes"
-              value="true"
-              checked={user?.onlyOnline === true}
-              onChange={() => setUser({ ...user, onlyOnline: true })}
-              className={clsx('mr-2')}
-            />
-            <span>Da</span>
-          </div>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnline"
-              id="onlyOnlineNo"
-              value="false"
-              checked={user?.onlyOnline === false}
-              onChange={() => setUser({ ...user, onlyOnline: false })}
-              className={clsx('mr-2')}
-            />
-            <span>Ne</span>
-          </div>
-        </div>
         <label
           htmlFor="onlyOnThisSite"
           className={clsx(
@@ -400,7 +604,9 @@ export const EditUserData = () => {
               'border-groupTransparent': isLoadingUser
             }
           ]}
-          disabled={isLoadingUser}
+          disabled={
+            isLoadingUser || Object.values(errors).some((error) => !!error)
+          }
         />
       </div>
     </form>

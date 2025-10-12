@@ -42,3 +42,9 @@ input[data-autocompleted] {
   height: 18px;
   stroke-width: 1px;
 }
+
+.lucide.override-size {
+  width: auto !important;
+  height: auto !important;
+  stroke-width: auto !important;
+}

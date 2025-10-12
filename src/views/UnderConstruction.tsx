@@ -1,20 +1,10 @@
+import { MetaTags } from '@green-world/components';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const UnderConstruction = () => {
   return (
-    <div
-      className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}
-      style={{
-        backgroundImage: "url('/background_login.jpeg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
-      <Helmet>
-        <title>Zeleni svet | Prijavi se</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/u-izradi" />
-      </Helmet>
+    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+      <MetaTags title={'Zeleni svet | Stranica je trenutno u izradi'} />
       <div className="bg-gray-100">
         <div className="min-h-screen flex flex-col justify-center items-center">
           <img

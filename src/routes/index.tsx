@@ -9,7 +9,6 @@ import { Layout } from '@green-world/components/Layout';
 import {
   ContactUs,
   Event,
-  GroupProducts,
   Home,
   Products,
   CreateEditProduct,
@@ -23,12 +22,12 @@ import {
   UserProfile,
   CreateEditEvent,
   AdminPanel,
-  UsersPage,
+  ShopPage,
   Events,
   Shops
 } from '@green-world/views';
 import { Message } from '@green-world/views/Message';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 export const routes = [
   {
@@ -54,10 +53,6 @@ export const routes = [
       {
         path: '/profile',
         element: <ProtectedRoute element={UserProfile} />
-      },
-      {
-        path: '/user/:userId',
-        element: <ProtectedRoute element={UsersPage} />
       },
       {
         path: '/profile-settings',
@@ -91,7 +86,7 @@ export const routes = [
       },
       {
         path: '/search/:category',
-        element: <GroupProducts />
+        element: <Products />
       },
       {
         path: '/contact-us',
@@ -142,6 +137,10 @@ export const routes = [
       {
         path: '/shops',
         element: <Shops />
+      },
+      {
+        path: '/shop/:userId',
+        element: <ShopPage />
       }
     ]
   },

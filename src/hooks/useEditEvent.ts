@@ -1,10 +1,10 @@
 import { request } from '@green-world/utils/api';
 import { Event } from '@green-world/utils/types';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useEditEvent = (id: string) => {
-  return useMutation(
-    ({
+  return useMutation({
+    mutationFn: ({
       title,
       description,
       place,
@@ -38,10 +38,8 @@ export const useEditEvent = (id: string) => {
           status
         }
       }),
-    {
-      onSuccess: () => {
-        // navigate('/profile');
-      }
+    onSuccess: () => {
+      // navigate('/profile');
     }
-  );
+  });
 };

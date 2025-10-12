@@ -28,6 +28,7 @@ export const Chat = ({ chatWithId, onClose }: ChatProps) => {
   const { data, isLoading } = useConversation(chatWithId);
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkAsRead();
+  const alreadyMarked = useRef<string | null>(null);
 
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
@@ -48,10 +49,12 @@ export const Chat = ({ chatWithId, onClose }: ChatProps) => {
   }, []);
 
   useEffect(() => {
-    if (chatWithId) {
+    if (chatWithId && alreadyMarked.current !== chatWithId) {
       markAsRead.mutate(chatWithId);
+      alreadyMarked.current = chatWithId;
     }
-  }, [chatWithId, markAsRead]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatWithId]);
 
   useEffect(() => {
     if (data?.success && data.data) {

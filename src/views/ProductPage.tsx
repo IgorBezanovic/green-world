@@ -1,4 +1,9 @@
-import { ProductSection, UserInfo } from '@green-world/components';
+import {
+  ProductSection,
+  UserInfo,
+  MetaTags,
+  AppBreadcrumbs
+} from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -14,9 +19,8 @@ import {
   ArrowLeft,
   ArrowRight
 } from 'lucide-react';
-import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { useParams } from 'react-router';
 
 export const ProductPage = () => {
   const { productId } = useParams();
@@ -32,17 +36,35 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
 
+  const metaObj = useMemo(
+    () => ({
+      title: productData
+        ? ['Zeleni svet', 'Proizvod', productData.title]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | proizvod',
+      description: productData?.description || 'Proizvod Zeleni Svet',
+      image:
+        productData?.images[0] || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [productData]
+  );
   if (!productId) return <></>;
+
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Proizvodi', route: '/search' },
+    { label: productData?.title || 'Proizvod', route: `/product/${productId}` }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | {productData?.title ?? 'Green World'}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/product/${productId}`}
-        />
-      </Helmet>
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
+      />
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -57,6 +79,8 @@ export const ProductPage = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Skeleton loading={productLoading} active avatar>
           <section className={clsx('flex', 'w-full', 'gap-4')}>
             <UserInfo
@@ -156,6 +180,7 @@ export const ProductPage = () => {
                           'shadow',
                           'aspect-square',
                           'w-full',
+                          'object-cover',
                           'cursor-pointer',
                           {
                             'shadow-xl': idexOfImage === index,

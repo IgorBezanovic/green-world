@@ -1,23 +1,21 @@
+import { MetaTags } from '@green-world/components';
 import Chat from '@green-world/components/Chat/Chat';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { CircularProgress } from '@mui/material';
 import { Dialog } from '@mui/material';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 export const Message = () => {
   const { data, isLoading, error } = useUserMessage();
   const conversations = data?.data ?? [];
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeChatUserId, setActiveChatUserId] = useState<string | null>(null);
+  const pageTitle = `Zeleni svet | Poruke`;
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Poruke</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/messages" />
-      </Helmet>
+      <MetaTags title={pageTitle} />
 
       <div
         className={clsx(

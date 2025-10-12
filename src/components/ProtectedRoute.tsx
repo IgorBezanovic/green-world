@@ -3,7 +3,7 @@ import { DecodedToken } from '@green-world/utils/types';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import { ElementType, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 export const ProtectedRoute = ({
   element: Component,

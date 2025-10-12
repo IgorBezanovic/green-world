@@ -1,16 +1,14 @@
 import { request } from '@green-world/utils/api';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export const useEvent = (id: string) => {
-  return useQuery(
-    ['eventDetails', id],
-    () =>
+  return useQuery({
+    queryKey: ['eventDetails', id],
+    queryFn: () =>
       request({
         url: `/action/details/${id}`,
         method: 'get'
       }),
-    {
-      enabled: !!id
-    }
-  );
+    enabled: !!id
+  });
 };

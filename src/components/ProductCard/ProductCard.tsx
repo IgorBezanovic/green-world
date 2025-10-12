@@ -1,4 +1,5 @@
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
+import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { Product } from '@green-world/utils/types';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -14,21 +15,14 @@ import {
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
-import {
-  RefetchOptions,
-  RefetchQueryFilters,
-  QueryObserverResult
-} from 'react-query';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { PopDelete } from '../PopDelete';
 
 interface ProductCardProps {
-  product: any;
+  product: Product | ProductPreview;
   isHero?: boolean;
-  productsRefetch?: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<Product[], unknown>>;
+  productsRefetch?: any;
 }
 
 export const ProductCard = ({
@@ -77,39 +71,41 @@ export const ProductCard = ({
           overflow: 'hidden'
         }}
       >
-        {/* Blur placeholder */}
-        <Box
-          component="img"
-          src={blurImage}
-          alt={product.title}
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'blur(20px)',
-            transform: 'scale(1.05)',
-            transition: 'opacity 0.5s ease',
-            opacity: loaded ? 0 : 1
-          }}
-        />
-        {/* Main image */}
-        <Box
-          component="img"
-          src={mainImage}
-          alt={product.title}
-          loading={isHero ? 'eager' : 'lazy'}
-          decoding="async"
-          onLoad={() => setLoaded(true)}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'opacity 0.5s ease',
-            opacity: loaded ? 1 : 0
-          }}
-        />
+        {blurImage && (
+          <Box
+            component="img"
+            src={blurImage}
+            alt={product.title}
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'blur(20px)',
+              transform: 'scale(1.05)',
+              transition: 'opacity 0.5s ease',
+              opacity: loaded ? 0 : 1
+            }}
+          />
+        )}
+        {mainImage && (
+          <Box
+            component="img"
+            src={mainImage}
+            alt={product.title}
+            loading={isHero ? 'eager' : 'lazy'}
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'opacity 0.5s ease',
+              opacity: loaded ? 1 : 0
+            }}
+          />
+        )}
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

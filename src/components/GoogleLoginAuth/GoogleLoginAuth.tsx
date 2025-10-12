@@ -2,7 +2,7 @@ import { setItem } from '@green-world/utils/cookie';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export const GoogleLoginAuth = () => {
@@ -52,7 +52,7 @@ export const GoogleLoginAuth = () => {
           logo_alignment="center"
           onSuccess={async (credentialResponse) => {
             try {
-              const res = await axios.post(baseUrl + 'auth/google', {
+              const res = await axios.post(baseUrl + '/auth/google', {
                 credential: credentialResponse.credential
               });
               const token = res.data.token;

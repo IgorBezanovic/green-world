@@ -49,6 +49,7 @@ type Address = {
 };
 
 export type User = {
+  _id?: string;
   email: string;
   name: string;
   lastname: string;
@@ -61,6 +62,12 @@ export type User = {
   website: string;
   onlyOnline: boolean;
   onlyOnThisSite: boolean;
+  socialMedia: {
+    facebook: string;
+    instagram: string;
+    tiktok: string;
+    linkedin: string;
+  };
 };
 
 export type ContactUsValues = {

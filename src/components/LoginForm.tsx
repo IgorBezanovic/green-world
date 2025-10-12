@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { Input } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Divider, GoogleLoginAuth, MetaLoginAuth } from '../components';
 import { CustomButton } from './CustomButton';
@@ -33,8 +33,7 @@ export const LoginForm = ({ ...props }) => {
         'w-full',
         'max-w-xl',
         'mx-auto',
-        'mb-8',
-        'md:my-8'
+        'mb-8'
       )}
     >
       {props.isUserLogged === 'false' && (

@@ -1,5 +1,5 @@
 import { request } from '@green-world/utils/api';
-import { useMutation, UseMutationOptions } from 'react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 
 interface MessagePayload {
   receiverId: string;
@@ -9,14 +9,14 @@ interface MessagePayload {
 export const useSendMessage = (
   options?: UseMutationOptions<any, unknown, MessagePayload>
 ) => {
-  return useMutation(
-    ['sendMessage'],
-    (payload: MessagePayload) =>
+  return useMutation({
+    mutationKey: ['sendMessage'],
+    mutationFn: (payload: MessagePayload) =>
       request({
         url: `/message`,
         method: 'post',
         data: payload
       }),
-    options
-  );
+    ...options
+  });
 };

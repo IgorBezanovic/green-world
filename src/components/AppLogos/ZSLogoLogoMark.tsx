@@ -3,7 +3,7 @@ import { LogoProps } from './types';
 export const ZSLogoLogoMark = ({
   color,
   width = '100%',
-  height = 'auto'
+  height = '100%'
 }: LogoProps) => {
   return (
     <svg

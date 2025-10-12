@@ -1,12 +1,12 @@
 import { request } from '@green-world/utils/api';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 export const useForgotPassword = () => {
   const navigate = useNavigate();
 
-  return useMutation(
-    (email: string) =>
+  return useMutation({
+    mutationFn: (email: string) =>
       request({
         url: `/auth/forgot-password`,
         method: 'post',
@@ -14,10 +14,8 @@ export const useForgotPassword = () => {
           email
         }
       }),
-    {
-      onSuccess: () => {
-        navigate('/login');
-      }
+    onSuccess: () => {
+      navigate('/login');
     }
-  );
+  });
 };

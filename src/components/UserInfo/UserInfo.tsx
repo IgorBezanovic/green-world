@@ -1,4 +1,5 @@
 import Chat from '@green-world/components/Chat/Chat';
+import { formatUrl } from '@green-world/utils/helpers';
 import {
   Avatar,
   Card,
@@ -10,8 +11,10 @@ import {
   CircularProgress,
   Button,
   Dialog,
-  DialogContent
+  DialogContent,
+  useTheme
 } from '@mui/material';
+import clsx from 'clsx';
 import {
   Camera,
   Globe,
@@ -26,8 +29,11 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { SocialMedia } from '../SocialMedia';
+
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const goToDestination = () => {
@@ -79,8 +85,13 @@ export const UserInfo = ({ ...props }) => {
       <CardContent>
         <Box className={props?.customStyleMeta}>
           <Box
-            className={props?.isUserProfile && 'cursor-pointer'}
-            onClick={() => props?.isUserProfile && navigate('/Edit-image')}
+            className={clsx(
+              'relative w-24 h-24 mx-auto mb-5',
+              props?.isUserProfile && 'cursor-pointer'
+            )}
+            onClick={() =>
+              props?.isUserProfile && navigate('/profile-settings/change-image')
+            }
           >
             <Avatar
               src={props?.user?.profileImage}
@@ -149,7 +160,7 @@ export const UserInfo = ({ ...props }) => {
             <Typography
               component="a"
               variant="body2"
-              href={props?.user?.website || '/'}
+              href={formatUrl(props?.user?.website || '')}
               sx={{
                 mt: 1,
                 color: 'secondary.main',
@@ -226,6 +237,13 @@ export const UserInfo = ({ ...props }) => {
               Kontaktiraj prodavca
             </Button>
           )}
+          <Box sx={{ mt: 2 }}>
+            <SocialMedia
+              color={theme.palette.secondary.main}
+              socialMediaLinks={props?.user?.socialMedia}
+              size={'28px'}
+            />
+          </Box>
         </Box>
       </CardContent>
 

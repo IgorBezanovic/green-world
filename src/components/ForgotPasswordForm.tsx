@@ -7,7 +7,7 @@ import { CustomButton } from './CustomButton';
 import { CustomInput } from './CustomInput';
 
 export const ForgotPasswordForm = () => {
-  const { mutate, error, isLoading } = useForgotPassword();
+  const { mutate, error, isPending } = useForgotPassword();
   const [email, setEmail] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,18 +46,18 @@ export const ForgotPasswordForm = () => {
           id="e-mail"
           placeholder="Unesite email"
           error={(error as any)?.response?.data}
-          isLoading={isLoading}
+          isLoading={isPending}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
           }
-          disabled={isLoading}
+          disabled={isPending}
           prefix={<MailOutlined className={clsx('text-groupTransparent')} />}
         />
         <CustomButton
           htmlType="submit"
           type="text"
           text={
-            isLoading ? (
+            isPending ? (
               <LoadingOutlined
                 className={clsx('text-groupTransparent', 'my-2')}
               />
@@ -68,10 +68,10 @@ export const ForgotPasswordForm = () => {
           customStyle={[
             'mt-2',
             {
-              'border-groupTransparent': isLoading
+              'border-groupTransparent': isPending
             }
           ]}
-          disabled={isLoading}
+          disabled={isPending}
         />
         {(error as any) && (
           <p className={clsx('font-medium', 'text-red', 'mt-2')}>

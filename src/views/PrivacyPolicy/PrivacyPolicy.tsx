@@ -1,17 +1,16 @@
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const PrivacyPolicy = () => {
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Politika privatnosti', route: '/privacy-policy' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Politika privatnosti</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/privacy-policy`}
-        />
-      </Helmet>
+      <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
 
       <div
         className={clsx(
@@ -27,6 +26,8 @@ export const PrivacyPolicy = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="h3" gutterBottom>
             Politika privatnosti

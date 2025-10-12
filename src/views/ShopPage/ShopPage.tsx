@@ -1,13 +1,20 @@
-import { ProductCard } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  MetaTags,
+  ProductCard,
+  SocialMedia
+} from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
+import { formatUrl } from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
   Avatar,
   CircularProgress,
   IconButton,
-  TextField
+  TextField,
+  useTheme
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
@@ -22,15 +29,16 @@ import {
   Search
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-export const UsersPage = () => {
+export const ShopPage = () => {
   const { userId } = useParams();
   const { data, isLoading } = useUser(userId || '');
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(userId);
   const [search, setSearch] = useState<string>('');
+  const theme = useTheme();
+
   const PLACEHOLDER_IMG =
     'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
 
@@ -52,6 +60,19 @@ export const UsersPage = () => {
     });
   }, [sellerProducts, search]);
 
+  const metaObj = useMemo(
+    () => ({
+      title: data
+        ? ['Zeleni svet', 'Korisnicki profil', data.shopName, data.name]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | Korisnicki profil',
+      description: data?.shopDescription || 'Korisnicki profil Zeleni Svet',
+      image: data?.profileImage || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [data]
+  );
+
   if (!userId) return <></>;
   if (isLoading) {
     return (
@@ -69,25 +90,90 @@ export const UsersPage = () => {
     );
   }
 
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Prodavnice', route: '/shops' },
+    {
+      label: data?.shopName || data?.name || 'Prodavnica',
+      route: `/shop/${userId}`
+    }
+  ];
+
   return (
     <Box className="w-full bg-whiteLinen min-h-viewHeight">
-      <Helmet>
-        <title>Zeleni svet | {data?.shopName || data?.name}</title>
-        <meta property="og:image" content={`${data?.profileImage}`} />
-        <meta
-          property="og:title"
-          content={`${data?.shopName} | ${data?.name}`}
-        />
-        <meta property="og:description" content={`${data?.shopDescription}`} />
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/user/${userId}`}
-        />
-      </Helmet>
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
+      />
+
+      <div
+        className={clsx(
+          'xl:max-w-[1400px]',
+          'w-full',
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7'
+        )}
+      >
+        <AppBreadcrumbs pages={pages} />
+      </div>
 
       {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
-        {data?.address.street || data?.address.city || data?.address.country ? (
+        {data?.onlyOnline ? (
+          <Box
+            className="relative flex items-center justify-center w-full h-full p-6"
+            sx={{
+              background: 'linear-gradient(135deg, #f0fff4 0%, #e6f7ff 100%)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 12,
+                left: 12,
+                backgroundColor: theme.palette.primary.light,
+                color: theme.palette.primary.contrastText,
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                padding: '4px 10px',
+                borderRadius: '12px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+              }}
+            >
+              Ovaj prodavac posluje samo online
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 1.5 }}>
+              <IconButton
+                component="a"
+                href={formatUrl(data?.website)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="website"
+                sx={{ padding: 0 }}
+              >
+                <Globe
+                  color={theme.palette.primary.main}
+                  size={30}
+                  strokeWidth={3}
+                  className="override-size"
+                />
+              </IconButton>
+              <SocialMedia
+                color={theme.palette.primary.main}
+                socialMediaLinks={data?.socialMedia}
+              />
+            </Box>
+          </Box>
+        ) : data?.address?.street ||
+          data?.address?.city ||
+          data?.address?.country ? (
           <iframe
             width="100%"
             height="100%"
@@ -95,7 +181,7 @@ export const UsersPage = () => {
             loading="lazy"
             allowFullScreen
             src={`https://www.google.com/maps?q=${encodeURIComponent(
-              `${data?.address.street}, ${data?.address.city}, ${data?.address.country}`
+              `${data?.address?.street}, ${data?.address?.city}, ${data?.address?.country}`
             )}&output=embed`}
           />
         ) : sellerProducts?.length ? (
@@ -182,7 +268,7 @@ export const UsersPage = () => {
               </Typography>
             ))}
           {data?.shopDescription && (
-            <Typography variant="subtitle1" className="text-gray-600 mb-4">
+            <Typography variant="subtitle2" className="text-gray-600 mb-4">
               {data?.shopDescription}
             </Typography>
           )}
@@ -215,7 +301,9 @@ export const UsersPage = () => {
                 </a>
               </Box>
             )}
-            {data?.address && (
+            {(data?.address.street ||
+              data?.address?.city ||
+              data?.address?.country) && (
               <Box className="flex items-center gap-2">
                 <MapPin />
                 {[
@@ -227,10 +315,19 @@ export const UsersPage = () => {
                   .join(', ')}
               </Box>
             )}
+            {(data?.socialMedia?.facebook ||
+              data?.socialMedia?.instagram ||
+              data?.socialMedia?.linkedin ||
+              data?.socialMedia?.tiktok) && (
+              <SocialMedia
+                color={theme.palette.secondary.main}
+                socialMediaLinks={data?.socialMedia}
+                size="24px"
+              />
+            )}
           </Box>
         </Card>
 
-        {/* PRODUCTS */}
         <Box>
           <Typography variant="h3" className="!text-gray-700" sx={{ mb: 1 }}>
             Proizvodi korisnika

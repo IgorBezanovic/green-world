@@ -1,3 +1,4 @@
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
 import {
   CalendarToday,
@@ -18,25 +19,42 @@ import {
   Divider
 } from '@mui/material';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useParams } from 'react-router';
 
 export const Event = () => {
   const { eventId } = useParams();
   const { data: eventData } = useEvent(eventId!);
 
+  const metaObj = useMemo(
+    () => ({
+      title: eventData
+        ? ['Zeleni svet', 'Dogadjaj', eventData.title]
+            .filter(Boolean)
+            .join(' | ')
+        : 'Zeleni svet | Dogadjaj',
+      description: eventData?.description || 'Dogadjaj | Zeleni Svet',
+      image:
+        eventData?.coverImage || 'https://www.zelenisvet.rs/green-world.svg'
+    }),
+    [eventData]
+  );
+
   if (!eventId || !eventData) return null;
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Događaji', route: '/events' },
+    { label: eventData?.title, route: `/event/${eventId}` }
+  ];
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | {eventData?.title ?? 'Green World'}</title>
-        <link
-          rel="canonical"
-          href={`https://www.zelenisvet.rs/event/${eventId}`}
-        />
-      </Helmet>
-
+      <MetaTags
+        title={metaObj.title}
+        description={metaObj.description}
+        keywords={metaObj.description}
+        image={metaObj.image}
+      />
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -51,6 +69,7 @@ export const Event = () => {
           'gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
         <Typography variant="h1" color="secondary.main">
           {eventData.title}
         </Typography>

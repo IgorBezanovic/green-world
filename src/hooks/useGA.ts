@@ -1,11 +1,13 @@
 import { request } from '@green-world/utils/api';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export const useGA = () => {
-  return useQuery('googleAnalytics', () =>
-    request({
-      url: 'analytics/google',
-      method: 'get'
-    })
-  );
+  return useQuery({
+    queryKey: ['googleAnalytics'],
+    queryFn: () =>
+      request({
+        url: 'analytics/google',
+        method: 'get'
+      })
+  });
 };

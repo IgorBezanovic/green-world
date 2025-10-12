@@ -1,6 +1,6 @@
 import { ZSLogoLogoMark } from '@green-world/components';
 import { Box, Typography, useTheme } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 export const Navbar = () => {
   const theme = useTheme();

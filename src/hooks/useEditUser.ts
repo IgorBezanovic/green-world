@@ -1,10 +1,10 @@
 import { request } from '@green-world/utils/api';
 import { User } from '@green-world/utils/types';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useEditUser = () => {
-  return useMutation(
-    ({
+  return useMutation({
+    mutationFn: ({
       email,
       name,
       lastname,
@@ -16,7 +16,8 @@ export const useEditUser = () => {
       shopDescription,
       website,
       onlyOnline,
-      onlyOnThisSite
+      onlyOnThisSite,
+      socialMedia
     }: User) =>
       request({
         url: `/user`,
@@ -33,13 +34,12 @@ export const useEditUser = () => {
           shopDescription,
           website,
           onlyOnline,
-          onlyOnThisSite
+          onlyOnThisSite,
+          socialMedia
         }
       }),
-    {
-      onSuccess: () => {
-        // navigate('/profile');
-      }
+    onSuccess: () => {
+      // navigate('/profile');
     }
-  );
+  });
 };

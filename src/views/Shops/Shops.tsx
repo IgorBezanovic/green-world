@@ -1,3 +1,4 @@
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
 import {
   Box,
@@ -5,54 +6,23 @@ import {
   Avatar,
   CircularProgress,
   Card,
-  CardContent
+  CardContent,
+  useTheme
 } from '@mui/material';
 import clsx from 'clsx';
 import { Store, MapPin, Mail } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-
-// Helper funkcija za sortiranje po prioritetu
-const sortUsersByPriority = (users: any[]) => {
-  return users.slice().sort((a, b) => {
-    const aHasAddress =
-      a.address?.street || a.address?.city || a.address?.country;
-    const bHasAddress =
-      b.address?.street || b.address?.city || b.address?.country;
-    if (aHasAddress && !bHasAddress) return -1;
-    if (!aHasAddress && bHasAddress) return 1;
-
-    const aHasImage = !!a.profileImage;
-    const bHasImage = !!b.profileImage;
-    if (aHasImage && !bHasImage) return -1;
-    if (!aHasImage && bHasImage) return 1;
-
-    const aHasShopName = !!a.shopName;
-    const bHasShopName = !!b.shopName;
-    if (aHasShopName && !bHasShopName) return -1;
-    if (!aHasShopName && bHasShopName) return 1;
-
-    const aHasName = !!a.name;
-    const bHasName = !!b.name;
-    if (aHasName && !bHasName) return -1;
-    if (!aHasName && bHasName) return 1;
-
-    return 0;
-  });
-};
+import { useState } from 'react';
+import { Link } from 'react-router';
 
 export const Shops = () => {
   const { data, isLoading } = useAllUsers();
-  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
   const [loadingMap, setLoadingMap] = useState(true);
+  const theme = useTheme();
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      const sorted = sortUsersByPriority(data);
-      setFilteredUsers(sorted);
-    }
-  }, [data]);
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Prodavnice', route: '/shops' }
+  ];
 
   return (
     <Box
@@ -62,20 +32,18 @@ export const Shops = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <Helmet>
-        <title>Zeleni svet | Prodavnice | Green world</title>
-        <link rel="canonical" href="https://www.zelenisvet.rs/shops" />
-      </Helmet>
-
+      <MetaTags title={'Zeleni svet | Prodavnice | Green world'} />
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
           'w-full',
           'mx-auto',
           'px-4 sm:px-6 xl:px-0',
-          'py-10 flex flex-col gap-7'
+          'py-7 flex flex-col gap-7'
         )}
       >
+        <AppBreadcrumbs pages={pages} />
+
         <Typography
           variant="h1"
           color="secondary"
@@ -93,7 +61,7 @@ export const Shops = () => {
           <Box className="flex justify-center items-center min-h-[50vh]">
             <CircularProgress />
           </Box>
-        ) : !filteredUsers || filteredUsers.length === 0 ? (
+        ) : !data || data.length === 0 ? (
           <Typography variant="h6" className="text-gray-600 text-center">
             Trenutno nema dostupnih prodavnica.
           </Typography>
@@ -104,16 +72,16 @@ export const Shops = () => {
               'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
             )}
           >
-            {filteredUsers.map((user) => {
+            {data.map((user) => {
               const hasAddress =
-                user.address?.street ||
-                user.address?.city ||
-                user.address?.country;
+                user?.address?.street ||
+                user?.address?.city ||
+                user?.address?.country;
 
               return (
                 <Link
-                  to={`/user/${user._id}`}
-                  key={user._id}
+                  to={`/shop/${user?._id}`}
+                  key={user?._id}
                   style={{ textDecoration: 'none' }}
                 >
                   <Card
@@ -132,7 +100,33 @@ export const Shops = () => {
                   >
                     {/* Header cover */}
                     <Box className="relative w-full h-32 bg-gray-200 rounded-t-[16px] overflow-hidden">
-                      {hasAddress ? (
+                      {user?.onlyOnline ? (
+                        <Box
+                          className="relative flex items-center justify-center w-full h-full p-6"
+                          sx={{
+                            background:
+                              'linear-gradient(135deg, #f0fff4 0%, #e6f7ff 100%)',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              top: 12,
+                              left: 12,
+                              backgroundColor: theme.palette.primary.light,
+                              color: theme.palette.primary.contrastText,
+                              fontWeight: 600,
+                              fontSize: '0.8rem',
+                              padding: '4px 10px',
+                              borderRadius: '12px',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                            }}
+                          >
+                            Ovaj prodavac posluje samo online
+                          </Box>
+                        </Box>
+                      ) : hasAddress ? (
                         <>
                           {loadingMap && (
                             <Box className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
@@ -146,8 +140,8 @@ export const Shops = () => {
                             loading="lazy"
                             allowFullScreen
                             src={`https://www.google.com/maps?q=${encodeURIComponent(
-                              `${user.address?.street || ''}, ${user.address?.city || ''}, ${
-                                user.address?.country || ''
+                              `${user?.address?.street || ''}, ${user?.address?.city || ''}, ${
+                                user?.address?.country || ''
                               }`
                             )}&output=embed`}
                             onLoad={() => setLoadingMap(false)}
@@ -173,8 +167,8 @@ export const Shops = () => {
                       }}
                     >
                       <Avatar
-                        src={user.profileImage}
-                        alt={user.name}
+                        src={user?.profileImage}
+                        alt={user?.name}
                         sx={{
                           width: 80,
                           height: 80,
@@ -184,22 +178,22 @@ export const Shops = () => {
                           mt: -6
                         }}
                       />
-                      {(user.shopName || user.name) && (
+                      {(user?.shopName || user?.name) && (
                         <Typography
                           variant="h6"
                           className="flex items-center font-bold text-gray-800"
                           gutterBottom
                         >
                           <Store className="inline-block mr-1 h-5 w-5" />
-                          {user.shopName || user.name}
+                          {user?.shopName || user?.name}
                         </Typography>
                       )}
-                      {user.shopDescription && (
+                      {user?.shopDescription && (
                         <Typography
                           variant="body2"
                           className="text-gray-600 line-clamp-3"
                         >
-                          {user.shopDescription}
+                          {user?.shopDescription}
                         </Typography>
                       )}
 
@@ -207,16 +201,16 @@ export const Shops = () => {
                         className="flex flex-col gap-1 mt-3 text-sm text-gray-700"
                         sx={{ flexGrow: 1 }}
                       >
-                        {user.address?.city && (
+                        {user?.address?.city && (
                           <Box className="flex items-center gap-1 justify-center">
                             <MapPin className="h-4 w-4" />
-                            {user.address.city}, {user.address.country}
+                            {user?.address?.city}, {user?.address?.country}
                           </Box>
                         )}
-                        {user.email && (
+                        {user?.email && (
                           <Box className="flex items-center gap-1 justify-center">
                             <Mail className="h-4 w-4" />
-                            {user.email}
+                            {user?.email}
                           </Box>
                         )}
                       </Box>

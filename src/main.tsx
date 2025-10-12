@@ -6,50 +6,40 @@ import { ThemeProvider } from '@green-world/theme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from '@vercel/analytics/react';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@green-world/styles.css';
 
+import '@fontsource/montserrat';
+import '@fontsource/ephesis';
+
 const queryClient = new QueryClient();
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-const router = createBrowserRouter(routes, {
-  future: {
-    v7_relativeSplatPath: true,
-    v7_normalizeFormMethod: true
-  }
-});
+const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={googleClientId}>
       <ThemeProvider>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
-            <UserContextProvider>
-              <SuccessProvider>
-                <Suspense fallback={<Loader />}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <RouterProvider
-                      router={router}
-                      future={{
-                        v7_startTransition: true
-                      }}
-                    />
-                    <Analytics />
-                    <ToastContainer />
-                  </LocalizationProvider>
-                </Suspense>
-              </SuccessProvider>
-            </UserContextProvider>
-          </QueryClientProvider>
-        </HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <UserContextProvider>
+            <SuccessProvider>
+              <Suspense fallback={<Loader />}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <RouterProvider router={router} />
+                  <Analytics />
+                  <ToastContainer />
+                </LocalizationProvider>
+              </Suspense>
+            </SuccessProvider>
+          </UserContextProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>

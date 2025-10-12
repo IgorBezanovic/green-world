@@ -1,13 +1,21 @@
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 export const useMetaAuth = () => {
   const navigate = useNavigate();
 
-  return useMutation(
-    ({ name, email, image }: { name: string; email: string; image: string }) =>
+  return useMutation({
+    mutationFn: ({
+      name,
+      email,
+      image
+    }: {
+      name: string;
+      email: string;
+      image: string;
+    }) =>
       request({
         url: `/auth/meta`,
         method: 'post',
@@ -17,14 +25,12 @@ export const useMetaAuth = () => {
           image
         }
       }),
-    {
-      onSuccess: (data: string) => {
-        setItem('token', data);
-        navigate('/');
-        setTimeout(() => {
-          window.location.reload();
-        }, 10);
-      }
+    onSuccess: (data: string) => {
+      setItem('token', data);
+      navigate('/');
+      setTimeout(() => {
+        window.location.reload();
+      }, 10);
     }
-  );
+  });
 };

@@ -1,10 +1,10 @@
 import { request } from '@green-world/utils/api';
 import { Product } from '@green-world/utils/types';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useEditProduct = (id: string) => {
-  return useMutation(
-    ({
+  return useMutation({
+    mutationFn: ({
       group,
       subGroup,
       title,
@@ -36,10 +36,8 @@ export const useEditProduct = (id: string) => {
           milliliters
         }
       }),
-    {
-      onSuccess: () => {
-        // navigate('/profile');
-      }
+    onSuccess: () => {
+      // navigate('/profile');
     }
-  );
+  });
 };

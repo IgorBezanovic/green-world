@@ -1,17 +1,21 @@
-import { BackButton, ForgotPasswordForm } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  ForgotPasswordForm,
+  MetaTags
+} from '@green-world/components';
 import clsx from 'clsx';
-import { Helmet } from 'react-helmet-async';
 
 export const ForgotPassword = () => {
+  const pages = [
+    { label: 'Početna', route: '/' },
+    { label: 'Uloguj se', route: '/login' },
+    { label: 'Zaboravljena Lozinka', route: '/forgot-password' }
+  ];
+
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
-      <Helmet>
-        <title>Zeleni svet | Zaboravljen password</title>
-        <link
-          rel="canonical"
-          href="https://www.zelenisvet.rs/forgot-password"
-        />
-      </Helmet>
+      <MetaTags title={'Zeleni Svet | Zaboravljena Lozinka | Green World'} />
+
       <div
         className={clsx(
           'xl:max-w-[1400px]',
@@ -26,17 +30,7 @@ export const ForgotPassword = () => {
           'gap-7'
         )}
       >
-        <div
-          className={clsx(
-            'hidden',
-            'md:flex',
-            'xl:max-w-[1400px]',
-            'w-full',
-            'mx-auto'
-          )}
-        >
-          <BackButton />
-        </div>
+        <AppBreadcrumbs pages={pages} />
         <ForgotPasswordForm />
       </div>
     </div>

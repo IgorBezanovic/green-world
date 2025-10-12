@@ -1,8 +1,8 @@
 import { request } from '@green-world/utils/api';
 import { getItem } from '@green-world/utils/cookie';
 import { Product } from '@green-world/utils/types';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { jwtDecode } from 'jwt-decode';
-import { useQuery, UseQueryResult } from 'react-query';
 
 export const useAllUserProducts = (
   userId?: string
@@ -12,10 +12,12 @@ export const useAllUserProducts = (
   // Check if userId is passed, if not use the userId from the token
   const userIdToUse = userId ? userId : decodedToken?._id;
 
-  return useQuery(['allUserProducts', userIdToUse], () =>
-    request({
-      url: `/product/personal/${userIdToUse}`,
-      method: 'get'
-    })
-  );
+  return useQuery({
+    queryKey: ['allUserProducts', userIdToUse],
+    queryFn: () =>
+      request({
+        url: `/product/personal/${userIdToUse}`,
+        method: 'get'
+      })
+  });
 };
