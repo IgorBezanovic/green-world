@@ -1,5 +1,5 @@
 import Chat from '@green-world/components/Chat/Chat';
-import { formatUrl } from '@green-world/utils/helpers';
+import { formatUrl, goToDestination } from '@green-world/utils/helpers';
 import {
   Avatar,
   Card,
@@ -22,9 +22,8 @@ import {
   Phone,
   Store,
   MapPin,
-  Settings,
-  Milestone,
-  MessageCircle
+  MessageCircle,
+  Settings
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -35,18 +34,6 @@ export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const [isChatOpen, setIsChatOpen] = useState(false);
-
-  const goToDestination = () => {
-    const addressParts = [
-      props?.user?.address?.street,
-      props?.user?.address?.city,
-      props?.user?.address?.country
-    ].filter(Boolean);
-
-    const destination = encodeURIComponent(addressParts.join(', '));
-
-    return `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
-  };
 
   if (props?.userLoading) {
     return (
@@ -212,13 +199,19 @@ export const UserInfo = ({ ...props }) => {
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Button
               component="a"
-              href={goToDestination()}
+              href={goToDestination(
+                props?.user?.address?.street,
+                props?.user?.address?.city,
+                props?.user?.address?.country
+              )}
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"
               color="primary"
-              startIcon={<Milestone />}
-              sx={{ mt: 2, p: 1 }}
+              sx={{
+                mt: 2,
+                p: 1
+              }}
             >
               <Typography variant="body2" component="span">
                 Navigacija

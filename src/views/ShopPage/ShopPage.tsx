@@ -6,7 +6,7 @@ import {
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { formatUrl } from '@green-world/utils/helpers';
+import { formatUrl, goToDestination } from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
@@ -14,7 +14,8 @@ import {
   CircularProgress,
   IconButton,
   TextField,
-  useTheme
+  useTheme,
+  Button
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
@@ -122,7 +123,6 @@ export const ShopPage = () => {
         <AppBreadcrumbs pages={pages} />
       </div>
 
-      {/* HERO */}
       <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
         {data?.onlyOnline ? (
           <Box
@@ -150,21 +150,23 @@ export const ShopPage = () => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: 1.5 }}>
-              <IconButton
-                component="a"
-                href={formatUrl(data?.website)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="website"
-                sx={{ padding: 0 }}
-              >
-                <Globe
-                  color={theme.palette.primary.main}
-                  size={30}
-                  strokeWidth={3}
-                  className="override-size"
-                />
-              </IconButton>
+              {data?.website && (
+                <IconButton
+                  component="a"
+                  href={formatUrl(data?.website)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="website"
+                  sx={{ padding: 0 }}
+                >
+                  <Globe
+                    color={theme.palette.primary.main}
+                    size={30}
+                    strokeWidth={3}
+                    className="override-size"
+                  />
+                </IconButton>
+              )}
               <SocialMedia
                 color={theme.palette.primary.main}
                 socialMediaLinks={data?.socialMedia}
@@ -186,7 +188,6 @@ export const ShopPage = () => {
           />
         ) : sellerProducts?.length ? (
           <Box className="w-full h-full flex flex-col justify-center gap-3 p-4 overflow-hidden">
-            {/* Prvi red - pocinje od pocetka */}
             <Box className="flex gap-3">
               {sellerProducts
                 .flatMap((p) => p.images)
@@ -201,7 +202,6 @@ export const ShopPage = () => {
                 ))}
             </Box>
 
-            {/* Drugi red - krece od polovine prve slike */}
             <Box className="flex gap-3 -translate-x-16">
               {sellerProducts
                 .flatMap((p) => p.images)
@@ -216,7 +216,6 @@ export const ShopPage = () => {
                 ))}
             </Box>
 
-            {/* Treci red - opet ispocetka */}
             <Box className="flex gap-3">
               {sellerProducts
                 .flatMap((p) => p.images)
@@ -232,7 +231,6 @@ export const ShopPage = () => {
             </Box>
           </Box>
         ) : (
-          // Fallback gradient
           <Box className="w-full h-full bg-gradient-to-r from-green-300 to-green-600" />
         )}
 
@@ -259,37 +257,63 @@ export const ShopPage = () => {
           'py-20 flex flex-col gap-7'
         )}
       >
-        {/* USER INFO */}
-        <Card className="shadow-md rounded-2xl p-6">
-          {data?.shopName ||
-            (data?.name && (
-              <Typography variant="h5" className="flex items-center font-bold">
-                <Store className="mr-1" /> {data?.shopName || data?.name}
-              </Typography>
-            ))}
+        <Card className="shadow-md rounded-2xl">
+          {(data?.shopName || data?.name) && (
+            <Typography variant="h5" className="flex items-center font-bold">
+              <Store className="mr-1" /> {data?.shopName || data?.name}
+            </Typography>
+          )}
           {data?.shopDescription && (
             <Typography variant="subtitle2" className="text-gray-600 mb-4">
               {data?.shopDescription}
             </Typography>
           )}
-          <Box className="flex flex-col gap-2 text-gray-700">
+          <Box className="flex flex-col gap-2 text-gray-700 mt-2">
             {data?.name && (
-              <Box className="flex items-center gap-2">
+              <Box
+                className="flex items-center gap-2"
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    fontSize: '12px'
+                  }
+                }}
+              >
                 <User /> {data?.name}
               </Box>
             )}
             {data?.phone && (
-              <Box className="flex items-center gap-2">
+              <Box
+                className="flex items-center gap-2"
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    fontSize: '12px'
+                  }
+                }}
+              >
                 <Phone /> {data?.phone}
               </Box>
             )}
             {data?.email && (
-              <Box className="flex items-center gap-2">
+              <Box
+                className="flex items-center gap-2"
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    fontSize: '12px'
+                  }
+                }}
+              >
                 <Mail /> {data?.email}
               </Box>
             )}
             {data?.website && (
-              <Box className="flex items-center gap-2">
+              <Box
+                className="flex items-center gap-2"
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    fontSize: '12px'
+                  }
+                }}
+              >
                 <Globe />
                 <a
                   href={data?.website}
@@ -314,6 +338,23 @@ export const ShopPage = () => {
                   .filter(Boolean)
                   .join(', ')}
               </Box>
+            )}
+            {(data?.address.street ||
+              data?.address?.city ||
+              data?.address?.country) && (
+              <Button
+                sx={{ flex: 1, maxWidth: 300, marginTop: 4 }}
+                variant="outlined"
+                href={goToDestination(
+                  data?.address?.street,
+                  data?.address?.city,
+                  data?.address?.country
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Navigacija
+              </Button>
             )}
             {(data?.socialMedia?.facebook ||
               data?.socialMedia?.instagram ||

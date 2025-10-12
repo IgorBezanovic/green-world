@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router';
 
 export type SearchOptionType = {
   id: string;
-  type: 'product' | 'event' | 'user';
+  type: 'product' | 'event' | 'user' | 'shop';
   title: string;
   image?: string;
   phone?: string;
@@ -67,7 +67,10 @@ export const AISearch = () => {
       filterOptions={(x) => x}
       onChange={(_, newValue) => {
         setValue(newValue);
-        if (newValue) navigate(`/${newValue.type}/${newValue.id}`);
+        if (newValue)
+          navigate(
+            `/${newValue.type === 'user' ? 'shop' : newValue.type}/${newValue.id}`
+          );
       }}
       noOptionsText={isLoading ? 'Učitavanje...' : 'Nema rezultata'}
       slotProps={{
@@ -122,7 +125,7 @@ export const AISearch = () => {
               <Typography variant="body2" fontWeight={500}>
                 {option.title}
               </Typography>
-              {option.type === 'user' && (
+              {option.type === 'shop' && (
                 <Typography
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}

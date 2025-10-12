@@ -35,7 +35,7 @@ import { AiButton } from './component';
 
 const initProduct: Product = {
   _id: '',
-  group: '',
+  group: '' as keyof typeof subGroups,
   subGroup: '',
   title: '',
   description: '',
@@ -130,7 +130,7 @@ export const CreateEditProduct = () => {
     }));
   }, [productImage]);
 
-  const handleGroupChange = (e: string) => {
+  const handleGroupChange = (e: keyof typeof subGroups) => {
     setProduct({ ...product, group: e });
   };
 

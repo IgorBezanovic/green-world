@@ -9,7 +9,7 @@ export default {
         md: '768px',
         lg: '976px',
         lgm: '1024px',
-        xl: '1440px'
+        xl: '1400px'
       },
       colors: {
         groupTransparent: 'rgba(81, 81, 81, 0.60)',
