@@ -1,5 +1,7 @@
 import Chat from '@green-world/components/Chat/Chat';
+import { getItem } from '@green-world/utils/cookie';
 import { formatUrl, goToDestination } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import {
   Avatar,
   Card,
@@ -15,6 +17,7 @@ import {
   useTheme
 } from '@mui/material';
 import clsx from 'clsx';
+import { jwtDecode } from 'jwt-decode';
 import {
   Camera,
   Globe,
@@ -34,6 +37,8 @@ export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const token = getItem('token');
+  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
   if (props?.userLoading) {
     return (
@@ -196,40 +201,59 @@ export const UserInfo = ({ ...props }) => {
             </Typography>
           )}
 
-          {props?.user?.address?.city && props?.user?.address?.country && (
-            <Button
-              component="a"
-              href={goToDestination(
-                props?.user?.address?.street,
-                props?.user?.address?.city,
-                props?.user?.address?.country
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outlined"
-              color="primary"
-              sx={{
-                mt: 2,
-                p: 1
-              }}
-            >
-              <Typography variant="body2" component="span">
-                Navigacija
-              </Typography>
-            </Button>
-          )}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
+              mt: 2
+            }}
+          >
+            {props?.user?.address?.city && props?.user?.address?.country && (
+              <Button
+                component="a"
+                href={goToDestination(
+                  props?.user?.address?.street,
+                  props?.user?.address?.city,
+                  props?.user?.address?.country
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+                color="primary"
+                sx={{
+                  flex: 1,
+                  py: 1.5,
+                  px: 2,
+                  fontWeight: 600,
+                  textTransform: 'none'
+                }}
+              >
+                <Typography variant="body2" component="span">
+                  Navigacija
+                </Typography>
+              </Button>
+            )}
 
-          {!props?.isUserProfile && (
-            <Button
-              variant="contained"
-              color="secondary"
-              startIcon={<MessageCircle />}
-              sx={{ mt: 2, p: 1 }}
-              onClick={() => setIsChatOpen(true)}
-            >
-              Kontaktiraj prodavca
-            </Button>
-          )}
+            {!props?.isUserProfile && (
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<MessageCircle />}
+                disabled={decodedToken?._id === props?.user?._id}
+                onClick={() => setIsChatOpen(true)}
+                sx={{
+                  flex: 1,
+                  py: 1.5,
+                  px: 2,
+                  fontWeight: 600,
+                  textTransform: 'none'
+                }}
+              >
+                Kontaktiraj prodavca
+              </Button>
+            )}
+          </Box>
           <Box sx={{ mt: 2 }}>
             <SocialMedia
               color={theme.palette.secondary.main}
@@ -249,7 +273,10 @@ export const UserInfo = ({ ...props }) => {
         <DialogContent>
           <Chat
             chatWithId={props?.user?._id}
-            onClose={() => setIsChatOpen(false)}
+            userName={
+              `${props?.user?.name ?? ''} ${props?.user?.lastname ?? ''}`.trim() ||
+              'Prodavac'
+            }
           />
         </DialogContent>
       </Dialog>

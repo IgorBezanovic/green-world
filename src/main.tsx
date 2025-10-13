@@ -17,6 +17,7 @@ import '@green-world/styles.css';
 
 import '@fontsource/montserrat';
 import '@fontsource/ephesis';
+import { ChatContextProvider } from './context/ChatContext';
 
 const queryClient = new QueryClient();
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -29,15 +30,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <UserContextProvider>
-            <SuccessProvider>
-              <Suspense fallback={<Loader />}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <RouterProvider router={router} />
-                  <Analytics />
-                  <ToastContainer />
-                </LocalizationProvider>
-              </Suspense>
-            </SuccessProvider>
+            <ChatContextProvider>
+              <SuccessProvider>
+                <Suspense fallback={<Loader />}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <RouterProvider router={router} />
+                    <Analytics />
+                    <ToastContainer />
+                  </LocalizationProvider>
+                </Suspense>
+              </SuccessProvider>
+            </ChatContextProvider>
           </UserContextProvider>
         </QueryClientProvider>
       </ThemeProvider>

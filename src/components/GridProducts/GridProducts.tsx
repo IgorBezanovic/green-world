@@ -9,7 +9,6 @@ interface GridProductsProps {
 }
 
 export const GridProducts = ({ products }: GridProductsProps) => {
-  console.log(products);
   return (
     <Box
       sx={(theme) => ({

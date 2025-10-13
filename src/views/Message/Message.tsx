@@ -100,6 +100,7 @@ export const Message = () => {
             <Chat
               chatWithId={activeChatUserId}
               onClose={() => setIsChatOpen(false)}
+              userName={conversations.userName}
             />
           )}
         </Dialog>

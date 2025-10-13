@@ -1,39 +1,34 @@
-import ChatComponent from '@green-world/components/Chat/Chat';
+import Chat from '@green-world/components/Chat/Chat';
+import { ChatContext } from '@green-world/context/ChatContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem } from '@green-world/utils/cookie';
-import { Chat } from '@mui/icons-material';
+import { Chat as ChatIcon } from '@mui/icons-material';
 import {
   SpeedDial,
-  SpeedDialIcon,
   SpeedDialAction,
   Typography,
-  Dialog,
-  DialogContent
+  useTheme
 } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 export const ChatLine = () => {
   const { data, isLoading, error, refetch } = useUserMessage();
-  const [open, setOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [activeChatUserId, setActiveChatUserId] = useState<string | null>(null);
   const token = getItem('token');
+  const [open, setOpen] = useState(false);
+
+  const { openChat, openChats } = useContext(ChatContext);
+  const theme = useTheme();
 
   if (!token) return null;
 
   const messages = data?.data?.slice(-5) ?? [];
 
-  const handleOpenChat = (userId: string) => {
-    setActiveChatUserId(userId);
-    setIsChatOpen(true);
-  };
-
   return (
     <>
-      <div style={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1200 }}>
+      <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1200 }}>
         <SpeedDial
           ariaLabel="Poslednje poruke"
-          icon={<SpeedDialIcon icon={<Chat />} />}
+          icon={<ChatIcon />}
           direction="up"
           open={open}
           onOpen={() => {
@@ -41,6 +36,19 @@ export const ChatLine = () => {
             refetch();
           }}
           onClose={() => setOpen(false)}
+          FabProps={{
+            sx: {
+              width: 64,
+              height: 64,
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.common.white,
+              '&:hover': {
+                backgroundColor: theme.palette.secondary.dark
+              },
+              boxShadow: `0 3px 8px ${theme.palette.grey[400]}`,
+              borderRadius: '50%'
+            }
+          }}
         >
           {isLoading && (
             <SpeedDialAction
@@ -68,11 +76,13 @@ export const ChatLine = () => {
                   <div
                     style={{
                       position: 'relative',
-                      width: 60,
-                      height: 60,
+                      width: 64,
+                      height: 44,
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      borderRadius: '50%',
+                      backgroundColor: theme.palette.secondary.main
                     }}
                   >
                     <Typography
@@ -81,7 +91,7 @@ export const ChatLine = () => {
                         fontWeight: 600,
                         textAlign: 'center',
                         lineHeight: 1.1,
-                        color: 'white'
+                        color: theme.palette.primary.contrastText
                       }}
                     >
                       {msg.otherUserName?.length > 8
@@ -93,10 +103,10 @@ export const ChatLine = () => {
                       <div
                         style={{
                           position: 'absolute',
-                          top: 4,
-                          right: 4,
-                          backgroundColor: 'red',
-                          color: 'white',
+                          top: 0,
+                          right: 0,
+                          backgroundColor: theme.palette.error.main,
+                          color: theme.palette.error.contrastText,
                           borderRadius: '50%',
                           width: 18,
                           height: 18,
@@ -104,7 +114,8 @@ export const ChatLine = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                           fontSize: 10,
-                          fontWeight: 'bold'
+                          fontWeight: 'bold',
+                          boxShadow: `0 0 3px ${theme.palette.grey[600]}`
                         }}
                       >
                         {msg.unreadCount}
@@ -114,20 +125,16 @@ export const ChatLine = () => {
                 }
                 FabProps={{
                   sx: {
-                    width: 60,
-                    height: 60,
-                    backgroundColor: '#1976d2',
-                    '&:hover': { backgroundColor: '#115293' }
+                    width: 64,
+                    height: 64,
+                    backgroundColor: theme.palette.primary.main,
+                    '&:hover': {
+                      backgroundColor: theme.palette.primary.dark
+                    },
+                    boxShadow: `0 3px 8px ${theme.palette.grey[400]}`
                   }
                 }}
-                tooltipTitle={
-                  <div style={{ maxWidth: 220, whiteSpace: 'normal' }}>
-                    {msg.lastMessage?.content ||
-                      msg.content ||
-                      'Nema sadržaja poruke'}
-                  </div>
-                }
-                onClick={() => handleOpenChat(msg.otherUserId)}
+                onClick={() => openChat(msg.otherUserId, msg.otherUserName)}
               />
             ))}
 
@@ -135,7 +142,14 @@ export const ChatLine = () => {
             <SpeedDialAction
               key="empty"
               icon={
-                <Typography sx={{ fontSize: 11, textAlign: 'center', px: 1 }}>
+                <Typography
+                  sx={{
+                    fontSize: 11,
+                    textAlign: 'center',
+                    px: 1,
+                    color: theme.palette.text.secondary
+                  }}
+                >
                   Nema
                 </Typography>
               }
@@ -145,22 +159,15 @@ export const ChatLine = () => {
         </SpeedDial>
       </div>
 
-      <Dialog
-        open={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        fullWidth
-        maxWidth="sm"
-        PaperProps={{ style: { overflow: 'hidden' } }}
-      >
-        <DialogContent sx={{ p: 0 }}>
-          {activeChatUserId && (
-            <ChatComponent
-              chatWithId={activeChatUserId}
-              onClose={() => setIsChatOpen(false)}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+      {openChats.map((chat, index) => (
+        <Chat
+          key={chat.userId}
+          chatWithId={chat.userId}
+          userName={chat.userName}
+          stylePosition={{ right: 100 + index }}
+          index={index}
+        />
+      ))}
     </>
   );
 };

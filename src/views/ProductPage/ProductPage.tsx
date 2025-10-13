@@ -4,16 +4,19 @@ import {
   AppBreadcrumbs,
   ZSLogoLogoMark
 } from '@green-world/components';
+import Chat from '@green-world/components/Chat/Chat';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
 import { homeCategories } from '@green-world/utils/constants';
+import { getItem } from '@green-world/utils/cookie';
 import {
   goToDestination,
   translateGroupToSr,
   translateSubGroupToSr
 } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import {
   Avatar,
   Box,
@@ -27,6 +30,7 @@ import {
   useTheme
 } from '@mui/material';
 import dayjs from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import {
   Store,
   Phone,
@@ -63,7 +67,8 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
-
+  const token = getItem('token');
+  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
   const handlePrev = () => {
     if (!productData?.images.length) return;
 
@@ -79,6 +84,7 @@ export const ProductPage = () => {
       prevIndex === productData?.images?.length - 1 ? 0 : prevIndex + 1
     );
   };
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const metaObj = useMemo(
     () => ({
@@ -561,7 +567,12 @@ export const ProductPage = () => {
                     mt: 4
                   }}
                 >
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    disabled={decodedToken?._id === sellerData?._id}
+                    onClick={() => setIsChatOpen(true)}
+                  >
                     Pošalji poruku
                     <Box
                       sx={{
@@ -586,6 +597,16 @@ export const ProductPage = () => {
                       Uskoro
                     </Box>
                   </Button>
+                  {isChatOpen && (
+                    <Chat
+                      chatWithId={sellerData?._id || ''}
+                      userName={
+                        `${sellerData?.name ?? ''} ${sellerData?.lastname ?? ''}`.trim() ||
+                        'Prodavac'
+                      }
+                      onClose={() => setIsChatOpen(false)} // ✅ ovo OBAVEZNO
+                    />
+                  )}
                   <Button variant="outlined" color="secondary">
                     Poruči proizvod
                     <Box

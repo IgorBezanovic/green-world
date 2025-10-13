@@ -34,7 +34,6 @@ export const useHomeProducts = (): UseQueryResult<HomepageProductsResponse> => {
         url: '/product/homepage-products',
         method: 'get'
       });
-      console.log('iz hooka', data);
       storeEncrypted('homepage-products', data);
       return data;
     },

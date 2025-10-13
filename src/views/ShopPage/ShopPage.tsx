@@ -4,9 +4,12 @@ import {
   ProductCard,
   SocialMedia
 } from '@green-world/components';
+import Chat from '@green-world/components/Chat/Chat';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
+import { getItem } from '@green-world/utils/cookie';
 import { formatUrl, goToDestination } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
   Typography,
@@ -19,6 +22,7 @@ import {
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
+import { jwtDecode } from 'jwt-decode';
 import {
   Phone,
   Mail,
@@ -27,7 +31,8 @@ import {
   User,
   MapPin,
   X,
-  Search
+  Search,
+  MessageCircle
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -39,13 +44,15 @@ export const ShopPage = () => {
     useAllUserProducts(userId);
   const [search, setSearch] = useState<string>('');
   const theme = useTheme();
-
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const PLACEHOLDER_IMG =
     'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
 
   const handleClear = () => {
     setSearch('');
   };
+  const token = getItem('token');
+  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
 
   const filteredProducts = useMemo(() => {
     return sellerProducts?.filter((prod) => {
@@ -339,22 +346,66 @@ export const ShopPage = () => {
                   .join(', ')}
               </Box>
             )}
-            {(data?.address.street ||
-              data?.address?.city ||
-              data?.address?.country) && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                mt: 4,
+                width: '100%',
+                maxWidth: 300
+              }}
+            >
+              {(data?.address.street ||
+                data?.address?.city ||
+                data?.address?.country) && (
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  href={goToDestination(
+                    data?.address?.street,
+                    data?.address?.city,
+                    data?.address?.country
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    py: 1.5,
+                    px: 2,
+                    fontWeight: 600,
+                    textTransform: 'none'
+                  }}
+                >
+                  Navigacija
+                </Button>
+              )}
+
               <Button
-                sx={{ flex: 1, maxWidth: 300, marginTop: 4 }}
-                variant="outlined"
-                href={goToDestination(
-                  data?.address?.street,
-                  data?.address?.city,
-                  data?.address?.country
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
+                fullWidth
+                variant="contained"
+                color="secondary"
+                startIcon={<MessageCircle />}
+                disabled={decodedToken?._id === data?._id}
+                onClick={() => setIsChatOpen(true)}
+                sx={{
+                  py: 1.5,
+                  px: 2,
+                  fontWeight: 600,
+                  textTransform: 'none'
+                }}
               >
-                Navigacija
+                Kontaktiraj prodavca
               </Button>
+            </Box>
+            {isChatOpen && (
+              <Chat
+                chatWithId={data?._id || ''}
+                userName={
+                  `${data?.name ?? ''} ${data?.lastname ?? ''}`.trim() ||
+                  'Prodavac'
+                }
+                onClose={() => setIsChatOpen(false)}
+              />
             )}
             {(data?.socialMedia?.facebook ||
               data?.socialMedia?.instagram ||
@@ -368,7 +419,6 @@ export const ShopPage = () => {
             )}
           </Box>
         </Card>
-
         <Box>
           <Typography variant="h3" className="!text-gray-700" sx={{ mb: 1 }}>
             Proizvodi korisnika
