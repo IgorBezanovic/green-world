@@ -1,4 +1,5 @@
 import { useSearch } from '@green-world/hooks/useSearch';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Autocomplete,
   TextField,
@@ -89,20 +90,6 @@ export const AISearch = () => {
           }
         }
       }}
-      //   renderGroup={(params) => (
-      //     <li key={params.key}>
-      //       <Box
-      //         sx={{
-      //           color: (theme) => theme.palette.text.primary,
-      //           px: 1,
-      //           py: 0.5
-      //         }}
-      //       >
-      //         {params.group}
-      //       </Box>
-      //       <ul style={{ padding: 0 }}>{params.children}</ul>
-      //     </li>
-      //   )}
       inputValue={inputValue}
       onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
@@ -117,7 +104,7 @@ export const AISearch = () => {
             sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
           >
             <Avatar
-              src={option.image}
+              src={formatImageUrl(option.image || '', 55)}
               alt={option.title}
               sx={{ width: 32, height: 32 }}
             />

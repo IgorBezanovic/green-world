@@ -10,6 +10,7 @@ import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
 import { homeCategories } from '@green-world/utils/constants';
 import {
+  formatImageUrl,
   goToDestination,
   translateGroupToSr,
   translateSubGroupToSr
@@ -89,7 +90,8 @@ export const ProductPage = () => {
         : 'Zeleni svet | proizvod',
       description: productData?.description || 'Proizvod Zeleni Svet',
       image:
-        productData?.images[0] || 'https://www.zelenisvet.rs/green-world.svg'
+        formatImageUrl(productData?.images[0] || '') ||
+        'https://www.zelenisvet.rs/green-world.svg'
     }),
     [productData]
   );
@@ -228,7 +230,7 @@ export const ProductPage = () => {
                     )}
                   <Box
                     component="img"
-                    src={productData?.images[idexOfImage]}
+                    src={formatImageUrl(productData?.images[idexOfImage] || '')}
                     alt={productData?.title}
                     onClick={() => setOpenImageModal(true)}
                     sx={{
@@ -300,7 +302,7 @@ export const ProductPage = () => {
                         (image: string, index: number) => (
                           <Box
                             component="img"
-                            src={image}
+                            src={formatImageUrl(image, 55)}
                             alt={image}
                             key={image}
                             onClick={() => setIndexOfImage(index)}
@@ -418,7 +420,7 @@ export const ProductPage = () => {
                             borderRadius: '50%',
                             objectFit: 'cover'
                           }}
-                          src={sellerData.profileImage}
+                          src={formatImageUrl(sellerData.profileImage, 55)}
                           alt={sellerData?.name}
                         />
                       ) : (

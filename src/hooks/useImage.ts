@@ -9,7 +9,7 @@ export const useImage = (isUserProfileImage?: boolean) => {
   return useMutation({
     mutationFn: (file: FormData) =>
       request({
-        url: '/storage/upload/',
+        url: '/aws/upload/',
         method: 'post',
         data: file,
         headers: {

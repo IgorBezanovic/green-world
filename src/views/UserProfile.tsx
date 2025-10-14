@@ -10,6 +10,7 @@ import {
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
@@ -73,7 +74,9 @@ export const UserProfile = () => {
             .join(' | ')
         : 'Zeleni svet | Korisnicki profil',
       description: user?.shopDescription || 'Korisnicki profil Zeleni Svet',
-      image: user?.profileImage || 'https://www.zelenisvet.rs/green-world.svg'
+      image:
+        formatImageUrl(user?.profileImage) ||
+        'https://www.zelenisvet.rs/green-world.svg'
     }),
     [user]
   );

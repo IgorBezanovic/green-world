@@ -328,16 +328,30 @@ export const Products = () => {
             )}
           </Box>
 
-          {/* Products grid */}
           <Box className="w-full flex flex-col gap-4">
             <Box
               component={'section'}
-              className={clsx('w-full', 'grid', 'gap-5', {
-                'grid-cols-2': oldProducts?.length || data?.products?.length,
-                'lgm:grid-cols-4': oldProducts?.length || data?.products?.length
-              })}
               sx={{
-                minHeight: 500
+                width: '100%',
+                minHeight: 500,
+                display: 'grid',
+                gap: '20px',
+                gridTemplateColumns:
+                  oldProducts?.length || data?.products?.length
+                    ? 'repeat(1, 1fr)'
+                    : 'none',
+                [theme.breakpoints.up('xs')]: {
+                  gridTemplateColumns:
+                    oldProducts?.length || data?.products?.length
+                      ? 'repeat(2, 1fr)'
+                      : 'none'
+                },
+                [theme.breakpoints.up('lgm')]: {
+                  gridTemplateColumns:
+                    oldProducts?.length || data?.products?.length
+                      ? 'repeat(4, 1fr)'
+                      : 'none'
+                }
               }}
             >
               {isFetching ? (
@@ -351,9 +365,12 @@ export const Products = () => {
                       width: '100%',
                       display: 'grid',
                       gap: 2,
-                      gridTemplateColumns: {
-                        xs: 'repeat(2, 1fr)',
-                        lg: 'repeat(4, 1fr)'
+                      gridTemplateColumns: 'repeat(1, 1fr)',
+                      [theme.breakpoints.up('xs')]: {
+                        gridTemplateColumns: 'repeat(2, 1fr)'
+                      },
+                      [theme.breakpoints.up('md')]: {
+                        gridTemplateColumns: 'repeat(4, 1fr)'
                       }
                     }}
                   >

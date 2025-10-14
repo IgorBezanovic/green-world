@@ -1,6 +1,7 @@
 import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
 import { useImage } from '@green-world/hooks/useImage';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Avatar } from '@mui/material';
 import { Divider } from 'antd';
 import clsx from 'clsx';
@@ -64,7 +65,7 @@ export const EditUserImageSection = () => {
           )}
         >
           <Avatar
-            src={user?.profileImage}
+            src={formatImageUrl(user?.profileImage, 55)}
             alt={user?.name}
             sx={{
               width: '100%',
@@ -117,7 +118,10 @@ export const EditUserImageSection = () => {
           <p className={clsx('text-gray40', 'italic', 'mb-4', 'text-center')}>
             Generisani QR kod vašeg website.
           </p>
-          <CustomQRCode link={user?.website} icon={user?.profileImage || ''} />
+          <CustomQRCode
+            link={user?.website}
+            icon={formatImageUrl(user?.profileImage || '', 55)}
+          />
         </div>
         <div className={clsx('flex', 'flex-col', 'items-center', 'w-1/2')}>
           <p className={clsx('text-gray40', 'italic', 'mb-4', 'text-center')}>

@@ -1,5 +1,6 @@
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -43,10 +44,10 @@ export const ProductCard = ({
 
   const mainImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=400`
-    : '';
+    : `${formatImageUrl(product.images?.[0] || '', 55)}`;
   const blurImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=20&blur=200`
-    : '';
+    : `${formatImageUrl(product.images?.[0] || '', 55)}`;
 
   return (
     <Card
@@ -113,7 +114,7 @@ export const ProductCard = ({
           sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
         >
           <Tooltip title={product.title} arrow>
-            <Typography gutterBottom variant="h6" noWrap>
+            <Typography gutterBottom variant="h3" noWrap>
               {product.title}
             </Typography>
           </Tooltip>
@@ -135,7 +136,7 @@ export const ProductCard = ({
               {product.shortDescription || product.description}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography variant="body2">
+            <Typography variant="h5">
               {product.priceOnRequest ? (
                 'Cena Na Upit'
               ) : (

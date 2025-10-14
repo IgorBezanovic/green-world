@@ -1,5 +1,6 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   CalendarToday,
   AccessTime,
@@ -35,7 +36,8 @@ export const Event = () => {
         : 'Zeleni svet | Dogadjaj',
       description: eventData?.description || 'Dogadjaj | Zeleni Svet',
       image:
-        eventData?.coverImage || 'https://www.zelenisvet.rs/green-world.svg'
+        formatImageUrl(eventData?.coverImage, 85) ||
+        'https://www.zelenisvet.rs/green-world.svg'
     }),
     [eventData]
   );
@@ -85,7 +87,7 @@ export const Event = () => {
             >
               <CardMedia
                 component="img"
-                image={eventData.coverImage}
+                image={formatImageUrl(eventData.coverImage, 85)}
                 alt={eventData.title}
                 sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
               />

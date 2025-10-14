@@ -1,3 +1,4 @@
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
 import { Box, Dialog, IconButton } from '@mui/material';
@@ -71,7 +72,7 @@ export const FullImageDialog = ({
 
       <Box
         component="img"
-        src={productData?.images[idexOfImage]}
+        src={formatImageUrl(productData?.images[idexOfImage] || '')}
         alt={productData?.title}
         sx={{
           height: '90vh',

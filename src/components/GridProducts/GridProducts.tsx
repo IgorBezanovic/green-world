@@ -14,9 +14,12 @@ export const GridProducts = ({ products }: GridProductsProps) => {
       sx={(theme) => ({
         display: 'grid',
         gap: theme.spacing(3),
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         marginX: 'auto',
-        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridTemplateColumns: 'repeat(1, 1fr)',
+        [theme.breakpoints.up('xs')]: {
+          gridTemplateColumns: 'repeat(2, 1fr)'
+        },
         [theme.breakpoints.up('md')]: {
           gridTemplateColumns: 'repeat(4, 1fr)'
         }

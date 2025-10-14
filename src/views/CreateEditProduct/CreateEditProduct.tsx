@@ -6,6 +6,7 @@ import {
   MetaTags
 } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
+import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { useImage } from '@green-world/hooks/useImage';
 import { useProduct } from '@green-world/hooks/useProduct';
@@ -13,6 +14,7 @@ import {
   groupItemsCreateProduct,
   subGroups
 } from '@green-world/utils/constants';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
 import {
   Alert,
@@ -102,6 +104,8 @@ export const CreateEditProduct = () => {
   const { mutate: editMutation, isPending: isLoadingEditProduct } =
     useEditProduct(productId);
 
+  const { mutate } = useDeleteImage();
+
   const [product, setProduct] = useState<Product>(initProduct);
 
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -168,9 +172,12 @@ export const CreateEditProduct = () => {
   };
 
   const handleDeleteImage = (indexToDelete: number) => {
+    const deletedImage = product?.images[indexToDelete];
     const updatedImages = product?.images.filter(
       (_, index) => index !== indexToDelete
     );
+
+    mutate(deletedImage);
 
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -215,7 +222,7 @@ export const CreateEditProduct = () => {
         body: JSON.stringify({
           title: product.title,
           keywords,
-          images: product.images,
+          images: product.images?.map(formatImageUrl),
           context: {
             group: product.group,
             subGroup: product.subGroup
@@ -373,9 +380,13 @@ export const CreateEditProduct = () => {
                       title="Obrisi sliku"
                     />
                     <img
-                      src={image}
+                      src={formatImageUrl(image, 55)}
                       alt={`product-image-${index}`}
-                      className={clsx('aspect-square', 'shadow-md')}
+                      className={clsx(
+                        'aspect-square',
+                        'shadow-md',
+                        'object-cover'
+                      )}
                       height="100%"
                       width="100%"
                     />

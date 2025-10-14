@@ -1,5 +1,6 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
@@ -98,7 +99,6 @@ export const Shops = () => {
                       }
                     }}
                   >
-                    {/* Header cover */}
                     <Box className="relative w-full h-32 bg-gray-200 rounded-t-[16px] overflow-hidden">
                       {user?.onlyOnline ? (
                         <Box
@@ -167,7 +167,7 @@ export const Shops = () => {
                       }}
                     >
                       <Avatar
-                        src={user?.profileImage}
+                        src={formatImageUrl(user?.profileImage, 55)}
                         alt={user?.name}
                         sx={{
                           width: 80,

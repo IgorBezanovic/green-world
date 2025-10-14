@@ -9,6 +9,7 @@ import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
 import { useImage } from '@green-world/hooks/useImage';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -322,7 +323,7 @@ export const CreateEditEvent = () => {
                 <LoadingOutlined className="text-forestGreen text-4xl" />
               ) : event?.coverImage ? (
                 <img
-                  src={event?.coverImage}
+                  src={formatImageUrl(event?.coverImage)}
                   alt="event-image"
                   className={clsx('aspect-square', 'shadow-md')}
                   height="100%"

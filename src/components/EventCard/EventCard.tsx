@@ -1,3 +1,4 @@
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -62,7 +63,7 @@ export const EventCard = ({ event }: EventCardProps) => {
             objectFit: 'cover',
             flexShrink: 0
           }}
-          image={event?.coverImage}
+          image={formatImageUrl(event?.coverImage, 55)}
           alt="Event cover"
         />
 

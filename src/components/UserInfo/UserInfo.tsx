@@ -1,4 +1,8 @@
-import { formatUrl, goToDestination } from '@green-world/utils/helpers';
+import {
+  formatImageUrl,
+  formatUrl,
+  goToDestination
+} from '@green-world/utils/helpers';
 import {
   Avatar,
   Card,
@@ -65,7 +69,6 @@ export const UserInfo = ({ ...props }) => {
 
       <CardContent>
         <Box className={clsx('w-full flex flex-col', props?.customStyleMeta)}>
-          {/* Avatar */}
           <Box
             className={clsx(
               'relative w-24 h-24 mx-auto mb-5',
@@ -76,7 +79,7 @@ export const UserInfo = ({ ...props }) => {
             }
           >
             <Avatar
-              src={props?.user?.profileImage}
+              src={formatImageUrl(props?.user?.profileImage, 55)}
               alt={props?.user?.name}
               sx={{
                 width: 96,
@@ -92,15 +95,11 @@ export const UserInfo = ({ ...props }) => {
               </Box>
             )}
           </Box>
-
-          {/* Name */}
           {props?.user?.name && (
             <Typography variant="body1" className="text-black">
               {props?.user?.name} {props?.user?.lastname}
             </Typography>
           )}
-
-          {/* Shop Description */}
           {props?.user?.shopDescription && (
             <Typography
               variant="body2"
@@ -111,8 +110,6 @@ export const UserInfo = ({ ...props }) => {
               {props?.user?.shopDescription}
             </Typography>
           )}
-
-          {/* Address */}
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Typography
               variant="body2"
@@ -128,7 +125,6 @@ export const UserInfo = ({ ...props }) => {
               {`${props?.user?.address?.city}, ${props?.user?.address?.country}`}
             </Typography>
           )}
-
           {props?.user?.address?.street && (
             <Typography
               variant="body2"
@@ -140,8 +136,6 @@ export const UserInfo = ({ ...props }) => {
               {props?.user?.address?.street}
             </Typography>
           )}
-
-          {/* Website */}
           {props?.user?.website && (
             <Typography
               component="a"
@@ -158,8 +152,6 @@ export const UserInfo = ({ ...props }) => {
               <Globe /> {props?.user?.website}
             </Typography>
           )}
-
-          {/* Phone */}
           {props?.user?.phone && (
             <Typography
               component="a"
@@ -177,8 +169,6 @@ export const UserInfo = ({ ...props }) => {
               <span>+{props.user.phone}</span>
             </Typography>
           )}
-
-          {/* Email */}
           {props?.user?.email && (
             <Typography
               component="a"
@@ -196,8 +186,6 @@ export const UserInfo = ({ ...props }) => {
               <span>{props.user.email}</span>
             </Typography>
           )}
-
-          {/* Navigation */}
           {props?.user?.address?.city && props?.user?.address?.country && (
             <Button
               component="a"

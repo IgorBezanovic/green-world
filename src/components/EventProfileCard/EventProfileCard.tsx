@@ -1,4 +1,5 @@
 import { useDeleteEvent } from '@green-world/hooks/useDeleteEvent';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/EditOutlined';
@@ -58,7 +59,7 @@ export const EventProfileCard = ({ ...props }) => {
             aspectRatio: '1 / 1',
             objectFit: 'cover'
           }}
-          image={props?.event?.coverImage}
+          image={formatImageUrl(props?.event?.coverImage, 55)}
           alt="Event Image"
         />
         <Chip

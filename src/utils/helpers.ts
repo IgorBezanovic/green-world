@@ -31,3 +31,12 @@ export const goToDestination = (street = '', city = '', country = 'Srbija') => {
 
   return `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
 };
+
+export const formatImageUrl = (url: string, quality?: number) => {
+  if (!url) return '';
+  const { VITE_AWS_BUCKET_NAME, VITE_AWS_REGION } = import.meta.env;
+
+  return url.includes('cloudinary')
+    ? url
+    : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/uploads/${url}_${quality || 85}.webp`;
+};

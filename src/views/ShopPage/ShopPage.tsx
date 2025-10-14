@@ -6,7 +6,11 @@ import {
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { formatUrl, goToDestination } from '@green-world/utils/helpers';
+import {
+  formatImageUrl,
+  formatUrl,
+  goToDestination
+} from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
@@ -69,7 +73,9 @@ export const ShopPage = () => {
             .join(' | ')
         : 'Zeleni svet | Korisnicki profil',
       description: data?.shopDescription || 'Korisnicki profil Zeleni Svet',
-      image: data?.profileImage || 'https://www.zelenisvet.rs/green-world.svg'
+      image:
+        formatImageUrl(data?.profileImage || '') ||
+        'https://www.zelenisvet.rs/green-world.svg'
     }),
     [data]
   );
@@ -195,7 +201,7 @@ export const ShopPage = () => {
                 .map((img, i) => (
                   <img
                     key={`row1-${i}`}
-                    src={img || PLACEHOLDER_IMG}
+                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
                     alt="product"
                     className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
                   />
@@ -209,7 +215,7 @@ export const ShopPage = () => {
                 .map((img, i) => (
                   <img
                     key={`row2-${i}`}
-                    src={img || PLACEHOLDER_IMG}
+                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
                     alt="product"
                     className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
                   />
@@ -223,7 +229,7 @@ export const ShopPage = () => {
                 .map((img, i) => (
                   <img
                     key={`row3-${i}`}
-                    src={img || PLACEHOLDER_IMG}
+                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
                     alt="product"
                     className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
                   />
@@ -235,7 +241,7 @@ export const ShopPage = () => {
         )}
 
         <Avatar
-          src={data?.profileImage}
+          src={formatImageUrl(data?.profileImage, 55)}
           alt={data?.name}
           sx={{
             width: 120,
