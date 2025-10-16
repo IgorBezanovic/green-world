@@ -371,7 +371,7 @@ export const CreateEditEvent = () => {
               type="file"
               name="coverImage"
               id="coverImage"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               onChange={handleImage}
               className={clsx('hidden')}
             ></input>

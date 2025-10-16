@@ -455,7 +455,7 @@ export const CreateEditProduct = () => {
               disabled={product?.images?.length >= 10}
               name="profileImage"
               id="profileImage"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               onChange={handleImage}
               className={clsx('hidden')}
               data-max-size={MAX_IMAGE_MB}

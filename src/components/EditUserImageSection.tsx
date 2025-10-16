@@ -99,7 +99,7 @@ export const EditUserImageSection = () => {
           type="file"
           name="profileImage"
           id="profileImage"
-          accept="image/*"
+          accept="image/png, image/jpeg, image/jpg, image/webp"
           onChange={handleImage}
           className={clsx('hidden')}
           disabled={isLoading || isImageLoadingUser || isLoadingUser}
