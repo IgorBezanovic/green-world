@@ -588,30 +588,12 @@ export const ProductPage = () => {
                       Uskoro
                     </Box>
                   </Button>
-                  <Button variant="outlined" color="secondary">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => navigate(`/order-product/${productId}`)}
+                  >
                     Poruči proizvod
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 4,
-                        left: 4,
-                        bgcolor: theme.palette.primary.dark,
-                        color: 'white',
-                        px: 0.5,
-                        py: '2px',
-                        fontSize: '0.5rem',
-                        borderRadius: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.3
-                      }}
-                    >
-                      <ZSLogoLogoMark
-                        color={theme.palette.primary.contrastText}
-                        width="9px"
-                      />{' '}
-                      Uskoro
-                    </Box>
                   </Button>
                 </Box>
               </Box>

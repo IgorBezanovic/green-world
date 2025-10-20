@@ -24,7 +24,8 @@ import {
   AdminPanel,
   ShopPage,
   Events,
-  Shops
+  Shops,
+  OrderProduct
 } from '@green-world/views';
 import { Navigate } from 'react-router';
 
@@ -94,6 +95,10 @@ export const routes = [
       {
         path: '/product/:productId',
         element: <ProductPage />
+      },
+      {
+        path: '/order-product/:productId',
+        element: <ProtectedRoute element={OrderProduct} />
       },
       {
         path: '/event/:eventId',

@@ -52,7 +52,7 @@ export const GoogleLoginAuth = () => {
           logo_alignment="center"
           onSuccess={async (credentialResponse) => {
             try {
-              const res = await axios.post(baseUrl + '/auth/google', {
+              const res = await axios.post(baseUrl + 'auth/google', {
                 credential: credentialResponse.credential
               });
               const token = res.data.token;
