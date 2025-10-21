@@ -345,6 +345,7 @@ export const OrderProduct = () => {
               name="productQuantity"
               value={formData.productQuantity}
               onChange={handleInputChange}
+              disabled={isSubmitting}
               error={Boolean(errors.productQuantity)}
               placeholder="Npr. 1kom ili Želim dva buketa"
               required
@@ -410,6 +411,7 @@ export const OrderProduct = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 error={Boolean(errors.name)}
                 placeholder="Vaše ime"
                 required
@@ -429,6 +431,7 @@ export const OrderProduct = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 error={Boolean(errors.lastName)}
                 placeholder="Vaše prezime"
                 required
@@ -455,6 +458,7 @@ export const OrderProduct = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 error={Boolean(errors.email)}
                 helperText={errors.email ? 'Unesite validan email' : ''}
                 placeholder="vaš@email.com"
@@ -477,6 +481,7 @@ export const OrderProduct = () => {
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 error={Boolean(errors.phone)}
                 placeholder="+381 60 123 4567"
                 required
@@ -501,6 +506,7 @@ export const OrderProduct = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
+              disabled={isSubmitting}
               error={Boolean(errors.address)}
               placeholder="Ulica i broj"
               required
@@ -526,6 +532,7 @@ export const OrderProduct = () => {
                 value={formData.city}
                 error={Boolean(errors.city)}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 placeholder="Npr. Beograd"
                 required
                 sx={{
@@ -544,6 +551,7 @@ export const OrderProduct = () => {
                 name="postalCode"
                 value={formData.postalCode}
                 onChange={handleInputChange}
+                disabled={isSubmitting}
                 error={Boolean(errors.postalCode)}
                 placeholder="Npr. 11000"
                 required
@@ -565,6 +573,7 @@ export const OrderProduct = () => {
               id="message"
               name="message"
               value={formData.message}
+              disabled={isSubmitting}
               onChange={handleInputChange}
               placeholder="Dodatne informacije o porudžbini..."
               rows={4}
