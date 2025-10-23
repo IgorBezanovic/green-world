@@ -2,6 +2,7 @@ export * from '@green-world/views/AdminPanel';
 export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/CreateEditProduct';
+export * from '@green-world/views/Documents';
 export * from '@green-world/views/Event';
 export * from '@green-world/views/Events';
 export * from '@green-world/views/Home';

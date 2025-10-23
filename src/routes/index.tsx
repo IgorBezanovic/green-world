@@ -12,6 +12,7 @@ import {
   Home,
   Products,
   CreateEditProduct,
+  Documents,
   ForgotPassword,
   Login,
   NotFound,
@@ -103,6 +104,10 @@ export const routes = [
       {
         path: '/event/:eventId',
         element: <Event />
+      },
+      {
+        path: '/documents',
+        element: <Documents />
       },
       {
         path: '/create-event',

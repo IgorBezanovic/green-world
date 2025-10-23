@@ -15,7 +15,7 @@ export const Navbar = () => {
     { label: 'Blog', path: '/blog' },
     { label: 'Trampimo se', path: '/menjajmo-se' },
     { label: 'AI Savetovanje', path: '/ai-savetovanje' },
-    { label: 'Dokumenta', path: '/dokumenta' }
+    { label: 'Dokumenta', path: '/documents' }
   ];
 
   return (
@@ -42,7 +42,8 @@ export const Navbar = () => {
           item.label !== 'Proizvodi' &&
           item.label !== 'Događaji' &&
           item.label !== 'Početna' &&
-          item.label !== 'Prodavnice';
+          item.label !== 'Prodavnice' &&
+          item.label !== 'Dokumenta';
 
         return (
           <Box

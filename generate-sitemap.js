@@ -126,6 +126,11 @@ async function generateSitemap() {
       url: '/shops',
       changefreq: 'daily',
       priority: 0.9
+    },
+    {
+      url: '/documents',
+      changefreq: 'daily',
+      priority: 0.9
     }
   ];
 
