@@ -129,7 +129,7 @@ export const ShopPage = () => {
         <AppBreadcrumbs pages={pages} />
       </div>
 
-      <Box className="relative w-full h-60 sm:h-80 bg-gray-200">
+      <Box className="max-w-[1400px] px-4 sm:px-6 xl:px-0 relative w-full h-60 sm:h-80 bg-gray-200">
         {data?.onlyOnline ? (
           <Box
             className="relative flex items-center justify-center w-full h-full p-6"
