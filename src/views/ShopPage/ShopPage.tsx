@@ -331,7 +331,7 @@ export const ShopPage = () => {
                 </a>
               </Box>
             )}
-            {(data?.address.street ||
+            {(data?.address?.street ||
               data?.address?.city ||
               data?.address?.country) && (
               <Box className="flex items-center gap-2">
