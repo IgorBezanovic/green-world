@@ -345,7 +345,7 @@ export const ShopPage = () => {
                   .join(', ')}
               </Box>
             )}
-            {(data?.address.street ||
+            {(data?.address?.street ||
               data?.address?.city ||
               data?.address?.country) && (
               <Button
