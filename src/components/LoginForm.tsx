@@ -1,7 +1,14 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
-import { Box, OutlinedInput, Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  Typography
+} from '@mui/material';
 import clsx from 'clsx';
+import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 
@@ -13,6 +20,14 @@ export const LoginForm = ({ ...props }) => {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,7 +96,7 @@ export const LoginForm = ({ ...props }) => {
         <OutlinedInput
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           value={auth.password}
           onChange={(e) => setAuth({ ...auth, password: e.target.value })}
           disabled={props.isLoading}
@@ -94,6 +109,17 @@ export const LoginForm = ({ ...props }) => {
               padding: '8px !important'
             }
           }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </IconButton>
+            </InputAdornment>
+          }
         />
         {props.isLoading ? (
           <span className={clsx('text-groupTransparent', 'text-sm', 'mt-1')}>
