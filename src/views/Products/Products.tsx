@@ -13,7 +13,8 @@ import {
   TextField,
   Typography,
   Button,
-  CircularProgress
+  CircularProgress,
+  Pagination
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
@@ -428,35 +429,30 @@ export const Products = () => {
               )}
             </Box>
 
-            {/* Pagination */}
             {data?.pages && data.pages > 1 ? (
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: 1,
-                  mt: 4,
-                  flexWrap: 'wrap'
+                  mt: 4
                 }}
               >
-                {Array.from({ length: data.pages }, (_, i) => i + 1).map(
-                  (p) => (
-                    <Button
-                      key={p}
-                      variant={p === page ? 'contained' : 'outlined'}
-                      onClick={() => {
-                        setPage(p);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      {p}
-                    </Button>
-                  )
-                )}
+                <Pagination
+                  count={data.pages}
+                  page={page}
+                  onChange={(_, value) => {
+                    setPage(value);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                  size={isMobile ? 'medium' : 'large'}
+                  siblingCount={1}
+                  boundaryCount={isMobile ? 1 : 2}
+                />
               </Box>
-            ) : (
-              <></>
-            )}
+            ) : null}
           </Box>
         </Box>
       </Box>
