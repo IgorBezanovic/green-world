@@ -1,14 +1,12 @@
-import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AuthValues } from '@green-world/utils/types';
-import { Box, Typography } from '@mui/material';
-import { Input } from 'antd';
+import { Box, OutlinedInput, Typography } from '@mui/material';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Link } from 'react-router';
 
 import { Divider, GoogleLoginAuth, MetaLoginAuth } from '../components';
 import { CustomButton } from './CustomButton';
-import { CustomInput } from './CustomInput';
 
 export const LoginForm = ({ ...props }) => {
   const [auth, setAuth] = useState<AuthValues>({
@@ -52,54 +50,59 @@ export const LoginForm = ({ ...props }) => {
         onSubmit={handleSubmit}
       >
         <label
-          htmlFor="e-mail"
+          htmlFor="email"
           className={clsx('mb-2', 'text-forestGreen', 'cursor-pointer')}
         >
-          Unesite email:
+          Email:
         </label>
-        <CustomInput
-          required
-          type="email"
+        <OutlinedInput
+          id="email"
           name="email"
-          id="e-mail"
-          placeholder="Unesite email"
-          error={props.error?.response?.data}
-          isLoading={props.isLoading}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setAuth({ ...auth, email: e.target.value })
-          }
+          type="email"
+          value={auth.email}
+          onChange={(e) => setAuth({ ...auth, email: e.target.value })}
           disabled={props.isLoading}
-          prefix={<MailOutlined className={clsx('text-groupTransparent')} />}
+          error={Boolean(props.error?.response?.data)}
+          placeholder="Unesite email"
+          required
+          sx={{
+            backgroundColor: 'white',
+            '& .MuiOutlinedInput-input': {
+              padding: '8px !important'
+            }
+          }}
         />
         <label
           htmlFor="password"
-          className={clsx('mb-2', 'text-forestGreen', 'cursor-pointer')}
+          className={clsx('mb-2', 'mt-4', 'text-forestGreen', 'cursor-pointer')}
         >
-          Unesite lozinku:
+          Lozinka:
         </label>
-        <Input.Password
-          required
-          size="large"
-          name="password"
+        <OutlinedInput
           id="password"
-          placeholder="Unesite lozinku"
-          className={clsx('rounded-xs', 'mb-2', {
-            'border-red': props.error?.response?.data,
-            'border-forestGreen': !props.isLoading,
-            'border-groupTransparent': props.isLoading
-          })}
+          name="password"
+          type="password"
+          value={auth.password}
           onChange={(e) => setAuth({ ...auth, password: e.target.value })}
           disabled={props.isLoading}
-          prefix={<LockOutlined className={clsx('text-groupTransparent')} />}
+          error={Boolean(props.error?.response?.data)}
+          placeholder="Unesite lozinku"
+          required
+          sx={{
+            backgroundColor: 'white',
+            '& .MuiOutlinedInput-input': {
+              padding: '8px !important'
+            }
+          }}
         />
         {props.isLoading ? (
-          <span className={clsx('text-groupTransparent', 'text-sm')}>
+          <span className={clsx('text-groupTransparent', 'text-sm', 'mt-1')}>
             Zaboravljen password?
           </span>
         ) : (
           <Link
             to="/forgot-password"
-            className={clsx('text-forestGreen', 'text-sm')}
+            className={clsx('text-forestGreen', 'text-sm', 'mt-1')}
           >
             Zaboravljen password?
           </Link>
