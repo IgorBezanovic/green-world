@@ -145,19 +145,19 @@ export const Chat = ({
       sx={{
         position: isInDialog ? 'relative' : 'fixed',
         bottom: isInDialog ? 'auto' : 20,
-        right: isInDialog ? 'auto' : (stylePosition?.right ?? 100) + index * 280,
+        right: isInDialog
+          ? 'auto'
+          : (stylePosition?.right ?? 100) + index * 280,
         width: isInDialog ? '100%' : 280,
-        height: isInDialog
-          ? '100vh'
-          : isMinimized
-            ? 'auto'
-            : 380,
+        height: isInDialog ? '100vh' : isMinimized ? 'auto' : 380,
         bgcolor: theme.palette.background.paper,
         border: isInDialog ? 'none' : `1px solid ${theme.palette.grey[300]}`,
         borderRadius: isInDialog ? 0 : 2,
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: isInDialog ? 'none' : `0 3px 12px ${theme.palette.grey[400]}`,
+        boxShadow: isInDialog
+          ? 'none'
+          : `0 3px 12px ${theme.palette.grey[400]}`,
         zIndex: isInDialog ? 'auto' : 1400 + index,
         transition: 'height 0.25s ease-in-out',
         overflow: 'hidden',

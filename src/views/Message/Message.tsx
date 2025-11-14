@@ -72,11 +72,16 @@ export const Message = () => {
                   if (isMobileOrTablet) {
                     // Na mobilnim/tablet uređajima otvori Dialog
                     setActiveChatUserId(conv.otherUserId);
-                    setActiveChatUserName(conv.otherUserName || 'Nepoznat korisnik');
+                    setActiveChatUserName(
+                      conv.otherUserName || 'Nepoznat korisnik'
+                    );
                     setIsChatOpen(true);
                   } else {
                     // Na desktop uređajima otvori preko ChatLine
-                    openChat(conv.otherUserId, conv.otherUserName || 'Nepoznat korisnik');
+                    openChat(
+                      conv.otherUserId,
+                      conv.otherUserName || 'Nepoznat korisnik'
+                    );
                   }
                 }}
                 className="border p-4 rounded-lg bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition flex items-center justify-between"
@@ -107,11 +112,11 @@ export const Message = () => {
           fullWidth
           fullScreen={isMobileOrTablet}
           maxWidth="sm"
-          PaperProps={{ 
-            style: { 
+          PaperProps={{
+            style: {
               overflow: 'hidden',
               ...(isMobileOrTablet && { margin: 0, maxHeight: '100vh' })
-            } 
+            }
           }}
         >
           {activeChatUserId && (
