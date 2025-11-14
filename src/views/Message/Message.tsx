@@ -1,17 +1,22 @@
 import { MetaTags } from '@green-world/components';
 import Chat from '@green-world/components/Chat/Chat';
+import { ChatContext } from '@green-world/context/ChatContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, useTheme, useMediaQuery } from '@mui/material';
 import { Dialog } from '@mui/material';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 export const Message = () => {
   const { data, isLoading, error } = useUserMessage();
   const conversations = data?.data ?? [];
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeChatUserId, setActiveChatUserId] = useState<string | null>(null);
+  const [activeChatUserName, setActiveChatUserName] = useState<string>('');
   const pageTitle = `Zeleni svet | Poruke`;
+  const theme = useTheme();
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const { openChat } = useContext(ChatContext);
 
   return (
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
@@ -64,8 +69,15 @@ export const Message = () => {
               <div
                 key={conv.otherUserId}
                 onClick={() => {
-                  setActiveChatUserId(conv.otherUserId);
-                  setIsChatOpen(true);
+                  if (isMobileOrTablet) {
+                    // Na mobilnim/tablet uređajima otvori Dialog
+                    setActiveChatUserId(conv.otherUserId);
+                    setActiveChatUserName(conv.otherUserName || 'Nepoznat korisnik');
+                    setIsChatOpen(true);
+                  } else {
+                    // Na desktop uređajima otvori preko ChatLine
+                    openChat(conv.otherUserId, conv.otherUserName || 'Nepoznat korisnik');
+                  }
                 }}
                 className="border p-4 rounded-lg bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition flex items-center justify-between"
               >
@@ -93,14 +105,20 @@ export const Message = () => {
           open={isChatOpen}
           onClose={() => setIsChatOpen(false)}
           fullWidth
+          fullScreen={isMobileOrTablet}
           maxWidth="sm"
-          PaperProps={{ style: { overflow: 'hidden' } }}
+          PaperProps={{ 
+            style: { 
+              overflow: 'hidden',
+              ...(isMobileOrTablet && { margin: 0, maxHeight: '100vh' })
+            } 
+          }}
         >
           {activeChatUserId && (
             <Chat
               chatWithId={activeChatUserId}
               onClose={() => setIsChatOpen(false)}
-              userName={conversations.userName}
+              userName={activeChatUserName}
             />
           )}
         </Dialog>

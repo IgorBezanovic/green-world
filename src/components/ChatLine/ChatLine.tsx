@@ -7,7 +7,8 @@ import {
   SpeedDial,
   SpeedDialAction,
   Typography,
-  useTheme
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { useState, useContext } from 'react';
 
@@ -18,8 +19,12 @@ export const ChatLine = () => {
 
   const { openChat, openChats } = useContext(ChatContext);
   const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   if (!token) return null;
+
+  // Prikazuj ChatLine samo na desktop uređajima
+  if (!isDesktop) return null;
 
   const messages = data?.data?.slice(-5) ?? [];
 
