@@ -17,7 +17,6 @@ import { useNavigate } from 'react-router';
 export const Home = () => {
   const { data, isLoading, isFetching } = useHomeProducts();
   const navigate = useNavigate();
-
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Green world | Web Shop'} />

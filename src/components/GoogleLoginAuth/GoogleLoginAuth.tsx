@@ -58,6 +58,9 @@ export const GoogleLoginAuth = () => {
               const token = res.data.token;
               setItem('token', token);
               navigate('/');
+              setTimeout(() => {
+                window.location.reload();
+              }, 10);
             } catch (err: any) {
               const msg = err?.response?.data || 'Greška pri loginu.';
               toast.error(msg);
