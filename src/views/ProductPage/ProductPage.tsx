@@ -1,8 +1,7 @@
 import {
   ProductSection,
   MetaTags,
-  AppBreadcrumbs,
-  ZSLogoLogoMark
+  AppBreadcrumbs
 } from '@green-world/components';
 import Chat from '@green-world/components/Chat/Chat';
 import { ChatContext } from '@green-world/context/ChatContext';
@@ -593,28 +592,6 @@ export const ProductPage = () => {
                     }}
                   >
                     Pošalji poruku
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 4,
-                        left: 4,
-                        bgcolor: theme.palette.primary.dark,
-                        color: 'white',
-                        px: 0.5,
-                        py: '2px',
-                        fontSize: '0.5rem',
-                        borderRadius: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.3
-                      }}
-                    >
-                      <ZSLogoLogoMark
-                        color={theme.palette.primary.contrastText}
-                        width="9px"
-                      />{' '}
-                      Uskoro
-                    </Box>
                   </Button>
                   <Dialog
                     open={isChatOpen}
@@ -625,7 +602,10 @@ export const ProductPage = () => {
                     PaperProps={{
                       style: {
                         overflow: 'hidden',
-                        ...(isMobileOrTablet && { margin: 0, maxHeight: '100vh' })
+                        ...(isMobileOrTablet && {
+                          margin: 0,
+                          maxHeight: '100vh'
+                        })
                       }
                     }}
                   >

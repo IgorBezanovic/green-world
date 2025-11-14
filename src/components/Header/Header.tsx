@@ -20,7 +20,8 @@ import {
   Mail,
   MapPinPlus,
   LogOut,
-  Search
+  Search,
+  MessageCircle
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -89,7 +90,7 @@ export const Header = () => {
     },
     {
       text: 'Poruke',
-      icon: <Mail className="!w-6 !h-6 ml-2" />,
+      icon: <MessageCircle className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/message'))
     }
   ];
