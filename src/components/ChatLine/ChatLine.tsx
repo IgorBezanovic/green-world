@@ -2,7 +2,6 @@ import Chat from '@green-world/components/Chat/Chat';
 import { ChatContext } from '@green-world/context/ChatContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem } from '@green-world/utils/cookie';
-import { Chat as ChatIcon } from '@mui/icons-material';
 import {
   SpeedDial,
   SpeedDialAction,
@@ -10,6 +9,7 @@ import {
   useTheme,
   useMediaQuery
 } from '@mui/material';
+import { MessagesSquare } from 'lucide-react';
 import { useState, useContext } from 'react';
 
 export const ChatLine = () => {
@@ -33,7 +33,7 @@ export const ChatLine = () => {
       <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1200 }}>
         <SpeedDial
           ariaLabel="Poslednje poruke"
-          icon={<ChatIcon />}
+          icon={<MessagesSquare className="icon !w-8 !h-8" />}
           direction="up"
           open={open}
           onOpen={() => {
@@ -48,9 +48,11 @@ export const ChatLine = () => {
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.common.white,
               '&:hover': {
-                backgroundColor: theme.palette.secondary.dark
+                backgroundColor: theme.palette.secondary.dark,
+                '& .icon': {
+                  color: theme.palette.common.white
+                }
               },
-              boxShadow: `0 3px 8px ${theme.palette.grey[400]}`,
               borderRadius: '50%'
             }
           }}
@@ -119,8 +121,7 @@ export const ChatLine = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                           fontSize: 10,
-                          fontWeight: 'bold',
-                          boxShadow: `0 0 3px ${theme.palette.grey[600]}`
+                          fontWeight: 'bold'
                         }}
                       >
                         {msg.unreadCount}
@@ -135,8 +136,7 @@ export const ChatLine = () => {
                     backgroundColor: theme.palette.primary.main,
                     '&:hover': {
                       backgroundColor: theme.palette.primary.dark
-                    },
-                    boxShadow: `0 3px 8px ${theme.palette.grey[400]}`
+                    }
                   }
                 }}
                 onClick={() => openChat(msg.otherUserId, msg.otherUserName)}

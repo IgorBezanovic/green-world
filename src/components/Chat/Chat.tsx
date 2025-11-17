@@ -152,12 +152,9 @@ export const Chat = ({
         height: isInDialog ? '100vh' : isMinimized ? 'auto' : 380,
         bgcolor: theme.palette.background.paper,
         border: isInDialog ? 'none' : `1px solid ${theme.palette.grey[300]}`,
-        borderRadius: isInDialog ? 0 : 2,
+        borderRadius: isInDialog ? 0 : 1,
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: isInDialog
-          ? 'none'
-          : `0 3px 12px ${theme.palette.grey[400]}`,
         zIndex: isInDialog ? 'auto' : 1400 + index,
         transition: 'height 0.25s ease-in-out',
         overflow: 'hidden',
@@ -250,14 +247,14 @@ export const Chat = ({
                     sx={{
                       maxWidth: '75%',
                       p: 1,
-                      borderRadius: 2,
+                      borderRadius: 1,
                       backgroundColor: isMe
                         ? theme.palette.primary.main
                         : theme.palette.success.light,
                       color: isMe
                         ? theme.palette.primary.contrastText
                         : theme.palette.text.primary,
-                      fontSize: 13,
+                      fontSize: 12,
                       wordBreak: 'break-word',
                       boxShadow: isMe
                         ? '0 1px 3px rgba(0,0,0,0.1)'
@@ -287,8 +284,9 @@ export const Chat = ({
               size="small"
               sx={{
                 flex: 1,
+                fontSize: 12,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 2,
+                  borderRadius: 1,
                   backgroundColor: theme.palette.grey[50],
                   '& fieldset': { borderColor: theme.palette.grey[300] },
                   '&:hover fieldset': {
@@ -304,7 +302,7 @@ export const Chat = ({
               onClick={sendMessage}
               sx={{
                 ml: 0.8,
-                borderRadius: 2,
+                borderRadius: 1,
                 fontSize: 13,
                 fontWeight: 600,
                 px: 2.5,
