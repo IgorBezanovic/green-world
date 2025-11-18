@@ -465,9 +465,7 @@ export const ProductPage = () => {
                           </Typography>
                           <Typography variant="button">
                             Član od{' '}
-                            {dayjs(sellerData?.createdAt).format(
-                              'DD/MM/YYYY, HH:mm'
-                            )}
+                            {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
                         </Box>
                       </Box>
@@ -620,7 +618,11 @@ export const ProductPage = () => {
                       />
                     )}
                   </Dialog>
-                  <Button variant="outlined" color="secondary">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => navigate(`/order-product/${productId}`)}
+                  >
                     Poruči proizvod
                   </Button>
                 </Box>

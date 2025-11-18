@@ -367,30 +367,25 @@ export const ShopPage = () => {
                 maxWidth: 300
               }}
             >
-              {(data?.address.street ||
-                data?.address?.city ||
-                data?.address?.country) && (
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  href={goToDestination(
-                    data?.address?.street,
-                    data?.address?.city,
-                    data?.address?.country
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    py: 1.5,
-                    px: 2,
-                    fontWeight: 600,
-                    textTransform: 'none'
-                  }}
-                >
-                  Navigacija
-                </Button>
-              )}
-
+              <Button
+                fullWidth
+                variant="outlined"
+                href={goToDestination(
+                  data?.address?.street,
+                  data?.address?.city,
+                  data?.address?.country
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  py: 1.5,
+                  px: 2,
+                  fontWeight: 600,
+                  textTransform: 'none'
+                }}
+              >
+                Navigacija
+              </Button>
               <Button
                 fullWidth
                 variant="contained"
