@@ -10,4 +10,5 @@ Cilj nam je da izgradimo otvorenu i povezanu zajednicu proizvođača, ljubitelja
 
 Pridruži se, podrži lokalne proizvođače i doprinesi zelenijoj budućnosti. 🍀
 
+
 Link ka platformi www.zelenisvet.rs
