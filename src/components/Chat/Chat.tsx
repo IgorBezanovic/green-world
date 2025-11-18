@@ -4,18 +4,16 @@ import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
-import CloseIcon from '@mui/icons-material/Close';
-import MinimizeIcon from '@mui/icons-material/Minimize';
 import {
   useTheme,
   IconButton,
   Typography,
   Box,
   TextField,
-  Button,
-  Tooltip
+  Button
 } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
+import { Maximize2, Minus, X } from 'lucide-react';
 import { useState, useEffect, useRef, useContext } from 'react';
 
 interface ChatProps {
@@ -188,25 +186,43 @@ export const Chat = ({
 
         <Box>
           {!isInDialog && (
-            <Tooltip title={isMinimized ? 'Proširi' : 'Minimizuj'}>
-              <IconButton
-                size="small"
-                onClick={() => setIsMinimized((prev) => !prev)}
-              >
-                <MinimizeIcon
-                  sx={{ color: theme.palette.secondary.contrastText }}
-                />
-              </IconButton>
-            </Tooltip>
-          )}
-          <Tooltip title="Zatvori">
             <IconButton
               size="small"
-              onClick={() => (onClose ? onClose() : closeChat(chatWithId))}
+              onClick={() => setIsMinimized((prev) => !prev)}
             >
-              <CloseIcon sx={{ color: theme.palette.secondary.contrastText }} />
+              {isMinimized ? (
+                <Maximize2
+                  style={{
+                    color: theme.palette.secondary.contrastText,
+                    strokeWidth: 2
+                  }}
+                />
+              ) : (
+                <Minus
+                  style={{
+                    color: theme.palette.secondary.contrastText,
+                    width: '24px',
+                    height: '24px',
+                    strokeWidth: 2,
+                    paddingTop: '10px'
+                  }}
+                />
+              )}
             </IconButton>
-          </Tooltip>
+          )}
+          <IconButton
+            size="small"
+            onClick={() => (onClose ? onClose() : closeChat(chatWithId))}
+          >
+            <X
+              style={{
+                color: theme.palette.secondary.contrastText,
+                width: '24px',
+                height: '24px',
+                strokeWidth: 2
+              }}
+            />
+          </IconButton>
         </Box>
       </Box>
 
@@ -240,7 +256,7 @@ export const Chat = ({
                   sx={{
                     display: 'flex',
                     justifyContent: isMe ? 'flex-end' : 'flex-start',
-                    mb: 0.8
+                    mb: 1
                   }}
                 >
                   <Box
@@ -254,7 +270,7 @@ export const Chat = ({
                       color: isMe
                         ? theme.palette.primary.contrastText
                         : theme.palette.text.primary,
-                      fontSize: 12,
+                      fontSize: 14,
                       wordBreak: 'break-word',
                       boxShadow: isMe
                         ? '0 1px 3px rgba(0,0,0,0.1)'

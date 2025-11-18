@@ -33,7 +33,15 @@ export const ChatLine = () => {
       <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1200 }}>
         <SpeedDial
           ariaLabel="Poslednje poruke"
-          icon={<MessagesSquare className="icon !w-8 !h-8" />}
+          icon={
+            <MessagesSquare
+              style={{
+                color: theme.palette.common.white,
+                width: '32px',
+                height: '32px'
+              }}
+            />
+          }
           direction="up"
           open={open}
           onOpen={() => {
@@ -48,10 +56,7 @@ export const ChatLine = () => {
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.common.white,
               '&:hover': {
-                backgroundColor: theme.palette.secondary.dark,
-                '& .icon': {
-                  color: theme.palette.common.white
-                }
+                backgroundColor: theme.palette.secondary.dark
               },
               borderRadius: '50%'
             }
