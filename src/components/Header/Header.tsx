@@ -1,3 +1,4 @@
+import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -9,7 +10,8 @@ import {
   Button,
   ListItemButton,
   IconButton,
-  useTheme
+  useTheme,
+  Badge
 } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import {
@@ -61,6 +63,15 @@ export const Header = () => {
     callback();
   };
 
+  const { data: msgData } = useUserMessage();
+
+  const messagesHeader = msgData?.data ?? [];
+
+  const totalUnreadHeader = messagesHeader.reduce(
+    (sum: number, msg: any) => sum + (msg.unreadCount || 0),
+    0
+  );
+
   const menuItems = [
     {
       text: 'Korisnički Profil',
@@ -90,7 +101,22 @@ export const Header = () => {
     },
     {
       text: 'Poruke',
-      icon: <MessageCircle className="!w-6 !h-6 ml-2" />,
+      icon: (
+        <Badge
+          color="error"
+          overlap="circular"
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          badgeContent={totalUnreadHeader > 0 ? totalUnreadHeader : null}
+          sx={{
+            '& .MuiBadge-badge': {
+              top: 0,
+              right: 0
+            }
+          }}
+        >
+          <MessageCircle className="!w-6 !h-6 ml-2" />
+        </Badge>
+      ),
       onClick: () => handleMenuClick(() => navigate('/message'))
     }
   ];

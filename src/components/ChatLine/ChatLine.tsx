@@ -9,6 +9,7 @@ import {
   useTheme,
   useMediaQuery
 } from '@mui/material';
+import Badge from '@mui/material/Badge';
 import { MessagesSquare } from 'lucide-react';
 import { useState, useContext } from 'react';
 
@@ -23,10 +24,14 @@ export const ChatLine = () => {
 
   if (!token) return null;
 
-  // Prikazuj ChatLine samo na desktop uređajima
   if (!isDesktop) return null;
 
   const messages = data?.data?.slice(-5) ?? [];
+
+  const totalUnread = messages.reduce(
+    (sum: number, msg: any) => sum + (msg.unreadCount || 0),
+    0
+  );
 
   return (
     <>
@@ -34,13 +39,20 @@ export const ChatLine = () => {
         <SpeedDial
           ariaLabel="Poslednje poruke"
           icon={
-            <MessagesSquare
-              style={{
-                color: theme.palette.common.white,
-                width: '32px',
-                height: '32px'
+            <Badge
+              color="error"
+              overlap="circular"
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              badgeContent={totalUnread > 0 ? totalUnread : null}
+              sx={{
+                '& .MuiBadge-badge': {
+                  top: -6,
+                  right: -6
+                }
               }}
-            />
+            >
+              <MessagesSquare className="icon !w-8 !h-8" />
+            </Badge>
           }
           direction="up"
           open={open}
@@ -56,7 +68,10 @@ export const ChatLine = () => {
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.common.white,
               '&:hover': {
-                backgroundColor: theme.palette.secondary.dark
+                backgroundColor: theme.palette.secondary.dark,
+                '& .icon': {
+                  color: theme.palette.common.white
+                }
               },
               borderRadius: '50%'
             }
@@ -88,8 +103,8 @@ export const ChatLine = () => {
                   <div
                     style={{
                       position: 'relative',
-                      width: 64,
-                      height: 44,
+                      width: 40,
+                      height: 40,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -103,11 +118,15 @@ export const ChatLine = () => {
                         fontWeight: 600,
                         textAlign: 'center',
                         lineHeight: 1.1,
-                        color: theme.palette.primary.contrastText
+                        color: theme.palette.primary.contrastText,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: 36
                       }}
                     >
-                      {msg.otherUserName?.length > 8
-                        ? msg.otherUserName.slice(0, 8) + '…'
+                      {msg.otherUserName?.length > 5
+                        ? msg.otherUserName.slice(0, 5) + '…'
                         : msg.otherUserName || 'Nepoznato'}
                     </Typography>
 
@@ -115,8 +134,8 @@ export const ChatLine = () => {
                       <div
                         style={{
                           position: 'absolute',
-                          top: 0,
-                          right: 0,
+                          top: -2,
+                          right: -2,
                           backgroundColor: theme.palette.error.main,
                           color: theme.palette.error.contrastText,
                           borderRadius: '50%',
@@ -138,6 +157,9 @@ export const ChatLine = () => {
                   sx: {
                     width: 64,
                     height: 64,
+                    minHeight: 64,
+                    minWidth: 64,
+                    borderRadius: '50%',
                     backgroundColor: theme.palette.primary.main,
                     '&:hover': {
                       backgroundColor: theme.palette.primary.dark
