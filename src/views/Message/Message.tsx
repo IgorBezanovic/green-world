@@ -1,5 +1,4 @@
 import { MetaTags } from '@green-world/components';
-import Chat from '@green-world/components/Chat/Chat';
 import { ChatContext, Message as Msg } from '@green-world/context/ChatContext';
 import { useConversation } from '@green-world/hooks/useConversation';
 import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
@@ -18,9 +17,9 @@ import {
   Box,
   Typography,
   Badge,
-  IconButton
+  IconButton,
+  InputAdornment
 } from '@mui/material';
-import { Dialog } from '@mui/material';
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import { MessageCircle, Search, Send } from 'lucide-react';
@@ -33,7 +32,6 @@ export const Message = () => {
   const [selectedUserName, setSelectedUserName] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const pageTitle = `Zeleni svet | Poruke`;
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -143,7 +141,7 @@ export const Message = () => {
     setSelectedUserId(userId);
     setSelectedUserName(userName || 'Nepoznat korisnik');
     if (isMobileOrTablet) {
-      setIsChatOpen(true);
+      console.log('posalji poruku');
     }
   };
 
@@ -203,33 +201,37 @@ export const Message = () => {
             <div className="flex items-center justify-between mb-6">
               <h1
                 className={clsx(
-                  'text-2xl font-bold text-forestGreen font-ephesis'
+                  'text-4xl font-bold text-forestGreen font-ephesis'
                 )}
               >
                 Poruke
               </h1>
             </div>
-            <div className="relative">
-              <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-              <TextField
-                placeholder="Pretraži korisnike..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                size="small"
-                className="w-full"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    pl: 4,
-                    borderRadius: 1,
-                    backgroundColor: theme.palette.grey[50],
-                    '& fieldset': { borderColor: theme.palette.grey[300] },
-                    '&:hover fieldset': {
-                      borderColor: theme.palette.primary.main
-                    }
+            <TextField
+              placeholder="Pretraži korisnike..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              size="small"
+              className="w-full"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search className="w-4 h-4" />
+                    </InputAdornment>
+                  )
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: theme.palette.grey[50],
+                  '& fieldset': { borderColor: theme.palette.grey[300] },
+                  '&:hover fieldset': {
+                    borderColor: theme.palette.primary.main
                   }
-                }}
-              />
-            </div>
+                }
+              }}
+            />
           </div>
 
           {/* Conversations List */}
@@ -372,7 +374,7 @@ export const Message = () => {
                   </div>
                 </div>
                 {isMobileOrTablet && (
-                  <IconButton onClick={() => setIsChatOpen(false)}>
+                  <IconButton onClick={() => console.log('zatvori chat')}>
                     <Typography>✕</Typography>
                   </IconButton>
                 )}
@@ -503,8 +505,8 @@ export const Message = () => {
             </>
           ) : (
             <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <MessageCircle className="w-16 h-16 text-gray-400 mx-auto mb-4 opacity-50" />
+              <div className="flex items-center text-center">
+                <MessageCircle className="mr-2" />
                 <p className="text-gray-500 text-lg">
                   Odaberi korisnika da počneš razgovor
                 </p>
@@ -513,32 +515,6 @@ export const Message = () => {
           )}
         </div>
       </div>
-
-      {/* Mobile Dialog */}
-      <Dialog
-        open={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        fullWidth
-        fullScreen
-        PaperProps={{
-          style: {
-            overflow: 'hidden',
-            margin: 0,
-            maxHeight: '100vh'
-          }
-        }}
-      >
-        {selectedUserId && (
-          <Chat
-            chatWithId={selectedUserId}
-            onClose={() => {
-              setIsChatOpen(false);
-              setSelectedUserId(null);
-            }}
-            userName={selectedUserName}
-          />
-        )}
-      </Dialog>
     </div>
   );
 };

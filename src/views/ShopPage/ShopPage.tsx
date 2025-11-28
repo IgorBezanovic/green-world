@@ -4,8 +4,6 @@ import {
   ProductCard,
   SocialMedia
 } from '@green-world/components';
-import Chat from '@green-world/components/Chat/Chat';
-import { ChatContext } from '@green-world/context/ChatContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem } from '@green-world/utils/cookie';
@@ -20,10 +18,8 @@ import {
   Typography,
   Avatar,
   CircularProgress,
-  Dialog,
   IconButton,
   TextField,
-  useMediaQuery,
   useTheme,
   Button
 } from '@mui/material';
@@ -41,7 +37,7 @@ import {
   Search,
   MessageCircle
 } from 'lucide-react';
-import { useMemo, useState, useContext } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
 export const ShopPage = () => {
@@ -51,9 +47,6 @@ export const ShopPage = () => {
     useAllUserProducts(userId);
   const [search, setSearch] = useState<string>('');
   const theme = useTheme();
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
-  const { openChat } = useContext(ChatContext);
   const PLACEHOLDER_IMG =
     'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
 
@@ -392,19 +385,7 @@ export const ShopPage = () => {
                 color="secondary"
                 startIcon={<MessageCircle />}
                 disabled={decodedToken?._id === data?._id}
-                onClick={() => {
-                  if (isMobileOrTablet) {
-                    // Na mobilnim/tablet uređajima otvori Dialog
-                    setIsChatOpen(true);
-                  } else {
-                    // Na desktop uređajima otvori preko ChatLine
-                    openChat(
-                      data?._id || '',
-                      `${data?.name ?? ''} ${data?.lastname ?? ''}`.trim() ||
-                        'Prodavac'
-                    );
-                  }
-                }}
+                onClick={() => console.log('posalji poruku')}
                 sx={{
                   py: 1.5,
                   px: 2,
@@ -415,30 +396,6 @@ export const ShopPage = () => {
                 Kontaktiraj prodavca
               </Button>
             </Box>
-            <Dialog
-              open={isChatOpen}
-              onClose={() => setIsChatOpen(false)}
-              fullWidth
-              fullScreen={isMobileOrTablet}
-              maxWidth="sm"
-              PaperProps={{
-                style: {
-                  overflow: 'hidden',
-                  ...(isMobileOrTablet && { margin: 0, maxHeight: '100vh' })
-                }
-              }}
-            >
-              {data?._id && (
-                <Chat
-                  chatWithId={data._id}
-                  userName={
-                    `${data?.name ?? ''} ${data?.lastname ?? ''}`.trim() ||
-                    'Prodavac'
-                  }
-                  onClose={() => setIsChatOpen(false)}
-                />
-              )}
-            </Dialog>
             {(data?.socialMedia?.facebook ||
               data?.socialMedia?.instagram ||
               data?.socialMedia?.linkedin ||

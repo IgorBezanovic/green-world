@@ -3,8 +3,6 @@ import {
   MetaTags,
   AppBreadcrumbs
 } from '@green-world/components';
-import Chat from '@green-world/components/Chat/Chat';
-import { ChatContext } from '@green-world/context/ChatContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
@@ -25,11 +23,9 @@ import {
   Card,
   CardContent,
   Chip,
-  Dialog,
   Divider,
   Skeleton,
   Typography,
-  useMediaQuery,
   useTheme
 } from '@mui/material';
 import dayjs from 'dayjs';
@@ -45,7 +41,7 @@ import {
   Users,
   Receipt
 } from 'lucide-react';
-import { useMemo, useState, useContext } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import {
@@ -87,9 +83,6 @@ export const ProductPage = () => {
       prevIndex === productData?.images?.length - 1 ? 0 : prevIndex + 1
     );
   };
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
-  const { openChat } = useContext(ChatContext);
 
   const metaObj = useMemo(
     () => ({
@@ -575,49 +568,10 @@ export const ProductPage = () => {
                     variant="contained"
                     color="secondary"
                     disabled={decodedToken?._id === sellerData?._id}
-                    onClick={() => {
-                      if (isMobileOrTablet) {
-                        // Na mobilnim/tablet uređajima otvori Dialog
-                        setIsChatOpen(true);
-                      } else {
-                        // Na desktop uređajima otvori preko ChatLine
-                        openChat(
-                          sellerData?._id || '',
-                          `${sellerData?.name ?? ''} ${sellerData?.lastname ?? ''}`.trim() ||
-                            'Prodavac'
-                        );
-                      }
-                    }}
+                    onClick={() => console.log('posalji poruku')}
                   >
                     Pošalji poruku
                   </Button>
-                  <Dialog
-                    open={isChatOpen}
-                    onClose={() => setIsChatOpen(false)}
-                    fullWidth
-                    fullScreen={isMobileOrTablet}
-                    maxWidth="sm"
-                    PaperProps={{
-                      style: {
-                        overflow: 'hidden',
-                        ...(isMobileOrTablet && {
-                          margin: 0,
-                          maxHeight: '100vh'
-                        })
-                      }
-                    }}
-                  >
-                    {sellerData?._id && (
-                      <Chat
-                        chatWithId={sellerData._id}
-                        userName={
-                          `${sellerData?.name ?? ''} ${sellerData?.lastname ?? ''}`.trim() ||
-                          'Prodavac'
-                        }
-                        onClose={() => setIsChatOpen(false)}
-                      />
-                    )}
-                  </Dialog>
                   <Button
                     variant="outlined"
                     color="secondary"

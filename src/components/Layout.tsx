@@ -5,8 +5,7 @@ import {
   ScrollToTop,
   AllRights,
   AnalyticsTracker,
-  Navbar,
-  ChatLine
+  Navbar
 } from '@green-world/components';
 import { Box } from '@mui/material';
 import React from 'react';
@@ -27,7 +26,6 @@ export const Layout = () => {
           top: 0
         }}
       >
-        <ChatLine />
         <Header />
         <Navbar />
       </Box>
