@@ -1,7 +1,8 @@
 import {
   ProductSection,
   MetaTags,
-  AppBreadcrumbs
+  AppBreadcrumbs,
+  SendMessageDialog
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
@@ -68,6 +69,8 @@ export const ProductPage = () => {
   const [openImageModal, setOpenImageModal] = useState(false);
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
+
   const handlePrev = () => {
     if (!productData?.images.length) return;
 
@@ -568,7 +571,7 @@ export const ProductPage = () => {
                     variant="contained"
                     color="secondary"
                     disabled={decodedToken?._id === sellerData?._id}
-                    onClick={() => console.log('posalji poruku')}
+                    onClick={() => setOpenSendMessageDialog(true)}
                   >
                     Pošalji poruku
                   </Button>
@@ -620,6 +623,11 @@ export const ProductPage = () => {
         setOpenImageModal={setOpenImageModal}
         openImageModal={openImageModal}
         productData={productData}
+      />
+      <SendMessageDialog
+        open={openSendMessageDialog}
+        onClose={() => setOpenSendMessageDialog(false)}
+        userId={sellerData?._id || ''}
       />
     </Box>
   );

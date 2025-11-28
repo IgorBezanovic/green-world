@@ -2,6 +2,7 @@ import {
   AppBreadcrumbs,
   MetaTags,
   ProductCard,
+  SendMessageDialog,
   SocialMedia
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -55,6 +56,7 @@ export const ShopPage = () => {
   };
   const token = getItem('token');
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const filteredProducts = useMemo(() => {
     return sellerProducts?.filter((prod) => {
@@ -385,7 +387,7 @@ export const ShopPage = () => {
                 color="secondary"
                 startIcon={<MessageCircle />}
                 disabled={decodedToken?._id === data?._id}
-                onClick={() => console.log('posalji poruku')}
+                onClick={() => setOpenSendMessageDialog(true)}
                 sx={{
                   py: 1.5,
                   px: 2,
@@ -479,6 +481,11 @@ export const ShopPage = () => {
           )}
         </Box>
       </Box>
+      <SendMessageDialog
+        open={openSendMessageDialog}
+        onClose={() => setOpenSendMessageDialog(false)}
+        userId={userId || ''}
+      />
     </Box>
   );
 };
