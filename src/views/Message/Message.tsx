@@ -243,7 +243,7 @@ export const Message = () => {
           </div>
 
           {/* Conversations List */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto mt-4">
             {isLoading && (
               <div className="flex justify-center items-center">
                 <CircularProgress style={{ fontSize: 24 }} />
@@ -288,7 +288,7 @@ export const Message = () => {
                     e.preventDefault();
                   }}
                   className={clsx(
-                    'my-1 w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors',
+                    'w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors',
                     isSelected ? 'bg-teaGreen' : 'hover:bg-gray-50'
                   )}
                   style={{ outline: 'none' }}
@@ -496,7 +496,7 @@ export const Message = () => {
                       textTransform: 'none'
                     }}
                   >
-                    <Send className="w-4 h-4" />
+                    <Send />
                   </Button>
                 </div>
               </div>
