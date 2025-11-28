@@ -188,11 +188,11 @@ export const Message = () => {
     <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[55vh]')}>
       <MetaTags title={pageTitle} />
 
-      <div className={clsx('flex h-[calc(65vh-65px)]')}>
+      <div className={clsx('flex h-[calc(65vh-65px)] flex-col md:flex-row')}>
         {/* Left Sidebar - Conversations List */}
         <div
           className={clsx(
-            'bg-white border-r border-gray-200 flex flex-col',
+            'bg-white border-r border-b border-gray-200 flex flex-col',
             isMobileOrTablet ? 'w-full' : 'w-120'
           )}
         >
@@ -334,12 +334,7 @@ export const Message = () => {
         </div>
 
         {/* Right Side - Chat Area */}
-        <div
-          className={clsx(
-            'flex-1 flex flex-col bg-whiteLinen',
-            isMobileOrTablet && 'hidden'
-          )}
-        >
+        <div className={clsx('flex-1 flex flex-col bg-whiteLinen')}>
           {selectedUserId ? (
             <>
               {/* Chat Header */}
