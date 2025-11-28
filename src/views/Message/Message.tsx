@@ -17,7 +17,6 @@ import {
   Box,
   Typography,
   Badge,
-  IconButton,
   InputAdornment
 } from '@mui/material';
 import clsx from 'clsx';
@@ -140,9 +139,6 @@ export const Message = () => {
   const handleUserClick = (userId: string, userName: string) => {
     setSelectedUserId(userId);
     setSelectedUserName(userName || 'Nepoznat korisnik');
-    if (isMobileOrTablet) {
-      console.log('posalji poruku');
-    }
   };
 
   const handleSendMessage = () => {
@@ -185,10 +181,23 @@ export const Message = () => {
   };
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-[55vh]')}>
+    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={pageTitle} />
 
-      <div className={clsx('flex h-[calc(65vh-65px)] flex-col md:flex-row')}>
+      <Box
+        className={clsx(
+          'xl:max-w-[1400px]',
+          'w-full',
+          'mx-auto',
+          'px-4',
+          'sm:px-6',
+          'xl:px-0',
+          'py-7',
+          'flex',
+          'flex-col',
+          'md:flex-row'
+        )}
+      >
         {/* Left Sidebar - Conversations List */}
         <div
           className={clsx(
@@ -197,7 +206,7 @@ export const Message = () => {
           )}
         >
           {/* Header */}
-          <div className="p-6 border-b border-gray-200">
+          <div className="mr-6 border-b border-gray-200">
             <div className="flex items-center justify-between mb-6">
               <h1
                 className={clsx(
@@ -237,19 +246,19 @@ export const Message = () => {
           {/* Conversations List */}
           <div className="flex-1 overflow-y-auto">
             {isLoading && (
-              <div className="flex justify-center items-center py-10">
+              <div className="flex justify-center items-center">
                 <CircularProgress style={{ fontSize: 24 }} />
               </div>
             )}
 
             {error && (
-              <div className="text-red-500 text-center p-4">
+              <div className="text-red-500 text-center">
                 Došlo je do greške prilikom učitavanja poruka.
               </div>
             )}
 
             {!isLoading && filteredConversations.length === 0 && (
-              <div className="text-center text-gray-500 p-4">
+              <div className="my-4 text-gray-500">
                 {searchQuery
                   ? 'Nema rezultata pretrage.'
                   : 'Nemate nijednu konverzaciju.'}
@@ -334,11 +343,15 @@ export const Message = () => {
         </div>
 
         {/* Right Side - Chat Area */}
-        <div className={clsx('flex-1 flex flex-col bg-whiteLinen')}>
+        <div
+          className={clsx(
+            'flex-1 flex flex-col bg-whiteLinen h-[500px] md:h-auto'
+          )}
+        >
           {selectedUserId ? (
             <>
               {/* Chat Header */}
-              <div className="border-b border-gray-200 bg-white px-6 py-4 flex items-center justify-between">
+              <div className="border-b border-gray-200 bg-white pl-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Avatar
                     src={formatImageUrl(
@@ -368,11 +381,6 @@ export const Message = () => {
                     )}
                   </div>
                 </div>
-                {isMobileOrTablet && (
-                  <IconButton onClick={() => console.log('zatvori chat')}>
-                    <Typography>✕</Typography>
-                  </IconButton>
-                )}
               </div>
 
               {/* Messages */}
@@ -381,7 +389,8 @@ export const Message = () => {
                 sx={{
                   flex: 1,
                   overflowY: 'auto',
-                  p: 3,
+                  py: 3,
+                  pl: 3,
                   bgcolor: theme.palette.background.main,
                   backgroundImage:
                     'linear-gradient(180deg, #FDFFFB 0%, #F9FCF7 100%)'
@@ -509,7 +518,7 @@ export const Message = () => {
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
