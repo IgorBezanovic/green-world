@@ -6,7 +6,6 @@ import {
   DialogActions,
   TextField,
   Button,
-  FormLabel,
   DialogContentText
 } from '@mui/material';
 import React, { useState } from 'react';
@@ -53,12 +52,6 @@ export const SendMessageDialog = ({
             prema drugim korisnicima. Vaša poruka treba biti prijateljska i
             konstruktivna.
           </DialogContentText>
-          <FormLabel
-            htmlFor="message-input"
-            sx={{ mb: 1, display: 'block', fontWeight: 500, color: 'black' }}
-          >
-            Poruka
-          </FormLabel>
           <TextField
             id="message-input"
             autoFocus

@@ -192,7 +192,6 @@ export const Message = () => {
           'px-4',
           'sm:px-6',
           'xl:px-0',
-          'py-7',
           'flex',
           'flex-col',
           'md:flex-row'
@@ -210,7 +209,7 @@ export const Message = () => {
             <div className="flex items-center justify-between mb-6">
               <h1
                 className={clsx(
-                  'text-4xl font-bold text-forestGreen font-ephesis'
+                  'text-4xl font-bold text-forestGreen font-ephesis mt-4'
                 )}
               >
                 Poruke
@@ -289,7 +288,7 @@ export const Message = () => {
                     e.preventDefault();
                   }}
                   className={clsx(
-                    'w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors',
+                    'my-1 w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors',
                     isSelected ? 'bg-teaGreen' : 'hover:bg-gray-50'
                   )}
                   style={{ outline: 'none' }}
@@ -468,8 +467,8 @@ export const Message = () => {
               </Box>
 
               {/* Message Input */}
-              <div className="border-t border-gray-200 bg-white px-3 py-2">
-                <div className="flex gap-2">
+              <div className="border-t border-gray-200 md:px-3 py-4">
+                <div className="flex gap-4 items-center">
                   <TextField
                     placeholder="Upiši poruku..."
                     value={messageInput}
@@ -479,13 +478,8 @@ export const Message = () => {
                     className="flex-1"
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        borderRadius: 1,
                         backgroundColor: theme.palette.grey[50],
-                        fontSize: 14,
-                        '& fieldset': { borderColor: theme.palette.grey[300] },
-                        '&:hover fieldset': {
-                          borderColor: theme.palette.primary.main
-                        }
+                        fontSize: 14
                       }
                     }}
                   />
@@ -498,7 +492,7 @@ export const Message = () => {
                       minWidth: 40,
                       width: 40,
                       height: 40,
-                      p: 0,
+                      px: 2,
                       textTransform: 'none'
                     }}
                   >
