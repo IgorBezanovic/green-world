@@ -46,17 +46,21 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!currentUser) return;
-    const s = io(import.meta.env.VITE_API_URL, {
+    const s = io(import.meta.env.VITE_API_SOCKET, {
+      path: '/socket.io',
       query: { userId: currentUser }
     });
-    setSocket(s);
 
-    s.on('receive_message', (msg: Message) => {
-      setMessages((prev) => ({
-        ...prev,
-        [msg.sender]: [...(prev[msg.sender] || []), msg]
-      }));
+    s.on('connect', () => {
+      console.log('✅ Socket connected:', s.id);
+      s.emit('join', currentUser);
     });
+
+    s.on('connect_error', (err) => {
+      console.error('❌ Socket connect_error:', err.message, err);
+    });
+
+    setSocket(s);
 
     return () => {
       s.disconnect();
@@ -82,11 +86,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
         ? [...current, ...newMessages]
         : [...current, newMessages];
 
-      const unique = msgs.filter(
-        (msg, index, self) => index === self.findIndex((m) => m._id === msg._id)
-      );
-
-      return { ...prev, [chatWithId]: unique };
+      return { ...prev, [chatWithId]: msgs };
     });
   };
 

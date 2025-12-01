@@ -1,3 +1,4 @@
+import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -9,7 +10,8 @@ import {
   Button,
   ListItemButton,
   IconButton,
-  useTheme
+  useTheme,
+  Badge
 } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import {
@@ -37,6 +39,14 @@ export const Header = () => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
+  const { data: messagesData } = useUserMessage();
+  const conversations = messagesData?.data ?? [];
+  const totalUnread =
+    conversations.reduce(
+      (sum: number, conv: any) => sum + (conv.unreadCount || 0),
+      0
+    ) || 0;
 
   const handleLogout = () => {
     removeItem('token');
@@ -90,7 +100,15 @@ export const Header = () => {
     },
     {
       text: 'Poruke',
-      icon: <MessageCircle className="!w-6 !h-6 ml-2" />,
+      icon: (
+        <Badge
+          badgeContent={totalUnread > 0 ? totalUnread : null}
+          color="error"
+          overlap="circular"
+        >
+          <MessageCircle className="!w-6 !h-6 ml-2" />
+        </Badge>
+      ),
       onClick: () => handleMenuClick(() => navigate('/message'))
     }
   ];
