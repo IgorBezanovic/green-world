@@ -27,8 +27,6 @@ import { useState, useContext, useEffect, useRef, useMemo } from 'react';
 
 export const Message = () => {
   const { data, isLoading, error } = useUserMessage();
-
-  // lokalni state za konverzacije (da možemo da resetujemo unreadCount u UI)
   const [localConversations, setLocalConversations] = useState<any[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedUserName, setSelectedUserName] = useState<string>('');
