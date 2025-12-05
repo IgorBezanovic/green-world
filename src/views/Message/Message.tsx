@@ -290,7 +290,7 @@ export const Message = () => {
         )}
 
         {error && (
-          <div className="text-red-500 text-center">
+          <div className="text-red-500 text-center my-4">
             Došlo je do greške prilikom učitavanja poruka.
           </div>
         )}
