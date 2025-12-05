@@ -32,7 +32,7 @@ export const Message = () => {
   const [selectedUserName, setSelectedUserName] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
-  const [visibleCount, setVisibleCount] = useState(10); // koliko poruka prikazujemo (od pozadi)
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const pageTitle = `Zeleni svet | Poruke`;
   const theme = useTheme();
@@ -52,26 +52,22 @@ export const Message = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
-  // sync localConversations sa serverom
   useEffect(() => {
     const next = data?.data ?? [];
     setLocalConversations(next);
   }, [data?.data]);
 
-  // Filter conversations based on search query
   const filteredConversations = localConversations.filter((conv: any) =>
     (conv.otherUserName || 'Nepoznat korisnik')
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
-  // Get selected conversation (sve poruke za tog korisnika)
   const selectedConversation = useMemo(
     () => (selectedUserId ? messages[selectedUserId] || [] : []),
     [selectedUserId, messages]
   );
 
-  // Samo poslednjih N poruka (visibleCount, default 10)
   const visibleMessages = useMemo(() => {
     const total = selectedConversation.length;
     const count = Math.min(visibleCount, total);
@@ -79,12 +75,10 @@ export const Message = () => {
     return selectedConversation.slice(start);
   }, [selectedConversation, visibleCount]);
 
-  // Kad promeniš konverzaciju, kreni od poslednjih 10 poruka
   useEffect(() => {
     setVisibleCount(10);
   }, [selectedUserId]);
 
-  // Load conversation messages from API
   useEffect(() => {
     if (
       conversationData?.success &&
@@ -111,30 +105,33 @@ export const Message = () => {
     }
   }, [conversationData, messages, selectedUserId, addMessage]);
 
-  // Scroll to bottom when new messages arrive
   const prevMessageCountRef = useRef<number>(0);
   const prevSelectedUserIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    // Reset count when switching to a different user
     if (prevSelectedUserIdRef.current !== selectedUserId) {
       prevMessageCountRef.current = 0;
       prevSelectedUserIdRef.current = selectedUserId;
     }
 
-    if (messagesEndRef.current && selectedUserId) {
-      const currentCount = selectedConversation.length;
-      // Only scroll if new messages were actually added (count increased)
-      if (currentCount > prevMessageCountRef.current && currentCount > 0) {
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-      prevMessageCountRef.current = currentCount;
-    }
-  }, [selectedConversation.length, selectedUserId, selectedConversation]);
+    const el = chatBoxRef.current;
+    if (!el || !selectedUserId) return;
 
-  // Mark as read when conversation is selected (server-side)
+    const currentCount = selectedConversation.length;
+
+    if (currentCount > prevMessageCountRef.current && currentCount > 0) {
+      setTimeout(() => {
+        if (!chatBoxRef.current) return;
+        chatBoxRef.current.scrollTo({
+          top: chatBoxRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+
+    prevMessageCountRef.current = currentCount;
+  }, [selectedConversation.length, selectedUserId]);
+
   useEffect(() => {
     if (selectedUserId && alreadyMarked.current !== selectedUserId) {
       markAsRead.mutate(selectedUserId);
@@ -142,7 +139,6 @@ export const Message = () => {
     }
   }, [selectedUserId, markAsRead]);
 
-  // Handle socket messages
   useEffect(() => {
     if (!socket || !selectedUserId) return;
 
@@ -171,7 +167,6 @@ export const Message = () => {
     setSelectedUserId(userId);
     setSelectedUserName(userName || 'Nepoznat korisnik');
 
-    // lokalno resetuj unreadCount u UI
     setLocalConversations((prev) =>
       prev.map((conv: any) =>
         conv.otherUserId === userId ? { ...conv, unreadCount: 0 } : conv
@@ -212,7 +207,6 @@ export const Message = () => {
 
     const { scrollTop } = chatBoxRef.current;
 
-    // kada si na vrhu, uvećaj broj vidljivih poruka (učitaj starije iz već učitanog niza)
     if (scrollTop === 0 && visibleCount < selectedConversation.length) {
       setVisibleCount((prev) =>
         Math.min(prev + 10, selectedConversation.length)
@@ -240,10 +234,9 @@ export const Message = () => {
     <div
       className={clsx(
         'bg-white border-r border-b border-gray-200 flex flex-col',
-        isMobileOrTablet ? 'w-full' : 'w-120'
+        isMobileOrTablet ? 'w-full' : 'w-1/3'
       )}
     >
-      {/* Header */}
       <div className="mr-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-6">
           <h1
@@ -281,7 +274,6 @@ export const Message = () => {
         />
       </div>
 
-      {/* Conversations List */}
       <div className="flex-1 overflow-y-auto">
         {isLoading && (
           <div className="flex justify-center items-center">
@@ -379,7 +371,6 @@ export const Message = () => {
 
   const renderChatContent = () => (
     <>
-      {/* Chat Header */}
       <div className="border-b border-gray-200 bg-white pl-4 pr-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {isMobileOrTablet && (
@@ -418,7 +409,6 @@ export const Message = () => {
         </div>
       </div>
 
-      {/* Messages */}
       <Box
         ref={chatBoxRef}
         onScroll={handleScroll}
@@ -500,7 +490,6 @@ export const Message = () => {
         <div ref={messagesEndRef} />
       </Box>
 
-      {/* Message Input */}
       <div className="border-t border-gray-200 md:px-3 py-4">
         <div className="flex gap-4 items-center px-3 md:px-0">
           <TextField
@@ -540,8 +529,8 @@ export const Message = () => {
   const renderChatArea = () => (
     <div
       className={clsx(
-        'flex-1 flex flex-col bg-whiteLinen',
-        isMobileOrTablet ? 'w-full' : 'h-[500px] md:h-auto'
+        'flex flex-col bg-whiteLinen',
+        isMobileOrTablet ? 'w-full' : 'w-2/3 h-[500px] md:h-auto'
       )}
     >
       {selectedUserId
@@ -576,7 +565,6 @@ export const Message = () => {
           'md:flex-row'
         )}
       >
-        {/* Desktop / tablet: lista + chat */}
         {!isMobileOrTablet && (
           <>
             {renderConversationList()}
@@ -584,11 +572,9 @@ export const Message = () => {
           </>
         )}
 
-        {/* Mobile: samo lista u osnovnom layout-u */}
         {isMobileOrTablet && !selectedUserId && renderConversationList()}
       </Box>
 
-      {/* MOBILE FULLSCREEN CHAT OVERLAY */}
       {isMobileOrTablet && selectedUserId && (
         <Box
           sx={{
