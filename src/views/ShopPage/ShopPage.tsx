@@ -22,7 +22,8 @@ import {
   IconButton,
   TextField,
   useTheme,
-  Button
+  Button,
+  Tooltip
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
@@ -381,22 +382,46 @@ export const ShopPage = () => {
               >
                 Navigacija
               </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                startIcon={<MessageCircle />}
-                disabled={decodedToken?._id === data?._id}
-                onClick={() => setOpenSendMessageDialog(true)}
-                sx={{
-                  py: 1.5,
-                  px: 2,
-                  fontWeight: 600,
-                  textTransform: 'none'
-                }}
+              <Tooltip
+                title={
+                  !decodedToken?._id
+                    ? 'Morate biti prijavljeni da biste poslali poruku'
+                    : decodedToken?._id === data?._id
+                      ? 'Ne možete slati poruke sami sebi'
+                      : ''
+                }
+                disableHoverListener={
+                  Boolean(decodedToken?._id) && decodedToken?._id !== data?._id
+                }
               >
-                Kontaktiraj prodavca
-              </Button>
+                <span style={{ width: '100%' }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    startIcon={<MessageCircle color="white" />}
+                    sx={{
+                      py: 1.5,
+                      px: 2,
+                      fontWeight: 600,
+                      textTransform: 'none'
+                    }}
+                    disabled={
+                      !decodedToken?._id || decodedToken?._id === data?._id
+                    }
+                    title={
+                      !decodedToken?._id
+                        ? 'Morate biti prijavljeni da biste poslali poruku'
+                        : decodedToken?._id === data?._id
+                          ? 'Ne možete slati poruke sami sebi'
+                          : undefined
+                    }
+                    onClick={() => setOpenSendMessageDialog(true)}
+                  >
+                    Kontaktiraj prodavca
+                  </Button>
+                </span>
+              </Tooltip>
             </Box>
             {(data?.socialMedia?.facebook ||
               data?.socialMedia?.instagram ||

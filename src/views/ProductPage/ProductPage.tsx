@@ -26,6 +26,7 @@ import {
   Chip,
   Divider,
   Skeleton,
+  Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
@@ -567,14 +568,41 @@ export const ProductPage = () => {
                     mt: 4
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    disabled={decodedToken?._id === sellerData?._id}
-                    onClick={() => setOpenSendMessageDialog(true)}
+                  <Tooltip
+                    title={
+                      !decodedToken?._id
+                        ? 'Morate biti prijavljeni da biste poslali poruku'
+                        : decodedToken?._id === sellerData?._id
+                          ? 'Ne možete slati poruke sami sebi'
+                          : ''
+                    }
+                    disableHoverListener={
+                      Boolean(decodedToken?._id) &&
+                      decodedToken?._id !== sellerData?._id
+                    }
                   >
-                    Pošalji poruku
-                  </Button>
+                    <span style={{ width: '100%' }}>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ width: '100%' }}
+                        disabled={
+                          !decodedToken?._id ||
+                          decodedToken?._id === sellerData?._id
+                        }
+                        title={
+                          !decodedToken?._id
+                            ? 'Morate biti prijavljeni da biste poslali poruku'
+                            : decodedToken?._id === sellerData?._id
+                              ? 'Ne možete slati poruke sami sebi'
+                              : undefined
+                        }
+                        onClick={() => setOpenSendMessageDialog(true)}
+                      >
+                        Pošalji poruku
+                      </Button>
+                    </span>
+                  </Tooltip>
                   <Button
                     variant="outlined"
                     color="secondary"
