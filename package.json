@@ -47,8 +47,9 @@
     "react-oauth": "^0.0.1",
     "react-phone-input-2": "^2.15.1",
     "react-quill-new": "^3.4.6",
-    "react-router-dom": "^7.9.3",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "socket.io-client": "^4.8.1",
+    "react-router-dom": "^7.9.3"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",

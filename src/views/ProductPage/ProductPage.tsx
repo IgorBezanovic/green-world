@@ -2,19 +2,21 @@ import {
   ProductSection,
   MetaTags,
   AppBreadcrumbs,
-  ZSLogoLogoMark
+  SendMessageDialog
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
 import { homeCategories } from '@green-world/utils/constants';
+import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   goToDestination,
   translateGroupToSr,
   translateSubGroupToSr
 } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import {
   Avatar,
   Box,
@@ -28,6 +30,7 @@ import {
   useTheme
 } from '@mui/material';
 import dayjs from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import {
   Store,
   Phone,
@@ -64,6 +67,9 @@ export const ProductPage = () => {
   const { data: sellerProducts, isLoading: sellerProductsLoading } =
     useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
+  const token = getItem('token');
+  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const handlePrev = () => {
     if (!productData?.images.length) return;
@@ -455,9 +461,7 @@ export const ProductPage = () => {
                           </Typography>
                           <Typography variant="button">
                             Član od{' '}
-                            {dayjs(sellerData?.createdAt).format(
-                              'DD/MM/YYYY, HH:mm'
-                            )}
+                            {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
                         </Box>
                       </Box>
@@ -563,30 +567,13 @@ export const ProductPage = () => {
                     mt: 4
                   }}
                 >
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    disabled={decodedToken?._id === sellerData?._id}
+                    onClick={() => setOpenSendMessageDialog(true)}
+                  >
                     Pošalji poruku
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 4,
-                        left: 4,
-                        bgcolor: theme.palette.primary.dark,
-                        color: 'white',
-                        px: 0.5,
-                        py: '2px',
-                        fontSize: '0.5rem',
-                        borderRadius: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.3
-                      }}
-                    >
-                      <ZSLogoLogoMark
-                        color={theme.palette.primary.contrastText}
-                        width="9px"
-                      />{' '}
-                      Uskoro
-                    </Box>
                   </Button>
                   <Button
                     variant="outlined"
@@ -636,6 +623,11 @@ export const ProductPage = () => {
         setOpenImageModal={setOpenImageModal}
         openImageModal={openImageModal}
         productData={productData}
+      />
+      <SendMessageDialog
+        open={openSendMessageDialog}
+        onClose={() => setOpenSendMessageDialog(false)}
+        userId={sellerData?._id || ''}
       />
     </Box>
   );
