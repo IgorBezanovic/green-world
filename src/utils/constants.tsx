@@ -92,7 +92,7 @@ export const homeCategories: HomeCategory[] = [
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734487/dh61q6w6vhvufl2nqsju.webp',
     route: '/search/potted_flowers',
-    text: 'Saksijsko cvece',
+    text: 'Saksijsko cveče',
     slug: 'potted_flowers'
   },
   {
@@ -108,7 +108,7 @@ export const homeCategories: HomeCategory[] = [
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734567/qi6vrxr7ck98fdqqvb83.webp',
     route: '/search/fruits_and_vegetables',
-    text: 'Voce i povrce',
+    text: 'Voće i povrće',
     slug: 'fruits_and_vegetables'
   },
   {
@@ -124,7 +124,7 @@ export const homeCategories: HomeCategory[] = [
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734642/jofstgnbcqqlpsnbt7pp.webp',
     route: '/search/garden_decoration',
-    text: 'Bastenska dekoracija',
+    text: 'Baštenska dekoracija',
     slug: 'garden_decoration'
   },
   {

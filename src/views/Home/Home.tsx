@@ -9,7 +9,7 @@ import {
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
@@ -116,29 +116,27 @@ export const Home = () => {
             Pronađite sve što vam je potrebno za savršenu baštu i dom
           </Typography>
         </div>
-        <Grid
-          container
+        <Box
           component="section"
-          spacing={{ xs: 2, sm: 3 }}
-          sx={{
-            maxWidth: 1200,
+          sx={(theme) => ({
+            display: 'grid',
+            gap: theme.spacing(3),
+            maxWidth: '1400px',
             width: '100%',
-            mx: 'auto'
-          }}
+            mx: 'auto',
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            [theme.breakpoints.up('xs')]: {
+              gridTemplateColumns: 'repeat(2, 1fr)'
+            },
+            [theme.breakpoints.up('md')]: {
+              gridTemplateColumns: 'repeat(4, 1fr)'
+            }
+          })}
         >
           {homeCategories.map((category) => (
-            <Grid
-              key={category.id}
-              size={{
-                xs: 6,
-                sm: 4,
-                lg: 3
-              }}
-            >
-              <GroupButton item={category} />
-            </Grid>
+            <GroupButton key={category.id} item={category} />
           ))}
-        </Grid>
+        </Box>
         <LazySection>
           <CustomButton
             type="text"
