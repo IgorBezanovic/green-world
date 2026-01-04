@@ -1,10 +1,7 @@
 import { useDeleteEvent } from '@green-world/hooks/useDeleteEvent';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import EditIcon from '@mui/icons-material/EditOutlined';
 import PlaceIcon from '@mui/icons-material/Place';
-import ShareIcon from '@mui/icons-material/Share';
 import {
   Box,
   Card,
@@ -17,7 +14,9 @@ import {
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 import { PopDelete } from '../PopDelete';
 
@@ -165,13 +164,20 @@ export const EventProfileCard = ({ ...props }) => {
             </IconButton>
             <IconButton
               aria-label="share"
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `https://www.zelenisvet.rs/event/${props.event?._id}`
-                )
-              }
+              onClick={() => {
+                navigator.clipboard
+                  .writeText(
+                    `https://www.zelenisvet.rs/event/${props.event?._id}`
+                  )
+                  .then(() => {
+                    toast.success('Kopiran link');
+                  })
+                  .catch(() => {
+                    alert('Neuspešno kopiranje linka');
+                  });
+              }}
             >
-              <ShareIcon />
+              <Copy />
             </IconButton>
 
             <PopDelete
@@ -184,7 +190,7 @@ export const EventProfileCard = ({ ...props }) => {
               mutate={mutate}
             >
               <IconButton aria-label="share">
-                <DeleteIcon />
+                <Trash />
               </IconButton>
             </PopDelete>
           </CardActions>

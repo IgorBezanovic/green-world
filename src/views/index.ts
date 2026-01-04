@@ -1,4 +1,6 @@
 export * from '@green-world/views/AdminPanel';
+export * from '@green-world/views/BlogPost';
+export * from '@green-world/views/BlogPostPage';
 export * from '@green-world/views/ContactUs';
 export * from '@green-world/views/CreateEditEvent';
 export * from '@green-world/views/CreateEditProduct';
@@ -19,3 +21,4 @@ export * from '@green-world/views/ProfileSettings';
 export * from '@green-world/views/Registration';
 export * from '@green-world/views/UnderConstruction';
 export * from '@green-world/views/UserProfile';
+export * from '@green-world/views/WritePost';

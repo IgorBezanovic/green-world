@@ -143,17 +143,8 @@ export const Message = () => {
     if (!socket || !selectedUserId) return;
 
     const handleReceiveMessage = (msg: Msg) => {
-      console.log('📥 receive_message on client:', {
-        msg,
-        selectedUserId,
-        currentUser
-      });
-
       if (msg.sender === selectedUserId || msg.receiver === selectedUserId) {
-        console.log('✅ adding message to chat with:', selectedUserId);
         addMessage(selectedUserId, msg);
-      } else {
-        console.log('⏭ ignored message for this open chat');
       }
     };
 

@@ -2,9 +2,6 @@ import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import EditIcon from '@mui/icons-material/EditOutlined';
-import ShareIcon from '@mui/icons-material/Share';
 import {
   Box,
   Card,
@@ -15,15 +12,20 @@ import {
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
+import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 import { PopDelete } from '../PopDelete';
 
 interface ProductCardProps {
   product: Product | ProductPreview;
   isHero?: boolean;
-  productsRefetch?: any;
+  productsRefetch?: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Product[], Error>>;
 }
 
 export const ProductCard = ({
@@ -169,26 +171,31 @@ export const ProductCard = ({
             </IconButton>
             <IconButton
               aria-label="Share Product"
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `https://www.zelenisvet.rs/product/${product._id}`
-                )
-              }
+              onClick={() => {
+                navigator.clipboard
+                  .writeText(`https://www.zelenisvet.rs/product/${product._id}`)
+                  .then(() => {
+                    toast.success('Kopiran link');
+                  })
+                  .catch(() => {
+                    alert('Neuspešno kopiranje linka');
+                  });
+              }}
             >
-              <ShareIcon />
+              <Copy />
             </IconButton>
 
             <PopDelete
               key="delete"
               title={'Brisanje proizvoda'}
-              description={'Da li ste sigurni da zelite da orisete proizvod?'}
+              description={'Da li ste sigurni da želite da obrišete proizvod?'}
               okText={'Da'}
               cancelText={'Ne'}
               id={product._id}
               mutate={mutate}
             >
               <IconButton aria-label="Delete Product">
-                <DeleteIcon />
+                <Trash />
               </IconButton>
             </PopDelete>
           </CardActions>

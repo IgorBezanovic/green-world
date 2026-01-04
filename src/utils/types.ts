@@ -144,3 +144,41 @@ export type HomeCategory = {
   text: string;
   slug: string;
 };
+
+export interface BlogBlock {
+  _id: string;
+  type: 'text' | 'image' | 'mixed';
+  text?: string;
+  image?: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
+export interface BlogPost {
+  _id: string;
+  title: string;
+  coverImage: string;
+  author: string;
+  blocks: BlogBlock[];
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+  likes?: string[];
+  dislikes?: string[];
+  status: 'active' | 'deleted';
+  comments?: Comment[];
+  keywords?: string[];
+  timeOfReading?: number;
+}
+
+export interface Comment {
+  _id?: string;
+  targetId: string;
+  targetType: 'BlogPost' | 'Product' | 'Action';
+  author: string;
+  text: string;
+  parentComment?: string | null;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date;
+}

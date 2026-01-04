@@ -7,11 +7,13 @@ import {
   MetaTags,
   AppBreadcrumbs
 } from '@green-world/components';
+import { BlogCard } from '@green-world/components/BlogCard';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
 import { formatImageUrl } from '@green-world/utils/helpers';
-import { Product } from '@green-world/utils/types';
+import { BlogPost, Product } from '@green-world/utils/types';
 import { Card, Tabs, Tab } from '@mui/material';
 import clsx from 'clsx';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -36,6 +38,7 @@ export const UserProfile = () => {
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
+  const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
   const [activeTab, setActiveTab] = useState('products');
 
   useEffect(() => {
@@ -50,6 +53,18 @@ export const UserProfile = () => {
     }
   }, [events, eventsLoading]);
 
+  const {
+    data: blogs = [],
+    isLoading: blogsLoading,
+    refetch: blogsRefetch
+  } = useBlogPostsByUser(user?._id);
+
+  useEffect(() => {
+    if (!blogsLoading) {
+      setBlogsToDisplay(blogs);
+    }
+  }, [blogs, blogsLoading]);
+
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
 
@@ -58,11 +73,16 @@ export const UserProfile = () => {
         product.title.toLowerCase().includes(term)
       );
       setProductsToDisplay(filtered);
-    } else {
+    } else if (activeTab === 'events') {
       const filtered = events.filter((event: any) =>
         event.title.toLowerCase().includes(term)
       );
       setEventsToDisplay(filtered);
+    } else {
+      const filtered = blogs.filter((post: any) =>
+        post.title.toLowerCase().includes(term)
+      );
+      setBlogsToDisplay(filtered);
     }
   };
 
@@ -146,6 +166,12 @@ export const UserProfile = () => {
             onClick={() => navigate('/create-event')}
             customStyle={['!flex-1', 'max-h-[45px]']}
           />
+          <CustomButton
+            text={'Napiši blog post'}
+            type={'text'}
+            onClick={() => navigate('/write-post')}
+            customStyle={['!flex-1', 'max-h-[45px]']}
+          />
         </section>
 
         {/* DESNA STRANA */}
@@ -155,7 +181,13 @@ export const UserProfile = () => {
           <Card>
             <CustomInput
               type="text"
-              placeholder={`Pretrazi po nazivu ${activeTab === 'products' ? 'proizvoda' : 'aktivnosti'}`}
+              placeholder={`Pretrazi po nazivu ${
+                activeTab === 'products'
+                  ? 'proizvoda'
+                  : activeTab === 'events'
+                    ? 'aktivnosti'
+                    : 'blogova'
+              }`}
               customStyle={['!mb-0']}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 filterContent(e.target.value)
@@ -170,11 +202,12 @@ export const UserProfile = () => {
           >
             <Tab label="Proizvodi" value="products" />
             <Tab label="Aktivnosti" value="events" />
+            <Tab label="Moji Blogovi" value="blogs" />
           </Tabs>
 
           {activeTab === 'products' && (
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-              {productsToDisplay.length > 0 ? (
+              {productsToDisplay?.length > 0 ? (
                 productsToDisplay.map((product: any) => (
                   <ProductCard
                     key={product._id}
@@ -190,7 +223,7 @@ export const UserProfile = () => {
 
           {activeTab === 'events' && (
             <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-              {eventsToDisplay.length > 0 ? (
+              {eventsToDisplay?.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
                   <EventProfileCard
                     key={event._id}
@@ -200,6 +233,24 @@ export const UserProfile = () => {
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>
+              )}
+            </section>
+          )}
+
+          {activeTab === 'blogs' && (
+            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+              {blogsToDisplay?.length > 0 ? (
+                blogsToDisplay.map((post: BlogPost) => (
+                  <BlogCard
+                    key={post._id}
+                    post={post}
+                    blogsRefetch={blogsRefetch}
+                  />
+                ))
+              ) : (
+                <p className="col-span-full">
+                  Još uvek niste dodali blog postove
+                </p>
               )}
             </section>
           )}
