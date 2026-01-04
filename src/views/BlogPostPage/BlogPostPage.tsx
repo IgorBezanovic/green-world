@@ -90,7 +90,7 @@ export const BlogPostPage = () => {
           mx: 'auto',
           px: '16px',
           py: '1.75rem',
-          gap: 4,
+          gap: 2,
           [theme.breakpoints.up('sm')]: {
             px: '1.5rem'
           },
@@ -103,7 +103,7 @@ export const BlogPostPage = () => {
       >
         <AppBreadcrumbs pages={pages} />
         {post?.keywords && post.keywords.length > 0 && (
-          <div className="flex flex-wrap gap-3 mb-4">
+          <div className="flex flex-wrap gap-3 mb-3 mt-4">
             <ZSLogoLogoMark
               color={theme.palette.secondary.main}
               width="24px"
@@ -114,9 +114,9 @@ export const BlogPostPage = () => {
             ))}
           </div>
         )}
-        <h1 className="text-4xl font-bold mb-6">{post?.title}</h1>
+        <h1 className="text-4xl font-bold mb-4">{post?.title}</h1>
 
-        <div className="flex items-center mb-6 gap-3">
+        <div className="flex items-center mb-4 gap-3">
           <div className="flex items-center gap-1 text-sm text-gray-500">
             <User />
             {post?.author}
@@ -147,7 +147,7 @@ export const BlogPostPage = () => {
           ))}
         </div>
 
-        <Box sx={{ display: 'flex', gap: 4, my: 8, alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: 4, my: 4, alignItems: 'center' }}>
           <VoteButtons
             likes={post?.likes}
             dislikes={post?.dislikes}
@@ -175,7 +175,7 @@ export const BlogPostPage = () => {
           />
         </Box>
 
-        <Card sx={{ mt: 6, p: 2 }}>
+        <Card sx={{ mt: 4, p: 2 }}>
           <h2 className="text-xl font-semibold mb-3">Ostavite komentar</h2>
           <CommentForm onSubmit={handleAddComment} />
           <CommentList
