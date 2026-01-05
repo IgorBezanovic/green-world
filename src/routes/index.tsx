@@ -170,10 +170,6 @@ export const routes = [
       {
         path: '/shop/:userId',
         element: <ShopPage />
-      },
-      {
-        path: '/blog-post',
-        element: <BlogPost />
       }
     ]
   },

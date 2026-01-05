@@ -5,6 +5,7 @@ export * from '@green-world/components/AppBreadcrumbs';
 export * from '@green-world/components/AppLogos';
 export * from '@green-world/components/BlogBlock';
 export * from '@green-world/components/BlogCard';
+export * from '@green-world/components/BookmarkButton';
 export * from '@green-world/components/CommentForm';
 export * from '@green-world/components/CommentItem';
 export * from '@green-world/components/CommentList';
