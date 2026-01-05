@@ -94,7 +94,10 @@ export const BlogPost = () => {
               fontFamily: 'Ephesis',
               fontWeight: 700,
               color: 'secondary.main',
-              fontSize: { xs: '2.25rem', sm: '3rem', lg: '3.75rem' }
+              fontSize: '2.5rem',
+              [theme.breakpoints.up('md')]: {
+                fontSize: '3.75rem'
+              }
             }}
           >
             Priče iz Naše Bašte
@@ -135,7 +138,10 @@ export const BlogPost = () => {
           sx={(theme) => ({
             mt: 8,
             borderRadius: 3,
-            p: { xs: 4, lg: 6 },
+            padding: 4,
+            [theme.breakpoints.up('md')]: {
+              padding: 6
+            },
             textAlign: 'center',
             background: `linear-gradient(135deg, ${alpha(
               theme.palette.primary.main,
