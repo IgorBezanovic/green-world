@@ -7,6 +7,8 @@ import {
 } from '@green-world/components';
 import { Layout } from '@green-world/components/Layout';
 import {
+  BlogPost,
+  BlogPostPage,
   ContactUs,
   Event,
   Home,
@@ -26,7 +28,8 @@ import {
   ShopPage,
   Events,
   Shops,
-  OrderProduct
+  OrderProduct,
+  WritePost
 } from '@green-world/views';
 import { Message } from '@green-world/views/Message';
 import { Navigate } from 'react-router';
@@ -51,6 +54,22 @@ export const routes = [
       {
         path: '/forgot-password',
         element: <ForgotPassword />
+      },
+      {
+        path: '/blog',
+        element: <BlogPost />
+      },
+      {
+        path: '/blog/:postId',
+        element: <BlogPostPage />
+      },
+      {
+        path: '/write-post',
+        element: <ProtectedRoute element={WritePost} />
+      },
+      {
+        path: '/write-post/:postId',
+        element: <ProtectedRoute element={WritePost} />
       },
       {
         path: '/profile',

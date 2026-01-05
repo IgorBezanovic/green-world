@@ -52,7 +52,6 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     });
 
     s.on('connect', () => {
-      console.log('✅ Socket connected:', s.id);
       s.emit('join', currentUser);
     });
 

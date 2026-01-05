@@ -33,6 +33,7 @@
     "clsx": "^2.1.0",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.29.1",
@@ -47,9 +48,9 @@
     "react-oauth": "^0.0.1",
     "react-phone-input-2": "^2.15.1",
     "react-quill-new": "^3.4.6",
+    "react-router-dom": "^7.9.3",
     "react-toastify": "^11.0.5",
-    "socket.io-client": "^4.8.1",
-    "react-router-dom": "^7.9.3"
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",

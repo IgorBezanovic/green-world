@@ -1,12 +1,16 @@
 import { HomepageProductsResponse } from '@green-world/hooks/useHomeProducts';
-import { User, Product } from '@green-world/utils/types';
+import { User, Product, BlogPost } from '@green-world/utils/types';
 import CryptoJS from 'crypto-js';
 
 const SECRET_KEY = import.meta.env.VITE_API_DECRYPT_SECRET_KEY;
 
 export const storeEncrypted = (
   type: string,
-  response: Product | (User & { _id: string }) | HomepageProductsResponse
+  response:
+    | Product
+    | (User & { _id: string })
+    | HomepageProductsResponse
+    | BlogPost[]
 ) => {
   const encrypted = CryptoJS.AES.encrypt(
     JSON.stringify(response),

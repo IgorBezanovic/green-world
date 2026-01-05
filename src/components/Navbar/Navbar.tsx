@@ -43,7 +43,8 @@ export const Navbar = () => {
           item.label !== 'Događaji' &&
           item.label !== 'Početna' &&
           item.label !== 'Prodavnice' &&
-          item.label !== 'Dokumenta';
+          item.label !== 'Dokumenta' &&
+          item.label !== 'Blog';
 
         return (
           <Box

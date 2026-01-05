@@ -23,7 +23,8 @@ import {
   MapPinPlus,
   LogOut,
   Search,
-  MessageCircle
+  MessageCircle,
+  NotebookText
 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -110,6 +111,11 @@ export const Header = () => {
         </Badge>
       ),
       onClick: () => handleMenuClick(() => navigate('/message'))
+    },
+    {
+      text: 'Napiši blog',
+      icon: <NotebookText className="!w-6 !h-6 ml-2" />,
+      onClick: () => handleMenuClick(() => navigate('/write-post'))
     }
   ];
 

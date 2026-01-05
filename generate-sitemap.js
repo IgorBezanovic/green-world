@@ -1,10 +1,20 @@
+import 'dotenv/config';
 import { writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 import { SitemapStream, streamToPromise } from 'sitemap';
 
 async function generateSitemap() {
-  const hostname = 'https://green-world-be-prod.onrender.com';
+  const hostname = 'https://greenworldbe-production.up.railway.app';
   const smStream = new SitemapStream({ hostname: 'https://zelenisvet.rs' });
+
+  const formatImageUrl = (url, quality) => {
+    if (!url) return '';
+    const { VITE_AWS_BUCKET_NAME, VITE_AWS_REGION } = process.env;
+
+    return url.includes('cloudinary')
+      ? url
+      : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/prod/${url}_${quality || 85}.webp`;
+  };
 
   const staticPages = [
     {
@@ -136,6 +146,11 @@ async function generateSitemap() {
       url: '/documents',
       changefreq: 'daily',
       priority: 0.9
+    },
+    {
+      url: '/blog',
+      changefreq: 'daily',
+      priority: 0.9
     }
   ];
 
@@ -152,7 +167,7 @@ async function generateSitemap() {
       priority: 1,
       img: [
         {
-          url: p.images?.[0] || '', // glavna slika
+          url: formatImageUrl(p.images?.[0] || ''), // glavna slika
           title: p.title || '', // naslov proizvoda
           caption: p.description || '' // opis kao caption
         }
@@ -170,7 +185,7 @@ async function generateSitemap() {
       priority: 1,
       img: [
         {
-          url: e.coverImage || '', // glavna slika
+          url: formatImageUrl(e.coverImage || ''), // glavna slika
           title: e.title || '', // naslov događaja
           caption: e.description || '' // opis kao caption
         }
@@ -188,7 +203,7 @@ async function generateSitemap() {
       priority: 1,
       img: [
         {
-          url: u.profileImage || '',
+          url: formatImageUrl(u.profileImage || ''),
           title: u.shopName || u.name || '',
           caption: u.shopDescription || ''
         }
