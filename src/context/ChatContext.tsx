@@ -2,8 +2,7 @@ import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import { jwtDecode } from 'jwt-decode';
 import { createContext, useEffect, useState, ReactNode } from 'react';
-
-import { socket } from '../utils/socket';
+import { io, Socket } from 'socket.io-client';
 
 export interface Message {
   _id?: string;
@@ -19,7 +18,7 @@ export interface OpenChat {
 }
 
 interface ChatContextType {
-  socket: any;
+  socket: Socket | null;
   openChats: OpenChat[];
   openChat: (userId: string, userName: string) => void;
   closeChat: (userId: string) => void;
@@ -37,6 +36,7 @@ export const ChatContext = createContext<ChatContextType>({
 });
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [openChats, setOpenChats] = useState<OpenChat[]>([]);
   const [messages, setMessages] = useState<Record<string, Message[]>>({});
 
@@ -46,30 +46,19 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!currentUser) return;
-
-    // postavi auth pre connect
-    socket.auth = { userId: currentUser };
-
-    if (!socket.connected) socket.connect();
-
-    const onConnect = () => {
-      console.log('✅ Socket connected:', socket.id);
-      socket.emit('join', currentUser);
-    };
-
-    const onConnectError = (err: any) => {
+    const s = io(import.meta.env.VITE_API_SOCKET, {
+      path: '/socket.io',
+      query: { userId: currentUser }
+    });
+    s.on('connect', () => {
+      s.emit('join', currentUser);
+    });
+    s.on('connect_error', (err) => {
       console.error('❌ Socket connect_error:', err.message, err);
-    };
-
-    socket.on('connect', onConnect);
-    socket.on('connect_error', onConnectError);
-
+    });
+    setSocket(s);
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('connect_error', onConnectError);
-
-      // opciono: ako želiš da se skroz ugasi kad nema usera
-      // socket.disconnect();
+      s.disconnect();
     };
   }, [currentUser]);
 
