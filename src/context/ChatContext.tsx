@@ -50,17 +50,13 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
       path: '/socket.io',
       query: { userId: currentUser }
     });
-
     s.on('connect', () => {
       s.emit('join', currentUser);
     });
-
     s.on('connect_error', (err) => {
       console.error('❌ Socket connect_error:', err.message, err);
     });
-
     setSocket(s);
-
     return () => {
       s.disconnect();
     };
