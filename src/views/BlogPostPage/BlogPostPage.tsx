@@ -167,14 +167,47 @@ export const BlogPostPage = () => {
             <img
               src={formatImageUrl(post?.coverImage || '')}
               alt={post?.title}
-              className="w-full rounded mb-4"
+              className="w-full rounded mb-4 max-h-[500px] object-cover"
             />
           )}
 
           <div>
-            {post?.blocks?.map((b) => (
-              <BlogBlock key={b._id} block={b} />
-            ))}
+            {(() => {
+              const blocks = post?.blocks || [];
+              const elements: any[] = [];
+              for (let i = 0; i < blocks.length; i++) {
+                const b = blocks[i];
+
+                if (b.type === 'image' && blocks[i + 1]?.type === 'image') {
+                  const imgs = [] as typeof blocks;
+                  while (i < blocks.length && blocks[i].type === 'image') {
+                    imgs.push(blocks[i]);
+                    i++;
+                  }
+                  i--; // adjust for outer for-loop increment
+
+                  elements.push(
+                    <div
+                      key={`img-group-${imgs[0]?._id || i}`}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
+                    >
+                      {imgs.map((imgBlock) => (
+                        <img
+                          key={imgBlock._id}
+                          src={formatImageUrl(imgBlock.image || '')}
+                          alt={imgBlock.text || ''}
+                          className="w-full rounded"
+                        />
+                      ))}
+                    </div>
+                  );
+                } else {
+                  elements.push(<BlogBlock key={b._id} block={b} />);
+                }
+              }
+
+              return elements;
+            })()}
           </div>
 
           <Box
