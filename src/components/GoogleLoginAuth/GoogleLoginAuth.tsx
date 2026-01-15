@@ -11,34 +11,27 @@ export const GoogleLoginAuth = () => {
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [w, setW] = useState(320);
 
   useEffect(() => {
     setMounted(true);
 
-    const clamp = (x: number) => Math.min(400, Math.max(200, Math.round(x)));
-
     const update = () => {
       const parent = wrapRef.current;
       if (!parent) return;
-      const computed = parent.clientWidth;
-      setW(clamp(computed));
     };
 
     update();
 
     const ro = new ResizeObserver(update);
     if (wrapRef.current) ro.observe(wrapRef.current);
-    window.addEventListener('resize', update);
 
     return () => {
       ro.disconnect();
-      window.removeEventListener('resize', update);
     };
   }, []);
 
   return (
-    <div ref={wrapRef} className="w-full flex justify-center">
+    <div ref={wrapRef} className="w-full">
       {mounted && (
         <GoogleLogin
           containerProps={{
@@ -46,7 +39,7 @@ export const GoogleLoginAuth = () => {
               width: '100%'
             }
           }}
-          width={w}
+          width={'100%'}
           theme="outline"
           text="continue_with"
           logo_alignment="center"
