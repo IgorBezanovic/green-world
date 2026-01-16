@@ -13,6 +13,7 @@ import {
 import {
   CalendarDays,
   HandCoins,
+  NotebookPen,
   Phone,
   Search,
   Sparkles,
@@ -23,12 +24,13 @@ import { useNavigate } from 'react-router';
 
 export type SearchOptionType = {
   id: string;
-  type: 'product' | 'event' | 'user' | 'shop';
+  type: 'product' | 'event' | 'user' | 'shop' | 'blog';
   title: string;
   image?: string;
   phone?: string;
   price?: string;
   date?: string;
+  author?: string;
 };
 
 export const AISearch = () => {
@@ -37,7 +39,6 @@ export const AISearch = () => {
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
 
-  // ⏳ debounce efekat
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(inputValue);
@@ -61,7 +62,9 @@ export const AISearch = () => {
           ? 'Proizvodi'
           : option.type === 'event'
             ? 'Događaji'
-            : 'Korisnici'
+            : option.type === 'user'
+              ? 'Korisnici'
+              : 'Blogovi'
       }
       getOptionLabel={(option) => option.title}
       value={value}
@@ -140,6 +143,14 @@ export const AISearch = () => {
                   <CalendarDays className="mr-1" /> {option.date}
                 </Typography>
               )}
+              {option.type === 'blog' && (
+                <Typography
+                  variant="caption"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <NotebookPen className="mr-1" /> {option.author}
+                </Typography>
+              )}
             </Box>
           </Box>
         );
@@ -147,7 +158,7 @@ export const AISearch = () => {
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Pretraga..."
+          placeholder="Pretražite proizvode, blogove, korisnike, događaje..."
           sx={{
             '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
             '& .MuiOutlinedInput-root': {
