@@ -21,6 +21,20 @@ export const Navbar = () => {
     { label: 'Dokumenta', path: '/documents' }
   ];
 
+  const openAISavelovanje = (url: string) => {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.open(
+        'https://aistudio.instagram.com/ai/1793506384688561/?utm_source=website',
+        '_blank',
+        'noopener,noreferrer'
+      );
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -61,7 +75,7 @@ export const Navbar = () => {
             }}
             onClick={() =>
               !showBadge && item.label === 'AI Savetovanje'
-                ? window.open(item.path, '_blank', 'noopener,noreferrer')
+                ? openAISavelovanje(item.path)
                 : navigate(item.path)
             }
           >
