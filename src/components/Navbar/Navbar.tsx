@@ -14,7 +14,10 @@ export const Navbar = () => {
     { label: 'Prodavnice', path: '/shops' },
     { label: 'Blog', path: '/blog' },
     { label: 'Trampimo se', path: '/menjajmo-se' },
-    { label: 'AI Savetovanje', path: '/ai-savetovanje' },
+    {
+      label: 'AI Savetovanje',
+      path: 'https://aistudio.instagram.com/ai/1793506384688561/?utm_source=mshare'
+    },
     { label: 'Dokumenta', path: '/documents' }
   ];
 
@@ -44,7 +47,8 @@ export const Navbar = () => {
           item.label !== 'Početna' &&
           item.label !== 'Prodavnice' &&
           item.label !== 'Dokumenta' &&
-          item.label !== 'Blog';
+          item.label !== 'Blog' &&
+          item.label !== 'AI Savetovanje';
 
         return (
           <Box
@@ -55,7 +59,11 @@ export const Navbar = () => {
               cursor: 'pointer',
               mx: 1
             }}
-            onClick={() => !showBadge && navigate(item.path)}
+            onClick={() =>
+              !showBadge && item.label === 'AI Savetovanje'
+                ? window.open(item.path, '_blank', 'noopener,noreferrer')
+                : navigate(item.path)
+            }
           >
             <Typography
               component="span"
