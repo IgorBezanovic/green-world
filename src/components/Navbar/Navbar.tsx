@@ -16,7 +16,7 @@ export const Navbar = () => {
     { label: 'Trampimo se', path: '/menjajmo-se' },
     {
       label: 'AI Savetovanje',
-      path: 'https://aistudio.instagram.com/ai/1793506384688561/?utm_source=mshare'
+      path: 'https://www.instagram.com/direct/t/3114437125407040/'
     },
     { label: 'Dokumenta', path: '/documents' }
   ];
