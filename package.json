@@ -24,6 +24,7 @@
     "@mui/material": "^7.0.1",
     "@mui/x-charts": "^8.11.2",
     "@mui/x-date-pickers": "^8.1.0",
+    "@paypal/react-paypal-js": "^8.9.2",
     "@react-oauth/google": "^0.12.2",
     "@tanstack/react-query": "^5.83.0",
     "@vercel/analytics": "^1.5.0",
@@ -55,7 +56,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^24.6.0",
+    "@types/node": "^24.10.9",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
