@@ -1,24 +1,82 @@
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  MetaTags,
+  ShopCard,
+  StatCard
+} from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import { useDebounce } from '@green-world/utils/helpers';
 import {
   Box,
   Typography,
-  Avatar,
   CircularProgress,
-  Card,
-  CardContent,
-  useTheme
+  Chip,
+  InputBase
 } from '@mui/material';
 import clsx from 'clsx';
-import { Store, MapPin, Mail } from 'lucide-react';
+import {
+  Store,
+  MapPin,
+  Package,
+  Globe,
+  SlidersHorizontal,
+  Search,
+  ArrowUpAZ
+} from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router';
 
 export const Shops = () => {
   const { data, isLoading } = useAllUsers();
-  const [loadingMap, setLoadingMap] = useState(true);
-  const theme = useTheme();
+
+  const totalProducts =
+    data?.reduce((sum, u) => sum + (u?.numberOfProducts || 0), 0) ?? 0;
+
+  const totalOnlineShops =
+    data?.reduce((sum, u) => sum + (u?.onlyOnline ? 1 : 0), 0) ?? 0;
+
+  const totalOfflineShops =
+    data?.reduce((sum, u) => sum + (u?.onlyOnline ? 0 : 1), 0) ?? 0;
+
+  type ShopFilter = 'all' | 'offline' | 'online';
+  type SortType = 'none' | 'name-asc' | 'products-desc';
+
+  const [filter, setFilter] = useState<ShopFilter>('all');
+  const [sort, setSort] = useState<SortType>('none');
+  const [search, setSearch] = useState('');
+
+  const debouncedSearch = useDebounce(search, 300);
+
+  const filteredShops = (data || [])
+    .filter((user) => {
+      const shopTitle = (user?.shopName || user?.name || '').toLowerCase();
+
+      const matchesSearch = shopTitle.includes(debouncedSearch.toLowerCase());
+
+      const matchesFilter =
+        filter === 'all' ||
+        (filter === 'online' && user?.onlyOnline) ||
+        (filter === 'offline' && !user?.onlyOnline);
+
+      return matchesSearch && matchesFilter;
+    })
+    .sort((a, b) => {
+      if (sort === 'name-asc') {
+        const nameA = (a?.shopName || a?.name || '').trim();
+        const nameB = (b?.shopName || b?.name || '').trim();
+
+        if (!nameA && nameB) return 1;
+        if (nameA && !nameB) return -1;
+        if (!nameA && !nameB) return 0;
+
+        return nameA.localeCompare(nameB, 'sr');
+      }
+
+      if (sort === 'products-desc') {
+        return (b?.numberOfProducts || 0) - (a?.numberOfProducts || 0);
+      }
+
+      return 0;
+    });
 
   const pages = [
     { label: 'Početna', route: '/' },
@@ -33,7 +91,8 @@ export const Shops = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Prodavnice | Green world'} />
+      <MetaTags title="Zeleni svet | Prodavnice | Green world" />
+
       <Box
         className={clsx(
           'xl:max-w-[1400px]',
@@ -45,17 +104,164 @@ export const Shops = () => {
       >
         <AppBreadcrumbs pages={pages} />
 
-        <Typography
-          variant="h1"
-          color="secondary"
+        <Box>
+          <Typography
+            variant="h1"
+            color="secondary"
+            sx={{
+              fontSize: '42px !important',
+              textAlign: 'left',
+              fontFamily: 'Ephesis, Roboto, sans-serif'
+            }}
+          >
+            Prodavnice
+          </Typography>
+          <Typography variant="body1">
+            Pronađite pouzdane prodavce biljaka, sadnica i baštovanskog
+            asortimana u vašoj blizini ili online.
+          </Typography>
+        </Box>
+
+        {/* Stats */}
+        <Box
+          component="section"
           sx={{
-            fontSize: '42px !important',
-            textAlign: 'center',
-            fontFamily: 'Ephesis, Roboto, sans-serif',
-            marginY: 4
+            display: 'grid',
+            gap: 3,
+            maxWidth: '1400px',
+            width: '100%',
+            mx: 'auto',
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            '@media (min-width: 600px)': {
+              gridTemplateColumns: 'repeat(2, 1fr)'
+            },
+            '@media (min-width: 900px)': {
+              gridTemplateColumns: 'repeat(4, 1fr)'
+            }
           }}
         >
-          Prodavnice
+          <StatCard
+            icon={Store}
+            value={data?.length || 0}
+            title="Prodavnica"
+            subtitle="Aktivnih prodavaca"
+          />
+          <StatCard
+            icon={Package}
+            value={totalProducts}
+            title="Proizvoda"
+            subtitle="Dostupno na sajtu"
+          />
+          <StatCard
+            icon={MapPin}
+            value={totalOfflineShops}
+            title="Fizičkih lokacija"
+            subtitle="Možete posetiti"
+          />
+          <StatCard
+            icon={Globe}
+            value={totalOnlineShops}
+            title="Online prodavnica"
+            subtitle="Dostava širom Srbije i regiona"
+          />
+        </Box>
+
+        {/* Filters */}
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              alignItems: 'stretch'
+            },
+            gap: 2,
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            p: 2,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'grey.200',
+            backgroundColor: '#F9FCF7'
+          })}
+        >
+          {/* Search */}
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              px: 2,
+              py: 1,
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'grey.300',
+              backgroundColor: 'white'
+            }}
+          >
+            <Search size={18} />
+            <InputBase
+              placeholder="Pretraži prodavnice..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{ width: '100%' }}
+            />
+          </Box>
+
+          {/* Type filter */}
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+            <Chip
+              icon={<SlidersHorizontal size={16} />}
+              label="Sve"
+              clickable
+              color={filter === 'all' ? 'success' : 'default'}
+              onClick={() => setFilter('all')}
+              sx={{ padding: '0 6px' }}
+            />
+            <Chip
+              icon={<Store size={16} />}
+              label="Fizičke"
+              clickable
+              color={filter === 'offline' ? 'success' : 'default'}
+              onClick={() => setFilter('offline')}
+              sx={{ padding: '0 6px' }}
+            />
+            <Chip
+              icon={<Globe size={16} />}
+              label="Online"
+              clickable
+              color={filter === 'online' ? 'success' : 'default'}
+              onClick={() => setFilter('online')}
+              sx={{ padding: '0 6px' }}
+            />
+
+            <Chip
+              icon={<ArrowUpAZ size={16} />}
+              label="A–Z"
+              clickable
+              color={sort === 'name-asc' ? 'success' : 'default'}
+              onClick={() =>
+                setSort((prev) => (prev === 'name-asc' ? 'none' : 'name-asc'))
+              }
+              sx={{ padding: '0 6px' }}
+            />
+            <Chip
+              icon={<Package size={16} />}
+              label="Najviše proizvoda"
+              clickable
+              color={sort === 'products-desc' ? 'success' : 'default'}
+              onClick={() =>
+                setSort((prev) =>
+                  prev === 'products-desc' ? 'none' : 'products-desc'
+                )
+              }
+              sx={{ padding: '0 6px' }}
+            />
+          </Box>
+        </Box>
+
+        <Typography variant="body1" color="common.black">
+          Prikazano {filteredShops.length} od {data?.length || 0} prodavnica
         </Typography>
 
         {isLoading ? (
@@ -68,157 +274,39 @@ export const Shops = () => {
           </Typography>
         ) : (
           <Box
-            className={clsx(
-              'grid gap-6',
-              'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-            )}
+            component="section"
+            sx={{
+              display: 'grid',
+              gap: 3,
+              maxWidth: '1400px',
+              width: '100%',
+              mx: 'auto',
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              '@media (min-width: 600px)': {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              },
+              '@media (min-width: 1000px)': {
+                gridTemplateColumns: 'repeat(3, 1fr)'
+              },
+              '@media (min-width: 1200px)': {
+                gridTemplateColumns: 'repeat(4, 1fr)'
+              }
+            }}
           >
-            {data.map((user) => {
-              const hasAddress =
-                user?.address?.street ||
-                user?.address?.city ||
-                user?.address?.country;
-
-              return (
-                <Link
-                  to={`/shop/${user?._id}`}
-                  key={user?._id}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <Card
-                    elevation={3}
-                    sx={{
-                      borderRadius: '16px',
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        transition: 'all 0.2s ease-in-out',
-                        boxShadow: '0 6px 16px rgba(0,0,0,0.12)'
-                      }
-                    }}
-                  >
-                    <Box className="relative w-full h-32 bg-gray-200 rounded-t-[16px] overflow-hidden">
-                      {user?.onlyOnline ? (
-                        <Box
-                          className="relative flex items-center justify-center w-full h-full p-6"
-                          sx={{
-                            background:
-                              'linear-gradient(135deg, #f0fff4 0%, #e6f7ff 100%)',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              top: 12,
-                              left: 12,
-                              backgroundColor: theme.palette.primary.light,
-                              color: theme.palette.primary.contrastText,
-                              fontWeight: 600,
-                              fontSize: '0.8rem',
-                              padding: '4px 10px',
-                              borderRadius: '12px',
-                              boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
-                            }}
-                          >
-                            Ovaj prodavac posluje samo online
-                          </Box>
-                        </Box>
-                      ) : hasAddress ? (
-                        <>
-                          {loadingMap && (
-                            <Box className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
-                              <CircularProgress size={24} />
-                            </Box>
-                          )}
-                          <iframe
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            loading="lazy"
-                            allowFullScreen
-                            src={`https://www.google.com/maps?q=${encodeURIComponent(
-                              `${user?.address?.street || ''}, ${user?.address?.city || ''}, ${
-                                user?.address?.country || ''
-                              }`
-                            )}&output=embed`}
-                            onLoad={() => setLoadingMap(false)}
-                          />
-                        </>
-                      ) : (
-                        <Box className="flex items-center justify-center w-full h-full">
-                          <MapPin />{' '}
-                          <Typography variant="caption" color="text.disabled">
-                            Lokacija jos uvek nije dodata
-                          </Typography>
-                        </Box>
-                      )}
-                    </Box>
-
-                    <CardContent
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        flexGrow: 1
-                      }}
-                    >
-                      <Avatar
-                        src={formatImageUrl(user?.profileImage, 55)}
-                        alt={user?.name}
-                        sx={{
-                          width: 80,
-                          height: 80,
-                          mb: 2,
-                          border: '3px solid white',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                          mt: -6
-                        }}
-                      />
-                      {(user?.shopName || user?.name) && (
-                        <Typography
-                          variant="h6"
-                          className="flex items-center font-bold text-gray-800"
-                          gutterBottom
-                        >
-                          <Store className="inline-block mr-1 h-5 w-5" />
-                          {user?.shopName || user?.name}
-                        </Typography>
-                      )}
-                      {user?.shopDescription && (
-                        <Typography
-                          variant="body2"
-                          className="text-gray-600 line-clamp-3"
-                        >
-                          {user?.shopDescription}
-                        </Typography>
-                      )}
-
-                      <Box
-                        className="flex flex-col gap-1 mt-3 text-sm text-gray-700"
-                        sx={{ flexGrow: 1 }}
-                      >
-                        {user?.address?.city && (
-                          <Box className="flex items-center gap-1 justify-center">
-                            <MapPin className="h-4 w-4" />
-                            {user?.address?.city}, {user?.address?.country}
-                          </Box>
-                        )}
-                        {user?.email && (
-                          <Box className="flex items-center gap-1 justify-center">
-                            <Mail className="h-4 w-4" />
-                            {user?.email}
-                          </Box>
-                        )}
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
+            {filteredShops.map((user) => (
+              <ShopCard
+                key={user._id}
+                id={user._id!}
+                name={user.name}
+                shopName={user.shopName}
+                description={user.shopDescription}
+                email={user.email}
+                profileImage={user.profileImage}
+                onlyOnline={user.onlyOnline}
+                numberOfProducts={user.numberOfProducts}
+                address={user.address}
+              />
+            ))}
           </Box>
         )}
       </Box>

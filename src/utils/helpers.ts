@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { homeCategories, subGroups } from './constants';
 
 export const formatUrl = (url?: string) => {
@@ -39,4 +41,15 @@ export const formatImageUrl = (url: string, quality?: number) => {
   return url.includes('cloudinary')
     ? url
     : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/${VITE_ENV}/${url}_${quality || 85}.webp`;
+};
+
+export const useDebounce = <T>(value: T, delay = 300) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
 };
