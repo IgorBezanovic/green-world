@@ -66,12 +66,13 @@ export const EventCarousel = ({ ...props }) => {
             draggable={true}
             infinite
             slidesToShow={2}
-            rows={2}
+            rows={events.length < 3 ? 1 : 2}
             responsive={[
               {
                 breakpoint: 900,
                 settings: {
-                  slidesToShow: 1
+                  slidesToShow: 1,
+                  rows: 1
                 }
               }
             ]}

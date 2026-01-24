@@ -1,5 +1,9 @@
 import { useDeleteEvent } from '@green-world/hooks/useDeleteEvent';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatDate,
+  formatImageUrl,
+  getPlainTextFromHtml
+} from '@green-world/utils/helpers';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PlaceIcon from '@mui/icons-material/Place';
 import {
@@ -30,6 +34,7 @@ export const EventProfileCard = ({ ...props }) => {
   });
   const navigate = useNavigate();
   const location = useLocation();
+  const plainText = getPlainTextFromHtml(props.event?.description);
 
   return (
     <Card
@@ -124,26 +129,22 @@ export const EventProfileCard = ({ ...props }) => {
                 minHeight: '3.0em'
               }}
             >
-              {props.event?.description.length > 50
-                ? props.event?.description.substring(0, 50) + '...'
-                : props.event?.description}
+              {plainText.length > 50
+                ? plainText.substring(0, 50) + '...'
+                : plainText}
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
               <Typography
                 variant="body2"
                 component="span"
                 sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               >
                 <CalendarMonthIcon sx={{ fontSize: 18 }} />
-                {props.event?.dateAction}
+                {formatDate(props.event?.dateAction)}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5
-                }}
+                sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               >
                 <PlaceIcon sx={{ fontSize: 18 }} />
                 {props.event?.place.length > 20

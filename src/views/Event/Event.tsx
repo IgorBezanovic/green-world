@@ -1,6 +1,10 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatDate,
+  formatImageUrl,
+  getHtmlDescriptionProps
+} from '@green-world/utils/helpers';
 import {
   CalendarToday,
   AccessTime,
@@ -93,17 +97,15 @@ export const Event = () => {
               />
             </Box>
             <CardContent sx={{ flex: 2 }}>
-              <Typography variant="body1" mb={2}>
-                {eventData.description}
-              </Typography>
-
+              <Box {...getHtmlDescriptionProps(eventData?.description)} />
               <Stack direction="row" spacing={1} mb={2}>
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: 2
+                    gap: 2,
+                    pt: 2
                   }}
                 >
                   <Chip
@@ -143,7 +145,7 @@ export const Event = () => {
 
               <Stack direction="row" alignItems="center" spacing={1} mb={1}>
                 <CalendarToday fontSize="small" />
-                <Typography>{eventData.dateAction}</Typography>
+                <Typography>{formatDate(eventData.dateAction)}</Typography>
               </Stack>
 
               <Stack direction="row" alignItems="center" spacing={1} mb={1}>
