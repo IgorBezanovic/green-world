@@ -1,4 +1,8 @@
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatDate,
+  formatImageUrl,
+  getPlainTextFromHtml
+} from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -25,11 +29,14 @@ export const EventCard = ({ event }: EventCardProps) => {
 
   const dateAction = event?.dateAction ?? null;
   const timeAction = event?.startTime ?? null;
+  const endAction = event?.endTime ?? null;
   const typeAction = event?.typeAction ?? null;
 
   const parsedDate = dayjs(dateAction, 'DD/MM/YYYY');
   const isFinished =
     parsedDate.isValid() && dayjs().isAfter(parsedDate.endOf('day'));
+
+  const plainText = getPlainTextFromHtml(event?.description);
 
   const handleNavigate = () => {
     if (event._id) {
@@ -132,7 +139,7 @@ export const EventCard = ({ event }: EventCardProps) => {
                 textOverflow: 'ellipsis'
               }}
             >
-              {event?.description}
+              {plainText}
             </Typography>
           </CardContent>
 
@@ -156,7 +163,7 @@ export const EventCard = ({ event }: EventCardProps) => {
               }}
             >
               <CalendarMonthIcon fontSize="small" />
-              {dateAction?.toString() || ''}
+              {formatDate(dateAction)}
             </Typography>
 
             <Typography
@@ -169,7 +176,7 @@ export const EventCard = ({ event }: EventCardProps) => {
               }}
             >
               <AccessTimeIcon fontSize="small" />
-              {timeAction}
+              {timeAction} {endAction && `- ${endAction}`}
             </Typography>
           </Box>
         </Box>

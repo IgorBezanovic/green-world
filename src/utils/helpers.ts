@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { homeCategories, subGroups } from './constants';
 
@@ -43,13 +43,62 @@ export const formatImageUrl = (url: string, quality?: number) => {
     : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/${VITE_ENV}/${url}_${quality || 85}.webp`;
 };
 
-export const useDebounce = <T>(value: T, delay = 300) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+export const formatDate = (
+  date: string | Date | Dayjs | null | undefined
+): string => {
+  if (!date) return '';
 
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
+  const d = dayjs.isDayjs(date) ? date.toDate() : new Date(date);
 
-  return debouncedValue;
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${day}.${month}.${year}`;
+};
+
+export const getHtmlDescriptionProps = (description: string) => ({
+  className: 'ql-editor',
+  dangerouslySetInnerHTML: { __html: description },
+  sx: {
+    height: 'auto !important',
+    minHeight: 'unset !important',
+    maxHeight: 'none',
+
+    padding: 0,
+    margin: 0,
+    lineHeight: 1.6,
+
+    '& p': { mb: '0.75em' },
+    '& blockquote': { mb: '1em' },
+
+    '& > *:last-child': { mb: 0 },
+
+    '& ol, & ul': {
+      pl: '1.5em',
+      mb: '0.75em'
+    },
+
+    '& li[data-list="ordered"]': { listStyleType: 'decimal' },
+    '& li[data-list="bullet"]': { listStyleType: 'disc' },
+
+    '& li': { mb: '0.25em' },
+
+    '& .ql-ui': { display: 'none' }
+  }
+});
+
+export const getPlainTextFromHtml = (html?: string): string => {
+  if (!html) return '';
+
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  doc
+    .querySelectorAll('br')
+    .forEach((el) => el.replaceWith(document.createTextNode('\n')));
+  doc
+    .querySelectorAll('p')
+    .forEach((el) => el.prepend(document.createTextNode('\n')));
+
+  return doc.body.textContent?.trim() || '';
 };

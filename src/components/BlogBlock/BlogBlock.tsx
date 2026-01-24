@@ -1,5 +1,7 @@
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { getHtmlDescriptionProps } from '@green-world/utils/helpers';
 import { BlogBlock as BlogBlockType } from '@green-world/utils/types';
+import { Box } from '@mui/material';
 
 interface BlogBlockProps {
   block: BlogBlockType;
@@ -8,11 +10,8 @@ interface BlogBlockProps {
 export const BlogBlock = ({ block }: BlogBlockProps) => {
   return (
     <div className="mb-6">
-      {block.type === 'text' && (
-        <div
-          className="prose"
-          dangerouslySetInnerHTML={{ __html: block.text || '' }}
-        />
+      {block.type === 'text' && block.text && (
+        <Box {...getHtmlDescriptionProps(block.text)} />
       )}
 
       {block.type === 'image' && block.image && (
@@ -26,12 +25,13 @@ export const BlogBlock = ({ block }: BlogBlockProps) => {
       {block.type === 'mixed' && (
         <>
           {block.image && (
-            <img src={block.image} alt="" className="w-full rounded mb-2" />
+            <img
+              src={formatImageUrl(block.image)}
+              alt=""
+              className="w-full rounded mb-2"
+            />
           )}
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: block.text || '' }}
-          />
+          {block.text && <Box {...getHtmlDescriptionProps(block.text)} />}
         </>
       )}
     </div>
