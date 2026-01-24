@@ -56,7 +56,7 @@ export const BlogCard = ({ post, blogsRefetch }: BlogCardProps) => {
       {post.coverImage && (
         <CardMedia
           component="img"
-          height="200"
+          height="300"
           image={formatImageUrl(post.coverImage)}
           onClick={
             location.pathname.includes('/profile')
@@ -64,7 +64,7 @@ export const BlogCard = ({ post, blogsRefetch }: BlogCardProps) => {
               : undefined
           }
           alt={post.title}
-          sx={{ objectFit: 'cover', minHeight: 200 }}
+          sx={{ objectFit: 'cover', minHeight: 300, maxHeight: 300 }}
         />
       )}
       <CardContent sx={{ flex: 1 }}>
@@ -80,8 +80,7 @@ export const BlogCard = ({ post, blogsRefetch }: BlogCardProps) => {
       </CardContent>
       <Box
         sx={{
-          px: 2,
-          py: 1,
+          p: 2,
           borderTop: (theme) => `1px solid ${theme.palette.divider}`
         }}
       >

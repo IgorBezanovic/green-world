@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 export const ChangePasswordComponent = () => {
+  // Hi
   const { mutate, error, isPending } = useChangePassword();
 
   const [passwordCollection, setPasswordCollection] =

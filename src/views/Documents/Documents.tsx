@@ -1,17 +1,17 @@
-import {
-  AppBreadcrumbs,
-  MetaTags,
-  ZSLogoLogoMark
-} from '@green-world/components';
-import { Box, Divider, Typography, Button, useTheme } from '@mui/material';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { Box, Divider, Typography, Button } from '@mui/material';
 import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
+import { useState } from 'react';
+
+import { DonatePayPalDialog } from './DonatePayPalDialog';
 
 export const Documents = () => {
-  const theme = useTheme();
   const pages = [
     { label: 'Početna', route: '/' },
     { label: 'Dokumenta', route: '/documents' }
   ];
+
+  const [donateOpen, setDonateOpen] = useState(false);
 
   return (
     <Box
@@ -89,31 +89,15 @@ export const Documents = () => {
             variant="contained"
             color="secondary"
             sx={{ position: 'relative' }}
+            onClick={() => setDonateOpen(true)}
           >
             Doniraj
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: -7,
-                right: -15,
-                bgcolor: theme.palette.primary.dark,
-                color: 'white',
-                px: 0.5,
-                py: '2px',
-                fontSize: '0.5rem',
-                borderRadius: 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.3
-              }}
-            >
-              <ZSLogoLogoMark
-                color={theme.palette.primary.contrastText}
-                width="9px"
-              />{' '}
-              Uskoro
-            </Box>
           </Button>
+
+          <DonatePayPalDialog
+            open={donateOpen}
+            onClose={() => setDonateOpen(false)}
+          />
         </Box>
 
         <Divider />
