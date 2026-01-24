@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { useEffect, useState } from 'react';
 
 import { homeCategories, subGroups } from './constants';
 
@@ -101,4 +102,15 @@ export const getPlainTextFromHtml = (html?: string): string => {
     .forEach((el) => el.prepend(document.createTextNode('\n')));
 
   return doc.body.textContent?.trim() || '';
+};
+
+export const useDebounce = <T>(value: T, delay = 300) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
 };
