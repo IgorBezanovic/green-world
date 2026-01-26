@@ -62,6 +62,22 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [currentUser]);
 
+  useEffect(() => {
+    const handleLogout = () => {
+      if (socket) {
+        socket.disconnect();
+      }
+      setSocket(null);
+      setOpenChats([]);
+      setMessages({});
+    };
+
+    window.addEventListener('auth:logout', handleLogout);
+    return () => {
+      window.removeEventListener('auth:logout', handleLogout);
+    };
+  }, [socket]);
+
   const openChat = (userId: string, userName: string) => {
     setOpenChats((prev) => {
       const exists = prev.some((chat) => chat.userId === userId);
