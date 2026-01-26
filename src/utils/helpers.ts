@@ -38,7 +38,7 @@ export const formatImageUrl = (url: string, quality?: number) => {
   if (!url) return '';
   const { VITE_AWS_BUCKET_NAME, VITE_AWS_REGION, VITE_ENV } = import.meta.env;
 
-  return url.includes('cloudinary')
+  return url.includes('cloudinary') || url.includes('google')
     ? url
     : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/${VITE_ENV}/${url}_${quality || 85}.webp`;
 };
