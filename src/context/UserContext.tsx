@@ -69,6 +69,17 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
     }
   }, [data, isLoading]);
 
+  useEffect(() => {
+    const handleLogout = () => {
+      setUser(defaultUser);
+    };
+
+    window.addEventListener('auth:logout', handleLogout);
+    return () => {
+      window.removeEventListener('auth:logout', handleLogout);
+    };
+  }, []);
+
   return (
     <UserContext.Provider
       value={{ defaultUser, user, setUser, setUserDataInCTX, isLoading }}
