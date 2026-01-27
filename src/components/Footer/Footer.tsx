@@ -1,6 +1,6 @@
-import { CustomButton, SocialMedia } from '@green-world/components';
+import { SocialMedia } from '@green-world/components';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Box, Typography, TextField } from '@mui/material';
+import { Box, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -92,12 +92,14 @@ export const Footer = () => {
               value={userEmail}
               onChange={(e) => setUserEmail(e.target.value)}
             />
-            <CustomButton
-              type="text"
-              customStyle={['bg-whiteLinen', 'mt-4', 'min-h-[22px]']}
+            <Button
               onClick={() => setUserEmail('')}
-              text="Prijavi se"
-            />
+              variant="contained"
+              color="info"
+              sx={{ mt: 2 }}
+            >
+              Prijavi se
+            </Button>
           </Box>
         </Box>
 

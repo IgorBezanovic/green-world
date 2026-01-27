@@ -20,10 +20,10 @@ import {
   Avatar,
   CircularProgress,
   IconButton,
-  TextField,
   useTheme,
   Button,
-  Tooltip
+  Tooltip,
+  InputBase
 } from '@mui/material';
 import { Card } from 'antd';
 import clsx from 'clsx';
@@ -436,42 +436,51 @@ export const ShopPage = () => {
           </Box>
         </Card>
         <Box>
-          <Typography variant="h3" className="!text-gray-700" sx={{ mb: 1 }}>
-            Proizvodi korisnika
-          </Typography>
-          <TextField
-            aria-describedby="name"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            sx={{
-              '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-              '& .MuiOutlinedInput-root': {
-                paddingRight: 0,
-                '& input': {
-                  padding: '8px'
-                }
+          <Box
+            sx={(theme) => ({
+              display: 'flex',
+              [theme.breakpoints.down('md')]: {
+                flexDirection: 'column',
+                alignItems: 'stretch'
               },
-              backgroundColor: 'white',
-              borderRadius: '1rem',
-              border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-              height: 40,
+              gap: 2,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              p: 2,
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'grey.200',
+              backgroundColor: '#F9FCF7',
               mb: 4
-            }}
-            slotProps={{
-              input: {
-                endAdornment: search ? (
-                  <IconButton onClick={handleClear}>
-                    <X />
-                  </IconButton>
-                ) : (
-                  <IconButton>
-                    <Search />
-                  </IconButton>
-                )
-              }
-            }}
-          />
+            })}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                border: '1px solid',
+                borderColor: 'grey.300',
+                backgroundColor: 'white'
+              }}
+            >
+              {search ? (
+                <X size={18} onClick={handleClear} />
+              ) : (
+                <Search size={18} />
+              )}
+              <InputBase
+                placeholder="Pretraži prodavnice..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                sx={{ width: '100%' }}
+              />
+            </Box>
+          </Box>
 
           {sellerProductsLoading ? (
             <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

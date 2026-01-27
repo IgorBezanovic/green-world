@@ -35,7 +35,11 @@ const defaultUser: User = {
     instagram: '',
     tiktok: '',
     linkedin: ''
-  }
+  },
+  numberOfProducts: 0,
+  maxShopProducts: 25,
+  numberOfActions: 0,
+  numberOfBlogs: 0
 };
 
 const UserContext = createContext<UserContextType>({

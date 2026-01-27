@@ -178,7 +178,7 @@ export const Shops = () => {
             alignItems: 'center',
             flexWrap: 'wrap',
             p: 2,
-            borderRadius: 3,
+            borderRadius: 2,
             border: '1px solid',
             borderColor: 'grey.200',
             backgroundColor: '#F9FCF7'

@@ -69,7 +69,10 @@ export type User = {
     tiktok: string;
     linkedin: string;
   };
-  numberOfProducts?: number;
+  numberOfProducts: number;
+  maxShopProducts: number;
+  numberOfActions: number;
+  numberOfBlogs: number;
 };
 
 export type ContactUsValues = {
