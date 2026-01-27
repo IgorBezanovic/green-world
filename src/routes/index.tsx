@@ -1,11 +1,11 @@
 import {
+  Layout,
   ChangePasswordComponent,
   EditUserData,
   EditUserImageSection,
   ProtectedRoute,
   GoogleAnalytics
 } from '@green-world/components';
-import { Layout } from '@green-world/components/Layout';
 import {
   BlogPost,
   BlogPostPage,

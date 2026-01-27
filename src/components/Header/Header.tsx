@@ -1,3 +1,4 @@
+import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
@@ -26,7 +27,7 @@ import {
   MessageCircle,
   NotebookText
 } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { AISearch } from '../AISearch';
@@ -37,7 +38,7 @@ export const Header = () => {
   const token = getItem('token');
   const theme = useTheme();
   const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
-
+  const { user } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
@@ -79,9 +80,10 @@ export const Header = () => {
       onClick: () => handleMenuClick(() => navigate('/profile'))
     },
     {
-      text: 'Kreiraj proizvod',
+      text: 'Dodaj proizvod',
       icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
-      onClick: () => handleMenuClick(() => navigate('/create-product'))
+      onClick: () => handleMenuClick(() => navigate('/create-product')),
+      disabled: user?.numberOfProducts >= user?.maxShopProducts
     },
     {
       text: 'Kreiraj aktivnost',
@@ -184,7 +186,11 @@ export const Header = () => {
           <Box sx={{ flex: 1, overflowY: 'auto' }}>
             <List>
               {menuItems.map((item) => (
-                <ListItemButton key={item.text} onClick={item.onClick}>
+                <ListItemButton
+                  key={item.text}
+                  onClick={item.onClick}
+                  disabled={Boolean(item.disabled)}
+                >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItemButton>

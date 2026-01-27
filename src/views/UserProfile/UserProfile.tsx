@@ -1,29 +1,27 @@
 import {
   ProductCard,
-  CustomButton,
-  CustomInput,
   UserInfo,
   EventProfileCard,
   MetaTags,
-  AppBreadcrumbs
+  PromotionSection
 } from '@green-world/components';
-import { BlogCard } from '@green-world/components/BlogCard';
+import { ShopStatsCard, BlogCard } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { BlogPost, Product } from '@green-world/utils/types';
-import { Card, Tabs, Tab } from '@mui/material';
-import clsx from 'clsx';
+import { Tabs, Tab, Box, InputBase, Button, useTheme } from '@mui/material';
+import { Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import './style.css';
+import '../style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
-
+  const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
   const {
     data: products = [],
@@ -101,13 +99,14 @@ export const UserProfile = () => {
     [user]
   );
 
-  const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Korisnički profil', route: '/profile' }
-  ];
-
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: '#FDFFFB',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags
         title={metaObj.title}
         description={metaObj.description}
@@ -115,38 +114,40 @@ export const UserProfile = () => {
         image={metaObj.image}
       />
 
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7'
-        )}
-      >
-        <AppBreadcrumbs pages={pages} />
-      </div>
-
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'flex',
-          'flex-col',
-          'md:flex-row',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'gap-7'
-        )}
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          mx: 'auto',
+          py: 3.5,
+          gap: 3,
+          px: 2,
+          [theme.breakpoints.up('sm')]: {
+            px: 3
+          },
+          [theme.breakpoints.up('md')]: {
+            flexDirection: 'row'
+          },
+          [theme.breakpoints.up('xl')]: {
+            maxWidth: 1400,
+            px: 0
+          }
+        }}
       >
         {/* LEVA STRANA */}
-        <section
-          className={clsx('w-full', 'md:w-1/4', 'flex', 'flex-col', 'gap-5')}
+        <Box
+          component="section"
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+
+            [theme.breakpoints.up('md')]: {
+              width: '25%'
+            }
+          }}
         >
           <UserInfo
             user={user}
@@ -154,46 +155,88 @@ export const UserProfile = () => {
             userLoading={isLoading}
             customStyleMeta={['flex', 'flex-col']}
           />
-          <CustomButton
-            text={'Dodaj proizvod'}
-            type={'text'}
+          <ShopStatsCard
+            numberOfProducts={user.numberOfProducts}
+            maxShopProducts={user.maxShopProducts}
+            numberOfActions={user.numberOfActions}
+            numberOfBlogs={user.numberOfBlogs}
+          />
+          <Button
+            variant="contained"
             onClick={() => navigate('/create-product')}
-            customStyle={['!flex-1', 'max-h-[45px]']}
-          />
-          <CustomButton
-            text={'Dodaj aktivnost'}
-            type={'text'}
-            onClick={() => navigate('/create-event')}
-            customStyle={['!flex-1', 'max-h-[45px]']}
-          />
-          <CustomButton
-            text={'Napiši blog post'}
-            type={'text'}
-            onClick={() => navigate('/write-post')}
-            customStyle={['!flex-1', 'max-h-[45px]']}
-          />
-        </section>
+            disabled={user?.numberOfProducts >= user?.maxShopProducts}
+          >
+            Dodaj proizvod
+          </Button>
+          <Button variant="contained" onClick={() => navigate('/create-event')}>
+            Kreiraj aktivnost
+          </Button>
+          <Button variant="contained" onClick={() => navigate('/write-post')}>
+            Napiši blog post
+          </Button>
+        </Box>
 
         {/* DESNA STRANA */}
-        <section
-          className={clsx('w-full', 'md:w-3/4', 'flex', 'flex-col', 'gap-5')}
+        <Box
+          component="section"
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+            [theme.breakpoints.up('md')]: {
+              width: '75%'
+            }
+          }}
         >
-          <Card>
-            <CustomInput
-              type="text"
-              placeholder={`Pretrazi po nazivu ${
-                activeTab === 'products'
-                  ? 'proizvoda'
-                  : activeTab === 'events'
-                    ? 'aktivnosti'
-                    : 'blogova'
-              }`}
-              customStyle={['!mb-0']}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                filterContent(e.target.value)
-              }
-            />
-          </Card>
+          <PromotionSection />
+          <Box
+            sx={(theme) => ({
+              display: 'flex',
+              [theme.breakpoints.down('md')]: {
+                flexDirection: 'column',
+                alignItems: 'stretch'
+              },
+              gap: 2,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              p: 2,
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'grey.200',
+              backgroundColor: '#F9FCF7'
+            })}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                border: '1px solid',
+                borderColor: 'grey.300',
+                backgroundColor: 'white'
+              }}
+            >
+              <Search size={18} />
+              <InputBase
+                placeholder={`Pretrazi po nazivu ${
+                  activeTab === 'products'
+                    ? 'proizvoda'
+                    : activeTab === 'events'
+                      ? 'aktivnosti'
+                      : 'blogova'
+                }`}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  filterContent(e.target.value)
+                }
+                sx={{ width: '100%' }}
+              />
+            </Box>
+          </Box>
 
           <Tabs
             value={activeTab}
@@ -206,7 +249,22 @@ export const UserProfile = () => {
           </Tabs>
 
           {activeTab === 'products' && (
-            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns: 'repeat(3, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns: 'repeat(4, 1fr)'
+                }
+              }}
+            >
               {productsToDisplay?.length > 0 ? (
                 productsToDisplay.map((product: any) => (
                   <ProductCard
@@ -218,11 +276,26 @@ export const UserProfile = () => {
               ) : (
                 <p className="col-span-full">Još uvek niste dodali proizvode</p>
               )}
-            </section>
+            </Box>
           )}
 
           {activeTab === 'events' && (
-            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns: 'repeat(3, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns: 'repeat(4, 1fr)'
+                }
+              }}
+            >
               {eventsToDisplay?.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
                   <EventProfileCard
@@ -234,11 +307,26 @@ export const UserProfile = () => {
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>
               )}
-            </section>
+            </Box>
           )}
 
           {activeTab === 'blogs' && (
-            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns: 'repeat(3, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns: 'repeat(4, 1fr)'
+                }
+              }}
+            >
               {blogsToDisplay?.length > 0 ? (
                 blogsToDisplay.map((post: BlogPost) => (
                   <BlogCard
@@ -252,10 +340,10 @@ export const UserProfile = () => {
                   Još uvek niste dodali blog postove
                 </p>
               )}
-            </section>
+            </Box>
           )}
-        </section>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
