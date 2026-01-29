@@ -5,7 +5,7 @@ interface PromotionCardProps {
   icon: LucideIcon;
   title: string;
   description: string;
-  actionLabel: string;
+  actionLabel?: string;
   badgeLabel?: string;
   variant?: 'success' | 'warning';
 }
@@ -82,21 +82,23 @@ export const PromotionCard = ({
       </Typography>
 
       {/* Action */}
-      <Box sx={{ mt: 'auto' }}>
-        <Typography
-          variant="body2"
-          fontWeight={600}
-          sx={{
-            cursor: 'pointer',
-            color: isSuccess ? 'success.main' : 'warning.main',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 0.5
-          }}
-        >
-          {actionLabel} →
-        </Typography>
-      </Box>
+      {actionLabel && (
+        <Box sx={{ mt: 'auto' }}>
+          <Typography
+            variant="body2"
+            fontWeight={600}
+            sx={{
+              cursor: 'pointer',
+              color: isSuccess ? 'success.main' : 'warning.main',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.5
+            }}
+          >
+            {actionLabel} →
+          </Typography>
+        </Box>
+      )}
     </Card>
   );
 };

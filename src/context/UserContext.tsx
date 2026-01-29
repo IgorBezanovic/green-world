@@ -39,7 +39,31 @@ const defaultUser: User = {
   numberOfProducts: 0,
   maxShopProducts: 25,
   numberOfActions: 0,
-  numberOfBlogs: 0
+  numberOfBlogs: 0,
+  statistics: {
+    numberOfOrdersByEmail: 0,
+    mostVisitedProductGroup: null,
+    mostVisitedProduct: null,
+    totalViews: {
+      products: 0,
+      actions: 0,
+      blogs: 0
+    },
+    averageViews: {
+      product: 0,
+      action: 0,
+      blog: 0
+    },
+    products: [],
+    actions: [],
+    blogs: [],
+    contentDistribution: {
+      products: 0,
+      actions: 0,
+      blogs: 0
+    },
+    engagementScore: 0
+  }
 };
 
 const UserContext = createContext<UserContextType>({

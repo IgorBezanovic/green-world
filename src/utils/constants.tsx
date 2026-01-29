@@ -502,7 +502,7 @@ export const groupItemsCreateProduct: MenuProps['items'] = [
   },
   {
     key: 'potted_flowers',
-    label: 'Saksijsko cvece',
+    label: 'Saksijsko cveće',
     icon: <LoginOutlined />
   },
   {
@@ -512,7 +512,7 @@ export const groupItemsCreateProduct: MenuProps['items'] = [
   },
   {
     key: 'fruits_and_vegetables',
-    label: 'Voce i povrce',
+    label: 'Voće i povrće',
     icon: <LoginOutlined />
   },
   {
@@ -522,7 +522,7 @@ export const groupItemsCreateProduct: MenuProps['items'] = [
   },
   {
     key: 'garden_decoration',
-    label: 'Bastenska dekoracija',
+    label: 'Baštenska dekoracija',
     icon: <LoginOutlined />
   },
   {

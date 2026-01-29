@@ -53,3 +53,8 @@ export const useDebounce = <T>(value: T, delay = 300) => {
 
   return debouncedValue;
 };
+
+export const getGroupLabel = (group: string): string => {
+  const item = homeCategories.filter((cat) => cat.slug === group)[0];
+  return item?.text ?? group;
+};

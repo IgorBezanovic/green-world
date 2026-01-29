@@ -20,10 +20,13 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 
 export const Products = () => {
   const { category = '' } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = Number(searchParams.get('page') || 1);
+
   const categoryName =
     category && homeCategories.find((item) => item.slug === category)?.text;
   const theme = useTheme();
@@ -37,7 +40,7 @@ export const Products = () => {
   >([undefined, undefined]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [priceOnRequest, setPriceOnRequest] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageParam);
 
   const [oldProducts, setOldProducts] = useState<ProductPreview[]>([]);
   const [filtersToSend, setFiltersToSend] = useState({});
@@ -45,6 +48,13 @@ export const Products = () => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const { data, isFetching, refetch } = useAllProducts(filtersToSend);
+
+  useEffect(() => {
+    if (pageParam !== page) {
+      setPage(pageParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageParam]);
 
   useEffect(() => {
     if (!isFetching && data?.products) {
@@ -442,6 +452,11 @@ export const Products = () => {
                   page={page}
                   onChange={(_, value) => {
                     setPage(value);
+                    setSearchParams((prev) => {
+                      const next = new URLSearchParams(prev);
+                      next.set('page', String(value));
+                      return next;
+                    });
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   color="primary"
