@@ -171,7 +171,7 @@ export const UserProfile = () => {
           <Button
             variant="contained"
             onClick={() => navigate('/create-product')}
-            disabled={user?.numberOfProducts >= user?.maxShopProducts}
+            // disabled={user?.numberOfProducts >= user?.maxShopProducts}
           >
             Dodaj proizvod
           </Button>
