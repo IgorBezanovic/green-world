@@ -25,22 +25,55 @@ import { useParams, useSearchParams } from 'react-router';
 export const Products = () => {
   const { category = '' } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = Number(searchParams.get('page') || 1);
+  const parseNumberParam = (value: string | null) => {
+    if (value === null || value === '') return undefined;
+    const num = Number(value);
+    return Number.isFinite(num) ? num : undefined;
+  };
+
+  const urlState = useMemo(() => {
+    const urlSearch = searchParams.get('title') ?? '';
+    const urlGroupFromParams = searchParams.get('group') ?? '';
+    const urlGroup = category || urlGroupFromParams;
+    const urlSubGroup = searchParams.get('subGroup') ?? '';
+    const urlPriceOnRequest = searchParams.get('priceOnRequest') === 'true';
+    const urlMinPrice = urlPriceOnRequest
+      ? undefined
+      : parseNumberParam(searchParams.get('minPrice'));
+    const urlMaxPrice = urlPriceOnRequest
+      ? undefined
+      : parseNumberParam(searchParams.get('maxPrice'));
+    const urlInStock = searchParams.get('inStock') === 'true';
+    const urlPageRaw = Number(searchParams.get('page') || 1);
+    const urlPage =
+      Number.isFinite(urlPageRaw) && urlPageRaw > 0 ? urlPageRaw : 1;
+
+    return {
+      search: urlSearch,
+      group: urlGroup,
+      subGroup: urlSubGroup,
+      minPrice: urlMinPrice,
+      maxPrice: urlMaxPrice,
+      inStock: urlInStock,
+      priceOnRequest: urlPriceOnRequest,
+      page: urlPage
+    };
+  }, [category, searchParams]);
 
   const categoryName =
     category && homeCategories.find((item) => item.slug === category)?.text;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [search, setSearch] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState(category ?? '');
-  const [selectedSubgroup, setSelectedSubgroup] = useState('');
+  const [search, setSearch] = useState(urlState.search);
+  const [selectedGroup, setSelectedGroup] = useState(urlState.group);
+  const [selectedSubgroup, setSelectedSubgroup] = useState(urlState.subGroup);
   const [priceRange, setPriceRange] = useState<
     [number | undefined, number | undefined]
-  >([undefined, undefined]);
-  const [inStockOnly, setInStockOnly] = useState(false);
-  const [priceOnRequest, setPriceOnRequest] = useState(false);
-  const [page, setPage] = useState(pageParam);
+  >([urlState.minPrice, urlState.maxPrice]);
+  const [inStockOnly, setInStockOnly] = useState(urlState.inStock);
+  const [priceOnRequest, setPriceOnRequest] = useState(urlState.priceOnRequest);
+  const [page, setPage] = useState(urlState.page);
 
   const [oldProducts, setOldProducts] = useState<ProductPreview[]>([]);
   const [filtersToSend, setFiltersToSend] = useState({});
@@ -50,11 +83,55 @@ export const Products = () => {
   const { data, isFetching, refetch } = useAllProducts(filtersToSend);
 
   useEffect(() => {
-    if (pageParam !== page) {
-      setPage(pageParam);
+    if (search !== urlState.search) setSearch(urlState.search);
+    if (selectedGroup !== urlState.group) setSelectedGroup(urlState.group);
+    if (selectedSubgroup !== urlState.subGroup) {
+      setSelectedSubgroup(urlState.subGroup);
     }
+    if (
+      priceRange[0] !== urlState.minPrice ||
+      priceRange[1] !== urlState.maxPrice
+    ) {
+      setPriceRange([urlState.minPrice, urlState.maxPrice]);
+    }
+    if (inStockOnly !== urlState.inStock) setInStockOnly(urlState.inStock);
+    if (priceOnRequest !== urlState.priceOnRequest) {
+      setPriceOnRequest(urlState.priceOnRequest);
+    }
+    if (page !== urlState.page) setPage(urlState.page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageParam]);
+  }, [urlState]);
+
+  useEffect(() => {
+    const next = new URLSearchParams();
+
+    if (search) next.set('title', search);
+    if (selectedGroup) next.set('group', selectedGroup);
+    if (selectedSubgroup) next.set('subGroup', selectedSubgroup);
+    if (priceRange[0] !== undefined) {
+      next.set('minPrice', String(priceRange[0]));
+    }
+    if (priceRange[1] !== undefined) {
+      next.set('maxPrice', String(priceRange[1]));
+    }
+    if (inStockOnly) next.set('inStock', 'true');
+    if (priceOnRequest) next.set('priceOnRequest', 'true');
+    if (page > 1) next.set('page', String(page));
+
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [
+    search,
+    selectedGroup,
+    selectedSubgroup,
+    priceRange,
+    inStockOnly,
+    priceOnRequest,
+    page,
+    searchParams,
+    setSearchParams
+  ]);
 
   useEffect(() => {
     if (!isFetching && data?.products) {

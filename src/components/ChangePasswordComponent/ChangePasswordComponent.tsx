@@ -1,14 +1,9 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import { CustomButton } from '@green-world/components';
 import { useChangePassword } from '@green-world/hooks/useChangePassword';
 import { NewPasswordValues } from '@green-world/utils/types';
-import { Box } from '@mui/material';
-import { Badge, Input } from 'antd';
-import clsx from 'clsx';
+import { Alert, Box, Button, CircularProgress, TextField } from '@mui/material';
 import { useState } from 'react';
 
 export const ChangePasswordComponent = () => {
-  // Hi
   const { mutate, error, isPending } = useChangePassword();
 
   const [passwordCollection, setPasswordCollection] =
@@ -18,10 +13,13 @@ export const ChangePasswordComponent = () => {
       confirmNewPassword: ''
     });
 
+  const passwordsMismatch =
+    passwordCollection.newPassword !== passwordCollection.confirmNewPassword;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPasswordCollection((prevState) => ({
-      ...prevState,
+    setPasswordCollection((prev) => ({
+      ...prev,
       [name]: value
     }));
   };
@@ -32,130 +30,144 @@ export const ChangePasswordComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ maxWidth: 700, mx: 'auto' }}
+    >
       <title>Zeleni svet | Promena lozinke</title>
       <link
         rel="canonical"
         href="https://www.zelenisvet.rs/profile-settings/change-password"
       />
 
+      {/* Stara lozinka */}
       <Box
         component="label"
         htmlFor="currentPassword"
         sx={{
           display: 'flex',
-          color: (theme) => theme.palette.secondary.main,
+          color: 'secondary.main',
           cursor: 'pointer',
           fontSize: '1.125rem',
           lineHeight: '1.75rem',
-          fontWeight: 200
+          fontWeight: 200,
+          mb: 1
         }}
       >
         Unesite stari password:
       </Box>
-      <Input.Password
+
+      <TextField
+        fullWidth
         required
-        size="large"
+        type="password"
         placeholder="Stara lozinka"
         name="currentPassword"
         id="currentPassword"
-        onChange={handleChange}
         disabled={isPending}
+        onChange={handleChange}
       />
+
+      {/* Nova lozinka */}
       <Box
         component="label"
         htmlFor="newPassword"
         sx={{
           display: 'flex',
-          color: (theme) => theme.palette.secondary.main,
+          color: 'secondary.main',
           cursor: 'pointer',
           fontSize: '1.125rem',
           lineHeight: '1.75rem',
           fontWeight: 200,
-          marginTop: 4
+          mt: 4,
+          mb: 1
         }}
       >
         Unesite novi password:
       </Box>
-      <Input.Password
+
+      <TextField
+        fullWidth
         required
-        size="large"
+        type="password"
         placeholder="Nova lozinka"
         name="newPassword"
         id="newPassword"
-        onChange={handleChange}
         disabled={isPending}
+        onChange={handleChange}
       />
+
+      {/* Potvrda lozinke */}
       <Box
         component="label"
         htmlFor="confirmNewPassword"
         sx={{
           display: 'flex',
-          color: (theme) => theme.palette.secondary.main,
+          color: 'secondary.main',
           cursor: 'pointer',
           fontSize: '1.125rem',
           lineHeight: '1.75rem',
           fontWeight: 200,
-          marginTop: 4
+          mt: 4,
+          mb: 1
         }}
       >
         Ponovite novi password:
       </Box>
-      <Badge.Ribbon
-        text="Lozinke se ne poklapaju"
-        color="cyan"
-        className={clsx('-top-4', 'z-10', {
-          hidden:
-            passwordCollection.newPassword ===
-            passwordCollection.confirmNewPassword
-        })}
-      >
-        <Input.Password
-          required
-          size="large"
-          placeholder="Ponovite novu lozinka"
-          name="confirmNewPassword"
-          id="confirmNewPassword"
-          onChange={handleChange}
-          disabled={isPending}
-          status={
-            passwordCollection.newPassword !==
-            passwordCollection.confirmNewPassword
-              ? 'warning'
-              : ''
-          }
-        />
-      </Badge.Ribbon>
-      <CustomButton
-        htmlType="submit"
-        type="text"
-        text={
-          isPending ? (
-            <LoadingOutlined
-              className={clsx('text-groupTransparent', 'my-2')}
-            />
-          ) : (
-            'Promeni password'
-          )
-        }
-        customStyle={[
-          'mt-10',
-          'w-full',
-          {
-            'border-groupTransparent': isPending
-          }
-        ]}
-        disabled={
-          isPending ||
-          passwordCollection.newPassword !==
-            passwordCollection.confirmNewPassword
-        }
-      />
-      {(error as any) && (
-        <p className={clsx('font-medium', 'text-red', 'mt-2')}>
-          {(error as any)?.response?.data}
-        </p>
+
+      {passwordsMismatch && (
+        <Alert
+          severity="warning"
+          sx={{
+            mb: 1,
+            fontSize: '0.875rem'
+          }}
+        >
+          Lozinke se ne poklapaju
+        </Alert>
       )}
-    </form>
+
+      <TextField
+        fullWidth
+        required
+        type="password"
+        placeholder="Ponovite novu lozinku"
+        name="confirmNewPassword"
+        id="confirmNewPassword"
+        disabled={isPending}
+        onChange={handleChange}
+        error={passwordsMismatch}
+      />
+
+      {/* Submit */}
+      <Button
+        variant="outlined"
+        type="submit"
+        disabled={isPending || passwordsMismatch}
+        sx={{
+          mt: 4,
+          mx: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1
+        }}
+      >
+        {isPending ? <CircularProgress size={20} /> : 'Promeni password'}
+      </Button>
+
+      {/* Error */}
+      {error && (
+        <Box
+          sx={{
+            mt: 2,
+            color: 'error.main',
+            fontWeight: 500
+          }}
+        >
+          {(error as any)?.response?.data}
+        </Box>
+      )}
+    </Box>
   );
 };

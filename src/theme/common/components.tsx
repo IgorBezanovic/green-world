@@ -25,5 +25,12 @@ export const components: Components<
     defaultProps: {
       shrink: true
     }
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      input: {
+        padding: '12px'
+      }
+    }
   }
 };
