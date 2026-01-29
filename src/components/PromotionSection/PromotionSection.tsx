@@ -61,7 +61,8 @@ export const PromotionSection = () => {
           title="Promoviši Proizvode"
           description="Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca"
           actionLabel="Saznaj više"
-          badgeLabel="Novo"
+          badgeLabel="Uskoro"
+          // badgeLabel="Novo"
           variant="success"
         />
 
@@ -70,7 +71,8 @@ export const PromotionSection = () => {
           title="Promoviši Prodavnicu"
           description="Povećajte vidljivost vaše prodavnice i privucite nove kupce"
           actionLabel="Saznaj više"
-          badgeLabel="Popularno"
+          badgeLabel="Uskoro"
+          // badgeLabel="Popularno"
           variant="warning"
         />
 
@@ -79,6 +81,7 @@ export const PromotionSection = () => {
           title="Povećaj Kapacitet Shopa"
           description="Proširite kapacitet vaše prodavnice za više proizvoda"
           actionLabel="Saznaj više"
+          badgeLabel="Uskoro"
           variant="success"
         />
 
@@ -87,7 +90,8 @@ export const PromotionSection = () => {
           title="Promotivni Paketi"
           description="Ekskluzivni paketi sa najboljim ponudama za vašu prodavnicu"
           actionLabel="Saznaj više"
-          badgeLabel="Uštedi 30%"
+          badgeLabel="Uskoro"
+          // badgeLabel="Uštedi 30%"
           variant="warning"
         />
       </Box>

@@ -4,7 +4,8 @@ import {
   EditUserData,
   EditUserImageSection,
   ProtectedRoute,
-  GoogleAnalytics
+  GoogleAnalytics,
+  UserStatistics
 } from '@green-world/components';
 import {
   BlogPost,
@@ -90,6 +91,10 @@ export const routes = [
           {
             path: '/profile-settings/change-password',
             element: <ChangePasswordComponent />
+          },
+          {
+            path: '/profile-settings/statistics',
+            element: <UserStatistics />
           }
         ]
       },

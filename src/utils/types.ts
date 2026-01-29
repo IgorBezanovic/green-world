@@ -48,6 +48,44 @@ type Address = {
   country: string;
 };
 
+export type StatisticItem = {
+  id: string;
+  title: string;
+  image: string | null;
+  viewCounter: number;
+};
+
+export type UserStatistics = {
+  numberOfOrdersByEmail: number;
+  mostVisitedProductGroup: string | null;
+  mostVisitedProduct: {
+    _id: string;
+    title: string;
+    images: string[];
+    viewCounter?: number;
+    group?: string;
+  } | null;
+  totalViews: {
+    products: number;
+    actions: number;
+    blogs: number;
+  };
+  averageViews: {
+    product: number;
+    action: number;
+    blog: number;
+  };
+  products: StatisticItem[];
+  actions: StatisticItem[];
+  blogs: StatisticItem[];
+  contentDistribution: {
+    products: number;
+    actions: number;
+    blogs: number;
+  };
+  engagementScore: number;
+};
+
 export type User = {
   _id?: string;
   email: string;
@@ -73,6 +111,7 @@ export type User = {
   maxShopProducts: number;
   numberOfActions: number;
   numberOfBlogs: number;
+  statistics: UserStatistics;
 };
 
 export type ContactUsValues = {

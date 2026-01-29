@@ -155,6 +155,13 @@ export const UserProfile = () => {
             userLoading={isLoading}
             customStyleMeta={['flex', 'flex-col']}
           />
+          <Button
+            variant="contained"
+            color="info"
+            onClick={() => navigate('/profile-settings/edit-profile')}
+          >
+            Podesavanje profila
+          </Button>
           <ShopStatsCard
             numberOfProducts={user.numberOfProducts}
             maxShopProducts={user.maxShopProducts}

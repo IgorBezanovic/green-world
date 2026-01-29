@@ -50,4 +50,5 @@ export * from '@green-world/components/SocialMedia';
 export * from '@green-world/components/StatCard';
 export * from '@green-world/components/TikTokIcon';
 export * from '@green-world/components/UserInfo';
+export * from '@green-world/components/UserStatistics';
 export * from '@green-world/components/VoteButtons';
