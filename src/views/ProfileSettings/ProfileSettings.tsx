@@ -80,6 +80,7 @@ export const ProfileSettings = () => {
             flexDirection: 'column',
             gap: theme.spacing(1.5),
             width: '100%',
+            minWidth: 200,
 
             [theme.breakpoints.up('lgm')]: {
               width: '16.666667%'
@@ -127,13 +128,7 @@ export const ProfileSettings = () => {
         </Box>
         <Box
           sx={{
-            width: '100%',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider',
-            backgroundColor: 'background.paper',
-            p: 2.5,
-            boxShadow: 1
+            width: '100%'
           }}
         >
           <Outlet />

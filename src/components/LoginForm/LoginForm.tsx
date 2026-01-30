@@ -1,8 +1,4 @@
-import {
-  Divider,
-  GoogleLoginAuth,
-  MetaLoginAuth
-} from '@green-world/components';
+import { GoogleLoginAuth, MetaLoginAuth } from '@green-world/components';
 import { AuthValues } from '@green-world/utils/types';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -13,7 +9,8 @@ import {
   InputAdornment,
   OutlinedInput,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Divider
 } from '@mui/material';
 import { useState } from 'react';
 import { Link } from 'react-router';

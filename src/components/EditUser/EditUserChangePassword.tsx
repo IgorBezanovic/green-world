@@ -11,7 +11,7 @@ import {
 import { ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
-export const ChangePasswordComponent = () => {
+export const EditUserChangePassword = () => {
   const { mutate, error, isPending } = useChangePassword();
 
   const [passwordCollection, setPasswordCollection] =

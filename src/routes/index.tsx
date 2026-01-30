@@ -1,6 +1,6 @@
 import {
   Layout,
-  ChangePasswordComponent,
+  EditUserChangePassword,
   EditUserData,
   EditUserImageSection,
   ProtectedRoute,
@@ -90,7 +90,7 @@ export const routes = [
           },
           {
             path: '/profile-settings/change-password',
-            element: <ChangePasswordComponent />
+            element: <EditUserChangePassword />
           },
           {
             path: '/profile-settings/statistics',
