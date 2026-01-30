@@ -1,6 +1,14 @@
 import { useChangePassword } from '@green-world/hooks/useChangePassword';
 import { NewPasswordValues } from '@green-world/utils/types';
-import { Alert, Box, Button, CircularProgress, TextField } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography
+} from '@mui/material';
+import { ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
 export const ChangePasswordComponent = () => {
@@ -33,13 +41,47 @@ export const ChangePasswordComponent = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ maxWidth: 700, mx: 'auto' }}
+      sx={{ maxWidth: 500, mx: 'auto', mb: 4 }}
     >
       <title>Zeleni svet | Promena lozinke</title>
       <link
         rel="canonical"
         href="https://www.zelenisvet.rs/profile-settings/change-password"
       />
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 1,
+          mt: 2,
+          mb: 4
+        }}
+      >
+        <Box
+          sx={{
+            width: 64,
+            height: 64,
+            borderRadius: 3,
+            bgcolor: 'success.light',
+            color: 'success.main',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <ShieldCheck
+            style={{ width: '32px', height: '32px', strokeWidth: '2px' }}
+          />
+        </Box>
+        <Typography variant="h2" color="initial">
+          Promena lozinke
+        </Typography>
+        <Typography variant="body1" color="initial">
+          Zaštitite svoj nalog sa jakom lozinkom
+        </Typography>
+      </Box>
 
       {/* Stara lozinka */}
       <Box
