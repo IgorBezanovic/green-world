@@ -12,6 +12,8 @@ export interface ProductPreview {
   priceOnRequest: boolean | null;
   price: string;
   images: string[];
+  promotedAt?: string | Date | null;
+  promotedUntil?: string | Date | null;
 }
 
 export interface HomepageProductsResponse {

@@ -1,13 +1,30 @@
 import { request } from '@green-world/utils/api';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
-type CreatePayPalOrderPayload = {
+export type PaymentTypePromo =
+  | 'PROMOTE_PRODUCT'
+  | 'PROMOTE_SHOP'
+  | 'INCREASE_CAPACITY'
+  | 'PROMO_BUNDLE';
+
+type CreatePayPalOrderPayloadDonation = {
+  type: 'DONATION';
   amountRsd: number;
   message?: string;
 };
 
+type CreatePayPalOrderPayloadPromo = {
+  type: PaymentTypePromo;
+  targetId: string;
+};
+
+export type CreatePayPalOrderPayload =
+  | CreatePayPalOrderPayloadDonation
+  | CreatePayPalOrderPayloadPromo;
+
 type CreatePayPalOrderResponse = {
   id: string;
+  amountEur?: string;
 };
 
 type CapturePayPalOrderPayload = { orderId: string };
@@ -15,6 +32,7 @@ type CapturePayPalOrderPayload = { orderId: string };
 type CapturePayPalOrderResponse = {
   status: string;
   data: unknown;
+  payment?: unknown;
 };
 
 export const useCreatePayPalOrder = (): UseMutationResult<
@@ -25,18 +43,24 @@ export const useCreatePayPalOrder = (): UseMutationResult<
   return useMutation({
     mutationKey: ['paypal', 'create-order'],
     mutationFn: async (payload) => {
+      const body =
+        payload.type === 'DONATION'
+          ? {
+              type: 'DONATION' as const,
+              amountRsd: payload.amountRsd,
+              message: payload.message?.trim() || undefined
+            }
+          : {
+              type: payload.type,
+              targetId: payload.targetId
+            };
+
       const res = await request({
         url: '/paypal/create-order',
         method: 'post',
-        data: {
-          amountRsd: payload.amountRsd,
-          // ✅ ne šalji prazno
-          message: payload.message?.trim() || undefined
-        }
+        data: body
       });
 
-      // Ako request() vraća { data }, otkomentariši:
-      // const data = res?.data ?? res;
       const data = res;
 
       if (!data?.id) {

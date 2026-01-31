@@ -37,7 +37,18 @@ export const UserProfile = () => {
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
+  const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
+    Product[]
+  >([]);
   const [activeTab, setActiveTab] = useState('products');
+
+  const promotedProducts = useMemo(
+    () =>
+      products.filter(
+        (p: Product) => p.promotedAt != null && p.promotedUntil != null
+      ),
+    [products]
+  );
 
   useEffect(() => {
     if (!productsLoading) {
@@ -63,6 +74,12 @@ export const UserProfile = () => {
     }
   }, [blogs, blogsLoading]);
 
+  useEffect(() => {
+    if (!productsLoading) {
+      setPromotedProductsToDisplay(promotedProducts);
+    }
+  }, [promotedProducts, productsLoading]);
+
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
 
@@ -71,6 +88,11 @@ export const UserProfile = () => {
         product.title.toLowerCase().includes(term)
       );
       setProductsToDisplay(filtered);
+    } else if (activeTab === 'promoted') {
+      const filtered = promotedProducts.filter((p: Product) =>
+        (p.title || '').toLowerCase().includes(term)
+      );
+      setPromotedProductsToDisplay(filtered);
     } else if (activeTab === 'events') {
       const filtered = events.filter((event: any) =>
         event.title.toLowerCase().includes(term)
@@ -135,7 +157,6 @@ export const UserProfile = () => {
           }
         }}
       >
-        {/* LEVA STRANA */}
         <Box
           component="section"
           sx={{
@@ -171,7 +192,7 @@ export const UserProfile = () => {
           <Button
             variant="contained"
             onClick={() => navigate('/create-product')}
-            // disabled={user?.numberOfProducts >= user?.maxShopProducts}
+            disabled={user?.numberOfProducts >= user?.maxShopProducts}
           >
             Dodaj proizvod
           </Button>
@@ -183,7 +204,6 @@ export const UserProfile = () => {
           </Button>
         </Box>
 
-        {/* DESNA STRANA */}
         <Box
           component="section"
           sx={{
@@ -251,6 +271,7 @@ export const UserProfile = () => {
             aria-label="product-event-tabs"
           >
             <Tab label="Proizvodi" value="products" />
+            <Tab label="Promovisano" value="promoted" />
             <Tab label="Aktivnosti" value="events" />
             <Tab label="Moji Blogovi" value="blogs" />
           </Tabs>
@@ -278,6 +299,38 @@ export const UserProfile = () => {
                     key={product._id}
                     product={product}
                     productsRefetch={productsRefetch}
+                  />
+                ))
+              ) : (
+                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+              )}
+            </Box>
+          )}
+
+          {activeTab === 'promoted' && (
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns: 'repeat(3, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns: 'repeat(4, 1fr)'
+                }
+              }}
+            >
+              {promotedProductsToDisplay?.length > 0 ? (
+                promotedProductsToDisplay.map((product: any) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    productsRefetch={productsRefetch}
+                    isPromotedView={true}
                   />
                 ))
               ) : (
