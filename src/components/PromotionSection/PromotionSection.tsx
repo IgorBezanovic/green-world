@@ -71,8 +71,8 @@ export const PromotionSection = () => {
           icon={Sparkles}
           title="Promoviši Proizvode"
           description="Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca"
-          actionLabel="Kupi promociju"
-          badgeLabel="5 dana"
+          actionLabel="Saznaj više"
+          badgeLabel="Novo"
           variant="success"
           onActionClick={openPromoDialog('PROMOTE_PRODUCT')}
         />
@@ -81,8 +81,8 @@ export const PromotionSection = () => {
           icon={Store}
           title="Promoviši Prodavnicu"
           description="Povećajte vidljivost vaše prodavnice i privucite nove kupce"
-          actionLabel="Kupi promociju"
-          badgeLabel="5 dana"
+          actionLabel="Saznaj više"
+          badgeLabel="Novo"
           variant="warning"
           onActionClick={openPromoDialog('PROMOTE_SHOP')}
         />
@@ -91,8 +91,8 @@ export const PromotionSection = () => {
           icon={TrendingUp}
           title="Povećaj Kapacitet Shopa"
           description="Proširite kapacitet vaše prodavnice za više proizvoda"
-          actionLabel="Kupi promociju"
-          badgeLabel="+25 mesta"
+          actionLabel="Saznaj više"
+          badgeLabel="Novo"
           variant="success"
           onActionClick={openPromoDialog('INCREASE_CAPACITY')}
         />
@@ -100,9 +100,9 @@ export const PromotionSection = () => {
         <PromotionCard
           icon={Package}
           title="Promotivni Paketi"
-          description="Ekskluzivni paketi: +25 mesta, 5 dana promocija prodavnice i 5 proizvoda"
-          actionLabel="Kupi paket"
-          badgeLabel="Uštedi"
+          description="Ekskluzivni paketi sa najboljim ponudama za vašu prodavnicu"
+          actionLabel="Saznaj više"
+          badgeLabel="Uštedi 30%"
           variant="warning"
           onActionClick={openPromoDialog('PROMO_BUNDLE')}
         />

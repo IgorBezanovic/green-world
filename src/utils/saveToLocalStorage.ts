@@ -17,8 +17,8 @@ export const storeEncrypted = (
     SECRET_KEY
   ).toString();
 
-  if (type === 'homepage-products') {
-    localStorage.setItem(`${type}-homepage-products`, encrypted);
+  if (type === 'homepage-products' || type.includes('user-blogposts')) {
+    localStorage.setItem(type, encrypted);
   } else if ('_id' in response) {
     localStorage.setItem(`${type}-${response._id}`, encrypted);
   } else {
@@ -31,7 +31,9 @@ export const getDecrypted = (
   id?: string
 ): User | Product | HomepageProductsResponse | null => {
   const key =
-    type === 'homepage-products' ? 'homepage-products' : `${type}-${id}`;
+    type === 'homepage-products' || type.includes('user-blogposts')
+      ? type
+      : `${type}-${id}`;
   const encrypted = localStorage.getItem(key);
   if (!encrypted) return null;
 

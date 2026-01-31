@@ -334,7 +334,7 @@ export const UserProfile = () => {
                   />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+                <p className="col-span-full">Nemate promovisanih proizvoda</p>
               )}
             </Box>
           )}
