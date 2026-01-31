@@ -46,13 +46,16 @@ const Card = ({ children }: { children: React.ReactNode }) => (
 
 const TwoColRow = ({ children }: { children: React.ReactNode }) => (
   <Box
-    sx={{
+    sx={(theme) => ({
       display: 'flex',
-      flexDirection: { xs: 'column', md: 'row' },
+      flexDirection: 'column',
+      [theme.breakpoints.up('md')]: {
+        flexDirection: 'row'
+      },
       gap: 2,
       px: 4,
       mb: 2
-    }}
+    })}
   >
     {children}
   </Box>
