@@ -33,6 +33,8 @@ export interface Product {
   milliliters: number;
   status: string;
   onStock: boolean;
+  promotedAt?: string | Date | null;
+  promotedUntil?: string | Date | null;
 }
 
 export type NewPasswordValues = {

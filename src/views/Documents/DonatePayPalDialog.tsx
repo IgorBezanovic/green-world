@@ -117,6 +117,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
             createOrder={async () => {
               setStatus('Kreiram nalog...');
               const out = await createOrderMutation.mutateAsync({
+                type: 'DONATION',
                 amountRsd: rsdNumber,
                 message
               });

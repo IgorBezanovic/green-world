@@ -34,7 +34,6 @@ export const ShopStatsCard = ({
           gap: 3
         }}
       >
-        {/* Products */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box
@@ -61,9 +60,11 @@ export const ShopStatsCard = ({
             <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
               {numberOfProducts}
             </Typography>
-            {/* <Typography sx={{ fontSize: 14, color: 'text.secondary' }}>
-              / {maxShopProducts}
-            </Typography> */}
+            {
+              <Typography sx={{ fontSize: 14, color: 'text.secondary' }}>
+                / {maxShopProducts}
+              </Typography>
+            }
           </Box>
 
           <LinearProgress
@@ -81,7 +82,6 @@ export const ShopStatsCard = ({
           />
         </Box>
 
-        {/* Activities */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box
@@ -122,7 +122,6 @@ export const ShopStatsCard = ({
           </Box>
         </Box>
 
-        {/* Blogs */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box

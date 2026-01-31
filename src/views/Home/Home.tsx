@@ -1,5 +1,6 @@
 import {
   CustomButton,
+  FeaturedSection,
   GroupButton,
   LazySection,
   ProductSection,
@@ -52,6 +53,7 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
+        <FeaturedSection />
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"

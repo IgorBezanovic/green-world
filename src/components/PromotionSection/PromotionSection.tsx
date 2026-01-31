@@ -1,10 +1,21 @@
+import type { PaymentTypePromo } from '@green-world/hooks/usePayPalDonation';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
+import { useState } from 'react';
 
 import { PromotionCard } from '../PromotionCard';
+import { PromotionPayPalDialog } from './PromotionPayPalDialog';
 
 export const PromotionSection = () => {
   const theme = useTheme();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<PaymentTypePromo | null>(null);
+
+  const openPromoDialog = (type: PaymentTypePromo) => () => {
+    setDialogType(type);
+    setDialogOpen(true);
+  };
+
   return (
     <Box>
       <Box
@@ -60,41 +71,53 @@ export const PromotionSection = () => {
           icon={Sparkles}
           title="Promoviši Proizvode"
           description="Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca"
-          actionLabel="Saznaj više"
-          badgeLabel="Uskoro"
-          // badgeLabel="Novo"
+          actionLabel="Kupi promociju"
+          badgeLabel="5 dana"
           variant="success"
+          onActionClick={openPromoDialog('PROMOTE_PRODUCT')}
         />
 
         <PromotionCard
           icon={Store}
           title="Promoviši Prodavnicu"
           description="Povećajte vidljivost vaše prodavnice i privucite nove kupce"
-          actionLabel="Saznaj više"
-          badgeLabel="Uskoro"
-          // badgeLabel="Popularno"
+          actionLabel="Kupi promociju"
+          badgeLabel="5 dana"
           variant="warning"
+          onActionClick={openPromoDialog('PROMOTE_SHOP')}
         />
 
         <PromotionCard
           icon={TrendingUp}
           title="Povećaj Kapacitet Shopa"
           description="Proširite kapacitet vaše prodavnice za više proizvoda"
-          actionLabel="Saznaj više"
-          badgeLabel="Uskoro"
+          actionLabel="Kupi promociju"
+          badgeLabel="+25 mesta"
           variant="success"
+          onActionClick={openPromoDialog('INCREASE_CAPACITY')}
         />
 
         <PromotionCard
           icon={Package}
           title="Promotivni Paketi"
-          description="Ekskluzivni paketi sa najboljim ponudama za vašu prodavnicu"
-          actionLabel="Saznaj više"
-          badgeLabel="Uskoro"
-          // badgeLabel="Uštedi 30%"
+          description="Ekskluzivni paketi: +25 mesta, 5 dana promocija prodavnice i 5 proizvoda"
+          actionLabel="Kupi paket"
+          badgeLabel="Uštedi"
           variant="warning"
+          onActionClick={openPromoDialog('PROMO_BUNDLE')}
         />
       </Box>
+
+      {dialogType && (
+        <PromotionPayPalDialog
+          open={dialogOpen}
+          onClose={() => {
+            setDialogOpen(false);
+            setDialogType(null);
+          }}
+          promotionType={dialogType}
+        />
+      )}
     </Box>
   );
 };
