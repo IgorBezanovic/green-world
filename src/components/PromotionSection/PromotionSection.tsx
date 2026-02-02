@@ -2,12 +2,14 @@ import type { PaymentTypePromo } from '@green-world/hooks/usePayPalDonation';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import { PromotionCard } from '../PromotionCard';
 import { PromotionPayPalDialog } from './PromotionPayPalDialog';
 
 export const PromotionSection = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<PaymentTypePromo | null>(null);
 
@@ -74,7 +76,7 @@ export const PromotionSection = () => {
           actionLabel="Kupi promociju"
           badgeLabel="5 dana"
           variant="success"
-          onActionClick={openPromoDialog('PROMOTE_PRODUCT')}
+          onActionClick={() => navigate('/promote-product')}
         />
 
         <PromotionCard

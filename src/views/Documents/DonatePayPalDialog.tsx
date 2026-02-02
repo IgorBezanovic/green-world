@@ -43,7 +43,8 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
       clientId,
       currency: 'EUR',
       intent: 'capture',
-      components: 'buttons'
+      components: 'buttons',
+      locale: 'en_RS'
     }),
     [clientId]
   );

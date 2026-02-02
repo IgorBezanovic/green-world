@@ -93,7 +93,8 @@ export const PromotionPayPalDialog = ({
       clientId,
       currency: 'EUR',
       intent: 'capture' as const,
-      components: 'buttons'
+      components: 'buttons',
+      locale: 'en_RS'
     }),
     [clientId]
   );

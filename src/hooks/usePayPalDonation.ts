@@ -18,9 +18,16 @@ type CreatePayPalOrderPayloadPromo = {
   targetId: string;
 };
 
+type CreatePayPalOrderPayloadPromoProducts = {
+  type: 'PROMOTE_PRODUCT';
+  productIds: string[];
+  days: number;
+};
+
 export type CreatePayPalOrderPayload =
   | CreatePayPalOrderPayloadDonation
-  | CreatePayPalOrderPayloadPromo;
+  | CreatePayPalOrderPayloadPromo
+  | CreatePayPalOrderPayloadPromoProducts;
 
 type CreatePayPalOrderResponse = {
   id: string;
@@ -50,10 +57,19 @@ export const useCreatePayPalOrder = (): UseMutationResult<
               amountRsd: payload.amountRsd,
               message: payload.message?.trim() || undefined
             }
-          : {
-              type: payload.type,
-              targetId: payload.targetId
-            };
+          : payload.type === 'PROMOTE_PRODUCT' &&
+              'productIds' in payload &&
+              Array.isArray(payload.productIds)
+            ? {
+                type: 'PROMOTE_PRODUCT' as const,
+                targetId: payload.productIds[0],
+                productIds: payload.productIds,
+                days: payload.days
+              }
+            : {
+                type: payload.type,
+                targetId: (payload as CreatePayPalOrderPayloadPromo).targetId
+              };
 
       const res = await request({
         url: '/paypal/create-order',

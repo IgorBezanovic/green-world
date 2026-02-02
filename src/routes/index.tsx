@@ -20,6 +20,7 @@ import {
   Login,
   NotFound,
   ProductPage,
+  PromoteProduct,
   ProfileSettings,
   PrivacyPolicy,
   Registration,
@@ -149,6 +150,10 @@ export const routes = [
       {
         path: '/privacy-policy',
         element: <PrivacyPolicy />
+      },
+      {
+        path: '/promote-product',
+        element: <ProtectedRoute element={PromoteProduct} />
       },
       {
         path: '/admin',
