@@ -86,7 +86,7 @@ export const PromotionSection = () => {
           actionLabel="Kupi promociju"
           badgeLabel="5 dana"
           variant="warning"
-          onActionClick={openPromoDialog('PROMOTE_SHOP')}
+          onActionClick={() => navigate('/promote-shop')}
         />
 
         <PromotionCard

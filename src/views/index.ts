@@ -12,6 +12,7 @@ export * from '@green-world/views/OrderProduct';
 export * from '@green-world/views/PrivacyPolicy';
 export * from '@green-world/views/ProductPage';
 export * from '@green-world/views/PromoteProduct';
+export * from '@green-world/views/PromoteShop';
 export * from '@green-world/views/Products';
 export * from '@green-world/views/ShopPage';
 export * from '@green-world/views/Shops';

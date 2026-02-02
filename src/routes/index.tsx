@@ -21,6 +21,7 @@ import {
   NotFound,
   ProductPage,
   PromoteProduct,
+  PromoteShop,
   ProfileSettings,
   PrivacyPolicy,
   Registration,
@@ -154,6 +155,10 @@ export const routes = [
       {
         path: '/promote-product',
         element: <ProtectedRoute element={PromoteProduct} />
+      },
+      {
+        path: '/promote-shop',
+        element: <ProtectedRoute element={PromoteShop} />
       },
       {
         path: '/admin',

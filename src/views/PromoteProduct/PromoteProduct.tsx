@@ -258,6 +258,7 @@ export const PromoteProduct = () => {
               fullWidth
               label="Broj dana"
               type="number"
+              value={days}
               onChange={handleDaysChange}
               inputProps={{ min: 1, max: 365 }}
               helperText="Trajanje promocije (1–365 dana)"
