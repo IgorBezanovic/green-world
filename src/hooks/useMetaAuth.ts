@@ -30,9 +30,6 @@ export const useMetaAuth = () => {
       setItem('token', data.token);
       setItem('refreshToken', data.refreshToken);
       navigate('/');
-      setTimeout(() => {
-        window.location.reload();
-      }, 10);
     }
   });
 };
