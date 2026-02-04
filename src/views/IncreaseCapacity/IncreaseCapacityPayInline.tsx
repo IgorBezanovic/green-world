@@ -17,11 +17,10 @@ import { useNavigate } from 'react-router';
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
-  days: number;
-  totalRsd: number;
+  places: number;
 };
 
-export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
+export const IncreaseCapacityPayInline = ({ places }: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -52,9 +51,9 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
       throw new Error('User not logged in');
     }
     const payload: CreatePayPalOrderPayload = {
-      type: 'PROMOTE_SHOP',
+      type: 'INCREASE_CAPACITY',
       targetId: user._id,
-      days
+      places
     };
     const out = await createOrderMutation.mutateAsync(payload);
     return out.id;
@@ -66,7 +65,6 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
     setStatus('Uspešno! Promocija je aktivirana.');
     // Invalidate relevant queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-    queryClient.invalidateQueries({ queryKey: ['featured', 'promoted-shops'] });
     navigate('/profile');
   };
 
@@ -80,11 +78,6 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
         maxWidth: 520
       }}
     >
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Ukupno: <strong>{totalRsd} RSD</strong> ({days} dana). Iznos u EUR po
-        trenutnom kursu.
-      </Typography>
-
       <PayPalScriptProvider options={paypalOptions}>
         <Box
           sx={{
@@ -112,7 +105,7 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
             <PayPalButtons
               fundingSource={FUNDING.PAYPAL}
               style={{ layout: 'vertical' }}
-              disabled={loading || days === 0}
+              disabled={loading || !user?._id || places < 1}
               createOrder={async () => {
                 setStatus('Kreiram nalog...');
                 const id = await handleCreateOrder();
@@ -143,7 +136,7 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
             <PayPalButtons
               fundingSource={FUNDING.CREDIT}
               style={{ layout: 'vertical' }}
-              disabled={loading || days === 0}
+              disabled={loading || !user?._id || places < 1}
               createOrder={async () => {
                 setStatus('Kreiram nalog...');
                 const id = await handleCreateOrder();

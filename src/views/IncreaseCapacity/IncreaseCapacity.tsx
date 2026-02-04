@@ -7,42 +7,46 @@ import {
   Card,
   CardContent,
   Divider,
+  Slider,
   TextField,
   Typography,
   useTheme
 } from '@mui/material';
-import { ArrowLeft, Info, MapPin, Store, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Info, Package, TrendingUp } from 'lucide-react';
 import { useContext, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { PromoteShopPayCardInline } from './PromoteShopPayCardInline';
-import { PromoteShopPayInline } from './PromoteShopPayInline';
+import { IncreaseCapacityPayCardInline } from './IncreaseCapacityPayCardInline';
+import { IncreaseCapacityPayInline } from './IncreaseCapacityPayInline';
 
-const PRICE_PER_DAY_RSD = 50;
+const PRICE_PER_PLACE_RSD = 50;
 
 const pages = [
   { label: 'Početna', route: '/' },
-  { label: 'Promocija prodavnice', route: '/promote-shop' }
+  { label: 'Povećaj kapacitet Shopa', route: '/increase-capacity' }
 ];
 
-export const PromoteShop = () => {
+export const IncreaseCapacity = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
-  const [days, setDays] = useState<number>(5);
+  const [places, setPlaces] = useState<number>(25);
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   const totalRsd = useMemo(
-    () => (days > 0 ? PRICE_PER_DAY_RSD * days : 0),
-    [days]
+    () => (places > 0 ? PRICE_PER_PLACE_RSD * places : 0),
+    [places]
   );
 
-  const canPay = user?._id && days >= 1 && days <= 365;
+  const canPay = user?._id && places >= 1;
 
-  const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePlacesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = parseInt(e.target.value, 10);
-    if (!Number.isNaN(v) && v >= 1 && v <= 365) setDays(v);
+    if (!Number.isNaN(v) && v >= 1 && v <= 1000) setPlaces(v);
+  };
+
+  const handleSliderChange = (_event: Event, newValue: number | number[]) => {
+    setPlaces(newValue as number);
   };
 
   if (!user?._id) {
@@ -55,8 +59,8 @@ export const PromoteShop = () => {
         }}
       >
         <MetaTags
-          title="Promocija prodavnice | Zeleni svet"
-          description="Istaknite svoju prodavnicu na vrhu pretrage. Informacije o promociji prodavnice na Zelenom svetu."
+          title="Povećaj kapacitet Shopa | Zeleni svet"
+          description="Proširite kapacitet vaše prodavnice za više proizvoda. Informacije o povećanju kapaciteta na Zelenom svetu."
         />
         <Box
           sx={(t) => ({
@@ -71,7 +75,7 @@ export const PromoteShop = () => {
           <AppBreadcrumbs pages={pages} />
           <Divider sx={{ my: 2 }} />
           <Alert severity="info">
-            Morate biti ulogovani da biste kupili promociju prodavnice.{' '}
+            Morate biti ulogovani da biste kupili povećanje kapaciteta.{' '}
             <Button
               size="small"
               onClick={() => navigate('/login')}
@@ -94,8 +98,8 @@ export const PromoteShop = () => {
       }}
     >
       <MetaTags
-        title="Promocija prodavnice | Zeleni svet"
-        description="Istaknite svoju prodavnicu na vrhu pretrage. Izaberite broj dana i platite. 50 RSD po danu."
+        title="Povećaj kapacitet Shopa | Zeleni svet"
+        description="Proširite kapacitet vaše prodavnice za više proizvoda. Izaberite broj mesta i platite. 50 RSD po mestu."
       />
       <Box
         sx={(t) => ({
@@ -123,15 +127,15 @@ export const PromoteShop = () => {
           fontWeight={700}
           sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
         >
-          <Store color={theme.palette.warning.main} size={28} />
-          Promocija prodavnice
+          <TrendingUp color={theme.palette.success.main} size={28} />
+          Povećaj kapacitet Shopa
         </Typography>
 
         <Card
           variant="outlined"
           sx={{
-            borderColor: 'warning.light',
-            bgcolor: 'warning.light',
+            borderColor: 'success.light',
+            bgcolor: 'success.light',
             mb: 4
           }}
         >
@@ -142,26 +146,27 @@ export const PromoteShop = () => {
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
             >
               <Info size={20} />
-              Šta dobijate promocijom?
+              Šta dobijate?
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              Promovisana prodavnica pojavljuje se na{' '}
-              <strong>vrhu rezultata pretrage prodavnica</strong> i na početnoj
-              stranici u sekciji istaknutih prodavnica. Veća vidljivost znači
-              više poseta i veću šansu za prodaju.
+              Povećanjem kapaciteta dobijate dodatna mesta za proizvode u vašoj
+              prodavnici. Izaberite koliko mesta želite da dodate (minimum 1).
+              To znači da možete dodati više proizvoda i proširiti svoju ponudu.
             </Typography>
             <Typography
               variant="h6"
               fontWeight={600}
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
             >
-              <MapPin size={20} />
-              Gde će prodavnica biti promovisana?
+              <Package size={20} />
+              Trenutni kapacitet
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              Na <strong>stranici pretrage prodavnica (shops)</strong>, kao i u{' '}
-              <strong>Featured</strong> sekciji na početnoj stranici — u
-              zavisnosti od podešavanja platforme.
+              Vaš trenutni kapacitet:{' '}
+              <strong>{user?.maxShopProducts || 0}</strong> proizvoda. Nakon
+              kupovine, kapacitet će biti:{' '}
+              <strong>{(user?.maxShopProducts || 0) + places}</strong>{' '}
+              proizvoda.
             </Typography>
             <Typography
               variant="h6"
@@ -172,29 +177,49 @@ export const PromoteShop = () => {
               Cena
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <strong>{PRICE_PER_DAY_RSD} RSD</strong> po danu. Izaberite broj
-              dana ispod, pa platite putem PayPal-a (iznos u EUR po trenutnom
-              kursu).
+              <strong>{PRICE_PER_PLACE_RSD} RSD</strong> po mestu. Izaberite
+              broj mesta ispod, pa platite putem PayPal-a (iznos u EUR po
+              trenutnom kursu).
             </Typography>
           </CardContent>
         </Card>
 
         <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-          Izaberite trajanje promocije
+          Izaberite broj mesta
         </Typography>
 
-        <TextField
-          fullWidth
-          label="Broj dana"
-          type="number"
-          value={days}
-          onChange={handleDaysChange}
-          disabled={isCardPaymentActive}
-          inputProps={{ min: 1, max: 365 }}
-          helperText="Trajanje promocije (1–365 dana)"
-          InputLabelProps={{ shrink: true }}
-          sx={{ mb: 3 }}
-        />
+        <Box sx={{ mb: 3 }}>
+          <Box sx={{ mb: 3 }}>
+            <Slider
+              value={places}
+              onChange={handleSliderChange}
+              min={1}
+              max={100}
+              step={1}
+              disabled={isCardPaymentActive}
+              marks={[
+                { value: 1, label: '1' },
+                { value: 25, label: '25' },
+                { value: 50, label: '50' },
+                { value: 75, label: '75' },
+                { value: 100, label: '100' }
+              ]}
+              valueLabelDisplay="auto"
+              sx={{ mb: 2 }}
+            />
+          </Box>
+          <TextField
+            type="number"
+            label="Broj mesta"
+            value={places}
+            onChange={handlePlacesChange}
+            disabled={isCardPaymentActive}
+            inputProps={{ min: 1, max: 1000 }}
+            helperText="Unesite broj mesta (1-1000) ili koristite slider"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
+        </Box>
 
         <Card variant="outlined" sx={{ mb: 2 }}>
           <CardContent>
@@ -202,7 +227,7 @@ export const PromoteShop = () => {
               Ukupno za plaćanje
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {days} dana × {PRICE_PER_DAY_RSD} RSD ={' '}
+              {places} mesta × {PRICE_PER_PLACE_RSD} RSD ={' '}
               <strong>{totalRsd} RSD</strong>
             </Typography>
 
@@ -224,7 +249,7 @@ export const PromoteShop = () => {
                   >
                     PayPal
                   </Typography>
-                  <PromoteShopPayInline days={days} totalRsd={totalRsd} />
+                  <IncreaseCapacityPayInline places={places} />
                 </Box>
                 <Box>
                   <Typography
@@ -234,9 +259,8 @@ export const PromoteShop = () => {
                   >
                     Debitna ili kreditna kartica
                   </Typography>
-                  <PromoteShopPayCardInline
-                    days={days}
-                    totalRsd={totalRsd}
+                  <IncreaseCapacityPayCardInline
+                    places={places}
                     onCardPaymentClick={() => setIsCardPaymentActive(true)}
                     onCancel={() => setIsCardPaymentActive(false)}
                   />

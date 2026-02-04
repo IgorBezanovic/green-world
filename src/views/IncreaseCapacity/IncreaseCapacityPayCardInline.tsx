@@ -17,15 +17,13 @@ import { useNavigate } from 'react-router';
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
-  days: number;
-  totalRsd: number;
+  places: number;
   onCardPaymentClick?: () => void;
   onCancel?: () => void;
 };
 
-export const PromoteShopPayCardInline = ({
-  days,
-  totalRsd,
+export const IncreaseCapacityPayCardInline = ({
+  places,
   onCardPaymentClick,
   onCancel
 }: Props) => {
@@ -59,9 +57,9 @@ export const PromoteShopPayCardInline = ({
       throw new Error('User not logged in');
     }
     const payload: CreatePayPalOrderPayload = {
-      type: 'PROMOTE_SHOP',
+      type: 'INCREASE_CAPACITY',
       targetId: user._id,
-      days
+      places
     };
     const out = await createOrderMutation.mutateAsync(payload);
     return out.id;
@@ -73,7 +71,6 @@ export const PromoteShopPayCardInline = ({
     setStatus('Uspešno! Promocija je aktivirana.');
     // Invalidate relevant queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-    queryClient.invalidateQueries({ queryKey: ['featured', 'promoted-shops'] });
     navigate('/profile');
   };
 
@@ -88,8 +85,7 @@ export const PromoteShopPayCardInline = ({
       }}
     >
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Ukupno: <strong>{totalRsd} RSD</strong> ({days} dana). Plaćanje karticom
-        putem PayPal-a (iznos u EUR po trenutnom kursu).
+        Plaćanje karticom putem PayPal-a (iznos u EUR po trenutnom kursu).
       </Typography>
 
       <PayPalScriptProvider options={paypalOptions}>
@@ -100,7 +96,7 @@ export const PromoteShopPayCardInline = ({
           <PayPalButtons
             fundingSource={FUNDING.CARD}
             style={{ layout: 'vertical' }}
-            disabled={loading || days === 0}
+            disabled={loading || !user?._id || places < 1}
             createOrder={async () => {
               setStatus('Kreiram nalog...');
               onCardPaymentClick?.();

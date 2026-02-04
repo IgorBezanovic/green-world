@@ -9,7 +9,9 @@ import {
   PayPalButtons,
   FUNDING
 } from '@paypal/react-paypal-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
@@ -17,14 +19,20 @@ type Props = {
   productIds: string[];
   days: number;
   totalRsd: number;
+  onCardPaymentClick?: () => void;
+  onCancel?: () => void;
 };
 
 export const PromoteProductPayCardInline = ({
   productIds,
   days,
-  totalRsd
+  totalRsd,
+  onCardPaymentClick,
+  onCancel
 }: Props) => {
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const createOrderMutation = useCreatePayPalOrder();
   const captureOrderMutation = useCapturePayPalOrder();
 
@@ -60,6 +68,13 @@ export const PromoteProductPayCardInline = ({
     setStatus('Finalizujem uplatu...');
     await captureOrderMutation.mutateAsync({ orderId: data.orderID });
     setStatus('Uspešno! Promocija je aktivirana.');
+    // Invalidate relevant queries to refresh data
+    queryClient.invalidateQueries({ queryKey: ['userDetails'] });
+    queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-products']
+    });
+    navigate('/profile');
   };
 
   return (
@@ -89,6 +104,7 @@ export const PromoteProductPayCardInline = ({
             disabled={loading || productIds.length === 0}
             createOrder={async () => {
               setStatus('Kreiram nalog...');
+              onCardPaymentClick?.();
               const id = await handleCreateOrder();
               setStatus('Unesite podatke kartice u PayPal prozoru...');
               return id;
@@ -96,7 +112,10 @@ export const PromoteProductPayCardInline = ({
             onApprove={async (data) => {
               await handleApprove(data);
             }}
-            onCancel={() => setStatus('Uplata je otkazana.')}
+            onCancel={() => {
+              setStatus('Uplata je otkazana.');
+              onCancel?.();
+            }}
             onError={() => setStatus('Greška tokom uplate.')}
           />
         </Box>

@@ -18,9 +18,10 @@ import {
   Select,
   TextField,
   Typography,
-  useTheme
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
-import { ArrowLeft, Info, MapPin, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Info, MapPin, Sparkles, TrendingUp, X } from 'lucide-react';
 import { useContext, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -37,12 +38,14 @@ const pages = [
 export const PromoteProduct = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { user } = useContext(UserContext);
   const { data: userProducts = [], isLoading: productsLoading } =
     useAllUserProducts();
 
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [days, setDays] = useState<number>(5);
+  const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   const totalRsd = useMemo(
     () =>
@@ -227,6 +230,7 @@ export const PromoteProduct = () => {
                 multiple
                 value={selectedProductIds}
                 onChange={handleProductChange}
+                disabled={isCardPaymentActive}
                 renderValue={(ids) =>
                   ids
                     .map(
@@ -235,6 +239,13 @@ export const PromoteProduct = () => {
                     )
                     .join(', ')
                 }
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      maxHeight: 400
+                    }
+                  }
+                }}
               >
                 {userProducts.map((p) => (
                   <MenuItem key={p._id} value={p._id}>
@@ -254,12 +265,26 @@ export const PromoteProduct = () => {
               </FormHelperText>
             </FormControl>
 
+            {isMobile && selectedProductIds.length > 0 && (
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<X size={18} />}
+                onClick={() => setSelectedProductIds([])}
+                fullWidth
+                sx={{ mb: 3 }}
+              >
+                Očisti izbor
+              </Button>
+            )}
+
             <TextField
               fullWidth
               label="Broj dana"
               type="number"
               value={days}
               onChange={handleDaysChange}
+              disabled={isCardPaymentActive}
               inputProps={{ min: 1, max: 365 }}
               helperText="Trajanje promocije (1–365 dana)"
               InputLabelProps={{ shrink: true }}
@@ -317,6 +342,8 @@ export const PromoteProduct = () => {
                         productIds={selectedProductIds}
                         days={days}
                         totalRsd={totalRsd}
+                        onCardPaymentClick={() => setIsCardPaymentActive(true)}
+                        onCancel={() => setIsCardPaymentActive(false)}
                       />
                     </Box>
                   </Box>

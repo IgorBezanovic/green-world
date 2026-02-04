@@ -17,11 +17,11 @@ import { useNavigate } from 'react-router';
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
-  days: number;
-  totalRsd: number;
+  bundleId: 'BASIC' | 'STANDARD' | 'PREMIUM';
+  productIds: string[];
 };
 
-export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
+export const PromoBundlePayInline = ({ bundleId, productIds }: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -51,10 +51,14 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
     if (!user?._id) {
       throw new Error('User not logged in');
     }
+    if (!productIds || productIds.length === 0) {
+      throw new Error('Product selection required');
+    }
     const payload: CreatePayPalOrderPayload = {
-      type: 'PROMOTE_SHOP',
+      type: 'PROMO_BUNDLE',
       targetId: user._id,
-      days
+      bundleId,
+      productIds
     };
     const out = await createOrderMutation.mutateAsync(payload);
     return out.id;
@@ -66,7 +70,13 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
     setStatus('Uspešno! Promocija je aktivirana.');
     // Invalidate relevant queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-    queryClient.invalidateQueries({ queryKey: ['featured', 'promoted-shops'] });
+    queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-products']
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-shops']
+    });
     navigate('/profile');
   };
 
@@ -80,11 +90,6 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
         maxWidth: 520
       }}
     >
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Ukupno: <strong>{totalRsd} RSD</strong> ({days} dana). Iznos u EUR po
-        trenutnom kursu.
-      </Typography>
-
       <PayPalScriptProvider options={paypalOptions}>
         <Box
           sx={{
@@ -112,7 +117,7 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
             <PayPalButtons
               fundingSource={FUNDING.PAYPAL}
               style={{ layout: 'vertical' }}
-              disabled={loading || days === 0}
+              disabled={loading || !user?._id}
               createOrder={async () => {
                 setStatus('Kreiram nalog...');
                 const id = await handleCreateOrder();
@@ -143,7 +148,7 @@ export const PromoteShopPayInline = ({ days, totalRsd }: Props) => {
             <PayPalButtons
               fundingSource={FUNDING.CREDIT}
               style={{ layout: 'vertical' }}
-              disabled={loading || days === 0}
+              disabled={loading || !user?._id}
               createOrder={async () => {
                 setStatus('Kreiram nalog...');
                 const id = await handleCreateOrder();

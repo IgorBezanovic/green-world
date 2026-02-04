@@ -17,18 +17,11 @@ import { useNavigate } from 'react-router';
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
-  days: number;
-  totalRsd: number;
-  onCardPaymentClick?: () => void;
-  onCancel?: () => void;
+  bundleId: 'BASIC' | 'STANDARD' | 'PREMIUM';
+  productIds: string[];
 };
 
-export const PromoteShopPayCardInline = ({
-  days,
-  totalRsd,
-  onCardPaymentClick,
-  onCancel
-}: Props) => {
+export const PromoBundlePayCardInline = ({ bundleId, productIds }: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -58,10 +51,14 @@ export const PromoteShopPayCardInline = ({
     if (!user?._id) {
       throw new Error('User not logged in');
     }
+    if (!productIds || productIds.length === 0) {
+      throw new Error('Product selection required');
+    }
     const payload: CreatePayPalOrderPayload = {
-      type: 'PROMOTE_SHOP',
+      type: 'PROMO_BUNDLE',
       targetId: user._id,
-      days
+      bundleId,
+      productIds
     };
     const out = await createOrderMutation.mutateAsync(payload);
     return out.id;
@@ -73,7 +70,13 @@ export const PromoteShopPayCardInline = ({
     setStatus('Uspešno! Promocija je aktivirana.');
     // Invalidate relevant queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-    queryClient.invalidateQueries({ queryKey: ['featured', 'promoted-shops'] });
+    queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-products']
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-shops']
+    });
     navigate('/profile');
   };
 
@@ -88,8 +91,7 @@ export const PromoteShopPayCardInline = ({
       }}
     >
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Ukupno: <strong>{totalRsd} RSD</strong> ({days} dana). Plaćanje karticom
-        putem PayPal-a (iznos u EUR po trenutnom kursu).
+        Plaćanje karticom putem PayPal-a (iznos u EUR po trenutnom kursu).
       </Typography>
 
       <PayPalScriptProvider options={paypalOptions}>
@@ -100,10 +102,9 @@ export const PromoteShopPayCardInline = ({
           <PayPalButtons
             fundingSource={FUNDING.CARD}
             style={{ layout: 'vertical' }}
-            disabled={loading || days === 0}
+            disabled={loading || !user?._id}
             createOrder={async () => {
               setStatus('Kreiram nalog...');
-              onCardPaymentClick?.();
               const id = await handleCreateOrder();
               setStatus('Unesite podatke kartice u PayPal prozoru...');
               return id;
@@ -111,10 +112,7 @@ export const PromoteShopPayCardInline = ({
             onApprove={async (data) => {
               await handleApprove(data);
             }}
-            onCancel={() => {
-              setStatus('Uplata je otkazana.');
-              onCancel?.();
-            }}
+            onCancel={() => setStatus('Uplata je otkazana.')}
             onError={() => setStatus('Greška tokom uplate.')}
           />
         </Box>

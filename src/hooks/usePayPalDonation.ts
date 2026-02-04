@@ -30,11 +30,26 @@ type CreatePayPalOrderPayloadPromoShop = {
   days: number;
 };
 
+type CreatePayPalOrderPayloadIncreaseCapacity = {
+  type: 'INCREASE_CAPACITY';
+  targetId: string;
+  places: number;
+};
+
+type CreatePayPalOrderPayloadPromoBundle = {
+  type: 'PROMO_BUNDLE';
+  targetId: string;
+  bundleId: 'BASIC' | 'STANDARD' | 'PREMIUM';
+  productIds: string[];
+};
+
 export type CreatePayPalOrderPayload =
   | CreatePayPalOrderPayloadDonation
   | CreatePayPalOrderPayloadPromo
   | CreatePayPalOrderPayloadPromoProducts
-  | CreatePayPalOrderPayloadPromoShop;
+  | CreatePayPalOrderPayloadPromoShop
+  | CreatePayPalOrderPayloadIncreaseCapacity
+  | CreatePayPalOrderPayloadPromoBundle;
 
 type CreatePayPalOrderResponse = {
   id: string;
@@ -81,10 +96,29 @@ export const useCreatePayPalOrder = (): UseMutationResult<
                   targetId: payload.targetId,
                   days: payload.days
                 }
-              : {
-                  type: payload.type,
-                  targetId: (payload as CreatePayPalOrderPayloadPromo).targetId
-                };
+              : payload.type === 'INCREASE_CAPACITY' &&
+                  'places' in payload &&
+                  typeof payload.places === 'number'
+                ? {
+                    type: 'INCREASE_CAPACITY' as const,
+                    targetId: payload.targetId,
+                    places: payload.places
+                  }
+                : payload.type === 'PROMO_BUNDLE' &&
+                    'bundleId' in payload &&
+                    typeof payload.bundleId === 'string' &&
+                    Array.isArray(payload.productIds)
+                  ? {
+                      type: 'PROMO_BUNDLE' as const,
+                      targetId: payload.targetId,
+                      bundleId: payload.bundleId,
+                      productIds: payload.productIds
+                    }
+                  : {
+                      type: payload.type,
+                      targetId: (payload as CreatePayPalOrderPayloadPromo)
+                        .targetId
+                    };
 
       const res = await request({
         url: '/paypal/create-order',

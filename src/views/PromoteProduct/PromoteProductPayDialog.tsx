@@ -13,7 +13,9 @@ import {
   Box
 } from '@mui/material';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
@@ -34,6 +36,8 @@ export const PromoteProductPayDialog = ({
   days,
   totalRsd
 }: Props) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState('');
   const createOrderMutation = useCreatePayPalOrder();
   const captureOrderMutation = useCapturePayPalOrder();
@@ -76,9 +80,13 @@ export const PromoteProductPayDialog = ({
     await captureOrderMutation.mutateAsync({ orderId: data.orderID });
     setStatus('Uspešno! Promocija je aktivirana.');
     onSuccess?.();
-    setTimeout(() => {
-      handleClose();
-    }, 1500);
+    // Invalidate relevant queries to refresh data
+    queryClient.invalidateQueries({ queryKey: ['userDetails'] });
+    queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['featured', 'promoted-products']
+    });
+    navigate('/profile');
   };
 
   return (

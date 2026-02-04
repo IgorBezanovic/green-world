@@ -13,6 +13,7 @@ import {
   ContactUs,
   Event,
   Home,
+  IncreaseCapacity,
   Products,
   CreateEditProduct,
   Documents,
@@ -22,6 +23,7 @@ import {
   ProductPage,
   PromoteProduct,
   PromoteShop,
+  PromoBundle,
   ProfileSettings,
   PrivacyPolicy,
   Registration,
@@ -159,6 +161,14 @@ export const routes = [
       {
         path: '/promote-shop',
         element: <ProtectedRoute element={PromoteShop} />
+      },
+      {
+        path: '/increase-capacity',
+        element: <ProtectedRoute element={IncreaseCapacity} />
+      },
+      {
+        path: '/promo-bundle',
+        element: <ProtectedRoute element={PromoBundle} />
       },
       {
         path: '/admin',
