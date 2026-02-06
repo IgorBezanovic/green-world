@@ -1,5 +1,7 @@
 import {
   AppBreadcrumbs,
+  FeaturedShops,
+  FeaturedShopsBanner,
   MetaTags,
   ShopCard,
   StatCard
@@ -259,7 +261,7 @@ export const Shops = () => {
             />
           </Box>
         </Box>
-
+        <FeaturedShops />
         <Typography variant="body1" color="common.black">
           Prikazano {filteredShops.length} od {data?.length || 0} prodavnica
         </Typography>
@@ -309,6 +311,7 @@ export const Shops = () => {
             ))}
           </Box>
         )}
+        <FeaturedShopsBanner />
       </Box>
     </Box>
   );

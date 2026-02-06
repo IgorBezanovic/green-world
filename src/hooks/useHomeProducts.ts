@@ -4,6 +4,7 @@ import {
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
 export interface ProductPreview {
   _id: string;
   title: string;
