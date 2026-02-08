@@ -1,5 +1,7 @@
 import {
   AppBreadcrumbs,
+  FeaturedShops,
+  FeaturedShopsBanner,
   MetaTags,
   ShopCard,
   StatCard
@@ -85,11 +87,11 @@ export const Shops = () => {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: theme.palette.background.paper,
         minHeight: 'calc(100vh - 360px)'
-      }}
+      })}
     >
       <MetaTags title="Zeleni svet | Prodavnice | Green world" />
 
@@ -259,7 +261,7 @@ export const Shops = () => {
             />
           </Box>
         </Box>
-
+        <FeaturedShops />
         <Typography variant="body1" color="common.black">
           Prikazano {filteredShops.length} od {data?.length || 0} prodavnica
         </Typography>
@@ -309,6 +311,7 @@ export const Shops = () => {
             ))}
           </Box>
         )}
+        <FeaturedShopsBanner />
       </Box>
     </Box>
   );

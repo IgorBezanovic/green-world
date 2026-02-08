@@ -1,4 +1,5 @@
 import { useUser } from '@green-world/hooks/useUser';
+import { refreshAccessToken } from '@green-world/utils/api';
 import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken, User } from '@green-world/utils/types';
 import { jwtDecode } from 'jwt-decode';
@@ -80,8 +81,27 @@ interface ProviderProps {
 
 export const UserContextProvider = ({ children }: ProviderProps) => {
   const [user, setUser] = useState(defaultUser);
-  const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const [authToken, setAuthToken] = useState<string | undefined>(
+    getItem('token')
+  );
+
+  useEffect(() => {
+    const refreshToken = getItem('refreshToken');
+
+    if (!authToken && refreshToken) {
+      refreshAccessToken().then((newToken) => {
+        if (newToken) {
+          setAuthToken(newToken);
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const decodedToken: DecodedToken | null = authToken
+    ? jwtDecode(authToken)
+    : null;
+
   const { data, isLoading } = useUser(
     decodedToken?._id ? decodedToken._id : '',
     true

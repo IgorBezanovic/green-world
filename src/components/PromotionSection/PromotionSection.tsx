@@ -132,9 +132,9 @@ export const PromotionSection = () => {
         <PromotionCard
           icon={Package}
           title="Promotivni Paketi"
-          description="Ekskluzivni paketi: +25 mesta, 5 dana promocija prodavnice i 5 proizvoda"
-          actionLabel="Kupi paket"
-          badgeLabel="Uštedi"
+          description="Ekskluzivni paketi sa najboljim ponudama za vašu prodavnicu"
+          actionLabel="Saznaj više"
+          badgeLabel="Uštedi 30%"
           variant="warning"
           onActionClick={() => navigate('/promo-bundle')}
         />

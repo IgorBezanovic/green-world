@@ -30,6 +30,12 @@ export const components: Components<
     styleOverrides: {
       input: {
         padding: '12px'
+      },
+      inputMultiline: {
+        padding: '12px'
+      },
+      multiline: {
+        padding: '12px'
       }
     }
   }
