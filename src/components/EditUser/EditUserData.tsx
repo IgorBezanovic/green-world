@@ -1,26 +1,109 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
-import { Typography } from '@mui/material';
-import clsx from 'clsx';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  InputAdornment,
+  Typography,
+  Switch
+} from '@mui/material';
+import {
+  User,
+  Mail,
+  Phone,
+  Globe,
+  FileText,
+  Instagram,
+  Facebook,
+  Music2,
+  Linkedin,
+  MapPin,
+  Hash,
+  Building2,
+  Flag,
+  Laptop
+} from 'lucide-react';
 import { useContext, useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
 
-import { CustomInput, CustomButton } from '..';
+import { SectionHeader } from './components';
+
+const Card = ({ children }: { children: React.ReactNode }) => (
+  <Box
+    sx={{
+      backgroundColor: 'background.paper',
+      borderRadius: 2,
+      py: 4,
+      mb: 4,
+      boxShadow: '0px 4px 20px rgba(0,0,0,0.05)'
+    }}
+  >
+    {children}
+  </Box>
+);
+
+const TwoColRow = ({ children }: { children: React.ReactNode }) => (
+  <Box
+    sx={(theme) => ({
+      display: 'flex',
+      flexDirection: 'column',
+      [theme.breakpoints.up('md')]: {
+        flexDirection: 'row'
+      },
+      gap: 2,
+      px: 4,
+      mb: 2
+    })}
+  >
+    {children}
+  </Box>
+);
+
+const DataInput = ({ icon: Icon, ...props }: any) => (
+  <TextField
+    variant="outlined"
+    fullWidth
+    label={props.label}
+    placeholder={props.placeholder}
+    slotProps={{
+      input: {
+        startAdornment: (
+          <InputAdornment position="start">
+            <Icon />
+          </InputAdornment>
+        )
+      }
+    }}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        borderRadius: 2
+      }
+    }}
+    {...props}
+  />
+);
 
 export const EditUserData = () => {
   const { user, setUser, isLoading } = useContext(UserContext);
   const { mutate, isPending: isLoadingUser } = useEditUser();
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+
   type SocialMediaKeys = 'instagram' | 'facebook' | 'tiktok' | 'linkedin';
+
   const socialMediaRegex = {
     instagram: /^https?:\/\/(www\.)?instagram\.com\/[A-Za-z0-9._%-]+\/?$/,
     facebook: /^https?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9._%-]+\/?$/,
     tiktok: /^https?:\/\/(www\.)?tiktok\.com\/@?[A-Za-z0-9._%-]+\/?$/,
     linkedin:
       /^https?:\/\/(www\.)?linkedin\.com\/(in|company)\/[A-Za-z0-9._%-]+\/?$/
+  };
+  const clearError = (key: SocialMediaKeys) => {
+    setErrors((prev) => ({
+      ...prev,
+      [key]: undefined
+    }));
   };
 
   const handleBlurSocialMedia = (key: SocialMediaKeys) => {
@@ -42,14 +125,13 @@ export const EditUserData = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     mutate(user);
     setErrors({});
     toast.success('Uspešno ste editovali profil.');
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
@@ -58,557 +140,363 @@ export const EditUserData = () => {
     const { name, value } = e.target;
     setUser({
       ...user,
-      address: {
-        ...user.address,
-        [name]: value
-      }
+      address: { ...user.address, [name]: value }
     });
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <CircularProgress />;
 
   return (
-    <form
-      className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
-      onSubmit={handleSubmit}
-    >
-      <title>Zeleni svet | Podešavanje profila</title>
-      <link
-        rel="canonical"
-        href="https://www.zelenisvet.rs/profile-settings/edit-profile"
-      />
+    <Box component="form" onSubmit={handleSubmit}>
+      {/* ================= BASIC INFO ================= */}
+      <Card>
+        <SectionHeader
+          icon={User}
+          title="Osnovni podaci"
+          description="Vaši poslovni i kontakt podaci"
+        />
 
-      <div className={clsx('flex-1', 'flex', 'flex-col')}>
-        <label
-          htmlFor="shopName"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Naziv Vaseg biznisa:
-        </label>
-        <CustomInput
-          type="text"
-          name="shopName"
-          id="shopName"
-          value={user?.shopName || ''}
-          onChange={handleChange}
-          placeholder="Unesite naziv Vaseg biznisa"
-        />
-        <label
-          htmlFor="name"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Vase ime:
-        </label>
-        <CustomInput
-          type="text"
-          name="name"
-          id="name"
-          value={user?.name || ''}
-          onChange={handleChange}
-          placeholder="Unesite Vase ime"
-        />
-        <label
-          htmlFor="lastname"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Vase prezime:
-        </label>
-        <CustomInput
-          type="text"
-          name="lastname"
-          id="lastname"
-          value={user?.lastname || ''}
-          onChange={handleChange}
-          placeholder="Unesite Vase prezime"
-        />
-        <label
-          htmlFor="mail"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Vas email:
-        </label>
-        <CustomInput
-          type="text"
-          name="email"
-          id="mail"
-          value={user?.email || ''}
-          disabled
-        />
-        <label
-          htmlFor="phone"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Kontakt telefon:
-        </label>
-        <PhoneInput
-          country="rs"
-          value={user?.phone || ''}
-          onChange={(value) => setUser({ ...user, phone: value })}
-          inputStyle={{
-            width: '100%',
-            height: '42px',
-            background: 'white',
-            borderRadius: '6px',
-            border: '1px solid #266041',
-            boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
-            paddingLeft: '55px'
-          }}
-          buttonStyle={{
-            background: 'white',
-            width: '50px',
-            border: '1px solid #266041',
-            borderRadius: '6px 0 0 6px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          containerStyle={{
-            marginBottom: '16px'
-          }}
-          placeholder="+381 60 123 456 7"
-        />
-        <label
-          htmlFor="shopDescription"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Opisite Vas biznis ili unesite viziju ili slogan:
-        </label>
-        <textarea
-          name="shopDescription"
-          id="shopDescription"
-          value={user?.shopDescription || ''}
-          onChange={handleChange}
-          placeholder="Unesite opis"
-          className={clsx(
-            'w-full',
-            'border',
-            'border-forestGreen',
-            'rounded',
-            'p-2',
-            'pl-3',
-            'shadow-md',
-            'mb-4',
-            'bg-whiteLinen'
-          )}
-        />
-        <label
-          htmlFor="website"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Website vase radnje:
-        </label>
-        <CustomInput
-          type="text"
-          name="website"
-          id="website"
-          value={user?.website || ''}
-          onChange={handleChange}
-          placeholder="Unesite URL vase radnje"
-        />
-      </div>
-      <div className={clsx('flex-1', 'flex', 'flex-col')}>
-        <label
-          htmlFor="instagram"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Instagram:
-        </label>
-        <CustomInput
-          type="text"
-          name="instagram"
-          id="instagram"
-          value={user?.socialMedia?.instagram || ''}
-          customStyle={errors.instagram ? '!border-red-500' : ''}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({
-              ...user,
-              socialMedia: {
-                ...user.socialMedia,
-                instagram: e.target.value
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Building2}
+              name="shopName"
+              label={
+                user?.shopName
+                  ? 'Naziv vašeg biznisa / shop-a / usluge'
+                  : undefined
               }
-            })
-          }
-          onBlur={() => handleBlurSocialMedia('instagram')}
-          placeholder="Unesite Instagram profil (npr. https://instagram.com/vasprofil)"
-        />
-        {errors.instagram && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'red',
-              fontStyle: 'italic',
-              marginTop: '-0.8rem'
-            }}
-          >
-            {errors.instagram || ''}
-          </Typography>
-        )}
-        <label
-          htmlFor="facebook"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Facebook:
-        </label>
-        <CustomInput
-          type="text"
-          name="facebook"
-          id="facebook"
-          value={user?.socialMedia?.facebook || ''}
-          customStyle={errors.facebook ? '!border-red-500' : ''}
-          onBlur={() => handleBlurSocialMedia('facebook')}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({
-              ...user,
-              socialMedia: {
-                ...user.socialMedia,
-                facebook: e.target.value
-              }
-            })
-          }
-          placeholder="Unesite Facebook profil (npr. https://facebook.com/vasprofil)"
-        />
-        {errors.facebook && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'red',
-              fontStyle: 'italic',
-              marginTop: '-0.8rem'
-            }}
-          >
-            {errors.facebook || ''}
-          </Typography>
-        )}
-        <label
-          htmlFor="tiktok"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          TikTok:
-        </label>
-        <CustomInput
-          type="text"
-          name="tiktok"
-          id="tiktok"
-          value={user?.socialMedia?.tiktok || ''}
-          customStyle={errors.tiktok ? '!border-red-500' : ''}
-          onBlur={() => handleBlurSocialMedia('tiktok')}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({
-              ...user,
-              socialMedia: {
-                ...user.socialMedia,
-                tiktok: e.target.value
-              }
-            })
-          }
-          placeholder="Unesite TikTok profil (npr. https://tiktok.com/@vasprofil)"
-        />
-        {errors.tiktok && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'red',
-              fontStyle: 'italic',
-              marginTop: '-0.8rem'
-            }}
-          >
-            {errors.tiktok || ''}
-          </Typography>
-        )}
-        <label
-          htmlFor="linkedin"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          LinkedIn:
-        </label>
-        <CustomInput
-          type="text"
-          name="linkedin"
-          id="linkedin"
-          value={user?.socialMedia?.linkedin || ''}
-          customStyle={errors.linkedin ? '!border-red-500' : ''}
-          onBlur={() => handleBlurSocialMedia('linkedin')}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({
-              ...user,
-              socialMedia: {
-                ...user.socialMedia,
-                linkedin: e.target.value
-              }
-            })
-          }
-          placeholder="Unesite LinkedIn profil (npr. https://linkedin.com/in/vasprofil)"
-        />
-        {errors.linkedin && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'red',
-              fontStyle: 'italic',
-              marginTop: '-0.8rem'
-            }}
-          >
-            {errors.linkedin || ''}
-          </Typography>
-        )}
-        <label
-          htmlFor="onlyOnline"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Radite samo online?
-        </label>
-        <div className={clsx('w-full', 'relative', 'mb-4', 'flex', 'gap-4')}>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnline"
-              id="onlyOnlineYes"
-              value="true"
-              checked={user?.onlyOnline === true}
-              onChange={() =>
-                setUser({
-                  ...user,
-                  onlyOnline: true,
-                  address: {
-                    zipCode: 0,
-                    city: '',
-                    street: '',
-                    country: ''
-                  }
-                })
-              }
-              className={clsx('mr-2')}
+              placeholder="Naziv vašeg biznisa / shop-a / usluge"
+              value={user?.shopName || ''}
+              onChange={handleChange}
             />
-            <span>Da</span>
-          </div>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnline"
-              id="onlyOnlineNo"
-              value="false"
-              checked={user?.onlyOnline === false}
-              onChange={() => setUser({ ...user, onlyOnline: false })}
-              className={clsx('mr-2')}
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Mail}
+              value={user?.email || ''}
+              disabled
+              label={user?.email ? 'Kontakt email adresa' : undefined}
+              placeholder="Kontakt email adresa"
             />
-            <span>Ne</span>
-          </div>
-        </div>
-        <label
-          htmlFor="zipCode"
-          className={clsx(
-            'flex',
-            'flex-1',
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Poštanski broj:
-        </label>
-        <CustomInput
-          type="string"
-          name="zipCode"
-          id="zipCode"
-          disabled={user?.onlyOnline}
-          value={user?.address?.zipCode || ''}
-          onChange={handleAddressChange}
-          placeholder="Unesite poštanski broj"
-          customStyle={'!flex-grow-0'}
-        />
-        <label
-          htmlFor="city"
-          className={clsx(
-            'flex',
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Grad:
-        </label>
-        <CustomInput
-          type="text"
-          name="city"
-          id="city"
-          disabled={user?.onlyOnline}
-          value={user?.address?.city || ''}
-          onChange={handleAddressChange}
-          placeholder="Unesite grad"
-          customStyle={'!flex-grow-0'}
-        />
-        <label
-          htmlFor="street"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Ulica:
-        </label>
-        <CustomInput
-          type="text"
-          name="street"
-          id="street"
-          disabled={user?.onlyOnline}
-          value={user?.address?.street || ''}
-          onChange={handleAddressChange}
-          placeholder="Unesite ulicu"
-        />
-        <label
-          htmlFor="country"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Država:
-        </label>
-        <CustomInput
-          type="text"
-          name="country"
-          id="country"
-          disabled={user?.onlyOnline}
-          value={user?.address?.country || ''}
-          onChange={handleAddressChange}
-          placeholder="Unesite državu"
-        />
-        <small className={clsx('text-gray40', 'italic', '-mt-2', 'mb-2')}>
-          Za funkcionalnost 'Navigacija' potrebno je da se minimum popuni Država
-          i Grad, kako bi funkcionalnost radila preciznije unesite i ulicu i
-          broj vaše poslovnice.
-          <br />
-          Nakon unosa proverite ispravnost navigacije i po potrebi editujte
-          adresu.
-        </small>
-        <label
-          htmlFor="onlyOnThisSite"
-          className={clsx(
-            'mb-2',
-            'text-forestGreen',
-            'cursor-pointer',
-            'text-lg'
-          )}
-        >
-          Poslujete samo preko ovog sajta?
-        </label>
-        <div className={clsx('w-full', 'relative', 'mb-1', 'flex', 'gap-4')}>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnThisSite"
-              id="onlyOnThisSiteYes"
-              value="true"
-              checked={user?.onlyOnThisSite === true}
-              onChange={() => setUser({ ...user, onlyOnThisSite: true })}
-              className={clsx('mr-2')}
+          </Box>
+        </TwoColRow>
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={User}
+              name="name"
+              label={user?.name ? 'Ime vlasnika / kontakt osobe' : undefined}
+              placeholder="Ime vlasnika / kontakt osobe"
+              value={user?.name || ''}
+              onChange={handleChange}
             />
-            <span>Da</span>
-          </div>
-          <div>
-            <input
-              type="radio"
-              name="onlyOnThisSite"
-              id="onlyOnThisSiteNo"
-              value="false"
-              checked={user?.onlyOnThisSite === false}
-              onChange={() => setUser({ ...user, onlyOnThisSite: false })}
-              className={clsx('mr-2')}
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={User}
+              name="lastname"
+              label={
+                user?.lastname ? 'Prezime vlasnika / kontakt osobe' : undefined
+              }
+              placeholder="Prezime vlasnika / kontakt osobe"
+              value={user?.lastname || ''}
+              onChange={handleChange}
             />
-            <span>Ne</span>
-          </div>
-        </div>
-        <CustomButton
-          htmlType="submit"
-          type="text"
-          text={
-            isLoadingUser ? (
-              <LoadingOutlined
-                className={clsx('text-groupTransparent', 'my-2')}
-              />
-            ) : (
-              'Azuriraj profil'
-            )
-          }
-          customStyle={[
-            'mt-2',
-            {
-              'border-groupTransparent': isLoadingUser
+          </Box>
+        </TwoColRow>
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Phone}
+              name="phone"
+              label={user?.phone ? 'Kontakt telefon' : undefined}
+              placeholder="Kontakt telefon"
+              value={user?.phone || ''}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Globe}
+              name="website"
+              value={user?.website || ''}
+              label={user?.website ? 'Website' : undefined}
+              placeholder="Website"
+              onChange={handleChange}
+            />
+          </Box>
+        </TwoColRow>
+
+        <Box sx={{ px: 4, mt: 2 }}>
+          <DataInput
+            icon={FileText}
+            multiline
+            rows={4}
+            name="shopDescription"
+            value={user?.shopDescription || ''}
+            onChange={handleChange}
+            placeholder="Opis Vašeg biznisa, usluga i proizvoda"
+            label={
+              user?.shopDescription
+                ? 'Opis Vašeg biznisa, usluga i proizvoda'
+                : undefined
             }
-          ]}
-          disabled={
-            isLoadingUser || Object.values(errors).some((error) => !!error)
-          }
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'flex-start',
+                borderRadius: 2
+              },
+              '& .MuiOutlinedInput-input': {
+                padding: '0 12px'
+              },
+              '& .MuiOutlinedInput-inputMultiline': {
+                padding: '0 12px'
+              }
+            }}
+          />
+        </Box>
+      </Card>
+
+      {/* ================= SOCIAL MEDIA ================= */}
+      <Card>
+        <SectionHeader
+          icon={Globe}
+          title="Društvene mreže"
+          description="Povežite Vaše profile na društvenim mrežama"
+          bgColor="rgba(255, 153, 51, 0.08)"
+          iconColor="warning.main"
         />
-      </div>
-    </form>
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Instagram}
+              value={user?.socialMedia?.instagram || ''}
+              label={
+                user?.socialMedia?.instagram ? 'Instagram link' : undefined
+              }
+              error={errors.instagram}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                (clearError('instagram'),
+                  setUser({
+                    ...user,
+                    socialMedia: {
+                      ...user.socialMedia,
+                      instagram: e.target.value
+                    }
+                  }));
+              }}
+              onBlur={() => handleBlurSocialMedia('instagram')}
+              placeholder="Instagram link"
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Facebook}
+              value={user?.socialMedia?.facebook || ''}
+              label={user?.socialMedia?.facebook ? 'Facebook link' : undefined}
+              error={errors.facebook}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                (clearError('facebook'),
+                  setUser({
+                    ...user,
+                    socialMedia: {
+                      ...user.socialMedia,
+                      facebook: e.target.value
+                    }
+                  }));
+              }}
+              onBlur={() => handleBlurSocialMedia('facebook')}
+              placeholder="Facebook link"
+            />
+          </Box>
+        </TwoColRow>
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Music2}
+              value={user?.socialMedia?.tiktok || ''}
+              label={user?.socialMedia?.tiktok ? 'TikTok link' : undefined}
+              error={errors.tiktok}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                (clearError('tiktok'),
+                  setUser({
+                    ...user,
+                    socialMedia: {
+                      ...user.socialMedia,
+                      tiktok: e.target.value
+                    }
+                  }));
+              }}
+              onBlur={() => handleBlurSocialMedia('tiktok')}
+              placeholder="TikTok link"
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Linkedin}
+              value={user?.socialMedia?.linkedin || ''}
+              label={user?.socialMedia?.linkedin ? 'LinkedIn link' : undefined}
+              error={errors.linkedin}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                (clearError('linkedin'),
+                  setUser({
+                    ...user,
+                    socialMedia: {
+                      ...user.socialMedia,
+                      linkedin: e.target.value
+                    }
+                  }));
+              }}
+              onBlur={() => handleBlurSocialMedia('linkedin')}
+              placeholder="LinkedIn link"
+            />
+          </Box>
+        </TwoColRow>
+      </Card>
+
+      {/* ================= LOCATION ================= */}
+      <Card>
+        <SectionHeader
+          icon={MapPin}
+          title="Lokacija"
+          description="Ukoliko imate fizičku radnju / poslovnicu, unesite Vašu adresu"
+        />
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Hash}
+              name="zipCode"
+              disabled={user?.onlyOnline}
+              value={user?.address?.zipCode || ''}
+              label={user?.address?.zipCode ? 'Poštanski broj' : undefined}
+              placeholder="Poštanski broj"
+              onChange={handleAddressChange}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Building2}
+              name="city"
+              disabled={user?.onlyOnline}
+              value={user?.address?.city || ''}
+              onChange={handleAddressChange}
+              placeholder="Grad"
+              label={user?.address?.city ? 'Grad' : undefined}
+            />
+          </Box>
+        </TwoColRow>
+
+        <TwoColRow>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={MapPin}
+              name="street"
+              disabled={user?.onlyOnline}
+              value={user?.address?.street || ''}
+              onChange={handleAddressChange}
+              placeholder="Ulica"
+              label={user?.address?.street ? 'Ulica' : undefined}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <DataInput
+              icon={Flag}
+              name="country"
+              disabled={user?.onlyOnline}
+              value={user?.address?.country || ''}
+              onChange={handleAddressChange}
+              placeholder="Država"
+              label={user?.address?.country ? 'Država' : undefined}
+            />
+          </Box>
+        </TwoColRow>
+      </Card>
+
+      {/* ================= SETTINGS ================= */}
+      <Card>
+        <SectionHeader
+          icon={Laptop}
+          title="Podešavanja rada"
+          description="Ukoliko radite online ili isključivo preko ovog sajta ćekirajte opcije ispod"
+          bgColor="rgba(255, 153, 51, 0.08)"
+          iconColor="warning.main"
+        />
+
+        <TwoColRow>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 2,
+              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: 2
+            }}
+          >
+            <Box>
+              <Typography fontWeight={600}>Radite samo online?</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Vaše usluge su dostupne samo putem interneta
+              </Typography>
+            </Box>
+            <Switch
+              checked={user?.onlyOnline}
+              onChange={(e) =>
+                setUser({ ...user, onlyOnline: e.target.checked })
+              }
+            />
+          </Box>
+
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 2,
+              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: 2
+            }}
+          >
+            <Box>
+              <Typography fontWeight={600}>
+                Poslujete samo preko ovog sajta?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Kontakt isključivo preko Zeleni Svet platforme
+              </Typography>
+            </Box>
+            <Switch
+              checked={user?.onlyOnThisSite}
+              onChange={(e) =>
+                setUser({ ...user, onlyOnThisSite: e.target.checked })
+              }
+            />
+          </Box>
+        </TwoColRow>
+      </Card>
+
+      {/* SAVE BUTTON */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          disabled={isLoadingUser}
+          sx={{ px: 4, borderRadius: 1 }}
+        >
+          {isLoadingUser ? <CircularProgress size={22} /> : 'Ažuriraj profil'}
+        </Button>
+      </Box>
+    </Box>
   );
 };

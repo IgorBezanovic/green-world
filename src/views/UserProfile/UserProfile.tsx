@@ -123,11 +123,11 @@ export const UserProfile = () => {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: theme.palette.background.paper,
         minHeight: 'calc(100vh - 360px)'
-      }}
+      })}
     >
       <MetaTags
         title={metaObj.title}
@@ -334,7 +334,7 @@ export const UserProfile = () => {
                   />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+                <p className="col-span-full">Nemate promovisanih proizvoda</p>
               )}
             </Box>
           )}

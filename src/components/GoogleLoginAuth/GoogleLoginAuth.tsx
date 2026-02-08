@@ -48,8 +48,9 @@ export const GoogleLoginAuth = () => {
               const res = await axios.post(baseUrl + '/auth/google', {
                 credential: credentialResponse.credential
               });
-              const token = res.data.token;
+              const { token, refreshToken } = res.data;
               setItem('token', token);
+              setItem('refreshToken', refreshToken);
               navigate('/');
               setTimeout(() => {
                 window.location.reload();

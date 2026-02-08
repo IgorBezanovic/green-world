@@ -1,6 +1,6 @@
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { AuthValues } from '@green-world/utils/types';
+import { AuthResponse, AuthValues } from '@green-world/utils/types';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
@@ -17,12 +17,10 @@ export const useLogin = () => {
           password
         }
       }),
-    onSuccess: (data: string) => {
-      setItem('token', data);
+    onSuccess: (data: AuthResponse) => {
+      setItem('token', data.token);
+      setItem('refreshToken', data.refreshToken);
       navigate('/');
-      setTimeout(() => {
-        window.location.reload();
-      }, 10);
     }
   });
 };
