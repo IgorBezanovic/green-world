@@ -7,19 +7,47 @@ import {
   Card,
   CardContent,
   Divider,
-  Slider,
-  TextField,
   Typography,
   useTheme
 } from '@mui/material';
-import { ArrowLeft, Info, Package, TrendingUp } from 'lucide-react';
-import { useContext, useMemo, useState } from 'react';
+import { ArrowLeft, Check, Info, Package, TrendingUp } from 'lucide-react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { IncreaseCapacityPayCardInline } from './IncreaseCapacityPayCardInline';
 import { IncreaseCapacityPayInline } from './IncreaseCapacityPayInline';
 
-const PRICE_PER_PLACE_RSD = 50;
+const CAPACITY_PACKAGES: Array<{
+  id: string;
+  name: string;
+  places: number;
+  priceRsd: number;
+  description: string;
+  popular?: boolean;
+}> = [
+  {
+    id: '25',
+    name: '25 mesta',
+    places: 25,
+    priceRsd: 1200,
+    description: 'Za manje prodavnice'
+  },
+  {
+    id: '50',
+    name: '50 mesta',
+    places: 50,
+    priceRsd: 2300,
+    description: 'Najpopularniji izbor',
+    popular: true
+  },
+  {
+    id: '100',
+    name: '100 mesta',
+    places: 100,
+    priceRsd: 4500,
+    description: 'Najpovoljnije po mestu'
+  }
+];
 
 const pages = [
   { label: 'Početna', route: '/' },
@@ -30,24 +58,18 @@ export const IncreaseCapacity = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [places, setPlaces] = useState<number>(25);
+  const [selectedPackageId, setSelectedPackageId] = useState<string>(
+    CAPACITY_PACKAGES[0].id
+  );
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
-  const totalRsd = useMemo(
-    () => (places > 0 ? PRICE_PER_PLACE_RSD * places : 0),
-    [places]
-  );
+  const selectedPackage =
+    CAPACITY_PACKAGES.find((p) => p.id === selectedPackageId) ??
+    CAPACITY_PACKAGES[0];
+  const places = selectedPackage.places;
+  const totalRsd = selectedPackage.priceRsd;
 
-  const canPay = user?._id && places >= 1;
-
-  const handlePlacesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = parseInt(e.target.value, 10);
-    if (!Number.isNaN(v) && v >= 1 && v <= 1000) setPlaces(v);
-  };
-
-  const handleSliderChange = (_event: Event, newValue: number | number[]) => {
-    setPlaces(newValue as number);
-  };
+  const canPay = user?._id;
 
   if (!user?._id) {
     return (
@@ -177,48 +199,115 @@ export const IncreaseCapacity = () => {
               Cena
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <strong>{PRICE_PER_PLACE_RSD} RSD</strong> po mestu. Izaberite
-              broj mesta ispod, pa platite putem PayPal-a (iznos u EUR po
-              trenutnom kursu).
+              Izaberite paket ispod (povoljnije više mesta). Plaćanje putem
+              PayPal-a ili kartice (iznos u EUR po trenutnom kursu).
             </Typography>
           </CardContent>
         </Card>
 
         <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-          Izaberite broj mesta
+          Izaberite paket
         </Typography>
-
-        <Box sx={{ mb: 3 }}>
-          <Box sx={{ mb: 3 }}>
-            <Slider
-              value={places}
-              onChange={handleSliderChange}
-              min={1}
-              max={100}
-              step={1}
-              disabled={isCardPaymentActive}
-              marks={[
-                { value: 1, label: '1' },
-                { value: 25, label: '25' },
-                { value: 50, label: '50' },
-                { value: 75, label: '75' },
-                { value: 100, label: '100' }
-              ]}
-              valueLabelDisplay="auto"
-              sx={{ mb: 2 }}
-            />
-          </Box>
-          <TextField
-            type="number"
-            label="Broj mesta"
-            value={places}
-            onChange={handlePlacesChange}
-            disabled={isCardPaymentActive}
-            inputProps={{ min: 1, max: 1000 }}
-            helperText="Unesite broj mesta (1-1000) ili koristite slider"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 2,
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            '@media (min-width: 600px)': {
+              gridTemplateColumns: 'repeat(3, 1fr)'
+            },
+            mb: 3
+          }}
+        >
+          {CAPACITY_PACKAGES.map((pkg) => (
+            <Card
+              key={pkg.id}
+              variant="outlined"
+              sx={{
+                borderColor:
+                  selectedPackageId === pkg.id
+                    ? 'primary.main'
+                    : pkg.popular
+                      ? 'warning.main'
+                      : 'divider',
+                borderWidth: pkg.popular ? 2 : 1,
+                position: 'relative',
+                cursor: isCardPaymentActive ? 'default' : 'pointer',
+                opacity: isCardPaymentActive ? 0.7 : 1,
+                transition: 'all 0.2s',
+                pointerEvents: isCardPaymentActive ? 'none' : 'auto',
+                '&:hover': isCardPaymentActive
+                  ? {}
+                  : {
+                      boxShadow: 4,
+                      transform: 'translateY(-4px)'
+                    }
+              }}
+              onClick={() =>
+                !isCardPaymentActive && setSelectedPackageId(pkg.id)
+              }
+            >
+              {pkg.popular && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    bgcolor: 'warning.main',
+                    color: 'white',
+                    px: 2,
+                    py: 0.5,
+                    borderRadius: 1,
+                    fontSize: '0.75rem',
+                    fontWeight: 600
+                  }}
+                >
+                  Najpopularniji
+                </Box>
+              )}
+              <CardContent>
+                <Typography variant="h6" fontWeight={700} sx={{ mb: 0.5 }}>
+                  {pkg.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 2 }}
+                >
+                  {pkg.description}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="h5"
+                    fontWeight={700}
+                    color="primary.main"
+                    sx={{ mb: 0.5 }}
+                  >
+                    {pkg.priceRsd} RSD
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    ukupno ({pkg.places} mesta)
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Check
+                    size={16}
+                    color={theme.palette.success.main as string}
+                  />
+                  <Typography variant="body2">
+                    +{pkg.places} mesta kapaciteta
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: 'block', mt: 1 }}
+                >
+                  {Math.round(pkg.priceRsd / pkg.places)} RSD/mesto
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
         </Box>
 
         <Card variant="outlined" sx={{ mb: 2 }}>
@@ -227,8 +316,7 @@ export const IncreaseCapacity = () => {
               Ukupno za plaćanje
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {places} mesta × {PRICE_PER_PLACE_RSD} RSD ={' '}
-              <strong>{totalRsd} RSD</strong>
+              {selectedPackage.name} = <strong>{totalRsd} RSD</strong>
             </Typography>
 
             {canPay && (

@@ -1,6 +1,7 @@
 import UserContext from '@green-world/context/UserContext';
-import { useFeatured } from '@green-world/hooks/useFeatured';
+import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import type { PaymentTypePromo } from '@green-world/hooks/usePayPalDonation';
+import { Product } from '@green-world/utils/types';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
 import { useContext, useMemo, useState } from 'react';
@@ -14,8 +15,14 @@ export const PromotionSection = () => {
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<PaymentTypePromo | null>(null);
-  const { promotedProducts } = useFeatured();
-  const promotedProductsCount = promotedProducts.length;
+  const { data: products = [] } = useAllUserProducts();
+  const promotedProductsCount = useMemo(
+    () =>
+      products.filter(
+        (p: Product) => p.promotedAt != null && p.promotedUntil != null
+      ).length,
+    [products]
+  );
   const { user } = useContext(UserContext);
 
   const shopPromotionDaysLeft = useMemo(() => {

@@ -7,18 +7,54 @@ import {
   Card,
   CardContent,
   Divider,
-  TextField,
   Typography,
   useTheme
 } from '@mui/material';
-import { ArrowLeft, Info, MapPin, Store, TrendingUp } from 'lucide-react';
-import { useContext, useMemo, useState } from 'react';
+import {
+  ArrowLeft,
+  Check,
+  Info,
+  MapPin,
+  Store,
+  TrendingUp
+} from 'lucide-react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { PromoteShopPayCardInline } from './PromoteShopPayCardInline';
 import { PromoteShopPayInline } from './PromoteShopPayInline';
 
-const PRICE_PER_DAY_RSD = 50;
+const SHOP_PACKAGES: Array<{
+  id: string;
+  name: string;
+  days: number;
+  priceRsd: number;
+  description: string;
+  popular?: boolean;
+}> = [
+  {
+    id: '7',
+    name: '7 dana',
+    days: 7,
+    priceRsd: 350,
+    description: 'Kratka promocija'
+  },
+  {
+    id: '14',
+    name: '14 dana',
+    days: 14,
+    priceRsd: 650,
+    description: 'Dve nedelje',
+    popular: true
+  },
+  {
+    id: '28',
+    name: '28 dana',
+    days: 28,
+    priceRsd: 1200,
+    description: 'Najpovoljnije po danu'
+  }
+];
 
 const pages = [
   { label: 'Početna', route: '/' },
@@ -30,20 +66,17 @@ export const PromoteShop = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
-  const [days, setDays] = useState<number>(5);
+  const [selectedPackageId, setSelectedPackageId] = useState<string>(
+    SHOP_PACKAGES[0].id
+  );
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
-  const totalRsd = useMemo(
-    () => (days > 0 ? PRICE_PER_DAY_RSD * days : 0),
-    [days]
-  );
+  const selectedPackage =
+    SHOP_PACKAGES.find((p) => p.id === selectedPackageId) ?? SHOP_PACKAGES[0];
+  const days = selectedPackage.days;
+  const totalRsd = selectedPackage.priceRsd;
 
-  const canPay = user?._id && days >= 1 && days <= 365;
-
-  const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = parseInt(e.target.value, 10);
-    if (!Number.isNaN(v) && v >= 1 && v <= 365) setDays(v);
-  };
+  const canPay = user?._id;
 
   if (!user?._id) {
     return (
@@ -172,29 +205,116 @@ export const PromoteShop = () => {
               Cena
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <strong>{PRICE_PER_DAY_RSD} RSD</strong> po danu. Izaberite broj
-              dana ispod, pa platite putem PayPal-a (iznos u EUR po trenutnom
-              kursu).
+              Izaberite paket trajanja ispod (povoljnije više dana). Plaćanje
+              putem PayPal-a ili kartice (iznos u EUR po trenutnom kursu).
             </Typography>
           </CardContent>
         </Card>
 
         <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-          Izaberite trajanje promocije
+          Izaberite paket trajanja
         </Typography>
-
-        <TextField
-          fullWidth
-          label="Broj dana"
-          type="number"
-          value={days}
-          onChange={handleDaysChange}
-          disabled={isCardPaymentActive}
-          inputProps={{ min: 1, max: 365 }}
-          helperText="Trajanje promocije (1–365 dana)"
-          InputLabelProps={{ shrink: true }}
-          sx={{ mb: 3 }}
-        />
+        <Box
+          sx={{
+            display: 'grid',
+            gap: 2,
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            '@media (min-width: 600px)': {
+              gridTemplateColumns: 'repeat(3, 1fr)'
+            },
+            mb: 3
+          }}
+        >
+          {SHOP_PACKAGES.map((pkg) => (
+            <Card
+              key={pkg.id}
+              variant="outlined"
+              sx={{
+                borderColor:
+                  selectedPackageId === pkg.id
+                    ? 'primary.main'
+                    : pkg.popular
+                      ? 'warning.main'
+                      : 'divider',
+                borderWidth: pkg.popular ? 2 : 1,
+                position: 'relative',
+                cursor: isCardPaymentActive ? 'default' : 'pointer',
+                opacity: isCardPaymentActive ? 0.7 : 1,
+                transition: 'all 0.2s',
+                pointerEvents: isCardPaymentActive ? 'none' : 'auto',
+                '&:hover': isCardPaymentActive
+                  ? {}
+                  : {
+                      boxShadow: 4,
+                      transform: 'translateY(-4px)'
+                    }
+              }}
+              onClick={() =>
+                !isCardPaymentActive && setSelectedPackageId(pkg.id)
+              }
+            >
+              {pkg.popular && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    bgcolor: 'warning.main',
+                    color: 'white',
+                    px: 2,
+                    py: 0.5,
+                    borderRadius: 1,
+                    fontSize: '0.75rem',
+                    fontWeight: 600
+                  }}
+                >
+                  Najpopularniji
+                </Box>
+              )}
+              <CardContent>
+                <Typography variant="h6" fontWeight={700} sx={{ mb: 0.5 }}>
+                  {pkg.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 2 }}
+                >
+                  {pkg.description}
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="h5"
+                    fontWeight={700}
+                    color="primary.main"
+                    sx={{ mb: 0.5 }}
+                  >
+                    {pkg.priceRsd} RSD
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    ukupno ({pkg.days} dana)
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Check
+                    size={16}
+                    color={theme.palette.success.main as string}
+                  />
+                  <Typography variant="body2">
+                    {pkg.days} dana promocije prodavnice
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: 'block', mt: 1 }}
+                >
+                  {Math.round(pkg.priceRsd / pkg.days)} RSD/dan
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
 
         <Card variant="outlined" sx={{ mb: 2 }}>
           <CardContent>
@@ -202,8 +322,7 @@ export const PromoteShop = () => {
               Ukupno za plaćanje
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {days} dana × {PRICE_PER_DAY_RSD} RSD ={' '}
-              <strong>{totalRsd} RSD</strong>
+              {selectedPackage.name} = <strong>{totalRsd} RSD</strong>
             </Typography>
 
             {canPay && (
