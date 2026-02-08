@@ -195,7 +195,9 @@ export const ProductCard = ({
                   color="warning"
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log('Obnovi', product._id);
+                    navigate('/promote-product', {
+                      state: { promoteProductId: product._id }
+                    });
                   }}
                 >
                   Obnovi
