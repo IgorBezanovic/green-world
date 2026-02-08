@@ -20,8 +20,9 @@ import {
   Box
 } from '@mui/material';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { useMemo, useState, useEffect } from 'react';
-import { useContext } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router';
 
 const PROMO_LABELS: Record<
   PaymentTypePromo,
@@ -61,6 +62,8 @@ export const PromotionPayPalDialog = ({
 }: Props) => {
   const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState<string>('');
   const [selectedProductId, setSelectedProductId] = useState<string>('');
 
@@ -93,7 +96,8 @@ export const PromotionPayPalDialog = ({
       clientId,
       currency: 'EUR',
       intent: 'capture' as const,
-      components: 'buttons'
+      components: 'buttons',
+      locale: 'en_RS'
     }),
     [clientId]
   );
@@ -108,9 +112,15 @@ export const PromotionPayPalDialog = ({
   };
 
   const handleClose = () => {
+    const wasSuccessful = status === 'Uspešno! Promocija je aktivirana.';
     setStatus('');
     setSelectedProductId('');
     onClose();
+    if (wasSuccessful) {
+      setTimeout(() => {
+        navigate('/profile');
+      }, 100);
+    }
   };
 
   return (
@@ -168,7 +178,27 @@ export const PromotionPayPalDialog = ({
                         orderId: data.orderID
                       });
                       setStatus('Uspešno! Promocija je aktivirana.');
-                      setTimeout(() => handleClose(), 1500);
+                      // Invalidate relevant queries to refresh data
+                      queryClient.invalidateQueries({
+                        queryKey: ['userDetails']
+                      });
+                      if (promotionType === 'PROMOTE_PRODUCT') {
+                        queryClient.invalidateQueries({
+                          queryKey: ['allUserProducts']
+                        });
+                        queryClient.invalidateQueries({
+                          queryKey: ['featured', 'promoted-products']
+                        });
+                      }
+                      if (promotionType === 'PROMOTE_SHOP') {
+                        queryClient.invalidateQueries({
+                          queryKey: ['featured', 'promoted-shops']
+                        });
+                      }
+                      if (promotionType === 'INCREASE_CAPACITY') {
+                        // User details will be refreshed
+                      }
+                      navigate('/profile');
                     }}
                     onCancel={() => setStatus('Uplata je otkazana.')}
                     onError={() => setStatus('Greška tokom uplate.')}

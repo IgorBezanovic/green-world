@@ -10,9 +10,14 @@ import {
   Button,
   TextField,
   Typography,
-  Stack
+  Stack,
+  Box
 } from '@mui/material';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import {
+  PayPalScriptProvider,
+  PayPalButtons,
+  FUNDING
+} from '@paypal/react-paypal-js';
 import { useMemo, useState } from 'react';
 
 type Props = { open: boolean; onClose: () => void };
@@ -23,6 +28,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
   const [amountRsd, setAmountRsd] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<string>('');
+  const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   const minRsd = 500;
   const rsdNumber = Number(amountRsd || 0);
@@ -43,7 +49,8 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
       clientId,
       currency: 'EUR',
       intent: 'capture',
-      components: 'buttons'
+      components: 'buttons',
+      locale: 'en_RS'
     }),
     [clientId]
   );
@@ -73,6 +80,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
               size="small"
               sx={{ minWidth: 135 }}
               onClick={() => setAmountRsd(String(v))}
+              disabled={isCardPaymentActive}
             >
               {v} RSD
             </Button>
@@ -86,6 +94,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
             const v = e.target.value.replace(/[^\d]/g, '');
             setAmountRsd(v);
           }}
+          disabled={isCardPaymentActive}
           fullWidth
           margin="dense"
           inputProps={{ inputMode: 'numeric' }}
@@ -111,30 +120,91 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
         </Typography>
 
         <PayPalScriptProvider options={paypalOptions}>
-          <PayPalButtons
-            style={{ layout: 'vertical' }}
-            disabled={!isValid || loading}
-            createOrder={async () => {
-              setStatus('Kreiram nalog...');
-              const out = await createOrderMutation.mutateAsync({
-                type: 'DONATION',
-                amountRsd: rsdNumber,
-                message
-              });
-              setStatus('Potvrdi uplatu u PayPal prozoru...');
-              return out.id;
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2
             }}
-            onApprove={async (data) => {
-              setStatus('Finalizujem uplatu...');
-              await captureOrderMutation.mutateAsync({ orderId: data.orderID });
-              setStatus('✅ Hvala! Donacija je uspešna.');
-            }}
-            onCancel={() => setStatus('Uplata je otkazana.')}
-            onError={(err) => {
-              console.error(err);
-              setStatus('❌ Greška tokom uplate.');
-            }}
-          />
+          >
+            <Box>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ mb: 0.5, display: 'block' }}
+              >
+                PayPal
+              </Typography>
+              <PayPalButtons
+                fundingSource={FUNDING.PAYPAL}
+                style={{ layout: 'vertical' }}
+                disabled={!isValid || loading}
+                createOrder={async () => {
+                  setStatus('Kreiram nalog...');
+                  const out = await createOrderMutation.mutateAsync({
+                    type: 'DONATION',
+                    amountRsd: rsdNumber,
+                    message
+                  });
+                  setStatus('Potvrdi uplatu u PayPal prozoru...');
+                  return out.id;
+                }}
+                onApprove={async (data) => {
+                  setStatus('Finalizujem uplatu...');
+                  await captureOrderMutation.mutateAsync({
+                    orderId: data.orderID
+                  });
+                  setStatus('✅ Hvala! Donacija je uspešna.');
+                }}
+                onCancel={() => setStatus('Uplata je otkazana.')}
+                onError={(err) => {
+                  console.error(err);
+                  setStatus('❌ Greška tokom uplate.');
+                }}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ mb: 0.5, display: 'block' }}
+              >
+                Debitna ili kreditna kartica
+              </Typography>
+              <PayPalButtons
+                fundingSource={FUNDING.CARD}
+                style={{ layout: 'vertical' }}
+                disabled={!isValid || loading}
+                createOrder={async () => {
+                  setStatus('Kreiram nalog...');
+                  setIsCardPaymentActive(true);
+                  const out = await createOrderMutation.mutateAsync({
+                    type: 'DONATION',
+                    amountRsd: rsdNumber,
+                    message
+                  });
+                  setStatus('Unesite podatke kartice u PayPal prozoru...');
+                  return out.id;
+                }}
+                onApprove={async (data) => {
+                  setStatus('Finalizujem uplatu...');
+                  await captureOrderMutation.mutateAsync({
+                    orderId: data.orderID
+                  });
+                  setStatus('✅ Hvala! Donacija je uspešna.');
+                }}
+                onCancel={() => {
+                  setStatus('Uplata je otkazana.');
+                  setIsCardPaymentActive(false);
+                }}
+                onError={(err) => {
+                  console.error(err);
+                  setStatus('❌ Greška tokom uplate.');
+                  setIsCardPaymentActive(false);
+                }}
+              />
+            </Box>
+          </Box>
         </PayPalScriptProvider>
 
         {(status || errorMsg) && (

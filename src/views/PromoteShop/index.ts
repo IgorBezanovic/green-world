@@ -1,0 +1,1 @@
+export { PromoteShop } from './PromoteShop';

@@ -1,20 +1,45 @@
+import UserContext from '@green-world/context/UserContext';
+import { useFeatured } from '@green-world/hooks/useFeatured';
 import type { PaymentTypePromo } from '@green-world/hooks/usePayPalDonation';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import { PromotionCard } from '../PromotionCard';
 import { PromotionPayPalDialog } from './PromotionPayPalDialog';
 
 export const PromotionSection = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<PaymentTypePromo | null>(null);
+  const { promotedProducts } = useFeatured();
+  const promotedProductsCount = promotedProducts.length;
+  const { user } = useContext(UserContext);
 
-  const openPromoDialog = (type: PaymentTypePromo) => () => {
-    setDialogType(type);
-    setDialogOpen(true);
-  };
+  const shopPromotionDaysLeft = useMemo(() => {
+    const userWithPromotion = user as typeof user & {
+      shopPromotedUntil?: string | Date | null;
+    };
+    if (!userWithPromotion?.shopPromotedUntil) return 0;
+
+    const promotedUntil = new Date(userWithPromotion.shopPromotedUntil);
+    const now = new Date();
+
+    if (promotedUntil < now) return 0;
+
+    const diffTime = promotedUntil.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }, [user]);
+
+  const freeCapacityPercentage = useMemo(() => {
+    if (!user?.maxShopProducts || user.maxShopProducts === 0) return 0;
+    const freePlaces = user.maxShopProducts - (user.numberOfProducts || 0);
+    const percentage = (freePlaces / user.maxShopProducts) * 100;
+    return Math.max(0, Math.round(percentage));
+  }, [user?.maxShopProducts, user?.numberOfProducts]);
 
   return (
     <Box>
@@ -71,30 +96,30 @@ export const PromotionSection = () => {
           icon={Sparkles}
           title="Promoviši Proizvode"
           description="Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca"
-          actionLabel="Saznaj više"
-          badgeLabel="Novo"
+          actionLabel="Kupi promociju"
+          badgeLabel={`${promotedProductsCount} proizvoda`}
           variant="success"
-          onActionClick={openPromoDialog('PROMOTE_PRODUCT')}
+          onActionClick={() => navigate('/promote-product')}
         />
 
         <PromotionCard
           icon={Store}
           title="Promoviši Prodavnicu"
           description="Povećajte vidljivost vaše prodavnice i privucite nove kupce"
-          actionLabel="Saznaj više"
-          badgeLabel="Novo"
+          actionLabel="Kupi promociju"
+          badgeLabel={`${shopPromotionDaysLeft} dana`}
           variant="warning"
-          onActionClick={openPromoDialog('PROMOTE_SHOP')}
+          onActionClick={() => navigate('/promote-shop')}
         />
 
         <PromotionCard
           icon={TrendingUp}
           title="Povećaj Kapacitet Shopa"
           description="Proširite kapacitet vaše prodavnice za više proizvoda"
-          actionLabel="Saznaj više"
-          badgeLabel="Novo"
+          actionLabel="Kupi promociju"
+          badgeLabel={`${freeCapacityPercentage}% slobodno`}
           variant="success"
-          onActionClick={openPromoDialog('INCREASE_CAPACITY')}
+          onActionClick={() => navigate('/increase-capacity')}
         />
 
         <PromotionCard
@@ -104,7 +129,7 @@ export const PromotionSection = () => {
           actionLabel="Saznaj više"
           badgeLabel="Uštedi 30%"
           variant="warning"
-          onActionClick={openPromoDialog('PROMO_BUNDLE')}
+          onActionClick={() => navigate('/promo-bundle')}
         />
       </Box>
 
