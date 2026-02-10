@@ -40,38 +40,38 @@ const BUNDLES = [
   {
     id: 'BASIC',
     name: 'Osnovni Paket',
-    priceRsd: 1999,
+    priceRsd: 5250,
     description: 'Idealno za početak',
     features: {
-      productDays: 5,
-      numProducts: 3,
-      shopDays: 5,
-      capacityPlaces: 15
+      productDays: 7,
+      numProducts: 5,
+      shopDays: 7,
+      capacityPlaces: 25
     }
   },
   {
     id: 'STANDARD',
     name: 'Standardni Paket',
-    priceRsd: 3499,
+    priceRsd: 12320,
     description: 'Najpopularniji izbor',
     popular: true,
     features: {
-      productDays: 10,
-      numProducts: 5,
-      shopDays: 10,
-      capacityPlaces: 25
+      productDays: 14,
+      numProducts: 10,
+      shopDays: 14,
+      capacityPlaces: 50
     }
   },
   {
     id: 'PREMIUM',
     name: 'Premium Paket',
-    priceRsd: 4999,
+    priceRsd: 31360,
     description: 'Maksimalna vidljivost',
     features: {
-      productDays: 15,
-      numProducts: 8,
-      shopDays: 15,
-      capacityPlaces: 40
+      productDays: 28,
+      numProducts: 20,
+      shopDays: 25,
+      capacityPlaces: 100
     }
   }
 ];

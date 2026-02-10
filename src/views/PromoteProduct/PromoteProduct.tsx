@@ -49,14 +49,14 @@ const PRODUCT_PACKAGES: Array<{
     id: '7',
     name: '7 dana',
     days: 7,
-    pricePerProductRsd: 350,
+    pricePerProductRsd: 600,
     description: 'Kratka promocija'
   },
   {
     id: '14',
     name: '14 dana',
     days: 14,
-    pricePerProductRsd: 650,
+    pricePerProductRsd: 1000,
     description: 'Dve nedelje',
     popular: true
   },
@@ -64,7 +64,7 @@ const PRODUCT_PACKAGES: Array<{
     id: '28',
     name: '28 dana',
     days: 28,
-    pricePerProductRsd: 1200,
+    pricePerProductRsd: 1600,
     description: 'Najpovoljnije po danu'
   }
 ];
