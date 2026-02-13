@@ -29,14 +29,14 @@ const CAPACITY_PACKAGES: Array<{
     id: '25',
     name: '25 mesta',
     places: 25,
-    priceRsd: 1200,
+    priceRsd: 3000,
     description: 'Za manje prodavnice'
   },
   {
     id: '50',
     name: '50 mesta',
     places: 50,
-    priceRsd: 2300,
+    priceRsd: 5000,
     description: 'Najpopularniji izbor',
     popular: true
   },
@@ -44,7 +44,7 @@ const CAPACITY_PACKAGES: Array<{
     id: '100',
     name: '100 mesta',
     places: 100,
-    priceRsd: 4500,
+    priceRsd: 8000,
     description: 'Najpovoljnije po mestu'
   }
 ];
