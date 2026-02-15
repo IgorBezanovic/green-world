@@ -19,6 +19,5 @@ export * from '@green-world/views/Login';
 export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ProfileSettings';
 export * from '@green-world/views/Registration';
-export * from '@green-world/views/UnderConstruction';
 export * from '@green-world/views/UserProfile';
 export * from '@green-world/views/WritePost';

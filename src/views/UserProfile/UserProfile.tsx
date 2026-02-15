@@ -17,8 +17,6 @@ import { Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import '../style.css';
-
 export const UserProfile = () => {
   const navigate = useNavigate();
   const theme = useTheme();

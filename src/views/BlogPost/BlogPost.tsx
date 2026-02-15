@@ -13,7 +13,6 @@ import {
   Divider
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import clsx from 'clsx';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
@@ -28,21 +27,32 @@ export const BlogPost = () => {
   ];
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Blog'} />
+
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
 

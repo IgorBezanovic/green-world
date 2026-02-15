@@ -8,7 +8,6 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import clsx from 'clsx';
 import { ChartNoAxesCombined } from 'lucide-react';
 import { Outlet, useNavigate } from 'react-router';
 
@@ -19,8 +18,13 @@ export const AdminPanel = () => {
 
   return (
     <Box
-      className={clsx('w-full', 'bg-whiteLinen', 'min-h-screen', 'relative')}
-      sx={{ display: 'flex' }}
+      sx={{
+        display: 'flex',
+        width: '100%',
+        backgroundColor: 'background.paper',
+        position: 'relative',
+        minHeight: 'calc(100vh - 360px)'
+      }}
     >
       <MetaTags title={'Zeleni svet | Admin Panel'} />
       {/* Drawer meni */}
@@ -59,8 +63,13 @@ export const AdminPanel = () => {
       {/* Glavni sadržaj */}
       <Box
         component="main"
-        className={clsx('xl:max-w-[1400px]', 'w-full', 'mx-auto', 'p-[24px]')}
-        sx={{ flexGrow: 1 }}
+        sx={{
+          flexGrow: 1,
+          maxWidth: 1400,
+          width: '100%',
+          mx: 'auto',
+          p: 2
+        }}
       >
         {/* Ovde će se renderovati child rute */}
         <Outlet />
