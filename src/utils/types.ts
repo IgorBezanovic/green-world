@@ -14,6 +14,11 @@ export type RegistrationValues = {
   password: string;
 };
 
+export type AuthResponse = {
+  token: string;
+  refreshToken: string;
+};
+
 export interface Product {
   _id: string;
   createdBy: string;
@@ -33,6 +38,8 @@ export interface Product {
   milliliters: number;
   status: string;
   onStock: boolean;
+  promotedAt?: string | Date | null;
+  promotedUntil?: string | Date | null;
 }
 
 export type NewPasswordValues = {

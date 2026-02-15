@@ -1,0 +1,1 @@
+export { PromoteProduct } from './PromoteProduct';

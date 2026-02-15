@@ -4,7 +4,10 @@ import {
   LazySection,
   ProductSection,
   GridProducts,
-  MetaTags
+  MetaTags,
+  FeaturedShops,
+  FeaturedShopsBanner,
+  FeaturedProducts
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
@@ -17,6 +20,7 @@ import { useNavigate } from 'react-router';
 export const Home = () => {
   const { data, isLoading, isFetching } = useHomeProducts();
   const navigate = useNavigate();
+
   return (
     <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
       <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
@@ -52,6 +56,8 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
+        <FeaturedProducts />
+        <FeaturedShops />
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"
@@ -154,6 +160,7 @@ export const Home = () => {
             Pretrazi sve proizvode
           </CustomButton>
         </LazySection>
+        <FeaturedShopsBanner />
         <ProductSection
           title="Cvetni asortiman"
           subTitle="Raznovrsno cveće za sve prilike i idealan poklon."

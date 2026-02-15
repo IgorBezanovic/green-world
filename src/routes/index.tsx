@@ -13,6 +13,7 @@ import {
   ContactUs,
   Event,
   Home,
+  IncreaseCapacity,
   Products,
   CreateEditProduct,
   Documents,
@@ -20,6 +21,9 @@ import {
   Login,
   NotFound,
   ProductPage,
+  PromoteProduct,
+  PromoteShop,
+  PromoBundle,
   ProfileSettings,
   PrivacyPolicy,
   Registration,
@@ -149,6 +153,22 @@ export const routes = [
       {
         path: '/privacy-policy',
         element: <PrivacyPolicy />
+      },
+      {
+        path: '/promote-product',
+        element: <ProtectedRoute element={PromoteProduct} />
+      },
+      {
+        path: '/promote-shop',
+        element: <ProtectedRoute element={PromoteShop} />
+      },
+      {
+        path: '/increase-capacity',
+        element: <ProtectedRoute element={IncreaseCapacity} />
+      },
+      {
+        path: '/promo-bundle',
+        element: <ProtectedRoute element={PromoBundle} />
       },
       {
         path: '/admin',

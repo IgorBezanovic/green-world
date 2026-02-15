@@ -12,11 +12,11 @@ export const ProfileSettings = () => {
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: theme.palette.background.paper,
         minHeight: 'calc(100vh - 360px)'
-      }}
+      })}
     >
       <MetaTags title={'Zeleni svet | Podešavanje profila'} />
 

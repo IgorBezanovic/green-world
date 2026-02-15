@@ -4,6 +4,7 @@ import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import {
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -23,6 +24,7 @@ import { PopDelete } from '../PopDelete';
 interface ProductCardProps {
   product: Product | ProductPreview;
   isHero?: boolean;
+  isPromotedView?: boolean;
   productsRefetch?: (
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<Product[], Error>>;
@@ -31,15 +33,15 @@ interface ProductCardProps {
 export const ProductCard = ({
   product,
   isHero = false,
+  isPromotedView = false,
   productsRefetch
 }: ProductCardProps) => {
   const { mutate } = useDeleteProduct(product?._id, {
     onSuccess: () => {
-      if (productsRefetch) {
-        productsRefetch();
-      }
+      if (productsRefetch) productsRefetch();
     }
   });
+
   const navigate = useNavigate();
   const location = useLocation();
   const [loaded, setLoaded] = useState(false);
@@ -47,9 +49,20 @@ export const ProductCard = ({
   const mainImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=400`
     : `${formatImageUrl(product.images?.[0] || '', 55)}`;
+
   const blurImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=20&blur=200`
     : `${formatImageUrl(product.images?.[0] || '', 55)}`;
+
+  const isPromotionExpired =
+    product?.promotedUntil && new Date(product.promotedUntil) < new Date();
+
+  const daysLeft = product?.promotedUntil
+    ? Math.ceil(
+        (new Date(product.promotedUntil).getTime() - Date.now()) /
+          (1000 * 60 * 60 * 24)
+      )
+    : 0;
 
   return (
     <Card
@@ -162,42 +175,78 @@ export const ProductCard = ({
 
         <Divider variant="fullWidth" />
         {location.pathname.includes('/profile') && (
-          <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
-            <IconButton
-              aria-label="Edit Product"
-              onClick={() => navigate(`/edit-product/${product._id}`)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              aria-label="Share Product"
-              onClick={() => {
-                navigator.clipboard
-                  .writeText(`https://www.zelenisvet.rs/product/${product._id}`)
-                  .then(() => {
-                    toast.success('Kopiran link');
-                  })
-                  .catch(() => {
-                    alert('Neuspešno kopiranje linka');
-                  });
-              }}
-            >
-              <Copy />
-            </IconButton>
+          <CardActions
+            disableSpacing
+            sx={{
+              justifyContent: 'space-around',
+              minHeight: 56,
+              '& .MuiButton-root, & .MuiTypography-root': {
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }
+            }}
+          >
+            {isPromotedView ? (
+              isPromotionExpired ? (
+                <Button
+                  variant="contained"
+                  color="warning"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/promote-product', {
+                      state: { promoteProductId: product._id }
+                    });
+                  }}
+                >
+                  Obnovi
+                </Button>
+              ) : (
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 500, color: 'success.main' }}
+                >
+                  Aktivno još {daysLeft} {daysLeft === 1 ? 'dan' : 'dana'}
+                </Typography>
+              )
+            ) : (
+              <>
+                <IconButton
+                  aria-label="Edit Product"
+                  onClick={() => navigate(`/edit-product/${product._id}`)}
+                >
+                  <EditIcon />
+                </IconButton>
 
-            <PopDelete
-              key="delete"
-              title={'Brisanje proizvoda'}
-              description={'Da li ste sigurni da želite da obrišete proizvod?'}
-              okText={'Da'}
-              cancelText={'Ne'}
-              id={product._id}
-              mutate={mutate}
-            >
-              <IconButton aria-label="Delete Product">
-                <Trash />
-              </IconButton>
-            </PopDelete>
+                <IconButton
+                  aria-label="Share Product"
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(
+                        `https://www.zelenisvet.rs/product/${product._id}`
+                      )
+                      .then(() => toast.success('Kopiran link'))
+                      .catch(() => alert('Neuspešno kopiranje linka'));
+                  }}
+                >
+                  <Copy />
+                </IconButton>
+
+                <PopDelete
+                  title="Brisanje proizvoda"
+                  description="Da li ste sigurni da želite da obrišete proizvod?"
+                  okText="Da"
+                  cancelText="Ne"
+                  id={product._id}
+                  mutate={mutate}
+                >
+                  <IconButton aria-label="Delete Product">
+                    <Trash />
+                  </IconButton>
+                </PopDelete>
+              </>
+            )}
           </CardActions>
         )}
       </Box>

@@ -110,32 +110,30 @@ export const UserInfo = ({ ...props }) => {
               {props?.user?.shopDescription}
             </Typography>
           )}
-          {props?.user?.address?.city && props?.user?.address?.country && (
-            <Typography
-              variant="body2"
-              sx={{
-                mt: 1,
-                color: 'secondary.main',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-              }}
-            >
-              <MapPin />
-              {`${props?.user?.address?.city}, ${props?.user?.address?.country}`}
-            </Typography>
-          )}
-          {props?.user?.address?.street && (
-            <Typography
-              variant="body2"
-              sx={{
-                mt: 1,
-                color: 'secondary.main'
-              }}
-            >
-              {props?.user?.address?.street}
-            </Typography>
-          )}
+          {!props.user.onlyOnline &&
+            (props?.user?.address?.street ||
+              props?.user?.address?.city ||
+              props?.user?.address?.country) && (
+              <Typography
+                variant="body2"
+                sx={{
+                  mt: 1,
+                  color: 'secondary.main',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+              >
+                <MapPin />
+                {[
+                  props?.user?.address?.street,
+                  props?.user?.address?.city,
+                  props?.user?.address?.country
+                ]
+                  .filter(Boolean)
+                  .join(', ')}
+              </Typography>
+            )}
           {props?.user?.website && (
             <Typography
               component="a"
