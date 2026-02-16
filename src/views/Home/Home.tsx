@@ -1,5 +1,4 @@
 import {
-  CustomButton,
   GroupButton,
   LazySection,
   ProductSection,
@@ -12,7 +11,7 @@ import {
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router';
@@ -91,21 +90,18 @@ export const Home = () => {
           )}
         </Skeleton>
         <LazySection>
-          <CustomButton
-            type="text"
-            customStyle={[
-              'py-4',
-              'text-lg',
-              'max-w-[350px]',
-              'w-full',
-              'mx-auto',
-              'rounded-lg',
-              'mt-6'
-            ]}
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              textTransform: 'uppercase',
+              padding: 2,
+              marginY: 2
+            }}
             onClick={() => navigate('/search')}
           >
-            Pretrazi sve proizvode
-          </CustomButton>
+            Pretraži sve proizvode
+          </Button>
         </LazySection>
         <div className="text-center my-6 md:my-8">
           <Typography
@@ -150,21 +146,18 @@ export const Home = () => {
           ))}
         </Box>
         <LazySection>
-          <CustomButton
-            type="text"
-            customStyle={[
-              'py-4',
-              'text-lg',
-              'max-w-[350px]',
-              'w-full',
-              'mx-auto',
-              'rounded-lg',
-              'mt-6'
-            ]}
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              textTransform: 'uppercase',
+              padding: 2,
+              marginY: 2
+            }}
             onClick={() => navigate('/search')}
           >
-            Pretrazi sve proizvode
-          </CustomButton>
+            Pretraži sve proizvode
+          </Button>
         </LazySection>
         <FeaturedShopsBanner />
         <ProductSection

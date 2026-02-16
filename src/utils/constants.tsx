@@ -92,7 +92,7 @@ export const homeCategories: HomeCategory[] = [
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734487/dh61q6w6vhvufl2nqsju.webp',
     route: '/search/potted_flowers',
-    text: 'Saksijsko cveče',
+    text: 'Saksijsko cveće',
     slug: 'potted_flowers'
   },
   {
