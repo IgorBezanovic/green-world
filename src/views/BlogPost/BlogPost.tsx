@@ -139,7 +139,7 @@ export const BlogPost = () => {
               }
             })}
           >
-            {posts.map((post) => (
+            {posts?.map((post) => (
               <BlogCard key={post._id} post={post} />
             ))}
           </Box>

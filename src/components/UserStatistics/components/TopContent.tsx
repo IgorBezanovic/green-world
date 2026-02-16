@@ -120,7 +120,7 @@ export const TopContent = ({ user }: { user: User }) => {
           Proizvodi
         </Typography>
         <Stack spacing={1.5}>
-          {user.statistics.products.map((item) =>
+          {user.statistics.products?.map((item) =>
             renderItem({ item, typeLabel: 'Proizvod' })
           )}
         </Stack>
@@ -132,7 +132,7 @@ export const TopContent = ({ user }: { user: User }) => {
           Blogovi
         </Typography>
         <Stack spacing={1.5}>
-          {user.statistics.blogs.map((item) =>
+          {user.statistics.blogs?.map((item) =>
             renderItem({ item, typeLabel: 'Blog' })
           )}
         </Stack>
@@ -144,7 +144,7 @@ export const TopContent = ({ user }: { user: User }) => {
           Aktivnosti
         </Typography>
         <Stack spacing={1.5}>
-          {user.statistics.actions.map((item) =>
+          {user.statistics.actions?.map((item) =>
             renderItem({ item, typeLabel: 'Aktivnost' })
           )}
         </Stack>

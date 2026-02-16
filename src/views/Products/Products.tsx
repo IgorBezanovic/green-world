@@ -191,7 +191,13 @@ export const Products = () => {
   ];
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
       <Box
         className={clsx(
@@ -314,7 +320,7 @@ export const Products = () => {
                         }}
                       >
                         <MenuItem value="">Sve grupe</MenuItem>
-                        {homeCategories.map((cat) => (
+                        {homeCategories?.map((cat) => (
                           <MenuItem key={cat.slug} value={cat.slug}>
                             {cat.text}
                           </MenuItem>
@@ -346,7 +352,7 @@ export const Products = () => {
                       }}
                     >
                       <MenuItem value="">Sve podgrupe</MenuItem>
-                      {availableSubgroups.map((sg) => (
+                      {availableSubgroups?.map((sg) => (
                         <MenuItem key={sg.label} value={sg.label}>
                           {sg.sr_RS}
                         </MenuItem>
@@ -450,7 +456,7 @@ export const Products = () => {
             >
               {isFetching ? (
                 oldProducts.length ? (
-                  oldProducts.map((product) => (
+                  oldProducts?.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))
                 ) : (
@@ -482,7 +488,7 @@ export const Products = () => {
                   </Box>
                 )
               ) : data?.products.length ? (
-                data?.products.map((product) => (
+                data?.products?.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (

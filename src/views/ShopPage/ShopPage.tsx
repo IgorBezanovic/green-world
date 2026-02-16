@@ -115,7 +115,13 @@ export const ShopPage = () => {
   ];
 
   return (
-    <Box className="w-full bg-whiteLinen min-h-viewHeight">
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags
         title={metaObj.title}
         description={metaObj.description}
@@ -504,7 +510,7 @@ export const ShopPage = () => {
                 'lgm:grid-cols-4'
               )}
             >
-              {filteredProducts.map((product) => (
+              {filteredProducts?.map((product) => (
                 <ProductCard product={product} key={product._id} />
               ))}
             </Box>

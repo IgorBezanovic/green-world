@@ -302,7 +302,7 @@ export const PromoteProduct = () => {
                   }
                 }}
               >
-                {userProducts.map((p) => (
+                {userProducts?.map((p) => (
                   <MenuItem key={p._id} value={p._id}>
                     <Checkbox
                       checked={selectedProductIds.indexOf(p._id) > -1}
@@ -347,7 +347,7 @@ export const PromoteProduct = () => {
                 mb: 3
               }}
             >
-              {PRODUCT_PACKAGES.map((pkg) => (
+              {PRODUCT_PACKAGES?.map((pkg) => (
                 <Card
                   key={pkg.id}
                   variant="outlined"

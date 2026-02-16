@@ -54,7 +54,13 @@ export const Event = () => {
   ];
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags
         title={metaObj.title}
         description={metaObj.description}
@@ -197,6 +203,6 @@ export const Event = () => {
           </Stack>
         </Card>
       </div>
-    </div>
+    </Box>
   );
 };

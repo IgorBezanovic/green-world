@@ -219,7 +219,7 @@ export const IncreaseCapacity = () => {
             mb: 3
           }}
         >
-          {CAPACITY_PACKAGES.map((pkg) => (
+          {CAPACITY_PACKAGES?.map((pkg) => (
             <Card
               key={pkg.id}
               variant="outlined"

@@ -269,7 +269,7 @@ export const WritePost = () => {
 
   const updateBlockText = (id: string, text: string) => {
     setBlocks(
-      blocks.map((block) => (block.id === id ? { ...block, text } : block))
+      blocks?.map((block) => (block.id === id ? { ...block, text } : block))
     );
   };
 
@@ -280,7 +280,7 @@ export const WritePost = () => {
     uploadImage(formData, {
       onSuccess: (imageUrl: string) => {
         setBlocks(
-          blocks.map((block) =>
+          blocks?.map((block) =>
             block.id === id ? { ...block, image: imageUrl } : block
           )
         );
@@ -297,7 +297,7 @@ export const WritePost = () => {
       coverImage,
       keywords,
       timeOfReading: timeOfReading === '' ? undefined : timeOfReading,
-      blocks: blocks.map(({ type, text, image }) => ({
+      blocks: blocks?.map(({ type, text, image }) => ({
         type,
         ...(text ? { text } : {}),
         ...(image ? { image } : {})
@@ -433,7 +433,7 @@ export const WritePost = () => {
             </Button>
           </Box>
           <Box display="flex" gap={1} mt={1}>
-            {keywords.map((k) => (
+            {keywords?.map((k) => (
               <Chip key={k} label={k} onDelete={() => removeKeyword(k)} />
             ))}
           </Box>
@@ -508,7 +508,7 @@ export const WritePost = () => {
             </Alert>
           )}
 
-          {blocks.map((block, index) => (
+          {blocks?.map((block, index) => (
             <Card key={block.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Box

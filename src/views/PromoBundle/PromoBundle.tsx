@@ -256,7 +256,7 @@ export const PromoBundle = () => {
             mb: 4
           }}
         >
-          {BUNDLES.map((bundle) => (
+          {BUNDLES?.map((bundle) => (
             <Card
               key={bundle.id}
               variant="outlined"
@@ -430,7 +430,7 @@ export const PromoBundle = () => {
                             }
                           }}
                         >
-                          {userProducts.map((p) => (
+                          {userProducts?.map((p) => (
                             <MenuItem
                               key={p._id}
                               value={p._id}

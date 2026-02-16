@@ -9,7 +9,13 @@ export const PrivacyPolicy = () => {
   ];
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
 
       <div
@@ -89,6 +95,6 @@ export const PrivacyPolicy = () => {
           </Box>
         </Container>
       </div>
-    </div>
+    </Box>
   );
 };

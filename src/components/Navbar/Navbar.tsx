@@ -53,7 +53,7 @@ export const Navbar = () => {
         scrollbarWidth: 'none'
       }}
     >
-      {navItems.map((item) => {
+      {navItems?.map((item) => {
         const isActive = location.pathname === item.path;
         const showBadge =
           item.label !== 'Proizvodi' &&

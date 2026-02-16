@@ -225,7 +225,7 @@ export const PromoteShop = () => {
             mb: 3
           }}
         >
-          {SHOP_PACKAGES.map((pkg) => (
+          {SHOP_PACKAGES?.map((pkg) => (
             <Card
               key={pkg.id}
               variant="outlined"

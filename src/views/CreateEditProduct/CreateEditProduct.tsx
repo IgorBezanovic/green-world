@@ -19,6 +19,7 @@ import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
 import {
   Alert,
   AlertTitle,
+  Box,
   Checkbox,
   List,
   ListItem,
@@ -265,7 +266,13 @@ export const CreateEditProduct = () => {
   ];
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={pageTitle} />
       <title>
         Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
@@ -771,6 +778,6 @@ export const CreateEditProduct = () => {
           Maksimalna veličina fajla je 10MB!
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 };
