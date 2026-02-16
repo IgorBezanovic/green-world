@@ -32,7 +32,7 @@ export const FeaturedProducts = () => {
           }
         })}
       >
-        {data.map((product: ProductPreview) => (
+        {data?.map((product: ProductPreview) => (
           <FeaturedProduct key={product._id} product={product} />
         ))}
       </Box>

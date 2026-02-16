@@ -87,11 +87,11 @@ export const Shops = () => {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         width: '100%',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'background.paper',
         minHeight: 'calc(100vh - 360px)'
-      })}
+      }}
     >
       <MetaTags title="Zeleni svet | Prodavnice | Green world" />
 
@@ -295,7 +295,7 @@ export const Shops = () => {
               }
             }}
           >
-            {filteredShops.map((user) => (
+            {filteredShops?.map((user) => (
               <ShopCard
                 key={user._id}
                 id={user._id!}

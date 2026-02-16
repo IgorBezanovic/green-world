@@ -286,7 +286,7 @@ export const Message = () => {
           </div>
         )}
 
-        {filteredConversations.map((conv: any) => {
+        {filteredConversations?.map((conv: any) => {
           const isSelected = conv.otherUserId === selectedUserId;
           const lastMessageDate = conv.lastMessage?.createdAt
             ? new Date(conv.lastMessage.createdAt).toLocaleString('sr-RS', {
@@ -423,7 +423,7 @@ export const Message = () => {
             Nema poruka u ovoj konverzaciji.
           </div>
         )}
-        {visibleMessages.map((msg, i) => {
+        {visibleMessages?.map((msg, i) => {
           const isMe = msg.sender === currentUser;
           const messageTime = msg.createdAt
             ? new Date(msg.createdAt).toLocaleString('sr-RS', {
@@ -540,7 +540,13 @@ export const Message = () => {
   );
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={pageTitle} />
 
       <Box

@@ -17,8 +17,6 @@ import { Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import '../style.css';
-
 export const UserProfile = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -123,11 +121,11 @@ export const UserProfile = () => {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         width: '100%',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'background.paper',
         minHeight: 'calc(100vh - 360px)'
-      })}
+      }}
     >
       <MetaTags
         title={metaObj.title}

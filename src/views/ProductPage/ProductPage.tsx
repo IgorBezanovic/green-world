@@ -305,7 +305,7 @@ export const ProductPage = () => {
                         gap: '16px'
                       })}
                     >
-                      {productData?.images.map(
+                      {productData?.images?.map(
                         (image: string, index: number) => (
                           <Box
                             component="img"

@@ -78,7 +78,7 @@ export const EventCarousel = ({ ...props }) => {
             ]}
             slidesToScroll={1}
           >
-            {events.map((event) => (
+            {events?.map((event) => (
               <Box key={event.title} sx={{ p: 1 }}>
                 <EventCard event={event} />
               </Box>

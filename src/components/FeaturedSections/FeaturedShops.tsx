@@ -31,8 +31,8 @@ export const FeaturedShops = () => {
   }
 
   return (
-    <Box sx={{ my: 4 }}>
-      <FeaturedShopHero shop={data[index]} />
+    <Box sx={{ my: hasShops ? 4 : 0 }}>
+      {hasShops && <FeaturedShopHero shop={data[index]} />}
     </Box>
   );
 };

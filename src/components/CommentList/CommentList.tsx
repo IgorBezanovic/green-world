@@ -37,7 +37,7 @@ export const CommentList = ({
         </Typography>
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {grouped.parents.map((p) => (
+          {grouped.parents?.map((p) => (
             <CommentItem
               key={p._id}
               comment={p}

@@ -12,6 +12,7 @@ import { useImage } from '@green-world/hooks/useImage';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { Box } from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -147,7 +148,13 @@ export const CreateEditEvent = () => {
   ];
 
   return (
-    <div className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={pageTitle} />
       <div
         className={clsx(
@@ -598,6 +605,6 @@ export const CreateEditEvent = () => {
           </div>
         </form>
       </div>
-    </div>
+    </Box>
   );
 };

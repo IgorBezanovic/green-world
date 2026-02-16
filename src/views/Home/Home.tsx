@@ -22,7 +22,13 @@ export const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
       <Box
         className={clsx(
@@ -139,7 +145,7 @@ export const Home = () => {
             }
           })}
         >
-          {homeCategories.map((category) => (
+          {homeCategories?.map((category) => (
             <GroupButton key={category.id} item={category} />
           ))}
         </Box>

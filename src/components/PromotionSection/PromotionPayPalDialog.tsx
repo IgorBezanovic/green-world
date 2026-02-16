@@ -151,7 +151,7 @@ export const PromotionPayPalDialog = ({
                   <MenuItem value="">
                     <em>—</em>
                   </MenuItem>
-                  {userProducts.map((p) => (
+                  {userProducts?.map((p) => (
                     <MenuItem key={p._id} value={p._id}>
                       {p.title || p._id}
                     </MenuItem>

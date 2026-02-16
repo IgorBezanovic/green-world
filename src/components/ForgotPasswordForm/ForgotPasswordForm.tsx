@@ -1,5 +1,4 @@
 import { useForgotPassword } from '@green-world/hooks/useForgotPassword';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {
   Box,
   OutlinedInput,
@@ -8,6 +7,7 @@ import {
   Typography,
   CircularProgress
 } from '@mui/material';
+import { Mail } from 'lucide-react';
 import { useState } from 'react';
 
 export const ForgotPasswordForm = () => {
@@ -33,7 +33,7 @@ export const ForgotPasswordForm = () => {
         maxWidth: 768,
         width: '100%',
         mx: 'auto',
-        mt: { md: 6 }
+        mt: 6
       })}
     >
       <Box
@@ -42,7 +42,7 @@ export const ForgotPasswordForm = () => {
         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
         <Typography variant="h5" sx={{ mb: 0 }}>
-          Ukoliko ste zaboravili svoj password, nije problem.
+          Ukoliko ste zaboravili svoju lozinku, nije problem.
         </Typography>
         <Typography variant="body1" sx={{ mb: 1 }}>
           Na Vašu e-mail adresu biće poslata privremena lozinka. Nakon prijave,
@@ -62,7 +62,7 @@ export const ForgotPasswordForm = () => {
           disabled={isPending}
           startAdornment={
             <InputAdornment position="start">
-              <MailOutlineIcon color="action" />
+              <Mail />
             </InputAdornment>
           }
           sx={{
@@ -80,7 +80,7 @@ export const ForgotPasswordForm = () => {
           {isPending ? (
             <CircularProgress size={20} color="inherit" />
           ) : (
-            'Promeni password'
+            'Promeni lozinku'
           )}
         </Button>
 

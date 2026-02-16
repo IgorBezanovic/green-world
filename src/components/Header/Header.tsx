@@ -187,7 +187,7 @@ export const Header = () => {
         >
           <Box sx={{ flex: 1, overflowY: 'auto' }}>
             <List>
-              {menuItems.map((item) => (
+              {menuItems?.map((item) => (
                 <ListItemButton
                   key={item.text}
                   onClick={item.onClick}

@@ -73,7 +73,7 @@ export const HomeCarousel = ({ ...props }) => {
               slidesToScroll={1}
               className={clsx('w-full')}
             >
-              {products.map((product: any, index: number) => (
+              {products?.map((product: any, index: number) => (
                 <div key={product.title} className="p-2">
                   <ProductCard product={product} isHero={index === 0} />
                 </div>
