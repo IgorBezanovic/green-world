@@ -1,6 +1,7 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Alert,
   Box,
@@ -12,62 +13,29 @@ import {
   Divider,
   FormControl,
   FormHelperText,
-  InputLabel,
-  ListItemText,
   MenuItem,
   Select,
   Typography,
-  useTheme,
-  useMediaQuery
+  useTheme
 } from '@mui/material';
 import {
   ArrowLeft,
   Check,
-  Info,
+  HandCoins,
   MapPin,
+  Package,
+  ShoppingBag,
   Sparkles,
-  TrendingUp,
-  X
+  TrendingUp
 } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { PromoteProductPayCardInline } from './PromoteProductPayCardInline';
-import { PromoteProductPayInline } from './PromoteProductPayInline';
-
-const PRICE_PER_DAY_PER_PRODUCT_RSD = 50;
-
-const PRODUCT_PACKAGES: Array<{
-  id: string;
-  name: string;
-  days: number;
-  pricePerProductRsd: number;
-  description: string;
-  popular?: boolean;
-}> = [
-  {
-    id: '7',
-    name: '7 dana',
-    days: 7,
-    pricePerProductRsd: 600,
-    description: 'Kratka promocija'
-  },
-  {
-    id: '14',
-    name: '14 dana',
-    days: 14,
-    pricePerProductRsd: 1000,
-    description: 'Dve nedelje',
-    popular: true
-  },
-  {
-    id: '28',
-    name: '28 dana',
-    days: 28,
-    pricePerProductRsd: 1600,
-    description: 'Najpovoljnije po danu'
-  }
-];
+import {
+  PRODUCT_PACKAGES,
+  PromoteProductPayCardInline,
+  PromoteProductPayInline
+} from './components';
 
 const pages = [
   { label: 'Početna', route: '/' },
@@ -78,7 +46,6 @@ export const PromoteProduct = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { user } = useContext(UserContext);
   const { data: userProducts = [], isLoading: productsLoading } =
     useAllUserProducts();
@@ -124,46 +91,6 @@ export const PromoteProduct = () => {
       typeof value === 'string' ? value.split(',') : (value as string[])
     );
   };
-  console.log(user._id);
-  if (!user?._id) {
-    return (
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'background.paper',
-          minHeight: 'calc(100vh - 360px)'
-        }}
-      >
-        <MetaTags
-          title="Promocija proizvoda | Zeleni svet"
-          description="Istaknite svoje proizvode na vrhu pretrage. Informacije o promociji proizvoda na Zelenom svetu."
-        />
-        <Box
-          sx={(t) => ({
-            maxWidth: '900px',
-            width: '100%',
-            mx: 'auto',
-            px: 2,
-            py: 4,
-            [t.breakpoints.up('sm')]: { px: 3 }
-          })}
-        >
-          <AppBreadcrumbs pages={pages} />
-          <Divider sx={{ my: 2 }} />
-          <Alert severity="info">
-            Morate biti ulogovani da biste kupili promociju proizvoda.{' '}
-            <Button
-              size="small"
-              onClick={() => navigate('/login')}
-              sx={{ mt: 1 }}
-            >
-              Prijavi se
-            </Button>
-          </Alert>
-        </Box>
-      </Box>
-    );
-  }
 
   return (
     <Box
@@ -178,29 +105,29 @@ export const PromoteProduct = () => {
         description="Istaknite svoje proizvode na vrhu pretrage. Izaberite proizvode, broj dana i platite. 50 RSD po danu po proizvodu."
       />
       <Box
-        sx={(t) => ({
-          maxWidth: '900px',
+        sx={(theme) => ({
+          maxWidth: '1400px',
           width: '100%',
           mx: 'auto',
           px: 2,
           py: 4,
-          [t.breakpoints.up('sm')]: { px: 3 }
+          [theme.breakpoints.up('sm')]: { px: 3 }
         })}
       >
         <AppBreadcrumbs pages={pages} />
         <Divider sx={{ my: 2 }} />
 
         <Button
-          startIcon={<ArrowLeft size={18} />}
+          startIcon={<ArrowLeft />}
           onClick={() => navigate(-1)}
+          size="large"
           sx={{ mb: 2 }}
         >
           Nazad
         </Button>
 
         <Typography
-          variant="h4"
-          fontWeight={700}
+          variant="h1"
           sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
         >
           <Sparkles color={theme.palette.success.main} size={28} />
@@ -208,58 +135,72 @@ export const PromoteProduct = () => {
         </Typography>
 
         <Card
-          variant="outlined"
-          sx={{
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            [theme.breakpoints.down('md')]: {
+              p: 1
+            },
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
             borderColor: 'success.light',
-            bgcolor: 'success.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
             mb: 4
-          }}
+          })}
         >
           <CardContent>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant="h4"
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
             >
-              <Info size={20} />
+              <TrendingUp style={{ width: '24px', height: '24px' }} />
               Šta dobijate promocijom?
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              Promovisani proizvodi pojavljuju se na{' '}
-              <strong>vrhu rezultata pretrage</strong> i na početnoj stranici u
-              sekciji istaknutih proizvoda. Veća vidljivost znači više poseta i
-              veću šansu za prodaju.
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              Promocija povećava vidljivost vaših proizvoda i omogućava da ih
+              kupci primete čak i kada pretražuju ili filtriraju druge
+              proizvode. Više pregleda znači više potencijalnih kupaca, veće
+              šanse za prodaju i brži povraćaj investicije. Ukratko, promocija
+              vam pomaže da vaš proizvod stigne do pravih ljudi u pravo vreme.
             </Typography>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant="h4"
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
             >
-              <MapPin size={20} />
+              <MapPin style={{ width: '24px', height: '24px' }} />
               Gde će proizvodi biti promovisani?
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              Na <strong>stranici pretrage (search)</strong>, u izabranim
-              kategorijama, kao i u <strong>Featured</strong> sekciji na
-              početnoj stranici — u zavisnosti od podešavanja platforme.
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              Promovisani proizvodi pojavljuju se na{' '}
+              <strong>početnoj stranici u sekciji istaknutih proizvoda</strong>{' '}
+              i na stranici <strong>svih i kategorisanih proizvoda</strong>,
+              korisnici koje god filtere da primene, Vaši proizvodi će biti
+              vidljivi. Veća vidljivost znači više poseta i veću šansu za
+              prodaju.
             </Typography>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant="h4"
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
             >
-              <TrendingUp size={20} />
-              Cena
+              <HandCoins style={{ width: '24px', height: '24px' }} />
+              Cena promovisanja
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>{PRICE_PER_DAY_PER_PRODUCT_RSD} RSD</strong> po danu po
-              proizvodu. Izaberite proizvode i broj dana ispod, pa platite putem
-              PayPal-a (iznos u EUR po trenutnom kursu).
+            <Typography variant="body1" color="text.secondary">
+              Promocija je povoljna i transparentna: plaćate po proizvodu, po
+              danu. Što duže promovišete, to je jeftinije, veća vidljivost i
+              šansa za prodaju. Izaberite proizvode i trajanje promocije, a
+              ukupna cena će biti prikazana odmah bez skrivenih troškova.
             </Typography>
           </CardContent>
         </Card>
 
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Izaberite proizvode i trajanje
         </Typography>
 
@@ -275,13 +216,8 @@ export const PromoteProduct = () => {
         ) : (
           <>
             <FormControl fullWidth sx={{ mb: 3 }}>
-              <InputLabel id="promote-products-label">
-                Proizvodi za promociju
-              </InputLabel>
-
               <Select
                 labelId="promote-products-label"
-                label="Proizvodi za promociju"
                 multiple
                 value={selectedProductIds}
                 onChange={handleProductChange}
@@ -307,10 +243,27 @@ export const PromoteProduct = () => {
                     <Checkbox
                       checked={selectedProductIds.indexOf(p._id) > -1}
                     />
-                    <ListItemText
-                      primary={p.title || 'Bez naslova'}
-                      secondary={p.price ? `${p.price} RSD` : undefined}
-                    />
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                      <Box
+                        component="img"
+                        src={formatImageUrl(p.images[0])}
+                        width={'25px'}
+                        height={'25px'}
+                      />
+                      <Typography variant="subtitle2">
+                        <strong>{p.title || 'Bez naslova'}, </strong>
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <HandCoins className="mr-1" />{' '}
+                        {p.price
+                          ?.toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
+                        {p.priceOnRequest ? 'Cena na upit' : 'RSD'}
+                      </Typography>
+                    </Box>
                   </MenuItem>
                 ))}
               </Select>
@@ -320,20 +273,7 @@ export const PromoteProduct = () => {
               </FormHelperText>
             </FormControl>
 
-            {isMobile && selectedProductIds.length > 0 && (
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<X size={18} />}
-                onClick={() => setSelectedProductIds([])}
-                fullWidth
-                sx={{ mb: 3 }}
-              >
-                Očisti izbor
-              </Button>
-            )}
-
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+            <Typography variant="h4" sx={{ mb: 2 }}>
               Izaberite paket trajanja
             </Typography>
             <Box
@@ -352,13 +292,12 @@ export const PromoteProduct = () => {
                   key={pkg.id}
                   variant="outlined"
                   sx={{
+                    borderRadius: 2,
+                    border: '1px solid',
+                    background:
+                      'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
                     borderColor:
-                      selectedPackageId === pkg.id
-                        ? 'primary.main'
-                        : pkg.popular
-                          ? 'warning.main'
-                          : 'divider',
-                    borderWidth: pkg.popular ? 2 : 1,
+                      selectedPackageId === pkg.id ? 'primary.main' : 'divider',
                     position: 'relative',
                     cursor: isCardPaymentActive ? 'default' : 'pointer',
                     opacity: isCardPaymentActive ? 0.7 : 1,
@@ -375,30 +314,12 @@ export const PromoteProduct = () => {
                     !isCardPaymentActive && setSelectedPackageId(pkg.id)
                   }
                 >
-                  {pkg.popular && (
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 8,
-                        right: 8,
-                        bgcolor: 'warning.main',
-                        color: 'white',
-                        px: 2,
-                        py: 0.5,
-                        borderRadius: 1,
-                        fontSize: '0.75rem',
-                        fontWeight: 600
-                      }}
-                    >
-                      Najpopularniji
-                    </Box>
-                  )}
                   <CardContent>
-                    <Typography variant="h6" fontWeight={700} sx={{ mb: 0.5 }}>
+                    <Typography variant="h4" sx={{ mb: 0.5 }}>
                       {pkg.name}
                     </Typography>
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       color="text.secondary"
                       sx={{ mb: 2 }}
                     >
@@ -406,14 +327,13 @@ export const PromoteProduct = () => {
                     </Typography>
                     <Box sx={{ mb: 2 }}>
                       <Typography
-                        variant="h5"
-                        fontWeight={700}
+                        variant="h3"
                         color="primary.main"
                         sx={{ mb: 0.5 }}
                       >
                         {pkg.pricePerProductRsd} RSD
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="body1" color="text.secondary">
                         po proizvodu ({pkg.days} dana)
                       </Typography>
                     </Box>
@@ -422,12 +342,12 @@ export const PromoteProduct = () => {
                         size={16}
                         color={theme.palette.success.main as string}
                       />
-                      <Typography variant="body2">
+                      <Typography variant="body1">
                         {pkg.days} dana promocije
                       </Typography>
                     </Box>
                     <Typography
-                      variant="caption"
+                      variant="body2"
                       color="text.secondary"
                       sx={{ display: 'block', mt: 1 }}
                     >
@@ -438,61 +358,107 @@ export const PromoteProduct = () => {
               ))}
             </Box>
 
-            <Card variant="outlined" sx={{ mb: 2 }}>
+            <Card
+              sx={{
+                mb: 2,
+                borderRadius: 2,
+                border: '1px solid',
+                borderColor: 'warning.light',
+                boxShadow: 'none',
+                background: 'linear-gradient(180deg, #FFF5EC 0%, #FFFFFF 100%)'
+              }}
+            >
               <CardContent>
-                <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-                  Ukupno za plaćanje
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{ mb: 2 }}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1
+                  }}
                 >
-                  {selectedProductIds.length} proizvod(a) ×{' '}
-                  {selectedPackage.name} ({selectedPackage.pricePerProductRsd}{' '}
-                  RSD po proizvodu) = <strong>{totalRsd} RSD</strong>
-                </Typography>
-
-                {canPay && (
                   <Box
                     sx={{
+                      width: 45,
+                      height: 45,
+                      borderRadius: '50%',
+                      bgcolor: 'success.light',
+                      color: 'success.main',
                       display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: 3,
-                      mt: 2,
-                      '& > *': { flex: '1 1 280px', minWidth: 280 }
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: 0.7
                     }}
                   >
-                    <Box>
-                      <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                        sx={{ mb: 1 }}
-                      >
-                        PayPal
-                      </Typography>
+                    <ShoppingBag style={{ width: '24px', height: '24px' }} />
+                  </Box>
+                  <Box>
+                    <Typography variant="h4">Ukupno za plaćanje</Typography>
+                    <Typography variant="caption">
+                      Pregled porudzbine
+                    </Typography>
+                  </Box>
+                </Box>
+                {canPay ? (
+                  <>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        my: 2,
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        p: 2,
+                        borderRadius: 2,
+                        border: '1px solid',
+                        borderColor: 'grey.300',
+                        backgroundColor: '#F9FCF7'
+                      }}
+                    >
+                      <strong>{selectedProductIds.length} proizvod(a)</strong> ×{' '}
+                      <strong>{selectedPackage.name}</strong> (
+                      {selectedPackage.pricePerProductRsd} RSD po proizvodu) ={' '}
+                      <strong>{totalRsd} RSD</strong>
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        mt: 4,
+                        mx: 'auto',
+                        maxWidth: '400px',
+                        width: '100%'
+                      }}
+                    >
                       <PromoteProductPayInline
                         productIds={selectedProductIds}
                         days={days}
-                        totalRsd={totalRsd}
                       />
-                    </Box>
-                    <Box>
-                      <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                        sx={{ mb: 1 }}
-                      >
-                        Debitna ili kreditna kartica
-                      </Typography>
                       <PromoteProductPayCardInline
                         productIds={selectedProductIds}
                         days={days}
-                        totalRsd={totalRsd}
                         onCardPaymentClick={() => setIsCardPaymentActive(true)}
                         onCancel={() => setIsCardPaymentActive(false)}
                       />
                     </Box>
+                  </>
+                ) : (
+                  <Box
+                    sx={{
+                      my: 2,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      p: 2,
+                      borderRadius: 2,
+                      border: '1px dashed',
+                      borderColor: 'grey.300',
+                      backgroundColor: '#F9FCF7',
+                      gap: 1
+                    }}
+                  >
+                    <Package />
+                    Izaberite proizvode i dužinu trajanja promocije
                   </Box>
                 )}
               </CardContent>
