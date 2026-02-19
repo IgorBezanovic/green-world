@@ -1,5 +1,4 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
-import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import {
   Alert,
@@ -30,11 +29,11 @@ import {
   TrendingUp,
   X
 } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { PromoBundlePayCardInline } from './PromoBundlePayCardInline';
-import { PromoBundlePayInline } from './PromoBundlePayInline';
+import { PromoBundlePayCardInline } from './components/PromoBundlePayCardInline';
+import { PromoBundlePayInline } from './components/PromoBundlePayInline';
 
 const BUNDLES = [
   {
@@ -85,51 +84,10 @@ export const PromoBundle = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { user } = useContext(UserContext);
   const { data: userProducts = [], isLoading: productsLoading } =
     useAllUserProducts();
   const [selectedBundle, setSelectedBundle] = useState<string | null>(null);
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
-
-  if (!user?._id) {
-    return (
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'background.paper',
-          minHeight: 'calc(100vh - 360px)'
-        }}
-      >
-        <MetaTags
-          title="Promotivni Paketi | Zeleni svet"
-          description="Ekskluzivni promotivni paketi sa kombinacijom promocije proizvoda, prodavnice i povećanja kapaciteta. Povoljnije cene."
-        />
-        <Box
-          sx={(t) => ({
-            maxWidth: '900px',
-            width: '100%',
-            mx: 'auto',
-            px: 2,
-            py: 4,
-            [t.breakpoints.up('sm')]: { px: 3 }
-          })}
-        >
-          <AppBreadcrumbs pages={pages} />
-          <Divider sx={{ my: 2 }} />
-          <Alert severity="info">
-            Morate biti ulogovani da biste kupili promotivni paket.{' '}
-            <Button
-              size="small"
-              onClick={() => navigate('/login')}
-              sx={{ mt: 1 }}
-            >
-              Prijavi se
-            </Button>
-          </Alert>
-        </Box>
-      </Box>
-    );
-  }
 
   return (
     <Box
@@ -144,13 +102,13 @@ export const PromoBundle = () => {
         description="Ekskluzivni promotivni paketi sa kombinacijom promocije proizvoda, prodavnice i povećanja kapaciteta. Povoljnije cene od pojedinačnih promocija."
       />
       <Box
-        sx={(t) => ({
-          maxWidth: '1200px',
+        sx={(theme) => ({
+          maxWidth: '1400px',
           width: '100%',
           mx: 'auto',
           px: 2,
           py: 4,
-          [t.breakpoints.up('sm')]: { px: 3 }
+          [theme.breakpoints.up('sm')]: { px: 3 }
         })}
       >
         <AppBreadcrumbs pages={pages} />
@@ -174,12 +132,24 @@ export const PromoBundle = () => {
         </Typography>
 
         <Card
-          variant="outlined"
-          sx={{
-            borderColor: 'warning.light',
-            bgcolor: 'warning.light',
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            [theme.breakpoints.down('md')]: {
+              p: 1
+            },
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'success.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
             mb: 4
-          }}
+          })}
         >
           <CardContent>
             <Typography
@@ -487,42 +457,25 @@ export const PromoBundle = () => {
                       <Box
                         sx={{
                           display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: 3,
-                          mt: 2,
-                          '& > *': { flex: '1 1 280px', minWidth: 280 }
+                          flexDirection: 'column',
+                          mt: 4,
+                          mx: 'auto',
+                          maxWidth: '400px',
+                          width: '100%'
                         }}
                       >
-                        <Box>
-                          <Typography
-                            variant="subtitle2"
-                            color="text.secondary"
-                            sx={{ mb: 1 }}
-                          >
-                            PayPal
-                          </Typography>
-                          <PromoBundlePayInline
-                            bundleId={
-                              bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
-                            }
-                            productIds={selectedProductIds}
-                          />
-                        </Box>
-                        <Box>
-                          <Typography
-                            variant="subtitle2"
-                            color="text.secondary"
-                            sx={{ mb: 1 }}
-                          >
-                            Debitna ili kreditna kartica
-                          </Typography>
-                          <PromoBundlePayCardInline
-                            bundleId={
-                              bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
-                            }
-                            productIds={selectedProductIds}
-                          />
-                        </Box>
+                        <PromoBundlePayInline
+                          bundleId={
+                            bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
+                          }
+                          productIds={selectedProductIds}
+                        />
+                        <PromoBundlePayCardInline
+                          bundleId={
+                            bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
+                          }
+                          productIds={selectedProductIds}
+                        />
                       </Box>
                     </>
                   )}

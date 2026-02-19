@@ -1,1 +1,1 @@
-export { PromoteShop } from './PromoteShop';
+export * from './PromoteShop';

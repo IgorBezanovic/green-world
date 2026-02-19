@@ -1,7 +1,6 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
-  Alert,
   Box,
   Button,
   Card,
@@ -21,8 +20,8 @@ import {
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { PromoteShopPayCardInline } from './PromoteShopPayCardInline';
-import { PromoteShopPayInline } from './PromoteShopPayInline';
+import { PromoteShopPayCardInline } from './components/PromoteShopPayCardInline';
+import { PromoteShopPayInline } from './components/PromoteShopPayInline';
 
 const SHOP_PACKAGES: Array<{
   id: string;
@@ -78,46 +77,6 @@ export const PromoteShop = () => {
 
   const canPay = user?._id;
 
-  if (!user?._id) {
-    return (
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'background.paper',
-          minHeight: 'calc(100vh - 360px)'
-        }}
-      >
-        <MetaTags
-          title="Promocija prodavnice | Zeleni svet"
-          description="Istaknite svoju prodavnicu na vrhu pretrage. Informacije o promociji prodavnice na Zelenom svetu."
-        />
-        <Box
-          sx={(t) => ({
-            maxWidth: '900px',
-            width: '100%',
-            mx: 'auto',
-            px: 2,
-            py: 4,
-            [t.breakpoints.up('sm')]: { px: 3 }
-          })}
-        >
-          <AppBreadcrumbs pages={pages} />
-          <Divider sx={{ my: 2 }} />
-          <Alert severity="info">
-            Morate biti ulogovani da biste kupili promociju prodavnice.{' '}
-            <Button
-              size="small"
-              onClick={() => navigate('/login')}
-              sx={{ mt: 1 }}
-            >
-              Prijavi se
-            </Button>
-          </Alert>
-        </Box>
-      </Box>
-    );
-  }
-
   return (
     <Box
       sx={{
@@ -131,13 +90,13 @@ export const PromoteShop = () => {
         description="Istaknite svoju prodavnicu na vrhu pretrage. Izaberite broj dana i platite. 50 RSD po danu."
       />
       <Box
-        sx={(t) => ({
-          maxWidth: '900px',
+        sx={(theme) => ({
+          maxWidth: '1400px',
           width: '100%',
           mx: 'auto',
           px: 2,
           py: 4,
-          [t.breakpoints.up('sm')]: { px: 3 }
+          [theme.breakpoints.up('sm')]: { px: 3 }
         })}
       >
         <AppBreadcrumbs pages={pages} />
@@ -161,17 +120,28 @@ export const PromoteShop = () => {
         </Typography>
 
         <Card
-          variant="outlined"
-          sx={{
-            borderColor: 'warning.light',
-            bgcolor: 'warning.light',
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            [theme.breakpoints.down('md')]: {
+              p: 1
+            },
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'success.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
             mb: 4
-          }}
+          })}
         >
           <CardContent>
             <Typography
               variant="h6"
-              fontWeight={600}
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
             >
               <Info size={20} />
@@ -185,7 +155,6 @@ export const PromoteShop = () => {
             </Typography>
             <Typography
               variant="h6"
-              fontWeight={600}
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
             >
               <MapPin size={20} />
@@ -198,7 +167,6 @@ export const PromoteShop = () => {
             </Typography>
             <Typography
               variant="h6"
-              fontWeight={600}
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
             >
               <TrendingUp size={20} />
@@ -211,7 +179,7 @@ export const PromoteShop = () => {
           </CardContent>
         </Card>
 
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
           Izaberite paket trajanja
         </Typography>
         <Box
@@ -230,13 +198,11 @@ export const PromoteShop = () => {
               key={pkg.id}
               variant="outlined"
               sx={{
+                borderRadius: 2,
+                border: '1px solid',
+                background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
                 borderColor:
-                  selectedPackageId === pkg.id
-                    ? 'primary.main'
-                    : pkg.popular
-                      ? 'warning.main'
-                      : 'divider',
-                borderWidth: pkg.popular ? 2 : 1,
+                  selectedPackageId === pkg.id ? 'primary.main' : 'divider',
                 position: 'relative',
                 cursor: isCardPaymentActive ? 'default' : 'pointer',
                 opacity: isCardPaymentActive ? 0.7 : 1,
@@ -318,49 +284,35 @@ export const PromoteShop = () => {
 
         <Card variant="outlined" sx={{ mb: 2 }}>
           <CardContent>
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-              Ukupno za plaćanje
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {selectedPackage.name} = <strong>{totalRsd} RSD</strong>
-            </Typography>
-
             {canPay && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: 3,
-                  mt: 2,
-                  '& > *': { flex: '1 1 280px', minWidth: 280 }
-                }}
-              >
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
-                    PayPal
-                  </Typography>
-                  <PromoteShopPayInline days={days} totalRsd={totalRsd} />
-                </Box>
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
-                    Debitna ili kreditna kartica
-                  </Typography>
+              <>
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                  Ukupno za plaćanje
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mb: 2 }}
+                >
+                  {selectedPackage.name} = <strong>{totalRsd} RSD</strong>
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    mt: 4,
+                    mx: 'auto',
+                    maxWidth: '400px',
+                    width: '100%'
+                  }}
+                >
+                  <PromoteShopPayInline days={days} />
                   <PromoteShopPayCardInline
                     days={days}
-                    totalRsd={totalRsd}
                     onCardPaymentClick={() => setIsCardPaymentActive(true)}
-                    onCancel={() => setIsCardPaymentActive(false)}
                   />
                 </Box>
-              </Box>
+              </>
             )}
           </CardContent>
         </Card>

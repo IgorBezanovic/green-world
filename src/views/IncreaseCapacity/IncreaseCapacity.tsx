@@ -1,7 +1,6 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
-  Alert,
   Box,
   Button,
   Card,
@@ -10,12 +9,19 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
-import { ArrowLeft, Check, Info, Package, TrendingUp } from 'lucide-react';
+import {
+  ArrowLeft,
+  Check,
+  Info,
+  Package,
+  ShoppingBag,
+  TrendingUp
+} from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { IncreaseCapacityPayCardInline } from './IncreaseCapacityPayCardInline';
-import { IncreaseCapacityPayInline } from './IncreaseCapacityPayInline';
+import { IncreaseCapacityPayCardInline } from './components/IncreaseCapacityPayCardInline';
+import { IncreaseCapacityPayInline } from './components/IncreaseCapacityPayInline';
 
 const CAPACITY_PACKAGES: Array<{
   id: string;
@@ -71,46 +77,6 @@ export const IncreaseCapacity = () => {
 
   const canPay = user?._id;
 
-  if (!user?._id) {
-    return (
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'background.paper',
-          minHeight: 'calc(100vh - 360px)'
-        }}
-      >
-        <MetaTags
-          title="Povećaj kapacitet Shopa | Zeleni svet"
-          description="Proširite kapacitet vaše prodavnice za više proizvoda. Informacije o povećanju kapaciteta na Zelenom svetu."
-        />
-        <Box
-          sx={(t) => ({
-            maxWidth: '900px',
-            width: '100%',
-            mx: 'auto',
-            px: 2,
-            py: 4,
-            [t.breakpoints.up('sm')]: { px: 3 }
-          })}
-        >
-          <AppBreadcrumbs pages={pages} />
-          <Divider sx={{ my: 2 }} />
-          <Alert severity="info">
-            Morate biti ulogovani da biste kupili povećanje kapaciteta.{' '}
-            <Button
-              size="small"
-              onClick={() => navigate('/login')}
-              sx={{ mt: 1 }}
-            >
-              Prijavi se
-            </Button>
-          </Alert>
-        </Box>
-      </Box>
-    );
-  }
-
   return (
     <Box
       sx={{
@@ -121,16 +87,16 @@ export const IncreaseCapacity = () => {
     >
       <MetaTags
         title="Povećaj kapacitet Shopa | Zeleni svet"
-        description="Proširite kapacitet vaše prodavnice za više proizvoda. Izaberite broj mesta i platite. 50 RSD po mestu."
+        description="Proširite kapacitet vaše prodavnice za više proizvoda. Izaberite broj mesta i platite."
       />
       <Box
-        sx={(t) => ({
-          maxWidth: '900px',
+        sx={(theme) => ({
+          maxWidth: '1400px',
           width: '100%',
           mx: 'auto',
           px: 2,
           py: 4,
-          [t.breakpoints.up('sm')]: { px: 3 }
+          [theme.breakpoints.up('sm')]: { px: 3 }
         })}
       >
         <AppBreadcrumbs pages={pages} />
@@ -150,16 +116,28 @@ export const IncreaseCapacity = () => {
           sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
         >
           <TrendingUp color={theme.palette.success.main} size={28} />
-          Povećaj kapacitet Shopa
+          Povećaj kapacitet prodavnice
         </Typography>
 
         <Card
-          variant="outlined"
-          sx={{
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            [theme.breakpoints.down('md')]: {
+              p: 1
+            },
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
             borderColor: 'success.light',
-            bgcolor: 'success.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
             mb: 4
-          }}
+          })}
         >
           <CardContent>
             <Typography
@@ -172,8 +150,8 @@ export const IncreaseCapacity = () => {
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Povećanjem kapaciteta dobijate dodatna mesta za proizvode u vašoj
-              prodavnici. Izaberite koliko mesta želite da dodate (minimum 1).
-              To znači da možete dodati više proizvoda i proširiti svoju ponudu.
+              prodavnici. Izaberite koliko mesta želite da dodate. To znači da
+              možete dodati više proizvoda i proširiti svoju ponudu.
             </Typography>
             <Typography
               variant="h6"
@@ -185,9 +163,9 @@ export const IncreaseCapacity = () => {
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Vaš trenutni kapacitet:{' '}
-              <strong>{user?.maxShopProducts || 0}</strong> proizvoda. Nakon
+              <strong>{user?.maxShopProducts || 25}</strong> proizvoda. Nakon
               kupovine, kapacitet će biti:{' '}
-              <strong>{(user?.maxShopProducts || 0) + places}</strong>{' '}
+              <strong>{(user?.maxShopProducts || 25) + places}</strong>{' '}
               proizvoda.
             </Typography>
             <Typography
@@ -200,7 +178,8 @@ export const IncreaseCapacity = () => {
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Izaberite paket ispod (povoljnije više mesta). Plaćanje putem
-              PayPal-a ili kartice (iznos u EUR po trenutnom kursu).
+              PayPal-a ili kartice (iznos je prkazan u EUR zbog platnog
+              providera, plaćate dinarskom karticom).
             </Typography>
           </CardContent>
         </Card>
@@ -224,13 +203,11 @@ export const IncreaseCapacity = () => {
               key={pkg.id}
               variant="outlined"
               sx={{
+                borderRadius: 2,
+                border: '1px solid',
+                background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
                 borderColor:
-                  selectedPackageId === pkg.id
-                    ? 'primary.main'
-                    : pkg.popular
-                      ? 'warning.main'
-                      : 'divider',
-                borderWidth: pkg.popular ? 2 : 1,
+                  selectedPackageId === pkg.id ? 'primary.main' : 'divider',
                 position: 'relative',
                 cursor: isCardPaymentActive ? 'default' : 'pointer',
                 opacity: isCardPaymentActive ? 0.7 : 1,
@@ -310,49 +287,99 @@ export const IncreaseCapacity = () => {
           ))}
         </Box>
 
-        <Card variant="outlined" sx={{ mb: 2 }}>
+        <Card
+          sx={{
+            mb: 2,
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'warning.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #FFF5EC 0%, #FFFFFF 100%)'
+          }}
+        >
           <CardContent>
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
-              Ukupno za plaćanje
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {selectedPackage.name} = <strong>{totalRsd} RSD</strong>
-            </Typography>
-
-            {canPay && (
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1
+              }}
+            >
               <Box
                 sx={{
+                  width: 45,
+                  height: 45,
+                  borderRadius: '50%',
+                  bgcolor: 'success.light',
+                  color: 'success.main',
                   display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: 3,
-                  mt: 2,
-                  '& > *': { flex: '1 1 280px', minWidth: 280 }
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: 0.7
                 }}
               >
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
-                    PayPal
-                  </Typography>
+                <ShoppingBag style={{ width: '24px', height: '24px' }} />
+              </Box>
+              <Box>
+                <Typography variant="h4">Ukupno za plaćanje</Typography>
+                <Typography variant="caption">Pregled porudzbine</Typography>
+              </Box>
+            </Box>
+            {canPay ? (
+              <>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{
+                    my: 2,
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    p: 2,
+                    borderRadius: 2,
+                    border: '1px solid',
+                    borderColor: 'grey.300',
+                    backgroundColor: '#F9FCF7'
+                  }}
+                >
+                  Ukupno za plaćanje:
+                  {selectedPackage.name} = <strong>{totalRsd},00 RSD</strong>
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    mt: 4,
+                    mx: 'auto',
+                    maxWidth: '400px',
+                    width: '100%'
+                  }}
+                >
                   <IncreaseCapacityPayInline places={places} />
-                </Box>
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
-                    Debitna ili kreditna kartica
-                  </Typography>
                   <IncreaseCapacityPayCardInline
                     places={places}
                     onCardPaymentClick={() => setIsCardPaymentActive(true)}
                     onCancel={() => setIsCardPaymentActive(false)}
                   />
                 </Box>
+              </>
+            ) : (
+              <Box
+                sx={{
+                  my: 2,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  p: 2,
+                  borderRadius: 2,
+                  border: '1px dashed',
+                  borderColor: 'grey.300',
+                  backgroundColor: '#F9FCF7',
+                  gap: 1
+                }}
+              >
+                <Package />
+                Izaberite proizvode i dužinu trajanja promocije
               </Box>
             )}
           </CardContent>
