@@ -9,7 +9,6 @@ export * from '@green-world/components/BookmarkButton';
 export * from '@green-world/components/CommentForm';
 export * from '@green-world/components/CommentItem';
 export * from '@green-world/components/CommentList';
-export * from '@green-world/components/CustomButton';
 export * from '@green-world/components/CustomInput';
 export * from '@green-world/components/EditUser/components';
 export * from '@green-world/components/EditUser';

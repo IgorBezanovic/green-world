@@ -71,7 +71,7 @@ export const PromoteShopPayCardInline = ({
       <PayPalButtons
         fundingSource={FUNDING.CARD}
         style={{ layout: 'vertical' }}
-        disabled={loading || days === 0}
+        disabled={loading}
         createOrder={async () => {
           onCardPaymentClick?.();
           const id = await handleCreateOrder();

@@ -1,10 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import {
-  AppBreadcrumbs,
-  CustomButton,
-  CustomInput,
-  MetaTags
-} from '@green-world/components';
+import { AppBreadcrumbs, CustomInput, MetaTags } from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -12,7 +7,7 @@ import { useImage } from '@green-world/hooks/useImage';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { Box } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -579,29 +574,23 @@ export const CreateEditEvent = () => {
               <option value="cancelled">Otkazano</option>
               <option value="finished">Zavrseno</option>
             </select>
-            <CustomButton
-              htmlType="submit"
-              type="text"
-              text={
-                isLoadingCreateEvent || isLoadingEditEvent ? (
-                  <LoadingOutlined
-                    className={clsx('text-groupTransparent', 'my-2')}
-                  />
-                ) : eventID ? (
-                  'Azuriraj aktivnosti'
-                ) : (
-                  'Kreiraj aktivnost'
-                )
-              }
-              customStyle={[
-                'mt-6',
-                {
-                  'border-groupTransparent':
-                    isLoadingCreateEvent || isLoadingEditEvent
-                }
-              ]}
+            <Button
+              type="submit"
+              variant="outlined"
+              sx={{ mt: 4 }}
               disabled={isLoadingCreateEvent || isLoadingEditEvent}
-            />
+            >
+              {isLoadingCreateEvent || isLoadingEditEvent ? (
+                <CircularProgress
+                  size={20}
+                  sx={{ color: 'primary.main', my: 1 }}
+                />
+              ) : eventID ? (
+                'Azuriraj aktivnosti'
+              ) : (
+                'Kreiraj aktivnost'
+              )}
+            </Button>
           </div>
         </form>
       </div>

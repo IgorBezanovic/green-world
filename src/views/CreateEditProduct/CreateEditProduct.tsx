@@ -1,10 +1,5 @@
 import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import {
-  AppBreadcrumbs,
-  CustomButton,
-  CustomInput,
-  MetaTags
-} from '@green-world/components';
+import { AppBreadcrumbs, CustomInput, MetaTags } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
@@ -20,7 +15,9 @@ import {
   Alert,
   AlertTitle,
   Box,
+  Button,
   Checkbox,
+  CircularProgress,
   List,
   ListItem,
   ListItemText,
@@ -735,31 +732,28 @@ export const CreateEditProduct = () => {
               onChange={handleChange}
             />
 
-            <CustomButton
-              htmlType="submit"
-              type="text"
-              text={
-                isLoading ||
-                isImageLoading ||
-                isLoadingCreateProduct ||
-                isLoadingEditProduct ? (
-                  <LoadingOutlined
-                    className={clsx('text-groupTransparent', 'my-2')}
-                  />
-                ) : productId ? (
-                  'Azuriraj proizvod'
-                ) : (
-                  'Kreiraj proizvod'
-                )
-              }
-              customStyle={[
-                'mt-6',
-                {
-                  'border-groupTransparent': isLoading || isImageLoading
-                }
-              ]}
+            <Button
+              type="submit"
+              variant="outlined"
               disabled={isLoading || isImageLoading}
-            />
+              sx={{
+                mt: 4
+              }}
+            >
+              {isLoading ||
+              isImageLoading ||
+              isLoadingCreateProduct ||
+              isLoadingEditProduct ? (
+                <CircularProgress
+                  size={20}
+                  sx={{ color: 'primary.main', my: 1 }}
+                />
+              ) : productId ? (
+                'Azuriraj proizvod'
+              ) : (
+                'Kreiraj proizvod'
+              )}
+            </Button>
           </div>
         </form>
       </div>
