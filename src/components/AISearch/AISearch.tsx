@@ -10,6 +10,7 @@ import {
   CircularProgress,
   IconButton
 } from '@mui/material';
+import dayjs from 'dayjs';
 import {
   CalendarDays,
   HandCoins,
@@ -140,7 +141,8 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <CalendarDays className="mr-1" /> {option.date}
+                  <CalendarDays className="mr-1" />{' '}
+                  {dayjs(option.date).format('DD.MM.YYYY. HH:mm')}
                 </Typography>
               )}
               {option.type === 'blog' && (
