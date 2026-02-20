@@ -133,7 +133,10 @@ export const Header = () => {
       }}
       className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
-      <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
+      <Box
+        className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6"
+        sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }}
+      >
         <Box
           onClick={() => navigate('/')}
           className="w-40 flex items-center cursor-pointer"
@@ -183,7 +186,8 @@ export const Header = () => {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            py: 2
+            py: 2,
+            zIndex: (theme) => theme.zIndex.modal + 100
           }}
           role="presentation"
         >

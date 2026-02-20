@@ -21,7 +21,7 @@ export const Layout = () => {
         sx={{
           width: '100%',
           position: 'sticky',
-          zIndex: (theme) => theme.zIndex.modal + 10,
+          zIndex: 1000,
           insetX: 0,
           top: 0
         }}

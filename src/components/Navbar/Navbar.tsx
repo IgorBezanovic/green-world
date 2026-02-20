@@ -51,8 +51,7 @@ export const Navbar = () => {
         whiteSpace: 'nowrap',
         '&::-webkit-scrollbar': { display: 'none' },
         scrollbarWidth: 'none',
-        position: 'relative',
-        zIndex: 1000
+        zIndex: (theme) => theme.zIndex.modal + 10
       }}
     >
       {navItems?.map((item) => {
