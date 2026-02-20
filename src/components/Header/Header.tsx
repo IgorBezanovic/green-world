@@ -128,7 +128,9 @@ export const Header = () => {
   return (
     <Box
       component="header"
-      sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      sx={{
+        backgroundColor: (theme) => theme.palette.background.main
+      }}
       className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">

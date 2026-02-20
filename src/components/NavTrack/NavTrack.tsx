@@ -24,7 +24,9 @@ export const NavTrack = () => {
         },
         maxWidth: theme.breakpoints.values.xl,
         width: '100%',
-        mx: 'auto'
+        mx: 'auto',
+        position: 'relative',
+        zIndex: (theme) => theme.zIndex.modal + 10
       }}
     >
       <Button

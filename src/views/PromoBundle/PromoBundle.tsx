@@ -1,5 +1,6 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Alert,
   Box,
@@ -11,8 +12,6 @@ import {
   Divider,
   FormControl,
   FormHelperText,
-  InputLabel,
-  ListItemText,
   MenuItem,
   Select,
   Typography,
@@ -20,17 +19,18 @@ import {
   useMediaQuery
 } from '@mui/material';
 import {
-  ArrowLeft,
   Check,
   Info,
   Package,
   Sparkles,
   Store,
   TrendingUp,
-  X
+  X,
+  HandCoins,
+  ShoppingBag,
+  MessageCircleQuestion
 } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 import { PromoBundlePayCardInline } from './components/PromoBundlePayCardInline';
 import { PromoBundlePayInline } from './components/PromoBundlePayInline';
@@ -76,17 +76,18 @@ const BUNDLES = [
 ];
 
 const pages = [
-  { label: 'Početna', route: '/' },
+  { label: 'Profil', route: '/profile' },
   { label: 'Promotivni Paketi', route: '/promo-bundle' }
 ];
 
 export const PromoBundle = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { data: userProducts = [], isLoading: productsLoading } =
     useAllUserProducts();
-  const [selectedBundle, setSelectedBundle] = useState<string | null>(null);
+  const [selectedBundle, setSelectedBundle] = useState<string | null>(
+    BUNDLES[0].id
+  );
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
 
   return (
@@ -112,20 +113,10 @@ export const PromoBundle = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-        <Divider sx={{ my: 2 }} />
-
-        <Button
-          startIcon={<ArrowLeft size={18} />}
-          onClick={() => navigate(-1)}
-          sx={{ mb: 2 }}
-        >
-          Nazad
-        </Button>
 
         <Typography
-          variant="h4"
-          fontWeight={700}
-          sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
+          variant="h6"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 3 }}
         >
           <Package color={theme.palette.warning.main} size={28} />
           Promotivni Paketi
@@ -153,42 +144,49 @@ export const PromoBundle = () => {
         >
           <CardContent>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant="h4"
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
             >
-              <Info size={20} />
+              <Info style={{ width: '24px', height: '24px' }} />
               Šta dobijate u paketu?
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
               Svaki paket uključuje <strong>kombinaciju tri promocije</strong>:
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
-                <Sparkles size={18} color={theme.palette.success.main} />
-                <Typography variant="body2" color="text.secondary">
+                <Sparkles
+                  style={{ width: '22px', height: '22px' }}
+                  color={theme.palette.success.main}
+                />
+                <Typography variant="body1" color="text.secondary">
                   <strong>Promocija proizvoda</strong> — vaši proizvodi se
                   pojavljuju na vrhu pretrage
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
-                <Store size={18} color={theme.palette.warning.main} />
-                <Typography variant="body2" color="text.secondary">
+                <Store
+                  style={{ width: '22px', height: '22px' }}
+                  color={theme.palette.warning.main}
+                />
+                <Typography variant="body1" color="text.secondary">
                   <strong>Promocija prodavnice</strong> — vaša prodavnica se
                   ističe u rezultatima pretrage
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
-                <TrendingUp size={18} color={theme.palette.success.main} />
-                <Typography variant="body2" color="text.secondary">
+                <TrendingUp
+                  style={{ width: '22px', height: '22px' }}
+                  color={theme.palette.success.main}
+                />
+                <Typography variant="body1" color="text.secondary">
                   <strong>Povećanje kapaciteta</strong> — dodatna mesta za više
                   proizvoda
                 </Typography>
               </Box>
             </Box>
             <Typography
-              variant="h6"
-              fontWeight={600}
+              variant="h4"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -197,18 +195,20 @@ export const PromoBundle = () => {
                 mt: 3
               }}
             >
-              <TrendingUp size={20} />
-              Zašto paketi?
+              <MessageCircleQuestion
+                style={{ width: '24px', height: '24px' }}
+              />
+              Zašto izabrati promotivni paket?
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Paketi su <strong>povoljniji</strong> od kupovine pojedinačnih
-              promocija. Uštedite novac dok maksimalno povećavate vidljivost
-              svoje prodavnice i proizvoda.
+            <Typography variant="body1" color="text.secondary">
+              Promotivni paketi su <strong>povoljniji</strong> od kupovine
+              pojedinačnih promocija. Uštedite novac dok maksimalno povećavate
+              vidljivost svoje prodavnice i proizvoda.
             </Typography>
           </CardContent>
         </Card>
 
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 3 }}>
+        <Typography variant="h4" sx={{ mb: 3 }}>
           Izaberite paket
         </Typography>
 
@@ -231,20 +231,21 @@ export const PromoBundle = () => {
               key={bundle.id}
               variant="outlined"
               sx={{
+                borderRadius: 2,
+                border: '1px solid',
+                background: 'linear-gradient(180deg, #F4FBF6 0%, #FFFFFF 100%)',
                 borderColor:
-                  selectedBundle === bundle.id
-                    ? 'primary.main'
-                    : bundle.popular
-                      ? 'warning.main'
-                      : 'divider',
-                borderWidth: bundle.popular ? 2 : 1,
+                  selectedBundle === bundle.id ? 'primary.main' : 'divider',
                 position: 'relative',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                '&:hover': {
-                  boxShadow: 4,
-                  transform: 'translateY(-4px)'
-                }
+                '&:hover':
+                  selectedBundle === bundle.id
+                    ? {}
+                    : {
+                        boxShadow: 4,
+                        transform: 'translateY(-4px)'
+                      }
               }}
               onClick={() => setSelectedBundle(bundle.id)}
             >
@@ -267,11 +268,11 @@ export const PromoBundle = () => {
                 </Box>
               )}
               <CardContent>
-                <Typography variant="h5" fontWeight={700} sx={{ mb: 1 }}>
+                <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>
                   {bundle.name}
                 </Typography>
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   color="text.secondary"
                   sx={{ mb: 2 }}
                 >
@@ -280,14 +281,10 @@ export const PromoBundle = () => {
                 <Box sx={{ mb: 3 }}>
                   <Typography
                     variant="h4"
-                    fontWeight={700}
                     color="primary.main"
                     sx={{ mb: 0.5 }}
                   >
                     {bundle.priceRsd} RSD
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Fiksna cena (u EUR po trenutnom kursu)
                   </Typography>
                 </Box>
                 <Divider sx={{ my: 2 }} />
@@ -296,21 +293,22 @@ export const PromoBundle = () => {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       {bundle.features.numProducts} proizvoda ×{' '}
                       {bundle.features.productDays} dana
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
-                    <Typography variant="body2">
-                      Prodavnica {bundle.features.shopDays} dana
+                    <Typography variant="body1">
+                      Promovisanje prodavnice {bundle.features.shopDays} dana
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       +{bundle.features.capacityPlaces} mesta kapaciteta
+                      (trajno)
                     </Typography>
                   </Box>
                 </Box>
@@ -325,7 +323,10 @@ export const PromoBundle = () => {
             if (!bundle) return null;
 
             const maxProducts = bundle.features.numProducts;
-            const canProceed = selectedProductIds.length === maxProducts;
+            const canProceed = Boolean(
+              selectedProductIds.length &&
+                selectedProductIds.length <= maxProducts
+            );
 
             const handleProductChange = (event: {
               target: { value: unknown };
@@ -342,13 +343,23 @@ export const PromoBundle = () => {
             };
 
             return (
-              <Card variant="outlined" sx={{ mb: 2 }}>
+              <Card
+                sx={{
+                  mb: 2,
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: 'warning.light',
+                  boxShadow: 'none',
+                  background:
+                    'linear-gradient(180deg, #FFF5EC 0%, #FFFFFF 100%)'
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+                  <Typography variant="h4" sx={{ mb: 2 }}>
                     Izaberite proizvode za promociju
                   </Typography>
                   <Typography
-                    variant="body2"
+                    variant="body1"
                     color="text.secondary"
                     sx={{ mb: 2 }}
                   >
@@ -371,13 +382,8 @@ export const PromoBundle = () => {
                   ) : (
                     <>
                       <FormControl fullWidth sx={{ mb: 2 }}>
-                        <InputLabel id="bundle-products-label">
-                          Proizvodi za promociju ({selectedProductIds.length}/
-                          {maxProducts})
-                        </InputLabel>
                         <Select
                           labelId="bundle-products-label"
-                          label={`Proizvodi za promociju (${selectedProductIds.length}/${maxProducts})`}
                           multiple
                           value={selectedProductIds}
                           onChange={handleProductChange}
@@ -412,17 +418,39 @@ export const PromoBundle = () => {
                               <Checkbox
                                 checked={selectedProductIds.indexOf(p._id) > -1}
                               />
-                              <ListItemText
-                                primary={p.title || 'Bez naslova'}
-                                secondary={
-                                  p.price ? `${p.price} RSD` : undefined
-                                }
-                              />
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  gap: 1,
+                                  alignItems: 'center'
+                                }}
+                              >
+                                <Box
+                                  component="img"
+                                  src={formatImageUrl(p.images[0])}
+                                  width={'25px'}
+                                  height={'25px'}
+                                />
+                                <Typography variant="subtitle2">
+                                  <strong>{p.title || 'Bez naslova'}, </strong>
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  sx={{ display: 'flex', alignItems: 'center' }}
+                                >
+                                  <HandCoins className="mr-1" />{' '}
+                                  {p.price
+                                    ?.toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
+                                  {p.priceOnRequest ? 'Cena na upit' : 'RSD'}
+                                </Typography>
+                              </Box>
                             </MenuItem>
                           ))}
                         </Select>
                         <FormHelperText>
-                          Izaberite tačno {maxProducts} proizvoda za promociju
+                          Proizvodi za promociju ({selectedProductIds.length}/
+                          {maxProducts})
                         </FormHelperText>
                       </FormControl>
 
@@ -430,7 +458,9 @@ export const PromoBundle = () => {
                         <Button
                           variant="outlined"
                           color="error"
-                          startIcon={<X size={18} />}
+                          startIcon={
+                            <X style={{ width: '22px', height: '22px' }} />
+                          }
                           onClick={() => setSelectedProductIds([])}
                           fullWidth
                           sx={{ mb: 2 }}
@@ -441,7 +471,7 @@ export const PromoBundle = () => {
 
                       {!canProceed && (
                         <Alert severity="info" sx={{ mb: 2 }}>
-                          Molimo izaberite tačno {maxProducts} proizvoda da
+                          Molimo izaberite maksimum {maxProducts} proizvoda da
                           biste nastavili sa plaćanjem.
                         </Alert>
                       )}
@@ -451,8 +481,56 @@ export const PromoBundle = () => {
                   {canProceed && (
                     <>
                       <Divider sx={{ my: 3 }} />
-                      <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-                        Plaćanje
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          gap: 1
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: '50%',
+                            bgcolor: 'success.light',
+                            color: 'success.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            opacity: 0.7
+                          }}
+                        >
+                          <ShoppingBag
+                            style={{ width: '24px', height: '24px' }}
+                          />
+                        </Box>
+                        <Box>
+                          <Typography variant="h4">
+                            Ukupno za plaćanje
+                          </Typography>
+                          <Typography variant="caption">
+                            Pregled porudzbine
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        sx={{
+                          my: 2,
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                          p: 2,
+                          borderRadius: 2,
+                          border: '1px solid',
+                          borderColor: 'grey.300',
+                          backgroundColor: '#F9FCF7'
+                        }}
+                      >
+                        Paket: <strong>{bundle.name}</strong> sa{' '}
+                        <strong>{selectedProductIds.length} proizvod(a)</strong>{' '}
+                        za promociju. Ukupna cena:{' '}
+                        <strong>{bundle.priceRsd} RSD</strong>.
                       </Typography>
                       <Box
                         sx={{

@@ -1,16 +1,13 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
-import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Alert,
   Box,
-  Button,
   Card,
   CardContent,
   Checkbox,
   CircularProgress,
-  Divider,
   FormControl,
   FormHelperText,
   MenuItem,
@@ -19,7 +16,6 @@ import {
   useTheme
 } from '@mui/material';
 import {
-  ArrowLeft,
   Check,
   HandCoins,
   MapPin,
@@ -28,7 +24,7 @@ import {
   Sparkles,
   TrendingUp
 } from 'lucide-react';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import {
@@ -38,7 +34,7 @@ import {
 } from './components';
 
 const pages = [
-  { label: 'Početna', route: '/' },
+  { label: 'Profil', route: '/profile' },
   { label: 'Promocija proizvoda', route: '/promote-product' }
 ];
 
@@ -46,7 +42,6 @@ export const PromoteProduct = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useContext(UserContext);
   const { data: userProducts = [], isLoading: productsLoading } =
     useAllUserProducts();
 
@@ -83,7 +78,7 @@ export const PromoteProduct = () => {
     [selectedProductIds.length, selectedPackage.pricePerProductRsd]
   );
 
-  const canPay = user?._id && selectedProductIds.length > 0;
+  const canPay = selectedProductIds.length > 0;
 
   const handleProductChange = (event: { target: { value: unknown } }) => {
     const value = event.target.value;
@@ -115,20 +110,10 @@ export const PromoteProduct = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-        <Divider sx={{ my: 2 }} />
-
-        <Button
-          startIcon={<ArrowLeft />}
-          onClick={() => navigate(-1)}
-          size="large"
-          sx={{ mb: 2 }}
-        >
-          Nazad
-        </Button>
 
         <Typography
           variant="h1"
-          sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}
+          sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 3 }}
         >
           <Sparkles color={theme.palette.success.main} size={28} />
           Promocija proizvoda
@@ -327,7 +312,7 @@ export const PromoteProduct = () => {
                     </Typography>
                     <Box sx={{ mb: 2 }}>
                       <Typography
-                        variant="h3"
+                        variant="h4"
                         color="primary.main"
                         sx={{ mb: 0.5 }}
                       >
@@ -338,10 +323,7 @@ export const PromoteProduct = () => {
                       </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Check
-                        size={16}
-                        color={theme.palette.success.main as string}
-                      />
+                      <Check color={theme.palette.success.main as string} />
                       <Typography variant="body1">
                         {pkg.days} dana promocije
                       </Typography>

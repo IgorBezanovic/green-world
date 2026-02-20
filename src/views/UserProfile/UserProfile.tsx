@@ -12,7 +12,15 @@ import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { BlogPost, Product } from '@green-world/utils/types';
-import { Tabs, Tab, Box, InputBase, Button, useTheme } from '@mui/material';
+import {
+  Tabs,
+  Tab,
+  Box,
+  InputBase,
+  Button,
+  useTheme,
+  Alert
+} from '@mui/material';
 import { Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -287,7 +295,10 @@ export const UserProfile = () => {
                 },
 
                 [theme.breakpoints.up('lg')]: {
-                  gridTemplateColumns: 'repeat(4, 1fr)'
+                  gridTemplateColumns:
+                    productsToDisplay?.length > 0
+                      ? 'repeat(4, 1fr)'
+                      : 'repeat(1, 1fr)'
                 }
               }}
             >
@@ -300,7 +311,11 @@ export const UserProfile = () => {
                   />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                  Vaša prodavnica neće biti vidljia u pretragama dok ne dodate
+                  proizvode. Kliknite na "Dodaj proizvod" da biste dodali svoj
+                  prvi proizvod i povećali vidljivost vaše prodavnice!
+                </Alert>
               )}
             </Box>
           )}

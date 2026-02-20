@@ -121,7 +121,7 @@ export const PromotionSection = () => {
 
         <PromotionCard
           icon={TrendingUp}
-          title="Povećaj Kapacitet Shopa"
+          title="Povećaj Kapacitet"
           description="Proširite kapacitet vaše prodavnice za više proizvoda"
           actionLabel="Kupi promociju"
           badgeLabel={`${freeCapacityPercentage}% slobodno`}

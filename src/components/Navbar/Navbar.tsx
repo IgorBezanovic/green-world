@@ -50,7 +50,9 @@ export const Navbar = () => {
         overflowX: 'auto',
         whiteSpace: 'nowrap',
         '&::-webkit-scrollbar': { display: 'none' },
-        scrollbarWidth: 'none'
+        scrollbarWidth: 'none',
+        position: 'relative',
+        zIndex: 1000
       }}
     >
       {navItems?.map((item) => {

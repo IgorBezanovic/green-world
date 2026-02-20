@@ -24,7 +24,9 @@ export const PromotionCard = ({
 
   return (
     <Card
+      onClick={onActionClick}
       sx={{
+        cursor: 'pointer',
         position: 'relative',
         overflow: 'visible',
         p: 3,
@@ -80,12 +82,11 @@ export const PromotionCard = ({
       </Typography>
 
       {actionLabel && (
-        <Box sx={{ mt: 'auto' }} onClick={onActionClick}>
+        <Box sx={{ mt: 'auto' }}>
           <Typography
             variant="body2"
             fontWeight={600}
             sx={{
-              cursor: onActionClick ? 'pointer' : 'default',
               color: isSuccess ? 'success.main' : 'warning.main',
               display: 'inline-flex',
               alignItems: 'center',
