@@ -18,9 +18,15 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
   days: number;
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
-export const PromoteShopPayInline = ({ days }: Props) => {
+export const PromoteShopPayInline = ({
+  days,
+  onCardPaymentClick,
+  onCancel
+}: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -69,6 +75,7 @@ export const PromoteShopPayInline = ({ days }: Props) => {
         style={{ layout: 'vertical' }}
         disabled={loading || days === 0}
         createOrder={async () => {
+          onCardPaymentClick();
           const id = await handleCreateOrder();
 
           return id;
@@ -76,6 +83,7 @@ export const PromoteShopPayInline = ({ days }: Props) => {
         onApprove={async (data) => {
           await handleApprove(data);
         }}
+        onCancel={onCancel}
       />
     </PayPalScriptProvider>
   );

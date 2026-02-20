@@ -413,6 +413,8 @@ export const PromoteProduct = () => {
                       <PromoteProductPayInline
                         productIds={selectedProductIds}
                         days={days}
+                        onCardPaymentClick={() => setIsCardPaymentActive(true)}
+                        onCancel={() => setIsCardPaymentActive(false)}
                       />
                       <PromoteProductPayCardInline
                         productIds={selectedProductIds}

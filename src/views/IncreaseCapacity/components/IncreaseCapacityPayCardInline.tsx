@@ -18,8 +18,8 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
   places: number;
-  onCardPaymentClick?: () => void;
-  onCancel?: () => void;
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
 export const IncreaseCapacityPayCardInline = ({
@@ -81,9 +81,7 @@ export const IncreaseCapacityPayCardInline = ({
         onApprove={async (data) => {
           await handleApprove(data);
         }}
-        onCancel={() => {
-          onCancel?.();
-        }}
+        onCancel={onCancel}
       />
     </PayPalScriptProvider>
   );

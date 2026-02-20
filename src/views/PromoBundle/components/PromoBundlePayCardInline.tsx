@@ -19,9 +19,16 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 type Props = {
   bundleId: 'BASIC' | 'STANDARD' | 'PREMIUM';
   productIds: string[];
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
-export const PromoBundlePayCardInline = ({ bundleId, productIds }: Props) => {
+export const PromoBundlePayCardInline = ({
+  bundleId,
+  productIds,
+  onCardPaymentClick,
+  onCancel
+}: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -81,12 +88,14 @@ export const PromoBundlePayCardInline = ({ bundleId, productIds }: Props) => {
         style={{ layout: 'vertical' }}
         disabled={loading || !user?._id}
         createOrder={async () => {
+          onCardPaymentClick?.();
           const id = await handleCreateOrder();
           return id;
         }}
         onApprove={async (data) => {
           await handleApprove(data);
         }}
+        onCancel={onCancel}
       />
     </PayPalScriptProvider>
   );

@@ -298,7 +298,11 @@ export const IncreaseCapacity = () => {
                 width: '100%'
               }}
             >
-              <IncreaseCapacityPayInline places={places} />
+              <IncreaseCapacityPayInline
+                places={places}
+                onCardPaymentClick={() => setIsCardPaymentActive(true)}
+                onCancel={() => setIsCardPaymentActive(false)}
+              />
               <IncreaseCapacityPayCardInline
                 places={places}
                 onCardPaymentClick={() => setIsCardPaymentActive(true)}

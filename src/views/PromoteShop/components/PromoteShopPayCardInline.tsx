@@ -18,12 +18,14 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
   days: number;
-  onCardPaymentClick?: () => void;
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
 export const PromoteShopPayCardInline = ({
   days,
-  onCardPaymentClick
+  onCardPaymentClick,
+  onCancel
 }: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -80,6 +82,7 @@ export const PromoteShopPayCardInline = ({
         onApprove={async (data) => {
           await handleApprove(data);
         }}
+        onCancel={onCancel}
       />
     </PayPalScriptProvider>
   );

@@ -18,8 +18,8 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 type Props = {
   productIds: string[];
   days: number;
-  onCardPaymentClick?: () => void;
-  onCancel?: () => void;
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
 export const PromoteProductPayCardInline = ({
@@ -83,9 +83,7 @@ export const PromoteProductPayCardInline = ({
         onApprove={async (data) => {
           await handleApprove(data);
         }}
-        onCancel={() => {
-          onCancel?.();
-        }}
+        onCancel={onCancel}
         onError={() => toast.error('Greška tokom uplate.')}
       />
     </PayPalScriptProvider>

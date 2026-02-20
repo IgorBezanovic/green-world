@@ -52,6 +52,7 @@ export const PromoBundle = () => {
     BUNDLES[0].id
   );
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
+  const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   return (
     <Box
@@ -200,8 +201,10 @@ export const PromoBundle = () => {
                 borderColor:
                   selectedBundle === bundle.id ? 'primary.main' : 'divider',
                 position: 'relative',
-                cursor: 'pointer',
+                cursor: isCardPaymentActive ? 'default' : 'pointer',
+                opacity: isCardPaymentActive ? 0.7 : 1,
                 transition: 'all 0.2s',
+                pointerEvents: isCardPaymentActive ? 'none' : 'auto',
                 '&:hover':
                   selectedBundle === bundle.id
                     ? {}
@@ -210,7 +213,9 @@ export const PromoBundle = () => {
                         transform: 'translateY(-4px)'
                       }
               }}
-              onClick={() => setSelectedBundle(bundle.id)}
+              onClick={() =>
+                !isCardPaymentActive && setSelectedBundle(bundle.id)
+              }
             >
               {bundle.popular && (
                 <Box
@@ -349,6 +354,7 @@ export const PromoBundle = () => {
                           labelId="bundle-products-label"
                           multiple
                           value={selectedProductIds}
+                          disabled={isCardPaymentActive}
                           onChange={handleProductChange}
                           renderValue={(ids) =>
                             ids.length === 0
@@ -510,12 +516,20 @@ export const PromoBundle = () => {
                             bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
                           }
                           productIds={selectedProductIds}
+                          onCardPaymentClick={() =>
+                            setIsCardPaymentActive(true)
+                          }
+                          onCancel={() => setIsCardPaymentActive(false)}
                         />
                         <PromoBundlePayCardInline
                           bundleId={
                             bundle.id as 'BASIC' | 'STANDARD' | 'PREMIUM'
                           }
                           productIds={selectedProductIds}
+                          onCardPaymentClick={() =>
+                            setIsCardPaymentActive(true)
+                          }
+                          onCancel={() => setIsCardPaymentActive(false)}
                         />
                       </Box>
                     </>

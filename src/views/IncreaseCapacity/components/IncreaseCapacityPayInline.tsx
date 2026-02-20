@@ -18,9 +18,15 @@ const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
 
 type Props = {
   places: number;
+  onCardPaymentClick: () => void;
+  onCancel: () => void;
 };
 
-export const IncreaseCapacityPayInline = ({ places }: Props) => {
+export const IncreaseCapacityPayInline = ({
+  places,
+  onCardPaymentClick,
+  onCancel
+}: Props) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -68,12 +74,14 @@ export const IncreaseCapacityPayInline = ({ places }: Props) => {
         style={{ layout: 'vertical' }}
         disabled={loading || !user?._id || places < 1}
         createOrder={async () => {
+          onCardPaymentClick?.();
           const id = await handleCreateOrder();
           return id;
         }}
         onApprove={async (data) => {
           await handleApprove(data);
         }}
+        onCancel={onCancel}
       />
     </PayPalScriptProvider>
   );

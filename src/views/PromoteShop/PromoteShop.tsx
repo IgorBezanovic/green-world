@@ -303,10 +303,15 @@ export const PromoteShop = () => {
                 width: '100%'
               }}
             >
-              <PromoteShopPayInline days={days} />
+              <PromoteShopPayInline
+                days={days}
+                onCardPaymentClick={() => setIsCardPaymentActive(true)}
+                onCancel={() => setIsCardPaymentActive(false)}
+              />
               <PromoteShopPayCardInline
                 days={days}
                 onCardPaymentClick={() => setIsCardPaymentActive(true)}
+                onCancel={() => setIsCardPaymentActive(false)}
               />
             </Box>
           </CardContent>
