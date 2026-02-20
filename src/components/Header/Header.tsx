@@ -1,7 +1,6 @@
 import UserContext from '@green-world/context/UserContext';
-import { useLogout } from '@green-world/hooks/useLogout';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
-import { getItem } from '@green-world/utils/cookie';
+import { getItem, removeItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
@@ -51,10 +50,9 @@ export const Header = () => {
       0
     ) || 0;
 
-  const { mutate: logout } = useLogout();
-
   const handleLogout = () => {
-    logout();
+    removeItem('token');
+    navigate('/');
     setDrawerOpen(false);
   };
 

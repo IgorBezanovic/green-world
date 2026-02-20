@@ -14,11 +14,6 @@ export type RegistrationValues = {
   password: string;
 };
 
-export type AuthResponse = {
-  token: string;
-  refreshToken: string;
-};
-
 export interface Product {
   _id: string;
   createdBy: string;

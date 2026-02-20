@@ -1,20 +1,16 @@
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
-import type { PaymentTypePromo } from '@green-world/hooks/usePayPalDonation';
 import { Product } from '@green-world/utils/types';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 
 import { PromotionCard } from '../PromotionCard';
-import { PromotionPayPalDialog } from './PromotionPayPalDialog';
 
 export const PromotionSection = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState<PaymentTypePromo | null>(null);
   const { data: products = [] } = useAllUserProducts();
   const promotedProductsCount = useMemo(
     () =>
@@ -139,17 +135,6 @@ export const PromotionSection = () => {
           onActionClick={() => navigate('/promo-bundle')}
         />
       </Box>
-
-      {dialogType && (
-        <PromotionPayPalDialog
-          open={dialogOpen}
-          onClose={() => {
-            setDialogOpen(false);
-            setDialogType(null);
-          }}
-          promotionType={dialogType}
-        />
-      )}
     </Box>
   );
 };

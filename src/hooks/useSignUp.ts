@@ -1,7 +1,7 @@
 import { useSuccess } from '@green-world/context/PopupContext';
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { AuthResponse, RegistrationValues } from '@green-world/utils/types';
+import { RegistrationValues } from '@green-world/utils/types';
 import { useMutation } from '@tanstack/react-query';
 
 export const useSignUp = () => {
@@ -17,9 +17,8 @@ export const useSignUp = () => {
           password
         }
       }),
-    onSuccess: (data: AuthResponse) => {
-      setItem('token', data.token);
-      setItem('refreshToken', data.refreshToken);
+    onSuccess: (data: string) => {
+      setItem('token', data);
       setIsOpen(true);
     }
   });
