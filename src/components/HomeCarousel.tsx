@@ -1,7 +1,6 @@
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Carousel, Empty, Skeleton } from 'antd';
-import clsx from 'clsx';
 import '../styles.css';
 import { useRef } from 'react';
 
@@ -71,7 +70,7 @@ export const HomeCarousel = ({ ...props }) => {
               slidesToShow={5}
               responsive={[{ breakpoint: 768, settings: { slidesToShow: 2 } }]}
               slidesToScroll={1}
-              className={clsx('w-full')}
+              className="w-full"
             >
               {products?.map((product: any, index: number) => (
                 <div key={product.title} className="p-2">

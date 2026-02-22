@@ -1,5 +1,5 @@
 import { request } from '@green-world/utils/api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 type BlogPostPayload = {
@@ -16,6 +16,8 @@ type BlogPostPayload = {
 };
 
 export const useCreateBlogPost = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: BlogPostPayload) =>
       request({
@@ -23,7 +25,11 @@ export const useCreateBlogPost = () => {
         method: 'post',
         data
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+      ]);
       toast.success('Uspešno ste kreirali blog post!');
     }
   });

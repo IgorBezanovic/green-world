@@ -13,7 +13,6 @@ import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Button, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
-import clsx from 'clsx';
 import { useNavigate } from 'react-router';
 
 export const Home = () => {
@@ -30,18 +29,22 @@ export const Home = () => {
     >
       <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <Box
           component="img"
@@ -51,7 +54,7 @@ export const Home = () => {
           decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
-          className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
+          className="w-full h-auto rounded mb-2 shadow"
           style={{
             objectFit: 'cover',
             filter: 'blur(10px)',

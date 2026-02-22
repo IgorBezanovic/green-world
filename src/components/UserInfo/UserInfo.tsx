@@ -15,7 +15,6 @@ import {
   Button,
   useTheme
 } from '@mui/material';
-import clsx from 'clsx';
 import {
   Camera,
   Globe,
@@ -36,8 +35,13 @@ export const UserInfo = ({ ...props }) => {
   if (props?.userLoading) {
     return (
       <Box
-        className="w-full flex justify-center items-center"
-        sx={{ height: 300 }}
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 300
+        }}
       >
         <CircularProgress />
       </Box>
@@ -45,12 +49,12 @@ export const UserInfo = ({ ...props }) => {
   }
 
   return (
-    <Card className={clsx('w-full', props?.customStyle)}>
+    <Card sx={{ width: '100%' }}>
       {props?.user?.shopName && (
         <CardHeader
           title={
-            <Box className="flex items-center">
-              <Store className="mr-2" />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Store style={{ marginRight: 8, width: 20, height: 20 }} />
               {props?.user?.shopName}
             </Box>
           }
@@ -60,7 +64,7 @@ export const UserInfo = ({ ...props }) => {
                 aria-label="Edit profile"
                 onClick={() => navigate('/profile-settings/edit-profile')}
               >
-                <Settings />
+                <Settings style={{ width: 24, height: 24 }} />
               </IconButton>
             )
           }
@@ -68,12 +72,16 @@ export const UserInfo = ({ ...props }) => {
       )}
 
       <CardContent>
-        <Box className={clsx('w-full flex flex-col', props?.customStyleMeta)}>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           <Box
-            className={clsx(
-              'relative w-24 h-24 mx-auto mb-5',
-              props?.isUserProfile && 'cursor-pointer'
-            )}
+            sx={{
+              position: 'relative',
+              width: 96,
+              height: 96,
+              mx: 'auto',
+              mb: 4,
+              cursor: props?.isUserProfile ? 'pointer' : 'default'
+            }}
             onClick={() =>
               props?.isUserProfile && navigate('/profile-settings/change-image')
             }
@@ -90,13 +98,37 @@ export const UserInfo = ({ ...props }) => {
               }}
             />
             {props?.isUserProfile && (
-              <Box className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-30 transition duration-300 rounded-full group">
-                <Camera className="!text-white opacity-0 group-hover:opacity-100 transition duration-300 !w-6 !h-6" />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  bgcolor: 'rgba(0,0,0,0)',
+                  borderRadius: '50%',
+                  transition: 'background-color 300ms ease',
+                  '& > svg': {
+                    color: '#fff',
+                    opacity: 0,
+                    width: 24,
+                    height: 24,
+                    transition: 'opacity 300ms ease'
+                  },
+                  '&:hover': {
+                    bgcolor: 'rgba(0,0,0,0.3)'
+                  },
+                  '&:hover > svg': {
+                    opacity: 1
+                  }
+                }}
+              >
+                <Camera />
               </Box>
             )}
           </Box>
           {props?.user?.name && (
-            <Typography variant="body1" className="text-black">
+            <Typography variant="body1" sx={{ color: 'text.primary' }}>
               {props?.user?.name} {props?.user?.lastname}
             </Typography>
           )}

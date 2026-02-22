@@ -13,7 +13,6 @@ import {
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -25,22 +24,14 @@ interface ProductCardProps {
   product: Product | ProductPreview;
   isHero?: boolean;
   isPromotedView?: boolean;
-  productsRefetch?: (
-    options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<Product[], Error>>;
 }
 
 export const ProductCard = ({
   product,
   isHero = false,
-  isPromotedView = false,
-  productsRefetch
+  isPromotedView = false
 }: ProductCardProps) => {
-  const { mutate } = useDeleteProduct(product?._id, {
-    onSuccess: () => {
-      if (productsRefetch) productsRefetch();
-    }
-  });
+  const { mutate } = useDeleteProduct(product?._id);
 
   const navigate = useNavigate();
   const location = useLocation();

@@ -25,13 +25,7 @@ import { toast } from 'react-toastify';
 import { PopDelete } from '../PopDelete';
 
 export const EventProfileCard = ({ ...props }) => {
-  const { mutate } = useDeleteEvent(props.event?._id, {
-    onSuccess: () => {
-      if (props?.eventsRefetch) {
-        props?.eventsRefetch();
-      }
-    }
-  });
+  const { mutate } = useDeleteEvent(props.event?._id);
   const navigate = useNavigate();
   const location = useLocation();
   const plainText = getPlainTextFromHtml(props.event?.description);

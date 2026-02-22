@@ -29,16 +29,9 @@ export const UserProfile = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
-  const {
-    data: products = [],
-    isLoading: productsLoading,
-    refetch: productsRefetch
-  } = useAllUserProducts();
-  const {
-    data: events = [],
-    isLoading: eventsLoading,
-    refetch: eventsRefetch
-  } = useAllUserEvents();
+  const { data: products = [], isLoading: productsLoading } =
+    useAllUserProducts();
+  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
@@ -68,11 +61,9 @@ export const UserProfile = () => {
     }
   }, [events, eventsLoading]);
 
-  const {
-    data: blogs = [],
-    isLoading: blogsLoading,
-    refetch: blogsRefetch
-  } = useBlogPostsByUser(user?._id);
+  const { data: blogs = [], isLoading: blogsLoading } = useBlogPostsByUser(
+    user?._id
+  );
 
   useEffect(() => {
     if (!blogsLoading) {
@@ -176,12 +167,7 @@ export const UserProfile = () => {
             }
           }}
         >
-          <UserInfo
-            user={user}
-            isUserProfile={true}
-            userLoading={isLoading}
-            customStyleMeta={['flex', 'flex-col']}
-          />
+          <UserInfo user={user} isUserProfile={true} userLoading={isLoading} />
           <Button
             variant="contained"
             color="info"
@@ -304,11 +290,7 @@ export const UserProfile = () => {
             >
               {productsToDisplay?.length > 0 ? (
                 productsToDisplay.map((product: any) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    productsRefetch={productsRefetch}
-                  />
+                  <ProductCard key={product._id} product={product} />
                 ))
               ) : (
                 <Alert severity="warning" sx={{ mb: 2 }}>
@@ -342,7 +324,6 @@ export const UserProfile = () => {
                   <ProductCard
                     key={product._id}
                     product={product}
-                    productsRefetch={productsRefetch}
                     isPromotedView={true}
                   />
                 ))
@@ -371,11 +352,7 @@ export const UserProfile = () => {
             >
               {eventsToDisplay?.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
-                  <EventProfileCard
-                    key={event._id}
-                    event={event}
-                    eventsRefetch={eventsRefetch}
-                  />
+                  <EventProfileCard key={event._id} event={event} />
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>
@@ -402,11 +379,7 @@ export const UserProfile = () => {
             >
               {blogsToDisplay?.length > 0 ? (
                 blogsToDisplay.map((post: BlogPost) => (
-                  <BlogCard
-                    key={post._id}
-                    post={post}
-                    blogsRefetch={blogsRefetch}
-                  />
+                  <BlogCard key={post._id} post={post} />
                 ))
               ) : (
                 <p className="col-span-full">

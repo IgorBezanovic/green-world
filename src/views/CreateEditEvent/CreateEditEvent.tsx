@@ -1,5 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import { AppBreadcrumbs, CustomInput, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -7,17 +6,24 @@ import { useImage } from '@green-world/hooks/useImage';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { Box, Button, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Typography
+} from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import clsx from 'clsx';
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useParams } from 'react-router';
-import 'react-phone-input-2/lib/style.css';
 
 const initEvent: Event = {
   title: '',
@@ -124,11 +130,47 @@ export const CreateEditEvent = () => {
     }));
   };
 
+  const outlinedInputSx = {
+    mb: 2,
+    bgcolor: 'background.default',
+    '& .MuiOutlinedInput-input': {
+      p: '12px'
+    }
+  };
+
+  const labelSx = {
+    mb: 1,
+    color: 'secondary.main',
+    cursor: 'pointer',
+    fontSize: '1.125rem'
+  };
+
+  const outlinedSelectSx = {
+    mb: 2,
+    bgcolor: 'background.default',
+    minHeight: '42px'
+  };
+
+  const handleTypeActionChange = (e: SelectChangeEvent<string>) => {
+    setEvent({ ...event, typeAction: e.target.value as Event['typeAction'] });
+  };
+
+  const handleStatusChange = (e: SelectChangeEvent<string>) => {
+    setEvent({ ...event, status: e.target.value as Event['status'] });
+  };
+
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <LoadingOutlined className="text-forestGreen text-4xl" />
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh'
+        }}
+      >
+        <CircularProgress color="success" />
+      </Box>
     );
   }
 
@@ -151,49 +193,55 @@ export const CreateEditEvent = () => {
       }}
     >
       <MetaTags title={pageTitle} />
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3.5,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          }
+        })}
       >
         <AppBreadcrumbs pages={pages} />
-        <h1
-          className={clsx(
-            'text-forestGreen',
-            'text-5xl',
-            'md:text-6xl',
-            'font-ephesis',
-            'mx-auto'
-          )}
+        <Typography
+          component="h1"
+          sx={{
+            color: 'primary.main',
+            fontSize: { xs: '3rem', md: '3.75rem' },
+            fontFamily: 'Ephesis',
+            mx: 'auto',
+            lineHeight: 1
+          }}
         >
           {eventID ? 'Azuziraj događaj' : 'Kreiraj događaj'}
-        </h1>
-        <form
-          className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
+        </Typography>
+        <Box
+          component="form"
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            [theme.breakpoints.up('md')]: {
+              flexDirection: 'row',
+              gap: 5
+            }
+          })}
           onSubmit={handleSubmit}
         >
-          <div className={clsx('flex-1', 'flex', 'flex-col')}>
-            <label
-              htmlFor="title"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <Typography htmlFor="title" component="label" sx={labelSx}>
               Naziv aktivnosti:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               required
               type="text"
               name="title"
@@ -201,75 +249,48 @@ export const CreateEditEvent = () => {
               placeholder="Unesite naziv daktivnosti"
               value={event?.title || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="typeAction"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="typeAction" component="label" sx={labelSx}>
               Tip aktivnosti:
-            </label>
-            <select
-              name="typeAction"
-              id="typeAction"
-              value={event?.typeAction || ''}
-              onChange={handleChange}
-              className={clsx(
-                'border',
-                'border-forestGreen',
-                'flex-1',
-                'flex-grow-0',
-                'rounded-md',
-                'shadow-md',
-                'h-full',
-                'min-h-[42px]',
-                'md:hover:shadow-lg',
-                'mb-4',
-                'pl-2'
-              )}
-            >
-              <option value="" disabled>
-                Izaberite tip aktivnosti
-              </option>
-              <option value="cleaning">Čišćenje</option>
-              <option value="selling">Prodaja</option>
-              <option value="planting">Sadnja</option>
-            </select>
-            <label
-              htmlFor="contactPerson"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            </Typography>
+            <FormControl fullWidth>
+              <Select
+                name="typeAction"
+                displayEmpty
+                id="typeAction"
+                value={event?.typeAction || ''}
+                onChange={handleTypeActionChange}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  Izaberite tip aktivnosti
+                </MenuItem>
+                <MenuItem value="cleaning">Čišćenje</MenuItem>
+                <MenuItem value="selling">Prodaja</MenuItem>
+                <MenuItem value="planting">Sadnja</MenuItem>
+              </Select>
+            </FormControl>
+            <Typography htmlFor="contactPerson" component="label" sx={labelSx}>
               Kontakt osoba:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="contactPerson"
               id="contactPerson"
               placeholder="Kontakt osoba"
               value={event?.contactPerson || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="place"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="place" component="label" sx={labelSx}>
               Mesto aktivnosti:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               required
               type="text"
               name="place"
@@ -277,120 +298,112 @@ export const CreateEditEvent = () => {
               placeholder="Unesite mesto proizvoda"
               value={event?.place || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="address"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="address" component="label" sx={labelSx}>
               Adresa aktivnosti:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="address"
               id="address"
               placeholder="Unesite adresu aktivnosti"
               value={event?.address || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
+            <Typography
               htmlFor="coverImage"
-              className={clsx(
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg',
-                'mb-2'
-              )}
+              component="label"
+              sx={{ ...labelSx, mb: 1 }}
             >
               Dodajte fotografiju aktivnosti:
-            </label>
-            <div
-              className={clsx(
-                'h-[150px]',
-                'w-[150px]',
-                'flex',
-                'items-center',
-                'justify-center',
-                'mb-4',
-                'shadow-md',
-                'rounded-md',
-                'overflow-hidden'
-              )}
+            </Typography>
+            <Box
+              sx={{
+                height: 150,
+                width: 150,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mb: 2,
+                boxShadow: 2,
+                borderRadius: 1,
+                overflow: 'hidden'
+              }}
             >
               {isImageLoading ? (
-                <LoadingOutlined className="text-forestGreen text-4xl" />
+                <CircularProgress color="success" />
               ) : event?.coverImage ? (
                 <img
                   src={formatImageUrl(event?.coverImage)}
                   alt="event-image"
-                  className={clsx('aspect-square', 'shadow-md')}
+                  style={{ aspectRatio: '1 / 1', objectFit: 'cover' }}
                   height="100%"
                   width="100%"
                 />
               ) : (
-                <label htmlFor="coverImage" className="cursor-pointer">
+                <Box
+                  component="label"
+                  htmlFor="coverImage"
+                  sx={{ cursor: 'pointer' }}
+                >
                   <AddPhotoAlternateIcon
                     sx={{ width: '100px', height: '100px', color: 'gray' }}
                   />
-                </label>
+                </Box>
               )}
-            </div>
-            <label
-              htmlFor="coverImage"
-              className={clsx(
-                'border',
-                'border-forestGreen',
-                'text-forestGreen',
-                'rounded',
-                'py-2',
-                'px-4',
-                'shadow-md',
-                'bg-whiteLinen',
-                'text-center',
-                'cursor-pointer',
-                'mx-auto',
-                'md:mx-0',
-                'uppercase',
-                'font-light',
-                'mb-4',
-                'md:mb-0',
-                'transition-all',
-                'duration-300',
-                'md:hover:text-black',
-                'md:hover:shadow-lg',
-                'md:hover:translate-y-[-1px]',
-                'md:active:translate-y-0',
-                'md:active:shadow-md'
-              )}
+            </Box>
+            <Button
+              component="label"
+              variant="outlined"
+              color="primary"
+              sx={(theme) => ({
+                py: 1,
+                px: 2,
+                boxShadow: 2,
+                textAlign: 'center',
+                mx: 'auto',
+                textTransform: 'uppercase',
+                fontWeight: 300,
+                mb: 2,
+                transition: 'all 300ms ease',
+                [theme.breakpoints.up('md')]: {
+                  mx: 0,
+                  mb: 0,
+                  '&:hover': {
+                    color: 'common.black',
+                    boxShadow: 4,
+                    transform: 'translateY(-1px)'
+                  },
+                  '&:active': {
+                    transform: 'translateY(0)',
+                    boxShadow: 2
+                  }
+                }
+              })}
             >
-              Dodaj sliku proizvoda
-            </label>
-            <input
-              type="file"
-              name="coverImage"
-              id="coverImage"
-              accept="image/png, image/jpeg, image/jpg, image/webp"
-              onChange={handleImage}
-              className={clsx('hidden')}
-            ></input>
-          </div>
-          <div className={clsx('flex-1', 'flex', 'flex-col')}>
-            <label
-              htmlFor="description"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+              Dodaj sliku
+              <Box
+                component="input"
+                type="file"
+                name="coverImage"
+                id="coverImage"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
+                onChange={handleImage}
+                sx={{ display: 'none' }}
+              />
+            </Button>
+          </Box>
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <Typography htmlFor="description" component="label" sx={labelSx}>
               Opis aktivnosti:
-            </label>
-            <div className={clsx('mb-4')}>
+            </Typography>
+            <Box sx={{ mb: 2 }}>
               <ReactQuill
                 ref={quillRef}
                 modules={modules}
@@ -399,18 +412,32 @@ export const CreateEditEvent = () => {
                 id="description"
                 theme="snow"
               />
-            </div>
-            <label
-              htmlFor="dateAction"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+              <style>
+                {`
+                .ql-toolbar.ql-snow{
+                  border-top-left-radius: 0.375rem;
+                  border-top-right-radius: 0.375rem;
+                  /* Remove shadow below the bottom border */
+                  box-shadow: 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-container {
+                  min-height: 200px !important;
+                  border-bottom-left-radius: 0.375rem;
+                  border-bottom-right-radius: 0.375rem;
+                  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+                  border-color: rgb(38 96 65) !important;
+                }
+                .ql-editor {
+                  word-break: break-word;
+                  overflow-wrap: break-word;
+                }
+                `}
+              </style>
+            </Box>
+            <Typography htmlFor="dateAction" component="label" sx={labelSx}>
               Datum aktivnosti:
-            </label>
+            </Typography>
             <MobileDatePicker
               name="dateAction"
               value={dayjs(event?.dateAction, 'DD/MM/YYYY')}
@@ -435,18 +462,10 @@ export const CreateEditEvent = () => {
                 }
               })}
             />
-            <label
-              htmlFor="startTime"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="startTime" component="label" sx={labelSx}>
               Vreme pocetka aktivnosti:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               required
               type="text"
               name="startTime"
@@ -454,126 +473,72 @@ export const CreateEditEvent = () => {
               placeholder="Unesite vreme pocetka aktivnosti"
               value={event?.startTime || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="endTime"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="endTime" component="label" sx={labelSx}>
               Vreme zavrsetka aktivnosti:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="endTime"
               id="endTime"
               placeholder="Unesite vreme zatvaranja aktivnosti"
               value={event?.endTime || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="contactPhone"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="contactPhone" component="label" sx={labelSx}>
               Kontakt telefon:
-            </label>
-            <PhoneInput
-              country="rs"
-              value={event?.contactPhone || ''}
-              onChange={(value) =>
-                setEvent((prevEvent) => ({
-                  ...prevEvent,
-                  contactPhone: value
-                }))
-              }
-              inputStyle={{
-                width: '100%',
-                height: '42px',
-                background: 'white',
-                borderRadius: '6px',
-                border: '1px solid #266041',
-                boxShadow: '0 2px 3px rgba(0, 0, 0, 0.1)',
-                paddingLeft: '55px'
-              }}
-              buttonStyle={{
-                background: 'white',
-                width: '50px',
-                border: '1px solid #266041',
-                borderRadius: '6px 0 0 6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              containerStyle={{
-                marginBottom: '16px'
-              }}
+            </Typography>
+            <OutlinedInput
+              type="text"
+              name="contactPhone"
               placeholder="+381 60 123 456 7"
+              value={event?.contactPhone || ''}
+              onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="contactMail"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="contactMail" component="label" sx={labelSx}>
               Kontakt mail:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="contactMail"
               id="contactMail"
               placeholder="Kontakt mail"
               value={event?.contactMail || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="status"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="status" component="label" sx={labelSx}>
               Status akcije:
-            </label>
-            <select
-              required
-              name="status"
-              id="status"
-              value={event?.typeAction || ''}
-              onChange={handleChange}
-              className={clsx(
-                'border',
-                'border-forestGreen',
-                'rounded-md',
-                'min-h-[42px]',
-                'shadow-md',
-                'md:hover:shadow-lg',
-                'flex-1',
-                'flex-grow-0',
-                'h-full',
-                'mb-4',
-                'pl-2'
-              )}
-            >
-              <option value="" disabled>
-                Izaberite status akcije
-              </option>
-              <option value="active">Aktivno</option>
-              <option value="cancelled">Otkazano</option>
-              <option value="finished">Zavrseno</option>
-            </select>
+            </Typography>
+            <FormControl fullWidth>
+              <Select
+                required
+                name="status"
+                displayEmpty
+                id="status"
+                value={event?.status || ''}
+                onChange={handleStatusChange}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  Izaberite status akcije
+                </MenuItem>
+                <MenuItem value="active">Aktivno</MenuItem>
+                <MenuItem value="cancelled">Otkazano</MenuItem>
+                <MenuItem value="finished">Zavrseno</MenuItem>
+              </Select>
+            </FormControl>
             <Button
               type="submit"
               variant="outlined"
@@ -591,9 +556,9 @@ export const CreateEditEvent = () => {
                 'Kreiraj aktivnost'
               )}
             </Button>
-          </div>
-        </form>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };

@@ -267,7 +267,6 @@ export const BlogPostPage = () => {
             user={sellerData}
             isUserProfile={false}
             userLoading={userLoading}
-            customStyleMeta={['flex', 'flex-col']}
           />
         </section>
       </Box>

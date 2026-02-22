@@ -1,6 +1,5 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
-import clsx from 'clsx';
 
 export const PrivacyPolicy = () => {
   const pages = [
@@ -18,19 +17,23 @@ export const PrivacyPolicy = () => {
     >
       <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
 
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
 
@@ -94,7 +97,7 @@ export const PrivacyPolicy = () => {
             </Typography>
           </Box>
         </Container>
-      </div>
+      </Box>
     </Box>
   );
 };

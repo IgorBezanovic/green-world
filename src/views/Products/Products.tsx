@@ -24,7 +24,6 @@ import {
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
-import clsx from 'clsx';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 
@@ -200,9 +199,22 @@ export const Products = () => {
     >
       <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7 flex flex-col gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
         <Box

@@ -1,12 +1,13 @@
 import { request } from '@green-world/utils/api';
 import { Product } from '@green-world/utils/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export const useCreateProduct = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
@@ -41,7 +42,11 @@ export const useCreateProduct = () => {
           milliliters
         }
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] })
+      ]);
       navigate('/profile');
     },
     onError: (error: AxiosError) => {

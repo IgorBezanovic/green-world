@@ -1,5 +1,4 @@
 import { Result } from 'antd';
-import clsx from 'clsx';
 import {
   createContext,
   useState,
@@ -24,39 +23,12 @@ export const SuccessProvider = ({ children }: { children: ReactNode }) => {
     <SuccessContext.Provider value={{ setIsOpen }}>
       {children}
       {isOpen && (
-        <section
-          className={clsx(
-            'fixed',
-            'top-0',
-            'left-0',
-            'h-full',
-            'w-full',
-            'bg-groupTransparent',
-            'z-50',
-            'flex',
-            'justify-center',
-            'items-center',
-            'overflow-scroll'
-          )}
-        >
-          <section
-            className={clsx(
-              'bg-teaGreen',
-              'shadow-md',
-              'rounded',
-              'p-5',
-              'py-8',
-              'md:py-14',
-              'w-full',
-              'max-w-xl',
-              'mx-auto',
-              'mt-10'
-            )}
-          >
+        <section className="fixed top-0 left-0 h-full w-full bg-groupTransparent z-50 flex justify-center items-center overflow-scroll">
+          <section className="bg-teaGreen shadow-md rounded p-5 py-8 md:py-14 w-full max-w-xl mx-auto mt-10">
             <Result
               status="success"
               title={
-                <h1 className={clsx('mb-4', 'text-forestGreen', 'text-xl')}>
+                <h1 className="mb-4 text-forestGreen text-xl">
                   <strong>
                     Uspesno ste se registrovali na{' '}
                     <a href="https://www.zelenisvet.rs">zelenisvet.rs</a> !
@@ -67,58 +39,17 @@ export const SuccessProvider = ({ children }: { children: ReactNode }) => {
               extra={
                 <div
                   key="home"
-                  className={clsx(
-                    'w-full',
-                    'flex',
-                    'justify-center',
-                    'flex-col',
-                    'md:flex-row',
-                    'gap-6'
-                  )}
+                  className="w-full flex justify-center flex-col md:flex-row gap-6"
                 >
                   <a
                     href={'/'}
-                    className={clsx(
-                      'text-forestGreen',
-                      'md:hover:text-seaFoamGreen',
-                      'leading-normal',
-                      'font-medium',
-                      'border-2',
-                      'rounded-md',
-                      'min-h-12',
-                      'max-h-12',
-                      'w-28',
-                      'p-4',
-                      'flex',
-                      'items-center',
-                      'justify-center',
-                      'text-center',
-                      'shadow-md',
-                      'transition'
-                    )}
+                    className="text-forestGreen md:hover:text-seaFoamGreen leading-normal font-medium border-2 rounded-md min-h-12 max-h-12 w-28 p-4 flex items-center justify-center text-center shadow-md transition"
                   >
                     Početna
                   </a>
                   <a
                     href={'/profile'}
-                    className={clsx(
-                      'text-forestGreen',
-                      'md:hover:text-seaFoamGreen',
-                      'leading-normal',
-                      'font-medium',
-                      'border-2',
-                      'rounded-md',
-                      'min-h-12',
-                      'max-h-12',
-                      'w-28',
-                      'p-4',
-                      'flex',
-                      'items-center',
-                      'justify-center',
-                      'text-center',
-                      'shadow-md',
-                      'transition'
-                    )}
+                    className="text-forestGreen md:hover:text-seaFoamGreen leading-normal font-medium border-2 rounded-md min-h-12 max-h-12 w-28 p-4 flex items-center justify-center text-center shadow-md transition"
                   >
                     Profil
                   </a>

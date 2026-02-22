@@ -23,7 +23,6 @@ import {
   Stack,
   Divider
 } from '@mui/material';
-import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
@@ -67,19 +66,23 @@ export const Event = () => {
         keywords={metaObj.description}
         image={metaObj.image}
       />
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
         <Typography variant="h1" color="secondary.main">
@@ -202,7 +205,7 @@ export const Event = () => {
             </CardContent>
           </Stack>
         </Card>
-      </div>
+      </Box>
     </Box>
   );
 };

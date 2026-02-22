@@ -5,7 +5,6 @@ import {
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { Box, Typography } from '@mui/material';
-import clsx from 'clsx';
 
 export const Events = () => {
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
@@ -24,18 +23,22 @@ export const Events = () => {
     >
       <MetaTags title={'Zeleni svet | Pretraga Događaja '} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
         <Typography

@@ -1,6 +1,5 @@
 import { getItem } from '@green-world/utils/cookie';
 import { DecodedToken } from '@green-world/utils/types';
-import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 import { ElementType, useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
@@ -31,15 +30,7 @@ export const ProtectedRoute = ({
 
   if (isLoading) {
     return (
-      <div
-        className={clsx(
-          'min-h-viewHeight',
-          'w-full',
-          'flex',
-          'justify-center',
-          'items-center'
-        )}
-      >
+      <div className="min-h-viewHeight w-full flex justify-center items-center">
         Loading...
       </div>
     );

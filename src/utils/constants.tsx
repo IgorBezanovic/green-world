@@ -5,7 +5,13 @@ import NumberOutlined from '@ant-design/icons/lib/icons/NumberOutlined';
 import PhoneOutlined from '@ant-design/icons/lib/icons/PhoneOutlined';
 import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { HomeCategory, SubGroups } from '@green-world/utils/types';
-import type { MenuProps } from 'antd';
+import { ReactNode } from 'react';
+
+export type GroupItemCreateProduct = {
+  key: keyof SubGroups;
+  label: string;
+  icon: ReactNode;
+};
 
 export const navigationItems = [
   {
@@ -489,7 +495,7 @@ export const subGroups: SubGroups = {
   ]
 };
 
-export const groupItemsCreateProduct: MenuProps['items'] = [
+export const groupItemsCreateProduct: GroupItemCreateProduct[] = [
   {
     key: 'flower_assortment',
     label: 'Cvetni asortiman',

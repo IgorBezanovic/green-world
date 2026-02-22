@@ -1,16 +1,20 @@
 import { request } from '@green-world/utils/api';
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useDeletePost = (
-  id: string,
-  options?: UseMutationOptions<any, unknown, void>
-) => {
+export const useDeletePost = (id: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: () =>
       request({
         url: `/blog-post/post/${id}`,
         method: 'delete'
       }),
-    ...options
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+      ]);
+    }
   });
 };

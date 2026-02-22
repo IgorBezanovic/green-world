@@ -15,7 +15,6 @@ import {
   Chip,
   InputBase
 } from '@mui/material';
-import clsx from 'clsx';
 import {
   Store,
   MapPin,
@@ -96,13 +95,22 @@ export const Shops = () => {
       <MetaTags title="Zeleni svet | Prodavnice | Green world" />
 
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4 sm:px-6 xl:px-0',
-          'py-7 flex flex-col gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
 
@@ -127,7 +135,7 @@ export const Shops = () => {
         {/* Stats */}
         <Box
           component="section"
-          sx={{
+          sx={(theme) => ({
             display: 'grid',
             gap: 3,
             maxWidth: '1400px',
@@ -139,8 +147,11 @@ export const Shops = () => {
             },
             '@media (min-width: 900px)': {
               gridTemplateColumns: 'repeat(4, 1fr)'
+            },
+            [theme.breakpoints.down('md')]: {
+              display: 'none'
             }
-          }}
+          })}
         >
           <StatCard
             icon={Store}

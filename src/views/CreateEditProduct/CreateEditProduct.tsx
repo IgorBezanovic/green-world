@@ -1,5 +1,4 @@
-import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
-import { AppBreadcrumbs, CustomInput, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
@@ -11,20 +10,28 @@ import {
 } from '@green-world/utils/constants';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import {
   Alert,
   AlertTitle,
+  Autocomplete,
   Box,
   Button,
   Checkbox,
   CircularProgress,
+  FormControl,
+  MenuItem,
+  OutlinedInput,
   List,
   ListItem,
   ListItemText,
-  Snackbar
+  TextField,
+  Select,
+  SelectChangeEvent,
+  Snackbar,
+  Card,
+  Typography
 } from '@mui/material';
-import { Select, message } from 'antd';
-import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill-new';
@@ -58,6 +65,11 @@ export const CreateEditProduct = () => {
   const { productId = '' } = useParams();
   const { data = initProduct, isLoading } = useProduct(productId);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [aiSnackbarOpen, setAiSnackbarOpen] = useState(false);
+  const [aiSnackbarMessage, setAiSnackbarMessage] = useState('');
+  const [aiSnackbarSeverity, setAiSnackbarSeverity] = useState<
+    'success' | 'error'
+  >('success');
 
   const quillRef = useRef<ReactQuill>(null);
   const modules = {
@@ -88,6 +100,14 @@ export const CreateEditProduct = () => {
   ) => {
     if (reason === 'clickaway') return;
     setSnackbarOpen(false);
+  };
+
+  const handleCloseAiSnackbar = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') return;
+    setAiSnackbarOpen(false);
   };
 
   const {
@@ -132,12 +152,12 @@ export const CreateEditProduct = () => {
     }));
   }, [productImage]);
 
-  const handleGroupChange = (e: keyof typeof subGroups) => {
-    setProduct({ ...product, group: e });
+  const handleGroupChange = (e: SelectChangeEvent<string>) => {
+    setProduct({ ...product, group: e.target.value as keyof typeof subGroups });
   };
 
-  const handleSubGroupChange = (e: string) => {
-    setProduct({ ...product, subGroup: e });
+  const handleSubGroupChange = (e: SelectChangeEvent<string>) => {
+    setProduct({ ...product, subGroup: e.target.value });
   };
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,11 +230,34 @@ export const CreateEditProduct = () => {
     keywords.length >= 2 &&
     keywords.length <= 10;
 
+  const outlinedInputSx = {
+    mb: 2,
+    bgcolor: 'background.default',
+    '& .MuiOutlinedInput-input': {
+      p: '12px'
+    }
+  };
+
+  const outlinedSelectSx = {
+    mb: 2,
+    bgcolor: 'background.default',
+    '& .MuiSelect-select': {
+      p: '12px'
+    }
+  };
+
+  const labelSx = {
+    mb: 1,
+    color: 'secondary.main',
+    cursor: 'pointer',
+    fontSize: '1.125rem'
+  };
+
   const handleGenerateAiDescription = async () => {
     try {
       setIsAiLoading(true);
       const baseUrl = import.meta.env.VITE_API_URL;
-      const res = await fetch(baseUrl + '/ai/description', {
+      const res = await fetch(baseUrl + 'ai/description', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -235,10 +278,13 @@ export const CreateEditProduct = () => {
 
       const { descriptionHtml } = await res.json();
       handleRichTextDescription(descriptionHtml);
-      message.success('AI opis generisan ✅');
+      setAiSnackbarSeverity('success');
+      setAiSnackbarMessage('AI opis generisan ✅');
+      setAiSnackbarOpen(true);
     } catch (e: any) {
-      console.error(e);
-      message.error(e?.message || 'Nije uspelo generisanje opisa.');
+      setAiSnackbarSeverity('error');
+      setAiSnackbarMessage(e?.message || 'Nije uspelo generisanje opisa.');
+      setAiSnackbarOpen(true);
     } finally {
       setIsAiLoading(false);
     }
@@ -246,9 +292,16 @@ export const CreateEditProduct = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <LoadingOutlined className="text-forestGreen text-4xl" />
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh'
+        }}
+      >
+        <CircularProgress color="success" />
+      </Box>
     );
   }
 
@@ -271,200 +324,219 @@ export const CreateEditProduct = () => {
       }}
     >
       <MetaTags title={pageTitle} />
-      <title>
-        Zeleni svet | {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-      </title>
-      <link rel="canonical" href="https://www.zelenisvet.rs/create-product" />
-
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
-        <h1
-          className={clsx(
-            'text-forestGreen',
-            'text-5xl',
-            'md:text-6xl',
-            'font-ephesis',
-            'mx-auto'
-          )}
+        <Typography
+          component="h1"
+          sx={{
+            color: 'primary.main',
+            fontSize: { xs: '3rem', md: '3.75rem' },
+            fontFamily: 'Ephesis',
+            mx: 'auto',
+            lineHeight: 1
+          }}
         >
           {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
-        </h1>
-        <form
-          className={clsx('flex', 'flex-col', 'md:flex-row', 'md:gap-10')}
+        </Typography>
+        <Box
+          component="form"
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            [theme.breakpoints.up('md')]: {
+              flexDirection: 'row',
+              gap: 5
+            }
+          })}
           onSubmit={handleSubmit}
         >
-          <div className={clsx('flex-1', 'flex', 'flex-col')}>
-            <label
-              htmlFor="group"
-              className={clsx('mb-2', 'text-forestGreen', 'text-lg')}
-            >
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <Typography htmlFor="group" component="label" sx={labelSx}>
               Odaberite pripadajuću grupu:
-            </label>
-            <Select
-              value={product.group || 'Odaberi grupu proizvoda'}
-              className={clsx('shadow-md', 'md:hover:shadow-lg')}
-              onChange={handleGroupChange}
-              options={groupItemsCreateProduct!.map((item) => ({
-                value: item?.key,
-                label: (item as { label: string }).label
-              }))}
-            />
-            <label
+            </Typography>
+            <FormControl fullWidth>
+              <Select
+                displayEmpty
+                value={product.group || ''}
+                onChange={handleGroupChange}
+                disabled={isLoading}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  Odaberi grupu proizvoda
+                </MenuItem>
+                {groupItemsCreateProduct.map((item) => (
+                  <MenuItem key={item.key} value={item.key}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography
               htmlFor="subGroup"
-              className={clsx('mt-4', 'mb-2', 'text-forestGreen', 'text-lg')}
+              component="label"
+              sx={{ ...labelSx, mt: 1 }}
             >
               Odaberite pripadajuću podgrupu:
-            </label>
-            <Select
-              value={product.subGroup || 'Odaberi podgrupu proizvoda'}
-              className={clsx('shadow-md', 'md:hover:shadow-lg')}
-              onChange={handleSubGroupChange}
-              options={subGroups[
-                (product.group as SubGroupKeys) || 'flower_assortment'
-              ]!.map((item: SubGroup) => ({
-                value: item?.label,
-                label: item?.sr_RS
-              }))}
-            />
-            <label
+            </Typography>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <Select
+                displayEmpty
+                value={product.subGroup || ''}
+                onChange={handleSubGroupChange}
+                disabled={isLoading}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  Odaberi podgrupu proizvoda
+                </MenuItem>
+                {subGroups[
+                  (product.group as SubGroupKeys) || 'flower_assortment'
+                ]!.map((item: SubGroup) => (
+                  <MenuItem key={item?.label} value={item?.label}>
+                    {item?.sr_RS}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography
               htmlFor={
                 product?.images?.length >= 10 ? undefined : 'profileImage'
               }
-              className={clsx(
-                'mt-4',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
+              component="label"
+              sx={{ ...labelSx, mt: 1 }}
             >
               Dodajte fotografije proizvoda:
-            </label>
+            </Typography>
             {Boolean(product?.images.length) && (
-              <div
-                className={clsx(
-                  'w-full',
-                  'min-h-20',
-                  'mb-4',
-                  'gap-4',
-                  'rounded',
-                  'shadow-md',
-                  'p-4',
-                  'grid',
-                  'grid-cols-2',
-                  'md:grid-cols-4',
-                  'border',
-                  'border-forestGreen'
-                )}
+              <Box
+                sx={{
+                  width: '100%',
+                  minHeight: 80,
+                  mb: 2,
+                  gap: 2,
+                  borderRadius: 1,
+                  boxShadow: 2,
+                  p: 2,
+                  display: 'grid',
+                  gridTemplateColumns: {
+                    xs: 'repeat(2, minmax(0, 1fr))',
+                    md: 'repeat(4, minmax(0, 1fr))'
+                  },
+                  border: '1px solid',
+                  borderColor: 'secondary.main'
+                }}
               >
                 {product?.images?.map((image, index) => (
-                  <div key={index} className={clsx('w-full', 'relative')}>
-                    <DeleteOutlined
-                      className={clsx(
-                        'absolute',
-                        'top-2',
-                        'right-2',
-                        'font-2xl',
-                        'text-forestGreen'
-                      )}
+                  <Box key={index} sx={{ width: '100%', position: 'relative' }}>
+                    <DeleteOutlinedIcon
+                      sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        color: 'primary.main',
+                        fontSize: 28,
+                        cursor: 'pointer'
+                      }}
                       onClick={() => handleDeleteImage(index)}
-                      alt="Obrisi sliku"
-                      title="Obrisi sliku"
+                      titleAccess="Obrisi sliku"
                     />
-                    <img
+                    <Box
+                      component="img"
                       src={formatImageUrl(image, 55)}
                       alt={`product-image-${index}`}
-                      className={clsx(
-                        'aspect-square',
-                        'shadow-md',
-                        'object-cover'
-                      )}
+                      sx={{
+                        aspectRatio: '1 / 1',
+                        boxShadow: 2,
+                        objectFit: 'cover'
+                      }}
                       height="100%"
                       width="100%"
                     />
                     {index !== 0 && (
-                      <button
+                      <Button
                         onClick={() => handleSetAsProfileImage(index)}
-                        className={clsx(
-                          'mt-2',
-                          'px-3',
-                          'py-1',
-                          'w-full',
-                          'text-sm',
-                          'font-semibold',
-                          'text-white',
-                          'bg-forestGreen',
-                          'rounded-full',
-                          'shadow-md',
-                          'transition-all',
-                          'md:hover:text-cream',
-                          'md:hover:shadow-lg',
-                          'md:hover:translate-y-[-1px]'
-                        )}
+                        variant="contained"
+                        color="secondary"
+                        sx={{
+                          mt: 1,
+                          px: 1.5,
+                          py: 0.5,
+                          width: '100%',
+                          fontSize: '0.875rem',
+                          fontWeight: 600,
+                          textTransform: 'none'
+                        }}
                       >
-                        <small>Profilna</small>
-                      </button>
+                        Profilna
+                      </Button>
                     )}
-                  </div>
+                  </Box>
                 ))}
-              </div>
+              </Box>
             )}
-            <label
-              htmlFor={
-                product?.images?.length >= 10 ? undefined : 'profileImage'
-              }
-              className={clsx(
-                'border',
-                product?.images?.length >= 10
-                  ? 'border-gray40 text-gray40 bg-gray10 cursor-not-allowed'
-                  : 'border-forestGreen text-forestGreen bg-whiteLinen cursor-pointer md:hover:text-black md:hover:shadow-lg md:hover:translate-y-[-1px] md:active:translate-y-0 md:active:shadow-md',
-                'rounded',
-                'py-2',
-                'px-4',
-                'shadow-md',
-                'text-center',
-                'mx-auto',
-                'md:mx-0',
-                'uppercase',
-                'font-light',
-                'mb-4',
-                'md:mb-0',
-                'transition-all',
-                'duration-300',
-                {
-                  'mt-4': Boolean(!product?.images.length),
-                  'mb-8': Boolean(!product?.images.length)
+            <Button
+              component="label"
+              variant="outlined"
+              color="primary"
+              disabled={product?.images?.length >= 10}
+              sx={(theme) => ({
+                py: 1,
+                px: 2,
+                boxShadow: 2,
+                textAlign: 'center',
+                mx: 'auto',
+                textTransform: 'uppercase',
+                mb: { xs: !product?.images?.length ? 4 : 2, md: 0 },
+                mt: !product?.images?.length ? 1 : 0,
+                [theme.breakpoints.up('md')]: {
+                  mx: 0,
+                  '&:hover': {
+                    color: 'common.black',
+                    boxShadow: 4,
+                    transform: 'translateY(-1px)'
+                  },
+                  '&:active': {
+                    transform: 'translateY(0)',
+                    boxShadow: 2
+                  }
                 }
-              )}
-              aria-disabled={product?.images?.length >= 10}
+              })}
             >
               {product?.images?.length >= 10
                 ? 'Maksimalno 10 slika'
                 : 'Dodaj sliku proizvoda'}
-            </label>
-            <input
-              type="file"
-              disabled={product?.images?.length >= 10}
-              name="profileImage"
-              id="profileImage"
-              accept="image/png, image/jpeg, image/jpg, image/webp"
-              onChange={handleImage}
-              className={clsx('hidden')}
-              data-max-size={MAX_IMAGE_MB}
-            />
-            <Alert severity="info" className="mt-4">
+              <Box
+                component="input"
+                type="file"
+                disabled={product?.images?.length >= 10}
+                name="profileImage"
+                id="profileImage"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
+                onChange={handleImage}
+                sx={{ display: 'none' }}
+                data-max-size={MAX_IMAGE_MB}
+              />
+            </Button>
+            <Alert severity="info" sx={{ mt: 2 }}>
               <AlertTitle>Informacije o dodavanju fotografija</AlertTitle>
               <List sx={{ pl: 3, listStyleType: 'disc' }}>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
@@ -481,21 +553,13 @@ export const CreateEditProduct = () => {
                 </ListItem>
               </List>
             </Alert>
-          </div>
+          </Box>
 
-          <div className={clsx('flex-1', 'flex', 'flex-col')}>
-            <label
-              htmlFor="title"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <Typography htmlFor="title" component="label" sx={labelSx}>
               Naziv proizvoda:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               required
               type="text"
               name="title"
@@ -503,52 +567,87 @@ export const CreateEditProduct = () => {
               placeholder="Unesite naziv proizvoda"
               value={product?.title || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
 
-            <label
-              className={clsx('mb-2', 'mt-4', 'text-forestGreen', 'text-lg')}
-            >
-              Ključne fraze za generisanje (min 2 / max 10):
-            </label>
-            <Select
-              mode="tags"
-              value={keywords}
-              onChange={(vals) => {
-                const cleaned = (vals as string[])
-                  .map((v) => v.trim())
-                  .filter(Boolean)
-                  .slice(0, 10);
-                setKeywords(cleaned);
-              }}
-              tokenSeparators={[',']}
-              placeholder="Dodaj ključne fraze (ENTER ili ,)"
-              className={clsx('shadow-md', 'md:hover:shadow-lg', 'mb-1')}
-            />
-            <small className={clsx('text-gray40', 'italic', 'mb-2')}>
-              Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo,
-              fikus, zalivanje…
-            </small>
-
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-3 mb-2">
-              <label
-                htmlFor="description"
-                className={clsx(
-                  'text-forestGreen',
-                  'cursor-pointer',
-                  'text-lg',
-                  'm-0'
+            <Card sx={{ p: 2, borderColor: 'divider' }}>
+              <Typography variant="h4" color="secondary">
+                AI generisanje opisa proizvoda:
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
+                Uslovi za AI generisanje deskripcije: dodata minimum jedna
+                fotografija, popunjen naziv proizvoda i dodato minimum 2, a
+                maximum 10 ključnih reci
+              </Typography>
+              <Typography component="label" sx={{ ...labelSx, mt: 1 }}>
+                Ključne fraze za generisanje (min 2 / max 10):
+              </Typography>
+              <Autocomplete
+                multiple
+                freeSolo
+                options={[]}
+                value={keywords}
+                onChange={(_, vals) => {
+                  const cleaned = vals
+                    .flatMap((v) => String(v).split(','))
+                    .map((v) => v.trim())
+                    .filter(Boolean)
+                    .slice(0, 10);
+                  setKeywords(cleaned);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Dodaj ključne fraze (ENTER ili ,)"
+                  />
                 )}
+                sx={{
+                  mb: 1,
+                  '& .MuiOutlinedInput-root': {
+                    bgcolor: 'background.default'
+                  }
+                }}
+              />
+              <Typography
+                variant="caption"
+                sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 1 }}
+              >
+                Koristi pojmove iz baštovanstva: npr. saksija, supstrat,
+                đubrivo, fikus, zalivanje…
+              </Typography>
+            </Card>
+
+            <Box
+              sx={(theme) => ({
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 2,
+                mt: 1.5,
+                mb: 1,
+                [theme.breakpoints.up('md')]: {
+                  flexDirection: 'row'
+                }
+              })}
+            >
+              <Typography
+                htmlFor="description"
+                component="label"
+                sx={{ ...labelSx, mb: 0 }}
               >
                 Opis proizvoda:
-              </label>
+              </Typography>
               <AiButton
                 isAiLoading={isAiLoading}
                 canGenerate={canGenerate}
                 onClick={handleGenerateAiDescription}
               />
-            </div>
+            </Box>
 
-            <div className={clsx('mb-4')}>
+            <Box sx={{ mb: 2 }}>
               <ReactQuill
                 ref={quillRef}
                 modules={modules}
@@ -580,57 +679,51 @@ export const CreateEditProduct = () => {
                 }
                 `}
               </style>
-            </div>
+            </Box>
 
-            <label
+            <Typography
               htmlFor="shortDescription"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
+              component="label"
+              sx={labelSx}
             >
               Kratak opis proizvoda:{' '}
-              <small className={clsx('text-gray40', 'italic')}>
+              <Typography
+                component="span"
+                variant="caption"
+                sx={{ color: 'text.secondary', fontStyle: 'italic' }}
+              >
                 max 80 karaktera
-              </small>
-            </label>
-            <CustomInput
+              </Typography>
+            </Typography>
+            <OutlinedInput
               name="shortDescription"
               id="shortDescription"
-              maxLength={80}
-              className={clsx(
-                'flex-1',
-                'rounded-xs',
-                'shadow-md',
-                'h-full',
-                'min-h-[42px]',
-                'md:hover:shadow-lg',
-                {
-                  'border-forestGreen': !isLoading,
-                  'border-groupTransparent': isLoading
-                }
-              )}
+              inputProps={{ maxLength: 80 }}
               placeholder="Unesite kratak opis proizvoda"
               value={product?.shortDescription || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <small className={clsx('text-gray40', 'italic', 'mb-4')}>
-              Opis se prikazuje na početnoj stranici
-            </small>
-
-            <label
-              htmlFor="price"
-              className={clsx('text-forestGreen', 'cursor-pointer', 'text-lg')}
+            <Typography
+              variant="caption"
+              sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}
             >
+              Opis se prikazuje na početnoj stranici
+            </Typography>
+
+            <Typography htmlFor="price" component="label" sx={labelSx}>
               Cena proizvoda:
-            </label>
-            <small className={clsx('mb-2', 'text-gray40', 'italic')}>
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{ mb: 1, color: 'text.secondary', fontStyle: 'italic' }}
+            >
               Cenu proizvoda unesite bez tacki i zareza, na nama je da
               formatiramo. e.g. 1490 - 1.490,00 RSD
-            </small>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               required
               type="text"
               name="price"
@@ -639,102 +732,86 @@ export const CreateEditProduct = () => {
               value={product?.price || ''}
               onChange={handleChange}
               disabled={product?.priceOnRequest}
+              fullWidth
+              sx={outlinedInputSx}
             />
-            <div className="flex items-center mt-2 mb-4">
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 2 }}>
               <Checkbox
                 checked={product?.priceOnRequest ?? false}
                 onChange={handleCheckboxPrice}
                 color="success"
                 id="priceOnRequest"
               />
-              <label
+              <Typography
                 htmlFor="priceOnRequest"
-                className="text-forestGreen text-md"
+                component="label"
+                sx={{ color: 'secondary.main', fontSize: '1rem' }}
               >
                 Cena: <strong>Na upit</strong>
-              </label>
-            </div>
+              </Typography>
+            </Box>
 
-            <label
-              htmlFor="height"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="height" component="label" sx={labelSx}>
               Visina proizvoda:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="height"
               id="height"
               placeholder="Unesite visinu proizvoda"
               value={product?.height || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="width"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="width" component="label" sx={labelSx}>
               Sirina proizvoda:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="width"
               id="width"
               placeholder="Unesite sirinu proizvoda"
               value={product?.width || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="weight"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="weight" component="label" sx={labelSx}>
               Tezina proizvoda:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="weight"
               id="weight"
               placeholder="Unesite tezinu proizvoda"
               value={product?.weight || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
-            <label
-              htmlFor="milliliters"
-              className={clsx(
-                'mb-2',
-                'text-forestGreen',
-                'cursor-pointer',
-                'text-lg'
-              )}
-            >
+            <Typography htmlFor="milliliters" component="label" sx={labelSx}>
               Koliko millilitara:
-            </label>
-            <CustomInput
+            </Typography>
+            <OutlinedInput
               type="text"
               name="milliliters"
               id="milliliters"
               placeholder="Unesite Mililitre"
               value={product?.milliliters || ''}
               onChange={handleChange}
+              fullWidth
+              disabled={isLoading}
+              sx={outlinedInputSx}
             />
 
             <Button
               type="submit"
               variant="outlined"
+              size="large"
               disabled={isLoading || isImageLoading}
               sx={{
                 mt: 4
@@ -754,9 +831,9 @@ export const CreateEditProduct = () => {
                 'Kreiraj proizvod'
               )}
             </Button>
-          </div>
-        </form>
-      </div>
+          </Box>
+        </Box>
+      </Box>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -770,6 +847,21 @@ export const CreateEditProduct = () => {
           sx={{ width: '100%' }}
         >
           Maksimalna veličina fajla je 10MB!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={aiSnackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleCloseAiSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={handleCloseAiSnackbar}
+          severity={aiSnackbarSeverity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {aiSnackbarMessage}
         </Alert>
       </Snackbar>
     </Box>
