@@ -1,9 +1,9 @@
 import { SocialMedia } from '@green-world/components';
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -11,7 +11,7 @@ export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');
   const navigate = useNavigate();
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
 
   return (
     <Box

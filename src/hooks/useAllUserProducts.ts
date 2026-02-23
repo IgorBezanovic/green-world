@@ -1,14 +1,14 @@
 import { request } from '@green-world/utils/api';
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { jwtDecode } from 'jwt-decode';
 
 export const useAllUserProducts = (
   userId?: string
 ): UseQueryResult<Product[]> => {
   const getToken = getItem('token');
-  const decodedToken: any = getToken && jwtDecode(getToken);
+  const decodedToken = safeDecodeToken<{ _id?: string }>(getToken);
   // Check if userId is passed, if not use the userId from the token
   const userIdToUse = userId ? userId : decodedToken?._id;
 

@@ -1,6 +1,7 @@
 import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
@@ -14,7 +15,6 @@ import {
   useTheme,
   Badge
 } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import {
   User,
   UserPen,
@@ -37,7 +37,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const token = getItem('token');
   const theme = useTheme();
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const { user } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);

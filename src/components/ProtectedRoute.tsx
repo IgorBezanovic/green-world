@@ -1,6 +1,6 @@
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
-import { jwtDecode } from 'jwt-decode';
 import { ElementType, useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
 
@@ -16,12 +16,10 @@ export const ProtectedRoute = ({
   useEffect(() => {
     const localStorageToken = getItem('token');
     if (localStorageToken) {
-      try {
-        const token: DecodedToken = jwtDecode(localStorageToken);
-        if (token && token._id) {
-          setIsAuthenticated(true);
-        }
-      } catch {
+      const token = safeDecodeToken<DecodedToken>(localStorageToken);
+      if (token && token._id) {
+        setIsAuthenticated(true);
+      } else {
         setIsAuthenticated(false);
       }
     }

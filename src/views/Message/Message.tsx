@@ -5,7 +5,7 @@ import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem } from '@green-world/utils/cookie';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import { formatImageUrl, safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
   CircularProgress,
@@ -20,7 +20,6 @@ import {
   InputAdornment,
   IconButton
 } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import { MessageCircle, Search, Send, ArrowLeft } from 'lucide-react';
 import { useState, useContext, useEffect, useRef, useMemo } from 'react';
 
@@ -46,7 +45,7 @@ export const Message = () => {
   const markAsRead = useMarkAsRead();
   const alreadyMarked = useRef<string | null>(null);
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const currentUser = decodedToken?._id;
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const chatBoxRef = useRef<HTMLDivElement | null>(null);

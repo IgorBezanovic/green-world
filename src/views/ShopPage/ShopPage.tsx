@@ -11,7 +11,8 @@ import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   formatUrl,
-  goToDestination
+  goToDestination,
+  safeDecodeToken
 } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -26,7 +27,6 @@ import {
   InputBase
 } from '@mui/material';
 import { Card } from 'antd';
-import { jwtDecode } from 'jwt-decode';
 import {
   Phone,
   Mail,
@@ -55,7 +55,7 @@ export const ShopPage = () => {
     setSearch('');
   };
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const filteredProducts = useMemo(() => {

@@ -13,6 +13,7 @@ import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   goToDestination,
+  safeDecodeToken,
   translateGroupToSr,
   translateSubGroupToSr
 } from '@green-world/utils/helpers';
@@ -31,7 +32,6 @@ import {
   useTheme
 } from '@mui/material';
 import dayjs from 'dayjs';
-import { jwtDecode } from 'jwt-decode';
 import {
   Store,
   Phone,
@@ -69,7 +69,7 @@ export const ProductPage = () => {
     useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const handlePrev = () => {
