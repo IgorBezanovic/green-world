@@ -13,7 +13,8 @@ export const useDeletePost = (id: string) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
-        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPosts'] })
       ]);
     }
   });

@@ -13,7 +13,11 @@ export const useDeleteProduct = (id: string) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
-        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] })
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['productsByGroup'] }),
+        queryClient.invalidateQueries({ queryKey: ['productDetails', id] }),
+        queryClient.invalidateQueries({ queryKey: ['featured'] })
       ]);
     }
   });

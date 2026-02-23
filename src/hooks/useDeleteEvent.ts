@@ -13,7 +13,9 @@ export const useDeleteEvent = (id: string) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
-        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] })
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['allEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['eventDetails', id] })
       ]);
     }
   });

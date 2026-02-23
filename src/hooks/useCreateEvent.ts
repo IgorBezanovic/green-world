@@ -45,7 +45,8 @@ export const useCreateEvent = () => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
-        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] })
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['allEvents'] })
       ]);
       navigate('/profile');
     }

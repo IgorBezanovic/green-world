@@ -1,6 +1,7 @@
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { isLikelyJwt } from '@green-world/utils/helpers';
+import { isLikelyJwt, safeDecodeToken } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -22,7 +23,7 @@ export const useGoogleLogin = () => {
         method: 'post',
         data: { credential }
       }) as Promise<GoogleAuthResponse>,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const token = typeof data === 'string' ? data : data?.token;
 
       if (!isLikelyJwt(token)) {
@@ -31,9 +32,16 @@ export const useGoogleLogin = () => {
       }
 
       setItem('token', token);
-      queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-      queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });
-      queryClient.invalidateQueries({ queryKey: ['allUserEvents'] });
+      const decoded = safeDecodeToken<DecodedToken>(token);
+
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['userDetails', decoded?._id]
+        }),
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+      ]);
       navigate('/');
     },
     onError: (err: any) => {

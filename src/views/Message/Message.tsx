@@ -36,11 +36,8 @@ export const Message = () => {
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { socket, addMessage, messages } = useContext(ChatContext);
-  const {
-    data: conversationData,
-    isLoading: isConversationLoading,
-    refetch
-  } = useConversation(selectedUserId || '');
+  const { data: conversationData, isLoading: isConversationLoading } =
+    useConversation(selectedUserId || '');
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkAsRead();
   const alreadyMarked = useRef<string | null>(null);
@@ -180,14 +177,10 @@ export const Message = () => {
 
     socket.emit('private_message', msg);
     addMessage(selectedUserId, msg);
-    sendMessageMutation.mutate(
-      { receiverId: selectedUserId, content: messageInput },
-      {
-        onSuccess: () => {
-          refetch();
-        }
-      }
-    );
+    sendMessageMutation.mutate({
+      receiverId: selectedUserId,
+      content: messageInput
+    });
     setMessageInput('');
   };
 

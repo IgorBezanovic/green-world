@@ -1,14 +1,14 @@
 import { request } from '@green-world/utils/api';
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface MessagePayload {
   receiverId: string;
   content: string;
 }
 
-export const useSendMessage = (
-  options?: UseMutationOptions<any, unknown, MessagePayload>
-) => {
+export const useSendMessage = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['sendMessage'],
     mutationFn: (payload: MessagePayload) =>
@@ -17,6 +17,13 @@ export const useSendMessage = (
         method: 'post',
         data: payload
       }),
-    ...options
+    onSuccess: async (variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userMessages'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['conversation', variables.receiverId]
+        })
+      ]);
+    }
   });
 };

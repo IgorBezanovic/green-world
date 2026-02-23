@@ -1,11 +1,13 @@
 import { useSuccess } from '@green-world/context/PopupContext';
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { RegistrationValues } from '@green-world/utils/types';
-import { useMutation } from '@tanstack/react-query';
+import { safeDecodeToken } from '@green-world/utils/helpers';
+import { DecodedToken, RegistrationValues } from '@green-world/utils/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useSignUp = () => {
   const { setIsOpen } = useSuccess();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ email, password }: RegistrationValues) =>
@@ -17,8 +19,17 @@ export const useSignUp = () => {
           password
         }
       }),
-    onSuccess: (data: string) => {
+    onSuccess: async (data: string) => {
       setItem('token', data);
+      const token = safeDecodeToken<DecodedToken>(data);
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['userDetails', token?._id]
+        }),
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+      ]);
       setIsOpen(true);
     }
   });

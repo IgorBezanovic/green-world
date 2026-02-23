@@ -28,7 +28,8 @@ export const useCreateBlogPost = () => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
-        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPosts'] })
       ]);
       toast.success('Uspešno ste kreirali blog post!');
     }

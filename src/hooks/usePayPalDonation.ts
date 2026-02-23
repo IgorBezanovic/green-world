@@ -1,5 +1,9 @@
 import { request } from '@green-world/utils/api';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient
+} from '@tanstack/react-query';
 
 export type PaymentTypePromo =
   | 'PROMOTE_PRODUCT'
@@ -142,6 +146,8 @@ export const useCapturePayPalOrder = (): UseMutationResult<
   Error,
   CapturePayPalOrderPayload
 > => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['paypal', 'capture-order'],
     mutationFn: async (payload) => {
@@ -156,6 +162,16 @@ export const useCapturePayPalOrder = (): UseMutationResult<
       const data = res;
 
       return data as CapturePayPalOrderResponse;
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['featured'] }),
+        queryClient.invalidateQueries({ queryKey: ['promoted-products'] }),
+        queryClient.invalidateQueries({ queryKey: ['promoted-shops'] })
+      ]);
     }
   });
 };
