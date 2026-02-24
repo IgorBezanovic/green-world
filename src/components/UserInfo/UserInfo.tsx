@@ -50,26 +50,40 @@ export const UserInfo = ({ ...props }) => {
 
   return (
     <Card sx={{ width: '100%' }}>
-      {props?.user?.shopName && (
-        <CardHeader
-          title={
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Store style={{ marginRight: 8, width: 20, height: 20 }} />
-              {props?.user?.shopName}
-            </Box>
-          }
-          action={
-            props?.isUserProfile && (
-              <IconButton
-                aria-label="Edit profile"
-                onClick={() => navigate('/profile-settings/edit-profile')}
-              >
-                <Settings style={{ width: 24, height: 24 }} />
-              </IconButton>
-            )
-          }
-        />
-      )}
+      <CardHeader
+        title={
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <Store
+              style={{
+                marginRight: 8,
+                width: 20,
+                height: 20
+              }}
+            />
+            <Typography
+              variant="body2"
+              sx={{ fontStyle: props?.user?.shopName ? 'normal' : 'italic' }}
+            >
+              {props?.user?.shopName ?? 'Unesite naziv prodavnice'}
+            </Typography>
+          </Box>
+        }
+        action={
+          props?.isUserProfile && (
+            <IconButton
+              aria-label="Edit profile"
+              onClick={() => navigate('/profile-settings/edit-profile')}
+            >
+              <Settings style={{ width: 24, height: 24 }} />
+            </IconButton>
+          )
+        }
+      />
 
       <CardContent>
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>

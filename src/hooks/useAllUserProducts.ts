@@ -18,6 +18,7 @@ export const useAllUserProducts = (
       request({
         url: `/product/personal/${userIdToUse}`,
         method: 'get'
-      })
+      }),
+    enabled: !!userIdToUse
   });
 };
