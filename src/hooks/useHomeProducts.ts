@@ -13,6 +13,7 @@ export interface ProductPreview {
   priceOnRequest: boolean | null;
   price: string;
   images: string[];
+  onStock: boolean;
   promotedAt?: string | Date | null;
   promotedUntil?: string | Date | null;
 }

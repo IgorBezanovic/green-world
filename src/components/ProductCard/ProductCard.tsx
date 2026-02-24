@@ -1,4 +1,5 @@
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
+import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
@@ -10,6 +11,7 @@ import {
   CardContent,
   Divider,
   IconButton,
+  Switch,
   Typography
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
@@ -24,6 +26,7 @@ interface ProductCardProps {
   product: Product | ProductPreview;
   isHero?: boolean;
   isPromotedView?: boolean;
+  showQuickStockToggle?: boolean;
 }
 
 export const ProductCard = ({
@@ -32,6 +35,9 @@ export const ProductCard = ({
   isPromotedView = false
 }: ProductCardProps) => {
   const { mutate } = useDeleteProduct(product?._id);
+  const { mutate: editProduct, isPending: isStockUpdating } = useEditProduct(
+    product?._id
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,6 +60,15 @@ export const ProductCard = ({
           (1000 * 60 * 60 * 24)
       )
     : 0;
+
+  const handleQuickStockToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+
+    editProduct({
+      ...(product as Product),
+      onStock: !product.onStock
+    });
+  };
 
   return (
     <Card
@@ -202,41 +217,86 @@ export const ProductCard = ({
                 </Typography>
               )
             ) : (
-              <>
-                <IconButton
-                  aria-label="Edit Product"
-                  onClick={() => navigate(`/edit-product/${product._id}`)}
-                >
-                  <EditIcon />
-                </IconButton>
-
-                <IconButton
-                  aria-label="Share Product"
-                  onClick={() => {
-                    navigator.clipboard
-                      .writeText(
-                        `https://www.zelenisvet.rs/product/${product._id}`
-                      )
-                      .then(() => toast.success('Kopiran link'))
-                      .catch(() => alert('Neuspešno kopiranje linka'));
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    pb: 1,
+                    gap: 1,
+                    borderBottom: (theme) =>
+                      `1px solid ${theme.palette.divider}`
                   }}
                 >
-                  <Copy />
-                </IconButton>
+                  <Typography
+                    variant="body2"
+                    sx={{ width: 'auto' }}
+                    color={product?.onStock ? 'success.main' : 'warning.main'}
+                  >
+                    {product?.onStock ? 'Na stanju' : 'Nije na stanju'}
+                  </Typography>
+                  <Switch
+                    size="small"
+                    color={product?.onStock ? 'success' : 'warning'}
+                    checked={Boolean(product?.onStock)}
+                    onChange={handleQuickStockToggle}
+                    onClick={(e) => e.stopPropagation()}
+                    disabled={isStockUpdating}
+                  />
+                </Box>
 
-                <PopDelete
-                  title="Brisanje proizvoda"
-                  description="Da li ste sigurni da želite da obrišete proizvod?"
-                  okText="Da"
-                  cancelText="Ne"
-                  id={product._id}
-                  mutate={mutate}
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    gap: 1
+                  }}
                 >
-                  <IconButton aria-label="Delete Product">
-                    <Trash />
+                  <IconButton
+                    aria-label="Edit Product"
+                    onClick={() => navigate(`/edit-product/${product._id}`)}
+                  >
+                    <EditIcon />
                   </IconButton>
-                </PopDelete>
-              </>
+
+                  <IconButton
+                    aria-label="Share Product"
+                    onClick={() => {
+                      navigator.clipboard
+                        .writeText(
+                          `https://www.zelenisvet.rs/product/${product._id}`
+                        )
+                        .then(() => toast.success('Kopiran link'))
+                        .catch(() => alert('Neuspešno kopiranje linka'));
+                    }}
+                  >
+                    <Copy />
+                  </IconButton>
+
+                  <PopDelete
+                    title="Brisanje proizvoda"
+                    description="Da li ste sigurni da želite da obrišete proizvod?"
+                    okText="Da"
+                    cancelText="Ne"
+                    id={product._id}
+                    mutate={mutate}
+                  >
+                    <IconButton aria-label="Delete Product">
+                      <Trash />
+                    </IconButton>
+                  </PopDelete>
+                </Box>
+              </Box>
             )}
           </CardActions>
         )}
