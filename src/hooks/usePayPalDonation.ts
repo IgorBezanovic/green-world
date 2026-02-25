@@ -58,6 +58,7 @@ export type CreatePayPalOrderPayload =
 type CreatePayPalOrderResponse = {
   id: string;
   amountEur?: string;
+  amountRsd?: number;
 };
 
 type CapturePayPalOrderPayload = { orderId: string };
