@@ -290,7 +290,11 @@ export const UserProfile = () => {
             >
               {productsToDisplay?.length > 0 ? (
                 productsToDisplay.map((product: any) => (
-                  <ProductCard key={product._id} product={product} />
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    isPromotedView={true}
+                  />
                 ))
               ) : (
                 <Alert severity="warning" sx={{ mb: 2 }}>
@@ -325,6 +329,7 @@ export const UserProfile = () => {
                     key={product._id}
                     product={product}
                     isPromotedView={true}
+                    promotedPeriod={true}
                   />
                 ))
               ) : (

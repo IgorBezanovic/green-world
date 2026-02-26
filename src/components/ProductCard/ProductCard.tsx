@@ -27,12 +27,14 @@ interface ProductCardProps {
   isHero?: boolean;
   isPromotedView?: boolean;
   showQuickStockToggle?: boolean;
+  promotedPeriod?: boolean;
 }
 
 export const ProductCard = ({
   product,
   isHero = false,
-  isPromotedView = false
+  isPromotedView = false,
+  promotedPeriod = false
 }: ProductCardProps) => {
   const { mutate } = useDeleteProduct(product?._id);
   const { mutate: editProduct, isPending: isStockUpdating } = useEditProduct(
@@ -194,110 +196,132 @@ export const ProductCard = ({
               }
             }}
           >
-            {isPromotedView ? (
-              isPromotionExpired ? (
-                <Button
-                  variant="contained"
-                  color="warning"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate('/promote-product', {
-                      state: { promoteProductId: product._id }
-                    });
-                  }}
-                >
-                  Obnovi
-                </Button>
-              ) : (
-                <Typography
-                  variant="body2"
-                  sx={{ fontWeight: 500, color: 'success.main' }}
-                >
-                  Aktivno još {daysLeft} {daysLeft === 1 ? 'dan' : 'dana'}
-                </Typography>
-              )
-            ) : (
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}
-              >
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              {isPromotedView && (
                 <Box
                   sx={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    flexDirection: 'column',
                     pb: 1,
                     gap: 1,
                     borderBottom: (theme) =>
                       `1px solid ${theme.palette.divider}`
                   }}
                 >
-                  <Typography
-                    variant="body2"
-                    sx={{ width: 'auto' }}
-                    color={product?.onStock ? 'success.main' : 'warning.main'}
-                  >
-                    {product?.onStock ? 'Na stanju' : 'Nije na stanju'}
-                  </Typography>
-                  <Switch
+                  <Button
+                    variant="contained"
+                    color="warning"
                     size="small"
-                    color={product?.onStock ? 'success' : 'warning'}
-                    checked={Boolean(product?.onStock)}
-                    onChange={handleQuickStockToggle}
-                    onClick={(e) => e.stopPropagation()}
-                    disabled={isStockUpdating}
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    gap: 1
-                  }}
-                >
-                  <IconButton
-                    aria-label="Edit Product"
-                    onClick={() => navigate(`/edit-product/${product._id}`)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-
-                  <IconButton
-                    aria-label="Share Product"
-                    onClick={() => {
-                      navigator.clipboard
-                        .writeText(
-                          `https://www.zelenisvet.rs/product/${product._id}`
-                        )
-                        .then(() => toast.success('Kopiran link'))
-                        .catch(() => alert('Neuspešno kopiranje linka'));
+                    sx={{
+                      textTransform: 'uppercase',
+                      color: 'grey.900'
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate('/promote-product', {
+                        state: { promoteProductId: product._id }
+                      });
                     }}
                   >
-                    <Copy />
-                  </IconButton>
-
-                  <PopDelete
-                    title="Brisanje proizvoda"
-                    description="Da li ste sigurni da želite da obrišete proizvod?"
-                    okText="Da"
-                    cancelText="Ne"
-                    id={product._id}
-                    mutate={mutate}
-                  >
-                    <IconButton aria-label="Delete Product">
-                      <Trash />
-                    </IconButton>
-                  </PopDelete>
+                    {isPromotionExpired ? 'Obnovi' : 'Promoviši'}
+                  </Button>
+                  {promotedPeriod && (
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 500, color: 'grey.600' }}
+                    >
+                      Aktivno još {daysLeft} {daysLeft === 1 ? 'dan' : 'dana'}
+                    </Typography>
+                  )}
                 </Box>
+              )}
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  py: 1,
+                  gap: 1,
+                  borderBottom: (theme) => `1px solid ${theme.palette.divider}`
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ width: 'auto' }}
+                  color={product?.onStock ? 'success.main' : 'warning.main'}
+                >
+                  {product?.onStock ? 'Na stanju' : 'Nije na stanju'}
+                </Typography>
+                <Switch
+                  size="small"
+                  color={product?.onStock ? 'success' : 'warning'}
+                  checked={Boolean(product?.onStock)}
+                  onChange={handleQuickStockToggle}
+                  onClick={(e) => e.stopPropagation()}
+                  disabled={isStockUpdating}
+                />
               </Box>
-            )}
+
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  gap: 1,
+                  pt: 1
+                }}
+              >
+                <IconButton
+                  aria-label="Edit Product"
+                  title="Edit proizvoda"
+                  onClick={() => navigate(`/edit-product/${product._id}`)}
+                >
+                  <EditIcon style={{ strokeWidth: '2px' }} />
+                </IconButton>
+
+                <IconButton
+                  aria-label="Share Product"
+                  title="Kopiraj link proizvoda"
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(
+                        `https://www.zelenisvet.rs/product/${product._id}`
+                      )
+                      .then(() => toast.success('Kopiran link'))
+                      .catch(() => toast.error('Neuspešno kopiranje linka'));
+                  }}
+                >
+                  <Copy style={{ strokeWidth: '2px' }} />
+                </IconButton>
+
+                <PopDelete
+                  title="Brisanje proizvoda"
+                  description="Da li ste sigurni da želite da obrišete proizvod?"
+                  okText="Da"
+                  cancelText="Ne"
+                  id={product._id}
+                  mutate={mutate}
+                >
+                  <IconButton
+                    aria-label="Delete Product"
+                    title="Obriši proizvod"
+                  >
+                    <Trash style={{ strokeWidth: '2px' }} />
+                  </IconButton>
+                </PopDelete>
+              </Box>
+            </Box>
           </CardActions>
         )}
       </Box>
