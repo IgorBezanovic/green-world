@@ -4,9 +4,7 @@ import {
   ProductSection,
   GridProducts,
   MetaTags,
-  FeaturedShops,
-  FeaturedShopsBanner,
-  FeaturedProducts
+  FeaturedShopsBanner
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
@@ -64,8 +62,8 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
-        <FeaturedProducts />
-        <FeaturedShops />
+        {/* <FeaturedProducts /> */}
+        {/* <FeaturedShops /> */}
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"
