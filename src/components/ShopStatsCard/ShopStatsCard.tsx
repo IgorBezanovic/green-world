@@ -60,9 +60,9 @@ export const ShopStatsCard = ({
             <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
               {numberOfProducts}
             </Typography>
-            <Typography sx={{ fontSize: 14, color: 'text.secondary' }}>
+            {/* <Typography sx={{ fontSize: 14, color: 'text.secondary' }}>
               / {maxShopProducts}
-            </Typography>
+            </Typography> */}
           </Box>
 
           <LinearProgress

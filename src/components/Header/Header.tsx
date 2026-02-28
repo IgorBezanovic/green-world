@@ -195,7 +195,7 @@ export const Header = () => {
                 <ListItemButton
                   key={item.text}
                   onClick={item.onClick}
-                  disabled={Boolean(item.disabled)}
+                  // disabled={Boolean(item.disabled)}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} />
