@@ -23,6 +23,6 @@ export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
       return data;
     },
     enabled: !!userID,
-    initialData: () => getDecrypted('product', userID)
+    initialData: () => getDecrypted('user', userID)
   });
 };

@@ -76,7 +76,7 @@ export const CommentItem = ({
       </Box>
       {replies.length > 0 && (
         <Box sx={{ mt: 3, ml: { xs: 0, sm: 4 } }}>
-          {replies.map((r) => (
+          {replies?.map((r) => (
             <Box
               key={r._id}
               sx={{

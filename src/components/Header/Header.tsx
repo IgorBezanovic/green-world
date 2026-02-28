@@ -1,5 +1,7 @@
+import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
@@ -13,7 +15,6 @@ import {
   useTheme,
   Badge
 } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import {
   User,
   UserPen,
@@ -26,7 +27,7 @@ import {
   MessageCircle,
   NotebookText
 } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { AISearch } from '../AISearch';
@@ -36,8 +37,8 @@ export const Header = () => {
   const navigate = useNavigate();
   const token = getItem('token');
   const theme = useTheme();
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
-  // const { user } = useContext(UserContext);
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const { user } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
@@ -81,8 +82,8 @@ export const Header = () => {
     {
       text: 'Dodaj proizvod',
       icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
-      onClick: () => handleMenuClick(() => navigate('/create-product'))
-      // disabled: user?.numberOfProducts >= user?.maxShopProducts
+      onClick: () => handleMenuClick(() => navigate('/create-product')),
+      disabled: user?.numberOfProducts >= user?.maxShopProducts
     },
     {
       text: 'Kreiraj aktivnost',
@@ -125,10 +126,15 @@ export const Header = () => {
   return (
     <Box
       component="header"
-      sx={{ backgroundColor: (theme) => theme.palette.background.main }}
+      sx={{
+        backgroundColor: (theme) => theme.palette.background.main
+      }}
       className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
-      <Box className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6">
+      <Box
+        className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6"
+        sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }}
+      >
         <Box
           onClick={() => navigate('/')}
           className="w-40 flex items-center cursor-pointer"
@@ -178,13 +184,14 @@ export const Header = () => {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            py: 2
+            py: 2,
+            zIndex: (theme) => theme.zIndex.modal + 100
           }}
           role="presentation"
         >
           <Box sx={{ flex: 1, overflowY: 'auto' }}>
             <List>
-              {menuItems.map((item) => (
+              {menuItems?.map((item) => (
                 <ListItemButton
                   key={item.text}
                   onClick={item.onClick}

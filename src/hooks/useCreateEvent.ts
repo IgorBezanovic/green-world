@@ -1,10 +1,11 @@
 import { request } from '@green-world/utils/api';
 import { Event } from '@green-world/utils/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 export const useCreateEvent = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
@@ -41,7 +42,12 @@ export const useCreateEvent = () => {
           status
         }
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['userDetails'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['allEvents'] })
+      ]);
       navigate('/profile');
     }
   });

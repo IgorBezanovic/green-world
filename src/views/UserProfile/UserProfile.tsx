@@ -12,32 +12,42 @@ import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { BlogPost, Product } from '@green-world/utils/types';
-import { Tabs, Tab, Box, InputBase, Button, useTheme } from '@mui/material';
+import {
+  Tabs,
+  Tab,
+  Box,
+  InputBase,
+  Button,
+  useTheme,
+  Alert
+} from '@mui/material';
 import { Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-
-import '../style.css';
 
 export const UserProfile = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
-  const {
-    data: products = [],
-    isLoading: productsLoading,
-    refetch: productsRefetch
-  } = useAllUserProducts();
-  const {
-    data: events = [],
-    isLoading: eventsLoading,
-    refetch: eventsRefetch
-  } = useAllUserEvents();
+  const { data: products = [], isLoading: productsLoading } =
+    useAllUserProducts();
+  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
+  // const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
+  //   Product[]
+  // >([]);
   const [activeTab, setActiveTab] = useState('products');
+
+  // const promotedProducts = useMemo(
+  //   () =>
+  //     products.filter(
+  //       (p: Product) => p.promotedAt != null && p.promotedUntil != null
+  //     ),
+  //   [products]
+  // );
 
   useEffect(() => {
     if (!productsLoading) {
@@ -51,17 +61,21 @@ export const UserProfile = () => {
     }
   }, [events, eventsLoading]);
 
-  const {
-    data: blogs = [],
-    isLoading: blogsLoading,
-    refetch: blogsRefetch
-  } = useBlogPostsByUser(user?._id);
+  const { data: blogs = [], isLoading: blogsLoading } = useBlogPostsByUser(
+    user?._id
+  );
 
   useEffect(() => {
     if (!blogsLoading) {
       setBlogsToDisplay(blogs);
     }
   }, [blogs, blogsLoading]);
+
+  // useEffect(() => {
+  //   if (!productsLoading) {
+  //     setPromotedProductsToDisplay(promotedProducts);
+  //   }
+  // }, [promotedProducts, productsLoading]);
 
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
@@ -71,6 +85,11 @@ export const UserProfile = () => {
         product.title.toLowerCase().includes(term)
       );
       setProductsToDisplay(filtered);
+    } else if (activeTab === 'promoted') {
+      // const filtered = promotedProducts.filter((p: Product) =>
+      //   (p.title || '').toLowerCase().includes(term)
+      // );
+      // setPromotedProductsToDisplay(filtered);
     } else if (activeTab === 'events') {
       const filtered = events.filter((event: any) =>
         event.title.toLowerCase().includes(term)
@@ -103,7 +122,7 @@ export const UserProfile = () => {
     <Box
       sx={{
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: 'background.paper',
         minHeight: 'calc(100vh - 360px)'
       }}
     >
@@ -135,7 +154,6 @@ export const UserProfile = () => {
           }
         }}
       >
-        {/* LEVA STRANA */}
         <Box
           component="section"
           sx={{
@@ -149,12 +167,7 @@ export const UserProfile = () => {
             }
           }}
         >
-          <UserInfo
-            user={user}
-            isUserProfile={true}
-            userLoading={isLoading}
-            customStyleMeta={['flex', 'flex-col']}
-          />
+          <UserInfo user={user} isUserProfile={true} userLoading={isLoading} />
           <Button
             variant="contained"
             color="info"
@@ -171,7 +184,7 @@ export const UserProfile = () => {
           <Button
             variant="contained"
             onClick={() => navigate('/create-product')}
-            // disabled={user?.numberOfProducts >= user?.maxShopProducts}
+            disabled={user?.numberOfProducts >= user?.maxShopProducts}
           >
             Dodaj proizvod
           </Button>
@@ -183,7 +196,6 @@ export const UserProfile = () => {
           </Button>
         </Box>
 
-        {/* DESNA STRANA */}
         <Box
           component="section"
           sx={{
@@ -251,6 +263,7 @@ export const UserProfile = () => {
             aria-label="product-event-tabs"
           >
             <Tab label="Proizvodi" value="products" />
+            {/* <Tab label="Promovisano" value="promoted" /> */}
             <Tab label="Aktivnosti" value="events" />
             <Tab label="Moji Blogovi" value="blogs" />
           </Tabs>
@@ -268,7 +281,10 @@ export const UserProfile = () => {
                 },
 
                 [theme.breakpoints.up('lg')]: {
-                  gridTemplateColumns: 'repeat(4, 1fr)'
+                  gridTemplateColumns:
+                    productsToDisplay?.length > 0
+                      ? 'repeat(4, 1fr)'
+                      : 'repeat(1, 1fr)'
                 }
               }}
             >
@@ -277,14 +293,50 @@ export const UserProfile = () => {
                   <ProductCard
                     key={product._id}
                     product={product}
-                    productsRefetch={productsRefetch}
+                    isPromotedView={false} // Promeni kada bude islo live placanje
                   />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali proizvode</p>
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                  Vaša prodavnica neće biti vidljia u pretragama dok ne dodate
+                  proizvode. Kliknite na "Dodaj proizvod" da biste dodali svoj
+                  prvi proizvod i povećali vidljivost vaše prodavnice!
+                </Alert>
               )}
             </Box>
           )}
+
+          {/* {activeTab === 'promoted' && (
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns: 'repeat(3, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns: 'repeat(4, 1fr)'
+                }
+              }}
+            >
+              {promotedProductsToDisplay?.length > 0 ? (
+                promotedProductsToDisplay.map((product: any) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    isPromotedView={false} // Promeni kada bude islo live placanje
+                    promotedPeriod={false} // Promeni kada bude islo live placanje
+                  />
+                ))
+              ) : (
+                <p className="col-span-full">Nemate promovisanih proizvoda</p>
+              )}
+            </Box>
+          )} */}
 
           {activeTab === 'events' && (
             <Box
@@ -305,11 +357,7 @@ export const UserProfile = () => {
             >
               {eventsToDisplay?.length > 0 ? (
                 eventsToDisplay.map((event: any) => (
-                  <EventProfileCard
-                    key={event._id}
-                    event={event}
-                    eventsRefetch={eventsRefetch}
-                  />
+                  <EventProfileCard key={event._id} event={event} />
                 ))
               ) : (
                 <p className="col-span-full">Još uvek niste dodali aktivnost</p>
@@ -336,11 +384,7 @@ export const UserProfile = () => {
             >
               {blogsToDisplay?.length > 0 ? (
                 blogsToDisplay.map((post: BlogPost) => (
-                  <BlogCard
-                    key={post._id}
-                    post={post}
-                    blogsRefetch={blogsRefetch}
-                  />
+                  <BlogCard key={post._id} post={post} />
                 ))
               ) : (
                 <p className="col-span-full">

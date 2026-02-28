@@ -1,4 +1,10 @@
-import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
+import {
+  ProductCard,
+  MetaTags,
+  AppBreadcrumbs,
+  FeaturedProducts,
+  FeaturedShops
+} from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
@@ -18,7 +24,6 @@ import {
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
-import clsx from 'clsx';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 
@@ -185,12 +190,31 @@ export const Products = () => {
   ];
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7 flex flex-col gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
         <Box
@@ -308,7 +332,7 @@ export const Products = () => {
                         }}
                       >
                         <MenuItem value="">Sve grupe</MenuItem>
-                        {homeCategories.map((cat) => (
+                        {homeCategories?.map((cat) => (
                           <MenuItem key={cat.slug} value={cat.slug}>
                             {cat.text}
                           </MenuItem>
@@ -340,7 +364,7 @@ export const Products = () => {
                       }}
                     >
                       <MenuItem value="">Sve podgrupe</MenuItem>
-                      {availableSubgroups.map((sg) => (
+                      {availableSubgroups?.map((sg) => (
                         <MenuItem key={sg.label} value={sg.label}>
                           {sg.sr_RS}
                         </MenuItem>
@@ -444,7 +468,7 @@ export const Products = () => {
             >
               {isFetching ? (
                 oldProducts.length ? (
-                  oldProducts.map((product) => (
+                  oldProducts?.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))
                 ) : (
@@ -476,7 +500,7 @@ export const Products = () => {
                   </Box>
                 )
               ) : data?.products.length ? (
-                data?.products.map((product) => (
+                data?.products?.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (
@@ -547,6 +571,8 @@ export const Products = () => {
             ) : null}
           </Box>
         </Box>
+        <FeaturedProducts />
+        <FeaturedShops />
       </Box>
     </Box>
   );

@@ -1,8 +1,11 @@
 import { request } from '@green-world/utils/api';
 import { Event } from '@green-world/utils/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 export const useEditEvent = (id: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({
       title,
@@ -38,8 +41,13 @@ export const useEditEvent = (id: string) => {
           status
         }
       }),
-    onSuccess: () => {
-      // navigate('/profile');
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['allEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['eventDetails', id] })
+      ]);
+      toast.success('Podaci su uspešno ažurirani.');
     }
   });
 };

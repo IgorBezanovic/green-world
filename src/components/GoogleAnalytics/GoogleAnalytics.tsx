@@ -200,7 +200,7 @@ export const GoogleAnalytics = () => {
           </FormControl>
 
           <Box sx={{ maxHeight: 300, overflowY: 'auto' }}>
-            {demographicsData.map((item) => (
+            {demographicsData?.map((item) => (
               <Box
                 key={item.label}
                 sx={{

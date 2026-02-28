@@ -22,7 +22,6 @@ import {
   CircularProgress,
   Chip
 } from '@mui/material';
-import clsx from 'clsx';
 import { useState, useMemo, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import { useNavigate, useParams } from 'react-router';
@@ -270,7 +269,7 @@ export const WritePost = () => {
 
   const updateBlockText = (id: string, text: string) => {
     setBlocks(
-      blocks.map((block) => (block.id === id ? { ...block, text } : block))
+      blocks?.map((block) => (block.id === id ? { ...block, text } : block))
     );
   };
 
@@ -281,7 +280,7 @@ export const WritePost = () => {
     uploadImage(formData, {
       onSuccess: (imageUrl: string) => {
         setBlocks(
-          blocks.map((block) =>
+          blocks?.map((block) =>
             block.id === id ? { ...block, image: imageUrl } : block
           )
         );
@@ -298,7 +297,7 @@ export const WritePost = () => {
       coverImage,
       keywords,
       timeOfReading: timeOfReading === '' ? undefined : timeOfReading,
-      blocks: blocks.map(({ type, text, image }) => ({
+      blocks: blocks?.map(({ type, text, image }) => ({
         type,
         ...(text ? { text } : {}),
         ...(image ? { image } : {})
@@ -329,21 +328,31 @@ export const WritePost = () => {
   };
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Napiši post'} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
 
@@ -424,7 +433,7 @@ export const WritePost = () => {
             </Button>
           </Box>
           <Box display="flex" gap={1} mt={1}>
-            {keywords.map((k) => (
+            {keywords?.map((k) => (
               <Chip key={k} label={k} onDelete={() => removeKeyword(k)} />
             ))}
           </Box>
@@ -499,7 +508,7 @@ export const WritePost = () => {
             </Alert>
           )}
 
-          {blocks.map((block, index) => (
+          {blocks?.map((block, index) => (
             <Card key={block.id} sx={{ mb: 2 }}>
               <CardContent>
                 <Box

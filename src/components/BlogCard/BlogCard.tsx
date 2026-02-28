@@ -11,7 +11,6 @@ import {
   IconButton,
   Divider
 } from '@mui/material';
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -20,20 +19,11 @@ import { PopDelete } from '../PopDelete';
 
 interface BlogCardProps {
   post: BlogPost;
-  blogsRefetch?: (
-    options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<BlogPost[], Error>>;
 }
 
-export const BlogCard = ({ post, blogsRefetch }: BlogCardProps) => {
+export const BlogCard = ({ post }: BlogCardProps) => {
   const navigate = useNavigate();
-  const { mutate } = useDeletePost(post?._id, {
-    onSuccess: () => {
-      if (blogsRefetch) {
-        blogsRefetch();
-      }
-    }
-  });
+  const { mutate } = useDeletePost(post?._id);
 
   return (
     <Card

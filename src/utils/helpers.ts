@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 
 import { homeCategories, subGroups } from './constants';
@@ -118,4 +119,19 @@ export const useDebounce = <T>(value: T, delay = 300) => {
 export const getGroupLabel = (group: string): string => {
   const item = homeCategories.filter((cat) => cat.slug === group)[0];
   return item?.text ?? group;
+};
+
+export const isLikelyJwt = (token?: string | null): token is string => {
+  if (!token || typeof token !== 'string') return false;
+  return token.split('.').length === 3;
+};
+
+export const safeDecodeToken = <T>(token?: string | null): T | null => {
+  if (!isLikelyJwt(token)) return null;
+
+  try {
+    return jwtDecode<T>(token);
+  } catch {
+    return null;
+  }
 };

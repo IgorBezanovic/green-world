@@ -89,9 +89,9 @@ export const Documents = () => {
             variant="contained"
             color="secondary"
             sx={{ position: 'relative' }}
-            onClick={() => setDonateOpen(true)}
+            // onClick={() => setDonateOpen(true)}
           >
-            Doniraj
+            Doniraj - USKORO
           </Button>
 
           <DonatePayPalDialog

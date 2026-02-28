@@ -1,9 +1,9 @@
 import axios from 'axios';
 import type { AxiosResponse, AxiosError } from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 import { getItem, removeItem } from './cookie';
+import { safeDecodeToken } from './helpers';
 import type { DecodedToken } from './types';
 
 export const client = axios.create({
@@ -21,13 +21,10 @@ export const request = async ({ ...options }) => {
 
 const isTokenValid = (token?: string) => {
   if (!token) return false;
-  try {
-    const decoded = jwtDecode<DecodedToken>(token);
-    if (!decoded?.exp) return true;
-    return decoded.exp * 1000 > Date.now();
-  } catch {
-    return false;
-  }
+  const decoded = safeDecodeToken<DecodedToken>(token);
+  if (!decoded) return false;
+  if (!decoded?.exp) return true;
+  return decoded.exp * 1000 > Date.now();
 };
 
 let didNotifySessionExpired = false;

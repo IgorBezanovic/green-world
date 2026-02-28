@@ -97,7 +97,7 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Unesite stari password:
+        Unesite staru lozinku:
       </Box>
 
       <TextField
@@ -126,7 +126,7 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Unesite novi password:
+        Unesite novu lozinku:
       </Box>
 
       <TextField
@@ -155,7 +155,7 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Ponovite novi password:
+        Ponovite novu lozinku:
       </Box>
 
       {passwordsMismatch && (
@@ -186,16 +186,20 @@ export const EditUserChangePassword = () => {
       <Button
         variant="outlined"
         type="submit"
-        disabled={isPending || passwordsMismatch}
+        disabled={
+          isPending || passwordsMismatch || !passwordCollection.newPassword
+        }
+        size="large"
         sx={{
           mt: 4,
           mx: 'auto',
           display: 'flex',
           alignItems: 'center',
-          gap: 1
+          gap: 1,
+          textTransform: 'uppercase'
         }}
       >
-        {isPending ? <CircularProgress size={20} /> : 'Promeni password'}
+        {isPending ? <CircularProgress size={20} /> : 'Promeni lozinku'}
       </Button>
 
       {/* Error */}

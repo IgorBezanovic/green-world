@@ -1,7 +1,7 @@
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import { Box, Button, TextField, Tooltip } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import React, { useCallback, useState } from 'react';
 
 export const CommentForm = ({
@@ -14,7 +14,7 @@ export const CommentForm = ({
   submitLabel?: string;
 }) => {
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
 

@@ -1,6 +1,6 @@
 import { request } from '@green-world/utils/api';
 import { Comment } from '@green-world/utils/types';
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export type CommentPayload = {
   postId: string;
@@ -9,9 +9,9 @@ export type CommentPayload = {
   author: string;
 };
 
-export const useCreateComment = (
-  options?: UseMutationOptions<Comment, unknown, CommentPayload>
-) => {
+export const useCreateComment = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<Comment, unknown, CommentPayload>({
     mutationKey: ['createComment'],
     mutationFn: (data: CommentPayload) =>
@@ -20,6 +20,10 @@ export const useCreateComment = (
         method: 'post',
         data
       }),
-    ...options
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['blogPost'] })
+      ]);
+    }
   });
 };

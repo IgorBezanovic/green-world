@@ -5,7 +5,7 @@ import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem } from '@green-world/utils/cookie';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import { formatImageUrl, safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
   CircularProgress,
@@ -20,8 +20,6 @@ import {
   InputAdornment,
   IconButton
 } from '@mui/material';
-import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
 import { MessageCircle, Search, Send, ArrowLeft } from 'lucide-react';
 import { useState, useContext, useEffect, useRef, useMemo } from 'react';
 
@@ -38,16 +36,13 @@ export const Message = () => {
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { socket, addMessage, messages } = useContext(ChatContext);
-  const {
-    data: conversationData,
-    isLoading: isConversationLoading,
-    refetch
-  } = useConversation(selectedUserId || '');
+  const { data: conversationData, isLoading: isConversationLoading } =
+    useConversation(selectedUserId || '');
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkAsRead();
   const alreadyMarked = useRef<string | null>(null);
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const currentUser = decodedToken?._id;
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
@@ -182,14 +177,10 @@ export const Message = () => {
 
     socket.emit('private_message', msg);
     addMessage(selectedUserId, msg);
-    sendMessageMutation.mutate(
-      { receiverId: selectedUserId, content: messageInput },
-      {
-        onSuccess: () => {
-          refetch();
-        }
-      }
-    );
+    sendMessageMutation.mutate({
+      receiverId: selectedUserId,
+      content: messageInput
+    });
     setMessageInput('');
   };
 
@@ -223,18 +214,13 @@ export const Message = () => {
 
   const renderConversationList = () => (
     <div
-      className={clsx(
-        'bg-white border-r border-b border-gray-200 flex flex-col',
+      className={`bg-white border-r border-b border-gray-200 flex flex-col ${
         isMobileOrTablet ? 'w-full' : 'w-1/3'
-      )}
+      }`}
     >
       <div className="mr-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-6">
-          <h1
-            className={clsx(
-              'text-4xl font-bold text-forestGreen font-ephesis mt-4'
-            )}
-          >
+          <h1 className="text-4xl font-bold text-forestGreen font-ephesis mt-4">
             Poruke
           </h1>
         </div>
@@ -286,7 +272,7 @@ export const Message = () => {
           </div>
         )}
 
-        {filteredConversations.map((conv: any) => {
+        {filteredConversations?.map((conv: any) => {
           const isSelected = conv.otherUserId === selectedUserId;
           const lastMessageDate = conv.lastMessage?.createdAt
             ? new Date(conv.lastMessage.createdAt).toLocaleString('sr-RS', {
@@ -309,10 +295,9 @@ export const Message = () => {
               onMouseDown={(e) => {
                 e.preventDefault();
               }}
-              className={clsx(
-                'my-1 w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors',
+              className={`my-1 w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors ${
                 isSelected ? 'bg-teaGreen' : 'hover:bg-gray-50'
-              )}
+              }`}
               style={{ outline: 'none' }}
             >
               <Badge
@@ -335,10 +320,9 @@ export const Message = () => {
               </Badge>
               <div className="flex-1 text-left min-w-0">
                 <p
-                  className={clsx(
-                    'font-semibold text-sm truncate',
+                  className={`font-semibold text-sm truncate ${
                     conv.unreadCount > 0 ? 'text-forestGreen' : 'text-gray-700'
-                  )}
+                  }`}
                 >
                   {conv.otherUserName || 'Nepoznat korisnik'}
                 </p>
@@ -423,7 +407,7 @@ export const Message = () => {
             Nema poruka u ovoj konverzaciji.
           </div>
         )}
-        {visibleMessages.map((msg, i) => {
+        {visibleMessages?.map((msg, i) => {
           const isMe = msg.sender === currentUser;
           const messageTime = msg.createdAt
             ? new Date(msg.createdAt).toLocaleString('sr-RS', {
@@ -519,10 +503,9 @@ export const Message = () => {
 
   const renderChatArea = () => (
     <div
-      className={clsx(
-        'flex flex-col bg-whiteLinen',
+      className={`flex flex-col bg-whiteLinen ${
         isMobileOrTablet ? 'w-full' : 'w-2/3 h-[500px] md:h-auto'
-      )}
+      }`}
     >
       {selectedUserId
         ? renderChatContent()
@@ -540,22 +523,16 @@ export const Message = () => {
   );
 
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={pageTitle} />
 
-      <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'flex',
-          'flex-col',
-          'md:flex-row'
-        )}
-      >
+      <Box className="xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 flex flex-col md:flex-row">
         {!isMobileOrTablet && (
           <>
             {renderConversationList()}

@@ -1,8 +1,11 @@
 import { request } from '@green-world/utils/api';
 import { Product } from '@green-world/utils/types';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 export const useEditProduct = (id: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({
       group,
@@ -13,6 +16,7 @@ export const useEditProduct = (id: string) => {
       images,
       price,
       priceOnRequest,
+      onStock,
       height,
       width,
       weight,
@@ -30,14 +34,22 @@ export const useEditProduct = (id: string) => {
           images,
           price,
           priceOnRequest,
+          onStock,
           height,
           width,
           weight,
           milliliters
         }
       }),
-    onSuccess: () => {
-      // navigate('/profile');
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['productsByGroup'] }),
+        queryClient.invalidateQueries({ queryKey: ['productDetails', id] }),
+        queryClient.invalidateQueries({ queryKey: ['featured'] })
+      ]);
+      toast.success('Podaci su uspešno ažurirani.');
     }
   });
 };

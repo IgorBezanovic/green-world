@@ -8,6 +8,7 @@ interface PromotionCardProps {
   actionLabel?: string;
   badgeLabel?: string;
   variant?: 'success' | 'warning';
+  onActionClick?: () => void;
 }
 
 export const PromotionCard = ({
@@ -16,13 +17,16 @@ export const PromotionCard = ({
   description,
   actionLabel,
   badgeLabel,
-  variant = 'success'
+  variant = 'success',
+  onActionClick
 }: PromotionCardProps) => {
   const isSuccess = variant === 'success';
 
   return (
     <Card
+      onClick={onActionClick}
       sx={{
+        cursor: 'pointer',
         position: 'relative',
         overflow: 'visible',
         p: 3,
@@ -39,7 +43,6 @@ export const PromotionCard = ({
         gap: 2
       }}
     >
-      {/* Badge */}
       {badgeLabel && (
         <Chip
           label={badgeLabel}
@@ -55,7 +58,6 @@ export const PromotionCard = ({
         />
       )}
 
-      {/* Icon */}
       <Box
         sx={{
           width: 48,
@@ -71,28 +73,28 @@ export const PromotionCard = ({
         <Icon size={22} />
       </Box>
 
-      {/* Title */}
       <Typography variant="h6" fontWeight={700}>
         {title}
       </Typography>
 
-      {/* Description */}
       <Typography variant="body2" color="text.secondary">
         {description}
       </Typography>
 
-      {/* Action */}
       {actionLabel && (
         <Box sx={{ mt: 'auto' }}>
           <Typography
             variant="body2"
             fontWeight={600}
             sx={{
-              cursor: 'pointer',
               color: isSuccess ? 'success.main' : 'warning.main',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 0.5
+              gap: 0.5,
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              font: 'inherit'
             }}
           >
             {actionLabel} →

@@ -121,7 +121,7 @@ export const BlogPostPage = () => {
                 width="24px"
                 height="42spx"
               />
-              {post.keywords.map((kw) => (
+              {post.keywords?.map((kw) => (
                 <Chip
                   key={kw}
                   label={kw}
@@ -191,7 +191,7 @@ export const BlogPostPage = () => {
                       key={`img-group-${imgs[0]?._id || i}`}
                       className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
                     >
-                      {imgs.map((imgBlock) => (
+                      {imgs?.map((imgBlock) => (
                         <img
                           key={imgBlock._id}
                           src={formatImageUrl(imgBlock.image || '')}
@@ -267,7 +267,6 @@ export const BlogPostPage = () => {
             user={sellerData}
             isUserProfile={false}
             userLoading={userLoading}
-            customStyleMeta={['flex', 'flex-col']}
           />
         </section>
       </Box>

@@ -14,7 +14,7 @@ export const ProfileSettings = () => {
     <Box
       sx={{
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: 'background.paper',
         minHeight: 'calc(100vh - 360px)'
       }}
     >

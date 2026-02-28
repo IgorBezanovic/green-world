@@ -25,7 +25,7 @@ export const GridProducts = ({ products }: GridProductsProps) => {
         }
       })}
     >
-      {products.map((product, index: number) => (
+      {products?.map((product, index: number) => (
         <ProductCard product={product} isHero={index === 0} key={product._id} />
       ))}
     </Box>

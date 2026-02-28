@@ -15,7 +15,7 @@ export const AppBreadcrumbs = ({ pages }: AppBreadcrumbsProps) => {
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      {pages.map((page, index) => {
+      {pages?.map((page, index) => {
         const isLast = index === pages.length - 1;
 
         return (

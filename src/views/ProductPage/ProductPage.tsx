@@ -13,6 +13,7 @@ import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   goToDestination,
+  safeDecodeToken,
   translateGroupToSr,
   translateSubGroupToSr
 } from '@green-world/utils/helpers';
@@ -31,7 +32,6 @@ import {
   useTheme
 } from '@mui/material';
 import dayjs from 'dayjs';
-import { jwtDecode } from 'jwt-decode';
 import {
   Store,
   Phone,
@@ -41,7 +41,8 @@ import {
   ShieldUser,
   Check,
   Users,
-  Receipt
+  Receipt,
+  CircleX
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
@@ -69,7 +70,7 @@ export const ProductPage = () => {
     useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const handlePrev = () => {
@@ -305,7 +306,7 @@ export const ProductPage = () => {
                         gap: '16px'
                       })}
                     >
-                      {productData?.images.map(
+                      {productData?.images?.map(
                         (image: string, index: number) => (
                           <Box
                             component="img"
@@ -370,14 +371,15 @@ export const ProductPage = () => {
                       ? 'Cena Na Upit'
                       : `${productData?.price.toLocaleString()},00 RSD`}
                   </Typography>
-                  {productData?.onStock && (
-                    <Typography
-                      variant="button"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                    >
-                      <Check /> Na stanju
-                    </Typography>
-                  )}
+                  <Typography
+                    variant="button"
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                  >
+                    {productData?.onStock ? <Check /> : <CircleX />}{' '}
+                    {productData?.onStock
+                      ? 'Na stanju'
+                      : 'Trenutno Nema Na Stanju'}
+                  </Typography>
                 </Box>
                 <Box
                   sx={{

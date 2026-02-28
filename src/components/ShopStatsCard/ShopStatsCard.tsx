@@ -34,7 +34,6 @@ export const ShopStatsCard = ({
           gap: 3
         }}
       >
-        {/* Products */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box
@@ -81,7 +80,6 @@ export const ShopStatsCard = ({
           />
         </Box>
 
-        {/* Activities */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box
@@ -122,7 +120,6 @@ export const ShopStatsCard = ({
           </Box>
         </Box>
 
-        {/* Blogs */}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Box

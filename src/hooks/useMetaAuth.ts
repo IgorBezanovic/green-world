@@ -1,10 +1,13 @@
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
-import { useMutation } from '@tanstack/react-query';
+import { safeDecodeToken } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 export const useMetaAuth = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
@@ -25,12 +28,18 @@ export const useMetaAuth = () => {
           image
         }
       }),
-    onSuccess: (data: string) => {
+    onSuccess: async (data: string) => {
       setItem('token', data);
+      const token = safeDecodeToken<DecodedToken>(data);
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['userDetails', token?._id]
+        }),
+        queryClient.invalidateQueries({ queryKey: ['allUserProducts'] }),
+        queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
+        queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
+      ]);
       navigate('/');
-      setTimeout(() => {
-        window.location.reload();
-      }, 10);
     }
   });
 };

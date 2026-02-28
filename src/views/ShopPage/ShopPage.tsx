@@ -11,7 +11,8 @@ import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   formatUrl,
-  goToDestination
+  goToDestination,
+  safeDecodeToken
 } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -26,8 +27,6 @@ import {
   InputBase
 } from '@mui/material';
 import { Card } from 'antd';
-import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
 import {
   Phone,
   Mail,
@@ -56,7 +55,7 @@ export const ShopPage = () => {
     setSearch('');
   };
   const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const filteredProducts = useMemo(() => {
@@ -115,7 +114,13 @@ export const ShopPage = () => {
   ];
 
   return (
-    <Box className="w-full bg-whiteLinen min-h-viewHeight">
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags
         title={metaObj.title}
         description={metaObj.description}
@@ -123,19 +128,24 @@ export const ShopPage = () => {
         image={metaObj.image}
       />
 
-      <div
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7'
-        )}
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          }
+        })}
       >
         <AppBreadcrumbs pages={pages} />
-      </div>
+      </Box>
 
       <Box className="max-w-[1400px] px-4 sm:px-6 xl:px-0 relative w-full h-60 sm:h-80 bg-gray-200 mx-auto">
         {data?.onlyOnline ? (
@@ -263,13 +273,23 @@ export const ShopPage = () => {
       </Box>
 
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4 sm:px-6 xl:px-0',
-          'py-20 flex flex-col gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column',
+          mt: 7
+        })}
       >
         <Card className="shadow-md rounded-2xl">
           {(data?.shopName || data?.name) && (
@@ -495,16 +515,9 @@ export const ShopPage = () => {
           ) : filteredProducts && filteredProducts.length > 0 ? (
             <Box
               component={'section'}
-              className={clsx(
-                'w-full',
-                'grid',
-                'gap-5',
-                'grid-cols-2',
-                'sm:grid-cols-3',
-                'lgm:grid-cols-4'
-              )}
+              className="w-full grid gap-5 grid-cols-2 sm:grid-cols-3 lgm:grid-cols-4"
             >
-              {filteredProducts.map((product) => (
+              {filteredProducts?.map((product) => (
                 <ProductCard product={product} key={product._id} />
               ))}
             </Box>

@@ -1,38 +1,50 @@
 import {
-  CustomButton,
   GroupButton,
   LazySection,
   ProductSection,
   GridProducts,
-  MetaTags
+  MetaTags,
+  FeaturedShops,
+  FeaturedShopsBanner,
+  FeaturedProducts
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
-import clsx from 'clsx';
 import { useNavigate } from 'react-router';
 
 export const Home = () => {
   const { data, isLoading, isFetching } = useHomeProducts();
   const navigate = useNavigate();
+
   return (
-    <Box className={clsx('w-full', 'bg-whiteLinen', 'min-h-viewHeight')}>
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: 'background.paper',
+        minHeight: 'calc(100vh - 360px)'
+      }}
+    >
       <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4',
-          'sm:px-6',
-          'xl:px-0',
-          'py-7',
-          'flex',
-          'flex-col',
-          'gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <Box
           component="img"
@@ -42,7 +54,7 @@ export const Home = () => {
           decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
-          className={clsx('w-full', 'h-auto', 'rounded', 'mb-2', 'shadow')}
+          className="w-full h-auto rounded mb-2 shadow"
           style={{
             objectFit: 'cover',
             filter: 'blur(10px)',
@@ -52,6 +64,8 @@ export const Home = () => {
             (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
           }}
         />
+        <FeaturedProducts />
+        <FeaturedShops />
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"
@@ -79,21 +93,18 @@ export const Home = () => {
           )}
         </Skeleton>
         <LazySection>
-          <CustomButton
-            type="text"
-            customStyle={[
-              'py-4',
-              'text-lg',
-              'max-w-[350px]',
-              'w-full',
-              'mx-auto',
-              'rounded-lg',
-              'mt-6'
-            ]}
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              textTransform: 'uppercase',
+              padding: 2,
+              marginY: 2
+            }}
             onClick={() => navigate('/search')}
           >
-            Pretrazi sve proizvode
-          </CustomButton>
+            Pretraži sve proizvode
+          </Button>
         </LazySection>
         <div className="text-center my-6 md:my-8">
           <Typography
@@ -133,27 +144,25 @@ export const Home = () => {
             }
           })}
         >
-          {homeCategories.map((category) => (
+          {homeCategories?.map((category) => (
             <GroupButton key={category.id} item={category} />
           ))}
         </Box>
         <LazySection>
-          <CustomButton
-            type="text"
-            customStyle={[
-              'py-4',
-              'text-lg',
-              'max-w-[350px]',
-              'w-full',
-              'mx-auto',
-              'rounded-lg',
-              'mt-6'
-            ]}
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              textTransform: 'uppercase',
+              padding: 2,
+              marginY: 2
+            }}
             onClick={() => navigate('/search')}
           >
-            Pretrazi sve proizvode
-          </CustomButton>
+            Pretraži sve proizvode
+          </Button>
         </LazySection>
+        <FeaturedShopsBanner />
         <ProductSection
           title="Cvetni asortiman"
           subTitle="Raznovrsno cveće za sve prilike i idealan poklon."

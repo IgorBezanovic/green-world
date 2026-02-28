@@ -1,7 +1,6 @@
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
-import clsx from 'clsx';
-import { jwtDecode } from 'jwt-decode';
 import { ElementType, useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
 
@@ -17,12 +16,10 @@ export const ProtectedRoute = ({
   useEffect(() => {
     const localStorageToken = getItem('token');
     if (localStorageToken) {
-      try {
-        const token: DecodedToken = jwtDecode(localStorageToken);
-        if (token && token._id) {
-          setIsAuthenticated(true);
-        }
-      } catch {
+      const token = safeDecodeToken<DecodedToken>(localStorageToken);
+      if (token && token._id) {
+        setIsAuthenticated(true);
+      } else {
         setIsAuthenticated(false);
       }
     }
@@ -31,15 +28,7 @@ export const ProtectedRoute = ({
 
   if (isLoading) {
     return (
-      <div
-        className={clsx(
-          'min-h-viewHeight',
-          'w-full',
-          'flex',
-          'justify-center',
-          'items-center'
-        )}
-      >
+      <div className="min-h-viewHeight w-full flex justify-center items-center">
         Loading...
       </div>
     );

@@ -1,5 +1,4 @@
 import { Loader } from '@green-world/components';
-import { SuccessProvider } from '@green-world/context/PopupContext';
 import { UserContextProvider } from '@green-world/context/UserContext';
 import { routes } from '@green-world/routes';
 import { ThemeProvider } from '@green-world/theme';
@@ -31,15 +30,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <QueryClientProvider client={queryClient}>
           <UserContextProvider>
             <ChatContextProvider>
-              <SuccessProvider>
-                <Suspense fallback={<Loader />}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <RouterProvider router={router} />
-                    <Analytics />
-                    <ToastContainer />
-                  </LocalizationProvider>
-                </Suspense>
-              </SuccessProvider>
+              <Suspense fallback={<Loader />}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <RouterProvider router={router} />
+                  <Analytics />
+                  <ToastContainer />
+                </LocalizationProvider>
+              </Suspense>
             </ChatContextProvider>
           </UserContextProvider>
         </QueryClientProvider>

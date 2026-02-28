@@ -1,13 +1,10 @@
-import { setItem } from '@green-world/utils/cookie';
+import { useGoogleLogin } from '@green-world/hooks/useGoogleLogin';
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export const GoogleLoginAuth = () => {
-  const navigate = useNavigate();
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const googleLoginMutation = useGoogleLogin();
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -43,21 +40,14 @@ export const GoogleLoginAuth = () => {
           theme="outline"
           text="continue_with"
           logo_alignment="center"
-          onSuccess={async (credentialResponse) => {
-            try {
-              const res = await axios.post(baseUrl + '/auth/google', {
-                credential: credentialResponse.credential
-              });
-              const token = res.data.token;
-              setItem('token', token);
-              navigate('/');
-              setTimeout(() => {
-                window.location.reload();
-              }, 10);
-            } catch (err: any) {
-              const msg = err?.response?.data || 'Greška pri loginu.';
-              toast.error(msg);
+          onSuccess={(credentialResponse) => {
+            const googleCredential = credentialResponse?.credential;
+            if (!googleCredential) {
+              toast.error('Google token nije prosleđen. Pokušajte ponovo.');
+              return;
             }
+
+            googleLoginMutation.mutate(googleCredential);
           }}
           onError={() => {
             toast.error('Google login nije uspeo.');

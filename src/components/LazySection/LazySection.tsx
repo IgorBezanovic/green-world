@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
 
 export const LazySection = ({ children }: { children: React.ReactNode }) => {
@@ -9,7 +8,7 @@ export const LazySection = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <Box className={clsx('flex', 'flex-col', 'gap-7', 'w-full')} ref={ref}>
+    <Box className="flex flex-col gap-7 w-full" ref={ref}>
       {inView ? children : null}
     </Box>
   );

@@ -55,7 +55,9 @@ export const AiButton = ({
       variant="contained"
       onClick={onClick}
       disabled={!canGenerate || isAiLoading}
-      startIcon={!isAiLoading && <Sparkles color="white" />}
+      startIcon={
+        !isAiLoading && <Sparkles color="white" style={{ marginRight: 8 }} />
+      }
     >
       {isAiLoading ? (
         <CircularProgress

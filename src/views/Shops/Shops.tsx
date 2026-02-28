@@ -1,5 +1,7 @@
 import {
   AppBreadcrumbs,
+  FeaturedShops,
+  FeaturedShopsBanner,
   MetaTags,
   ShopCard,
   StatCard
@@ -13,7 +15,6 @@ import {
   Chip,
   InputBase
 } from '@mui/material';
-import clsx from 'clsx';
 import {
   Store,
   MapPin,
@@ -87,20 +88,29 @@ export const Shops = () => {
     <Box
       sx={{
         width: '100%',
-        backgroundColor: '#FDFFFB',
+        backgroundColor: 'background.paper',
         minHeight: 'calc(100vh - 360px)'
       }}
     >
       <MetaTags title="Zeleni svet | Prodavnice | Green world" />
 
       <Box
-        className={clsx(
-          'xl:max-w-[1400px]',
-          'w-full',
-          'mx-auto',
-          'px-4 sm:px-6 xl:px-0',
-          'py-7 flex flex-col gap-7'
-        )}
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          gap: 4,
+          [theme.breakpoints.up('sm')]: {
+            px: '1.5rem'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          display: 'flex',
+          flexDirection: 'column'
+        })}
       >
         <AppBreadcrumbs pages={pages} />
 
@@ -125,7 +135,7 @@ export const Shops = () => {
         {/* Stats */}
         <Box
           component="section"
-          sx={{
+          sx={(theme) => ({
             display: 'grid',
             gap: 3,
             maxWidth: '1400px',
@@ -137,8 +147,11 @@ export const Shops = () => {
             },
             '@media (min-width: 900px)': {
               gridTemplateColumns: 'repeat(4, 1fr)'
+            },
+            [theme.breakpoints.down('md')]: {
+              display: 'none'
             }
-          }}
+          })}
         >
           <StatCard
             icon={Store}
@@ -259,7 +272,7 @@ export const Shops = () => {
             />
           </Box>
         </Box>
-
+        <FeaturedShops />
         <Typography variant="body1" color="common.black">
           Prikazano {filteredShops.length} od {data?.length || 0} prodavnica
         </Typography>
@@ -293,7 +306,7 @@ export const Shops = () => {
               }
             }}
           >
-            {filteredShops.map((user) => (
+            {filteredShops?.map((user) => (
               <ShopCard
                 key={user._id}
                 id={user._id!}
@@ -309,6 +322,7 @@ export const Shops = () => {
             ))}
           </Box>
         )}
+        <FeaturedShopsBanner />
       </Box>
     </Box>
   );

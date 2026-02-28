@@ -1,6 +1,6 @@
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
-import { jwtDecode } from 'jwt-decode';
 import { createContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 
@@ -41,7 +41,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
   const [messages, setMessages] = useState<Record<string, Message[]>>({});
 
   const token = getItem('token');
-  const decoded: DecodedToken | null = token ? jwtDecode(token) : null;
+  const decoded = safeDecodeToken<DecodedToken>(token);
   const currentUser = decoded?._id;
 
   useEffect(() => {

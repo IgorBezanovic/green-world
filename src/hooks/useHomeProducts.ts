@@ -4,6 +4,7 @@ import {
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
 export interface ProductPreview {
   _id: string;
   title: string;
@@ -12,6 +13,9 @@ export interface ProductPreview {
   priceOnRequest: boolean | null;
   price: string;
   images: string[];
+  onStock: boolean;
+  promotedAt?: string | Date | null;
+  promotedUntil?: string | Date | null;
 }
 
 export interface HomepageProductsResponse {

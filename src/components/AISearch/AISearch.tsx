@@ -8,8 +8,10 @@ import {
   Typography,
   Avatar,
   CircularProgress,
-  IconButton
+  IconButton,
+  Chip
 } from '@mui/material';
+import dayjs from 'dayjs';
 import {
   CalendarDays,
   HandCoins,
@@ -17,7 +19,8 @@ import {
   Phone,
   Search,
   Sparkles,
-  X
+  X,
+  Megaphone
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
@@ -31,6 +34,7 @@ export type SearchOptionType = {
   price?: string;
   date?: string;
   author?: string;
+  isPromoted: boolean;
 };
 
 export const AISearch = () => {
@@ -102,9 +106,20 @@ export const AISearch = () => {
         return (
           <Box
             component="li"
-            key={key}
+            key={key + Math.random()}
             {...otherProps}
-            sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1 }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              p: 1,
+              ...(option.isPromoted && {
+                m: 1,
+                border: (theme) => `1px solid ${theme.palette.warning.main}`,
+                backgroundColor: (theme) => theme.palette.warning.light,
+                borderRadius: 1
+              })
+            }}
           >
             <Avatar
               src={formatImageUrl(option.image || '', 55)}
@@ -112,9 +127,30 @@ export const AISearch = () => {
               sx={{ width: 32, height: 32 }}
             />
             <Box>
-              <Typography variant="body2" fontWeight={500}>
-                {option.title}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Typography variant="body2" fontWeight={500}>
+                  {option.title}
+                </Typography>
+                {option.isPromoted && (
+                  <>
+                    <Chip
+                      label="Promovisano"
+                      color="warning"
+                      size="small"
+                      sx={{ ml: 1, pt: 0 }}
+                      icon={
+                        <Megaphone
+                          style={{
+                            width: 14,
+                            height: 14,
+                            marginLeft: 4
+                          }}
+                        />
+                      }
+                    />
+                  </>
+                )}
+              </Box>
               {option.type === 'shop' && (
                 <Typography
                   variant="caption"
@@ -140,7 +176,8 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <CalendarDays className="mr-1" /> {option.date}
+                  <CalendarDays className="mr-1" />{' '}
+                  {dayjs(option.date).format('DD.MM.YYYY. HH:mm')}
                 </Typography>
               )}
               {option.type === 'blog' && (

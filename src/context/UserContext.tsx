@@ -1,7 +1,7 @@
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken, User } from '@green-world/utils/types';
-import { jwtDecode } from 'jwt-decode';
 import { createContext, useState, ReactNode, useEffect } from 'react';
 
 interface UserContextType {
@@ -80,8 +80,8 @@ interface ProviderProps {
 
 export const UserContextProvider = ({ children }: ProviderProps) => {
   const [user, setUser] = useState(defaultUser);
-  const token = getItem('token');
-  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const [token, setToken] = useState(getItem('token'));
+  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const { data, isLoading } = useUser(
     decodedToken?._id ? decodedToken._id : '',
     true
@@ -105,6 +105,20 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
     window.addEventListener('auth:logout', handleLogout);
     return () => {
       window.removeEventListener('auth:logout', handleLogout);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleLogin = () => {
+      setToken(getItem('token'));
+    };
+
+    window.addEventListener('auth:login', handleLogin);
+    window.addEventListener('auth:logout', handleLogin);
+
+    return () => {
+      window.removeEventListener('auth:login', handleLogin);
+      window.removeEventListener('auth:logout', handleLogin);
     };
   }, []);
 
