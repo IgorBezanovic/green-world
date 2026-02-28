@@ -1,10 +1,4 @@
-import {
-  ProductCard,
-  MetaTags,
-  AppBreadcrumbs,
-  FeaturedProducts,
-  FeaturedShops
-} from '@green-world/components';
+import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
@@ -571,8 +565,8 @@ export const Products = () => {
             ) : null}
           </Box>
         </Box>
-        <FeaturedProducts />
-        <FeaturedShops />
+        {/* <FeaturedProducts /> */}
+        {/* <FeaturedShops /> */}
       </Box>
     </Box>
   );

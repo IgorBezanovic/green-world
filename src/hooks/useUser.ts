@@ -1,15 +1,19 @@
 import UserContext from '@green-world/context/UserContext';
 import { request } from '@green-world/utils/api';
+import { getItem } from '@green-world/utils/cookie';
+import { safeDecodeToken } from '@green-world/utils/helpers';
 import {
   getDecrypted,
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
-import { User } from '@green-world/utils/types';
+import { DecodedToken, User } from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useContext } from 'react';
 
 export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
   const { setUserDataInCTX } = useContext(UserContext);
+  const localStorageToken = getItem('token');
+  const token = safeDecodeToken<DecodedToken>(localStorageToken || '');
 
   return useQuery({
     queryKey: ['userDetails', userID],
@@ -18,7 +22,7 @@ export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
         url: `/user/details/${userID}`,
         method: 'get'
       });
-      if (me) setUserDataInCTX(data);
+      if (me || userID === token?._id) setUserDataInCTX(data);
       storeEncrypted('user', data as User & { _id: string });
       return data;
     },

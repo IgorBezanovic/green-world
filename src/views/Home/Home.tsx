@@ -3,8 +3,7 @@ import {
   LazySection,
   ProductSection,
   GridProducts,
-  MetaTags,
-  FeaturedShopsBanner
+  MetaTags
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
@@ -160,7 +159,7 @@ export const Home = () => {
             Pretraži sve proizvode
           </Button>
         </LazySection>
-        <FeaturedShopsBanner />
+        {/* <FeaturedShopsBanner /> */}
         <ProductSection
           title="Cvetni asortiman"
           subTitle="Raznovrsno cveće za sve prilike i idealan poklon."
