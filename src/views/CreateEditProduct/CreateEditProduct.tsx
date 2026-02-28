@@ -446,7 +446,15 @@ export const CreateEditProduct = () => {
                 }}
               >
                 {product?.images?.map((image, index) => (
-                  <Box key={index} sx={{ width: '100%', position: 'relative' }}>
+                  <Box
+                    key={index}
+                    sx={{
+                      width: '100%',
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
                     <DeleteOutlinedIcon
                       sx={{
                         position: 'absolute',
@@ -454,11 +462,13 @@ export const CreateEditProduct = () => {
                         right: 8,
                         color: 'primary.main',
                         fontSize: 28,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        zIndex: 2
                       }}
                       onClick={() => handleDeleteImage(index)}
                       titleAccess="Obrisi sliku"
                     />
+
                     <Box
                       component="img"
                       src={formatImageUrl(image, 55)}
@@ -466,11 +476,11 @@ export const CreateEditProduct = () => {
                       sx={{
                         aspectRatio: '1 / 1',
                         boxShadow: 2,
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        borderRadius: 1
                       }}
-                      height="100%"
-                      width="100%"
                     />
+
                     {index !== 0 && (
                       <Button
                         onClick={() => handleSetAsProfileImage(index)}
@@ -478,8 +488,6 @@ export const CreateEditProduct = () => {
                         color="secondary"
                         sx={{
                           mt: 1,
-                          px: 1.5,
-                          py: 0.5,
                           width: '100%',
                           fontSize: '0.875rem',
                           fontWeight: 600,
