@@ -33,6 +33,7 @@ export const useGoogleLogin = () => {
 
       setItem('token', token);
       const decoded = safeDecodeToken<DecodedToken>(token);
+      window.dispatchEvent(new Event('auth:login'));
 
       await Promise.all([
         queryClient.invalidateQueries({

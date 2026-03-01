@@ -31,6 +31,7 @@ export const useMetaAuth = () => {
     onSuccess: async (data: string) => {
       setItem('token', data);
       const token = safeDecodeToken<DecodedToken>(data);
+      window.dispatchEvent(new Event('auth:login'));
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ['userDetails', token?._id]
