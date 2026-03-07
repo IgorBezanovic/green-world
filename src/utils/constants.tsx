@@ -9,7 +9,7 @@ import { ReactNode } from 'react';
 
 export type GroupItemCreateProduct = {
   key: keyof SubGroups;
-  label: string;
+  labelKey: string;
   icon: ReactNode;
 };
 
@@ -498,42 +498,42 @@ export const subGroups: SubGroups = {
 export const groupItemsCreateProduct: GroupItemCreateProduct[] = [
   {
     key: 'flower_assortment',
-    label: 'Cvetni asortiman',
+    labelKey: 'catalog.groups.flower_assortment',
     icon: <LoginOutlined />
   },
   {
     key: 'succulents',
-    label: 'Sukulenti',
+    labelKey: 'catalog.groups.succulents',
     icon: <LoginOutlined />
   },
   {
     key: 'potted_flowers',
-    label: 'Saksijsko cveće',
+    labelKey: 'catalog.groups.potted_flowers',
     icon: <LoginOutlined />
   },
   {
     key: 'seedlings',
-    label: 'Sadnice',
+    labelKey: 'catalog.groups.seedlings',
     icon: <LoginOutlined />
   },
   {
     key: 'fruits_and_vegetables',
-    label: 'Voće i povrće',
+    labelKey: 'catalog.groups.fruits_and_vegetables',
     icon: <LoginOutlined />
   },
   {
     key: 'herbal_pharmacy',
-    label: 'Biljna apoteka',
+    labelKey: 'catalog.groups.herbal_pharmacy',
     icon: <LoginOutlined />
   },
   {
     key: 'garden_decoration',
-    label: 'Baštenska dekoracija',
+    labelKey: 'catalog.groups.garden_decoration',
     icon: <LoginOutlined />
   },
   {
     key: 'everything_for_plants',
-    label: 'Sve za biljke',
+    labelKey: 'catalog.groups.everything_for_plants',
     icon: <LoginOutlined />
   }
 ];

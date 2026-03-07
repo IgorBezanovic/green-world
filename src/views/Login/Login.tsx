@@ -1,17 +1,19 @@
 import { AppBreadcrumbs, LoginForm, MetaTags } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 
 export const Login = () => {
   const { mutate, error, isPending } = useLogin();
+  const { t } = useTranslation();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const isUserLogged = queryParams.get('isUserLogged');
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Uloguj se', route: '/login' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('loginView.breadcrumb'), route: '/login' }
   ];
 
   return (
@@ -22,7 +24,7 @@ export const Login = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni Svet | Prijavi se | Green World'} />
+      <MetaTags title={t('loginView.metaTitle')} />
 
       <Box
         sx={(theme) => ({

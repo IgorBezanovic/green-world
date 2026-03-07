@@ -2,6 +2,10 @@ import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
 import { useAllProducts } from '@green-world/hooks/useAllProducts';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
+import {
+  getLocalizedGroupLabel,
+  getLocalizedSubGroupLabel
+} from '@green-world/utils/helpers';
 import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -19,9 +23,11 @@ import {
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import { useEffect, useMemo, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router';
 
 export const Products = () => {
+  const { t, i18n } = useTranslation();
   const { category = '' } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const parseNumberParam = (value: string | null) => {
@@ -60,7 +66,7 @@ export const Products = () => {
   }, [category, searchParams]);
 
   const categoryName =
-    category && homeCategories.find((item) => item.slug === category)?.text;
+    category && getLocalizedGroupLabel(category, i18n.language);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -179,8 +185,8 @@ export const Products = () => {
   }, [selectedGroup]);
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Proizvodi', route: '/search' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.products'), route: '/search' }
   ];
 
   return (
@@ -191,7 +197,7 @@ export const Products = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Pretraga proizvoda | Svi proizvodi'} />
+      <MetaTags title={t('productsView.metaTitle')} />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -229,7 +235,9 @@ export const Products = () => {
                   marginBottom: '16px'
                 }}
               >
-                {!isFiltersOpen ? 'Filteri' : 'Zatvori filtere'}
+                {!isFiltersOpen
+                  ? t('productsView.openFilters')
+                  : t('productsView.closeFilters')}
               </Button>
             )}
             {/* Filters */}
@@ -257,7 +265,7 @@ export const Products = () => {
                       color="secondary.main"
                       sx={{ fontFamily: 'Ephesis' }}
                     >
-                      {categoryName || 'Proizvodi'}
+                      {categoryName || t('breadcrumbs.products')}
                     </Typography>
                     {isFetching && (
                       <Typography
@@ -265,7 +273,7 @@ export const Products = () => {
                         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                       >
                         <CircularProgress size={16} thickness={4} />
-                        Učitavam..
+                        {t('productsView.loading')}
                       </Typography>
                     )}
                   </Box>
@@ -275,13 +283,13 @@ export const Products = () => {
                       sx={{ color: (theme) => theme.palette.text.primary }}
                       htmlFor="product-title"
                     >
-                      Naziv proizvoda
+                      {t('productsView.productName')}
                     </InputLabel>
                     <TextField
                       name="product-title"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Naziv proizvoda"
+                      placeholder={t('productsView.productName')}
                       fullWidth
                       sx={{
                         '& .MuiInputBase-input': {
@@ -308,7 +316,7 @@ export const Products = () => {
                         sx={{ color: (theme) => theme.palette.text.primary }}
                         id="group"
                       >
-                        Grupa
+                        {t('productsView.group')}
                       </InputLabel>
                       <Select
                         labelId="group"
@@ -318,17 +326,19 @@ export const Products = () => {
                         sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                         displayEmpty
                         renderValue={(selected) => {
-                          if (!selected) return 'Sve grupe';
-                          const cat = homeCategories.find(
-                            (c) => c.slug === selected
+                          if (!selected) return t('productsView.allGroups');
+                          return getLocalizedGroupLabel(
+                            selected,
+                            i18n.language
                           );
-                          return cat ? cat.text : 'Sve grupe';
                         }}
                       >
-                        <MenuItem value="">Sve grupe</MenuItem>
+                        <MenuItem value="">
+                          {t('productsView.allGroups')}
+                        </MenuItem>
                         {homeCategories?.map((cat) => (
                           <MenuItem key={cat.slug} value={cat.slug}>
-                            {cat.text}
+                            {getLocalizedGroupLabel(cat.slug, i18n.language)}
                           </MenuItem>
                         ))}
                       </Select>
@@ -339,7 +349,7 @@ export const Products = () => {
                       sx={{ color: (theme) => theme.palette.text.primary }}
                       id="subGroup"
                     >
-                      Podgrupa
+                      {t('productsView.subgroup')}
                     </InputLabel>
                     <Select
                       labelId="subGroup"
@@ -350,28 +360,37 @@ export const Products = () => {
                       sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                       displayEmpty
                       renderValue={(selected) => {
-                        if (!selected) return 'Sve Podgrupe';
-                        const sg = availableSubgroups.find(
-                          (s) => s.label === selected
+                        if (!selected) return t('productsView.allSubgroups');
+                        return getLocalizedSubGroupLabel(
+                          selectedGroup as keyof typeof subGroups,
+                          selected,
+                          i18n.language
                         );
-                        return sg ? sg.sr_RS : 'Sve podgrupe';
                       }}
                     >
-                      <MenuItem value="">Sve podgrupe</MenuItem>
+                      <MenuItem value="">
+                        {t('productsView.allSubgroups')}
+                      </MenuItem>
                       {availableSubgroups?.map((sg) => (
                         <MenuItem key={sg.label} value={sg.label}>
-                          {sg.sr_RS}
+                          {getLocalizedSubGroupLabel(
+                            selectedGroup as keyof typeof subGroups,
+                            sg.label,
+                            i18n.language
+                          )}
                         </MenuItem>
                       ))}
                     </Select>
                   </Box>
 
                   <Box>
-                    <Typography gutterBottom>Cena</Typography>
+                    <Typography gutterBottom>
+                      {t('productsView.price')}
+                    </Typography>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <TextField
                         type="number"
-                        placeholder="Od"
+                        placeholder={t('productsView.from')}
                         value={priceRange[0] || ''}
                         sx={{
                           '& .MuiInputBase-input': {
@@ -388,7 +407,7 @@ export const Products = () => {
                       />
                       <TextField
                         type="number"
-                        placeholder="Do"
+                        placeholder={t('productsView.to')}
                         value={priceRange[1] || ''}
                         sx={{
                           '& .MuiInputBase-input': {
@@ -412,7 +431,7 @@ export const Products = () => {
                         checked={inStockOnly}
                         onChange={(e) => setInStockOnly(e.target.checked)}
                       />
-                      <Typography>Na stanju</Typography>
+                      <Typography>{t('productsView.inStock')}</Typography>
                     </Box>
 
                     <Box display="flex" alignItems="center" gap={1}>
@@ -426,7 +445,9 @@ export const Products = () => {
                           }
                         }}
                       />
-                      <Typography>Cena na upit</Typography>
+                      <Typography>
+                        {t('productsView.priceOnRequest')}
+                      </Typography>
                     </Box>
                   </Box>
                 </Box>

@@ -25,6 +25,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import {
@@ -39,6 +40,7 @@ const pages = [
 ];
 
 export const PromoteProduct = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,8 +98,9 @@ export const PromoteProduct = () => {
       }}
     >
       <MetaTags
-        title="Promocija proizvoda | Zeleni svet"
-        description="Istaknite svoje proizvode na vrhu pretrage. Izaberite proizvode, broj dana i platite. 50 RSD po danu po proizvodu."
+        title={t('seo.promoteProduct.title')}
+        description={t('seo.promoteProduct.description')}
+        keywords={t('seo.promoteProduct.keywords')}
       />
       <Box
         sx={(theme) => ({

@@ -7,14 +7,11 @@ import {
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
-import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   formatUrl,
-  goToDestination,
-  safeDecodeToken
+  goToDestination
 } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
   Typography,
@@ -23,14 +20,14 @@ import {
   IconButton,
   useTheme,
   Button,
-  Tooltip,
-  InputBase
+  InputBase,
+  Chip,
+  alpha
 } from '@mui/material';
 import { Card } from 'antd';
 import {
   Phone,
   Mail,
-  Store,
   Globe,
   User,
   MapPin,
@@ -39,23 +36,20 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
 export const ShopPage = () => {
+  const { t } = useTranslation();
   const { userId } = useParams();
   const { data, isLoading } = useUser(userId || '');
-  const { data: sellerProducts, isLoading: sellerProductsLoading } =
-    useAllUserProducts(userId);
+  const { data: sellerProducts } = useAllUserProducts(userId);
   const [search, setSearch] = useState<string>('');
   const theme = useTheme();
-  const PLACEHOLDER_IMG =
-    'https://placehold.co/176x112/266041/FFFFFF?text=Placeholder%20dok%20ne%20postavite%20proizvode';
 
   const handleClear = () => {
     setSearch('');
   };
-  const token = getItem('token');
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const filteredProducts = useMemo(() => {
@@ -75,16 +69,22 @@ export const ShopPage = () => {
   const metaObj = useMemo(
     () => ({
       title: data
-        ? ['Zeleni svet', 'Korisnicki profil', data.shopName, data.name]
+        ? [
+            'Zeleni svet',
+            t('breadcrumbs.userProfile'),
+            data.shopName,
+            data.name
+          ]
             .filter(Boolean)
             .join(' | ')
-        : 'Zeleni svet | Korisnicki profil',
-      description: data?.shopDescription || 'Korisnicki profil Zeleni Svet',
+        : `Zeleni svet | ${t('breadcrumbs.userProfile')}`,
+      description:
+        data?.shopDescription || t('shopPage.meta.descriptionFallback'),
       image:
         formatImageUrl(data?.profileImage || '') ||
         'https://www.zelenisvet.rs/green-world.svg'
     }),
-    [data]
+    [data, t]
   );
 
   if (!userId) return <></>;
@@ -99,16 +99,25 @@ export const ShopPage = () => {
   if (!data) {
     return (
       <Box className="flex items-center justify-center min-h-screen">
-        <Typography variant="h6">Korisnik nije pronađen.</Typography>
+        <Typography variant="h6">{t('shopPage.userNotFound')}</Typography>
       </Box>
     );
   }
 
+  const formatWebsiteDisplay = (url: string) => {
+    try {
+      const decoded = decodeURIComponent(url);
+      return decoded.replace(/^https?:\/\//, '').replace(/^www\./, '');
+    } catch {
+      return url;
+    }
+  };
+
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Prodavnice', route: '/shops' },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('navbar.shops'), route: '/shops' },
     {
-      label: data?.shopName || data?.name || 'Prodavnica',
+      label: data?.shopName || data?.name || t('shopPage.shopFallback'),
       route: `/shop/${userId}`
     }
   ];
@@ -147,385 +156,410 @@ export const ShopPage = () => {
         <AppBreadcrumbs pages={pages} />
       </Box>
 
-      <Box className="max-w-[1400px] px-4 sm:px-6 xl:px-0 relative w-full h-60 sm:h-80 bg-gray-200 mx-auto">
-        {data?.onlyOnline ? (
-          <Box
-            className="relative flex items-center justify-center w-full h-full p-6"
+      {/* HERO */}
+      <Box
+        sx={(theme) => ({
+          maxWidth: 1400,
+          mx: 'auto',
+          position: 'relative',
+          px: '16px',
+          [theme.breakpoints.up('sm')]: {
+            px: '24px'
+          }
+        })}
+      >
+        {data?.onlyOnline && (
+          <Chip
+            size="medium"
+            icon={<Globe />}
+            label={t('shopPage.onlineOnlyChip')}
+            color="success"
+            variant="outlined"
             sx={{
-              background: 'linear-gradient(135deg, #f0fff4 0%, #e6f7ff 100%)',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.08)'
+              position: 'absolute',
+              top: 16,
+              left: 40,
+              paddingX: '4px',
+              color: 'common.black'
             }}
-          >
+          />
+        )}
+        <Box
+          sx={{
+            width: '100%',
+            height: 280,
+            borderRadius: 2,
+            overflow: 'hidden',
+            background:
+              'linear-gradient(135deg, #cfe3d5 0%, #c3d9c9 50%, #b8cfbe 100%)'
+          }}
+        >
+          {data?.onlyOnline ? (
             <Box
               sx={{
-                position: 'absolute',
-                top: 12,
-                left: 12,
-                backgroundColor: theme.palette.primary.light,
-                color: theme.palette.primary.contrastText,
-                fontWeight: 600,
-                fontSize: '0.8rem',
-                padding: '4px 10px',
-                borderRadius: '12px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
-              Ovaj prodavac posluje samo online
-            </Box>
-
-            <Box sx={{ display: 'flex', gap: 1.5 }}>
-              {data?.website && (
-                <IconButton
-                  component="a"
-                  href={formatUrl(data?.website)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="website"
-                  sx={{ padding: 0 }}
-                >
-                  <Globe
-                    color={theme.palette.primary.main}
-                    size={30}
-                    strokeWidth={3}
-                    className="override-size"
-                  />
-                </IconButton>
-              )}
               <SocialMedia
                 color={theme.palette.primary.main}
                 socialMediaLinks={data?.socialMedia}
               />
             </Box>
-          </Box>
-        ) : data?.address?.street ||
-          data?.address?.city ||
-          data?.address?.country ? (
-          <iframe
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            loading="lazy"
-            allowFullScreen
-            src={`https://www.google.com/maps?q=${encodeURIComponent(
-              `${data?.address?.street}, ${data?.address?.city}, ${data?.address?.country}`
-            )}&output=embed`}
-          />
-        ) : sellerProducts?.length ? (
-          <Box className="w-full h-full flex flex-col justify-center gap-3 p-4 overflow-hidden">
-            <Box className="flex gap-3">
-              {sellerProducts
-                .flatMap((p) => p.images)
-                .slice(0, 8)
-                .map((img, i) => (
-                  <img
-                    key={`row1-${i}`}
-                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
-                    alt="product"
-                    className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
-                  />
-                ))}
-            </Box>
+          ) : (
+            <iframe
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(
+                `${data?.address?.street}, ${data?.address?.city}, ${data?.address?.country}`
+              )}&output=embed`}
+            />
+          )}
+        </Box>
 
-            <Box className="flex gap-3 -translate-x-16">
-              {sellerProducts
-                .flatMap((p) => p.images)
-                .slice(8, 16)
-                .map((img, i) => (
-                  <img
-                    key={`row2-${i}`}
-                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
-                    alt="product"
-                    className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
-                  />
-                ))}
-            </Box>
-
-            <Box className="flex gap-3">
-              {sellerProducts
-                .flatMap((p) => p.images)
-                .slice(16, 24)
-                .map((img, i) => (
-                  <img
-                    key={`row3-${i}`}
-                    src={formatImageUrl(img, 55) || PLACEHOLDER_IMG}
-                    alt="product"
-                    className="h-28 w-44 object-cover rounded-lg shadow-md flex-shrink-0"
-                  />
-                ))}
-            </Box>
-          </Box>
-        ) : (
-          <Box className="w-full h-full bg-gradient-to-r from-green-300 to-green-600" />
-        )}
-
+        {/* Avatar */}
         <Avatar
-          src={formatImageUrl(data?.profileImage, 55)}
-          alt={data?.name}
+          src={formatImageUrl(data?.profileImage, 120)}
           sx={{
             width: 120,
             height: 120,
             border: '4px solid white',
             position: 'absolute',
             bottom: -60,
-            left: 30
+            left: 40
           }}
         />
       </Box>
 
+      {/* SHOP HEADER */}
       <Box
         sx={(theme) => ({
-          maxWidth: '1400px',
-          width: '100%',
+          maxWidth: 1360,
+          p: '16px',
           mx: 'auto',
-          px: '16px',
-          py: '1.75rem',
-          gap: 4,
-          [theme.breakpoints.up('sm')]: {
-            px: '1.5rem'
-          },
+          mt: 10,
           [theme.breakpoints.up('xl')]: {
-            px: 0
-          },
-          display: 'flex',
-          flexDirection: 'column',
-          mt: 7
+            p: '0px'
+          }
         })}
       >
-        <Card className="shadow-md rounded-2xl">
-          {(data?.shopName || data?.name) && (
-            <Typography variant="h5" className="flex items-center font-bold">
-              <Store className="mr-1" /> {data?.shopName || data?.name}
-            </Typography>
-          )}
+        <Box
+          sx={{
+            p: '24px',
+            backgroundColor: alpha(theme.palette.success.light, 0.8),
+            borderRadius: 2
+          }}
+        >
+          <Typography variant="h3">{data?.shopName || data?.name}</Typography>
+
           {data?.shopDescription && (
-            <Typography variant="subtitle2" className="text-gray-600 mb-4">
-              {data?.shopDescription}
+            <Typography
+              variant="h5"
+              sx={{
+                fontStyle: 'italic',
+                color: 'text.main',
+                mt: 1
+              }}
+            >
+              {data.shopDescription}
             </Typography>
           )}
-          <Box className="flex flex-col gap-2 text-gray-700 mt-2">
-            {data?.name && (
-              <Box
-                className="flex items-center gap-2"
-                sx={{
-                  [theme.breakpoints.down('sm')]: {
-                    fontSize: '12px'
-                  }
-                }}
-              >
-                <User /> {data?.name}
-              </Box>
-            )}
-            {data?.phone && (
-              <Box
-                className="flex items-center gap-2"
-                sx={{
-                  [theme.breakpoints.down('sm')]: {
-                    fontSize: '12px'
-                  }
-                }}
-              >
-                <Phone /> {data?.phone}
-              </Box>
-            )}
-            {data?.email && (
-              <Box
-                className="flex items-center gap-2"
-                sx={{
-                  [theme.breakpoints.down('sm')]: {
-                    fontSize: '12px'
-                  }
-                }}
-              >
-                <Mail /> {data?.email}
-              </Box>
-            )}
-            {data?.website && (
-              <Box
-                className="flex items-center gap-2"
-                sx={{
-                  [theme.breakpoints.down('sm')]: {
-                    fontSize: '12px'
-                  }
-                }}
-              >
-                <Globe />
-                <a
-                  href={data?.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-green-600 hover:underline"
-                >
-                  {data?.website}
-                </a>
-              </Box>
-            )}
-            {(data?.address?.street ||
-              data?.address?.city ||
-              data?.address?.country) && (
-              <Box className="flex items-center gap-2">
-                <MapPin />
-                {[
-                  data?.address?.street,
-                  data?.address?.city,
-                  data?.address?.country
-                ]
-                  .filter(Boolean)
-                  .join(', ')}
-              </Box>
-            )}
+        </Box>
+      </Box>
+
+      {/* MAIN GRID */}
+      <Box
+        sx={(theme) => ({
+          maxWidth: 1400,
+          mx: 'auto',
+          px: '16px',
+          mt: 4,
+          display: 'grid',
+          gap: 4,
+          pb: 8,
+          gridTemplateColumns: '1fr',
+          [theme.breakpoints.up('lg')]: {
+            gridTemplateColumns: '340px 1fr'
+          }
+        })}
+      >
+        {/* LEFT SIDEBAR */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* CONTACT CARD */}
+          <Card>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 2,
-                mt: 4,
-                width: '100%',
-                maxWidth: 300
+                gap: 2
               }}
             >
-              <Button
-                fullWidth
-                variant="outlined"
-                href={goToDestination(
-                  data?.address?.street,
-                  data?.address?.city,
-                  data?.address?.country
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  py: 1.5,
-                  px: 2,
-                  fontWeight: 600,
-                  textTransform: 'none'
-                }}
-              >
-                Navigacija
-              </Button>
-              <Tooltip
-                title={
-                  !decodedToken?._id
-                    ? 'Morate biti prijavljeni da biste poslali poruku'
-                    : decodedToken?._id === data?._id
-                      ? 'Ne možete slati poruke sami sebi'
-                      : ''
-                }
-                disableHoverListener={
-                  Boolean(decodedToken?._id) && decodedToken?._id !== data?._id
-                }
-              >
-                <span style={{ width: '100%' }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    startIcon={<MessageCircle color="white" />}
+              {data?.name && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center',
+                    minWidth: 0
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0 }}>
+                    <User style={{ width: '22px', height: '22px' }} />
+                  </Box>
+                  <Typography>{data.name}</Typography>
+                </Box>
+              )}
+
+              {data?.email && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center',
+                    minWidth: 0
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0 }}>
+                    <Mail style={{ width: '22px', height: '22px' }} />
+                  </Box>
+
+                  <Typography
                     sx={{
-                      py: 1.5,
-                      px: 2,
-                      fontWeight: 600,
-                      textTransform: 'none'
+                      minWidth: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
                     }}
-                    disabled={
-                      !decodedToken?._id || decodedToken?._id === data?._id
-                    }
-                    title={
-                      !decodedToken?._id
-                        ? 'Morate biti prijavljeni da biste poslali poruku'
-                        : decodedToken?._id === data?._id
-                          ? 'Ne možete slati poruke sami sebi'
-                          : undefined
-                    }
-                    onClick={() => setOpenSendMessageDialog(true)}
                   >
-                    Kontaktiraj prodavca
-                  </Button>
-                </span>
-              </Tooltip>
-            </Box>
-            {(data?.socialMedia?.facebook ||
-              data?.socialMedia?.instagram ||
-              data?.socialMedia?.linkedin ||
-              data?.socialMedia?.tiktok) && (
+                    {data.email}
+                  </Typography>
+                </Box>
+              )}
+
+              {data?.phone && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center'
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0 }}>
+                    <Phone style={{ width: '22px', height: '22px' }} />
+                  </Box>
+
+                  <Typography>{data.phone}</Typography>
+                </Box>
+              )}
+
+              {data?.website && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center',
+                    minWidth: 0
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0 }}>
+                    <Globe style={{ width: '22px', height: '22px' }} />
+                  </Box>
+
+                  <Box
+                    component="a"
+                    href={formatUrl(data.website)}
+                    target="_blank"
+                    rel="noreferrer"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      textDecoration: 'none',
+
+                      minWidth: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+
+                      '&:hover': {
+                        textDecoration: 'underline'
+                      }
+                    }}
+                  >
+                    {formatWebsiteDisplay(data.website)}
+                  </Box>
+                </Box>
+              )}
+
+              {(data?.address?.street || data?.address?.city) && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center'
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0 }}>
+                    <MapPin style={{ width: '22px', height: '22px' }} />
+                  </Box>
+                  <Typography>
+                    {[
+                      data?.address?.street,
+                      data?.address?.city,
+                      data?.address?.country
+                    ]
+                      .filter(Boolean)
+                      .join(', ')}
+                  </Typography>
+                </Box>
+              )}
+
+              {/* CONTACT BUTTON */}
+              <Button
+                variant="contained"
+                startIcon={<MessageCircle style={{ color: 'white' }} />}
+                sx={{
+                  mt: 2,
+                  py: 1.4,
+                  textTransform: 'none',
+                  fontWeight: 600
+                }}
+                onClick={() => setOpenSendMessageDialog(true)}
+              >
+                {t('shopPage.contactSeller')}
+              </Button>
+
+              {!data?.onlyOnline && (
+                <Button
+                  variant="outlined"
+                  href={goToDestination(
+                    data?.address?.street,
+                    data?.address?.city,
+                    data?.address?.country
+                  )}
+                  target="_blank"
+                  sx={{
+                    py: 1.4,
+                    textTransform: 'none'
+                  }}
+                >
+                  {t('userInfo.googleNavigation')}
+                </Button>
+              )}
+
               <SocialMedia
                 color={theme.palette.secondary.main}
                 socialMediaLinks={data?.socialMedia}
-                size="24px"
-              />
-            )}
-          </Box>
-        </Card>
-        <Box>
-          <Box
-            sx={(theme) => ({
-              display: 'flex',
-              [theme.breakpoints.down('md')]: {
-                flexDirection: 'column',
-                alignItems: 'stretch'
-              },
-              gap: 2,
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              p: 2,
-              borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'grey.200',
-              backgroundColor: '#F9FCF7',
-              mb: 4
-            })}
-          >
-            <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 2,
-                py: 1,
-                borderRadius: 2,
-                border: '1px solid',
-                borderColor: 'grey.300',
-                backgroundColor: 'white'
-              }}
-            >
-              {search ? (
-                <X size={18} onClick={handleClear} />
-              ) : (
-                <Search size={18} />
-              )}
-              <InputBase
-                placeholder="Pretraži prodavnice..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                sx={{ width: '100%' }}
               />
             </Box>
+          </Card>
+
+          {/* WORKING TIME */}
+          {data?.workingTime && (
+            <Card>
+              <Box>
+                <Typography fontWeight={600} mb={2}>
+                  {t('shopPage.workingHours')}
+                </Typography>
+
+                {Object.entries(data.workingTime).map(([day, value]) => (
+                  <Box
+                    key={day}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      py: 0.6
+                    }}
+                  >
+                    <Typography sx={{ textTransform: 'capitalize' }}>
+                      {t(`editUserData.days.${day}`, { defaultValue: day })}
+                    </Typography>
+
+                    <Typography color="text.secondary">
+                      {value.isClosed
+                        ? t('shopPage.closed')
+                        : `${value.open} - ${value.close}`}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Card>
+          )}
+        </Box>
+
+        {/* PRODUCTS */}
+        <Box>
+          {/* HEADER */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 3
+            }}
+          >
+            <Typography variant="h4">{t('navbar.products')}</Typography>
+
+            <Typography color="text.secondary">
+              {t('shopPage.productsCount', {
+                count: filteredProducts?.length || 0
+              })}
+            </Typography>
           </Box>
 
-          {sellerProductsLoading ? (
-            <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="p-4">
-                  <Box className="w-full h-40 bg-gray-200 animate-pulse rounded-lg mb-2" />
-                  <Box className="h-4 w-2/3 bg-gray-200 animate-pulse rounded mb-1" />
-                  <Box className="h-4 w-1/2 bg-gray-200 animate-pulse rounded" />
-                </Card>
-              ))}
-            </Box>
-          ) : filteredProducts && filteredProducts.length > 0 ? (
-            <Box
-              component={'section'}
-              className="w-full grid gap-5 grid-cols-2 sm:grid-cols-3 lgm:grid-cols-4"
-            >
-              {filteredProducts?.map((product) => (
-                <ProductCard product={product} key={product._id} />
-              ))}
-            </Box>
-          ) : (
-            <Typography variant="body1" className="text-gray-500">
-              Ovaj korisnik trenutno nema proizvoda.
-            </Typography>
-          )}
+          {/* SEARCH */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              border: '1px solid',
+              borderColor: 'grey.300',
+              borderRadius: 2,
+              px: 2,
+              py: 1,
+              mb: 3
+            }}
+          >
+            <Search />
+
+            <InputBase
+              placeholder={t('shopPage.searchPlaceholder')}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{ ml: 1, flex: 1 }}
+            />
+
+            {search && (
+              <IconButton onClick={handleClear}>
+                <X size={16} />
+              </IconButton>
+            )}
+          </Box>
+
+          {/* PRODUCTS GRID */}
+          <Box
+            sx={(theme) => ({
+              display: 'grid',
+              gap: 3,
+              gridTemplateColumns: 'repeat(1,1fr)',
+              [theme.breakpoints.up('sm')]: {
+                gridTemplateColumns: 'repeat(2,1fr)'
+              },
+              [theme.breakpoints.up('lg')]: {
+                gridTemplateColumns: 'repeat(3,1fr)'
+              },
+              [theme.breakpoints.up('xl')]: {
+                gridTemplateColumns: 'repeat(4,1fr)'
+              }
+            })}
+          >
+            {filteredProducts?.map((product) => (
+              <ProductCard product={product} key={product._id} />
+            ))}
+          </Box>
         </Box>
       </Box>
       <SendMessageDialog

@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { getItem } from '@green-world/utils/cookie';
 import { safeDecodeToken } from '@green-world/utils/helpers';
@@ -22,7 +23,8 @@ export const useEditUser = () => {
       website,
       onlyOnline,
       onlyOnThisSite,
-      socialMedia
+      socialMedia,
+      workingTime
     }: User) =>
       request({
         url: `/user`,
@@ -40,7 +42,8 @@ export const useEditUser = () => {
           website,
           onlyOnline,
           onlyOnThisSite,
-          socialMedia
+          socialMedia,
+          workingTime
         }
       }),
     onSuccess: async () => {
@@ -52,7 +55,7 @@ export const useEditUser = () => {
         }),
         queryClient.invalidateQueries({ queryKey: ['allUsers'] })
       ]);
-      toast.success('Podaci su uspešno ažurirani.');
+      toast.success(i18n.t('hooks.common.dataUpdated'));
     }
   });
 };

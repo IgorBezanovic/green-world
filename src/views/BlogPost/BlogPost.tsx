@@ -14,9 +14,11 @@ import {
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 export const BlogPost = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: posts, isLoading } = useAllBlogPosts();
   const theme = useTheme();
@@ -34,7 +36,11 @@ export const BlogPost = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Blog'} />
+      <MetaTags
+        title={t('seo.blog.title')}
+        description={t('seo.blog.description')}
+        keywords={t('seo.blog.keywords')}
+      />
 
       <Box
         sx={(theme) => ({

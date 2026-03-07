@@ -2,10 +2,12 @@ import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Divider, Typography, Button } from '@mui/material';
 import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DonatePayPalDialog } from './DonatePayPalDialog';
 
 export const Documents = () => {
+  const { t } = useTranslation();
   const pages = [
     { label: 'Početna', route: '/' },
     { label: 'Dokumenta', route: '/documents' }
@@ -22,8 +24,9 @@ export const Documents = () => {
       }}
     >
       <MetaTags
-        title="Dokumenta | Zeleni svet"
-        description="Politika privatnosti, donacije, vizija i misija, brisanje naloga i uslovi korišćenja platforme Zeleni svet."
+        title={t('seo.documents.title')}
+        description={t('seo.documents.description')}
+        keywords={t('seo.documents.keywords')}
       />
       <Box
         sx={(theme) => ({

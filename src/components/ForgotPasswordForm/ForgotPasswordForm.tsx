@@ -9,8 +9,10 @@ import {
 } from '@mui/material';
 import { Mail } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const ForgotPasswordForm = () => {
+  const { t } = useTranslation();
   const { mutate, error, isPending } = useForgotPassword();
   const [email, setEmail] = useState<string>('');
 
@@ -42,11 +44,10 @@ export const ForgotPasswordForm = () => {
         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       >
         <Typography variant="h5" sx={{ mb: 0 }}>
-          Ukoliko ste zaboravili svoju lozinku, nije problem.
+          {t('forgotPasswordForm.title')}
         </Typography>
         <Typography variant="body1" sx={{ mb: 1 }}>
-          Na Vašu e-mail adresu biće poslata privremena lozinka. Nakon prijave,
-          molimo Vas da odmah promenite lozinku u okviru Vašeg profila.
+          {t('forgotPasswordForm.description')}
         </Typography>
 
         <OutlinedInput
@@ -54,7 +55,7 @@ export const ForgotPasswordForm = () => {
           type="email"
           name="email"
           id="e-mail"
-          placeholder="Unesite email"
+          placeholder={t('forgotPasswordForm.emailPlaceholder')}
           value={email}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
@@ -80,7 +81,7 @@ export const ForgotPasswordForm = () => {
           {isPending ? (
             <CircularProgress size={20} color="inherit" />
           ) : (
-            'Promeni lozinku'
+            t('forgotPasswordForm.submit')
           )}
         </Button>
 

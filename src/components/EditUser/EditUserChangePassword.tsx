@@ -10,8 +10,10 @@ import {
 } from '@mui/material';
 import { ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const EditUserChangePassword = () => {
+  const { t } = useTranslation();
   const { mutate, error, isPending } = useChangePassword();
 
   const [passwordCollection, setPasswordCollection] =
@@ -43,7 +45,7 @@ export const EditUserChangePassword = () => {
       onSubmit={handleSubmit}
       sx={{ maxWidth: 500, mx: 'auto', mb: 4 }}
     >
-      <title>Zeleni svet | Promena lozinke</title>
+      <title>{t('editUserChangePassword.pageTitle')}</title>
       <link
         rel="canonical"
         href="https://www.zelenisvet.rs/profile-settings/change-password"
@@ -76,10 +78,10 @@ export const EditUserChangePassword = () => {
           />
         </Box>
         <Typography variant="h2" color="initial">
-          Promena lozinke
+          {t('editUserChangePassword.title')}
         </Typography>
         <Typography variant="body1" color="initial">
-          Zaštitite svoj nalog sa jakom lozinkom
+          {t('editUserChangePassword.subtitle')}
         </Typography>
       </Box>
 
@@ -97,14 +99,14 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Unesite staru lozinku:
+        {t('editUserChangePassword.currentPasswordLabel')}
       </Box>
 
       <TextField
         fullWidth
         required
         type="password"
-        placeholder="Stara lozinka"
+        placeholder={t('editUserChangePassword.currentPasswordPlaceholder')}
         name="currentPassword"
         id="currentPassword"
         disabled={isPending}
@@ -126,14 +128,14 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Unesite novu lozinku:
+        {t('editUserChangePassword.newPasswordLabel')}
       </Box>
 
       <TextField
         fullWidth
         required
         type="password"
-        placeholder="Nova lozinka"
+        placeholder={t('editUserChangePassword.newPasswordPlaceholder')}
         name="newPassword"
         id="newPassword"
         disabled={isPending}
@@ -155,7 +157,7 @@ export const EditUserChangePassword = () => {
           mb: 1
         }}
       >
-        Ponovite novu lozinku:
+        {t('editUserChangePassword.confirmPasswordLabel')}
       </Box>
 
       {passwordsMismatch && (
@@ -166,7 +168,7 @@ export const EditUserChangePassword = () => {
             fontSize: '0.875rem'
           }}
         >
-          Lozinke se ne poklapaju
+          {t('editUserChangePassword.passwordsMismatch')}
         </Alert>
       )}
 
@@ -174,7 +176,7 @@ export const EditUserChangePassword = () => {
         fullWidth
         required
         type="password"
-        placeholder="Ponovite novu lozinku"
+        placeholder={t('editUserChangePassword.confirmPasswordPlaceholder')}
         name="confirmNewPassword"
         id="confirmNewPassword"
         disabled={isPending}
@@ -199,7 +201,11 @@ export const EditUserChangePassword = () => {
           textTransform: 'uppercase'
         }}
       >
-        {isPending ? <CircularProgress size={20} /> : 'Promeni lozinku'}
+        {isPending ? (
+          <CircularProgress size={20} />
+        ) : (
+          t('editUserChangePassword.submit')
+        )}
       </Button>
 
       {/* Error */}

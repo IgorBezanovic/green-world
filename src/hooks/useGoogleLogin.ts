@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { setItem } from '@green-world/utils/cookie';
 import { isLikelyJwt, safeDecodeToken } from '@green-world/utils/helpers';
@@ -27,7 +28,7 @@ export const useGoogleLogin = () => {
       const token = typeof data === 'string' ? data : data?.token;
 
       if (!isLikelyJwt(token)) {
-        toast.error('Neispravan odgovor servera za Google prijavu.');
+        toast.error(i18n.t('hooks.googleLogin.invalidServerResponse'));
         return;
       }
 
@@ -46,7 +47,7 @@ export const useGoogleLogin = () => {
       navigate('/');
     },
     onError: (err: any) => {
-      const msg = err?.response?.data || 'Greška pri loginu.';
+      const msg = err?.response?.data || i18n.t('hooks.googleLogin.loginError');
       toast.error(msg);
     }
   });

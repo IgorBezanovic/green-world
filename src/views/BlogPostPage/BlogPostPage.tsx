@@ -19,10 +19,12 @@ import { formatImageUrl } from '@green-world/utils/helpers';
 import { Box, Card, Chip, useTheme } from '@mui/material';
 import { Calendar, Clock, Copy, User } from 'lucide-react';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export const BlogPostPage = () => {
+  const { t } = useTranslation();
   const { postId } = useParams<{ postId: string }>();
   const {
     data: post,
@@ -87,7 +89,11 @@ export const BlogPostPage = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Blog'} />
+      <MetaTags
+        title={t('seo.blog.title')}
+        description={t('seo.blog.description')}
+        keywords={t('seo.blog.keywords')}
+      />
 
       <div className="xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7">
         <AppBreadcrumbs pages={pages} />

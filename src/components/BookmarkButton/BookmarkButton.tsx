@@ -1,8 +1,11 @@
 import { Chip, Box } from '@mui/material';
 import { Bookmark as BookmarkIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 export const BookmarkButton = ({ label = 'Bookmark' }: { label?: string }) => {
+  const { t } = useTranslation();
+
   const handleClick = () => {
     const url = window.location.href;
     const title = document.title || label;
@@ -26,13 +29,13 @@ export const BookmarkButton = ({ label = 'Bookmark' }: { label?: string }) => {
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          toast.info('Link copied. Press Cmd/Ctrl+D to bookmark this page.');
+          toast.info(t('bookmarkButton.linkCopiedInfo'));
         })
         .catch(() => {
-          alert('Press Cmd/Ctrl+D to bookmark this page: ' + url);
+          alert(t('bookmarkButton.bookmarkShortcutAlert', { url }));
         });
     } else {
-      alert('Press Cmd/Ctrl+D to bookmark this page: ' + url);
+      alert(t('bookmarkButton.bookmarkShortcutAlert', { url }));
     }
   };
 
@@ -44,7 +47,7 @@ export const BookmarkButton = ({ label = 'Bookmark' }: { label?: string }) => {
       onClick={handleClick}
       label={
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <BookmarkIcon /> Dodaj u Bookmarks
+          <BookmarkIcon /> {t('bookmarkButton.label')}
         </Box>
       }
     />

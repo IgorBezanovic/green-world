@@ -5,13 +5,15 @@ import {
 } from '@green-world/components';
 import { useSignUp } from '@green-world/hooks/useSignUp';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const Registration = () => {
   const { mutate, error, isPending } = useSignUp();
+  const { t } = useTranslation();
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Uloguj se', route: '/login' },
-    { label: 'Registracija', route: '/registration' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('loginView.breadcrumb'), route: '/login' },
+    { label: t('registrationView.breadcrumb'), route: '/registration' }
   ];
 
   return (
@@ -22,7 +24,7 @@ export const Registration = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Registruj se'} />
+      <MetaTags title={t('registrationView.metaTitle')} />
 
       <Box
         sx={(theme) => ({

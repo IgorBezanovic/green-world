@@ -23,6 +23,7 @@ import {
   Megaphone
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 export type SearchOptionType = {
@@ -39,6 +40,7 @@ export type SearchOptionType = {
 
 export const AISearch = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [value, setValue] = useState<SearchOptionType | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
@@ -63,12 +65,12 @@ export const AISearch = () => {
       options={memoizedData}
       groupBy={(option) =>
         option.type === 'product'
-          ? 'Proizvodi'
+          ? t('aisearch.groups.products')
           : option.type === 'event'
-            ? 'Događaji'
+            ? t('aisearch.groups.events')
             : option.type === 'user'
-              ? 'Korisnici'
-              : 'Blogovi'
+              ? t('aisearch.groups.users')
+              : t('aisearch.groups.blogs')
       }
       getOptionLabel={(option) => option.title}
       value={value}
@@ -80,7 +82,9 @@ export const AISearch = () => {
             `/${newValue.type === 'user' ? 'shop' : newValue.type}/${newValue.id}`
           );
       }}
-      noOptionsText={isLoading ? 'Učitavanje...' : 'Nema rezultata'}
+      noOptionsText={
+        isLoading ? t('aisearch.loading') : t('aisearch.noResults')
+      }
       slotProps={{
         paper: {
           sx: {
@@ -134,7 +138,7 @@ export const AISearch = () => {
                 {option.isPromoted && (
                   <>
                     <Chip
-                      label="Promovisano"
+                      label={t('aisearch.promoted')}
                       color="warning"
                       size="small"
                       sx={{ ml: 1, pt: 0 }}
@@ -165,10 +169,14 @@ export const AISearch = () => {
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
                   <HandCoins className="mr-1" />{' '}
-                  {option.price
-                    ?.toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
-                  {option.price === 'Cena Na Upit' ? '' : 'RSD'}
+                  {option.price === 'Cena Na Upit'
+                    ? t('aisearch.priceOnRequest')
+                    : `${option.price
+                        ?.toString()
+                        .replace(
+                          /\B(?=(\d{3})+(?!\d))/g,
+                          '.'
+                        )} ${t('aisearch.currency')}`}
                 </Typography>
               )}
               {option.type === 'event' && (
@@ -195,7 +203,7 @@ export const AISearch = () => {
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Pretražite proizvode, blogove, korisnike, događaje..."
+          placeholder={t('aisearch.searchPlaceholder')}
           sx={{
             '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
             '& .MuiOutlinedInput-root': {

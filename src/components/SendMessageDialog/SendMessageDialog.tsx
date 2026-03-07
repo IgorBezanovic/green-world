@@ -9,6 +9,7 @@ import {
   DialogContentText
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SendMessageDialogProps {
   open: boolean;
@@ -21,10 +22,11 @@ interface SendMessageDialogProps {
 export const SendMessageDialog = ({
   open,
   initialMessage = '',
-  title = 'Slanje poruke',
+  title,
   onClose,
   userId
 }: SendMessageDialogProps) => {
+  const { t } = useTranslation();
   const [message, setMessage] = useState(initialMessage);
   const sendMessageMutation = useSendMessage();
 
@@ -44,13 +46,11 @@ export const SendMessageDialog = ({
 
   return (
     <Dialog open={open} onClose={handleCancel} fullWidth maxWidth="sm">
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>{title || t('sendMessageDialog.title')}</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <DialogContentText sx={{ mb: 2, color: 'black' }}>
-            Molimo vas da se pridržavate lepog ponašanja i pokažete poštovanje
-            prema drugim korisnicima. Vaša poruka treba biti prijateljska i
-            konstruktivna.
+            {t('sendMessageDialog.description')}
           </DialogContentText>
           <TextField
             id="message-input"
@@ -58,7 +58,7 @@ export const SendMessageDialog = ({
             fullWidth
             multiline
             minRows={3}
-            placeholder="Unesite vašu poruku..."
+            placeholder={t('sendMessageDialog.placeholder')}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             variant="outlined"
@@ -67,13 +67,15 @@ export const SendMessageDialog = ({
         </DialogContent>
 
         <DialogActions sx={{ px: 3, py: 2 }}>
-          <Button onClick={handleCancel}>Cancel</Button>
+          <Button onClick={handleCancel}>
+            {t('sendMessageDialog.cancel')}
+          </Button>
           <Button
             type="submit"
             variant="contained"
             disabled={message.trim().length === 0}
           >
-            Pošalji poruku
+            {t('sendMessageDialog.send')}
           </Button>
         </DialogActions>
       </form>

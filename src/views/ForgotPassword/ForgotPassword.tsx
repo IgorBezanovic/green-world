@@ -4,12 +4,14 @@ import {
   MetaTags
 } from '@green-world/components';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const ForgotPassword = () => {
+  const { t } = useTranslation();
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Uloguj se', route: '/login' },
-    { label: 'Zaboravljena Lozinka', route: '/forgot-password' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('loginView.breadcrumb'), route: '/login' },
+    { label: t('forgotPasswordView.breadcrumb'), route: '/forgot-password' }
   ];
 
   return (
@@ -20,7 +22,7 @@ export const ForgotPassword = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni Svet | Zaboravljena Lozinka | Green World'} />
+      <MetaTags title={t('forgotPasswordView.metaTitle')} />
 
       <Box
         sx={(theme) => ({

@@ -3,16 +3,18 @@ import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import { Box, Button, TextField, Tooltip } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const CommentForm = ({
   parentComment,
   onSubmit,
-  submitLabel = 'Pošaljite komentar'
+  submitLabel
 }: {
   parentComment?: string | null;
   onSubmit: (text: string) => Promise<void> | void;
   submitLabel?: string;
 }) => {
+  const { t } = useTranslation();
   const token = getItem('token');
   const decodedToken = safeDecodeToken<DecodedToken>(token);
   const [text, setText] = useState('');
@@ -47,12 +49,14 @@ export const CommentForm = ({
         fullWidth
         variant="outlined"
         placeholder={
-          parentComment ? 'Napišite odgovor...' : 'Napišite komentar...'
+          parentComment
+            ? t('commentForm.replyPlaceholder')
+            : t('commentForm.commentPlaceholder')
         }
         sx={{ '& .MuiInputBase-root': { p: 1 } }}
       />
       <Tooltip
-        title={!decodedToken?._id ? 'Morate biti ulogovani' : ''}
+        title={!decodedToken?._id ? t('commentForm.mustLogin') : ''}
         disableHoverListener={Boolean(decodedToken?._id)}
       >
         <span
@@ -66,7 +70,9 @@ export const CommentForm = ({
             color="primary"
             sx={{ px: 3, py: 1, borderRadius: 1 }}
           >
-            {!decodedToken?._id ? 'Morate biti ulogovani' : submitLabel}
+            {!decodedToken?._id
+              ? t('commentForm.mustLogin')
+              : submitLabel || t('commentForm.submit')}
           </Button>
         </span>
       </Tooltip>

@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { NewPasswordValues } from '@green-world/utils/types';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
@@ -20,10 +21,14 @@ export const useChangePassword = (): UseMutationResult<
         data: { currentPassword, newPassword, confirmNewPassword }
       }),
     onSuccess: () => {
-      toast('Uspešno ste promenili password!');
+      toast.success(i18n.t('hooks.changePassword.success'));
     },
     onError: (err: any) => {
-      toast(`Došlo je do greške: ${err.message || 'Nepoznata greška'}`);
+      toast.error(
+        i18n.t('hooks.changePassword.error', {
+          message: err?.message || i18n.t('hooks.changePassword.unknownError')
+        })
+      );
     }
   });
 };

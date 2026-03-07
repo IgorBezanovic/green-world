@@ -13,9 +13,11 @@ import {
   Divider
 } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 export const LoginForm = ({ ...props }) => {
+  const { t } = useTranslation();
   const [auth, setAuth] = useState<AuthValues>({
     email: '',
     password: ''
@@ -62,9 +64,7 @@ export const LoginForm = ({ ...props }) => {
           }}
         >
           <Typography variant="h6" sx={{ mb: 1 }}>
-            <strong>
-              Treba da se ulogujete ukoliko želite da postavite oglas.
-            </strong>
+            <strong>{t('loginForm.mustLoginToPost')}</strong>
           </Typography>
         </Box>
       )}
@@ -80,7 +80,7 @@ export const LoginForm = ({ ...props }) => {
             component="label"
             sx={{ mb: 0.5, color: 'text.primary', cursor: 'pointer' }}
           >
-            Email:
+            {t('loginForm.emailLabel')}
           </Typography>
 
           <OutlinedInput
@@ -91,7 +91,7 @@ export const LoginForm = ({ ...props }) => {
             onChange={(e) => setAuth({ ...auth, email: e.target.value })}
             disabled={props.isLoading}
             error={Boolean(props.error?.response?.data)}
-            placeholder="Unesite email"
+            placeholder={t('loginForm.emailPlaceholder')}
             required
             sx={{
               bgcolor: 'background.default',
@@ -106,7 +106,7 @@ export const LoginForm = ({ ...props }) => {
             component="label"
             sx={{ mt: 1, mb: 0.5, color: 'text.primary', cursor: 'pointer' }}
           >
-            Lozinka:
+            {t('loginForm.passwordLabel')}
           </Typography>
 
           <OutlinedInput
@@ -117,7 +117,7 @@ export const LoginForm = ({ ...props }) => {
             onChange={(e) => setAuth({ ...auth, password: e.target.value })}
             disabled={props.isLoading}
             error={Boolean(props.error?.response?.data)}
-            placeholder="Unesite lozinku"
+            placeholder={t('loginForm.passwordPlaceholder')}
             required
             sx={{
               bgcolor: 'background.default',
@@ -137,7 +137,7 @@ export const LoginForm = ({ ...props }) => {
           />
           {props.isLoading ? (
             <Typography variant="body2" sx={{ color: 'text.disabled', mt: 1 }}>
-              Zaboravljena lozinka?
+              {t('loginForm.forgotPassword')}
             </Typography>
           ) : (
             <Box
@@ -146,7 +146,7 @@ export const LoginForm = ({ ...props }) => {
               sx={{ color: 'primary.main', textDecoration: 'none', mt: 1 }}
             >
               <Typography variant="body2" color="text.primary">
-                Zaboravljena lozinka?
+                {t('loginForm.forgotPassword')}
               </Typography>
             </Box>
           )}
@@ -163,7 +163,7 @@ export const LoginForm = ({ ...props }) => {
         >
           {props.isLoading ? (
             <Typography variant="body2" sx={{ color: 'text.disabled' }}>
-              Nemate nalog? Registrujte se
+              {t('loginForm.noAccountRegister')}
             </Typography>
           ) : (
             <Box
@@ -172,7 +172,7 @@ export const LoginForm = ({ ...props }) => {
               sx={{ color: 'primary.main', textDecoration: 'none' }}
             >
               <Typography variant="body2" color="text.primary">
-                Nemate nalog? Registrujte se
+                {t('loginForm.noAccountRegister')}
               </Typography>
             </Box>
           )}
@@ -185,7 +185,7 @@ export const LoginForm = ({ ...props }) => {
             {props.isLoading ? (
               <CircularProgress size={20} color="inherit" />
             ) : (
-              'Prijavi se'
+              t('loginForm.submit')
             )}
           </Button>
         </Box>
@@ -203,15 +203,15 @@ export const LoginForm = ({ ...props }) => {
           <GoogleLoginAuth />
           <MetaLoginAuth />
           <Typography variant="caption" align="center" sx={{ mt: -1 }}>
-            Prijavom prihvatate našu{' '}
+            {t('loginForm.acceptPrefix')}{' '}
             <Box
               component={Link}
               to="/privacy-policy"
               sx={{ textDecoration: 'underline', display: 'inline' }}
             >
-              Politiku privatnosti
+              {t('loginForm.privacyPolicy')}
             </Box>
-            .
+            {t('loginForm.acceptSuffix')}
           </Typography>
         </Box>
 

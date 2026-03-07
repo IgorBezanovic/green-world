@@ -3,12 +3,14 @@
 // import { Product } from '@green-world/utils/types';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 // import { useContext, useMemo } from 'react';
 // import { useNavigate } from 'react-router';
 
 import { PromotionCard } from '../PromotionCard';
 
 export const PromotionSection = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   // const navigate = useNavigate();
   // const { data: products = [] } = useAllUserProducts();
@@ -66,12 +68,12 @@ export const PromotionSection = () => {
         >
           <Zap />
           <Typography variant="h5" fontWeight={700}>
-            Promocije i Nadogradnje
+            {t('promotionSection.title')}
           </Typography>
         </Box>
         <Chip
           icon={<Crown size={14} />}
-          label="Premium"
+          label={t('promotionSection.premium')}
           size="small"
           color="warning"
           sx={{ fontWeight: 600, color: 'common.white', p: '2px 8px' }}
@@ -97,10 +99,10 @@ export const PromotionSection = () => {
       >
         <PromotionCard
           icon={Sparkles}
-          title="Promoviši Proizvode"
-          description="Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca"
-          actionLabel="Kupi promociju"
-          badgeLabel="Uskoro"
+          title={t('promotionSection.promoteProductsTitle')}
+          description={t('promotionSection.promoteProductsDescription')}
+          actionLabel={t('promotionSection.buyPromotion')}
+          badgeLabel={t('promotionSection.soon')}
           // badgeLabel={`${promotedProductsCount} proizvoda`}
           variant="success"
           onActionClick={() => console.log('/promote-product')}
@@ -109,10 +111,10 @@ export const PromotionSection = () => {
 
         <PromotionCard
           icon={Store}
-          title="Promoviši Prodavnicu"
-          description="Povećajte vidljivost vaše prodavnice i privucite nove kupce"
-          actionLabel="Kupi promociju"
-          badgeLabel="Uskoro"
+          title={t('promotionSection.promoteShopTitle')}
+          description={t('promotionSection.promoteShopDescription')}
+          actionLabel={t('promotionSection.buyPromotion')}
+          badgeLabel={t('promotionSection.soon')}
           // badgeLabel={`${shopPromotionDaysLeft} dana`}
           variant="warning"
           // onActionClick={() => navigate('/promote-shop')}
@@ -121,10 +123,10 @@ export const PromotionSection = () => {
 
         <PromotionCard
           icon={TrendingUp}
-          title="Povećaj Kapacitet"
-          description="Proširite kapacitet vaše prodavnice za više proizvoda"
-          actionLabel="Kupi promociju"
-          badgeLabel="Uskoro"
+          title={t('promotionSection.increaseCapacityTitle')}
+          description={t('promotionSection.increaseCapacityDescription')}
+          actionLabel={t('promotionSection.buyPromotion')}
+          badgeLabel={t('promotionSection.soon')}
           // badgeLabel={`${freeCapacityPercentage}% slobodno`}
           variant="success"
           // onActionClick={() => navigate('/increase-capacity')}
@@ -133,10 +135,10 @@ export const PromotionSection = () => {
 
         <PromotionCard
           icon={Package}
-          title="Promotivni Paketi"
-          description="Ekskluzivni paketi sa najboljim ponudama za vašu prodavnicu"
-          actionLabel="Saznaj više"
-          badgeLabel="Uskoro"
+          title={t('promotionSection.promoPackagesTitle')}
+          description={t('promotionSection.promoPackagesDescription')}
+          actionLabel={t('promotionSection.learnMore')}
+          badgeLabel={t('promotionSection.soon')}
           // badgeLabel="Uštedi 30%"
           variant="warning"
           // onActionClick={() => navigate('/promo-bundle')}

@@ -24,6 +24,7 @@ import {
   MapPin,
   Settings
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { SocialMedia } from '../SocialMedia';
@@ -31,6 +32,7 @@ import { SocialMedia } from '../SocialMedia';
 export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   if (props?.userLoading) {
     return (
@@ -69,7 +71,7 @@ export const UserInfo = ({ ...props }) => {
               variant="body2"
               sx={{ fontStyle: props?.user?.shopName ? 'normal' : 'italic' }}
             >
-              {props?.user?.shopName ?? 'Unesite naziv prodavnice'}
+              {props?.user?.shopName ?? t('userInfo.enterShopName')}
             </Typography>
           </Box>
         }
@@ -248,7 +250,7 @@ export const UserInfo = ({ ...props }) => {
               }}
             >
               <Typography variant="body2" component="span">
-                Navigacija
+                {t('userInfo.googleNavigation')}
               </Typography>
             </Button>
           )}

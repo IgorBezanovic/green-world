@@ -1,13 +1,15 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate } from 'react-router';
 
 export const ProfileSettings = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Korisnički profil', route: '/profile' },
-    { label: 'Podešavanje profila', route: '/edit-profile' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.userProfile'), route: '/profile' },
+    { label: t('profileSettingsView.breadcrumb'), route: '/edit-profile' }
   ];
 
   return (
@@ -18,7 +20,7 @@ export const ProfileSettings = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Podešavanje profila'} />
+      <MetaTags title={t('profileSettingsView.metaTitle')} />
 
       <Box
         sx={(theme) => ({
@@ -102,28 +104,28 @@ export const ProfileSettings = () => {
             variant="contained"
             color="info"
           >
-            Podaci profila
+            {t('profileSettingsView.buttons.profileData')}
           </Button>
           <Button
             onClick={() => navigate('/profile-settings/change-image')}
             variant="contained"
             color="info"
           >
-            Slika i QR kod
+            {t('profileSettingsView.buttons.imageQr')}
           </Button>
           <Button
             onClick={() => navigate('/profile-settings/change-password')}
             variant="contained"
             color="info"
           >
-            Promena lozinke
+            {t('profileSettingsView.buttons.changePassword')}
           </Button>
           <Button
             variant="contained"
             color="info"
             onClick={() => navigate('/profile-settings/statistics')}
           >
-            Statistika
+            {t('profileSettingsView.buttons.statistics')}
           </Button>
         </Box>
         <Box

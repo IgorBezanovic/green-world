@@ -23,8 +23,10 @@ import {
   ArrowUpAZ
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const Shops = () => {
+  const { t } = useTranslation();
   const { data, isLoading } = useAllUsers();
 
   const totalProducts =
@@ -90,7 +92,11 @@ export const Shops = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title="Zeleni svet | Prodavnice | Green world" />
+      <MetaTags
+        title={t('seo.shops.title')}
+        description={t('seo.shops.description')}
+        keywords={t('seo.shops.keywords')}
+      />
 
       <Box
         sx={(theme) => ({

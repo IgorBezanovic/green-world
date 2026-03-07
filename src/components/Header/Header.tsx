@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { getItem, removeItem } from '@green-world/utils/cookie';
@@ -28,6 +29,7 @@ import {
   NotebookText
 } from 'lucide-react';
 import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { AISearch } from '../AISearch';
@@ -41,6 +43,7 @@ export const Header = () => {
   const { user } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const { t } = useTranslation();
 
   const { data: messagesData } = useUserMessage();
   const conversations = messagesData?.data ?? [];
@@ -75,34 +78,34 @@ export const Header = () => {
 
   const menuItems = [
     {
-      text: 'Korisnički Profil',
+      text: t('header.profile'),
       icon: <User className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/profile'))
     },
     {
-      text: 'Dodaj proizvod',
+      text: t('header.addProduct'),
       icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/create-product')),
       disabled: user?.numberOfProducts >= user?.maxShopProducts
     },
     {
-      text: 'Kreiraj aktivnost',
+      text: t('header.createEvent'),
       icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/create-event'))
     },
     {
-      text: 'Podešavanje profila',
+      text: t('header.profileSettings'),
       icon: <UserPen className="!w-6 !h-6 ml-2" />,
       onClick: () =>
         handleMenuClick(() => navigate('/profile-settings/edit-profile'))
     },
     {
-      text: 'Kontaktirajte nas',
+      text: t('header.contactUs'),
       icon: <Mail className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/contact-us'))
     },
     {
-      text: 'Poruke',
+      text: t('header.messages'),
       icon: (
         <Badge
           badgeContent={totalUnread > 0 ? totalUnread : null}
@@ -115,7 +118,7 @@ export const Header = () => {
       onClick: () => handleMenuClick(() => navigate('/message'))
     },
     {
-      text: 'Napiši blog',
+      text: t('header.writeBlog'),
       icon: <NotebookText className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/write-post'))
     }
@@ -165,7 +168,7 @@ export const Header = () => {
             {decodedToken?._id ? (
               <MenuLucide className="!w-6 !h-6 !text-inherit" />
             ) : (
-              'Prijavi se'
+              t('header.login')
             )}
           </Button>
         </Box>
@@ -206,11 +209,14 @@ export const Header = () => {
 
           <Box>
             <List>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                <LanguageSwitcher />
+              </Box>
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>
                   <LogOut className="!w-6 !h-6 ml-2" />
                 </ListItemIcon>
-                <ListItemText primary="Izloguj se" />
+                <ListItemText primary={t('header.logout')} />
               </ListItemButton>
             </List>
           </Box>

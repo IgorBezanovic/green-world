@@ -88,6 +88,16 @@ export type UserStatistics = {
   engagementScore: number;
 };
 
+export type WorkingTime = {
+  monday: { open: string; close: string; isClosed: boolean };
+  tuesday: { open: string; close: string; isClosed: boolean };
+  wednesday: { open: string; close: string; isClosed: boolean };
+  thursday: { open: string; close: string; isClosed: boolean };
+  friday: { open: string; close: string; isClosed: boolean };
+  saturday: { open: string; close: string; isClosed: boolean };
+  sunday: { open: string; close: string; isClosed: boolean };
+};
+
 export type User = {
   _id?: string;
   email: string;
@@ -114,6 +124,7 @@ export type User = {
   numberOfActions: number;
   numberOfBlogs: number;
   statistics: UserStatistics;
+  workingTime: WorkingTime;
 };
 
 export type ContactUsValues = {

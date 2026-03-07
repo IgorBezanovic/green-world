@@ -23,6 +23,7 @@ import {
   Chip
 } from '@mui/material';
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ReactQuill from 'react-quill-new';
 import { useNavigate, useParams } from 'react-router';
 import 'react-quill-new/dist/quill.snow.css';
@@ -35,6 +36,7 @@ type Block = {
 };
 
 export const WritePost = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: uploadImage, isPending: isImageUploading } = useImage();
   const {
@@ -335,7 +337,11 @@ export const WritePost = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Napiši post'} />
+      <MetaTags
+        title={t('seo.writePost.title')}
+        description={t('seo.writePost.description')}
+        keywords={t('seo.writePost.keywords')}
+      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

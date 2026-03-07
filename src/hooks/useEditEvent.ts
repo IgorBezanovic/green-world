@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { Event } from '@green-world/utils/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -47,7 +48,7 @@ export const useEditEvent = (id: string) => {
         queryClient.invalidateQueries({ queryKey: ['allEvents'] }),
         queryClient.invalidateQueries({ queryKey: ['eventDetails', id] })
       ]);
-      toast.success('Podaci su uspešno ažurirani.');
+      toast.success(i18n.t('hooks.common.dataUpdated'));
     }
   });
 };

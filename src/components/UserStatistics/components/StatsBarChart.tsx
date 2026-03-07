@@ -1,9 +1,11 @@
 import { User } from '@green-world/utils/types';
 import { Box, Typography, useTheme } from '@mui/material';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useTranslation } from 'react-i18next';
 
 export const StatsBarChart = ({ user }: { user: User }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -19,11 +21,11 @@ export const StatsBarChart = ({ user }: { user: User }) => {
     >
       <Box sx={{ pb: 2.5 }}>
         <Typography fontWeight={600} mb={2}>
-          Pregledi po tipu sadržaja
+          {t('statsBarChart.title')}
         </Typography>
 
         <Typography variant="body2" color="text.secondary" mb={2}>
-          Uporedni prikaz ukupnih pregleda i proseka
+          {t('statsBarChart.subtitle')}
         </Typography>
 
         <Box sx={{ width: '100%', height: 260 }}>
@@ -31,12 +33,16 @@ export const StatsBarChart = ({ user }: { user: User }) => {
             xAxis={[
               {
                 scaleType: 'band',
-                data: ['Proizvodi', 'Aktivnosti', 'Blogovi']
+                data: [
+                  t('statsBarChart.products'),
+                  t('statsBarChart.activities'),
+                  t('statsBarChart.blogs')
+                ]
               }
             ]}
             series={[
               {
-                label: 'Ukupno',
+                label: t('statsBarChart.total'),
                 data: [
                   user.statistics.totalViews.products,
                   user.statistics.totalViews.actions,
@@ -45,7 +51,7 @@ export const StatsBarChart = ({ user }: { user: User }) => {
                 color: theme.palette.success.main
               },
               {
-                label: 'Prosek',
+                label: t('statsBarChart.average'),
                 data: [
                   user.statistics.averageViews.product,
                   user.statistics.averageViews.action,

@@ -1,5 +1,6 @@
 import { Button, CircularProgress, styled } from '@mui/material';
 import { Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type AiButtonProps = {
   isAiLoading: boolean;
@@ -50,6 +51,8 @@ export const AiButton = ({
   canGenerate,
   onClick
 }: AiButtonProps) => {
+  const { t } = useTranslation();
+
   return (
     <GradientButton
       variant="contained"
@@ -66,7 +69,7 @@ export const AiButton = ({
           sx={{ color: (theme) => theme.palette.primary.main }}
         />
       ) : (
-        'Generiši opis'
+        t('createEditProduct.ai.generateButton')
       )}
     </GradientButton>
   );

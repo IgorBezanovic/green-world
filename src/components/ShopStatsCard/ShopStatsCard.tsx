@@ -1,5 +1,6 @@
 import { Box, Typography, LinearProgress } from '@mui/material';
 import { Package, Activity, FileText, Infinity } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ShopStatsCardProps {
   numberOfProducts: number;
@@ -14,6 +15,7 @@ export const ShopStatsCard = ({
   numberOfActions,
   numberOfBlogs
 }: ShopStatsCardProps) => {
+  const { t } = useTranslation();
   const productsPercentage = (numberOfProducts / maxShopProducts) * 100;
 
   return (
@@ -50,7 +52,7 @@ export const ShopStatsCard = ({
               <Package size={16} />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-              Dodati proizvodi
+              {t('shopStatsCard.addedProducts')}
             </Typography>
           </Box>
 
@@ -96,7 +98,7 @@ export const ShopStatsCard = ({
               <Activity size={16} />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-              Kreirane aktivnosti
+              {t('shopStatsCard.createdActivities')}
             </Typography>
           </Box>
 
@@ -136,7 +138,7 @@ export const ShopStatsCard = ({
               <FileText size={16} />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-              Objavljeni Blogovi
+              {t('shopStatsCard.publishedBlogs')}
             </Typography>
           </Box>
           <Box

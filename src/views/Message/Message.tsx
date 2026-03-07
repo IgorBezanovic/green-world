@@ -22,8 +22,10 @@ import {
 } from '@mui/material';
 import { MessageCircle, Search, Send, ArrowLeft } from 'lucide-react';
 import { useState, useContext, useEffect, useRef, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const Message = () => {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useUserMessage();
   const [localConversations, setLocalConversations] = useState<any[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -32,7 +34,7 @@ export const Message = () => {
   const [messageInput, setMessageInput] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
 
-  const pageTitle = `Zeleni svet | Poruke`;
+  const pageTitle = t('seo.message.title');
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { socket, addMessage, messages } = useContext(ChatContext);
@@ -530,7 +532,11 @@ export const Message = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={pageTitle} />
+      <MetaTags
+        title={pageTitle}
+        description={t('seo.message.description')}
+        keywords={t('seo.message.keywords')}
+      />
 
       <Box className="xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 flex flex-col md:flex-row">
         {!isMobileOrTablet && (

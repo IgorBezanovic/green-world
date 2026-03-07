@@ -1,5 +1,6 @@
 import { Box, Button, useTheme } from '@mui/material';
 import { Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { SocialMedia } from '../SocialMedia';
@@ -7,6 +8,7 @@ import { SocialMedia } from '../SocialMedia';
 export const NavTrack = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -38,7 +40,7 @@ export const NavTrack = () => {
           padding: 0
         }}
       >
-        Pišite nam
+        {t('navTrack.writeToUs')}
       </Button>
       <SocialMedia
         color={theme.palette.secondary.main}

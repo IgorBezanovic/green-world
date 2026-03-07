@@ -3,9 +3,11 @@ import { formatImageUrl } from '@green-world/utils/helpers';
 import { Box, Chip, Typography, useTheme } from '@mui/material';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const [loaded, setLoaded] = useState(false);
 
@@ -67,7 +69,7 @@ export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
       >
         <Chip
           icon={<Star style={{ color: '#fff' }} />}
-          label="Istaknuto"
+          label={t('featuredProduct.featured')}
           size="small"
           sx={{
             position: 'absolute',
@@ -147,7 +149,7 @@ export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
             mb: 2
           }}
         >
-          {description || 'Pogledajte našu ponudu.'}
+          {description || t('featuredProduct.fallbackDescription')}
         </Typography>
 
         {/* CTA / PRICE */}
@@ -159,10 +161,10 @@ export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
           }}
         >
           {product.priceOnRequest ? (
-            'Cena Na Upit'
+            t('featuredProduct.priceOnRequest')
           ) : (
             <>
-              RSD{' '}
+              {t('featuredProduct.currency')}{' '}
               {product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
               <Typography
                 component="span"

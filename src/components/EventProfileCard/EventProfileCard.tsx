@@ -19,12 +19,14 @@ import {
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { Copy, EditIcon, Trash } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { PopDelete } from '../PopDelete';
 
 export const EventProfileCard = ({ ...props }) => {
+  const { t } = useTranslation();
   const { mutate } = useDeleteEvent(props.event?._id);
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,10 +65,10 @@ export const EventProfileCard = ({ ...props }) => {
         <Chip
           label={
             props.event?.typeAction === 'cleaning'
-              ? 'Čišćenje'
+              ? t('eventProfileCard.type.cleaning')
               : props.event?.typeAction === 'selling'
-                ? 'Prodaja'
-                : 'Sadnja'
+                ? t('eventProfileCard.type.selling')
+                : t('eventProfileCard.type.planting')
           }
           color={
             props.event?.typeAction === 'cleaning'
@@ -165,10 +167,10 @@ export const EventProfileCard = ({ ...props }) => {
                     `https://www.zelenisvet.rs/event/${props.event?._id}`
                   )
                   .then(() => {
-                    toast.success('Kopiran link');
+                    toast.success(t('eventProfileCard.linkCopied'));
                   })
                   .catch(() => {
-                    alert('Neuspešno kopiranje linka');
+                    alert(t('eventProfileCard.linkCopyFailed'));
                   });
               }}
             >
@@ -177,10 +179,10 @@ export const EventProfileCard = ({ ...props }) => {
 
             <PopDelete
               key="delete"
-              title={'Brisanje aktivnosti'}
-              description={'Da li ste sigurni da želite da obrišete aktivnost?'}
-              okText={'Da'}
-              cancelText={'Ne'}
+              title={t('eventProfileCard.deleteTitle')}
+              description={t('eventProfileCard.deleteDescription')}
+              okText={t('eventProfileCard.yes')}
+              cancelText={t('eventProfileCard.no')}
               id={props.event?._id}
               mutate={mutate}
             >

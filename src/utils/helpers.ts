@@ -1,8 +1,14 @@
+import i18n from '@green-world/i18n';
 import dayjs, { Dayjs } from 'dayjs';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 
 import { homeCategories, subGroups } from './constants';
+
+const humanizeKey = (value: string) =>
+  value.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+
+const normalizeLanguage = (language: string) => language.split('-')[0];
 
 export const formatUrl = (url?: string) => {
   if (!url) return undefined;
@@ -12,20 +18,57 @@ export const formatUrl = (url?: string) => {
 };
 
 export const translateGroupToSr = (group: string): string => {
-  const category = homeCategories.find((cat) => cat.slug === group);
-  return category ? category.text : group;
+  return getLocalizedGroupLabel(group, 'sr');
+};
+
+export const getLocalizedGroupLabel = (
+  group: string,
+  language: string = i18n.language
+): string => {
+  const normalizedLanguage = normalizeLanguage(language);
+
+  if (normalizedLanguage === 'sr') {
+    const category = homeCategories.find((cat) => cat.slug === group);
+    return category ? category.text : group;
+  }
+
+  const translationKey = `catalog.groups.${group}`;
+  if (i18n.exists(translationKey, { lng: language })) {
+    return i18n.t(translationKey, { lng: language });
+  }
+
+  return humanizeKey(group);
 };
 
 export const translateSubGroupToSr = (
   group: keyof typeof subGroups | undefined,
   subGroup: string
 ): string => {
-  if (!group) return subGroup;
-  const subGroupList = subGroups[group];
-  if (!subGroupList) return subGroup;
+  return getLocalizedSubGroupLabel(group, subGroup, 'sr');
+};
 
-  const found = subGroupList.find((item) => item.label === subGroup);
-  return found ? found.sr_RS : subGroup;
+export const getLocalizedSubGroupLabel = (
+  group: keyof typeof subGroups | undefined,
+  subGroup: string,
+  language: string = i18n.language
+): string => {
+  const normalizedLanguage = normalizeLanguage(language);
+
+  if (normalizedLanguage === 'sr') {
+    if (!group) return subGroup;
+    const subGroupList = subGroups[group];
+    if (!subGroupList) return subGroup;
+
+    const found = subGroupList.find((item) => item.label === subGroup);
+    return found ? found.sr_RS : subGroup;
+  }
+
+  const translationKey = `catalog.subGroups.${subGroup}`;
+  if (i18n.exists(translationKey, { lng: language })) {
+    return i18n.t(translationKey, { lng: language });
+  }
+
+  return humanizeKey(subGroup);
 };
 
 export const goToDestination = (street = '', city = '', country = 'Srbija') => {
@@ -117,8 +160,7 @@ export const useDebounce = <T>(value: T, delay = 300) => {
 };
 
 export const getGroupLabel = (group: string): string => {
-  const item = homeCategories.filter((cat) => cat.slug === group)[0];
-  return item?.text ?? group;
+  return getLocalizedGroupLabel(group);
 };
 
 export const isLikelyJwt = (token?: string | null): token is string => {

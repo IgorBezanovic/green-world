@@ -13,6 +13,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@green-world/styles.css';
+import '@green-world/i18n';
 
 import '@fontsource/montserrat';
 import '@fontsource/ephesis';

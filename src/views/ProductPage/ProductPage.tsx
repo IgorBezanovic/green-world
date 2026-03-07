@@ -8,14 +8,13 @@ import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
-import { homeCategories } from '@green-world/utils/constants';
 import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   goToDestination,
-  safeDecodeToken,
-  translateGroupToSr,
-  translateSubGroupToSr
+  getLocalizedGroupLabel,
+  getLocalizedSubGroupLabel,
+  safeDecodeToken
 } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import {
@@ -45,6 +44,7 @@ import {
   CircleX
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 import {
@@ -54,6 +54,7 @@ import {
 } from './components';
 
 export const ProductPage = () => {
+  const { t, i18n } = useTranslation();
   const { productId } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -64,10 +65,8 @@ export const ProductPage = () => {
     productData?.createdBy || ''
   );
   const [idexOfImage, setIndexOfImage] = useState(0);
-  const { data: groupProducts, isLoading: groupProductsLoading } =
-    useProductsByGroup(productData?.group || '');
-  const { data: sellerProducts, isLoading: sellerProductsLoading } =
-    useAllUserProducts(productData?.createdBy);
+  const { data: groupProducts } = useProductsByGroup(productData?.group || '');
+  const { data: sellerProducts } = useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
   const token = getItem('token');
   const decodedToken = safeDecodeToken<DecodedToken>(token);
@@ -92,23 +91,27 @@ export const ProductPage = () => {
   const metaObj = useMemo(
     () => ({
       title: productData
-        ? ['Zeleni svet', productData.title, 'Proizvod']
+        ? ['Zeleni svet', productData.title, t('seo.product.label')]
             .filter(Boolean)
             .join(' | ')
-        : 'Zeleni svet | proizvod',
-      description: productData?.description || 'Proizvod Zeleni Svet',
+        : t('seo.product.fallbackTitle'),
+      description:
+        productData?.description || t('seo.product.fallbackDescription'),
       image:
         formatImageUrl(productData?.images[0] || '') ||
         'https://www.zelenisvet.rs/green-world.svg'
     }),
-    [productData]
+    [productData, t]
   );
   if (!productId) return <></>;
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Proizvodi', route: '/search' },
-    { label: productData?.title || 'Proizvod', route: `/product/${productId}` }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.products'), route: '/search' },
+    {
+      label: productData?.title || t('productPage.productFallback'),
+      route: `/product/${productId}`
+    }
   ];
 
   return (
@@ -345,16 +348,20 @@ export const ProductPage = () => {
                 <Typography variant="h1">{productData?.title}</Typography>
                 <Box sx={{ mt: 1, mb: 3, display: 'flex', gap: 1 }}>
                   <Chip
-                    label={translateGroupToSr(productData?.group || '')}
+                    label={getLocalizedGroupLabel(
+                      productData?.group || '',
+                      i18n.language
+                    )}
                     color="success"
                     sx={{
                       height: '24px'
                     }}
                   />
                   <Chip
-                    label={translateSubGroupToSr(
+                    label={getLocalizedSubGroupLabel(
                       productData?.group,
-                      productData?.subGroup || ''
+                      productData?.subGroup || '',
+                      i18n.language
                     )}
                     color="primary"
                     sx={{
@@ -368,7 +375,7 @@ export const ProductPage = () => {
                 <Box sx={{ display: 'flex', gap: 2, my: 5 }}>
                   <Typography variant="h2">
                     {productData?.priceOnRequest
-                      ? 'Cena Na Upit'
+                      ? t('productPage.priceOnRequest')
                       : `${productData?.price.toLocaleString()},00 RSD`}
                   </Typography>
                   <Typography
@@ -377,8 +384,8 @@ export const ProductPage = () => {
                   >
                     {productData?.onStock ? <Check /> : <CircleX />}{' '}
                     {productData?.onStock
-                      ? 'Na stanju'
-                      : 'Trenutno Nema Na Stanju'}
+                      ? t('productPage.inStock')
+                      : t('productPage.outOfStock')}
                   </Typography>
                 </Box>
                 <Box
@@ -395,19 +402,19 @@ export const ProductPage = () => {
                     variant="button"
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                   >
-                    <Users /> Direktan kontakt
+                    <Users /> {t('productPage.directContact')}
                   </Typography>
                   <Typography
                     variant="button"
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                   >
-                    <Receipt /> Bez provizije
+                    <Receipt /> {t('productPage.noCommission')}
                   </Typography>
                   <Typography
                     variant="button"
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                   >
-                    <ShieldUser /> Korisnička podrška
+                    <ShieldUser /> {t('productPage.userSupport')}
                   </Typography>
                 </Box>
                 <Divider sx={{ my: 4 }} />
@@ -463,7 +470,7 @@ export const ProductPage = () => {
                             {sellerData?.name} {sellerData?.lastname}
                           </Typography>
                           <Typography variant="button">
-                            Član od{' '}
+                            {t('productPage.memberSince')}{' '}
                             {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
                         </Box>
@@ -541,7 +548,7 @@ export const ProductPage = () => {
                           variant="contained"
                           onClick={() => navigate('/shop/' + sellerData?._id)}
                         >
-                          Profil
+                          {t('productPage.profile')}
                         </Button>
                         {!sellerData?.onlyOnline && (
                           <Button
@@ -555,7 +562,7 @@ export const ProductPage = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Navigacija
+                            {t('productPage.navigation')}
                           </Button>
                         )}
                       </Box>
@@ -573,9 +580,9 @@ export const ProductPage = () => {
                   <Tooltip
                     title={
                       !decodedToken?._id
-                        ? 'Morate biti prijavljeni da biste poslali poruku'
+                        ? t('productPage.mustLoginToMessage')
                         : decodedToken?._id === sellerData?._id
-                          ? 'Ne možete slati poruke sami sebi'
+                          ? t('productPage.cannotMessageSelf')
                           : ''
                     }
                     disableHoverListener={
@@ -594,14 +601,14 @@ export const ProductPage = () => {
                         }
                         title={
                           !decodedToken?._id
-                            ? 'Morate biti prijavljeni da biste poslali poruku'
+                            ? t('productPage.mustLoginToMessage')
                             : decodedToken?._id === sellerData?._id
-                              ? 'Ne možete slati poruke sami sebi'
+                              ? t('productPage.cannotMessageSelf')
                               : undefined
                         }
                         onClick={() => setOpenSendMessageDialog(true)}
                       >
-                        Pošalji poruku
+                        {t('productPage.sendMessage')}
                       </Button>
                     </span>
                   </Tooltip>
@@ -610,7 +617,7 @@ export const ProductPage = () => {
                     color="secondary"
                     onClick={() => navigate(`/order-product/${productId}`)}
                   >
-                    Poruči proizvod
+                    {t('productPage.orderProduct')}
                   </Button>
                 </Box>
               </Box>
@@ -636,14 +643,17 @@ export const ProductPage = () => {
           </Box>
         )}
         <ProductSection
-          title="Svi proizvodi prodavca"
+          title={t('productPage.allSellerProducts')}
           products={sellerProducts}
-          isLoading={sellerProductsLoading}
         />
         <ProductSection
-          title={`Proizvodi iz grupe ${homeCategories.find((category) => category.slug === productData?.group)?.text}`}
+          title={t('productPage.productsFromGroup', {
+            group: getLocalizedGroupLabel(
+              productData?.group || '',
+              i18n.language
+            )
+          })}
           products={groupProducts}
-          isLoading={groupProductsLoading}
         />
       </Box>
       <FullImageDialog

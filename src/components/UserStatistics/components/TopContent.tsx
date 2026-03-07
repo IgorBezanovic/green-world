@@ -1,6 +1,7 @@
 import { formatUrl, getGroupLabel } from '@green-world/utils/helpers';
 import { User } from '@green-world/utils/types';
 import { Avatar, Box, Card, Divider, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 type RenterItemProps = {
   item:
@@ -11,6 +12,8 @@ type RenterItemProps = {
 };
 
 export const TopContent = ({ user }: { user: User }) => {
+  const { t } = useTranslation();
+
   const renderItem = ({ item, typeLabel }: RenterItemProps) => (
     <Box key={item.id}>
       <Stack direction="row" spacing={1.5} alignItems="center">
@@ -49,14 +52,14 @@ export const TopContent = ({ user }: { user: User }) => {
       }}
     >
       <Typography variant="h4" mb={2}>
-        Najgledaniji sadržaj
+        {t('topContent.title')}
       </Typography>
 
       {/* MOST VISITED PRODUCT GROUP */}
       {user.statistics.mostVisitedProductGroup && (
         <Box mb={3}>
           <Typography variant="h5" color="text.secondary" mb={0.5}>
-            Najposećenija grupa proizvoda
+            {t('topContent.mostVisitedProductGroup')}
           </Typography>
           <Typography variant="h5">
             {getGroupLabel(user.statistics.mostVisitedProductGroup)}
@@ -84,7 +87,7 @@ export const TopContent = ({ user }: { user: User }) => {
           }}
         >
           <Typography variant="h5" color="text.secondary" mb={1}>
-            Top proizvod
+            {t('topContent.topProduct')}
           </Typography>
 
           <Stack direction="row" spacing={1.5} alignItems="center">
@@ -117,11 +120,11 @@ export const TopContent = ({ user }: { user: User }) => {
       {/* PRODUCTS */}
       <Box mb={3}>
         <Typography variant="h5" mb={1}>
-          Proizvodi
+          {t('topContent.products')}
         </Typography>
         <Stack spacing={1.5}>
           {user.statistics.products?.map((item) =>
-            renderItem({ item, typeLabel: 'Proizvod' })
+            renderItem({ item, typeLabel: t('topContent.product') })
           )}
         </Stack>
       </Box>
@@ -129,11 +132,11 @@ export const TopContent = ({ user }: { user: User }) => {
       {/* BLOGS */}
       <Box mb={3}>
         <Typography variant="h5" mb={1}>
-          Blogovi
+          {t('topContent.blogs')}
         </Typography>
         <Stack spacing={1.5}>
           {user.statistics.blogs?.map((item) =>
-            renderItem({ item, typeLabel: 'Blog' })
+            renderItem({ item, typeLabel: t('topContent.blog') })
           )}
         </Stack>
       </Box>
@@ -141,11 +144,11 @@ export const TopContent = ({ user }: { user: User }) => {
       {/* ACTIONS */}
       <Box>
         <Typography variant="h5" mb={1}>
-          Aktivnosti
+          {t('topContent.activities')}
         </Typography>
         <Stack spacing={1.5}>
           {user.statistics.actions?.map((item) =>
-            renderItem({ item, typeLabel: 'Aktivnost' })
+            renderItem({ item, typeLabel: t('topContent.activity') })
           )}
         </Stack>
       </Box>

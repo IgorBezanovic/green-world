@@ -9,11 +9,13 @@ import {
   ListItemText
 } from '@mui/material';
 import { ChartNoAxesCombined } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate } from 'react-router';
 
 const drawerWidth = 220;
 
 export const AdminPanel = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -26,7 +28,11 @@ export const AdminPanel = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Admin Panel'} />
+      <MetaTags
+        title={t('seo.adminPanel.title')}
+        description={t('seo.adminPanel.description')}
+        keywords={t('seo.adminPanel.keywords')}
+      />
       {/* Drawer meni */}
       <Drawer
         variant="permanent"

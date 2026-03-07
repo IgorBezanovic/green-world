@@ -2,23 +2,15 @@ import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { Product } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';
 
-import { GridProducts, HomeCarousel, LazySection } from '../../components';
+import { GridProducts, LazySection } from '../../components';
 
 type SectionProps = {
   title: string;
   subTitle?: string;
   products?: Product[] | ProductPreview[] | undefined;
-  isLoading: boolean;
-  isGridDisplay?: boolean;
 };
 
-export const ProductSection = ({
-  title,
-  subTitle,
-  products,
-  isLoading,
-  isGridDisplay
-}: SectionProps) => {
+export const ProductSection = ({ title, subTitle, products }: SectionProps) => {
   if (!products || products.length === 0) return null;
 
   return (
@@ -52,11 +44,7 @@ export const ProductSection = ({
           {subTitle}
         </Typography>
       </Box>
-      {isGridDisplay ? (
-        products.length && <GridProducts products={products} />
-      ) : (
-        <HomeCarousel products={products} isLoading={isLoading} />
-      )}
+      <GridProducts products={products} />
     </LazySection>
   );
 };

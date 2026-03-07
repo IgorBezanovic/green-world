@@ -10,8 +10,10 @@ import {
 } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const GoogleAnalytics = () => {
+  const { t } = useTranslation();
   const { data, isLoading } = useGA();
   const [activeUsersData, setActiveUsersData] = useState<
     { label: string; value: number }[]
@@ -37,7 +39,10 @@ export const GoogleAnalytics = () => {
   const setData = () => {
     // Active Users chart data
     setActiveUsersData([
-      { label: 'Active Sessions', value: data?.charts?.activeUsers || 0 }
+      {
+        label: t('googleAnalytics.activeSessions'),
+        value: data?.charts?.activeUsers || 0
+      }
     ]);
 
     // Bounce Rate
@@ -94,13 +99,15 @@ export const GoogleAnalytics = () => {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Google Analytics Overview (Last 30 days)
+        {t('googleAnalytics.overviewLast30Days')}
       </Typography>
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
         {/* Active Users */}
         <Paper sx={{ p: 2, flex: '1 1 300px', minWidth: 300 }}>
-          <Typography variant="h6">Active Sessions</Typography>
+          <Typography variant="h6">
+            {t('googleAnalytics.activeSessions')}
+          </Typography>
           <BarChart
             dataset={activeUsersData}
             xAxis={[{ scaleType: 'band', dataKey: 'label' }]}
@@ -122,7 +129,7 @@ export const GoogleAnalytics = () => {
           }}
         >
           <Typography variant="h6" gutterBottom>
-            Bounce Rate
+            {t('googleAnalytics.bounceRate')}
           </Typography>
           <Box sx={{ position: 'relative', display: 'inline-flex', mt: 2 }}>
             <CircularProgress
@@ -150,15 +157,13 @@ export const GoogleAnalytics = () => {
             </Box>
           </Box>
           <Typography variant="caption" sx={{ mt: 2, textAlign: 'center' }}>
-            Bounce Rate predstavlja procenat posetilaca koji su napustili sajt
-            nakon posete samo jedne stranice, bez interakcije sa drugim
-            sadržajem. Podaci dolaze iz Google Analytics-a.
+            {t('googleAnalytics.bounceRateDescription')}
           </Typography>
         </Paper>
 
         {/* Top Pages */}
         <Paper sx={{ p: 2, flex: '2 1 600px', minWidth: 300 }}>
-          <Typography variant="h6">Top Pages (Sessions & PageViews)</Typography>
+          <Typography variant="h6">{t('googleAnalytics.topPages')}</Typography>
           <Box sx={{ maxHeight: 300, overflowY: 'auto', mt: 2 }}>
             {pagesData?.slice(0, 10).map((page) => (
               <Box
@@ -174,7 +179,10 @@ export const GoogleAnalytics = () => {
               >
                 <Typography>{page.page}</Typography>
                 <Typography>
-                  {page.sessions} sessions / {page.pageViews} views
+                  {t('googleAnalytics.sessionsViews', {
+                    sessions: page.sessions,
+                    views: page.pageViews
+                  })}
                 </Typography>
               </Box>
             ))}
@@ -184,7 +192,7 @@ export const GoogleAnalytics = () => {
         {/* Demographics */}
         <Paper sx={{ p: 2, flex: '1 1 300px', minWidth: 300 }}>
           <Typography variant="h6" gutterBottom>
-            Demographics
+            {t('googleAnalytics.demographics')}
           </Typography>
 
           <FormControl fullWidth size="small" sx={{ mb: 2 }}>
@@ -194,8 +202,10 @@ export const GoogleAnalytics = () => {
                 handleDemographicChange(e.target.value as 'country' | 'city')
               }
             >
-              <MenuItem value="country">Country</MenuItem>
-              <MenuItem value="city">City</MenuItem>
+              <MenuItem value="country">
+                {t('googleAnalytics.country')}
+              </MenuItem>
+              <MenuItem value="city">{t('googleAnalytics.city')}</MenuItem>
             </Select>
           </FormControl>
 

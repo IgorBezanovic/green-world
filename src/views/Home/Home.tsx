@@ -10,10 +10,12 @@ import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Button, Typography } from '@mui/material';
 import { Skeleton } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 export const Home = () => {
-  const { data, isLoading, isFetching } = useHomeProducts();
+  const { t } = useTranslation();
+  const { data, isFetching } = useHomeProducts();
   const navigate = useNavigate();
 
   return (
@@ -24,7 +26,11 @@ export const Home = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Green world | Web Shop'} />
+      <MetaTags
+        title={t('seo.home.title')}
+        description={t('seo.home.description')}
+        keywords={t('seo.home.keywords')}
+      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -46,7 +52,7 @@ export const Home = () => {
         <Box
           component="img"
           src={ZSBannerRs}
-          alt="Zeleni svet banner"
+          alt={t('home.bannerAlt')}
           loading="eager"
           decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
@@ -75,13 +81,13 @@ export const Home = () => {
               fontFamily: 'Ephesis'
             })}
           >
-            Najnoviji Proizvodi
+            {t('home.latestProductsTitle')}
           </Typography>
           <Typography
             variant="body1"
             sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
           >
-            Najnoviji proizvodi naših partnera
+            {t('home.latestProductsSubtitle')}
           </Typography>
         </div>
         <Skeleton loading={isFetching} active paragraph={{ rows: 4 }}>
@@ -91,7 +97,7 @@ export const Home = () => {
         </Skeleton>
         <LazySection>
           <Button
-            variant="outlined"
+            variant="contained"
             size="large"
             sx={{
               textTransform: 'uppercase',
@@ -100,7 +106,7 @@ export const Home = () => {
             }}
             onClick={() => navigate('/search')}
           >
-            Pretraži sve proizvode
+            {t('home.searchAllProducts')}
           </Button>
         </LazySection>
         <div className="text-center my-6 md:my-8">
@@ -115,13 +121,13 @@ export const Home = () => {
               fontFamily: 'Ephesis'
             })}
           >
-            Kategorije Proizvoda
+            {t('home.categoriesTitle')}
           </Typography>
           <Typography
             variant="body1"
             sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
           >
-            Pronađite sve što vam je potrebno za savršenu baštu i dom
+            {t('home.categoriesSubtitle')}
           </Typography>
         </div>
         <Box
@@ -147,74 +153,59 @@ export const Home = () => {
         </Box>
         <LazySection>
           <Button
-            variant="outlined"
+            variant="contained"
             size="large"
             sx={{
               textTransform: 'uppercase',
               padding: 2,
-              marginY: 2
+              marginTop: 6,
+              marginBottom: 1
             }}
             onClick={() => navigate('/search')}
           >
-            Pretraži sve proizvode
+            {t('home.searchAllProducts')}
           </Button>
         </LazySection>
         {/* <FeaturedShopsBanner /> */}
         <ProductSection
-          title="Cvetni asortiman"
-          subTitle="Raznovrsno cveće za sve prilike i idealan poklon."
+          title={t('catalog.groups.flower_assortment')}
+          subTitle={t('home.sectionSubtitles.flower_assortment')}
           products={data?.flower_assortment}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Sukulenti"
-          subTitle="Niske potrebe za negom, idealni za kuću i kancelariju."
+          title={t('catalog.groups.succulents')}
+          subTitle={t('home.sectionSubtitles.succulents')}
           products={data?.succulents}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Saksijsko cveće"
-          subTitle="Lepo uređenje doma sa dugotrajnim cvećem u saksijama."
+          title={t('catalog.groups.potted_flowers')}
+          subTitle={t('home.sectionSubtitles.potted_flowers')}
           products={data?.potted_flowers}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Sadnice"
-          subTitle="Mladi biljni izdanci za sadnju u bašti ili vrtu."
+          title={t('catalog.groups.seedlings')}
+          subTitle={t('home.sectionSubtitles.seedlings')}
           products={data?.seedlings}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Voće i povrće"
-          subTitle="Sveže i kvalitetno voće i povrće za vašu baštu."
+          title={t('catalog.groups.fruits_and_vegetables')}
+          subTitle={t('home.sectionSubtitles.fruits_and_vegetables')}
           products={data?.fruits_and_vegetables}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Biljna apoteka"
-          subTitle="Lekovi, preparati, dohrana i zaštita za sve vrste biljaka."
+          title={t('catalog.groups.herbal_pharmacy')}
+          subTitle={t('home.sectionSubtitles.herbal_pharmacy')}
           products={data?.herbal_pharmacy}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Baštenska dekoracija"
-          subTitle="Unesite šarm i stil u baštu sa dekorativnim elementima."
+          title={t('catalog.groups.garden_decoration')}
+          subTitle={t('home.sectionSubtitles.garden_decoration')}
           products={data?.garden_decoration}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
         <ProductSection
-          title="Sve za Biljke"
-          subTitle="Sve što vam treba za negu i održavanje biljaka."
+          title={t('catalog.groups.everything_for_plants')}
+          subTitle={t('home.sectionSubtitles.everything_for_plants')}
           products={data?.everything_for_plants}
-          isLoading={isLoading}
-          isGridDisplay={true}
         />
       </Box>
     </Box>

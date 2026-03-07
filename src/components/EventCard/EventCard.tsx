@@ -14,6 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 interface EventCardProps {
@@ -22,6 +23,7 @@ interface EventCardProps {
 
 export const EventCard = ({ event }: EventCardProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -97,10 +99,10 @@ export const EventCard = ({ event }: EventCardProps) => {
               <Chip
                 label={
                   typeAction === 'cleaning'
-                    ? 'Čišćenje'
+                    ? t('eventCard.type.cleaning')
                     : typeAction === 'selling'
-                      ? 'Prodaja'
-                      : 'Sadnja'
+                      ? t('eventCard.type.selling')
+                      : t('eventCard.type.planting')
                 }
                 color={
                   typeAction === 'cleaning'
@@ -201,7 +203,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           <img
             src="https://res.cloudinary.com/dijofqxeu/image/upload/v1750070602/qjj5peqvwjdrqonnop7n.png
 "
-            alt="Završeno"
+            alt={t('eventCard.finished')}
             style={{
               maxWidth: '80%',
               maxHeight: '80%',

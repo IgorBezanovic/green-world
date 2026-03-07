@@ -1,7 +1,9 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { Crown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const FeaturedShopsBanner = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -60,7 +62,7 @@ export const FeaturedShopsBanner = () => {
           mb: 1
         }}
       >
-        Istaknite svoju prodavnicu
+        {t('featuredShopsBanner.title')}
       </Typography>
 
       <Typography
@@ -71,8 +73,7 @@ export const FeaturedShopsBanner = () => {
           lineHeight: 1.6
         }}
       >
-        Premium pozicija na početnoj strani donosi veću vidljivost, više poseta
-        i jači brend.
+        {t('featuredShopsBanner.description')}
       </Typography>
 
       <Button
@@ -99,7 +100,7 @@ export const FeaturedShopsBanner = () => {
           }
         }}
       >
-        Promoviši prodavnicu
+        {t('featuredShopsBanner.cta')}
       </Button>
 
       {/* WATERMARK */}

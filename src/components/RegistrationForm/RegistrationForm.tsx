@@ -15,8 +15,10 @@ import {
   OutlinedInput
 } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const RegistrationForm = ({ ...props }) => {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [registrationData, setRegistrationData] = useState<RegistrationValues>({
     email: '',
@@ -56,14 +58,13 @@ export const RegistrationForm = ({ ...props }) => {
         }}
       >
         <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-          <strong>Registrujte se brzo, lako i jednostavno!</strong>
+          <strong>{t('registrationForm.title')}</strong>
         </Typography>
         <Typography variant="body1" sx={{ mb: 1 }}>
-          Nakon registracije idite na svoj profil i popunite svoje dodatne
-          podatke.
+          {t('registrationForm.description1')}
         </Typography>
         <Typography variant="body1" sx={{ mb: 1 }}>
-          Na taj način će drugi korisnici lakše kotaktirati sa Vama.
+          {t('registrationForm.description2')}
         </Typography>
       </Box>
 
@@ -79,7 +80,7 @@ export const RegistrationForm = ({ ...props }) => {
           id="mail"
           name="email"
           type="email"
-          placeholder="Unesite e-mail"
+          placeholder={t('registrationForm.emailPlaceholder')}
           value={registrationData.email}
           onChange={(e) =>
             setRegistrationData({ ...registrationData, email: e.target.value })
@@ -103,7 +104,7 @@ export const RegistrationForm = ({ ...props }) => {
           id="password"
           name="password"
           type={showPassword ? 'text' : 'password'}
-          placeholder="Unesite password"
+          placeholder={t('registrationForm.passwordPlaceholder')}
           value={registrationData.password}
           onChange={(e) =>
             setRegistrationData({
@@ -148,7 +149,7 @@ export const RegistrationForm = ({ ...props }) => {
           {props.isLoading ? (
             <CircularProgress size={20} color="inherit" />
           ) : (
-            'Registruj se'
+            t('registrationForm.submit')
           )}
         </Button>
 

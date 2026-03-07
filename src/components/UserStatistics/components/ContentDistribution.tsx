@@ -1,6 +1,7 @@
 import { User } from '@green-world/utils/types';
 import { Box, Stack, Typography } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
+import { useTranslation } from 'react-i18next';
 
 const LegendItem = ({ label, value }: { label: string; value: number }) => (
   <Stack spacing={0.5} alignItems="center">
@@ -14,6 +15,7 @@ const LegendItem = ({ label, value }: { label: string; value: number }) => (
 );
 
 export const ContentDistribution = ({ user }: { user: User }) => {
+  const { t } = useTranslation();
   const { contentDistribution } = user.statistics;
 
   return (
@@ -29,13 +31,11 @@ export const ContentDistribution = ({ user }: { user: User }) => {
       }}
     >
       <Typography fontWeight={600} mb={0.5}>
-        Distribucija sadržaja
+        {t('contentDistribution.title')}
       </Typography>
 
       <Typography variant="body2" color="text.secondary" mb={2}>
-        Prikaz kako je vaš sadržaj raspoređen na platformi. Balansirana
-        distribucija proizvoda, aktivnosti i blogova povećava vidljivost,
-        angažman korisnika i šanse za prodaju.
+        {t('contentDistribution.description')}
       </Typography>
 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -46,17 +46,17 @@ export const ContentDistribution = ({ user }: { user: User }) => {
                 {
                   id: 0,
                   value: contentDistribution.products,
-                  label: 'Proizvodi'
+                  label: t('contentDistribution.products')
                 },
                 {
                   id: 1,
                   value: contentDistribution.actions,
-                  label: 'Aktivnosti'
+                  label: t('contentDistribution.activities')
                 },
                 {
                   id: 2,
                   value: contentDistribution.blogs,
-                  label: 'Blogovi'
+                  label: t('contentDistribution.blogs')
                 }
               ],
               innerRadius: 50,
@@ -70,9 +70,18 @@ export const ContentDistribution = ({ user }: { user: User }) => {
       </Box>
 
       <Stack direction="row" justifyContent="center" mt={2} px={1} spacing={2}>
-        <LegendItem label="Proizvodi" value={contentDistribution.products} />
-        <LegendItem label="Aktivnosti" value={contentDistribution.actions} />
-        <LegendItem label="Blogovi" value={contentDistribution.blogs} />
+        <LegendItem
+          label={t('contentDistribution.products')}
+          value={contentDistribution.products}
+        />
+        <LegendItem
+          label={t('contentDistribution.activities')}
+          value={contentDistribution.actions}
+        />
+        <LegendItem
+          label={t('contentDistribution.blogs')}
+          value={contentDistribution.blogs}
+        />
       </Stack>
     </Box>
   );

@@ -17,6 +17,7 @@ import {
 import Tooltip from '@mui/material/Tooltip';
 import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -36,6 +37,7 @@ export const ProductCard = ({
   isPromotedView = false,
   promotedPeriod = false
 }: ProductCardProps) => {
+  const { t } = useTranslation();
   const { mutate } = useDeleteProduct(product?._id);
   const { mutate: editProduct, isPending: isStockUpdating } = useEditProduct(
     product?._id
@@ -161,10 +163,10 @@ export const ProductCard = ({
             <Box sx={{ flexGrow: 1 }} />
             <Typography variant="h5">
               {product.priceOnRequest ? (
-                'Cena Na Upit'
+                t('productCard.priceOnRequest')
               ) : (
                 <>
-                  RSD{' '}
+                  {t('productCard.currency')}{' '}
                   {product.price
                     ?.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
@@ -233,14 +235,22 @@ export const ProductCard = ({
                       });
                     }}
                   >
-                    {isPromotionExpired ? 'Obnovi' : 'Promoviši'}
+                    {isPromotionExpired
+                      ? t('productCard.renew')
+                      : t('productCard.promote')}
                   </Button>
                   {promotedPeriod && (
                     <Typography
                       variant="body2"
                       sx={{ fontWeight: 500, color: 'grey.600' }}
                     >
-                      Aktivno još {daysLeft} {daysLeft === 1 ? 'dan' : 'dana'}
+                      {t('productCard.activeFor', {
+                        days: daysLeft,
+                        dayLabel:
+                          daysLeft === 1
+                            ? t('productCard.day')
+                            : t('productCard.days')
+                      })}
                     </Typography>
                   )}
                 </Box>
@@ -257,11 +267,13 @@ export const ProductCard = ({
                 }}
               >
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   sx={{ width: 'auto' }}
                   color={product?.onStock ? 'success.main' : 'warning.main'}
                 >
-                  {product?.onStock ? 'Na stanju' : 'Nije na stanju'}
+                  {product?.onStock
+                    ? t('productCard.inStock')
+                    : t('productCard.outOfStock')}
                 </Typography>
                 <Switch
                   size="small"
@@ -284,7 +296,7 @@ export const ProductCard = ({
               >
                 <IconButton
                   aria-label="Edit Product"
-                  title="Edit proizvoda"
+                  title={t('productCard.editProductTitle')}
                   onClick={() => navigate(`/edit-product/${product._id}`)}
                 >
                   <EditIcon style={{ strokeWidth: '2px' }} />
@@ -292,30 +304,32 @@ export const ProductCard = ({
 
                 <IconButton
                   aria-label="Share Product"
-                  title="Kopiraj link proizvoda"
+                  title={t('productCard.copyProductLinkTitle')}
                   onClick={() => {
                     navigator.clipboard
                       .writeText(
                         `https://www.zelenisvet.rs/product/${product._id}`
                       )
-                      .then(() => toast.success('Kopiran link'))
-                      .catch(() => toast.error('Neuspešno kopiranje linka'));
+                      .then(() => toast.success(t('productCard.linkCopied')))
+                      .catch(() =>
+                        toast.error(t('productCard.linkCopyFailed'))
+                      );
                   }}
                 >
                   <Copy style={{ strokeWidth: '2px' }} />
                 </IconButton>
 
                 <PopDelete
-                  title="Brisanje proizvoda"
-                  description="Da li ste sigurni da želite da obrišete proizvod?"
-                  okText="Da"
-                  cancelText="Ne"
+                  title={t('productCard.deleteTitle')}
+                  description={t('productCard.deleteDescription')}
+                  okText={t('productCard.yes')}
+                  cancelText={t('productCard.no')}
                   id={product._id}
                   mutate={mutate}
                 >
                   <IconButton
                     aria-label="Delete Product"
-                    title="Obriši proizvod"
+                    title={t('productCard.deleteProductTitle')}
                   >
                     <Trash style={{ strokeWidth: '2px' }} />
                   </IconButton>

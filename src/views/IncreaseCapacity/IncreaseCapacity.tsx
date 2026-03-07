@@ -10,6 +10,7 @@ import {
   HandCoins
 } from 'lucide-react';
 import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   CAPACITY_PACKAGES,
@@ -23,6 +24,7 @@ const pages = [
 ];
 
 export const IncreaseCapacity = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { user } = useContext(UserContext);
   const [selectedPackageId, setSelectedPackageId] = useState<string>(
@@ -45,8 +47,9 @@ export const IncreaseCapacity = () => {
       }}
     >
       <MetaTags
-        title="Povećaj kapacitet Shopa | Zeleni svet"
-        description="Proširite kapacitet vaše prodavnice za više proizvoda. Izaberite broj mesta i platite."
+        title={t('seo.increaseCapacity.title')}
+        description={t('seo.increaseCapacity.description')}
+        keywords={t('seo.increaseCapacity.keywords')}
       />
       <Box
         sx={(theme) => ({

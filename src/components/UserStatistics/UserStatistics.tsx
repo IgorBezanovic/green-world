@@ -2,6 +2,7 @@ import UserContext from '@green-world/context/UserContext';
 import { Box, Stack } from '@mui/material';
 import { Activity, Eye, Mail, Notebook, Package, Sparkles } from 'lucide-react';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { PromotionCard } from '../PromotionCard';
 import { StatCard } from '../StatCard';
@@ -13,6 +14,7 @@ import {
 } from './components';
 
 export const UserStatistics = () => {
+  const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const { engagementScore } = user.statistics;
 
@@ -43,26 +45,32 @@ export const UserStatistics = () => {
         <StatCard
           icon={Eye}
           value={totalViews}
-          title="Ukupno pregleda"
-          subtitle="Svi pregledi sadržaja"
+          title={t('userStatistics.totalViewsTitle')}
+          subtitle={t('userStatistics.totalViewsSubtitle')}
         />
         <StatCard
           icon={Package}
           value={user.numberOfProducts}
-          title="Dodati proizvodi"
-          subtitle={`${user.statistics.totalViews.products} pregleda`}
+          title={t('userStatistics.addedProductsTitle')}
+          subtitle={t('userStatistics.viewsCount', {
+            count: user.statistics.totalViews.products
+          })}
         />
         <StatCard
           icon={Activity}
           value={user.numberOfActions}
-          title="Kreirane aktivnosti"
-          subtitle={`${user.statistics.totalViews.actions} pregleda`}
+          title={t('userStatistics.createdActivitiesTitle')}
+          subtitle={t('userStatistics.viewsCount', {
+            count: user.statistics.totalViews.actions
+          })}
         />
         <StatCard
           icon={Notebook}
           value={user.numberOfBlogs}
-          title="Objavljeni blogovi"
-          subtitle={`${user.statistics.totalViews.blogs} pregleda`}
+          title={t('userStatistics.publishedBlogsTitle')}
+          subtitle={t('userStatistics.viewsCount', {
+            count: user.statistics.totalViews.blogs
+          })}
         />
       </Box>
       {/* VIEWS PER ITEM*/}
@@ -83,8 +91,10 @@ export const UserStatistics = () => {
         <Box sx={{ flexGrow: 1 }}>
           <PromotionCard
             icon={Sparkles}
-            title="Engagement score"
-            description={`Vaš trenutni engagement score je ${engagementScore}. Ovaj skor odražava koliko su vaši proizvodi, aktivnosti i blogovi angažovani od strane korisnika. Viši skor ukazuje na bolju vidljivost i interakciju sa vašim sadržajem.`}
+            title={t('userStatistics.engagementTitle')}
+            description={t('userStatistics.engagementDescription', {
+              score: engagementScore
+            })}
             badgeLabel={`${engagementScore}`}
             variant="success"
           />
@@ -93,8 +103,10 @@ export const UserStatistics = () => {
       {/* ORDERS BY EMAIL */}
       <PromotionCard
         icon={Mail}
-        title="Porudžbine putem e-maila"
-        description={`Broj porudžbina koje ste primili putem e-maila iznosi ${user.statistics.numberOfOrdersByEmail}.`}
+        title={t('userStatistics.ordersByEmailTitle')}
+        description={t('userStatistics.ordersByEmailDescription', {
+          count: user.statistics.numberOfOrdersByEmail
+        })}
         badgeLabel={`${user.statistics.numberOfOrdersByEmail}`}
         variant="success"
       />

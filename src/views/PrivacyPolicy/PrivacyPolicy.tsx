@@ -1,7 +1,9 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const PrivacyPolicy = () => {
+  const { t } = useTranslation();
   const pages = [
     { label: 'Početna', route: '/' },
     { label: 'Politika privatnosti', route: '/privacy-policy' }
@@ -15,7 +17,11 @@ export const PrivacyPolicy = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Politika Privatnosti | Green World'} />
+      <MetaTags
+        title={t('seo.privacyPolicy.title')}
+        description={t('seo.privacyPolicy.description')}
+        keywords={t('seo.privacyPolicy.keywords')}
+      />
 
       <Box
         sx={(theme) => ({

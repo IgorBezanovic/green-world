@@ -31,6 +31,7 @@ import {
   MessageCircleQuestion
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   BUNDLES,
@@ -44,6 +45,7 @@ const pages = [
 ];
 
 export const PromoBundle = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { data: userProducts = [], isLoading: productsLoading } =
@@ -63,8 +65,9 @@ export const PromoBundle = () => {
       }}
     >
       <MetaTags
-        title="Promotivni Paketi | Zeleni svet"
-        description="Ekskluzivni promotivni paketi sa kombinacijom promocije proizvoda, prodavnice i povećanja kapaciteta. Povoljnije cene od pojedinačnih promocija."
+        title={t('seo.promoBundle.title')}
+        description={t('seo.promoBundle.description')}
+        keywords={t('seo.promoBundle.keywords')}
       />
       <Box
         sx={(theme) => ({

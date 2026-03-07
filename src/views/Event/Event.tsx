@@ -24,25 +24,27 @@ import {
   Divider
 } from '@mui/material';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
 export const Event = () => {
+  const { t } = useTranslation();
   const { eventId } = useParams();
   const { data: eventData } = useEvent(eventId!);
 
   const metaObj = useMemo(
     () => ({
       title: eventData
-        ? ['Zeleni svet', 'Dogadjaj', eventData.title]
+        ? ['Zeleni svet', t('seo.event.label'), eventData.title]
             .filter(Boolean)
             .join(' | ')
-        : 'Zeleni svet | Dogadjaj',
-      description: eventData?.description || 'Dogadjaj | Zeleni Svet',
+        : t('seo.event.fallbackTitle'),
+      description: eventData?.description || t('seo.event.fallbackDescription'),
       image:
         formatImageUrl(eventData?.coverImage, 85) ||
         'https://www.zelenisvet.rs/green-world.svg'
     }),
-    [eventData]
+    [eventData, t]
   );
 
   if (!eventId || !eventData) return null;

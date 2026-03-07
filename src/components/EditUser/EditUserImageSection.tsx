@@ -5,11 +5,13 @@ import { formatImageUrl } from '@green-world/utils/helpers';
 import { Avatar, Box, Button, Stack } from '@mui/material';
 import { Camera, ScanQrCode, Store } from 'lucide-react';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { CustomQRCode, ImageDropzone, SectionHeader } from './components';
 
 export const EditUserImageSection = () => {
+  const { t } = useTranslation();
   const { user, isLoading } = useContext(UserContext);
   const { mutate, isPending: isLoadingUser } = useEditUser();
   const { mutate: imageMutate, isPending: isImageLoadingUser } = useImage(true);
@@ -22,7 +24,7 @@ export const EditUserImageSection = () => {
     formData.append('file', file);
 
     imageMutate(formData);
-    toast.success('Uspešno ste dodali novu sliku.');
+    toast.success(t('editUserImageSection.imageUploaded'));
   };
 
   const handleSave = () => mutate(user);
@@ -42,8 +44,8 @@ export const EditUserImageSection = () => {
       >
         <SectionHeader
           icon={Camera}
-          title="Profilna fotografija"
-          description="Fotografija koja se prikazuje kao Vaša profilna slika"
+          title={t('editUserImageSection.profilePhotoTitle')}
+          description={t('editUserImageSection.profilePhotoDescription')}
         />
 
         <Stack
@@ -83,7 +85,7 @@ export const EditUserImageSection = () => {
               onClick={handleSave}
               disabled={isLoading || isImageLoadingUser || isLoadingUser}
             >
-              Sačuvaj novu profilnu sliku
+              {t('editUserImageSection.saveNewProfilePhoto')}
             </Button>
           </Stack>
         </Stack>
@@ -108,8 +110,8 @@ export const EditUserImageSection = () => {
         >
           <SectionHeader
             icon={ScanQrCode}
-            title="Link ka vašem website-u"
-            description="QR kod Vašeg website-a koji ste ostavili u opisu prodavnice"
+            title={t('editUserImageSection.websiteQrTitle')}
+            description={t('editUserImageSection.websiteQrDescription')}
             bgColor="rgba(255, 153, 51, 0.08)"
             iconColor="warning.main"
           />
@@ -130,8 +132,8 @@ export const EditUserImageSection = () => {
         >
           <SectionHeader
             icon={Store}
-            title="Zeleni Svet prodavnica"
-            description="QR kod sa linkom do Vaše prodavnice na Zelenom Svetu"
+            title={t('editUserImageSection.shopQrTitle')}
+            description={t('editUserImageSection.shopQrDescription')}
             iconColor="success.main"
           />
 

@@ -2,6 +2,7 @@ import { CommentItem } from '@green-world/components';
 import { Comment } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const CommentList = ({
   comments,
@@ -13,6 +14,8 @@ export const CommentList = ({
     parentComment?: string | null
   ) => Promise<void> | void;
 }) => {
+  const { t } = useTranslation();
+
   const grouped = useMemo(() => {
     const parents = comments.filter((c) => !c.parentComment);
     const map = new Map<string, Comment[]>();
@@ -28,12 +31,12 @@ export const CommentList = ({
   return (
     <Box sx={{ p: 2 }}>
       <Typography variant="h6" component="h3" sx={{ fontWeight: 600, mb: 1.5 }}>
-        Komentari ({comments.length})
+        {t('commentList.title', { count: comments.length })}
       </Typography>
 
       {grouped.parents.length === 0 ? (
         <Typography sx={{ color: 'text.secondary' }}>
-          Nema još komentara.
+          {t('commentList.empty')}
         </Typography>
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

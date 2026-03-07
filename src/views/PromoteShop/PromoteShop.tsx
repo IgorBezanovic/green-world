@@ -9,6 +9,7 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   SHOP_PACKAGES,
@@ -22,6 +23,7 @@ const pages = [
 ];
 
 export const PromoteShop = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const [selectedPackageId, setSelectedPackageId] = useState<string>(
@@ -43,8 +45,9 @@ export const PromoteShop = () => {
       }}
     >
       <MetaTags
-        title="Promocija prodavnice | Zeleni svet"
-        description="Istaknite svoju prodavnicu na vrhu pretrage. Izaberite broj dana i platite. 50 RSD po danu."
+        title={t('seo.promoteShop.title')}
+        description={t('seo.promoteShop.description')}
+        keywords={t('seo.promoteShop.keywords')}
       />
       <Box
         sx={(theme) => ({

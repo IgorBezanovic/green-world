@@ -2,18 +2,20 @@ import { formatImageUrl } from '@green-world/utils/helpers';
 import type { User } from '@green-world/utils/types';
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import { Crown, Package, Star, Store } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 export const FeaturedShopHero = ({ shop }: { shop: User }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
-  const title = shop?.shopName || shop?.name || 'Prodavnica';
+  const title = shop?.shopName || shop?.name || t('featuredShopHero.shop');
   const bckgImage =
     shop?.coverImage || shop?.profileImage
       ? formatImageUrl(shop.coverImage || shop.profileImage)
       : '/ozelenimo-svet-transparent.png';
   const description =
-    shop?.shopDescription || 'Pogledajte ponudu ove premium prodavnice.';
+    shop?.shopDescription || t('featuredShopHero.fallbackDescription');
 
   return (
     <Box
@@ -89,7 +91,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
       >
         <Chip
           icon={<Crown style={{ color: 'white' }} />}
-          label="Premium prodavnica"
+          label={t('featuredShopHero.premiumShop')}
           sx={{
             mb: 2,
             fontWeight: 700,
@@ -153,7 +155,9 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
             >
               <Package size={18} />
               <Typography fontWeight={600}>
-                {shop?.numberOfProducts} proizvoda
+                {t('featuredShopHero.productsCount', {
+                  count: shop?.numberOfProducts
+                })}
               </Typography>
             </Box>
           )}
@@ -207,7 +211,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
           }
         }}
       >
-        Poseti prodavnicu
+        {t('featuredShopHero.visitShop')}
       </Button>
 
       {/* RIGHT WATERMARK */}

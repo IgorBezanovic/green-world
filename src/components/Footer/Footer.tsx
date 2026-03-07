@@ -1,10 +1,12 @@
 import { SocialMedia } from '@green-world/components';
+import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import { getItem } from '@green-world/utils/cookie';
 import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Box, Typography, TextField, Button } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 export const Footer = () => {
@@ -12,6 +14,7 @@ export const Footer = () => {
   const navigate = useNavigate();
   const token = getItem('token');
   const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -64,14 +67,14 @@ export const Footer = () => {
               variant="body1"
               sx={{ color: 'white' }}
             >
-              Prijavi se da primaš novosti i informacije:
+              {t('footer.newsletterLabel')}
             </Typography>
             <TextField
               type="email"
               name="email"
               id="email"
-              placeholder="Unesite email"
-              aria-label="Email za prijavu na novosti"
+              placeholder={t('footer.newsletterPlaceholder')}
+              aria-label={t('footer.newsletterAriaLabel')}
               autoComplete="email"
               size="small"
               sx={{ mt: 1 }}
@@ -103,14 +106,18 @@ export const Footer = () => {
               color="info"
               sx={{ mt: 2 }}
             >
-              Prijavi se
+              {t('footer.newsletterButton')}
             </Button>
           </Box>
         </Box>
 
         {/* Brzi linkovi */}
-        <Box component="nav" aria-label="Brzi linkovi" sx={{ color: 'white' }}>
-          <Typography variant="body1">Brzi linkovi:</Typography>
+        <Box
+          component="nav"
+          aria-label={t('footer.quickLinks')}
+          sx={{ color: 'white' }}
+        >
+          <Typography variant="body1">{t('footer.quickLinks')}</Typography>
           <Box
             component="ul"
             sx={{
@@ -134,7 +141,7 @@ export const Footer = () => {
                 }}
                 onClick={() => navigate('/contact-us')}
               >
-                Kontakt
+                {t('footer.contact')}
               </Typography>
             </Box>
             <Box component="li">
@@ -146,7 +153,7 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 sx={{ color: 'inherit', textDecoration: 'underline' }}
               >
-                O Nama
+                {t('footer.aboutUs')}
               </Typography>
             </Box>
             <Box component="li">
@@ -160,7 +167,7 @@ export const Footer = () => {
                 }}
                 onClick={() => navigate('/search')}
               >
-                Proizvodi
+                {t('footer.products')}
               </Typography>
             </Box>
             <Box component="li">
@@ -176,7 +183,7 @@ export const Footer = () => {
                   navigate(decodedToken?._id ? '/profile' : '/login')
                 }
               >
-                {decodedToken?._id ? 'Profil' : 'Prijavi Se'}
+                {decodedToken?._id ? t('footer.profile') : t('footer.login')}
               </Typography>
             </Box>
           </Box>
@@ -184,12 +191,12 @@ export const Footer = () => {
 
         {/* Korisnička podrška */}
         <Box sx={{ color: 'white' }}>
-          <Typography variant="body1">Nudimo korisničku podršku:</Typography>
+          <Typography variant="body1">{t('footer.supportTitle')}</Typography>
           <Box component="ul" sx={{ mt: 1 }}>
             {[
-              'Kreiranje radnje',
-              'Kreiranje oglasa',
-              'Kreiranje aktivnosti'
+              t('footer.supportCreateShop'),
+              t('footer.supportCreateAd'),
+              t('footer.supportCreateActivity')
             ].map((text) => (
               <Box
                 component="li"
@@ -208,7 +215,7 @@ export const Footer = () => {
         {/* Kontakt info / promocija */}
         <Box sx={{ color: 'white' }}>
           <Typography component="h2" variant="h5">
-            Želite da istaknete svoj oglas/radnju na početnoj strani?
+            {t('footer.promoTitle')}
           </Typography>
           <Typography
             component="a"
@@ -217,10 +224,13 @@ export const Footer = () => {
           >
             info@zelenisvet.rs
           </Typography>
+          <Box sx={{ mt: 2 }}>
+            <LanguageSwitcher color="white" />
+          </Box>
           <Box
             component="img"
             src="https://res.cloudinary.com/dijofqxeu/image/upload/v1745438146/uqdzbq3113jypz6ercok.png"
-            alt="Gardener illustration"
+            alt={t('footer.gardenerIllustrationAlt')}
             loading="lazy"
             sx={{
               position: 'absolute',

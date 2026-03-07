@@ -19,13 +19,18 @@ import {
   InputBase,
   Button,
   useTheme,
-  Alert
+  Alert,
+  Typography,
+  Card,
+  IconButton
 } from '@mui/material';
-import { Search } from 'lucide-react';
+import { Edit2Icon, Search } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 export const UserProfile = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
@@ -106,16 +111,22 @@ export const UserProfile = () => {
   const metaObj = useMemo(
     () => ({
       title: user
-        ? ['Zeleni svet', 'Korisnicki profil', user.shopName, user.name]
+        ? [
+            'Zeleni svet',
+            t('breadcrumbs.userProfile'),
+            user.shopName,
+            user.name
+          ]
             .filter(Boolean)
             .join(' | ')
-        : 'Zeleni svet | Korisnicki profil',
-      description: user?.shopDescription || 'Korisnicki profil Zeleni Svet',
+        : t('seo.userProfile.fallbackTitle'),
+      description:
+        user?.shopDescription || t('seo.userProfile.fallbackDescription'),
       image:
         formatImageUrl(user?.profileImage) ||
         'https://www.zelenisvet.rs/green-world.svg'
     }),
-    [user]
+    [user, t]
   );
 
   return (
@@ -194,6 +205,52 @@ export const UserProfile = () => {
           <Button variant="contained" onClick={() => navigate('/write-post')}>
             Napiši blog post
           </Button>
+          {/* WORKING TIME */}
+          {user?.workingTime && (
+            <Card sx={{ p: 2 }}>
+              <Box>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Typography fontWeight={600} mb={2}>
+                    {t('shopPage.workingHours')}
+                  </Typography>
+                  <IconButton
+                    onClick={() =>
+                      navigate('/profile-settings/edit-profile#working-hours')
+                    }
+                  >
+                    <Edit2Icon />
+                  </IconButton>
+                </Box>
+
+                {Object.entries(user.workingTime).map(([day, value]) => (
+                  <Box
+                    key={day}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      py: 0.6
+                    }}
+                  >
+                    <Typography sx={{ textTransform: 'capitalize' }}>
+                      {t(`editUserData.days.${day}`, { defaultValue: day })}
+                    </Typography>
+
+                    <Typography color="text.secondary">
+                      {value.isClosed
+                        ? t('shopPage.closed')
+                        : `${value.open} - ${value.close}`}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Card>
+          )}
         </Box>
 
         <Box

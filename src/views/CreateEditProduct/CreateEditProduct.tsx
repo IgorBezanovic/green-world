@@ -8,7 +8,11 @@ import {
   groupItemsCreateProduct,
   subGroups
 } from '@green-world/utils/constants';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatImageUrl,
+  getLocalizedSubGroupLabel,
+  getLocalizedGroupLabel
+} from '@green-world/utils/helpers';
 import { Product, SubGroup, SubGroupKeys } from '@green-world/utils/types';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import {
@@ -34,6 +38,7 @@ import {
 } from '@mui/material';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ReactQuill from 'react-quill-new';
 import { useParams } from 'react-router';
 
@@ -62,6 +67,7 @@ const initProduct: Product = {
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
 
 export const CreateEditProduct = () => {
+  const { t, i18n } = useTranslation();
   const { productId = '' } = useParams();
   const { data = initProduct, isLoading } = useProduct(productId);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -272,18 +278,22 @@ export const CreateEditProduct = () => {
       });
 
       if (!res.ok) {
-        const { error } = await res.json().catch(() => ({ error: 'Greška' }));
-        throw new Error(error || 'Greška pri generisanju opisa.');
+        const { error } = await res
+          .json()
+          .catch(() => ({ error: t('createEditProduct.ai.genericError') }));
+        throw new Error(error || t('createEditProduct.ai.generationError'));
       }
 
       const { descriptionHtml } = await res.json();
       handleRichTextDescription(descriptionHtml);
       setAiSnackbarSeverity('success');
-      setAiSnackbarMessage('AI opis generisan ✅');
+      setAiSnackbarMessage(t('createEditProduct.ai.generated'));
       setAiSnackbarOpen(true);
     } catch (e: any) {
       setAiSnackbarSeverity('error');
-      setAiSnackbarMessage(e?.message || 'Nije uspelo generisanje opisa.');
+      setAiSnackbarMessage(
+        e?.message || t('createEditProduct.ai.generationFailed')
+      );
       setAiSnackbarOpen(true);
     } finally {
       setIsAiLoading(false);
@@ -305,12 +315,20 @@ export const CreateEditProduct = () => {
     );
   }
 
-  const pageTitle = `Zeleni svet | ${productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}`;
+  const pageTitle = `Zeleni svet | ${
+    productId
+      ? t('createEditProduct.pageTitleEdit')
+      : t('createEditProduct.pageTitleCreate')
+  }`;
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Korisnički profil', route: '/profile' },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.userProfile'), route: '/profile' },
     {
-      label: `${productId ? 'Ažuriraj' : 'Kreiraj'} proizvod`,
+      label: `${
+        productId
+          ? t('createEditProduct.actionUpdate')
+          : t('createEditProduct.actionCreate')
+      } ${t('createEditProduct.product')}`,
       route: `/${productId ? 'edit' : 'create'}-product`
     }
   ];
@@ -353,7 +371,9 @@ export const CreateEditProduct = () => {
             lineHeight: 1
           }}
         >
-          {productId ? 'Azuziraj proizvod' : 'Kreiraj proizvod'}
+          {productId
+            ? t('createEditProduct.headingEdit')
+            : t('createEditProduct.headingCreate')}
         </Typography>
         <Box
           component="form"
@@ -370,7 +390,7 @@ export const CreateEditProduct = () => {
         >
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="group" component="label" sx={labelSx}>
-              Odaberite pripadajuću grupu:
+              {t('createEditProduct.selectGroupLabel')}
             </Typography>
             <FormControl fullWidth>
               <Select
@@ -381,11 +401,16 @@ export const CreateEditProduct = () => {
                 sx={outlinedSelectSx}
               >
                 <MenuItem value="" disabled>
-                  Odaberi grupu proizvoda
+                  {t('createEditProduct.selectGroupPlaceholder')}
                 </MenuItem>
                 {groupItemsCreateProduct.map((item) => (
                   <MenuItem key={item.key} value={item.key}>
-                    {item.label}
+                    {t(item.labelKey, {
+                      defaultValue: getLocalizedGroupLabel(
+                        item.key,
+                        i18n.language
+                      )
+                    })}
                   </MenuItem>
                 ))}
               </Select>
@@ -395,7 +420,7 @@ export const CreateEditProduct = () => {
               component="label"
               sx={{ ...labelSx, mt: 1 }}
             >
-              Odaberite pripadajuću podgrupu:
+              {t('createEditProduct.selectSubGroupLabel')}
             </Typography>
             <FormControl fullWidth sx={{ mb: 2 }}>
               <Select
@@ -406,13 +431,17 @@ export const CreateEditProduct = () => {
                 sx={outlinedSelectSx}
               >
                 <MenuItem value="" disabled>
-                  Odaberi podgrupu proizvoda
+                  {t('createEditProduct.selectSubGroupPlaceholder')}
                 </MenuItem>
                 {subGroups[
                   (product.group as SubGroupKeys) || 'flower_assortment'
                 ]!.map((item: SubGroup) => (
                   <MenuItem key={item?.label} value={item?.label}>
-                    {item?.sr_RS}
+                    {getLocalizedSubGroupLabel(
+                      product.group as SubGroupKeys,
+                      item.label,
+                      i18n.language
+                    )}
                   </MenuItem>
                 ))}
               </Select>
@@ -424,7 +453,7 @@ export const CreateEditProduct = () => {
               component="label"
               sx={{ ...labelSx, mt: 1 }}
             >
-              Dodajte fotografije proizvoda:
+              {t('createEditProduct.addPhotosLabel')}
             </Typography>
             {Boolean(product?.images.length) && (
               <Box
@@ -466,7 +495,7 @@ export const CreateEditProduct = () => {
                         zIndex: 2
                       }}
                       onClick={() => handleDeleteImage(index)}
-                      titleAccess="Obrisi sliku"
+                      titleAccess={t('createEditProduct.deleteImage')}
                     />
 
                     <Box
@@ -494,7 +523,7 @@ export const CreateEditProduct = () => {
                           textTransform: 'none'
                         }}
                       >
-                        Profilna
+                        {t('createEditProduct.setAsProfile')}
                       </Button>
                     )}
                   </Box>
@@ -530,8 +559,8 @@ export const CreateEditProduct = () => {
               })}
             >
               {product?.images?.length >= 10
-                ? 'Maksimalno 10 slika'
-                : 'Dodaj sliku proizvoda'}
+                ? t('createEditProduct.maxImages')
+                : t('createEditProduct.addImageButton')}
               <Box
                 component="input"
                 type="file"
@@ -548,16 +577,24 @@ export const CreateEditProduct = () => {
               <AlertTitle>Informacije o dodavanju fotografija</AlertTitle>
               <List sx={{ pl: 3, listStyleType: 'disc' }}>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Idealna razmera za fotografije 1/1 square." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.ratio')}
+                  />
                 </ListItem>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Prva slika u nizu je profilna." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.firstIsProfile')}
+                  />
                 </ListItem>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Maksimum 10 fotografija." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.maxPhotos')}
+                  />
                 </ListItem>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Jedna fotografija maximum 10MB." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.maxSize')}
+                  />
                 </ListItem>
               </List>
             </Alert>
@@ -565,14 +602,14 @@ export const CreateEditProduct = () => {
 
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="title" component="label" sx={labelSx}>
-              Naziv proizvoda:
+              {t('createEditProduct.productNameLabel')}
             </Typography>
             <OutlinedInput
               required
               type="text"
               name="title"
               id="title"
-              placeholder="Unesite naziv proizvoda"
+              placeholder={t('createEditProduct.productNamePlaceholder')}
               value={product?.title || ''}
               onChange={handleChange}
               fullWidth
@@ -582,15 +619,13 @@ export const CreateEditProduct = () => {
 
             <Card sx={{ p: 2, borderColor: 'divider' }}>
               <Typography variant="h4" color="secondary">
-                AI generisanje opisa proizvoda:
+                {t('createEditProduct.ai.title')}
               </Typography>
               <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
-                Uslovi za AI generisanje deskripcije: dodata minimum jedna
-                fotografija, popunjen naziv proizvoda i dodato minimum 2, a
-                maximum 10 ključnih reci
+                {t('createEditProduct.ai.conditions')}
               </Typography>
               <Typography component="label" sx={{ ...labelSx, mt: 1 }}>
-                Ključne fraze za generisanje (min 2 / max 10):
+                {t('createEditProduct.ai.keywordsLabel')}
               </Typography>
               <Autocomplete
                 multiple
@@ -608,7 +643,7 @@ export const CreateEditProduct = () => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    placeholder="Dodaj ključne fraze (ENTER ili ,)"
+                    placeholder={t('createEditProduct.ai.keywordsPlaceholder')}
                   />
                 )}
                 sx={{
@@ -622,8 +657,7 @@ export const CreateEditProduct = () => {
                 variant="caption"
                 sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 1 }}
               >
-                Koristi pojmove iz baštovanstva: npr. saksija, supstrat,
-                đubrivo, fikus, zalivanje…
+                {t('createEditProduct.ai.hint')}
               </Typography>
             </Card>
 
@@ -646,7 +680,7 @@ export const CreateEditProduct = () => {
                 component="label"
                 sx={{ ...labelSx, mb: 0 }}
               >
-                Opis proizvoda:
+                {t('createEditProduct.descriptionLabel')}
               </Typography>
               <AiButton
                 isAiLoading={isAiLoading}
@@ -694,20 +728,20 @@ export const CreateEditProduct = () => {
               component="label"
               sx={labelSx}
             >
-              Kratak opis proizvoda:{' '}
+              {t('createEditProduct.shortDescriptionLabel')}{' '}
               <Typography
                 component="span"
                 variant="caption"
                 sx={{ color: 'text.secondary', fontStyle: 'italic' }}
               >
-                max 80 karaktera
+                {t('createEditProduct.max80')}
               </Typography>
             </Typography>
             <OutlinedInput
               name="shortDescription"
               id="shortDescription"
               inputProps={{ maxLength: 80 }}
-              placeholder="Unesite kratak opis proizvoda"
+              placeholder={t('createEditProduct.shortDescriptionPlaceholder')}
               value={product?.shortDescription || ''}
               onChange={handleChange}
               fullWidth
@@ -718,25 +752,24 @@ export const CreateEditProduct = () => {
               variant="caption"
               sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}
             >
-              Opis se prikazuje na početnoj stranici
+              {t('createEditProduct.shortDescriptionHint')}
             </Typography>
 
             <Typography htmlFor="price" component="label" sx={labelSx}>
-              Cena proizvoda:
+              {t('createEditProduct.priceLabel')}
             </Typography>
             <Typography
               variant="caption"
               sx={{ mb: 1, color: 'text.secondary', fontStyle: 'italic' }}
             >
-              Cenu proizvoda unesite bez tacki i zareza, na nama je da
-              formatiramo. e.g. 1490 - 1.490,00 RSD
+              {t('createEditProduct.priceHint')}
             </Typography>
             <OutlinedInput
               required
               type="text"
               name="price"
               id="price"
-              placeholder="Unesite cenu proizvoda"
+              placeholder={t('createEditProduct.pricePlaceholder')}
               value={product?.price || ''}
               onChange={handleChange}
               disabled={product?.priceOnRequest}
@@ -755,18 +788,19 @@ export const CreateEditProduct = () => {
                 component="label"
                 sx={{ color: 'secondary.main', fontSize: '1rem' }}
               >
-                Cena: <strong>Na upit</strong>
+                {t('createEditProduct.priceOnRequestLabel')}{' '}
+                <strong>{t('createEditProduct.priceOnRequest')}</strong>
               </Typography>
             </Box>
 
             <Typography htmlFor="height" component="label" sx={labelSx}>
-              Visina proizvoda:
+              {t('createEditProduct.heightLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="height"
               id="height"
-              placeholder="Unesite visinu proizvoda"
+              placeholder={t('createEditProduct.heightPlaceholder')}
               value={product?.height || ''}
               onChange={handleChange}
               fullWidth
@@ -774,13 +808,13 @@ export const CreateEditProduct = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="width" component="label" sx={labelSx}>
-              Sirina proizvoda:
+              {t('createEditProduct.widthLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="width"
               id="width"
-              placeholder="Unesite sirinu proizvoda"
+              placeholder={t('createEditProduct.widthPlaceholder')}
               value={product?.width || ''}
               onChange={handleChange}
               fullWidth
@@ -788,13 +822,13 @@ export const CreateEditProduct = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="weight" component="label" sx={labelSx}>
-              Tezina proizvoda:
+              {t('createEditProduct.weightLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="weight"
               id="weight"
-              placeholder="Unesite tezinu proizvoda"
+              placeholder={t('createEditProduct.weightPlaceholder')}
               value={product?.weight || ''}
               onChange={handleChange}
               fullWidth
@@ -802,13 +836,13 @@ export const CreateEditProduct = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="milliliters" component="label" sx={labelSx}>
-              Koliko millilitara:
+              {t('createEditProduct.millilitersLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="milliliters"
               id="milliliters"
-              placeholder="Unesite Mililitre"
+              placeholder={t('createEditProduct.millilitersPlaceholder')}
               value={product?.milliliters || ''}
               onChange={handleChange}
               fullWidth
@@ -834,9 +868,9 @@ export const CreateEditProduct = () => {
                   sx={{ color: 'primary.main', my: 1 }}
                 />
               ) : productId ? (
-                'Azuriraj proizvod'
+                t('createEditProduct.submitUpdate')
               ) : (
-                'Kreiraj proizvod'
+                t('createEditProduct.submitCreate')
               )}
             </Button>
           </Box>
@@ -854,7 +888,7 @@ export const CreateEditProduct = () => {
           variant="filled"
           sx={{ width: '100%' }}
         >
-          Maksimalna veličina fajla je 10MB!
+          {t('createEditProduct.maxFileSizeError')}
         </Alert>
       </Snackbar>
       <Snackbar

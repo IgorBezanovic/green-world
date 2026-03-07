@@ -24,8 +24,10 @@ import {
   Users
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const ContactUs = () => {
+  const { t } = useTranslation();
   const { mutate, isPending } = useContactUs();
 
   const [contactForm, setContactForm] = useState({
@@ -82,7 +84,11 @@ ${contactForm.message}`;
 
   return (
     <Box sx={{ bgcolor: 'background.default' }}>
-      <MetaTags title="Zeleni svet | Kontaktirajte nas" />
+      <MetaTags
+        title={t('seo.contactUs.title')}
+        description={t('seo.contactUs.description')}
+        keywords={t('seo.contactUs.keywords')}
+      />
 
       {/* HERO */}
       <Box

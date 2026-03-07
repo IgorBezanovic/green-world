@@ -1,5 +1,6 @@
 import UserContext from '@green-world/context/UserContext';
 import { useEditUser } from '@green-world/hooks/useEditUser';
+import { WorkingTime } from '@green-world/utils/types';
 import {
   Box,
   Button,
@@ -23,10 +24,12 @@ import {
   Hash,
   Building2,
   Flag,
-  Laptop
+  Laptop,
+  Clock3
 } from 'lucide-react';
-import { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 
 import { SectionHeader } from './components';
 
@@ -86,9 +89,37 @@ const DataInput = ({ icon: Icon, ...props }: any) => (
 );
 
 export const EditUserData = () => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const workingHoursRef = useRef<HTMLDivElement | null>(null);
   const { user, setUser, isLoading } = useContext(UserContext);
   const { mutate, isPending: isLoadingUser } = useEditUser();
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+
+  const workingDays: Array<{ key: keyof WorkingTime; label: string }> = [
+    { key: 'monday', label: t('editUserData.days.monday') },
+    { key: 'tuesday', label: t('editUserData.days.tuesday') },
+    { key: 'wednesday', label: t('editUserData.days.wednesday') },
+    { key: 'thursday', label: t('editUserData.days.thursday') },
+    { key: 'friday', label: t('editUserData.days.friday') },
+    { key: 'saturday', label: t('editUserData.days.saturday') },
+    { key: 'sunday', label: t('editUserData.days.sunday') }
+  ];
+
+  const defaultWorkingTimeValue = {
+    open: '08:00',
+    close: '16:00',
+    isClosed: false
+  };
+
+  useEffect(() => {
+    if (location.hash === '#working-hours') {
+      workingHoursRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, [location.hash]);
 
   type SocialMediaKeys = 'instagram' | 'facebook' | 'tiktok' | 'linkedin';
 
@@ -118,7 +149,7 @@ export const EditUserData = () => {
   const validateSocialMedia = (name: string, value: string) => {
     if (!value) return '';
     if (!socialMediaRegex[name as keyof typeof socialMediaRegex].test(value)) {
-      return `Unesite validan ${name} URL.`;
+      return t('editUserData.validUrl', { name });
     }
     return '';
   };
@@ -128,7 +159,6 @@ export const EditUserData = () => {
 
     mutate(user);
     setErrors({});
-    toast.success('Uspešno ste editovali profil.');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,6 +174,25 @@ export const EditUserData = () => {
     });
   };
 
+  const handleWorkingTimeChange = (
+    day: keyof WorkingTime,
+    field: 'open' | 'close' | 'isClosed',
+    value: string | boolean
+  ) => {
+    const existingDay = user?.workingTime?.[day] || defaultWorkingTimeValue;
+
+    setUser({
+      ...user,
+      workingTime: {
+        ...user.workingTime,
+        [day]: {
+          ...existingDay,
+          [field]: value
+        }
+      }
+    });
+  };
+
   if (isLoading) return <CircularProgress />;
 
   return (
@@ -152,8 +201,8 @@ export const EditUserData = () => {
       <Card>
         <SectionHeader
           icon={User}
-          title="Osnovni podaci"
-          description="Vaši poslovni i kontakt podaci"
+          title={t('editUserData.basicInfo.title')}
+          description={t('editUserData.basicInfo.description')}
         />
 
         <TwoColRow>
@@ -163,10 +212,10 @@ export const EditUserData = () => {
               name="shopName"
               label={
                 user?.shopName
-                  ? 'Naziv vašeg biznisa / shop-a / usluge'
+                  ? t('editUserData.basicInfo.shopName')
                   : undefined
               }
-              placeholder="Naziv vašeg biznisa / shop-a / usluge"
+              placeholder={t('editUserData.basicInfo.shopName')}
               value={user?.shopName || ''}
               onChange={handleChange}
             />
@@ -176,8 +225,12 @@ export const EditUserData = () => {
               icon={Mail}
               value={user?.email || ''}
               disabled
-              label={user?.email ? 'Kontakt email adresa' : undefined}
-              placeholder="Kontakt email adresa"
+              label={
+                user?.email
+                  ? t('editUserData.basicInfo.contactEmail')
+                  : undefined
+              }
+              placeholder={t('editUserData.basicInfo.contactEmail')}
             />
           </Box>
         </TwoColRow>
@@ -187,8 +240,10 @@ export const EditUserData = () => {
             <DataInput
               icon={User}
               name="name"
-              label={user?.name ? 'Ime vlasnika / kontakt osobe' : undefined}
-              placeholder="Ime vlasnika / kontakt osobe"
+              label={
+                user?.name ? t('editUserData.basicInfo.firstName') : undefined
+              }
+              placeholder={t('editUserData.basicInfo.firstName')}
               value={user?.name || ''}
               onChange={handleChange}
             />
@@ -198,9 +253,11 @@ export const EditUserData = () => {
               icon={User}
               name="lastname"
               label={
-                user?.lastname ? 'Prezime vlasnika / kontakt osobe' : undefined
+                user?.lastname
+                  ? t('editUserData.basicInfo.lastName')
+                  : undefined
               }
-              placeholder="Prezime vlasnika / kontakt osobe"
+              placeholder={t('editUserData.basicInfo.lastName')}
               value={user?.lastname || ''}
               onChange={handleChange}
             />
@@ -212,8 +269,12 @@ export const EditUserData = () => {
             <DataInput
               icon={Phone}
               name="phone"
-              label={user?.phone ? 'Kontakt telefon' : undefined}
-              placeholder="Kontakt telefon"
+              label={
+                user?.phone
+                  ? t('editUserData.basicInfo.contactPhone')
+                  : undefined
+              }
+              placeholder={t('editUserData.basicInfo.contactPhone')}
               value={user?.phone || ''}
               onChange={handleChange}
             />
@@ -238,10 +299,10 @@ export const EditUserData = () => {
             name="shopDescription"
             value={user?.shopDescription || ''}
             onChange={handleChange}
-            placeholder="Opis Vašeg biznisa, usluga i proizvoda"
+            placeholder={t('editUserData.basicInfo.descriptionField')}
             label={
               user?.shopDescription
-                ? 'Opis Vašeg biznisa, usluga i proizvoda'
+                ? t('editUserData.basicInfo.descriptionField')
                 : undefined
             }
             sx={{
@@ -266,8 +327,8 @@ export const EditUserData = () => {
       <Card>
         <SectionHeader
           icon={Globe}
-          title="Društvene mreže"
-          description="Povežite Vaše profile na društvenim mrežama"
+          title={t('editUserData.social.title')}
+          description={t('editUserData.social.description')}
           bgColor="rgba(255, 153, 51, 0.08)"
           iconColor="warning.main"
         />
@@ -278,7 +339,9 @@ export const EditUserData = () => {
               icon={Instagram}
               value={user?.socialMedia?.instagram || ''}
               label={
-                user?.socialMedia?.instagram ? 'Instagram link' : undefined
+                user?.socialMedia?.instagram
+                  ? t('editUserData.social.instagram')
+                  : undefined
               }
               error={errors.instagram}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -292,14 +355,18 @@ export const EditUserData = () => {
                   }));
               }}
               onBlur={() => handleBlurSocialMedia('instagram')}
-              placeholder="Instagram link"
+              placeholder={t('editUserData.social.instagram')}
             />
           </Box>
           <Box sx={{ flex: 1 }}>
             <DataInput
               icon={Facebook}
               value={user?.socialMedia?.facebook || ''}
-              label={user?.socialMedia?.facebook ? 'Facebook link' : undefined}
+              label={
+                user?.socialMedia?.facebook
+                  ? t('editUserData.social.facebook')
+                  : undefined
+              }
               error={errors.facebook}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 (clearError('facebook'),
@@ -312,7 +379,7 @@ export const EditUserData = () => {
                   }));
               }}
               onBlur={() => handleBlurSocialMedia('facebook')}
-              placeholder="Facebook link"
+              placeholder={t('editUserData.social.facebook')}
             />
           </Box>
         </TwoColRow>
@@ -322,7 +389,11 @@ export const EditUserData = () => {
             <DataInput
               icon={Music2}
               value={user?.socialMedia?.tiktok || ''}
-              label={user?.socialMedia?.tiktok ? 'TikTok link' : undefined}
+              label={
+                user?.socialMedia?.tiktok
+                  ? t('editUserData.social.tiktok')
+                  : undefined
+              }
               error={errors.tiktok}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 (clearError('tiktok'),
@@ -335,14 +406,18 @@ export const EditUserData = () => {
                   }));
               }}
               onBlur={() => handleBlurSocialMedia('tiktok')}
-              placeholder="TikTok link"
+              placeholder={t('editUserData.social.tiktok')}
             />
           </Box>
           <Box sx={{ flex: 1 }}>
             <DataInput
               icon={Linkedin}
               value={user?.socialMedia?.linkedin || ''}
-              label={user?.socialMedia?.linkedin ? 'LinkedIn link' : undefined}
+              label={
+                user?.socialMedia?.linkedin
+                  ? t('editUserData.social.linkedin')
+                  : undefined
+              }
               error={errors.linkedin}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 (clearError('linkedin'),
@@ -355,7 +430,7 @@ export const EditUserData = () => {
                   }));
               }}
               onBlur={() => handleBlurSocialMedia('linkedin')}
-              placeholder="LinkedIn link"
+              placeholder={t('editUserData.social.linkedin')}
             />
           </Box>
         </TwoColRow>
@@ -365,8 +440,8 @@ export const EditUserData = () => {
       <Card>
         <SectionHeader
           icon={MapPin}
-          title="Lokacija"
-          description="Ukoliko imate fizičku radnju / poslovnicu, unesite Vašu adresu"
+          title={t('editUserData.location.title')}
+          description={t('editUserData.location.description')}
         />
 
         <TwoColRow>
@@ -376,8 +451,12 @@ export const EditUserData = () => {
               name="zipCode"
               disabled={user?.onlyOnline}
               value={user?.address?.zipCode || ''}
-              label={user?.address?.zipCode ? 'Poštanski broj' : undefined}
-              placeholder="Poštanski broj"
+              label={
+                user?.address?.zipCode
+                  ? t('editUserData.location.zipCode')
+                  : undefined
+              }
+              placeholder={t('editUserData.location.zipCode')}
               onChange={handleAddressChange}
             />
           </Box>
@@ -388,8 +467,12 @@ export const EditUserData = () => {
               disabled={user?.onlyOnline}
               value={user?.address?.city || ''}
               onChange={handleAddressChange}
-              placeholder="Grad"
-              label={user?.address?.city ? 'Grad' : undefined}
+              placeholder={t('editUserData.location.city')}
+              label={
+                user?.address?.city
+                  ? t('editUserData.location.city')
+                  : undefined
+              }
             />
           </Box>
         </TwoColRow>
@@ -402,8 +485,12 @@ export const EditUserData = () => {
               disabled={user?.onlyOnline}
               value={user?.address?.street || ''}
               onChange={handleAddressChange}
-              placeholder="Ulica"
-              label={user?.address?.street ? 'Ulica' : undefined}
+              placeholder={t('editUserData.location.street')}
+              label={
+                user?.address?.street
+                  ? t('editUserData.location.street')
+                  : undefined
+              }
             />
           </Box>
           <Box sx={{ flex: 1 }}>
@@ -413,8 +500,12 @@ export const EditUserData = () => {
               disabled={user?.onlyOnline}
               value={user?.address?.country || ''}
               onChange={handleAddressChange}
-              placeholder="Država"
-              label={user?.address?.country ? 'Država' : undefined}
+              placeholder={t('editUserData.location.country')}
+              label={
+                user?.address?.country
+                  ? t('editUserData.location.country')
+                  : undefined
+              }
             />
           </Box>
         </TwoColRow>
@@ -424,8 +515,8 @@ export const EditUserData = () => {
       <Card>
         <SectionHeader
           icon={Laptop}
-          title="Podešavanja rada"
-          description="Ukoliko radite online ili isključivo preko ovog sajta ćekirajte opcije ispod"
+          title={t('editUserData.settings.title')}
+          description={t('editUserData.settings.description')}
           bgColor="rgba(255, 153, 51, 0.08)"
           iconColor="warning.main"
         />
@@ -443,9 +534,11 @@ export const EditUserData = () => {
             }}
           >
             <Box>
-              <Typography fontWeight={600}>Radite samo online?</Typography>
+              <Typography fontWeight={600}>
+                {t('editUserData.settings.onlineOnlyTitle')}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
-                Vaše usluge su dostupne samo putem interneta
+                {t('editUserData.settings.onlineOnlyDescription')}
               </Typography>
             </Box>
             <Switch
@@ -469,10 +562,10 @@ export const EditUserData = () => {
           >
             <Box>
               <Typography fontWeight={600}>
-                Poslujete samo preko ovog sajta?
+                {t('editUserData.settings.onlyOnSiteTitle')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Kontakt isključivo preko Zeleni Svet platforme
+                {t('editUserData.settings.onlyOnSiteDescription')}
               </Typography>
             </Box>
             <Switch
@@ -485,6 +578,85 @@ export const EditUserData = () => {
         </TwoColRow>
       </Card>
 
+      {/* ================= WORKING HOURS ================= */}
+      <Card>
+        <Box id="working-hours" ref={workingHoursRef} />
+        <SectionHeader
+          icon={Clock3}
+          title={t('editUserData.workingHours.title')}
+          description={t('editUserData.workingHours.description')}
+        />
+
+        <Box sx={{ px: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {workingDays.map(({ key, label }) => {
+            const dayData = user?.workingTime?.[key] || defaultWorkingTimeValue;
+
+            return (
+              <Box
+                key={key}
+                sx={(theme) => ({
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: 2,
+                  p: 2,
+                  borderRadius: 2,
+                  border: '1px solid rgba(0,0,0,0.05)',
+                  [theme.breakpoints.up('md')]: {
+                    gridTemplateColumns: '180px 1fr 1fr auto',
+                    alignItems: 'center'
+                  }
+                })}
+              >
+                <Typography fontWeight={600}>{label}</Typography>
+
+                <TextField
+                  type="time"
+                  label={t('editUserData.workingHours.opens')}
+                  disabled={dayData.isClosed}
+                  value={dayData.open || ''}
+                  onChange={(e) =>
+                    handleWorkingTimeChange(key, 'open', e.target.value)
+                  }
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                />
+
+                <TextField
+                  type="time"
+                  label={t('editUserData.workingHours.closes')}
+                  disabled={dayData.isClosed}
+                  value={dayData.close || ''}
+                  onChange={(e) =>
+                    handleWorkingTimeChange(key, 'close', e.target.value)
+                  }
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                />
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    minWidth: '120px'
+                  }}
+                >
+                  <Typography variant="body2">
+                    {t('editUserData.workingHours.closed')}
+                  </Typography>
+                  <Switch
+                    checked={dayData.isClosed}
+                    onChange={(e) =>
+                      handleWorkingTimeChange(key, 'isClosed', e.target.checked)
+                    }
+                  />
+                </Box>
+              </Box>
+            );
+          })}
+        </Box>
+      </Card>
+
       {/* SAVE BUTTON */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
@@ -494,7 +666,11 @@ export const EditUserData = () => {
           disabled={isLoadingUser}
           sx={{ px: 4, borderRadius: 1 }}
         >
-          {isLoadingUser ? <CircularProgress size={22} /> : 'Ažuriraj profil'}
+          {isLoadingUser ? (
+            <CircularProgress size={22} />
+          ) : (
+            t('editUserData.updateProfile')
+          )}
         </Button>
       </Box>
     </Box>

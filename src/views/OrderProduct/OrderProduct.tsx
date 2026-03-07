@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { Loader2, Package, ShoppingCart } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 export interface OrderFormData {
@@ -37,6 +38,7 @@ export interface OrderFormData {
 }
 
 export const OrderProduct = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const { productId } = useParams();
   const { mutate } = useOrderProduct();
@@ -107,12 +109,12 @@ export const OrderProduct = () => {
         ...prev,
         productName: productData.title,
         productPrice: productData.priceOnRequest
-          ? 'Cena Na Upit'
+          ? t('orderProductView.priceOnRequest')
           : `${productData?.price.toLocaleString()},00 RSD`,
         productId: productData._id
       }));
     }
-  }, [productData]);
+  }, [productData, t]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -132,7 +134,7 @@ export const OrderProduct = () => {
         setIsSubmitting(false);
         setSnackbar({
           open: true,
-          message: 'Proizvod je uspešno poručen',
+          message: t('orderProductView.snackbar.success'),
           severity: 'success'
         });
         setTimeout(() => {
@@ -143,7 +145,7 @@ export const OrderProduct = () => {
         setIsSubmitting(false);
         setSnackbar({
           open: true,
-          message: 'Greška prilikom poručivanja',
+          message: t('orderProductView.snackbar.error'),
           severity: 'error'
         });
       }
@@ -153,25 +155,30 @@ export const OrderProduct = () => {
   const metaObj = useMemo(
     () => ({
       title: productData
-        ? ['Zeleni svet', productData.title, 'Proizvod']
+        ? ['Zeleni svet', productData.title, t('seo.product.label')]
             .filter(Boolean)
             .join(' | ')
-        : 'Zeleni svet | proizvod',
-      description: productData?.description || 'Proizvod Zeleni Svet',
+        : t('orderProductView.metaFallbackTitle'),
+      description:
+        productData?.description ||
+        t('orderProductView.metaFallbackDescription'),
       image:
         formatImageUrl(productData?.images[0] || '') ||
         'https://www.zelenisvet.rs/green-world.svg'
     }),
-    [productData]
+    [productData, t]
   );
   if (!productId) return <></>;
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Proizvodi', route: '/search' },
-    { label: productData?.title || 'Proizvod', route: `/product/${productId}` },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.products'), route: '/search' },
     {
-      label: `Poruči proizvod`,
+      label: productData?.title || t('productPage.productFallback'),
+      route: `/product/${productId}`
+    },
+    {
+      label: t('orderProductView.breadcrumb'),
       route: `/order-product/${productId}`
     }
   ];
@@ -223,10 +230,10 @@ export const OrderProduct = () => {
               color: 'secondary.main'
             }}
           >
-            Poruči proizvod
+            {t('orderProductView.title')}
           </Typography>
           <Typography variant="body1">
-            Popunite formu ispod i poslaćemo Vam potvrdu na email
+            {t('orderProductView.subtitle')}
           </Typography>
         </Box>
         <Card
@@ -263,24 +270,24 @@ export const OrderProduct = () => {
                 sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
                 <Package />
-                Podaci o proizvodu
+                {t('orderProductView.sections.productData.title')}
               </Typography>
               <Typography variant="body2">
-                Informacije o proizvodu se automatski popunjavaju
+                {t('orderProductView.sections.productData.subtitle')}
               </Typography>
             </Box>
           </Box>
           <Box className="grid gap-4 md:grid-cols-2 mb-4">
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="productName">
-                Naziv proizvoda *
+                {t('orderProductView.fields.productName')}
               </Box>
               <OutlinedInput
                 id="productName"
                 name="productName"
                 value={formData.productName}
                 onChange={handleInputChange}
-                placeholder="Npr. Zelena biljka"
+                placeholder={t('orderProductView.placeholders.productName')}
                 required
                 disabled
                 endAdornment={
@@ -305,14 +312,14 @@ export const OrderProduct = () => {
             </Box>
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="productPrice">
-                Cena proizvoda *
+                {t('orderProductView.fields.productPrice')}
               </Box>
               <OutlinedInput
                 id="productPrice"
                 name="productPrice"
                 value={formData.productPrice}
                 onChange={handleInputChange}
-                placeholder="Npr. 2500 RSD"
+                placeholder={t('orderProductView.placeholders.productPrice')}
                 required
                 disabled
                 endAdornment={
@@ -338,7 +345,7 @@ export const OrderProduct = () => {
           </Box>
           <Box className="space-y-2 flex flex-col">
             <Box component="label" htmlFor="kolicinaProizvoda">
-              Količina / Napomena *
+              {t('orderProductView.fields.quantityNote')}
             </Box>
             <OutlinedInput
               id="productQuantity"
@@ -347,7 +354,7 @@ export const OrderProduct = () => {
               onChange={handleInputChange}
               disabled={isSubmitting}
               error={Boolean(errors.productQuantity)}
-              placeholder="Npr. 1kom ili Želim dva buketa"
+              placeholder={t('orderProductView.placeholders.quantityNote')}
               required
               sx={{
                 '& .MuiOutlinedInput-input': {
@@ -391,10 +398,10 @@ export const OrderProduct = () => {
                 sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
                 <ShoppingCart className="w-5 h-5" />
-                Podaci za dostavu
+                {t('orderProductView.sections.delivery.title')}
               </Typography>
               <Typography variant="body2">
-                Unesite vaše kontakt informacije i adresu za dostavu
+                {t('orderProductView.sections.delivery.subtitle')}
               </Typography>
             </Box>
           </Box>
@@ -404,7 +411,7 @@ export const OrderProduct = () => {
           >
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="name">
-                Ime *
+                {t('orderProductView.fields.firstName')}
               </Box>
               <OutlinedInput
                 id="name"
@@ -413,7 +420,7 @@ export const OrderProduct = () => {
                 onChange={handleInputChange}
                 disabled={isSubmitting}
                 error={Boolean(errors.name)}
-                placeholder="Vaše ime"
+                placeholder={t('orderProductView.placeholders.firstName')}
                 required
                 sx={{
                   '& .MuiOutlinedInput-input': {
@@ -424,7 +431,7 @@ export const OrderProduct = () => {
             </Box>
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="lastName">
-                Prezime *
+                {t('orderProductView.fields.lastName')}
               </Box>
               <OutlinedInput
                 id="lastName"
@@ -433,7 +440,7 @@ export const OrderProduct = () => {
                 onChange={handleInputChange}
                 disabled={isSubmitting}
                 error={Boolean(errors.lastName)}
-                placeholder="Vaše prezime"
+                placeholder={t('orderProductView.placeholders.lastName')}
                 required
                 sx={{
                   '& .MuiOutlinedInput-input': {
@@ -460,8 +467,10 @@ export const OrderProduct = () => {
                 onChange={handleInputChange}
                 disabled={isSubmitting}
                 error={Boolean(errors.email)}
-                helperText={errors.email ? 'Unesite validan email' : ''}
-                placeholder="vaš@email.com"
+                helperText={
+                  errors.email ? t('orderProductView.invalidEmail') : ''
+                }
+                placeholder={t('orderProductView.placeholders.email')}
                 required
                 variant="outlined"
                 sx={{
@@ -473,7 +482,7 @@ export const OrderProduct = () => {
             </Box>
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="phone">
-                Telefon *
+                {t('orderProductView.fields.phone')}
               </Box>
               <OutlinedInput
                 id="phone"
@@ -499,7 +508,7 @@ export const OrderProduct = () => {
             sx={{ marginBottom: '16px' }}
           >
             <Box component="label" htmlFor="address">
-              Adresa *
+              {t('orderProductView.fields.address')}
             </Box>
             <OutlinedInput
               id="address"
@@ -508,7 +517,7 @@ export const OrderProduct = () => {
               onChange={handleInputChange}
               disabled={isSubmitting}
               error={Boolean(errors.address)}
-              placeholder="Ulica i broj"
+              placeholder={t('orderProductView.placeholders.address')}
               required
               sx={{
                 '& .MuiOutlinedInput-input': {
@@ -524,7 +533,7 @@ export const OrderProduct = () => {
           >
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="city">
-                Grad *
+                {t('orderProductView.fields.city')}
               </Box>
               <OutlinedInput
                 id="city"
@@ -533,7 +542,7 @@ export const OrderProduct = () => {
                 error={Boolean(errors.city)}
                 onChange={handleInputChange}
                 disabled={isSubmitting}
-                placeholder="Npr. Beograd"
+                placeholder={t('orderProductView.placeholders.city')}
                 required
                 sx={{
                   '& .MuiOutlinedInput-input': {
@@ -544,7 +553,7 @@ export const OrderProduct = () => {
             </Box>
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="postalCode">
-                Poštanski broj *
+                {t('orderProductView.fields.postalCode')}
               </Box>
               <OutlinedInput
                 id="postalCode"
@@ -553,7 +562,7 @@ export const OrderProduct = () => {
                 onChange={handleInputChange}
                 disabled={isSubmitting}
                 error={Boolean(errors.postalCode)}
-                placeholder="Npr. 11000"
+                placeholder={t('orderProductView.placeholders.postalCode')}
                 required
                 sx={{
                   '& .MuiOutlinedInput-input': {
@@ -566,7 +575,7 @@ export const OrderProduct = () => {
 
           <Box className="space-y-2 flex flex-col">
             <Box component="label" htmlFor="message">
-              Napomena (opciono)
+              {t('orderProductView.fields.message')}
             </Box>
             <OutlinedInput
               multiline
@@ -575,7 +584,7 @@ export const OrderProduct = () => {
               value={formData.message}
               disabled={isSubmitting}
               onChange={handleInputChange}
-              placeholder="Dodatne informacije o porudžbini..."
+              placeholder={t('orderProductView.placeholders.message')}
               rows={4}
             />
           </Box>
@@ -590,10 +599,10 @@ export const OrderProduct = () => {
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Slanje...
+                {t('orderProductView.submitting')}
               </>
             ) : (
-              'Pošalji porudžbinu'
+              t('orderProductView.submit')
             )}
           </Button>
         </Box>

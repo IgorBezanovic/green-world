@@ -1,24 +1,26 @@
 import { ZSLogoLogoMark } from '@green-world/components';
 import { Box, Typography, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 export const Navbar = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const navItems = [
-    { label: 'Početna', path: '/' },
-    { label: 'Proizvodi', path: '/search' },
-    { label: 'Događaji', path: '/events' },
-    { label: 'Prodavnice', path: '/shops' },
-    { label: 'Blog', path: '/blog' },
-    { label: 'Trampimo se', path: '/menjajmo-se' },
+    { label: t('navbar.home'), path: '/' },
+    { label: t('navbar.products'), path: '/search' },
+    { label: t('navbar.events'), path: '/events' },
+    { label: t('navbar.shops'), path: '/shops' },
+    { label: t('navbar.blog'), path: '/blog' },
+    { label: t('navbar.bartering'), path: '/menjajmo-se' },
     {
-      label: 'AI Savetovanje',
+      label: t('navbar.aiConsulting'),
       path: 'https://www.instagram.com/direct/t/3114437125407040/'
     },
-    { label: 'Dokumenta', path: '/documents' }
+    { label: t('navbar.documents'), path: '/documents' }
   ];
 
   const openAISavelovanje = (url: string) => {
@@ -56,13 +58,13 @@ export const Navbar = () => {
       {navItems?.map((item) => {
         const isActive = location.pathname === item.path;
         const showBadge =
-          item.label !== 'Proizvodi' &&
-          item.label !== 'Događaji' &&
-          item.label !== 'Početna' &&
-          item.label !== 'Prodavnice' &&
-          item.label !== 'Dokumenta' &&
-          item.label !== 'Blog' &&
-          item.label !== 'AI Savetovanje';
+          item.label !== t('navbar.products') &&
+          item.label !== t('navbar.events') &&
+          item.label !== t('navbar.home') &&
+          item.label !== t('navbar.shops') &&
+          item.label !== t('navbar.documents') &&
+          item.label !== t('navbar.blog') &&
+          item.label !== t('navbar.aiConsulting');
 
         return (
           <Box
@@ -74,7 +76,7 @@ export const Navbar = () => {
               mx: 1
             }}
             onClick={() =>
-              !showBadge && item.label === 'AI Savetovanje'
+              !showBadge && item.label === t('navbar.aiConsulting')
                 ? openAISavelovanje(item.path)
                 : navigate(item.path)
             }
@@ -118,7 +120,7 @@ export const Navbar = () => {
                   color={theme.palette.primary.contrastText}
                   width="9px"
                 />{' '}
-                Uskoro
+                {t('navbar.soon')}
               </Box>
             )}
           </Box>

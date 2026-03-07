@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { Product } from '@green-world/utils/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -49,7 +50,7 @@ export const useEditProduct = (id: string) => {
         queryClient.invalidateQueries({ queryKey: ['productDetails', id] }),
         queryClient.invalidateQueries({ queryKey: ['featured'] })
       ]);
-      toast.success('Podaci su uspešno ažurirani.');
+      toast.success(i18n.t('hooks.common.dataUpdated'));
     }
   });
 };

@@ -1,3 +1,4 @@
+import i18n from '@green-world/i18n';
 import { request } from '@green-world/utils/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -31,7 +32,7 @@ export const useCreateBlogPost = () => {
         queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] }),
         queryClient.invalidateQueries({ queryKey: ['blogPosts'] })
       ]);
-      toast.success('Uspešno ste kreirali blog post!');
+      toast.success(i18n.t('hooks.createBlog.success'));
     }
   });
 };

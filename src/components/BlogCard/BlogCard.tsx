@@ -12,6 +12,7 @@ import {
   Divider
 } from '@mui/material';
 import { Copy, EditIcon, Trash } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -23,6 +24,7 @@ interface BlogCardProps {
 
 export const BlogCard = ({ post }: BlogCardProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { mutate } = useDeletePost(post?._id);
 
   return (
@@ -65,7 +67,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
           {post.blocks
             .find((b: any) => b.type === 'text')
             ?.text?.substring(0, 100)
-            .replace(/<[^>]*>/g, '') || 'Nema opisa...'}
+            .replace(/<[^>]*>/g, '') || t('blogCard.noDescription')}
         </Typography>
       </CardContent>
       <Box
@@ -95,10 +97,10 @@ export const BlogCard = ({ post }: BlogCardProps) => {
                 navigator.clipboard
                   .writeText(`https://www.zelenisvet.rs/blog/${post._id}`)
                   .then(() => {
-                    toast.success('Kopiran link');
+                    toast.success(t('blogCard.linkCopied'));
                   })
                   .catch(() => {
-                    alert('Neuspešno kopiranje linka');
+                    alert(t('blogCard.linkCopyFailed'));
                   });
               }}
             >
@@ -107,10 +109,10 @@ export const BlogCard = ({ post }: BlogCardProps) => {
 
             <PopDelete
               key="delete"
-              title={'Brisanje Boga'}
-              description={'Da li ste sigurni da želite da obrišete bog?'}
-              okText={'Da'}
-              cancelText={'Ne'}
+              title={t('blogCard.deleteTitle')}
+              description={t('blogCard.deleteDescription')}
+              okText={t('blogCard.yes')}
+              cancelText={t('blogCard.no')}
               id={post._id}
               mutate={mutate}
             >

@@ -17,6 +17,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 interface Address {
@@ -48,6 +49,7 @@ export const ShopCard = ({
   numberOfProducts = 0,
   address
 }: ShopCardProps) => {
+  const { t } = useTranslation();
   const [loadingMap, setLoadingMap] = useState(true);
 
   const hasAddress = address?.street || address?.city || address?.country;
@@ -136,7 +138,7 @@ export const ShopCard = ({
             >
               <MapPin />
               <Typography variant="caption" color="text.disabled">
-                Lokacija nije dodata
+                {t('shopCard.locationNotAdded')}
               </Typography>
             </Box>
           )}
@@ -214,7 +216,11 @@ export const ShopCard = ({
               <Chip
                 size="medium"
                 icon={onlyOnline ? <Globe size={14} /> : <Store size={14} />}
-                label={onlyOnline ? 'Samo online' : 'Fizička prodavnica'}
+                label={
+                  onlyOnline
+                    ? t('shopCard.onlyOnline')
+                    : t('shopCard.physicalShop')
+                }
                 color="success"
                 variant="outlined"
                 sx={{ paddingX: '4px', color: 'common.black' }}
@@ -223,7 +229,7 @@ export const ShopCard = ({
               <Chip
                 size="medium"
                 icon={<Package size={14} />}
-                label={`${numberOfProducts} proizvoda`}
+                label={t('shopCard.productsCount', { count: numberOfProducts })}
                 color="success"
                 variant="outlined"
                 sx={{ paddingX: '4px', color: 'common.black' }}
@@ -303,7 +309,7 @@ export const ShopCard = ({
             alignItems: 'center'
           }}
         >
-          Pogledaj prodavnicu
+          {t('shopCard.viewShop')}
           <ArrowUpRight size={18} />
         </Box>
       </Card>

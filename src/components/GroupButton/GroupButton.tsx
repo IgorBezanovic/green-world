@@ -1,5 +1,6 @@
 import { HomeCategory } from '@green-world/utils/types';
 import { Box, Typography, Link as MuiLink } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router';
 
 interface GroupButtonProps {
@@ -7,11 +8,16 @@ interface GroupButtonProps {
 }
 
 export const GroupButton = ({ item }: GroupButtonProps) => {
+  const { t } = useTranslation();
+  const translatedText = item?.slug
+    ? t(`catalog.groups.${item.slug}`, { defaultValue: item.text })
+    : item.text;
+
   return (
     <MuiLink
       component={RouterLink}
       to={item?.route}
-      aria-label={item?.text}
+      aria-label={translatedText}
       underline="none"
       sx={(theme) => ({
         display: 'block',
@@ -74,7 +80,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
               }
             })}
           >
-            {item.text}
+            {translatedText}
           </Typography>
         </Box>
       </Box>

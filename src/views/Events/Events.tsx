@@ -5,8 +5,10 @@ import {
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import { Box, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const Events = () => {
+  const { t } = useTranslation();
   const { data: allEvents, isLoading: allEventsLoading } = useAllEvents();
   const pages = [
     { label: 'Početna', route: '/' },
@@ -21,7 +23,11 @@ export const Events = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={'Zeleni svet | Pretraga Događaja '} />
+      <MetaTags
+        title={t('seo.events.title')}
+        description={t('seo.events.description')}
+        keywords={t('seo.events.keywords')}
+      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

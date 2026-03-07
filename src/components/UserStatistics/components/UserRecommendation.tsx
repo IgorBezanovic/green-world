@@ -1,7 +1,10 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const UserRecommendation = () => {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -17,31 +20,20 @@ export const UserRecommendation = () => {
       <Stack direction="row" spacing={1.5} mb={1}>
         <Sparkles size={20} />
         <Typography fontWeight={600}>
-          Kako da povećaš angažovanje korisnika na svom sadržaju?
+          {t('userRecommendation.title')}
         </Typography>
       </Stack>
 
       <Typography fontSize={14} color="text.secondary" mb={2}>
-        Aktivnim radom na sadržaju i komunikaciji možete značajno poboljšati
-        vidljivost i interakciju sa korisnicima.
+        {t('userRecommendation.description')}
       </Typography>
 
       <Stack spacing={1}>
-        <Typography fontSize={14}>
-          • Dodajte kvalitetan i redovan sadržaj
-        </Typography>
-        <Typography fontSize={14}>
-          • Delite linkove na društvenim mrežama
-        </Typography>
-        <Typography fontSize={14}>
-          • Koristite jasne i kvalitetne slike proizvoda
-        </Typography>
-        <Typography fontSize={14}>
-          • Brzo odgovarajte na poruke i upite
-        </Typography>
-        <Typography fontSize={14}>
-          • Promovišite najposećenije proizvode
-        </Typography>
+        <Typography fontSize={14}>{t('userRecommendation.item1')}</Typography>
+        <Typography fontSize={14}>{t('userRecommendation.item2')}</Typography>
+        <Typography fontSize={14}>{t('userRecommendation.item3')}</Typography>
+        <Typography fontSize={14}>{t('userRecommendation.item4')}</Typography>
+        <Typography fontSize={14}>{t('userRecommendation.item5')}</Typography>
       </Stack>
     </Box>
   );

@@ -1,9 +1,11 @@
 import { useGoogleLogin } from '@green-world/hooks/useGoogleLogin';
 import { GoogleLogin } from '@react-oauth/google';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 export const GoogleLoginAuth = () => {
+  const { t } = useTranslation();
   const googleLoginMutation = useGoogleLogin();
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -43,14 +45,14 @@ export const GoogleLoginAuth = () => {
           onSuccess={(credentialResponse) => {
             const googleCredential = credentialResponse?.credential;
             if (!googleCredential) {
-              toast.error('Google token nije prosleđen. Pokušajte ponovo.');
+              toast.error(t('googleLoginAuth.tokenNotProvided'));
               return;
             }
 
             googleLoginMutation.mutate(googleCredential);
           }}
           onError={() => {
-            toast.error('Google login nije uspeo.');
+            toast.error(t('googleLoginAuth.loginFailed'));
           }}
         />
       )}

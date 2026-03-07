@@ -21,6 +21,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useParams } from 'react-router';
@@ -42,6 +43,7 @@ const initEvent: Event = {
 };
 
 export const CreateEditEvent = () => {
+  const { t } = useTranslation();
   const { eventID = '' } = useParams();
   const { data = initEvent, isLoading } = useEvent(eventID);
   const quillRef = useRef<ReactQuill>(null);
@@ -174,12 +176,16 @@ export const CreateEditEvent = () => {
     );
   }
 
-  const pageTitle = `Zeleni svet | ${eventID ? 'Ažuriraj događaj' : 'Kreiraj događaj'}`;
+  const pageTitle = eventID
+    ? t('createEditEvent.pageTitleEdit')
+    : t('createEditEvent.pageTitleCreate');
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Korisnički profil', route: '/profile' },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.userProfile'), route: '/profile' },
     {
-      label: `${eventID ? 'Ažuriraj' : 'Kreiraj'} događaj`,
+      label: eventID
+        ? t('createEditEvent.breadcrumbEdit')
+        : t('createEditEvent.breadcrumbCreate'),
       route: `/${eventID ? 'edit' : 'create'}-event`
     }
   ];
@@ -222,7 +228,9 @@ export const CreateEditEvent = () => {
             lineHeight: 1
           }}
         >
-          {eventID ? 'Azuziraj događaj' : 'Kreiraj događaj'}
+          {eventID
+            ? t('createEditEvent.headingEdit')
+            : t('createEditEvent.headingCreate')}
         </Typography>
         <Box
           component="form"
@@ -239,14 +247,14 @@ export const CreateEditEvent = () => {
         >
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="title" component="label" sx={labelSx}>
-              Naziv aktivnosti:
+              {t('createEditEvent.fields.titleLabel')}
             </Typography>
             <OutlinedInput
               required
               type="text"
               name="title"
               id="title"
-              placeholder="Unesite naziv daktivnosti"
+              placeholder={t('createEditEvent.fields.titlePlaceholder')}
               value={event?.title || ''}
               onChange={handleChange}
               fullWidth
@@ -254,7 +262,7 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="typeAction" component="label" sx={labelSx}>
-              Tip aktivnosti:
+              {t('createEditEvent.fields.typeLabel')}
             </Typography>
             <FormControl fullWidth>
               <Select
@@ -266,21 +274,27 @@ export const CreateEditEvent = () => {
                 sx={outlinedSelectSx}
               >
                 <MenuItem value="" disabled>
-                  Izaberite tip aktivnosti
+                  {t('createEditEvent.fields.typePlaceholder')}
                 </MenuItem>
-                <MenuItem value="cleaning">Čišćenje</MenuItem>
-                <MenuItem value="selling">Prodaja</MenuItem>
-                <MenuItem value="planting">Sadnja</MenuItem>
+                <MenuItem value="cleaning">
+                  {t('eventCard.type.cleaning')}
+                </MenuItem>
+                <MenuItem value="selling">
+                  {t('eventCard.type.selling')}
+                </MenuItem>
+                <MenuItem value="planting">
+                  {t('eventCard.type.planting')}
+                </MenuItem>
               </Select>
             </FormControl>
             <Typography htmlFor="contactPerson" component="label" sx={labelSx}>
-              Kontakt osoba:
+              {t('createEditEvent.fields.contactPersonLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="contactPerson"
               id="contactPerson"
-              placeholder="Kontakt osoba"
+              placeholder={t('createEditEvent.fields.contactPersonPlaceholder')}
               value={event?.contactPerson || ''}
               onChange={handleChange}
               fullWidth
@@ -288,14 +302,14 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="place" component="label" sx={labelSx}>
-              Mesto aktivnosti:
+              {t('createEditEvent.fields.placeLabel')}
             </Typography>
             <OutlinedInput
               required
               type="text"
               name="place"
               id="place"
-              placeholder="Unesite mesto proizvoda"
+              placeholder={t('createEditEvent.fields.placePlaceholder')}
               value={event?.place || ''}
               onChange={handleChange}
               fullWidth
@@ -303,13 +317,13 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="address" component="label" sx={labelSx}>
-              Adresa aktivnosti:
+              {t('createEditEvent.fields.addressLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="address"
               id="address"
-              placeholder="Unesite adresu aktivnosti"
+              placeholder={t('createEditEvent.fields.addressPlaceholder')}
               value={event?.address || ''}
               onChange={handleChange}
               fullWidth
@@ -321,7 +335,7 @@ export const CreateEditEvent = () => {
               component="label"
               sx={{ ...labelSx, mb: 1 }}
             >
-              Dodajte fotografiju aktivnosti:
+              {t('createEditEvent.fields.imageLabel')}
             </Typography>
             <Box
               sx={{
@@ -387,7 +401,7 @@ export const CreateEditEvent = () => {
                 }
               })}
             >
-              Dodaj sliku
+              {t('createEditEvent.fields.addImage')}
               <Box
                 component="input"
                 type="file"
@@ -401,7 +415,7 @@ export const CreateEditEvent = () => {
           </Box>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="description" component="label" sx={labelSx}>
-              Opis aktivnosti:
+              {t('createEditEvent.fields.descriptionLabel')}
             </Typography>
             <Box sx={{ mb: 2 }}>
               <ReactQuill
@@ -436,7 +450,7 @@ export const CreateEditEvent = () => {
               </style>
             </Box>
             <Typography htmlFor="dateAction" component="label" sx={labelSx}>
-              Datum aktivnosti:
+              {t('createEditEvent.fields.dateLabel')}
             </Typography>
             <MobileDatePicker
               name="dateAction"
@@ -463,14 +477,14 @@ export const CreateEditEvent = () => {
               })}
             />
             <Typography htmlFor="startTime" component="label" sx={labelSx}>
-              Vreme pocetka aktivnosti:
+              {t('createEditEvent.fields.startTimeLabel')}
             </Typography>
             <OutlinedInput
               required
               type="text"
               name="startTime"
               id="startTime"
-              placeholder="Unesite vreme pocetka aktivnosti"
+              placeholder={t('createEditEvent.fields.startTimePlaceholder')}
               value={event?.startTime || ''}
               onChange={handleChange}
               fullWidth
@@ -478,13 +492,13 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="endTime" component="label" sx={labelSx}>
-              Vreme zavrsetka aktivnosti:
+              {t('createEditEvent.fields.endTimeLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="endTime"
               id="endTime"
-              placeholder="Unesite vreme zatvaranja aktivnosti"
+              placeholder={t('createEditEvent.fields.endTimePlaceholder')}
               value={event?.endTime || ''}
               onChange={handleChange}
               fullWidth
@@ -492,7 +506,7 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="contactPhone" component="label" sx={labelSx}>
-              Kontakt telefon:
+              {t('createEditEvent.fields.contactPhoneLabel')}
             </Typography>
             <OutlinedInput
               type="text"
@@ -505,13 +519,13 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="contactMail" component="label" sx={labelSx}>
-              Kontakt mail:
+              {t('createEditEvent.fields.contactMailLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="contactMail"
               id="contactMail"
-              placeholder="Kontakt mail"
+              placeholder={t('createEditEvent.fields.contactMailPlaceholder')}
               value={event?.contactMail || ''}
               onChange={handleChange}
               fullWidth
@@ -519,7 +533,7 @@ export const CreateEditEvent = () => {
               sx={outlinedInputSx}
             />
             <Typography htmlFor="status" component="label" sx={labelSx}>
-              Status akcije:
+              {t('createEditEvent.fields.statusLabel')}
             </Typography>
             <FormControl fullWidth>
               <Select
@@ -532,11 +546,17 @@ export const CreateEditEvent = () => {
                 sx={outlinedSelectSx}
               >
                 <MenuItem value="" disabled>
-                  Izaberite status akcije
+                  {t('createEditEvent.fields.statusPlaceholder')}
                 </MenuItem>
-                <MenuItem value="active">Aktivno</MenuItem>
-                <MenuItem value="cancelled">Otkazano</MenuItem>
-                <MenuItem value="finished">Zavrseno</MenuItem>
+                <MenuItem value="active">
+                  {t('createEditEvent.status.active')}
+                </MenuItem>
+                <MenuItem value="cancelled">
+                  {t('createEditEvent.status.cancelled')}
+                </MenuItem>
+                <MenuItem value="finished">
+                  {t('createEditEvent.status.finished')}
+                </MenuItem>
               </Select>
             </FormControl>
             <Button
@@ -551,9 +571,9 @@ export const CreateEditEvent = () => {
                   sx={{ color: 'primary.main', my: 1 }}
                 />
               ) : eventID ? (
-                'Azuriraj aktivnosti'
+                t('createEditEvent.submitEdit')
               ) : (
-                'Kreiraj aktivnost'
+                t('createEditEvent.submitCreate')
               )}
             </Button>
           </Box>
