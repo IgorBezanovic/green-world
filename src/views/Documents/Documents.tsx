@@ -3,7 +3,7 @@ import { Box, Divider, Typography, Button } from '@mui/material';
 import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
 import { useState } from 'react';
 
-import { DonatePayPalDialog } from './DonatePayPalDialog';
+import { DonateRaiffeisenDialog } from './DonateRaiffeisenDialog';
 
 export const Documents = () => {
   const pages = [
@@ -94,7 +94,7 @@ export const Documents = () => {
             Doniraj
           </Button>
 
-          <DonatePayPalDialog
+          <DonateRaiffeisenDialog
             open={donateOpen}
             onClose={() => setDonateOpen(false)}
           />
