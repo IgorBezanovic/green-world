@@ -147,7 +147,7 @@ export const Footer = () => {
               variant="contained"
               color="info"
               sx={{ mt: 2 }}
-              disabled={isNewsletterLoading || !userEmail.trim()}
+              disabled={isNewsletterLoading}
             >
               {isNewsletterLoading
                 ? t('orderProductView.submitting')
