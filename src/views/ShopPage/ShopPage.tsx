@@ -122,6 +122,11 @@ export const ShopPage = () => {
     }
   ];
 
+  const location =
+    data?.address?.street && data?.address?.city && data?.address?.country
+      ? `${data.address.street}, ${data.address.city}, ${data.address.country}`
+      : 'Serbia';
+
   return (
     <Box
       sx={{
@@ -215,9 +220,7 @@ export const ShopPage = () => {
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
-              src={`https://www.google.com/maps?q=${encodeURIComponent(
-                `${data?.address?.street}, ${data?.address?.city}, ${data?.address?.country}`
-              )}&output=embed`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
             />
           )}
         </Box>

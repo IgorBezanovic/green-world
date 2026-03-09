@@ -67,9 +67,11 @@ export const sr = {
     logout: 'Izloguj se'
   },
   footer: {
-    newsletterLabel: 'Prijavi se da primaš novosti i informacije:',
-    newsletterPlaceholder: 'Unesite email',
+    newsletterLabel: 'Prijavite se za novosti iz sveta biljaka',
+    newsletterPlaceholder: 'Unesite email adresu',
     newsletterButton: 'Prijavi se',
+    newsletterSuccess: 'Uspešno ste prijavljeni na newsletter.',
+    newsletterError: 'Prijava nije uspela',
     quickLinks: 'Brzi linkovi:',
     contact: 'Kontakt',
     aboutUs: 'O nama',

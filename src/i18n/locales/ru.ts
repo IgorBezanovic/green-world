@@ -67,9 +67,11 @@ export const ru = {
     logout: 'Выйти'
   },
   footer: {
-    newsletterLabel: 'Подпишитесь, чтобы получать новости и обновления:',
-    newsletterPlaceholder: 'Введите email',
+    newsletterLabel: 'Подпишитесь на новости из мира растений',
+    newsletterPlaceholder: 'Введите адрес электронной почты',
     newsletterButton: 'Подписаться',
+    newsletterSuccess: 'Вы подписались на рассылку.',
+    newsletterError: 'Не удалось оформить подписку',
     quickLinks: 'Быстрые ссылки:',
     contact: 'Контакты',
     aboutUs: 'О нас',

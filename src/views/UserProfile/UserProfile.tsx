@@ -330,11 +330,17 @@ export const UserProfile = () => {
               component="section"
               sx={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
+                gridTemplateColumns:
+                  productsToDisplay?.length > 0
+                    ? 'repeat(2, 1fr)'
+                    : 'repeat(1, 1fr)',
                 gap: 3,
 
                 [theme.breakpoints.up('sm')]: {
-                  gridTemplateColumns: 'repeat(3, 1fr)'
+                  gridTemplateColumns:
+                    productsToDisplay?.length > 0
+                      ? 'repeat(3, 1fr)'
+                      : 'repeat(1, 1fr)'
                 },
 
                 [theme.breakpoints.up('lg')]: {

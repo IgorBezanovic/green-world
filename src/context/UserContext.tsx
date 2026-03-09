@@ -37,13 +37,13 @@ const defaultUser: User = {
     linkedin: ''
   },
   workingTime: {
-    monday: { open: '08:00', close: '16:00', isClosed: false },
-    tuesday: { open: '08:00', close: '16:00', isClosed: false },
-    wednesday: { open: '08:00', close: '16:00', isClosed: false },
-    thursday: { open: '08:00', close: '16:00', isClosed: false },
-    friday: { open: '08:00', close: '16:00', isClosed: false },
-    saturday: { open: '08:00', close: '16:00', isClosed: true },
-    sunday: { open: '08:00', close: '16:00', isClosed: true }
+    monday: { open: '00:00', close: '00:00', isClosed: false },
+    tuesday: { open: '00:00', close: '00:00', isClosed: false },
+    wednesday: { open: '00:00', close: '00:00', isClosed: false },
+    thursday: { open: '00:00', close: '00:00', isClosed: false },
+    friday: { open: '00:00', close: '00:00', isClosed: false },
+    saturday: { open: '00:00', close: '00:00', isClosed: true },
+    sunday: { open: '00:00', close: '00:00', isClosed: true }
   },
   numberOfProducts: 0,
   maxShopProducts: 25,

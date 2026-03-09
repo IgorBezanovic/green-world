@@ -1,20 +1,54 @@
 import { SocialMedia } from '@green-world/components';
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
+import { useNewsletterSubscribe } from '@green-world/hooks/useNewsletterSubscribe';
 import { getItem } from '@green-world/utils/cookie';
 import { safeDecodeToken } from '@green-world/utils/helpers';
 import { DecodedToken } from '@green-world/utils/types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');
+  const [isEmailInvalid, setIsEmailInvalid] = useState<boolean>(false);
   const navigate = useNavigate();
   const token = getItem('token');
   const decodedToken = safeDecodeToken<DecodedToken>(token);
   const { t } = useTranslation();
+  const { mutateAsync: subscribeToNewsletter, isPending: isNewsletterLoading } =
+    useNewsletterSubscribe();
+
+  const isValidEmail = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const email = userEmail.trim().toLowerCase();
+
+    setIsEmailInvalid(false);
+
+    if (!email || !isValidEmail(email)) {
+      setIsEmailInvalid(true);
+      toast.error(t('orderProductView.invalidEmail'));
+      return;
+    }
+
+    try {
+      const response = await subscribeToNewsletter({ email });
+
+      if (response?.success) {
+        toast.success(t('footer.newsletterSuccess'));
+        setUserEmail('');
+        return;
+      }
+    } catch {
+      toast.error(t('footer.newsletterError'));
+    }
+  };
 
   return (
     <Box
@@ -59,6 +93,7 @@ export const Footer = () => {
 
           <Box
             component="form"
+            onSubmit={handleNewsletterSubmit}
             sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}
           >
             <Typography
@@ -98,15 +133,25 @@ export const Footer = () => {
                 }
               }}
               value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
+              onChange={(e) => {
+                setUserEmail(e.target.value);
+                if (isEmailInvalid) {
+                  setIsEmailInvalid(false);
+                }
+              }}
+              error={isEmailInvalid}
+              disabled={isNewsletterLoading}
             />
             <Button
-              onClick={() => setUserEmail('')}
+              type="submit"
               variant="contained"
               color="info"
               sx={{ mt: 2 }}
+              disabled={isNewsletterLoading || !userEmail.trim()}
             >
-              {t('footer.newsletterButton')}
+              {isNewsletterLoading
+                ? t('orderProductView.submitting')
+                : t('footer.newsletterButton')}
             </Button>
           </Box>
         </Box>

@@ -68,9 +68,11 @@ export const en = {
     logout: 'Log out'
   },
   footer: {
-    newsletterLabel: 'Subscribe to receive news and updates:',
-    newsletterPlaceholder: 'Enter email',
+    newsletterLabel: 'Sign up for news from the world of plants',
+    newsletterPlaceholder: 'Enter your email address',
     newsletterButton: 'Subscribe',
+    newsletterSuccess: 'You are subscribed to the newsletter.',
+    newsletterError: 'Subscription failed',
     quickLinks: 'Quick links:',
     contact: 'Contact',
     aboutUs: 'About us',
