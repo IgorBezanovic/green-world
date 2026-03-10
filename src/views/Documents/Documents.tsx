@@ -4,7 +4,7 @@ import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DonatePayPalDialog } from './DonatePayPalDialog';
+import { DonateRaiffeisenDialog } from './DonateRaiffaisenDialog';
 
 export const Documents = () => {
   const { t } = useTranslation();
@@ -92,12 +92,12 @@ export const Documents = () => {
             variant="contained"
             color="secondary"
             sx={{ position: 'relative' }}
-            // onClick={() => setDonateOpen(true)}
+            onClick={() => setDonateOpen(true)}
           >
-            Doniraj - USKORO
+            Doniraj
           </Button>
 
-          <DonatePayPalDialog
+          <DonateRaiffeisenDialog
             open={donateOpen}
             onClose={() => setDonateOpen(false)}
           />
