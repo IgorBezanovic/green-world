@@ -184,6 +184,10 @@ export const Products = () => {
     return subGroups[selectedGroup as keyof typeof subGroups] || [];
   }, [selectedGroup]);
 
+  const selectedGroupKey = selectedGroup
+    ? (selectedGroup as keyof typeof subGroups)
+    : undefined;
+
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.products'), route: '/search' }
@@ -362,7 +366,7 @@ export const Products = () => {
                       renderValue={(selected) => {
                         if (!selected) return t('productsView.allSubgroups');
                         return getLocalizedSubGroupLabel(
-                          selectedGroup as keyof typeof subGroups,
+                          selectedGroupKey,
                           selected,
                           i18n.language
                         );
@@ -374,7 +378,7 @@ export const Products = () => {
                       {availableSubgroups?.map((sg) => (
                         <MenuItem key={sg.label} value={sg.label}>
                           {getLocalizedSubGroupLabel(
-                            selectedGroup as keyof typeof subGroups,
+                            selectedGroupKey,
                             sg.label,
                             i18n.language
                           )}
