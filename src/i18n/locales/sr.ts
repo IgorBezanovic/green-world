@@ -400,17 +400,18 @@ export const sr = {
   },
   metaTags: {
     defaultDescription:
-      'Besplatna web platforma za oglašavanje proizvoda iz oblasti cvećarstva, baštovanstva, biljnih dekoracija i poljoprivrednih apoteka. Gradimo zajednicu ljubitelja biljaka i prirode.',
+      'Zeleni Svet je vodeća platforma koja povezuje ljubitelje biljaka sa najboljim cvećarama i rasadnicima. Pronađite savršeno cveće, baštensku opremu i savete za negu biljaka na jednom mestu.',
     defaultKeywords:
-      'kupovina cveca, kupovina tuje, tuje srbija, cvece, biljke, saksije, zeleno, svet, buketi cveca, oprema za baštovanstvo, baštenski alati, biljke, semena, dodaci za baštovanstvo, zeleni proizvodi, ekološko baštovanstvo, baštenski materijal, biljke za spolja, biljke za unutra, nega travnjaka, nega biljaka, održivo baštovanstvo, dekoracija bašte | gardening equipment, garden tools, plants, seeds, gardening accessories, green products, eco-friendly gardening, garden supplies, outdoor plants, indoor plants, lawn care, plant care, sustainable gardening, garden decor'
+      'cveće, platforma za cveće, dostava cveća beograd, online cvećara srbija, rasadnici srbija, kupovina biljaka, baštovanstvo, saksijsko cveće, dekoracija bašte, cvećare, zeleni svet, marketplace za cveće, baštenski alati, semena, nega biljaka'
   },
   seo: {
     home: {
-      title: 'Zeleni svet | Green World | Web Shop',
+      title:
+        'Zeleni svet | Marketplace za cveće i baštovanstvo | Dostava cveća',
       description:
-        'Početna strana Zelenog sveta sa najnovijim proizvodima i kategorijama lokalnih prodavnica i proizvođača.',
+        'Povežite se sa najboljim lokalnim cvećarama i proizvođačima biljaka. Pronađite najnovije proizvode, savete i opremu na Zelenom Svetu.',
       keywords:
-        'zeleni svet, web shop, najnoviji proizvodi, kategorije biljaka, cveće, baštovanstvo, lokalni prodavci'
+        'zeleni svet, marketplace cveća, online pijaca biljaka, cveće beograd, baštovanstvo srbija, lokalni prodavci'
     },
     events: {
       title: 'Zeleni svet | Pretraga događaja',
