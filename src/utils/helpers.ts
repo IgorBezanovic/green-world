@@ -53,10 +53,18 @@ export const getLocalizedSubGroupLabel = (
   language: string = i18n.language
 ): string => {
   const normalizedLanguage = normalizeLanguage(language);
+  const normalizedGroup = group || undefined;
 
   if (normalizedLanguage === 'sr') {
-    if (!group) return subGroup;
-    const subGroupList = subGroups[group];
+    if (!normalizedGroup) {
+      const found = Object.values(subGroups)
+        .flat()
+        .find((item) => item.label === subGroup);
+
+      return found ? found.sr_RS : subGroup;
+    }
+
+    const subGroupList = subGroups[normalizedGroup];
     if (!subGroupList) return subGroup;
 
     const found = subGroupList.find((item) => item.label === subGroup);
