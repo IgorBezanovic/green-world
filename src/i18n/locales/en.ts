@@ -397,17 +397,18 @@ export const en = {
   },
   metaTags: {
     defaultDescription:
-      'Free web platform for advertising products from floristry, gardening, plant decorations, and agricultural pharmacies. We are building a community of plant and nature lovers.',
+      'Zeleni Svet is the leading platform connecting plant lovers with the best florists and nurseries. Find perfect flowers, gardening equipment, and plant care tips in one place.',
     defaultKeywords:
-      'buy flowers, buy thuja, thuja serbia, flowers, plants, pots, green, world, flower bouquets, gardening equipment, garden tools, plants, seeds, gardening accessories, green products, eco-friendly gardening, garden supplies, outdoor plants, indoor plants, lawn care, plant care, sustainable gardening, garden decor'
+      'flower delivery belgrade, online florist serbia, flower marketplace, buy plants online, gardening equipment, plants serbia, plant care, florist platform, green world, indoor plants, outdoor plants, seeds, garden decor'
   },
   seo: {
     home: {
-      title: 'Zeleni svet | Green World | Web Shop',
+      title:
+        'Zeleni Svet | Flowermarket & Gardening Platform | Flower Delivery',
       description:
-        'Green World homepage with the latest products and categories from local shops and growers.',
+        'Connect with the best local florists and plant growers. Find the latest products, tips, and equipment on Zeleni Svet, your online flower marketplace.',
       keywords:
-        'green world, web shop, latest products, plant categories, flowers, gardening, local sellers'
+        'zeleni svet, flower marketplace, online plant market, flowers belgrade, gardening serbia, local florists'
     },
     events: {
       title: 'Zeleni svet | Event Search',
