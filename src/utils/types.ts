@@ -238,3 +238,45 @@ export interface Comment {
   createdBy: string;
   updatedAt?: Date;
 }
+
+export type PriceType =
+  | 'hourly'
+  | 'fixed'
+  | 'negotiable'
+  | 'per_m2'
+  | 'per_tree';
+
+export interface PortfolioLink {
+  label: string;
+  url: string;
+}
+
+export interface ServiceListing {
+  _id: string;
+  providerId: User | string;
+  title: string;
+  description: string;
+  services: string[];
+  images: string[];
+  portfolioLinks: PortfolioLink[];
+  priceType: PriceType;
+  priceFrom?: number;
+  priceTo?: number;
+  location: string;
+  serviceRadiusKm?: number;
+  experienceYears?: number;
+  equipment?: string[];
+  languages?: string[];
+  availability?: string[];
+  videoUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type ServiceListingFiltersParams = {
+  location?: string;
+  service?: string;
+  priceFrom?: number;
+  priceTo?: number;
+  search?: string;
+};

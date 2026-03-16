@@ -25,3 +25,6 @@ export * from '@green-world/views/ProfileSettings';
 export * from '@green-world/views/Registration';
 export * from '@green-world/views/UserProfile';
 export * from '@green-world/views/WritePost';
+export { default as ServiceListingPage } from '@green-world/views/ServiceListing/ServiceListingPage';
+export { default as ServiceDetailsPage } from '@green-world/views/ServiceListing/ServiceDetailsPage';
+export * from './CreateEditService';

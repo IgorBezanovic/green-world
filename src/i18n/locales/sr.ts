@@ -47,6 +47,7 @@ export const sr = {
   navbar: {
     home: 'Početna',
     products: 'Proizvodi',
+    services: 'Usluge',
     events: 'Događaji',
     shops: 'Prodavnice',
     blog: 'Blog',
@@ -60,6 +61,7 @@ export const sr = {
     profile: 'Korisnički Profil',
     addProduct: 'Dodaj proizvod',
     createEvent: 'Kreiraj aktivnost',
+    addService: 'Dodaj uslugu',
     profileSettings: 'Podešavanje profila',
     contactUs: 'Kontaktirajte nas',
     messages: 'Poruke',
@@ -648,6 +650,38 @@ export const sr = {
     activities: 'Aktivnosti',
     activity: 'Aktivnost'
   },
+  userProfileView: {
+    tabs: {
+      products: 'Proizvodi',
+      services: 'Moje usluge',
+      activities: 'Aktivnosti',
+      myBlogs: 'Moji blogovi'
+    },
+    buttons: {
+      profileSettings: 'Podešavanje profila',
+      addProduct: 'Dodaj proizvod',
+      createActivity: 'Kreiraj aktivnost',
+      writeBlogPost: 'Napiši blog post',
+      addService: 'Dodaj uslugu'
+    },
+    searchByName: 'Pretraži po nazivu',
+    contentType: {
+      products: 'proizvoda',
+      services: 'usluga',
+      activities: 'aktivnosti',
+      blogs: 'blogova'
+    },
+    empty: {
+      products:
+        'Vaša prodavnica neće biti vidljiva u pretragama dok ne dodate proizvode. Kliknite na "Dodaj proizvod" da biste dodali svoj prvi proizvod i povećali vidljivost vaše prodavnice!',
+      services: 'Još uvek niste dodali usluge',
+      activities: 'Još uvek niste dodali aktivnost',
+      blogs: 'Još uvek niste dodali blog postove'
+    },
+    viewService: 'Pogledaj uslugu',
+    servicePriceOnRequest: 'Na upit',
+    serviceLocationNotSpecified: 'Lokacija nije navedena'
+  },
   profileSettingsView: {
     breadcrumb: 'Podešavanje profila',
     metaTitle: 'Zeleni svet | Podešavanje profila',
@@ -773,7 +807,65 @@ export const sr = {
     item1: '• Dodajte kvalitetan i redovan sadržaj',
     item2: '• Delite linkove na društvenim mrežama',
     item3: '• Koristite jasne i kvalitetne slike proizvoda',
-    item4: '• Brzo odgovarajte na poruke i upite',
-    item5: '• Promovišite najposećenije proizvode'
+    item4: '• Odgovarajte brzo na poruke i upite',
+    item5: '• Promovišite svoje najposećenije proizvode'
+  },
+  service: {
+    offerService: 'Ponudite uslugu',
+    invalidUrlError: 'Unesite ispravan URL (npr. https://...)',
+    submitEdit: 'Sačuvaj izmene',
+    submitCreate: 'Kreiraj oglas za uslugu',
+    title: 'Pronađite najbolje baštovanske usluge',
+    titleLabel: 'Naziv usluge/oglasa',
+    subtitle:
+      'Povežite se sa profesionalcima za održavanje travnjaka, pejzažnu arhitekturu i negu biljaka u vašoj okolini.',
+    searchPlaceholder: 'Pretraži usluge...',
+    location: 'Lokacija',
+    locationLabel: 'Lokacija (Grad / Naselje)',
+    radiusLabel: 'Dolazak na adresu unutar (KM)',
+    experienceLabel: 'Godine iskustva u radu',
+    filters: 'Filteri',
+    type: 'Tip usluge',
+    servicesLabel: 'Tipovi usluga koje nudite (Izaberite jednu ili više)',
+    categoryLawnMowing: 'Košenje trave',
+    categoryTreePruning: 'Obrezivanje drveća',
+    categoryWatering: 'Zalivanje',
+    categoryGardenMaintenance: 'Održavanje bašte',
+    categoryLandscaping: 'Pejzažna arhitektura',
+    categoryIrrigation: 'Navodnjavanje',
+    priceRange: 'Raspon cene (RSD)',
+    priceTypeLabel: 'Tip naplate',
+    priceFromLabel: 'Cena od (RSD)',
+    priceToLabel: 'Cena do (RSD)',
+    resetFilters: 'Poništi filtere',
+    resultsFound: 'rezultata pronađeno',
+    errorLoading: 'Došlo je do greške prilikom učitavanja usluga.',
+    noServices: 'Nema pronađenih usluga za odabrane filtere.',
+    viewAllServices: 'Prikaži sve usluge',
+    addPhotosLabel: 'Dodaj fotografije radova',
+    addImageButton: 'DODAJ FOTOGRAFIJU',
+    descriptionLabel: 'Detaljan opis usluga koje nudite',
+    linkLabelPlaceholder: 'Naziv (npr. Moj Sajt)',
+    linkUrlPlaceholder: 'URL (npr. https://mojsajt.com)',
+    addPortfolioLink: 'Dodaj link',
+    portfolioLinksLabel:
+      'Linkovi do portfolija (npr. Instagram, Vaš sajt, LinkedIn)',
+    notFound: 'Usluga nije pronađena',
+    backToServices: 'Nazad na usluge',
+    description: 'Opis',
+    includedServices: 'Uključene usluge',
+    equipment: 'Oprema',
+    availability: 'Dostupnost',
+    contactProvider: 'Kontaktirajte pružaoca usluge',
+    yearsExperience: 'godina iskustva',
+    operatesWithin: 'Dolazi na adresu unutar',
+    sendMessage: 'Pošalji poruku',
+    portfolioLinks: 'Portfolio linkovi',
+    contactDialogDesc:
+      'Pošaljite poruku sa opisom vašeg problema ili zahteva, a mi ćemo kontaktirati pružaoca usluge na vaš broj.',
+    phoneNumber: 'Vaš broj telefona',
+    message: 'Vaša poruka',
+    cancel: 'Odustani',
+    send: 'Pošalji'
   }
 } as const;

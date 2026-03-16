@@ -12,6 +12,7 @@ export const Navbar = () => {
   const navItems = [
     { label: t('navbar.home'), path: '/' },
     { label: t('navbar.products'), path: '/search' },
+    { label: t('navbar.services'), path: '/services' },
     { label: t('navbar.events'), path: '/events' },
     { label: t('navbar.shops'), path: '/shops' },
     { label: t('navbar.blog'), path: '/blog' },
@@ -59,6 +60,7 @@ export const Navbar = () => {
         const isActive = location.pathname === item.path;
         const showBadge =
           item.label !== t('navbar.products') &&
+          item.label !== t('navbar.services') &&
           item.label !== t('navbar.events') &&
           item.label !== t('navbar.home') &&
           item.label !== t('navbar.shops') &&
