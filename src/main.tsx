@@ -3,6 +3,7 @@ import { UserContextProvider } from '@green-world/context/UserContext';
 import { routes } from '@green-world/routes';
 import { ThemeProvider } from '@green-world/theme';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/sr';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -32,7 +33,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <UserContextProvider>
             <ChatContextProvider>
               <Suspense fallback={<Loader />}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="sr"
+                >
                   <RouterProvider router={router} />
                   <Analytics />
                   <ToastContainer />

@@ -47,6 +47,7 @@ export const ru = {
   navbar: {
     home: 'Главная',
     products: 'Товары',
+    services: 'Услуги',
     events: 'События',
     shops: 'Магазины',
     blog: 'Блог',
@@ -60,6 +61,7 @@ export const ru = {
     profile: 'Профиль пользователя',
     addProduct: 'Добавить товар',
     createEvent: 'Создать событие',
+    addService: 'Добавить услугу',
     profileSettings: 'Настройки профиля',
     contactUs: 'Связаться с нами',
     messages: 'Сообщения',
@@ -646,6 +648,38 @@ export const ru = {
     activities: 'Активности',
     activity: 'Активность'
   },
+  userProfileView: {
+    tabs: {
+      products: 'Товары',
+      services: 'Мои услуги',
+      activities: 'Активности',
+      myBlogs: 'Мои блоги'
+    },
+    buttons: {
+      profileSettings: 'Настройки профиля',
+      addProduct: 'Добавить товар',
+      createActivity: 'Создать активность',
+      writeBlogPost: 'Написать пост в блог',
+      addService: 'Добавить услугу'
+    },
+    searchByName: 'Поиск по названию',
+    contentType: {
+      products: 'товаров',
+      services: 'услуг',
+      activities: 'активностей',
+      blogs: 'блогов'
+    },
+    empty: {
+      products:
+        'Ваш магазин не будет виден в поиске, пока вы не добавите товары. Нажмите «Добавить товар», чтобы опубликовать первый товар и повысить видимость магазина!',
+      services: 'Вы еще не добавили услуги',
+      activities: 'Вы еще не добавили активность',
+      blogs: 'Вы еще не добавили посты в блог'
+    },
+    viewService: 'Открыть услугу',
+    servicePriceOnRequest: 'По запросу',
+    serviceLocationNotSpecified: 'Локация не указана'
+  },
   profileSettingsView: {
     breadcrumb: 'Настройки профиля',
     metaTitle: 'Zeleni svet | Настройки профиля',
@@ -773,5 +807,64 @@ export const ru = {
     item3: '• Используйте четкие и качественные фото товаров',
     item4: '• Быстро отвечайте на сообщения и запросы',
     item5: '• Продвигайте самые посещаемые товары'
+  },
+  service: {
+    offerService: 'Предложите услугу',
+    invalidUrlError: 'Введите действительный URL (например, https://...)',
+    submitEdit: 'Сохранить изменения',
+    submitCreate: 'Создать объявление об услуге',
+    title: 'Найдите лучшие садовые услуги',
+    titleLabel: 'Название услуги/объявления',
+    subtitle:
+      'Свяжитесь с профессионалами по уходу за газонами, ландшафтному дизайну и растениями в вашем районе.',
+    searchPlaceholder: 'Искать услуги...',
+    location: 'Местоположение',
+    locationLabel: 'Местоположение (Город / Район)',
+    radiusLabel: 'Выезд по адресу в пределах (КМ)',
+    experienceLabel: 'Опыт работы (лет)',
+    filters: 'Фильтры',
+    type: 'Тип услуги',
+    servicesLabel:
+      'Типы услуг, которые вы предлагаете (Выберите одну или несколько)',
+    categoryLawnMowing: 'Стрижка газона',
+    categoryTreePruning: 'Обрезка деревьев',
+    categoryWatering: 'Полив',
+    categoryGardenMaintenance: 'Уход за садом',
+    categoryLandscaping: 'Ландшафтный дизайн',
+    categoryIrrigation: 'Орошение',
+    priceRange: 'Диапазон цен (RSD)',
+    priceTypeLabel: 'Тип оплаты',
+    priceFromLabel: 'Цена от (RSD)',
+    priceToLabel: 'Цена до (RSD)',
+    resetFilters: 'Сбросить фильтры',
+    resultsFound: 'результатов найдено',
+    errorLoading: 'Произошла ошибка при загрузке услуг.',
+    noServices: 'Услуги не найдены по выбранным фильтрам.',
+    viewAllServices: 'Показать все услуги',
+    addPhotosLabel: 'Добавьте фото ваших работ',
+    addImageButton: 'ДОБАВИТЬ ФОТО',
+    descriptionLabel: 'Подробное описание услуг',
+    linkLabelPlaceholder: 'Название (напр., Мой Сайт)',
+    linkUrlPlaceholder: 'URL (напр., https://mojsajt.com)',
+    addPortfolioLink: 'Добавить ссылку',
+    portfolioLinksLabel:
+      'Ссылки на портфолио (напр., Instagram, Ваш сайт, LinkedIn)',
+    notFound: 'Услуга не найдена',
+    backToServices: 'Назад к услугам',
+    description: 'Описание',
+    includedServices: 'Включенные услуги',
+    equipment: 'Оборудование',
+    availability: 'Доступность',
+    contactProvider: 'Свяжитесь с поставщиком услуг',
+    yearsExperience: 'лет опыта',
+    operatesWithin: 'Выезжает по адресу в пределах',
+    sendMessage: 'Отправить сообщение',
+    portfolioLinks: 'Ссылки на портфолио',
+    contactDialogDesc:
+      'Отправьте сообщение с описанием вашей проблемы или запроса, и мы попросим поставщика связи связаться с вами по вашему номеру.',
+    phoneNumber: 'Ваш номер телефона',
+    message: 'Ваше сообщение',
+    cancel: 'Отмена',
+    send: 'Отправить'
   }
 } as const;

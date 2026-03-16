@@ -48,6 +48,7 @@ export const en = {
   navbar: {
     home: 'Home',
     products: 'Products',
+    services: 'Services',
     events: 'Events',
     shops: 'Shops',
     blog: 'Blog',
@@ -61,6 +62,7 @@ export const en = {
     profile: 'User Profile',
     addProduct: 'Add product',
     createEvent: 'Create event',
+    addService: 'Add service',
     profileSettings: 'Profile settings',
     contactUs: 'Contact us',
     messages: 'Messages',
@@ -644,6 +646,38 @@ export const en = {
     activities: 'Activities',
     activity: 'Activity'
   },
+  userProfileView: {
+    tabs: {
+      products: 'Products',
+      services: 'My services',
+      activities: 'Activities',
+      myBlogs: 'My blogs'
+    },
+    buttons: {
+      profileSettings: 'Profile settings',
+      addProduct: 'Add product',
+      createActivity: 'Create activity',
+      writeBlogPost: 'Write blog post',
+      addService: 'Add service'
+    },
+    searchByName: 'Search by name',
+    contentType: {
+      products: 'products',
+      services: 'services',
+      activities: 'activities',
+      blogs: 'blogs'
+    },
+    empty: {
+      products:
+        'Your shop will not be visible in search until you add products. Click "Add product" to publish your first product and increase your shop visibility!',
+      services: 'You have not added services yet',
+      activities: 'You have not added an activity yet',
+      blogs: 'You have not added blog posts yet'
+    },
+    viewService: 'View service',
+    servicePriceOnRequest: 'On request',
+    serviceLocationNotSpecified: 'Location not specified'
+  },
   profileSettingsView: {
     breadcrumb: 'Profile settings',
     metaTitle: 'Zeleni svet | Profile settings',
@@ -771,5 +805,63 @@ export const en = {
     item3: '• Use clear and high-quality product images',
     item4: '• Reply quickly to messages and inquiries',
     item5: '• Promote your most visited products'
+  },
+  service: {
+    offerService: 'Offer a service',
+    invalidUrlError: 'Enter a valid URL (e.g., https://...)',
+    submitEdit: 'Save changes',
+    submitCreate: 'Create service ad',
+    title: 'Find the best gardening services',
+    titleLabel: 'Service/Ad Name',
+    subtitle:
+      'Connect with lawn care, landscaping, and plant care professionals in your area.',
+    searchPlaceholder: 'Search services...',
+    location: 'Location',
+    locationLabel: 'Location (City / Settlement)',
+    radiusLabel: 'Operates within (KM)',
+    experienceLabel: 'Years of experience',
+    filters: 'Filters',
+    type: 'Service type',
+    servicesLabel: 'Types of services you offer (Select one or more)',
+    categoryLawnMowing: 'Lawn mowing',
+    categoryTreePruning: 'Tree pruning',
+    categoryWatering: 'Watering',
+    categoryGardenMaintenance: 'Garden maintenance',
+    categoryLandscaping: 'Landscaping',
+    categoryIrrigation: 'Irrigation',
+    priceRange: 'Price range (RSD)',
+    priceTypeLabel: 'Billing type',
+    priceFromLabel: 'Price from (RSD)',
+    priceToLabel: 'Price to (RSD)',
+    resetFilters: 'Reset filters',
+    resultsFound: 'results found',
+    errorLoading: 'An error occurred while loading services.',
+    noServices: 'No services found for the selected filters.',
+    viewAllServices: 'View all services',
+    addPhotosLabel: 'Add photos of your work',
+    addImageButton: 'ADD PHOTO',
+    descriptionLabel: 'Detailed description of the services you offer',
+    linkLabelPlaceholder: 'Name (e.g., My Site)',
+    linkUrlPlaceholder: 'URL (e.g., https://mysite.com)',
+    addPortfolioLink: 'Add link',
+    portfolioLinksLabel:
+      'Portfolio links (e.g., Instagram, Your site, LinkedIn)',
+    notFound: 'Service not found',
+    backToServices: 'Back to services',
+    description: 'Description',
+    includedServices: 'Included services',
+    equipment: 'Equipment',
+    availability: 'Availability',
+    contactProvider: 'Contact service provider',
+    yearsExperience: 'years of experience',
+    operatesWithin: 'Will come to the address within',
+    sendMessage: 'Send message',
+    portfolioLinks: 'Portfolio links',
+    contactDialogDesc:
+      'Send a message describing your problem or request, and we will have the service provider contact you at your number.',
+    phoneNumber: 'Your phone number',
+    message: 'Your message',
+    cancel: 'Cancel',
+    send: 'Send'
   }
 } as const;

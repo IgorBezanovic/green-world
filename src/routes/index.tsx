@@ -34,7 +34,10 @@ import {
   Events,
   Shops,
   OrderProduct,
-  WritePost
+  WritePost,
+  ServiceListingPage,
+  ServiceDetailsPage,
+  CreateEditService
 } from '@green-world/views';
 import { Message } from '@green-world/views/Message';
 import { Navigate } from 'react-router';
@@ -195,6 +198,22 @@ export const routes = [
       {
         path: '/shop/:userId',
         element: <ShopPage />
+      },
+      {
+        path: '/services',
+        element: <ServiceListingPage />
+      },
+      {
+        path: '/services/create',
+        element: <ProtectedRoute element={CreateEditService} />
+      },
+      {
+        path: '/services/:serviceId',
+        element: <ServiceDetailsPage />
+      },
+      {
+        path: '/services/:serviceId/edit',
+        element: <ProtectedRoute element={CreateEditService} />
       }
     ]
   },

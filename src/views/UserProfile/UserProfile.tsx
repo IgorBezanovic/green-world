@@ -10,8 +10,9 @@ import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
+import { useGetServices } from '@green-world/hooks/useServices';
 import { formatImageUrl } from '@green-world/utils/helpers';
-import { BlogPost, Product } from '@green-world/utils/types';
+import { BlogPost, Product, ServiceListing } from '@green-world/utils/types';
 import {
   Tabs,
   Tab,
@@ -37,9 +38,17 @@ export const UserProfile = () => {
   const { data: products = [], isLoading: productsLoading } =
     useAllUserProducts();
   const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
+  const {
+    data: services = [],
+    isLoading: servicesLoading,
+    isError: servicesError
+  } = useGetServices();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
+  const [servicesToDisplay, setServicesToDisplay] = useState<ServiceListing[]>(
+    []
+  );
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
   // const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
   //   Product[]
@@ -65,6 +74,25 @@ export const UserProfile = () => {
       setEventsToDisplay(events);
     }
   }, [events, eventsLoading]);
+
+  const userServices = useMemo(
+    () =>
+      services.filter((service: ServiceListing) => {
+        const providerId =
+          typeof service.providerId === 'string'
+            ? service.providerId
+            : service.providerId?._id;
+
+        return providerId === user?._id;
+      }),
+    [services, user?._id]
+  );
+
+  useEffect(() => {
+    if (!servicesLoading) {
+      setServicesToDisplay(userServices);
+    }
+  }, [userServices, servicesLoading]);
 
   const { data: blogs = [], isLoading: blogsLoading } = useBlogPostsByUser(
     user?._id
@@ -100,6 +128,11 @@ export const UserProfile = () => {
         event.title.toLowerCase().includes(term)
       );
       setEventsToDisplay(filtered);
+    } else if (activeTab === 'services') {
+      const filtered = userServices.filter((service: ServiceListing) =>
+        (service.title || '').toLowerCase().includes(term)
+      );
+      setServicesToDisplay(filtered);
     } else {
       const filtered = blogs.filter((post: any) =>
         post.title.toLowerCase().includes(term)
@@ -184,7 +217,7 @@ export const UserProfile = () => {
             color="info"
             onClick={() => navigate('/profile-settings/edit-profile')}
           >
-            Podesavanje profila
+            {t('userProfileView.buttons.profileSettings')}
           </Button>
           <ShopStatsCard
             numberOfProducts={user.numberOfProducts}
@@ -197,13 +230,19 @@ export const UserProfile = () => {
             onClick={() => navigate('/create-product')}
             disabled={user?.numberOfProducts >= user?.maxShopProducts}
           >
-            Dodaj proizvod
+            {t('userProfileView.buttons.addProduct')}
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/services/create')}
+          >
+            {t('userProfileView.buttons.addService')}
           </Button>
           <Button variant="contained" onClick={() => navigate('/create-event')}>
-            Kreiraj aktivnost
+            {t('userProfileView.buttons.createActivity')}
           </Button>
           <Button variant="contained" onClick={() => navigate('/write-post')}>
-            Napiši blog post
+            {t('userProfileView.buttons.writeBlogPost')}
           </Button>
           {/* WORKING TIME */}
           {user?.workingTime && (
@@ -299,12 +338,14 @@ export const UserProfile = () => {
             >
               <Search size={18} />
               <InputBase
-                placeholder={`Pretrazi po nazivu ${
+                placeholder={`${t('userProfileView.searchByName')} ${
                   activeTab === 'products'
-                    ? 'proizvoda'
-                    : activeTab === 'events'
-                      ? 'aktivnosti'
-                      : 'blogova'
+                    ? t('userProfileView.contentType.products')
+                    : activeTab === 'services'
+                      ? t('userProfileView.contentType.services')
+                      : activeTab === 'events'
+                        ? t('userProfileView.contentType.activities')
+                        : t('userProfileView.contentType.blogs')
                 }`}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   filterContent(e.target.value)
@@ -319,10 +360,11 @@ export const UserProfile = () => {
             onChange={(_e, newValue) => setActiveTab(newValue)}
             aria-label="product-event-tabs"
           >
-            <Tab label="Proizvodi" value="products" />
+            <Tab label={t('userProfileView.tabs.products')} value="products" />
+            <Tab label={t('userProfileView.tabs.services')} value="services" />
             {/* <Tab label="Promovisano" value="promoted" /> */}
-            <Tab label="Aktivnosti" value="events" />
-            <Tab label="Moji Blogovi" value="blogs" />
+            <Tab label={t('userProfileView.tabs.activities')} value="events" />
+            <Tab label={t('userProfileView.tabs.myBlogs')} value="blogs" />
           </Tabs>
 
           {activeTab === 'products' && (
@@ -361,10 +403,91 @@ export const UserProfile = () => {
                 ))
               ) : (
                 <Alert severity="warning" sx={{ mb: 2 }}>
-                  Vaša prodavnica neće biti vidljia u pretragama dok ne dodate
-                  proizvode. Kliknite na "Dodaj proizvod" da biste dodali svoj
-                  prvi proizvod i povećali vidljivost vaše prodavnice!
+                  {t('userProfileView.empty.products')}
                 </Alert>
+              )}
+            </Box>
+          )}
+
+          {activeTab === 'services' && (
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns:
+                  servicesToDisplay?.length > 0
+                    ? 'repeat(2, 1fr)'
+                    : 'repeat(1, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns:
+                    servicesToDisplay?.length > 0
+                      ? 'repeat(3, 1fr)'
+                      : 'repeat(1, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns:
+                    servicesToDisplay?.length > 0
+                      ? 'repeat(4, 1fr)'
+                      : 'repeat(1, 1fr)'
+                }
+              }}
+            >
+              {servicesLoading ? (
+                <Typography>{t('aisearch.loading')}</Typography>
+              ) : servicesError ? (
+                <Typography color="error">
+                  {t('service.errorLoading')}
+                </Typography>
+              ) : servicesToDisplay?.length > 0 ? (
+                servicesToDisplay.map((service: ServiceListing) => (
+                  <Card
+                    key={service._id}
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h6" gutterBottom>
+                        {service.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mb: 1.5 }}
+                      >
+                        {service.description}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {service.location ||
+                          t('userProfileView.serviceLocationNotSpecified')}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        color="primary.main"
+                        sx={{ mt: 1 }}
+                      >
+                        {service.priceFrom
+                          ? `${service.priceFrom} RSD`
+                          : t('userProfileView.servicePriceOnRequest')}
+                      </Typography>
+                    </Box>
+                    <Button
+                      variant="outlined"
+                      sx={{ mt: 2 }}
+                      onClick={() => navigate(`/services/${service._id}`)}
+                    >
+                      {t('userProfileView.viewService')}
+                    </Button>
+                  </Card>
+                ))
+              ) : (
+                <Typography>{t('userProfileView.empty.services')}</Typography>
               )}
             </Box>
           )}
@@ -423,7 +546,7 @@ export const UserProfile = () => {
                   <EventProfileCard key={event._id} event={event} />
                 ))
               ) : (
-                <p className="col-span-full">Još uvek niste dodali aktivnost</p>
+                <Typography>{t('userProfileView.empty.activities')}</Typography>
               )}
             </Box>
           )}
@@ -450,9 +573,7 @@ export const UserProfile = () => {
                   <BlogCard key={post._id} post={post} />
                 ))
               ) : (
-                <p className="col-span-full">
-                  Još uvek niste dodali blog postove
-                </p>
+                <Typography>{t('userProfileView.empty.blogs')}</Typography>
               )}
             </Box>
           )}
