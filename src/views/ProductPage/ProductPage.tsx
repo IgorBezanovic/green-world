@@ -664,7 +664,8 @@ export const ProductPage = () => {
         handlePrev={handlePrev}
         setOpenImageModal={setOpenImageModal}
         openImageModal={openImageModal}
-        productData={productData}
+        images={productData?.images}
+        title={productData?.title}
       />
       <SendMessageDialog
         open={openSendMessageDialog}
