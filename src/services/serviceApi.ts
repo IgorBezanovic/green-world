@@ -17,7 +17,7 @@ export const getServiceById = async (id: string) => {
 };
 
 export const createService = async (serviceData: Partial<ServiceListing>) => {
-  const { data } = await client.post(ENDPOINT, { data: serviceData });
+  const { data } = await client.post(ENDPOINT, serviceData);
   return data.data as ServiceListing;
 };
 
@@ -25,9 +25,7 @@ export const updateService = async (
   id: string,
   serviceData: Partial<ServiceListing>
 ) => {
-  const { data } = await client.patch(`${ENDPOINT}/${id}`, {
-    data: serviceData
-  });
+  const { data } = await client.patch(`${ENDPOINT}/${id}`, serviceData);
   return data.data as ServiceListing;
 };
 

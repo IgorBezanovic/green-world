@@ -452,7 +452,7 @@ const ServiceListingPage = () => {
                               color="text.primary"
                             >
                               {(service.providerId as any)?.name || 'Korisnik'}{' '}
-                              ${(service.providerId as any)?.lastname || ''}
+                              {(service.providerId as any)?.lastname || ''}
                             </Typography>
                           </Box>
                           <Typography
