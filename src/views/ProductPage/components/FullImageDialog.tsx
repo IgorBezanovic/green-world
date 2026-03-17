@@ -1,12 +1,12 @@
 import { formatImageUrl } from '@green-world/utils/helpers';
-import { Product } from '@green-world/utils/types';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
 import { Box, Dialog, IconButton } from '@mui/material';
 
 interface FullImageDialogProps {
   openImageModal: boolean;
   setOpenImageModal: (open: boolean) => void;
-  productData: Product | undefined;
+  images: string[] | undefined;
+  title?: string;
   idexOfImage: number;
   handleNext: () => void;
   handlePrev: () => void;
@@ -15,13 +15,13 @@ interface FullImageDialogProps {
 export const FullImageDialog = ({
   openImageModal,
   setOpenImageModal,
-  productData,
+  images,
+  title,
   idexOfImage,
   handleNext,
   handlePrev
 }: FullImageDialogProps) => {
-  const doesImagesExist =
-    productData?.images?.length && productData?.images?.length > 1;
+  const doesImagesExist = images?.length && images?.length > 1;
 
   return (
     <Dialog
@@ -72,8 +72,8 @@ export const FullImageDialog = ({
 
       <Box
         component="img"
-        src={formatImageUrl(productData?.images[idexOfImage] || '')}
-        alt={productData?.title}
+        src={formatImageUrl(images?.[idexOfImage] || '')}
+        alt={title}
         sx={{
           height: '90vh',
           width: '90vw',

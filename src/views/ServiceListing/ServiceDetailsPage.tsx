@@ -1,3 +1,4 @@
+import { AppBreadcrumbs } from '@green-world/components';
 import {
   useGetServiceById,
   useContactServiceProvider
@@ -11,6 +12,7 @@ import {
   Grid,
   Typography,
   Card,
+  CardContent,
   Button,
   Chip,
   CircularProgress,
@@ -20,12 +22,16 @@ import {
   DialogActions,
   TextField,
   Divider,
-  Avatar
+  Avatar,
+  useTheme
 } from '@mui/material';
 import {
   MapPin,
   ArrowLeft,
+  ArrowRight,
   Mail,
+  Phone,
+  BriefcaseBusiness,
   Calendar,
   Clock,
   CheckCircle2,
@@ -36,9 +42,12 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
 
+import { FullImageDialog } from '../ProductPage/components';
+
 const ServiceDetailsPage = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const {
     data: serviceResponse,
@@ -52,6 +61,8 @@ const ServiceDetailsPage = () => {
 
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ message: '', phone: '' });
+  const [idexOfImage, setIndexOfImage] = useState(0);
+  const [openImageModal, setOpenImageModal] = useState(false);
 
   if (isLoading) {
     return (
@@ -103,7 +114,31 @@ const ServiceDetailsPage = () => {
     }
   };
 
+  const handlePrev = () => {
+    if (!service?.images?.length) return;
+
+    setIndexOfImage((prevIndex) =>
+      prevIndex === 0 ? service.images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    if (!service?.images?.length) return;
+
+    setIndexOfImage((prevIndex) =>
+      prevIndex === service.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   const provider = service.providerId as any;
+  const pages = [
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.services', 'Usluge'), route: '/services' },
+    {
+      label: service.title || t('service.notFound'),
+      route: `/services/${serviceId}`
+    }
+  ];
 
   return (
     <Box
@@ -114,29 +149,21 @@ const ServiceDetailsPage = () => {
           maxWidth: '1400px',
           mx: 'auto',
           px: 2,
+          gap: 4,
+          display: 'flex',
+          flexDirection: 'column',
           [theme.breakpoints.up('sm')]: { px: 3 },
           [theme.breakpoints.up('xl')]: { px: 0 }
         })}
       >
-        <Button
-          component={Link}
-          to="/services"
-          startIcon={<ArrowLeft />}
-          sx={{ mb: 4, color: 'text.secondary' }}
-        >
-          {t('service.backToServices')}
-        </Button>
+        <AppBreadcrumbs pages={pages} />
+        <Divider sx={{ mb: 4 }} />
 
         <Grid container spacing={4}>
           {/* Main Content */}
-          <Grid size={{ xs: 12, md: 8 }}>
+          <Grid size={{ xs: 12, md: 7 }}>
             <Box mb={4}>
-              <Typography
-                variant="h3"
-                component="h1"
-                fontWeight="bold"
-                gutterBottom
-              >
+              <Typography variant="h1" gutterBottom>
                 {service.title}
               </Typography>
 
@@ -187,21 +214,131 @@ const ServiceDetailsPage = () => {
               </Box>
             </Box>
 
-            {/* Images Gallery Placeholder - Just showing the first one for now */}
             {service.images && service.images.length > 0 && (
               <Box
-                component="img"
-                src={formatImageUrl(service.images[0], 100)}
-                alt={service.title}
                 sx={{
-                  width: '100%',
-                  height: 400,
-                  objectFit: 'cover',
-                  borderRadius: 3,
-                  mb: 4,
-                  boxShadow: 2
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  mb: 4
                 }}
-              />
+              >
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '1 / 1',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {service.images.length > 1 && (
+                    <Button
+                      onClick={handlePrev}
+                      sx={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 50,
+                        backgroundColor: 'rgba(81, 81, 81, 0.60)',
+                        borderRadius: '6px',
+                        opacity: 1,
+                        [theme.breakpoints.up('md')]: { opacity: 0 },
+                        '&:hover': {
+                          [theme.breakpoints.up('md')]: { opacity: 1 },
+                          backgroundColor: 'rgba(81, 81, 81, 0.60)'
+                        },
+                        minWidth: 0,
+                        padding: 0,
+                        zIndex: 1
+                      }}
+                    >
+                      <ArrowLeft color="#fff" />
+                    </Button>
+                  )}
+
+                  <Box
+                    component="img"
+                    src={formatImageUrl(service?.images[idexOfImage], 85)}
+                    alt={service.title}
+                    onClick={() => setOpenImageModal(true)}
+                    sx={{
+                      borderRadius: '6px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      cursor: 'pointer'
+                    }}
+                  />
+
+                  {service.images.length > 1 && (
+                    <Button
+                      onClick={handleNext}
+                      sx={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 50,
+                        backgroundColor: 'rgba(81, 81, 81, 0.60)',
+                        borderRadius: '6px',
+                        opacity: 1,
+                        [theme.breakpoints.up('md')]: { opacity: 0 },
+                        '&:hover': {
+                          [theme.breakpoints.up('md')]: { opacity: 1 },
+                          backgroundColor: 'rgba(81, 81, 81, 0.60)'
+                        },
+                        minWidth: 0,
+                        padding: 0,
+                        zIndex: 1
+                      }}
+                    >
+                      <ArrowRight color="#fff" />
+                    </Button>
+                  )}
+                </Box>
+
+                {service.images.length > 1 && (
+                  <Box
+                    component="footer"
+                    sx={(theme) => ({
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                      [theme.breakpoints.up('xs')]: {
+                        gridTemplateColumns: 'repeat(4, minmax(0, 1fr))'
+                      },
+                      width: '100%',
+                      gap: '16px'
+                    })}
+                  >
+                    {service.images.map((image: string, index: number) => (
+                      <Box
+                        component="img"
+                        src={formatImageUrl(image, 55)}
+                        alt={image}
+                        key={image}
+                        onClick={() => setIndexOfImage(index)}
+                        sx={(theme) => ({
+                          borderRadius: '6px',
+                          boxShadow:
+                            'var(--mui-shadow, 0px 1px 3px rgba(0,0,0,0.1))',
+                          aspectRatio: '1 / 1',
+                          width: '100%',
+                          objectFit: 'cover',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          ...(idexOfImage === index && {
+                            boxShadow: theme.shadows[10],
+                            border: '2px solid',
+                            borderColor: 'forestGreen'
+                          })
+                        })}
+                      />
+                    ))}
+                  </Box>
+                )}
+              </Box>
             )}
 
             <Card
@@ -319,158 +456,237 @@ const ServiceDetailsPage = () => {
           </Grid>
 
           {/* Sidebar */}
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Card
               sx={{
-                p: 3,
                 position: 'sticky',
-                top: 24,
-                borderRadius: 3,
-                boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'
+                top: 120,
+                borderRadius: 1
               }}
             >
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                {t('service.contactProvider')}
-              </Typography>
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2,
-                  mt: 3,
-                  mb: 3
-                }}
-              >
-                <Avatar
-                  src={
-                    provider?.profileImage
-                      ? formatImageUrl(provider.profileImage, 55)
-                      : undefined
-                  }
-                  alt={provider?.name}
-                  sx={{ width: 64, height: 64 }}
-                />
-                <Box>
-                  <Typography variant="h6" fontWeight="bold">
-                    {provider?.name} {provider?.lastname}
-                  </Typography>
-                  {provider?.shopName && (
-                    <Typography variant="body2" color="text.secondary">
-                      {provider?.shopName}
+              <CardContent sx={{ padding: '24px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px'
+                  }}
+                >
+                  {provider?.profileImage ? (
+                    <Box
+                      component="img"
+                      sx={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        objectFit: 'cover'
+                      }}
+                      src={formatImageUrl(provider.profileImage, 55)}
+                      alt={provider?.name}
+                    />
+                  ) : (
+                    <Avatar
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        bgcolor: 'primary.main',
+                        fontSize: 24
+                      }}
+                    >
+                      {provider?.name?.[0]?.toUpperCase() || ''}
+                    </Avatar>
+                  )}
+                  <Box sx={{ flex: 1 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '8px'
+                      }}
+                    >
+                      <BriefcaseBusiness />
+                      <Typography variant="h3">
+                        {provider?.shopName || provider?.name}
+                      </Typography>
+                    </Box>
+                    <Typography variant="button">
+                      {provider?.name} {provider?.lastname}
                     </Typography>
+                  </Box>
+                </Box>
+
+                <Divider sx={{ marginY: 2 }} />
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    mb: 4
+                  }}
+                >
+                  {service.experienceYears !== undefined && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      <Clock size={20} />
+                      <Typography variant="body2">
+                        {service.experienceYears} {t('service.yearsExperience')}
+                      </Typography>
+                    </Box>
+                  )}
+                  {service.serviceRadiusKm !== undefined && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      <MapPin size={20} />
+                      <Typography variant="body2">
+                        {t('service.operatesWithin')} {service.serviceRadiusKm}{' '}
+                        km
+                      </Typography>
+                    </Box>
+                  )}
+                  {service.languages && service.languages.length > 0 && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        color: 'text.secondary'
+                      }}
+                    >
+                      <Languages size={20} />
+                      <Typography variant="body2">
+                        {service.languages.join(', ')}
+                      </Typography>
+                    </Box>
+                  )}
+                  {provider?.phone && (
+                    <Box
+                      component="a"
+                      href={`tel:${provider.phone}`}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        color: 'text.secondary',
+                        '&:hover': {
+                          color: 'primary.main',
+                          transition: 'color 0.3s ease'
+                        }
+                      }}
+                    >
+                      <Phone size={20} />
+                      <span>{provider.phone}</span>
+                    </Box>
+                  )}
+                  {provider?.email && (
+                    <Box
+                      component="a"
+                      href={`mailto:${provider.email}`}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        color: 'text.secondary',
+                        '&:hover': {
+                          color: 'primary.main',
+                          transition: 'color 0.3s ease'
+                        }
+                      }}
+                    >
+                      <Mail size={20} />
+                      <span>{provider.email}</span>
+                    </Box>
                   )}
                 </Box>
-              </Box>
 
-              <Divider sx={{ mb: 3 }} />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  size="large"
+                  startIcon={<Mail />}
+                  onClick={() => setContactDialogOpen(true)}
+                  sx={{
+                    borderRadius: 2,
+                    py: 1.5,
+                    textTransform: 'none',
+                    fontSize: '1rem'
+                  }}
+                >
+                  {t('service.sendMessage')}
+                </Button>
 
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}
-              >
-                {service.experienceYears !== undefined && (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      color: 'text.secondary'
-                    }}
-                  >
-                    <Clock size={20} />
-                    <Typography variant="body2">
-                      {service.experienceYears} {t('service.yearsExperience')}
-                    </Typography>
-                  </Box>
-                )}
-                {service.serviceRadiusKm !== undefined && (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      color: 'text.secondary'
-                    }}
-                  >
-                    <MapPin size={20} />
-                    <Typography variant="body2">
-                      {t('service.operatesWithin')} {service.serviceRadiusKm} km
-                    </Typography>
-                  </Box>
-                )}
-                {service.languages && service.languages.length > 0 && (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      color: 'text.secondary'
-                    }}
-                  >
-                    <Languages size={20} />
-                    <Typography variant="body2">
-                      {service.languages.join(', ')}
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="large"
-                startIcon={<Mail />}
-                onClick={() => setContactDialogOpen(true)}
-                sx={{
-                  borderRadius: 2,
-                  py: 1.5,
-                  textTransform: 'none',
-                  fontSize: '1rem'
-                }}
-              >
-                {t('service.sendMessage')}
-              </Button>
-
-              {service.portfolioLinks && service.portfolioLinks.length > 0 && (
-                <Box sx={{ mt: 4 }}>
-                  <Typography
-                    variant="subtitle2"
-                    fontWeight="bold"
-                    gutterBottom
-                  >
-                    {t('service.portfolioLinks')}
-                  </Typography>
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
-                  >
-                    {service.portfolioLinks.map(
-                      (link: { label: string; url: string }, idx: number) => (
-                        <Button
-                          key={idx}
-                          component="a"
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          startIcon={<LinkIcon size={16} />}
-                          variant="text"
-                          size="small"
-                          sx={{
-                            justifyContent: 'flex-start',
-                            textTransform: 'none'
-                          }}
-                        >
-                          {link.label}
-                        </Button>
-                      )
-                    )}
-                  </Box>
-                </Box>
-              )}
+                {service.portfolioLinks &&
+                  service.portfolioLinks.length > 0 && (
+                    <Box sx={{ mt: 4 }}>
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight="bold"
+                        gutterBottom
+                      >
+                        {t('service.portfolioLinks')}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 1
+                        }}
+                      >
+                        {service.portfolioLinks.map(
+                          (
+                            link: { label: string; url: string },
+                            idx: number
+                          ) => (
+                            <Button
+                              key={idx}
+                              component="a"
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              startIcon={<LinkIcon size={16} />}
+                              variant="text"
+                              size="small"
+                              sx={{
+                                justifyContent: 'flex-start',
+                                textTransform: 'none'
+                              }}
+                            >
+                              {link.label}
+                            </Button>
+                          )
+                        )}
+                      </Box>
+                    </Box>
+                  )}
+              </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Box>
+
+      <FullImageDialog
+        idexOfImage={idexOfImage}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+        setOpenImageModal={setOpenImageModal}
+        openImageModal={openImageModal}
+        images={service.images}
+        title={service.title}
+      />
 
       {/* Contact Dialog */}
       <Dialog
