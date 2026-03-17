@@ -72,7 +72,6 @@ export const CreateEditService = () => {
   const existingService = serviceResponse;
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
   const quillRef = useRef<ReactQuill>(null);
   const modules = {
     toolbar: [
@@ -121,7 +120,10 @@ export const CreateEditService = () => {
 
   useEffect(() => {
     if (!isLoadingService && existingService) {
-      setServiceData(existingService);
+      setServiceData({
+        ...existingService,
+        description: existingService.description || ''
+      });
     }
   }, [existingService, isLoadingService]);
 
@@ -239,6 +241,26 @@ export const CreateEditService = () => {
     });
   };
 
+  const normalizeStringArray = (values?: string[]) => {
+    if (!values || values.length === 0) return [];
+
+    const uniqueValues = new Set(
+      values.map((value) => value.trim()).filter(Boolean)
+    );
+
+    return Array.from(uniqueValues);
+  };
+
+  const handleArrayFieldChange = (
+    field: 'equipment' | 'languages' | 'availability',
+    values: string[]
+  ) => {
+    setServiceData((prev) => ({
+      ...prev,
+      [field]: normalizeStringArray(values)
+    }));
+  };
+
   const isValidUrl = (url: string) => {
     if (!url) return true; // empty is handled by required check
     try {
@@ -273,11 +295,15 @@ export const CreateEditService = () => {
   }, [serviceData.portfolioLinks]);
 
   const hasPriceFrom =
-    serviceData.priceFrom !== undefined && serviceData.priceFrom !== null;
+    serviceData.priceFrom !== undefined &&
+    serviceData.priceFrom !== null &&
+    String(serviceData.priceFrom).trim() !== '';
   const hasPriceTo =
-    serviceData.priceTo !== undefined && serviceData.priceTo !== null;
-  const parsedPriceFrom = Number(serviceData.priceFrom);
-  const parsedPriceTo = Number(serviceData.priceTo);
+    serviceData.priceTo !== undefined &&
+    serviceData.priceTo !== null &&
+    String(serviceData.priceTo).trim() !== '';
+  const parsedPriceFrom = hasPriceFrom ? Number(serviceData.priceFrom) : NaN;
+  const parsedPriceTo = hasPriceTo ? Number(serviceData.priceTo) : NaN;
   const hasRequiredTitle = Boolean(serviceData.title?.trim());
   const hasRequiredDescription = Boolean(
     getPlainTextFromHtml(serviceData.description || '').trim()
@@ -313,18 +339,39 @@ export const CreateEditService = () => {
     !hasRequiredPriceFrom ||
     !isPortfolioLinksValid ||
     isPriceRangeInvalid;
-
+  console.log({
+    isLoadingCreate,
+    isLoadingEdit,
+    hasRequiredTitle,
+    hasRequiredDescription,
+    hasRequiredServices,
+    isLocationInvalid,
+    hasRequiredPriceType,
+    hasRequiredPriceFrom,
+    isPortfolioLinksValid,
+    isPriceRangeInvalid,
+    priceFrom: serviceData.priceFrom,
+    hasPriceFrom,
+    parsedPriceFrom
+  });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitDisabled) return;
 
+    const payload: Partial<ServiceListing> = {
+      ...serviceData,
+      equipment: normalizeStringArray(serviceData.equipment),
+      languages: normalizeStringArray(serviceData.languages),
+      availability: normalizeStringArray(serviceData.availability)
+    };
+
     if (serviceId) {
       editMutation(
-        { id: serviceId, data: serviceData },
+        { id: serviceId, data: payload },
         { onSuccess: () => navigate('/services') }
       );
     } else {
-      createMutation(serviceData, { onSuccess: () => navigate('/services') });
+      createMutation(payload, { onSuccess: () => navigate('/services') });
     }
   };
 
@@ -557,6 +604,114 @@ export const CreateEditService = () => {
               onChange={handleChange}
               fullWidth
               sx={outlinedInputSx}
+            />
+
+            <Typography component="label" sx={labelSx}>
+              {t('service.equipmentLabel', 'Oprema koju koristite (opciono)')}
+            </Typography>
+            <Autocomplete
+              multiple
+              freeSolo
+              options={[]}
+              value={serviceData.equipment || []}
+              onChange={(_e, newValue) =>
+                handleArrayFieldChange('equipment', newValue as string[])
+              }
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    key={`${option}-${index}`}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder={t(
+                    'service.equipmentPlaceholder',
+                    'Npr. Trimer, kosačica, mini bager...'
+                  )}
+                  variant="outlined"
+                  size="medium"
+                  sx={{ ...outlinedInputSx, width: '100%' }}
+                />
+              )}
+              sx={{ mb: 2, width: '100%' }}
+            />
+
+            <Typography component="label" sx={labelSx}>
+              {t('service.languagesLabel', 'Jezici koje govorite (opciono)')}
+            </Typography>
+            <Autocomplete
+              multiple
+              freeSolo
+              options={[]}
+              value={serviceData.languages || []}
+              onChange={(_e, newValue) =>
+                handleArrayFieldChange('languages', newValue as string[])
+              }
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    key={`${option}-${index}`}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder={t(
+                    'service.languagesPlaceholder',
+                    'Npr. Srpski, Engleski...'
+                  )}
+                  variant="outlined"
+                  size="medium"
+                  sx={{ ...outlinedInputSx, width: '100%' }}
+                />
+              )}
+              sx={{ mb: 2, width: '100%' }}
+            />
+
+            <Typography component="label" sx={labelSx}>
+              {t('service.availabilityLabel', 'Dostupnost termina (opciono)')}
+            </Typography>
+            <Autocomplete
+              multiple
+              freeSolo
+              options={[]}
+              value={serviceData.availability || []}
+              onChange={(_e, newValue) =>
+                handleArrayFieldChange('availability', newValue as string[])
+              }
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    key={`${option}-${index}`}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder={t(
+                    'service.availabilityPlaceholder',
+                    'Npr. Radnim danima 08-16h, Vikendom po dogovoru...'
+                  )}
+                  variant="outlined"
+                  size="medium"
+                  sx={{ ...outlinedInputSx, width: '100%' }}
+                />
+              )}
+              sx={{ mb: 2, width: '100%' }}
             />
 
             <Typography component="label" sx={labelSx}>

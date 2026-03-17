@@ -1,12 +1,15 @@
-import { AppBreadcrumbs } from '@green-world/components';
+import { AppBreadcrumbs, SendMessageDialog } from '@green-world/components';
 import {
   useGetServiceById,
-  useContactServiceProvider
+  useSendDirectEmailToServiceProvider
 } from '@green-world/hooks/useServices';
+import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
-  getHtmlDescriptionProps
+  getHtmlDescriptionProps,
+  safeDecodeToken
 } from '@green-world/utils/helpers';
+import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
   Grid,
@@ -20,9 +23,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
+  OutlinedInput,
+  FormControl,
   Divider,
   Avatar,
+  Tooltip,
   useTheme
 } from '@mui/material';
 import {
@@ -33,10 +38,12 @@ import {
   Phone,
   BriefcaseBusiness,
   Calendar,
-  Clock,
-  CheckCircle2,
+  ClipboardClock,
+  Toolbox,
   Languages,
-  Link as LinkIcon
+  Link as LinkIcon,
+  PencilRuler,
+  MessageCircleMore
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -56,11 +63,18 @@ const ServiceDetailsPage = () => {
   } = useGetServiceById(serviceId || '');
   const service = serviceResponse;
 
-  const { mutate: contactProvider, isPending: isSending } =
-    useContactServiceProvider();
+  const { mutate: sendDirectEmail, isPending: isSendingDirectEmail } =
+    useSendDirectEmailToServiceProvider();
 
-  const [contactDialogOpen, setContactDialogOpen] = useState(false);
-  const [contactForm, setContactForm] = useState({ message: '', phone: '' });
+  const decodedToken = safeDecodeToken<DecodedToken>(getItem('token'));
+
+  const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
+  const [directEmailDialogOpen, setDirectEmailDialogOpen] = useState(false);
+  const [directEmailForm, setDirectEmailForm] = useState({
+    name: '',
+    phone: '',
+    message: ''
+  });
   const [idexOfImage, setIndexOfImage] = useState(0);
   const [openImageModal, setOpenImageModal] = useState(false);
 
@@ -100,14 +114,19 @@ const ServiceDetailsPage = () => {
     );
   }
 
-  const handleContactSubmit = () => {
-    if (serviceId && contactForm.message && contactForm.phone) {
-      contactProvider(
-        { id: serviceId, ...contactForm },
+  const handleDirectEmailSubmit = () => {
+    if (
+      serviceId &&
+      directEmailForm.name &&
+      directEmailForm.phone &&
+      directEmailForm.message
+    ) {
+      sendDirectEmail(
+        { id: serviceId, ...directEmailForm },
         {
           onSuccess: () => {
-            setContactDialogOpen(false);
-            setContactForm({ message: '', phone: '' });
+            setDirectEmailDialogOpen(false);
+            setDirectEmailForm({ name: '', phone: '', message: '' });
           }
         }
       );
@@ -131,6 +150,10 @@ const ServiceDetailsPage = () => {
   };
 
   const provider = service.providerId as any;
+  const sendMessageDisabled =
+    !decodedToken?._id || decodedToken?._id === provider?._id;
+  const sendDirectEmailDisabled =
+    !decodedToken?._id || decodedToken?._id === provider?._id;
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.services', 'Usluge'), route: '/services' },
@@ -194,14 +217,14 @@ const ServiceDetailsPage = () => {
                     color: 'text.secondary'
                   }}
                 >
-                  <MapPin size={18} />
+                  <MapPin />
                   <Typography variant="body1">
                     {service.location || t('service.notSpecified')}
                   </Typography>
                 </Box>
                 {service.priceFrom && (
                   <Typography
-                    variant="h6"
+                    variant="h4"
                     fontWeight="bold"
                     color="primary.main"
                     sx={{ ml: 'auto' }}
@@ -373,7 +396,7 @@ const ServiceDetailsPage = () => {
                       gutterBottom
                       sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                     >
-                      <CheckCircle2 color="green" size={20} />
+                      <Toolbox style={{ width: 24, height: 24 }} />
                       {t('service.includedServices')}
                     </Typography>
                     <Box
@@ -383,7 +406,10 @@ const ServiceDetailsPage = () => {
                         <Chip
                           key={i}
                           label={t(`service.serviceNames.${s}`, s)}
-                          sx={{ bgcolor: 'primary.50' }}
+                          sx={{
+                            bgcolor: 'success.light',
+                            ...theme.typography.body1
+                          }}
                         />
                       ))}
                     </Box>
@@ -402,16 +428,59 @@ const ServiceDetailsPage = () => {
                       border: '1px solid #e0e0e0'
                     }}
                   >
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 1
+                      }}
+                    >
+                      <PencilRuler style={{ width: 24, height: 24 }} />
                       {t('service.equipment')}
                     </Typography>
-                    <Box
-                      component="ul"
-                      sx={{ pl: 2, m: 0, color: 'text.secondary' }}
-                    >
+                    <Box component="ul" sx={{ m: 0, color: 'text.secondary' }}>
                       {service.equipment.map((eq: string, i: number) => (
                         <li key={i} style={{ paddingBottom: 4 }}>
                           {eq}
+                        </li>
+                      ))}
+                    </Box>
+                  </Card>
+                </Grid>
+              )}
+
+              {service.languages && service.languages.length > 0 && (
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Card
+                    sx={{
+                      p: 3,
+                      height: '100%',
+                      borderRadius: 3,
+                      boxShadow: 'none',
+                      border: '1px solid #e0e0e0'
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      gutterBottom
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 1
+                      }}
+                    >
+                      <Languages style={{ width: 24, height: 24 }} />
+                      {t('service.languagesProvided')}
+                    </Typography>
+                    <Box component="ul" sx={{ m: 0, color: 'text.secondary' }}>
+                      {service.languages.map((lang: string, i: number) => (
+                        <li key={i} style={{ paddingBottom: 4 }}>
+                          {lang}
                         </li>
                       ))}
                     </Box>
@@ -434,15 +503,17 @@ const ServiceDetailsPage = () => {
                       variant="h6"
                       fontWeight="bold"
                       gutterBottom
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 1
+                      }}
                     >
-                      <Calendar size={20} />
+                      <Calendar style={{ width: 24, height: 24 }} />
                       {t('service.availability')}
                     </Typography>
-                    <Box
-                      component="ul"
-                      sx={{ pl: 2, m: 0, color: 'text.secondary' }}
-                    >
+                    <Box component="ul" sx={{ m: 0, color: 'text.secondary' }}>
                       {service.availability.map((av: string, i: number) => (
                         <li key={i} style={{ paddingBottom: 4 }}>
                           {av}
@@ -535,8 +606,8 @@ const ServiceDetailsPage = () => {
                         color: 'text.secondary'
                       }}
                     >
-                      <Clock size={20} />
-                      <Typography variant="body2">
+                      <ClipboardClock style={{ width: 20, height: 20 }} />
+                      <Typography variant="body1">
                         {service.experienceYears} {t('service.yearsExperience')}
                       </Typography>
                     </Box>
@@ -550,8 +621,8 @@ const ServiceDetailsPage = () => {
                         color: 'text.secondary'
                       }}
                     >
-                      <MapPin size={20} />
-                      <Typography variant="body2">
+                      <MapPin style={{ width: 20, height: 20 }} />
+                      <Typography variant="body1">
                         {t('service.operatesWithin')} {service.serviceRadiusKm}{' '}
                         km
                       </Typography>
@@ -566,8 +637,8 @@ const ServiceDetailsPage = () => {
                         color: 'text.secondary'
                       }}
                     >
-                      <Languages size={20} />
-                      <Typography variant="body2">
+                      <Languages style={{ width: 20, height: 20 }} />
+                      <Typography variant="body1">
                         {service.languages.join(', ')}
                       </Typography>
                     </Box>
@@ -587,8 +658,8 @@ const ServiceDetailsPage = () => {
                         }
                       }}
                     >
-                      <Phone size={20} />
-                      <span>{provider.phone}</span>
+                      <Phone style={{ width: 20, height: 20 }} />
+                      <Typography variant="body1">{provider.phone}</Typography>
                     </Box>
                   )}
                   {provider?.email && (
@@ -606,34 +677,132 @@ const ServiceDetailsPage = () => {
                         }
                       }}
                     >
-                      <Mail size={20} />
-                      <span>{provider.email}</span>
+                      <Mail style={{ width: 20, height: 20 }} />
+                      <Typography variant="body1">{provider.email}</Typography>
                     </Box>
                   )}
                 </Box>
 
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  size="large"
-                  startIcon={<Mail />}
-                  onClick={() => setContactDialogOpen(true)}
-                  sx={{
-                    borderRadius: 2,
-                    py: 1.5,
-                    textTransform: 'none',
-                    fontSize: '1rem'
-                  }}
+                <Tooltip
+                  title={
+                    !decodedToken?._id
+                      ? t('productPage.mustLoginToMessage')
+                      : decodedToken?._id === provider?._id
+                        ? t('productPage.cannotMessageSelf')
+                        : ''
+                  }
+                  disableHoverListener={
+                    Boolean(decodedToken?._id) &&
+                    decodedToken?._id !== provider?._id
+                  }
+                  arrow
                 >
-                  {t('service.sendMessage')}
-                </Button>
+                  <span style={{ display: 'block' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                      size="large"
+                      startIcon={
+                        <MessageCircleMore
+                          style={{
+                            width: 20,
+                            height: 20,
+                            color: sendMessageDisabled
+                              ? theme.palette.action.disabled
+                              : theme.palette.secondary.main
+                          }}
+                        />
+                      }
+                      disabled={sendMessageDisabled}
+                      onClick={() => setOpenSendMessageDialog(true)}
+                      sx={{
+                        borderRadius: 2,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      {t('service.sendMessage')}
+                    </Button>
+                  </span>
+                </Tooltip>
+
+                <Tooltip
+                  title={
+                    !decodedToken?._id
+                      ? t('service.mustLoginToSendDirectEmail')
+                      : decodedToken?._id === provider?._id
+                        ? t('productPage.cannotMessageSelf')
+                        : ''
+                  }
+                  disableHoverListener={
+                    Boolean(decodedToken?._id) &&
+                    decodedToken?._id !== provider?._id
+                  }
+                  arrow
+                >
+                  <span style={{ display: 'block', marginTop: 12 }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                      size="large"
+                      disabled={sendDirectEmailDisabled}
+                      startIcon={
+                        <Mail
+                          style={{
+                            width: 20,
+                            height: 20,
+                            color: sendDirectEmailDisabled
+                              ? theme.palette.action.disabled
+                              : theme.palette.secondary.main
+                          }}
+                        />
+                      }
+                      onClick={() => setDirectEmailDialogOpen(true)}
+                      sx={{
+                        borderRadius: 2,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      {t('service.sendDirectEmail')}
+                    </Button>
+                  </span>
+                </Tooltip>
+
+                {provider?.phone && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="large"
+                    component="a"
+                    href={`tel:${provider.phone}`}
+                    startIcon={
+                      <Phone
+                        style={{ color: 'white', width: 20, height: 20 }}
+                      />
+                    }
+                    sx={{
+                      mt: 1.5,
+                      borderRadius: 2,
+                      py: 1.5,
+                      textTransform: 'none',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    {t('service.callProvider')}
+                  </Button>
+                )}
 
                 {service.portfolioLinks &&
                   service.portfolioLinks.length > 0 && (
                     <Box sx={{ mt: 4 }}>
                       <Typography
-                        variant="subtitle2"
+                        variant="subtitle1"
                         fontWeight="bold"
                         gutterBottom
                       >
@@ -657,10 +826,10 @@ const ServiceDetailsPage = () => {
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              startIcon={<LinkIcon size={16} />}
+                              startIcon={<LinkIcon />}
                               variant="text"
-                              size="small"
                               sx={{
+                                ...theme.typography.body1,
                                 justifyContent: 'flex-start',
                                 textTransform: 'none'
                               }}
@@ -687,58 +856,109 @@ const ServiceDetailsPage = () => {
         images={service.images}
         title={service.title}
       />
-
-      {/* Contact Dialog */}
+      {/* Direct Email Dialog */}
       <Dialog
-        open={contactDialogOpen}
-        onClose={() => setContactDialogOpen(false)}
+        open={directEmailDialogOpen}
+        onClose={() => setDirectEmailDialogOpen(false)}
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>{t('service.contactProvider')}</DialogTitle>
+        <DialogTitle>{t('service.sendDirectEmail')}</DialogTitle>
         <DialogContent>
           <Typography variant="body2" color="text.secondary" paragraph>
-            {t('service.contactDialogDesc')}
+            {t('service.directEmailDialogDesc')}
           </Typography>
-          <TextField
-            autoFocus
-            margin="dense"
-            label={t('service.phoneNumber')}
-            type="tel"
-            fullWidth
-            variant="outlined"
-            value={contactForm.phone}
-            onChange={(e) =>
-              setContactForm({ ...contactForm, phone: e.target.value })
-            }
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label={t('service.message')}
-            multiline
-            rows={4}
-            fullWidth
-            variant="outlined"
-            value={contactForm.message}
-            onChange={(e) =>
-              setContactForm({ ...contactForm, message: e.target.value })
-            }
-          />
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <Typography
+              component="label"
+              htmlFor="direct-email-name"
+              sx={{ mb: 1, fontSize: '0.875rem', color: 'text.secondary' }}
+            >
+              {t('service.yourName')}
+            </Typography>
+            <OutlinedInput
+              autoFocus
+              id="direct-email-name"
+              type="text"
+              value={directEmailForm.name}
+              onChange={(e) =>
+                setDirectEmailForm({ ...directEmailForm, name: e.target.value })
+              }
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <Typography
+              component="label"
+              htmlFor="direct-email-phone"
+              sx={{ mb: 1, fontSize: '0.875rem', color: 'text.secondary' }}
+            >
+              {t('service.phoneNumber')}
+            </Typography>
+            <OutlinedInput
+              id="direct-email-phone"
+              type="tel"
+              value={directEmailForm.phone}
+              onChange={(e) =>
+                setDirectEmailForm({
+                  ...directEmailForm,
+                  phone: e.target.value
+                })
+              }
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <Typography
+              component="label"
+              htmlFor="direct-email-message"
+              sx={{ mb: 1, fontSize: '0.875rem', color: 'text.secondary' }}
+            >
+              {t('service.message')}
+            </Typography>
+            <OutlinedInput
+              id="direct-email-message"
+              multiline
+              rows={4}
+              value={directEmailForm.message}
+              onChange={(e) =>
+                setDirectEmailForm({
+                  ...directEmailForm,
+                  message: e.target.value
+                })
+              }
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 0 }}>
-          <Button onClick={() => setContactDialogOpen(false)} color="inherit">
+          <Button
+            onClick={() => setDirectEmailDialogOpen(false)}
+            color="inherit"
+          >
             {t('service.cancel')}
           </Button>
           <Button
-            onClick={handleContactSubmit}
+            onClick={handleDirectEmailSubmit}
             variant="contained"
-            disabled={!contactForm.phone || !contactForm.message || isSending}
+            disabled={
+              !directEmailForm.name ||
+              !directEmailForm.phone ||
+              !directEmailForm.message ||
+              isSendingDirectEmail
+            }
           >
-            {isSending ? <CircularProgress size={24} /> : t('service.send')}
+            {isSendingDirectEmail ? (
+              <CircularProgress size={24} />
+            ) : (
+              t('service.send')
+            )}
           </Button>
         </DialogActions>
       </Dialog>
+
+      <SendMessageDialog
+        open={openSendMessageDialog}
+        onClose={() => setOpenSendMessageDialog(false)}
+        userId={provider?._id || ''}
+      />
     </Box>
   );
 };

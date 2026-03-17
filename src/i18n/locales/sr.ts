@@ -982,6 +982,7 @@ export const sr = {
       activities: 'Još uvek niste dodali aktivnost',
       blogs: 'Još uvek niste dodali blog postove'
     },
+    editService: 'Uredi uslugu',
     viewService: 'Pogledaj uslugu',
     servicePriceOnRequest: 'Na upit',
     serviceLocationNotSpecified: 'Lokacija nije navedena'
@@ -1199,6 +1200,13 @@ export const sr = {
     radiusPlaceholder: 'Npr. 50',
     experienceLabel: 'Godine iskustva u radu',
     experiencePlaceholder: 'Npr. 5',
+    equipmentLabel: 'Oprema koju koristite (opciono)',
+    equipmentPlaceholder: 'Npr. Trimer, kosačica, mini bager...',
+    languagesLabel: 'Jezici koje govorite (opciono)',
+    languagesPlaceholder: 'Npr. Srpski, Engleski...',
+    availabilityLabel: 'Dostupnost termina (opciono)',
+    availabilityPlaceholder:
+      'Npr. Radnim danima 08-16h, Vikendom po dogovoru...',
     filters: 'Filteri',
     type: 'Tip usluge',
     servicesLabel: 'Tipovi usluga koje nudite (Izaberite jednu ili više)',
@@ -1239,13 +1247,21 @@ export const sr = {
     notFound: 'Usluga nije pronađena',
     backToServices: 'Nazad na usluge',
     description: 'Opis',
-    includedServices: 'Uključene usluge',
+    includedServices: 'Usluge koje nudimo',
     equipment: 'Oprema',
+    languagesProvided: 'Jezici na kojima se pruža usluga',
     availability: 'Dostupnost',
     contactProvider: 'Kontaktirajte pružaoca usluge',
     yearsExperience: 'godina iskustva',
     operatesWithin: 'Dolazi na adresu unutar',
     sendMessage: 'Pošalji poruku',
+    sendDirectEmail: 'Pošalji direktan email',
+    callProvider: 'Pozovi',
+    mustLoginToSendDirectEmail:
+      'Morate biti ulogovani da pošaljete direktan email.',
+    directEmailDialogDesc:
+      'Unesite ime, telefon i poruku. Vaš email nalog se automatski koristi kao pošiljalac.',
+    yourName: 'Vaše ime i prezime',
     portfolioLinks: 'Portfolio linkovi',
     contactDialogDesc:
       'Pošaljite poruku sa opisom vašeg problema ili zahteva, a mi ćemo kontaktirati pružaoca usluge na vaš broj.',
