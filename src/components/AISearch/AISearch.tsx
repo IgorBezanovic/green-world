@@ -63,6 +63,7 @@ export const AISearch = () => {
   return (
     <Autocomplete
       options={memoizedData}
+      forcePopupIcon={false}
       groupBy={(option) =>
         option.type === 'product'
           ? t('aisearch.groups.products')
@@ -200,52 +201,73 @@ export const AISearch = () => {
           </Box>
         );
       }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder={t('aisearch.searchPlaceholder')}
-          sx={{
-            '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-            '& .MuiOutlinedInput-root': {
-              paddingRight: '0 !important'
-            },
-            backgroundColor: 'white',
-            borderRadius: '1rem',
-            border: (theme) => `1px solid ${theme.palette.secondary.main}`,
-            boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-            height: 40
-          }}
-          slotProps={{
-            input: {
-              ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position="start" sx={{ ml: 0.5 }}>
-                  <Search />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end" sx={{ mr: 2 }}>
-                  {inputValue && (
-                    <IconButton
-                      sx={{ cursor: 'pointer' }}
-                      onClick={handleClear}
-                    >
-                      <X />
-                    </IconButton>
-                  )}
-                  {isLoading ? <CircularProgress size={18} /> : <Sparkles />}
-                </InputAdornment>
-              ),
-              sx: {
-                flex: 1,
-                fontSize: '0.95rem',
-                height: 40,
-                px: 0
+      renderInput={(params) => {
+        const {
+          InputLabelProps,
+          InputProps: autocompleteInputProps,
+          inputProps,
+          ...textFieldProps
+        } = params;
+
+        return (
+          <TextField
+            {...textFieldProps}
+            placeholder={t('aisearch.searchPlaceholder')}
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+              '& .MuiOutlinedInput-root': {
+                paddingRight: '0 !important'
+              },
+              backgroundColor: 'white',
+              borderRadius: '1rem',
+              border: (theme) => `1px solid ${theme.palette.secondary.main}`,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+              height: 40
+            }}
+            slotProps={{
+              inputLabel: InputLabelProps,
+              htmlInput: inputProps,
+              input: {
+                ref: autocompleteInputProps.ref,
+                className: autocompleteInputProps.className,
+                onMouseDown: autocompleteInputProps.onMouseDown,
+                startAdornment: (
+                  <>
+                    <InputAdornment position="start" sx={{ ml: 0.5 }}>
+                      <Search />
+                    </InputAdornment>
+                    {autocompleteInputProps.startAdornment}
+                  </>
+                ),
+                endAdornment: (
+                  <>
+                    <InputAdornment position="end" sx={{ mr: 2 }}>
+                      {inputValue && (
+                        <IconButton
+                          sx={{ cursor: 'pointer' }}
+                          onClick={handleClear}
+                        >
+                          <X />
+                        </IconButton>
+                      )}
+                      {isLoading ? (
+                        <CircularProgress size={18} />
+                      ) : (
+                        <Sparkles />
+                      )}
+                    </InputAdornment>
+                  </>
+                ),
+                sx: {
+                  fontSize: '0.95rem',
+                  height: 40,
+                  px: 0
+                }
               }
-            }
-          }}
-        />
-      )}
+            }}
+          />
+        );
+      }}
     />
   );
 };

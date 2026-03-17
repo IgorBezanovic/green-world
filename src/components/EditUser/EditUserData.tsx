@@ -617,7 +617,7 @@ export const EditUserData = () => {
                   onChange={(e) =>
                     handleWorkingTimeChange(key, 'open', e.target.value)
                   }
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                   fullWidth
                 />
 
@@ -629,7 +629,7 @@ export const EditUserData = () => {
                   onChange={(e) =>
                     handleWorkingTimeChange(key, 'close', e.target.value)
                   }
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                   fullWidth
                 />
 

@@ -145,12 +145,17 @@ const ServiceDetailsPage = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 2,
-                  mb: 3,
                   flexWrap: 'wrap'
                 }}
               >
                 <Chip
-                  label={service.priceType.replace('_', ' ')}
+                  label={
+                    service.priceType === 'hourly'
+                      ? t('service.hourly')
+                      : service.priceType === 'fixed'
+                        ? t('service.fixed')
+                        : t('service.negotiable')
+                  }
                   color="primary"
                   variant="outlined"
                 />
@@ -240,7 +245,7 @@ const ServiceDetailsPage = () => {
                       {service.services.map((s: string, i: number) => (
                         <Chip
                           key={i}
-                          label={s}
+                          label={t(`service.serviceNames.${s}`, s)}
                           sx={{ bgcolor: 'primary.50' }}
                         />
                       ))}

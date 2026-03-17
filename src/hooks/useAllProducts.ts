@@ -1,5 +1,9 @@
 import { request } from '@green-world/utils/api';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import { ProductPreview } from './useHomeProducts';
 
@@ -33,6 +37,7 @@ export const useAllProducts = (
         method: 'get',
         params: filters
       }),
-    staleTime: 1000 * 30
+    staleTime: 1000 * 30,
+    placeholderData: keepPreviousData
   });
 };

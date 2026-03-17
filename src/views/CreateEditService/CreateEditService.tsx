@@ -6,7 +6,10 @@ import {
   useGetServiceById,
   useUpdateServiceListing
 } from '@green-world/hooks/useServices';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatImageUrl,
+  getPlainTextFromHtml
+} from '@green-world/utils/helpers';
 import { serviceCategories } from '@green-world/utils/serviceConstants';
 import { ServiceListing } from '@green-world/utils/types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -25,11 +28,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  Select,
-  SelectChangeEvent,
   Snackbar,
   Typography,
-  Chip
+  Chip,
+  SelectChangeEvent,
+  TextField,
+  Select
 } from '@mui/material';
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -98,11 +102,7 @@ export const CreateEditService = () => {
     setSnackbarOpen(false);
   };
 
-  const {
-    mutate: imageMutate,
-    isPending: isImageLoading,
-    data: productImage
-  } = useImage();
+  const { mutateAsync: uploadImage, isPending: isImageLoading } = useImage();
 
   const { mutate: createMutation, isPending: isLoadingCreate } =
     useCreateServiceListing();
@@ -125,30 +125,37 @@ export const CreateEditService = () => {
     }
   }, [existingService, isLoadingService]);
 
-  useEffect(() => {
-    if (productImage) {
-      setServiceData((prev) => ({
-        ...prev,
-        images: [...(prev.images || []), productImage]
-      }));
-    }
-  }, [productImage]);
-
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = Array.from(e.target.files!)[0];
-    if (!file) return;
-
-    if (file.size > MAX_IMAGE_MB) {
-      setSnackbarOpen(true);
-      e.target.value = '';
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    imageMutate(formData);
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
     e.target.value = '';
+
+    if (!selectedFiles.length) return;
+
+    const existingCount = serviceData.images?.length || 0;
+    const remainingSlots = Math.max(0, 10 - existingCount);
+    if (remainingSlots === 0) return;
+
+    const filesToUpload = selectedFiles.slice(0, remainingSlots);
+
+    for (const file of filesToUpload) {
+      if (file.size > MAX_IMAGE_MB) {
+        setSnackbarOpen(true);
+        continue;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const imageUrl = await uploadImage(formData);
+        setServiceData((prev) => ({
+          ...prev,
+          images: [...(prev.images || []), imageUrl]
+        }));
+      } catch {
+        // Keep processing remaining files even if one upload fails.
+      }
+    }
   };
 
   const handleDeleteImage = (indexToDelete: number) => {
@@ -265,8 +272,52 @@ export const CreateEditService = () => {
     );
   }, [serviceData.portfolioLinks]);
 
+  const hasPriceFrom =
+    serviceData.priceFrom !== undefined && serviceData.priceFrom !== null;
+  const hasPriceTo =
+    serviceData.priceTo !== undefined && serviceData.priceTo !== null;
+  const parsedPriceFrom = Number(serviceData.priceFrom);
+  const parsedPriceTo = Number(serviceData.priceTo);
+  const hasRequiredTitle = Boolean(serviceData.title?.trim());
+  const hasRequiredDescription = Boolean(
+    getPlainTextFromHtml(serviceData.description || '').trim()
+  );
+  const hasRequiredServices = Boolean(
+    serviceData.services && serviceData.services.length > 0
+  );
+  const trimmedLocation = (serviceData.location || '').trim();
+  const isLocationInvalid =
+    Boolean(trimmedLocation) && !/\p{L}/u.test(trimmedLocation);
+  const hasRequiredPriceType = Boolean(serviceData.priceType);
+  const hasRequiredPriceFrom =
+    serviceData.priceType === 'negotiable'
+      ? true
+      : hasPriceFrom &&
+        Number.isFinite(parsedPriceFrom) &&
+        parsedPriceFrom >= 0;
+  const isPriceRangeInvalid =
+    serviceData.priceType !== 'negotiable' &&
+    hasPriceFrom &&
+    hasPriceTo &&
+    Number.isFinite(parsedPriceFrom) &&
+    Number.isFinite(parsedPriceTo) &&
+    parsedPriceTo < parsedPriceFrom;
+  const isSubmitDisabled =
+    isLoadingCreate ||
+    isLoadingEdit ||
+    !hasRequiredTitle ||
+    !hasRequiredDescription ||
+    !hasRequiredServices ||
+    isLocationInvalid ||
+    !hasRequiredPriceType ||
+    !hasRequiredPriceFrom ||
+    !isPortfolioLinksValid ||
+    isPriceRangeInvalid;
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitDisabled) return;
+
     if (serviceId) {
       editMutation(
         { id: serviceId, data: serviceData },
@@ -315,12 +366,15 @@ export const CreateEditService = () => {
     );
   }
 
-  const pageTitle = `Zeleni svet | ${serviceId ? 'Izmeni uslugu' : 'Dodaj uslugu'}`;
+  const formModeLabel = serviceId
+    ? t('service.editService', 'Izmeni uslugu')
+    : t('service.addService', 'Dodaj uslugu');
+  const pageTitle = `Zeleni svet | ${formModeLabel}`;
   const pages = [
     { label: t('breadcrumbs.home', 'Početna'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
     {
-      label: serviceId ? 'Izmeni uslugu' : 'Dodaj uslugu',
+      label: formModeLabel,
       route: serviceId ? `/services/${serviceId}/edit` : `/services/create`
     }
   ];
@@ -362,7 +416,7 @@ export const CreateEditService = () => {
           })}
         >
           {serviceId
-            ? 'Izmeni uslugu'
+            ? t('service.editService', 'Izmeni uslugu')
             : t('service.offerService', 'Ponudite uslugu')}
         </Typography>
 
@@ -386,7 +440,10 @@ export const CreateEditService = () => {
               type="text"
               name="title"
               id="title"
-              placeholder="Npr. Košenje trave i održavanje dvorišta..."
+              placeholder={t(
+                'service.titlePlaceholder',
+                'Npr. Košenje trave i održavanje dvorišta...'
+              )}
               value={serviceData.title || ''}
               onChange={handleChange}
               fullWidth
@@ -400,21 +457,25 @@ export const CreateEditService = () => {
               )}{' '}
               *
             </Typography>
+
             <Autocomplete
               multiple
               id="services-tags"
               options={flatServicesList}
               value={serviceData.services || []}
-              onChange={(_, newValue) => {
+              onChange={(_e, newValue) => {
                 setServiceData({ ...serviceData, services: newValue });
               }}
-              renderTags={(value: readonly string[], getTagProps) =>
+              getOptionLabel={(option) =>
+                t(`service.serviceNames.${option}`, option)
+              }
+              renderValue={(value, getItemProps) =>
                 value.map((option: string, index: number) => {
-                  const { key, ...tagProps } = getTagProps({ index });
+                  const { key, ...tagProps } = getItemProps({ index });
                   return (
                     <Chip
                       variant="outlined"
-                      label={option}
+                      label={t(`service.serviceNames.${option}`, option)}
                       key={key}
                       {...tagProps}
                     />
@@ -422,12 +483,15 @@ export const CreateEditService = () => {
                 })
               }
               renderInput={(params) => (
-                <OutlinedInput
-                  {...params.InputProps}
-                  inputProps={params.inputProps}
+                <TextField
+                  {...params}
+                  placeholder={t(
+                    'service.searchPlaceholder',
+                    'Pronađite i izaberite usluge...'
+                  )}
+                  variant="outlined"
                   size="medium"
                   sx={{ ...outlinedInputSx, width: '100%' }}
-                  placeholder="Pronađite i izaberite usluge..."
                 />
               )}
               sx={{ mb: 2, width: '100%' }}
@@ -440,12 +504,24 @@ export const CreateEditService = () => {
               type="text"
               name="location"
               id="location"
-              placeholder="Npr. Beograd, Novi Sad..."
+              placeholder={t(
+                'service.locationPlaceholder',
+                'Npr. Beograd, Novi Sad...'
+              )}
               value={serviceData.location || ''}
               onChange={handleChange}
+              error={isLocationInvalid}
               fullWidth
               sx={outlinedInputSx}
             />
+            {isLocationInvalid && (
+              <Typography color="error" variant="caption" sx={{ ml: 1, mb: 2 }}>
+                {t(
+                  'service.locationValidationError',
+                  'Lokacija mora sadržati bar jedno slovo.'
+                )}
+              </Typography>
+            )}
 
             <Typography
               htmlFor="serviceRadiusKm"
@@ -458,7 +534,7 @@ export const CreateEditService = () => {
               type="number"
               name="serviceRadiusKm"
               id="serviceRadiusKm"
-              placeholder="Npr. 50"
+              placeholder={t('service.radiusPlaceholder', 'Npr. 50')}
               value={serviceData.serviceRadiusKm || ''}
               onChange={handleChange}
               fullWidth
@@ -476,7 +552,7 @@ export const CreateEditService = () => {
               type="number"
               name="experienceYears"
               id="experienceYears"
-              placeholder="Npr. 5"
+              placeholder={t('service.experiencePlaceholder', 'Npr. 5')}
               value={serviceData.experienceYears || ''}
               onChange={handleChange}
               fullWidth
@@ -493,10 +569,17 @@ export const CreateEditService = () => {
                 onChange={handleSelectChange}
                 sx={outlinedSelectSx}
               >
-                <MenuItem value="fixed">Fiksna cena (po projektu)</MenuItem>
-                <MenuItem value="hourly">Po satu</MenuItem>
+                <MenuItem value="fixed">
+                  {t('service.fixedPriceOption', 'Fiksna cena (po projektu)')}
+                </MenuItem>
+                <MenuItem value="hourly">
+                  {t('service.hourlyPriceOption', 'Po satu')}
+                </MenuItem>
                 <MenuItem value="negotiable">
-                  Cena na upit (Po dogovoru)
+                  {t(
+                    'service.negotiablePriceOption',
+                    'Cena na upit (Po dogovoru)'
+                  )}
                 </MenuItem>
               </Select>
             </FormControl>
@@ -515,9 +598,13 @@ export const CreateEditService = () => {
                     type="number"
                     name="priceFrom"
                     id="priceFrom"
-                    placeholder="Minimalna cena"
+                    placeholder={t(
+                      'service.priceFromPlaceholder',
+                      'Minimalna cena'
+                    )}
                     value={serviceData.priceFrom || ''}
                     onChange={handleChange}
+                    inputProps={{ min: 0 }}
                     fullWidth
                     sx={outlinedInputSx}
                   />
@@ -530,12 +617,25 @@ export const CreateEditService = () => {
                     type="number"
                     name="priceTo"
                     id="priceTo"
-                    placeholder="Maksimalna cena (Opciono)"
+                    placeholder={t(
+                      'service.priceToPlaceholder',
+                      'Maksimalna cena (Opciono)'
+                    )}
                     value={serviceData.priceTo || ''}
                     onChange={handleChange}
+                    inputProps={{ min: 0 }}
+                    error={isPriceRangeInvalid}
                     fullWidth
                     sx={outlinedInputSx}
                   />
+                  {isPriceRangeInvalid && (
+                    <Typography color="error" variant="caption" sx={{ ml: 1 }}>
+                      {t(
+                        'service.priceRangeError',
+                        'Maksimalna cena mora biti veća ili jednaka minimalnoj ceni.'
+                      )}
+                    </Typography>
+                  )}
                 </Box>
               </Box>
             )}
@@ -653,7 +753,12 @@ export const CreateEditService = () => {
               })}
             >
               {isImageLoading ? (
-                <CircularProgress size={24} color="inherit" />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CircularProgress size={20} color="inherit" />
+                  <Typography variant="button" color="inherit">
+                    {t('common.loading', 'Učitavanje...')}
+                  </Typography>
+                </Box>
               ) : (serviceData.images?.length || 0) >= 10 ? (
                 t(
                   'createEditProduct.maxImages',
@@ -668,6 +773,7 @@ export const CreateEditService = () => {
                 disabled={
                   (serviceData.images?.length || 0) >= 10 || isImageLoading
                 }
+                multiple
                 accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleImage}
                 sx={{ display: 'none' }}
@@ -675,14 +781,28 @@ export const CreateEditService = () => {
               />
             </Button>
 
-            <Alert severity="info" sx={{ mb: 4 }}>
-              <AlertTitle>Napomena fotografije</AlertTitle>
+            <Alert severity="info" sx={{ my: 2 }}>
+              <AlertTitle>{t('createEditProduct.photoInfo.title')}</AlertTitle>
               <List sx={{ pl: 3, listStyleType: 'disc' }}>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Prva slika je naslovna koja se vidi javno na spisku usluga." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.ratio')}
+                  />
                 </ListItem>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
-                  <ListItemText primary="Dozvoljeno je dodati najviše 10 fotografija po oglasu." />
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.firstIsProfile')}
+                  />
+                </ListItem>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.maxPhotos')}
+                  />
+                </ListItem>
+                <ListItem sx={{ display: 'list-item', p: 0 }}>
+                  <ListItemText
+                    primary={t('createEditProduct.photoInfo.maxSize')}
+                  />
                 </ListItem>
               </List>
             </Alert>
@@ -830,16 +950,9 @@ export const CreateEditService = () => {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={
-                isLoadingCreate ||
-                isLoadingEdit ||
-                !serviceData.title ||
-                !serviceData.description ||
-                !isPortfolioLinksValid ||
-                !(serviceData.services && serviceData.services.length > 0)
-              }
+              size="large"
+              disabled={isSubmitDisabled}
               fullWidth
-              sx={{ py: 1.5, fontSize: '1.1rem', fontWeight: 'bold' }}
             >
               {isLoadingCreate || isLoadingEdit ? (
                 <CircularProgress size={24} color="inherit" />

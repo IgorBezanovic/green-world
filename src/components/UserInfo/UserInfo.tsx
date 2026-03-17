@@ -158,7 +158,7 @@ export const UserInfo = ({ ...props }) => {
               {props?.user?.shopDescription}
             </Typography>
           )}
-          {!props.user.onlyOnline &&
+          {!props?.user?.onlyOnline &&
             (props?.user?.address?.street ||
               props?.user?.address?.city ||
               props?.user?.address?.country) && (

@@ -90,14 +90,14 @@ export const Header = () => {
       disabled: user?.numberOfProducts >= user?.maxShopProducts
     },
     {
-      text: t('header.createEvent'),
-      icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
-      onClick: () => handleMenuClick(() => navigate('/create-event'))
-    },
-    {
       text: t('header.addService'),
       icon: <BriefcaseBusiness className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/services/create'))
+    },
+    {
+      text: t('header.createEvent'),
+      icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
+      onClick: () => handleMenuClick(() => navigate('/create-event'))
     },
     {
       text: t('header.profileSettings'),
