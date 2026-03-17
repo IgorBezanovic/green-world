@@ -494,7 +494,7 @@ export const CreateEditService = () => {
               >
                 <MenuItem value="fixed">Fiksna cena (po projektu)</MenuItem>
                 <MenuItem value="hourly">Po satu</MenuItem>
-                <MenuItem value="on_request">
+                <MenuItem value="negotiable">
                   Cena na upit (Po dogovoru)
                 </MenuItem>
               </Select>
