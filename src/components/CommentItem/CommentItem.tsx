@@ -9,6 +9,7 @@ import {
   useTheme
 } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const CommentItem = ({
   comment,
@@ -22,6 +23,7 @@ export const CommentItem = ({
     parentComment?: string | null
   ) => Promise<void> | void;
 }) => {
+  const { t } = useTranslation();
   const [showReply, setShowReply] = useState(false);
   const theme = useTheme();
 
@@ -34,12 +36,18 @@ export const CommentItem = ({
         </Avatar>
         <Box sx={{ flex: 1 }}>
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
+            sx={(theme) => ({
+              flexDirection: 'column',
+              [theme.breakpoints.up('sm')]: {
+                flexDirection: 'row',
+                alignItems: 'center'
+              },
+              alignItems: 'flex-start'
+            })}
             spacing={2}
-            alignItems={{ xs: 'flex-start', sm: 'center' }}
           >
             <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-              {comment?.author || 'Anonymous'}
+              {comment?.author || t('common.unknownUser')}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               {new Date(comment?.createdAt || '').toLocaleString()}
@@ -55,27 +63,39 @@ export const CommentItem = ({
                 size="small"
                 variant="outlined"
               >
-                Odgovori
+                {t('commentList.reply')}
               </Button>
             </Box>
           )}
 
           {showReply && comment?.parentComment === null && (
-            <Box sx={{ mt: 2, ml: { xs: 0, sm: 4 } }}>
+            <Box
+              sx={(theme) => ({
+                mt: 2,
+                ml: 0,
+                [theme.breakpoints.up('sm')]: { ml: 4 }
+              })}
+            >
               <CommentForm
                 parentComment={comment?._id}
                 onSubmit={async (text) => {
                   await onReply(text, comment?._id);
                   setShowReply(false);
                 }}
-                submitLabel="Odgovori"
+                submitLabel={t('commentList.reply')}
               />
             </Box>
           )}
         </Box>
       </Box>
       {replies.length > 0 && (
-        <Box sx={{ mt: 3, ml: { xs: 0, sm: 4 } }}>
+        <Box
+          sx={(theme) => ({
+            mt: 3,
+            ml: 0,
+            [theme.breakpoints.up('sm')]: { ml: 4 }
+          })}
+        >
           {replies?.map((r) => (
             <Box
               key={r._id}
@@ -95,14 +115,22 @@ export const CommentItem = ({
                   'A'}
               </Avatar>
               <Box sx={{ flex: 1 }}>
-                <Typography variant="overline">Odgovor:</Typography>
+                <Typography variant="overline">
+                  {t('commentList.replyTo')}
+                </Typography>
                 <Stack
-                  direction={{ xs: 'column', sm: 'row' }}
+                  sx={(theme) => ({
+                    flexDirection: 'column',
+                    [theme.breakpoints.up('sm')]: {
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    },
+                    alignItems: 'flex-start'
+                  })}
                   spacing={2}
-                  alignItems={{ xs: 'flex-start', sm: 'center' }}
                 >
                   <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                    {r?.author || 'Anonymous'}
+                    {r?.author || t('common.unknownUser')}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
                     {new Date(r?.createdAt || '').toLocaleString()}

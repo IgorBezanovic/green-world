@@ -55,7 +55,7 @@ export const Message = () => {
   }, [data?.data]);
 
   const filteredConversations = localConversations.filter((conv: any) =>
-    (conv.otherUserName || 'Nepoznat korisnik')
+    (conv.otherUserName || t('common.unknownUser'))
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
@@ -153,7 +153,7 @@ export const Message = () => {
 
   const handleUserClick = (userId: string, userName: string) => {
     setSelectedUserId(userId);
-    setSelectedUserName(userName || 'Nepoznat korisnik');
+    setSelectedUserName(userName || t('common.unknownUser'));
 
     setLocalConversations((prev) =>
       prev.map((conv: any) =>
@@ -223,11 +223,11 @@ export const Message = () => {
       <div className="mr-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-4xl font-bold text-forestGreen font-ephesis mt-4">
-            Poruke
+            {t('messageView.title')}
           </h1>
         </div>
         <TextField
-          placeholder="Pretraži korisnike..."
+          placeholder={t('messageView.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           size="small"
@@ -262,22 +262,22 @@ export const Message = () => {
 
         {error && (
           <div className="text-red-500 text-center my-4">
-            Došlo je do greške prilikom učitavanja poruka.
+            {t('messageView.errorLoading')}
           </div>
         )}
 
         {!isLoading && filteredConversations.length === 0 && (
           <div className="my-4 text-gray-500">
             {searchQuery
-              ? 'Nema rezultata pretrage.'
-              : 'Nemate nijednu konverzaciju.'}
+              ? t('messageView.noSearchResults')
+              : t('messageView.noConversations')}
           </div>
         )}
 
         {filteredConversations?.map((conv: any) => {
           const isSelected = conv.otherUserId === selectedUserId;
           const lastMessageDate = conv.lastMessage?.createdAt
-            ? new Date(conv.lastMessage.createdAt).toLocaleString('sr-RS', {
+            ? new Date(conv.lastMessage.createdAt).toLocaleString(undefined, {
                 hour: '2-digit',
                 minute: '2-digit',
                 day: '2-digit',
@@ -317,7 +317,7 @@ export const Message = () => {
                     fontWeight: 600
                   }}
                 >
-                  {getInitials(conv.otherUserName || 'Nepoznat korisnik')}
+                  {getInitials(conv.otherUserName || t('common.unknownUser'))}
                 </Avatar>
               </Badge>
               <div className="flex-1 text-left min-w-0">
@@ -326,11 +326,11 @@ export const Message = () => {
                     conv.unreadCount > 0 ? 'text-forestGreen' : 'text-gray-700'
                   }`}
                 >
-                  {conv.otherUserName || 'Nepoznat korisnik'}
+                  {conv.otherUserName || t('common.unknownUser')}
                 </p>
                 <div className="flex items-center gap-2 mt-1">
                   <p className="text-xs text-gray-500 truncate">
-                    {conv.lastMessage?.content || 'Nema poruka'}
+                    {conv.lastMessage?.content || t('messageView.noMessages')}
                   </p>
                   {lastMessageDate && (
                     <span className="text-xs text-gray-400 whitespace-nowrap">
@@ -353,7 +353,7 @@ export const Message = () => {
           {isMobileOrTablet && (
             <IconButton
               onClick={handleMobileBack}
-              aria-label="Nazad na listu poruka"
+              aria-label={t('messageView.backToList')}
             >
               <ArrowLeft className="w-5 h-5" />
             </IconButton>
@@ -389,15 +389,18 @@ export const Message = () => {
       <Box
         ref={chatBoxRef}
         onScroll={handleScroll}
-        sx={{
-          height: isMobileOrTablet ? 'calc(100vh - 80px - 72px)' : 690,
+        sx={(theme) => ({
+          height: 690,
+          [theme.breakpoints.down('md')]: {
+            height: 'calc(100vh - 80px - 72px)'
+          },
           overflowY: 'auto',
           py: 3,
           pl: 3,
           pr: 2,
-          bgcolor: theme.palette.background.main,
+          bgcolor: 'background.main',
           backgroundImage: 'linear-gradient(180deg, #FDFFFB 0%, #F9FCF7 100%)'
-        }}
+        })}
       >
         {isConversationLoading && (
           <div className="flex justify-center items-center py-10">
@@ -406,13 +409,13 @@ export const Message = () => {
         )}
         {selectedConversation.length === 0 && !isConversationLoading && (
           <div className="text-center text-gray-500 py-10">
-            Nema poruka u ovoj konverzaciji.
+            {t('messageView.emptyConversation')}
           </div>
         )}
         {visibleMessages?.map((msg, i) => {
           const isMe = msg.sender === currentUser;
           const messageTime = msg.createdAt
-            ? new Date(msg.createdAt).toLocaleString('sr-RS', {
+            ? new Date(msg.createdAt).toLocaleString(undefined, {
                 hour: '2-digit',
                 minute: '2-digit'
               })
@@ -470,7 +473,7 @@ export const Message = () => {
       <div className="border-t border-gray-200 md:px-3 py-4">
         <div className="flex gap-4 items-center px-3 md:px-0">
           <TextField
-            placeholder="Upiši poruku..."
+            placeholder={t('messageView.messageInputPlaceholder')}
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
@@ -516,7 +519,7 @@ export const Message = () => {
               <div className="flex items-center textcenter">
                 <MessageCircle className="mr-2" />
                 <p className="text-gray-500 text-lg">
-                  Odaberi korisnika da počneš razgovor
+                  {t('messageView.selectUserToStart')}
                 </p>
               </div>
             </div>

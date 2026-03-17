@@ -138,15 +138,15 @@ export const IncreaseCapacity = () => {
           Izaberite paket
         </Typography>
         <Box
-          sx={{
+          sx={(theme) => ({
             display: 'grid',
             gap: 2,
             gridTemplateColumns: 'repeat(1, 1fr)',
-            '@media (min-width: 600px)': {
+            [theme.breakpoints.up('sm')]: {
               gridTemplateColumns: 'repeat(3, 1fr)'
             },
             mb: 3
-          }}
+          })}
         >
           {CAPACITY_PACKAGES?.map((pkg) => (
             <Card

@@ -5,10 +5,15 @@ export const en = {
     en: 'ENG',
     ru: 'RUS'
   },
+  common: {
+    unknownUser: 'Unknown user'
+  },
   breadcrumbs: {
     home: 'Home',
     products: 'Products',
-    userProfile: 'User profile'
+    userProfile: 'User profile',
+    profile: 'Profile',
+    promoBundle: 'Promotional Bundles'
   },
   home: {
     bannerAlt: 'Zeleni Svet banner',
@@ -43,7 +48,300 @@ export const en = {
       garden_decoration: 'Garden decoration',
       everything_for_plants: 'Everything for plants'
     },
-    subGroups: {}
+    subGroups: {
+      // flower_assortment
+      bouquets: 'Bouquets',
+      cut_flowers: 'Cut flowers',
+      floral_gifts: 'Floral gifts',
+      floral_arrangements: 'Floral arrangements',
+      preserved_flowers: 'Preserved flowers',
+      roses: 'Roses',
+      tulips: 'Tulips',
+      lilies: 'Lilies',
+      orchids: 'Orhideje',
+      daisies: 'Daisies',
+      sunflowers: 'Sunflowers',
+      carnations: 'Carnations',
+      peonies: 'Peonies',
+      gerberas: 'Gerberas',
+      hydrangeas: 'Hydrangeas',
+      anemones: 'Anemones',
+      ranunculus: 'Ranunculus',
+      chrysanthemums: 'Chrysanthemums',
+      delphiniums: 'Delphiniums',
+      snapdragons: 'Snapdragons',
+      asters: 'Asters',
+      zinnias: 'Zinnias',
+      cosmos: 'Cosmos',
+      freesias: 'Freesias',
+      lavender: 'Lavender',
+      lilacs: 'Lilacs',
+      iris: 'Iris',
+      calla_lilies: 'Calla lilies',
+      stock: 'Stock',
+      salvia: 'Salvia',
+      pansies: 'Pansies',
+      petunias: 'Petunias',
+      corydalis: 'Corydalis',
+      bouvardia: 'Bouvardia',
+      calendula: 'Calendula',
+
+      // succulents
+      indoor_succulents: 'Indoor succulents',
+      outdoor_succulents: 'Outdoor succulents',
+      cacti: 'Cacti',
+      succulent_gifts: 'Succulent gifts',
+      echeveria: 'Echeveria',
+      haworthia: 'Haworthia',
+      aloe_vera: 'Aloe vera',
+      jade_plant: 'Jade plant',
+      string_of_pearls: 'String of pearls',
+      burros_tail: "Burro's tail",
+      zebra_plant: 'Zebra plant',
+      panda_plant: 'Panda plant',
+      agave: 'Agave',
+      sedum: 'Sedum',
+      crassula: 'Crassula',
+      kalanchoe: 'Kalanchoe',
+
+      // potted_flowers
+      indoor_plants: 'Indoor plants',
+      outdoor_plants: 'Outdoor plants',
+      flowering_plants: 'Flowering plants',
+      decorative_plants: 'Decorative plants',
+      peace_lily: 'Peace lily',
+      snake_plant: 'Snake plant',
+      spider_plant: 'Spider plant',
+      begonias: 'Begonias',
+      fuchsias: 'Fuchsias',
+      african_violets: 'African violets',
+      geraniums: 'Geraniums',
+      poinsettia: 'Poinsettia',
+      anthurium: 'Anthurium',
+      calathea: 'Calathea',
+      ficus: 'Ficus',
+      bromeliads: 'Bromeliads',
+      philodendron: 'Philodendron',
+      string_of_hearts: 'String of hearts',
+      zz_plant: 'ZZ plant',
+      pothos: 'Pothos',
+      dracaena: 'Dracaena',
+      areca_palm: 'Areca palm',
+      rubber_plant: 'Rubber plant',
+      cast_iron_plant: 'Cast iron plant',
+      money_plant: 'Money plant',
+      maranta: 'Maranta',
+      bamboo_plant: 'Bamboo plant',
+      coleus: 'Coleus',
+      sansevieria: 'Sansevieria',
+      hoya: 'Hoya',
+      philodendron_birkin: 'Philodendron Birkin',
+      neoregalia: 'Neoregalia',
+
+      // seedlings
+      flower_seedlings: 'Flower seedlings',
+      vegetable_seedlings: 'Vegetable seedlings',
+      fruit_seedlings: 'Fruit seedlings',
+      herb_seedlings: 'Herb seedlings',
+      rose_seedlings: 'Rose seedlings',
+      lavender_seedlings: 'Lavender seedlings',
+      sunflower_seedlings: 'Sunflower seedlings',
+      petunia_seedlings: 'Petunia seedlings',
+      marigold_seedlings: 'Marigold seedlings',
+      tomato_seedlings: 'Tomato seedlings',
+      pepper_seedlings: 'Pepper seedlings',
+      cucumber_seedlings: 'Cucumber seedlings',
+      zucchini_seedlings: 'Zucchini seedlings',
+      cabbage_seedlings: 'Cabbage seedlings',
+      carrot_seedlings: 'Carrot seedlings',
+      lettuce_seedlings: 'Lettuce seedlings',
+      apple_seedlings: 'Apple seedlings',
+      pear_seedlings: 'Pear seedlings',
+      plum_seedlings: 'Plum seedlings',
+      cherry_seedlings: 'Cherry seedlings',
+      peach_seedlings: 'Peach seedlings',
+      quince_seedlings: 'Quince seedlings',
+      walnut_seedlings: 'Walnut seedlings',
+      apricot_seedlings: 'Apricot seedlings',
+      basil_seedlings: 'Basil seedlings',
+      oregano_seedlings: 'Oregano seedlings',
+      thyme_seedlings: 'Thyme seedlings',
+      mint_seedlings: 'Mint seedlings',
+      rosemary_seedlings: 'Rosemary seedlings',
+      autohtona_sljiva_seedlings: 'Autochthonous plums',
+      vranac_grape_seedlings: 'Vranac grape seedlings',
+      dunja_seedlings: 'Quince seedlings',
+      lesnik_seedlings: 'Hazelnut seedlings',
+      malina_seedlings: 'Raspberry seedlings',
+      kupina_seedlings: 'Blackberry seedlings',
+      šljiva_požegača_seedlings: 'Požegača plum seedlings',
+      prokupac_grape_seedlings: 'Prokupac grape seedlings',
+      thuja_seedlings: 'Thuja seedlings',
+      juniper_seedlings: 'Juniper seedlings',
+      cypress_seedlings: 'Cypress seedlings',
+      arborvitae_seedlings: 'Arborvitae seedlings',
+      pine_seedlings: 'Pine seedlings',
+      spruce_seedlings: 'Spruce seedlings',
+      fir_seedlings: 'Fir seedlings',
+
+      // fruits_and_vegetables
+      fresh_fruits: 'Fresh fruits',
+      apples: 'Apples',
+      pears: 'Pears',
+      plums: 'Plums',
+      cherries: 'Cherries',
+      peaches: 'Peaches',
+      apricots: 'Apricots',
+      quince: 'Quince',
+      strawberries: 'Strawberries',
+      raspberries: 'Raspberries',
+      blackberries: 'Blackberries',
+      blueberries: 'Blueberries',
+      grapes: 'Grapes',
+      fresh_vegetables: 'Fresh vegetables',
+      tomatoes: 'Tomatoes',
+      peppers: 'Peppers',
+      cucumbers: 'Cucumbers',
+      zucchini: 'Zucchini',
+      cabbage: 'Cabbage',
+      carrots: 'Carrots',
+      lettuce: 'Lettuce',
+      onions: 'Onions',
+      garlic: 'Garlic',
+      potatoes: 'Potatoes',
+      spinach: 'Spinach',
+      eggplant: 'Eggplant',
+      organic_produce: 'Organic produce',
+      organic_apples: 'Organic apples',
+      organic_tomatoes: 'Organic tomatoes',
+      organic_peppers: 'Organic peppers',
+      organic_cucumbers: 'Organic cucumbers',
+      organic_spinach: 'Organic spinach',
+      organic_carrots: 'Organic carrots',
+      seasonal_fruits: 'Seasonal fruits',
+      šljiva_požegača: 'Požegača plums',
+      malina: 'Raspberry',
+      kupina: 'Blackberry',
+      dunja: 'Quince',
+      prokupac_grapes: 'Prokupac grapes',
+      jagoda: 'Strawberry',
+      šljiva_ranka: 'Ranka plums',
+      exotic_fruits: 'Exotic fruits',
+      bananas: 'Bananas',
+      mangoes: 'Mangoes',
+      kiwi: 'Kiwi',
+      pineapple: 'Pineapple',
+      papaya: 'Papaya',
+      pomegranate: 'Pomegranate',
+      dragon_fruit: 'Dragon fruit',
+      lychee: 'Lychee',
+      spinach_seedlings: 'Spinach seedlings',
+      eggplant_seedlings: 'Eggplant seedlings',
+      grape_seedlings: 'Grape seedlings',
+
+      // herbal_pharmacy
+      medicinal_herbs: 'Medicinal herbs',
+      herbal_teas: 'Herbal teas',
+      essential_oils: 'Essential oils',
+      herbal_extracts: 'Herbal extracts',
+      plant_fertilizers: 'Plant fertilizers',
+      organic_fertilizers: 'Organic fertilizers',
+      compost: 'Compost',
+      liquid_plant_food: 'Liquid plant food',
+      soil_amendments: 'Soil amendments',
+      root_boosters: 'Root boosters',
+      growth_stimulants: 'Growth stimulants',
+      natural_pesticides: 'Natural pesticides',
+      fungicides: 'Fungicides',
+      insect_repellents: 'Insect repellents',
+      plant_antibiotics: 'Plant antibiotics',
+      bio_protectants: 'Bio protectants',
+      plant_vitamins: 'Plant vitamins',
+      mineral_supplements: 'Mineral supplements',
+      herbal_tinctures: 'Herbal tinctures',
+      herbal_balm: 'Herbal balm',
+      herbal_syrups: 'Herbal syrups',
+      herbal_cough_remedies: 'Herbal cough remedies',
+      digestive_aids: 'Digestive aids',
+
+      // garden_decoration
+      garden_statues: 'Garden statues',
+      outdoor_lighting: 'Outdoor lighting',
+      garden_furniture: 'Garden furniture',
+      decorative_pots: 'Decorative pots',
+      water_features: 'Water features',
+      garden_gnomes: 'Garden gnomes',
+      bird_baths: 'Bird baths',
+      birdhouses: 'Birdhouses',
+      wind_chimes: 'Wind chimes',
+      garden_trellises: 'Garden trellises',
+      pergolas: 'Pergolas',
+      hanging_planters: 'Hanging planters',
+      garden_sculptures: 'Garden sculptures',
+      garden_pathways: 'Garden pathways',
+      decorative_fencing: 'Decorative fencing',
+      garden_benches: 'Garden benches',
+      garden_swing_seats: 'Garden swing seats',
+      gazebos: 'Gazebos',
+      fire_pits: 'Fire pits',
+      outdoor_rugs: 'Outdoor rugs',
+      stepping_stones: 'Stepping stones',
+      flower_beds_borders: 'Flower beds borders',
+      outdoor_carpets: 'Outdoor carpets',
+      raised_beds: 'Raised beds',
+      vertical_garden_structures: 'Vertical garden structures',
+      outdoor_cushions: 'Outdoor cushions',
+      patio_umbrellas: 'Patio umbrellas',
+      garden_pavilions: 'Garden pavilions',
+      plant_stands: 'Plant stands',
+      garden_mirrors: 'Garden mirrors',
+      outdoor_screens: 'Outdoor screens',
+      solar_lights: 'Solar lights',
+      garden_ornaments: 'Garden ornaments',
+
+      // everything_for_plants
+      fertilizers: 'Fertilizers',
+      plant_tools: 'Plant tools',
+      soil: 'Soil',
+      plant_protection: 'Plant protection',
+      watering_systems: 'Watering systems',
+      plant_stakes: 'Plant stakes',
+      plant_labels: 'Plant labels',
+      plant_cages: 'Plant cages',
+      grow_lights: 'Grow lights',
+      humidity_trays: 'Humidity trays',
+      self_watering_pots: 'Self watering pots',
+      plant_misters: 'Plant misters',
+      watering_cans: 'Watering cans',
+      pruning_shears: 'Pruning shears',
+      gardening_gloves: 'Gardening gloves',
+      plant_trays: 'Plant trays',
+      mulch: 'Mulch',
+      peat_moss: 'Peat moss',
+      perlite: 'Perlite',
+      vermiculite: 'Vermiculite',
+      rooting_hormones: 'Rooting hormones',
+      pest_control_sprays: 'Pest control sprays',
+      biodegradable_pots: 'Biodegradable pots',
+      plant_covers: 'Plant covers',
+      compost_bins: 'Compost bins',
+      greenhouses: 'Greenhouses',
+      grow_tents: 'Grow tents',
+      plant_heating_mats: 'Plant heating mats',
+      plant_grafting_tools: 'Plant grafting tools',
+      hydroponic_systems: 'Hydroponic systems',
+      drip_irrigation_kits: 'Drip irrigation kits',
+      plant_nutrient_solutions: 'Plant nutrient solutions',
+      planters_with_reservoirs: 'Planters with reservoirs',
+      plant_trellis: 'Plant trellis',
+      plant_clips: 'Plant clips',
+      bonsai_tools: 'Bonsai tools',
+      plant_saucers: 'Plant saucers',
+      plant_supports: 'Plant supports',
+      pH_meters: 'PH meters',
+      soil_test_kits: 'Soil test kits',
+      compost_tea_brewers: 'Compost tea brewers'
+    }
   },
   navbar: {
     home: 'Home',
@@ -128,7 +426,9 @@ export const en = {
   },
   commentList: {
     title: 'Comments ({{count}})',
-    empty: 'No comments yet.'
+    empty: 'No comments yet.',
+    reply: 'Reply',
+    replyTo: 'Reply:'
   },
   editUserChangePassword: {
     pageTitle: 'Zeleni svet | Change password',
@@ -274,6 +574,7 @@ export const en = {
     maxImages: 'Maximum 10 images',
     addImageButton: 'Add product image',
     photoInfo: {
+      title: 'Information about adding photos',
       ratio: 'Ideal photo ratio is 1/1 square.',
       firstIsProfile: 'The first image in the list is profile image.',
       maxPhotos: 'Maximum 10 photos.',
@@ -331,7 +632,9 @@ export const en = {
     from: 'From',
     to: 'To',
     inStock: 'In stock',
-    priceOnRequest: 'Price on request'
+    priceOnRequest: 'Price on request',
+    noProductsFound: 'Currently no products for selected filters',
+    chooseDifferentFilters: 'Choose a different combination of filters'
   },
   productPage: {
     productFallback: 'Product',
@@ -796,6 +1099,70 @@ export const en = {
       message: 'Additional order information...'
     }
   },
+  promoBundleView: {
+    title: 'Promotional Bundles',
+    infoCard: {
+      title: 'What do you get in the bundle?',
+      combination:
+        'Each bundle includes a <strong>combination of three promotions</strong>:',
+      productPromo: {
+        title: 'Product promotion',
+        desc: ' — your products appear at the top of the search'
+      },
+      shopPromo: {
+        title: 'Shop promotion',
+        desc: ' — your shop stands out in search results'
+      },
+      capacity: {
+        title: 'Capacity increase',
+        desc: ' — additional places for more products'
+      },
+      whyTitle: 'Why choose a promotional bundle?',
+      whyDesc:
+        'Promotional bundles are <strong>more affordable</strong> than buying individual promotions. Save money while maximized visibility of your shop and products.'
+    },
+    chooseBundle: 'Choose a bundle',
+    mostPopular: 'Most Popular',
+    bundleFeatures: {
+      products: '{{count}} products × {{days}} days',
+      shop: 'Shop promotion {{days}} days',
+      capacity: '+{{count}} capacity places (permanent)'
+    },
+    chooseProducts: {
+      title: 'Select products for promotion',
+      desc: 'This bundle includes promotion of <strong>{{count}} products</strong>. Please select products you want to promote.',
+      noProducts:
+        'You have no products for promotion. First create products in your shop.',
+      placeholder: 'Select products',
+      helperText: 'Products for promotion ({{selected}}/{{max}})',
+      clearSelection: 'Clear selection',
+      selectionNotice:
+        'Please select a maximum of {{count}} products to proceed with payment.'
+    },
+    payment: {
+      title: 'Total for payment',
+      subtitle: 'Order overview',
+      summary:
+        'Bundle: <strong>{{bundleName}}</strong> with <strong>{{count}} product(s)</strong> for promotion. Total price: <strong>{{price}} RSD</strong>.'
+    },
+    toasts: {
+      success: 'Success! Promotion is activated.'
+    },
+    bundles: {
+      basic: {
+        name: 'Basic Bundle',
+        desc: 'Ideal for starting out'
+      },
+      standard: {
+        name: 'Standard Bundle',
+        desc: 'Most popular choice'
+      },
+      premium: {
+        name: 'Premium Bundle',
+        desc: 'Maximum visibility'
+      }
+    }
+  },
   userRecommendation: {
     title: 'How to increase user engagement on your content?',
     description:
@@ -862,6 +1229,140 @@ export const en = {
     phoneNumber: 'Your phone number',
     message: 'Your message',
     cancel: 'Cancel',
-    send: 'Send'
+    send: 'Send',
+    allServices: 'All services',
+    currency: 'RSD',
+    onQuery: 'On query',
+    hourly: 'Hourly',
+    fixed: 'Fixed',
+    negotiable: 'Negotiable',
+    notSpecified: 'Not specified',
+    user: 'User'
+  },
+  blogPostPage: {
+    minRead: 'min read',
+    shareBlog: 'Share Blog',
+    leaveComment: 'Leave a comment',
+    linkCopied: 'Link copied',
+    linkCopyFailed: 'Link copy failed',
+    aboutAuthor: 'About Author:'
+  },
+  messageView: {
+    title: 'Messages',
+    searchPlaceholder: 'Search users...',
+    noMessages: 'No messages',
+    selectUserToStart: 'Select a user to start a conversation',
+    errorLoading: 'An error occurred while loading messages.',
+    noConversations: 'You have no conversations.',
+    noSearchResults: 'No search results.',
+    messageInputPlaceholder: 'Type a message...',
+    emptyConversation: 'No messages in this conversation.',
+    backToList: 'Back to message list'
+  },
+  contactUsView: {
+    hero: {
+      title: 'Contact Us',
+      subtitle:
+        'Your opinion matters to us. Whether you have a question, suggestion, or want to collaborate – we are here for you.'
+    },
+    features: {
+      fastResponse: {
+        title: 'Fast response',
+        desc: 'We respond within 24 hours'
+      },
+      secure: {
+        title: 'Secure communication',
+        desc: 'Your data is protected'
+      },
+      support: {
+        title: 'Expert support',
+        desc: 'Our team is here for you'
+      }
+    },
+    form: {
+      badge: 'Send a message',
+      title: 'Write to us',
+      subtitle:
+        'Fill out the form below and we will contact you as soon as possible.',
+      labels: {
+        name: 'Full name',
+        email: 'E-mail address',
+        phone: 'Phone (optional)',
+        subject: 'Message subject',
+        message: 'Your message'
+      },
+      placeholders: {
+        name: 'Your name',
+        email: 'your@email.com',
+        phone: '+381 60 000 0000',
+        subject: 'What is it about?',
+        message: 'Describe your inquiry or suggestion in detail...'
+      },
+      submit: 'Send message'
+    },
+    info: {
+      title: 'Contact information',
+      email: 'E-mail',
+      addressTitle: 'Address',
+      addressValue: 'We operate online only'
+    },
+    supportHours: {
+      title: 'Support Hours',
+      weekdays: 'Monday - Friday',
+      saturday: 'Saturday',
+      sunday: 'Sunday',
+      closed: 'Closed',
+      note: '* We process e-mail messages outside of working hours too'
+    },
+    whyUs: {
+      title: 'Why communication matters?',
+      items: {
+        item1: {
+          title: 'Better understanding of your needs',
+          desc: 'Through open communication, we can more precisely answer your questions and provide personalized solutions.'
+        },
+        item2: {
+          title: 'Constant service improvement',
+          desc: 'Your comments and suggestions help us improve our products and services.'
+        },
+        item3: {
+          title: 'Building trust',
+          desc: 'Transparent communication is the foundation of a long-term partnership with our users.'
+        }
+      }
+    },
+    faq: {
+      badge: 'FAQ',
+      title: 'Frequently Asked Questions',
+      subtitle:
+        'Find answers to common questions. If you don’t find an answer, feel free to contact us.',
+      items: {
+        q1: {
+          q: 'How quickly can I expect a response to my inquiry?',
+          a: 'We strive to answer all questions within 24 hours during business days. During weekends and holidays, response time may be slightly longer.'
+        },
+        q2: {
+          q: 'How can I check the status of my order?',
+          a: 'After order confirmation, you will receive the seller’s contact info via email, as well as our contact info. If the seller doesn’t respond within 48 hours, please contact us directly to help resolve the situation.'
+        },
+        q3: {
+          q: 'Do you offer advice on plant selection and care?',
+          a: 'Yes! In line with modern technologies, our team has created an AI advisor specialized in floriculture and gardening. You can access the advisor through our Instagram account, where it’s always available for questions and recommendations.'
+        },
+        q4: {
+          q: 'How can I become a partner or seller on the Green World platform?',
+          a: 'Becoming a seller is simple. You need to register on the platform, fill in your shop details, and then add the products you offer to customers.'
+        },
+        q5: {
+          q: 'How does payment work on the Green World platform?',
+          a: 'Green World does not participate in the payment process between the buyer and the seller. Payment is made exclusively directly with the seller. If shops want to promote their products or increase their shop capacity on the platform, payment can be made via PayPal or credit cards.'
+        }
+      }
+    },
+    footerBanner: {
+      title: 'Your satisfaction is our priority',
+      subtitle:
+        'Thank you for your trust. We look forward to your message and the opportunity to help you.'
+    }
   }
 } as const;

@@ -419,9 +419,19 @@ export const WritePost = () => {
           <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
             Ključne reči (maks. 5, jedna reč svaka)
           </Typography>
-          <Box display="flex" gap={2} alignItems="flex-start">
+          <Box
+            sx={(theme) => ({
+              display: 'flex',
+              gap: 2,
+              alignItems: 'flex-start',
+              flexDirection: 'column',
+              [theme.breakpoints.up('sm')]: {
+                flexDirection: 'row'
+              }
+            })}
+          >
             <TextField
-              sx={{ mt: '1.5px' }}
+              sx={{ mt: '1.5px', width: '100%' }}
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
               placeholder="Dodaj ključnu reč"
@@ -433,6 +443,12 @@ export const WritePost = () => {
             <Button
               variant="outlined"
               onClick={addKeyword}
+              sx={(theme) => ({
+                width: '100%',
+                [theme.breakpoints.up('sm')]: {
+                  width: 'auto'
+                }
+              })}
               disabled={isCreating || isImageUploading || keywords.length >= 5}
             >
               Dodaj

@@ -55,10 +55,10 @@ export const ContactUs = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fullMessage = `
-Ime: ${contactForm.name}
-Telefon: ${contactForm.phone}
+${t('contactUsView.form.labels.name')}: ${contactForm.name}
+${t('contactUsView.form.labels.phone')}: ${contactForm.phone}
 
-Poruka:
+${t('contactUsView.form.labels.message')}:
 ${contactForm.message}`;
 
     mutate(
@@ -106,12 +106,11 @@ ${contactForm.message}`;
               fontSize: '3rem'
             }}
           >
-            Kontaktirajte nas
+            {t('contactUsView.hero.title')}
           </Typography>
 
           <Typography sx={{ maxWidth: 520, mt: 2, opacity: 0.9 }}>
-            Vaše mišljenje nam je važno. Bilo da imate pitanje, sugestiju ili
-            želite saradnju – tu smo za vas.
+            {t('contactUsView.hero.subtitle')}
           </Typography>
         </Box>
       </Box>
@@ -152,9 +151,11 @@ ${contactForm.message}`;
               <Clock style={{ width: '24px', height: '24px' }} />
             </Box>
             <Box>
-              <Typography variant="subtitle1">Brz odgovor</Typography>
+              <Typography variant="subtitle1">
+                {t('contactUsView.features.fastResponse.title')}
+              </Typography>
               <Typography variant="body1" color="text.secondary">
-                Odgovaramo u roku od 24 sata
+                {t('contactUsView.features.fastResponse.desc')}
               </Typography>
             </Box>
           </Box>
@@ -176,9 +177,11 @@ ${contactForm.message}`;
               <ShieldCheck style={{ width: '24px', height: '24px' }} />
             </Box>
             <Box>
-              <Typography variant="subtitle1">Sigurna komunikacija</Typography>
+              <Typography variant="subtitle1">
+                {t('contactUsView.features.secure.title')}
+              </Typography>
               <Typography variant="body1" color="text.secondary">
-                Vaši podaci su zaštićeni
+                {t('contactUsView.features.secure.desc')}
               </Typography>
             </Box>
           </Box>
@@ -200,9 +203,11 @@ ${contactForm.message}`;
               <Users style={{ width: '24px', height: '24px' }} />
             </Box>
             <Box>
-              <Typography variant="subtitle1">Stručna podrška</Typography>
+              <Typography variant="subtitle1">
+                {t('contactUsView.features.support.title')}
+              </Typography>
               <Typography variant="body1" color="text.secondary">
-                Naš tim je tu za vas
+                {t('contactUsView.features.support.desc')}
               </Typography>
             </Box>
           </Box>
@@ -242,7 +247,7 @@ ${contactForm.message}`;
           >
             <MessageCircle />
             <Typography variant="body2" color="success.main" fontWeight={600}>
-              Pošaljite poruku
+              {t('contactUsView.form.badge')}
             </Typography>
           </Box>
 
@@ -252,29 +257,32 @@ ${contactForm.message}`;
               fontSize: '2.5rem'
             }}
           >
-            Pišite nam
+            {t('contactUsView.form.title')}
           </Typography>
 
           <Typography variant="body1" color="text.secondary" mb={4}>
-            Ispunite formu ispod i kontaktiraćemo Vas u najkraćem mogućem roku.
+            {t('contactUsView.form.subtitle')}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit}>
             <Box
-              sx={{
+              sx={(theme) => ({
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+                gridTemplateColumns: '1fr',
+                [theme.breakpoints.up('md')]: {
+                  gridTemplateColumns: '1fr 1fr'
+                },
                 gap: 3,
                 mb: 3
-              }}
+              })}
             >
               <Box>
                 <Typography variant="body1" mb={1}>
-                  Ime i prezime
+                  {t('contactUsView.form.labels.name')}
                 </Typography>
                 <TextField
                   fullWidth
-                  placeholder="Vaše ime"
+                  placeholder={t('contactUsView.form.placeholders.name')}
                   name="name"
                   value={contactForm.name}
                   onChange={handleChange}
@@ -289,11 +297,11 @@ ${contactForm.message}`;
 
               <Box>
                 <Typography variant="body1" mb={1}>
-                  E-mail adresa
+                  {t('contactUsView.form.labels.email')}
                 </Typography>
                 <TextField
                   fullWidth
-                  placeholder="vas@email.com"
+                  placeholder={t('contactUsView.form.placeholders.email')}
                   name="email"
                   required
                   value={contactForm.email}
@@ -309,11 +317,11 @@ ${contactForm.message}`;
 
               <Box>
                 <Typography variant="body1" mb={1}>
-                  Telefon (opcionalno)
+                  {t('contactUsView.form.labels.phone')}
                 </Typography>
                 <TextField
                   fullWidth
-                  placeholder="+381 60 000 0000"
+                  placeholder={t('contactUsView.form.placeholders.phone')}
                   name="phone"
                   value={contactForm.phone}
                   onChange={handleChange}
@@ -328,11 +336,11 @@ ${contactForm.message}`;
 
               <Box>
                 <Typography variant="body1" mb={1}>
-                  Tema poruke
+                  {t('contactUsView.form.labels.subject')}
                 </Typography>
                 <TextField
                   fullWidth
-                  placeholder="O čemu se radi?"
+                  placeholder={t('contactUsView.form.placeholders.subject')}
                   name="subject"
                   required
                   value={contactForm.subject}
@@ -349,13 +357,13 @@ ${contactForm.message}`;
 
             <Box mb={4}>
               <Typography variant="body1" mb={1}>
-                Vaša poruka
+                {t('contactUsView.form.labels.message')}
               </Typography>
               <TextField
                 fullWidth
                 multiline
                 rows={4}
-                placeholder="Opišite detaljno vaš upit ili sugestiju..."
+                placeholder={t('contactUsView.form.placeholders.message')}
                 name="message"
                 required
                 value={contactForm.message}
@@ -378,7 +386,7 @@ ${contactForm.message}`;
                   mt: 4
                 }}
               >
-                Pošalji poruku
+                {t('contactUsView.form.submit')}
               </Button>
             </Box>
           </Box>
@@ -400,7 +408,7 @@ ${contactForm.message}`;
               variant="h5"
               sx={{ fontFamily: 'Ephesis', fontSize: '2rem', mb: 3 }}
             >
-              Kontakt informacije
+              {t('contactUsView.info.title')}
             </Typography>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -420,7 +428,9 @@ ${contactForm.message}`;
                   <Mail size={24} />
                 </Box>
                 <Box>
-                  <Typography color="text.secondary">E-mail</Typography>
+                  <Typography color="text.secondary">
+                    {t('contactUsView.info.email')}
+                  </Typography>
                   <Typography fontWeight={600}>info@zelenisvet.rs</Typography>
                 </Box>
               </Box>
@@ -441,9 +451,11 @@ ${contactForm.message}`;
                   <MapPin size={24} />
                 </Box>
                 <Box>
-                  <Typography color="text.secondary">Adresa</Typography>
+                  <Typography color="text.secondary">
+                    {t('contactUsView.info.addressTitle')}
+                  </Typography>
                   <Typography fontWeight={500}>
-                    Poslujemo samo online
+                    {t('contactUsView.info.addressValue')}
                   </Typography>
                 </Box>
               </Box>
@@ -479,7 +491,7 @@ ${contactForm.message}`;
                 variant="h5"
                 sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
               >
-                Radno vrijeme podrške
+                {t('contactUsView.supportHours.title')}
               </Typography>
             </Box>
 
@@ -495,7 +507,7 @@ ${contactForm.message}`;
                 }}
               >
                 <Typography color="text.secondary">
-                  Ponedeljak - Petak
+                  {t('contactUsView.supportHours.weekdays')}
                 </Typography>
                 <Typography fontWeight={600}>09:00 - 17:00</Typography>
               </Box>
@@ -510,7 +522,9 @@ ${contactForm.message}`;
                   borderColor: 'divider'
                 }}
               >
-                <Typography color="text.secondary">Subota</Typography>
+                <Typography color="text.secondary">
+                  {t('contactUsView.supportHours.saturday')}
+                </Typography>
                 <Typography fontWeight={600}>10:00 - 14:00</Typography>
               </Box>
 
@@ -521,15 +535,19 @@ ${contactForm.message}`;
                   alignItems: 'center'
                 }}
               >
-                <Typography color="text.secondary">Nedjelja</Typography>
-                <Typography fontWeight={600}>Zatvoreno</Typography>
+                <Typography color="text.secondary">
+                  {t('contactUsView.supportHours.sunday')}
+                </Typography>
+                <Typography fontWeight={600}>
+                  {t('contactUsView.supportHours.closed')}
+                </Typography>
               </Box>
 
               <Typography
                 color="text.secondary"
                 sx={{ mt: 1, display: 'block' }}
               >
-                * E-mail poruke obrađujemo i van radnog vremena
+                {t('contactUsView.supportHours.note')}
               </Typography>
             </Box>
           </Box>
@@ -562,23 +580,23 @@ ${contactForm.message}`;
                 variant="h5"
                 sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
               >
-                Zašto je komunikacija bitna?
+                {t('contactUsView.whyUs.title')}
               </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               {[
                 {
-                  title: 'Bolje razumijevanje vaših potreba',
-                  desc: 'Kroz otvorenu komunikaciju možemo preciznije odgovoriti na vaša pitanja i pružiti personalizovana rešenja.'
+                  title: t('contactUsView.whyUs.items.item1.title'),
+                  desc: t('contactUsView.whyUs.items.item1.desc')
                 },
                 {
-                  title: 'Stalno poboljšanje usluga',
-                  desc: 'Vaši komentari i sugestije nam pomažu da unaprijedimo naše proizvode i usluge.'
+                  title: t('contactUsView.whyUs.items.item2.title'),
+                  desc: t('contactUsView.whyUs.items.item2.desc')
                 },
                 {
-                  title: 'Izgradnja poverenja',
-                  desc: 'Transparentna komunikacija je temelj dugoročnog partnerstva s našim korisnicima.'
+                  title: t('contactUsView.whyUs.items.item3.title'),
+                  desc: t('contactUsView.whyUs.items.item3.desc')
                 }
               ].map((item, index) => (
                 <Box key={index} sx={{ display: 'flex', gap: 2 }}>
@@ -619,7 +637,7 @@ ${contactForm.message}`;
             >
               <Leaf size={16} />
               <Typography variant="body2" color="success.main" fontWeight={600}>
-                Česta pitanja
+                {t('contactUsView.faq.badge')}
               </Typography>
             </Box>
             <Typography
@@ -630,11 +648,10 @@ ${contactForm.message}`;
                 mb: 2
               }}
             >
-              Najčešća pitanja
+              {t('contactUsView.faq.title')}
             </Typography>
             <Typography color="text.secondary">
-              Pronađite odgovore na najčešća pitanja. Ako ne pronađete odgovor,
-              slobodno nas kontaktirajte.
+              {t('contactUsView.faq.subtitle')}
             </Typography>
           </Box>
 
@@ -649,24 +666,24 @@ ${contactForm.message}`;
           >
             {[
               {
-                q: 'Koliko brzo mogu očekivati odgovor na upit?',
-                a: 'Trudimo se da na sva pitanja odgovorimo u roku od 24 sata tokom radnih dana. Tokom vikenda i praznika vreme odgovora može biti nešto duže.'
+                q: t('contactUsView.faq.items.q1.q'),
+                a: t('contactUsView.faq.items.q1.a')
               },
               {
-                q: 'Kako mogu da proverim status svoje porudžbine?',
-                a: 'Nakon potvrde porudžbine, putem emaila dobijate kontakt podatke prodavca, kao i naše kontakt informacije. Ukoliko se prodavac ne javi u roku od 48 sati, molimo vas da nas direktno kontaktirate kako bismo pomogli u rešavanju situacije.'
+                q: t('contactUsView.faq.items.q2.q'),
+                a: t('contactUsView.faq.items.q2.a')
               },
               {
-                q: 'Da li nudite savete za izbor i negu biljaka?',
-                a: 'Da! U skladu sa savremenim tehnologijama, naš tim je kreirao AI savetnika specijalizovanog za cvećarstvo i baštovanstvo. Savetniku možete pristupiti putem našeg Instagram naloga, gde vam je uvek na raspolaganju za pitanja i preporuke.'
+                q: t('contactUsView.faq.items.q3.q'),
+                a: t('contactUsView.faq.items.q3.a')
               },
               {
-                q: 'Kako mogu postati partner ili prodavac na platformi Zeleni svet?',
-                a: 'Postati prodavac je jednostavno. Potrebno je da se registrujete na platformi, popunite podatke o svojoj prodavnici i potom dodate proizvode koje nudite kupcima.'
+                q: t('contactUsView.faq.items.q4.q'),
+                a: t('contactUsView.faq.items.q4.a')
               },
               {
-                q: 'Kako funkcioniše plaćanje na platformi Zeleni svet?',
-                a: 'Zeleni svet ne učestvuje u procesu plaćanja između kupca i prodavca. Plaćanje se vrši isključivo direktno sa prodavcem. Ukoliko prodavnice žele da promovišu svoje proizvode ili povećaju kapacitet svoje prodavnice na platformi, plaćanje je moguće izvršiti putem PayPal-a ili platnim karticama.'
+                q: t('contactUsView.faq.items.q5.q'),
+                a: t('contactUsView.faq.items.q5.a')
               }
             ].map((item, index) => (
               <Accordion
@@ -727,11 +744,10 @@ ${contactForm.message}`;
               mb: 2
             }}
           >
-            Vaše zadovoljstvo je naš prioritet
+            {t('contactUsView.footerBanner.title')}
           </Typography>
           <Typography sx={{ opacity: 0.9, mb: 4, maxWidth: 600, mx: 'auto' }}>
-            Hvala vam na poverenju. Radujemo se vašoj poruci i prilici da vam
-            pomognemo.
+            {t('contactUsView.footerBanner.subtitle')}
           </Typography>
           <Button
             variant="contained"

@@ -5,10 +5,15 @@ export const sr = {
     en: 'ENG',
     ru: 'RUS'
   },
+  common: {
+    unknownUser: 'Nepoznat korisnik'
+  },
   breadcrumbs: {
     home: 'Početna',
     products: 'Proizvodi',
-    userProfile: 'Korisnički profil'
+    userProfile: 'Korisnički profil',
+    profile: 'Profil',
+    promoBundle: 'Promotivni Paketi'
   },
   home: {
     bannerAlt: 'Zeleni Svet baner',
@@ -42,7 +47,300 @@ export const sr = {
       garden_decoration: 'Baštenska dekoracija',
       everything_for_plants: 'Sve za biljke'
     },
-    subGroups: {}
+    subGroups: {
+      // flower_assortment
+      bouquets: 'Buketi',
+      cut_flowers: 'Cveće za sečenje',
+      floral_gifts: 'Cvetni pokloni',
+      floral_arrangements: 'Cvetni aranžmani',
+      preserved_flowers: 'Očuvano cveće',
+      roses: 'Ruže',
+      tulips: 'Tulipani',
+      lilies: 'Ljiljani',
+      orchids: 'Orhideje',
+      daisies: 'Margarete',
+      sunflowers: 'Suncokreti',
+      carnations: 'Karanfili',
+      peonies: 'Božuri',
+      gerberas: 'Gerberi',
+      hydrangeas: 'Hortenzije',
+      anemones: 'Anemone',
+      ranunculus: 'Ranunculus',
+      chrysanthemums: 'Hrizanteme',
+      delphiniums: 'Delfinijumi',
+      snapdragons: 'Zmajeve usne',
+      asters: 'Astre',
+      zinnias: 'Cinije',
+      cosmos: 'Kosmos',
+      freesias: 'Frezije',
+      lavender: 'Lavanda',
+      lilacs: 'Jorgovani',
+      iris: 'Perunike',
+      calla_lilies: 'Kale',
+      stock: 'Šeboj',
+      salvia: 'Žalfija',
+      pansies: 'Dan i noć',
+      petunias: 'Petunije',
+      corydalis: 'Mlađa',
+      bouvardia: 'Buvardija',
+      calendula: 'Neven',
+
+      // succulents
+      indoor_succulents: 'Sobne sukulente',
+      outdoor_succulents: 'Spoljašnje sukulente',
+      cacti: 'Kaktusi',
+      succulent_gifts: 'Pokloni sukulenti',
+      echeveria: 'Eševerija',
+      haworthia: 'Havortija',
+      aloe_vera: 'Aloe vera',
+      jade_plant: 'Krasula (drvo novca)',
+      string_of_pearls: 'Niz bisera',
+      burros_tail: 'Magareći rep',
+      zebra_plant: 'Zebra biljka',
+      panda_plant: 'Panda biljka',
+      agave: 'Agava',
+      sedum: 'Čuvarkuća',
+      crassula: 'Krasula',
+      kalanchoe: 'Kalanhoja',
+
+      // potted_flowers
+      indoor_plants: 'Sobne biljke',
+      outdoor_plants: 'Spoljašnje biljke',
+      flowering_plants: 'Cvetne biljke',
+      decorative_plants: 'Dekorativne biljke',
+      peace_lily: 'Spatifilum (ljiljan mira)',
+      snake_plant: 'Sanseverija (svekrvin jezik)',
+      spider_plant: 'Hlorofitum',
+      begonias: 'Begonije',
+      fuchsias: 'Fuksije',
+      african_violets: 'Afričke ljubičice',
+      geraniums: 'Muškatle',
+      poinsettia: 'Božićna zvezda',
+      anthurium: 'Anturijum',
+      calathea: 'Kalateja',
+      ficus: 'Fikus',
+      bromeliads: 'Bromelije',
+      philodendron: 'Filodendron',
+      string_of_hearts: 'Ceropegija',
+      zz_plant: 'Zamija',
+      pothos: 'Potos',
+      dracaena: 'Dracena',
+      areca_palm: 'Areka palma',
+      rubber_plant: 'Fikus elastika',
+      cast_iron_plant: 'Aspidistra',
+      money_plant: 'Pilea (biljka novca)',
+      maranta: 'Maranta',
+      bamboo_plant: 'Srećni bambus',
+      coleus: 'Ukrasna kopriva (koleus)',
+      sansevieria: 'Sanseverija',
+      hoya: 'Hoja',
+      philodendron_birkin: 'Filodendron birkin',
+      neoregalia: 'Neoregelija',
+
+      // seedlings
+      flower_seedlings: 'Cvetne sadnice',
+      vegetable_seedlings: 'Povrtne sadnice',
+      fruit_seedlings: 'Voćne sadnice',
+      herb_seedlings: 'Biljne sadnice',
+      rose_seedlings: 'Sadnice ruža',
+      lavender_seedlings: 'Sadnice lavande',
+      sunflower_seedlings: 'Sadnice suncokreta',
+      petunia_seedlings: 'Sadnice petunija',
+      marigold_seedlings: 'Sadnice nevena',
+      tomato_seedlings: 'Sadnice paradajza',
+      pepper_seedlings: 'Sadnice paprike',
+      cucumber_seedlings: 'Sadnice krastavaca',
+      zucchini_seedlings: 'Sadnice tikvica',
+      cabbage_seedlings: 'Sadnice kupusa',
+      carrot_seedlings: 'Sadnice šargarepe',
+      lettuce_seedlings: 'Sadnice salate',
+      apple_seedlings: 'Sadnice jabuka',
+      pear_seedlings: 'Sadnice krušaka',
+      plum_seedlings: 'Sadnice šljiva',
+      cherry_seedlings: 'Sadnice trešanja',
+      peach_seedlings: 'Sadnice breskvi',
+      quince_seedlings: 'Sadnice dunja',
+      walnut_seedlings: 'Sadnice oraha',
+      apricot_seedlings: 'Sadnice kajsija',
+      basil_seedlings: 'Sadnice bosiljka',
+      oregano_seedlings: 'Sadnice origana',
+      thyme_seedlings: 'Sadnice majčine dušice',
+      mint_seedlings: 'Sadnice mente',
+      rosemary_seedlings: 'Sadnice ruzmarina',
+      autohtona_sljiva_seedlings: 'Autohtone šljive',
+      vranac_grape_seedlings: 'Sadnice grožđa vranac',
+      dunja_seedlings: 'Sadnice dunje',
+      lesnik_seedlings: 'Sadnice lešnika',
+      malina_seedlings: 'Sadnice maline',
+      kupina_seedlings: 'Sadnice kupine',
+      šljiva_požegača_seedlings: 'Šljive požeške',
+      prokupac_grape_seedlings: 'Sadnice grožđa prokupac',
+      thuja_seedlings: 'Sadnice tuja',
+      juniper_seedlings: 'Sadnice juna',
+      cypress_seedlings: 'Sadnice cipresa',
+      arborvitae_seedlings: 'Sadnice arborvitaea',
+      pine_seedlings: 'Sadnice bora',
+      spruce_seedlings: 'Sadnice smreke',
+      fir_seedlings: 'Sadnice jele',
+
+      // fruits_and_vegetables
+      fresh_fruits: 'Sveže voće',
+      apples: 'Jabuke',
+      pears: 'Kruške',
+      plums: 'Šljive',
+      cherries: 'Trešnje',
+      peaches: 'Breskve',
+      apricots: 'Kajsije',
+      quince: 'Dunje',
+      strawberries: 'Jagode',
+      raspberries: 'Maline',
+      blackberries: 'Kupine',
+      blueberries: 'Borovnice',
+      grapes: 'Grožđe',
+      fresh_vegetables: 'Sveže povrće',
+      tomatoes: 'Paradajz',
+      peppers: 'Paprika',
+      cucumbers: 'Krastavci',
+      zucchini: 'Tikvice',
+      cabbage: 'Kupus',
+      carrots: 'Šargarepe',
+      lettuce: 'Salata',
+      onions: 'Luk',
+      garlic: 'Beli luk',
+      potatoes: 'Krompir',
+      spinach: 'Spanać',
+      eggplant: 'Patlidžan',
+      organic_produce: 'Organski proizvodi',
+      organic_apples: 'Organske jabuke',
+      organic_tomatoes: 'Organski paradajzi',
+      organic_peppers: 'Organska paprika',
+      organic_cucumbers: 'Organski krastavci',
+      organic_spinach: 'Organski spanać',
+      organic_carrots: 'Organske šargarepe',
+      seasonal_fruits: 'Sezonsko voće',
+      šljiva_požegača: 'Šljive požeške',
+      malina: 'Malina',
+      kupina: 'Kupina',
+      dunja: 'Dunja',
+      prokupac_grapes: 'Grožđe prokupac',
+      jagoda: 'Jagoda',
+      šljiva_ranka: 'Šljive ranka',
+      exotic_fruits: 'Egzotično voće',
+      bananas: 'Banane',
+      mangoes: 'Manga',
+      kiwi: 'Kivi',
+      pineapple: 'Ananas',
+      papaya: 'Papaja',
+      pomegranate: 'Nar',
+      dragon_fruit: 'Zmajevo voće',
+      lychee: 'Liči',
+      spinach_seedlings: 'Sadnice spanaća',
+      eggplant_seedlings: 'Sadnice patlidžana',
+      grape_seedlings: 'Sadnice grožđa',
+
+      // herbal_pharmacy
+      medicinal_herbs: 'Lekovito bilje',
+      herbal_teas: 'Biljni čajevi',
+      essential_oils: 'Eterična ulja',
+      herbal_extracts: 'Biljni ekstrakti',
+      plant_fertilizers: 'Đubriva za biljke',
+      organic_fertilizers: 'Organska đubriva',
+      compost: 'Kompost',
+      liquid_plant_food: 'Tečna ishrana za biljke',
+      soil_amendments: 'Poboljšivači tla',
+      root_boosters: 'Pojačivači korena',
+      growth_stimulants: 'Stimulansi rasta',
+      natural_pesticides: 'Prirodni pesticidi',
+      fungicides: 'Fungicidi',
+      insect_repellents: 'Repelenti za insekte',
+      plant_antibiotics: 'Biljni antibiotici',
+      bio_protectants: 'Bio zaštitnici',
+      plant_vitamins: 'Vitamini za biljke',
+      mineral_supplements: 'Mineralni dodaci',
+      herbal_tinctures: 'Biljne tinkture',
+      herbal_balm: 'Biljna mast',
+      herbal_syrups: 'Biljni sirupi',
+      herbal_cough_remedies: 'Biljni lekovi za kašalj',
+      digestive_aids: 'Probavni dodaci',
+
+      // garden_decoration
+      garden_statues: 'Baštenske statue',
+      outdoor_lighting: 'Spoljašnje osvetljenje',
+      garden_furniture: 'Baštenski nameštaj',
+      decorative_pots: 'Dekorativni saksije',
+      water_features: 'Vodeni elementi',
+      garden_gnomes: 'Baštenski patuljci',
+      bird_baths: 'Kupke za ptice',
+      birdhouses: 'Kućice za ptice',
+      wind_chimes: 'Vetrotresi',
+      garden_trellises: 'Baštenski rešetke',
+      pergolas: 'Pergole',
+      hanging_planters: 'Viseće saksije',
+      garden_sculptures: 'Baštenske skulpture',
+      garden_pathways: 'Baštenski staze',
+      decorative_fencing: 'Dekorativni ograde',
+      garden_benches: 'Baštenske klupe',
+      garden_swing_seats: 'Ljuljaške za baštu',
+      gazebos: 'Sjenice',
+      fire_pits: 'Ognjišta',
+      outdoor_rugs: 'Spoljašnji tepisi',
+      stepping_stones: 'Staze od kamenčića',
+      flower_beds_borders: 'Ivice cvetnih leja',
+      outdoor_carpets: 'Spoljašnji tepisi',
+      raised_beds: 'Podignuti gredici',
+      vertical_garden_structures: 'Vertikalne baštenske konstrukcije',
+      outdoor_cushions: 'Spoljašnje jastučiće',
+      patio_umbrellas: 'Suncobrani za terasu',
+      garden_pavilions: 'Baštenski paviljoni',
+      plant_stands: 'Postolja za biljke',
+      garden_mirrors: 'Baštenska ogledala',
+      outdoor_screens: 'Spoljašnji ekrani',
+      solar_lights: 'Solarno svetlo',
+      garden_ornaments: 'Baštenski ornament',
+
+      // everything_for_plants
+      fertilizers: 'Đubriva',
+      plant_tools: 'Alati za biljke',
+      soil: 'Zemlja',
+      plant_protection: 'Zaštita biljaka',
+      watering_systems: 'Sistemi za zalivanje',
+      plant_stakes: 'Kolčići za biljke',
+      plant_labels: 'Oznake za biljke',
+      plant_cages: 'Kavezi za biljke',
+      grow_lights: 'Svetla za rast',
+      humidity_trays: 'Posude za vlagu',
+      self_watering_pots: 'Samostalno zalivajuće saksije',
+      plant_misters: 'Prskalice za biljke',
+      watering_cans: 'Posude za zalivanje',
+      pruning_shears: 'Sekatatori',
+      gardening_gloves: 'Baštenske rukavice',
+      plant_trays: 'Posude za sadnice',
+      mulch: 'Malč',
+      peat_moss: 'Treset',
+      perlite: 'Perlit',
+      vermiculite: 'Vermikulit',
+      rooting_hormones: 'Hormoni za korenjenje',
+      pest_control_sprays: 'Sprejevi za suzbijanje štetočina',
+      biodegradable_pots: 'Biorazgradive saksije',
+      plant_covers: 'Pokrivači za biljke',
+      compost_bins: 'Kante za kompost',
+      greenhouses: 'Staklenici',
+      grow_tents: 'Raste šatore',
+      plant_heating_mats: 'Grejne podloge za biljke',
+      plant_grafting_tools: 'Alati za grafting biljaka',
+      hydroponic_systems: 'Hidroponski sistemi',
+      drip_irrigation_kits: 'Set za kap po kap navodnjavanje',
+      plant_nutrient_solutions: 'Rastvori za hranljive materije biljaka',
+      planters_with_reservoirs: 'Saksije sa rezervoarima',
+      plant_trellis: 'Rešetke za biljke',
+      plant_clips: 'Stezaljke za biljke',
+      bonsai_tools: 'Alati za bonsai',
+      plant_saucers: 'Tanjirići za biljke',
+      plant_supports: 'Potpore za biljke',
+      pH_meters: 'PH meteri',
+      soil_test_kits: 'Kitovi za ispitivanje tla',
+      compost_tea_brewers: 'Spravljači čaja od komposta'
+    }
   },
   navbar: {
     home: 'Početna',
@@ -129,7 +427,9 @@ export const sr = {
   },
   commentList: {
     title: 'Komentari ({{count}})',
-    empty: 'Nema još komentara.'
+    empty: 'Nema još komentara.',
+    reply: 'Odgovori',
+    replyTo: 'Odgovor:'
   },
   editUserChangePassword: {
     pageTitle: 'Zeleni svet | Promena lozinke',
@@ -277,6 +577,7 @@ export const sr = {
     maxImages: 'Maksimalno 10 slika',
     addImageButton: 'Dodaj sliku proizvoda',
     photoInfo: {
+      title: 'Informacije o dodavanju fotografija',
       ratio: 'Idealna razmera za fotografije 1/1 square.',
       firstIsProfile: 'Prva slika u nizu je profilna.',
       maxPhotos: 'Maksimum 10 fotografija.',
@@ -334,7 +635,9 @@ export const sr = {
     from: 'Od',
     to: 'Do',
     inStock: 'Na stanju',
-    priceOnRequest: 'Cena na upit'
+    priceOnRequest: 'Cena na upit',
+    noProductsFound: 'Trenutno nema proizvoda za izabrane filtere',
+    chooseDifferentFilters: 'Izaberite neku drugu kombinaciju filtera'
   },
   productPage: {
     productFallback: 'Proizvod',
@@ -800,6 +1103,70 @@ export const sr = {
       message: 'Dodatne informacije o porudžbini...'
     }
   },
+  promoBundleView: {
+    title: 'Promotivni Paketi',
+    infoCard: {
+      title: 'Šta dobijate u paketu?',
+      combination:
+        'Svaki paket uključuje <strong>kombinaciju tri promocije</strong>:',
+      productPromo: {
+        title: 'Promocija proizvoda',
+        desc: ' — vaši proizvodi se pojavljuju na vrhu pretrage'
+      },
+      shopPromo: {
+        title: 'Promocija prodavnice',
+        desc: ' — vaša prodavnica se ističe u rezultatima pretrage'
+      },
+      capacity: {
+        title: 'Povećanje kapaciteta',
+        desc: ' — dodatna mesta za više proizvoda'
+      },
+      whyTitle: 'Zašto izabrati promotivni paket?',
+      whyDesc:
+        'Promotivni paketi su <strong>povoljniji</strong> od kupovine pojedinačnih promocija. Uštedite novac dok maksimalno povećavate vidljivost svoje prodavnice i proizvoda.'
+    },
+    chooseBundle: 'Izaberite paket',
+    mostPopular: 'Najpopularniji',
+    bundleFeatures: {
+      products: '{{count}} proizvoda × {{days}} dana',
+      shop: 'Promovisanje prodavnice {{days}} dana',
+      capacity: '+{{count}} mesta kapaciteta (trajno)'
+    },
+    chooseProducts: {
+      title: 'Izaberite proizvode za promociju',
+      desc: 'Ovaj paket uključuje promociju <strong>{{count}} proizvoda</strong>. Molimo izaberite proizvode koje želite da promovišete.',
+      noProducts:
+        'Nemate proizvode za promociju. Prvo kreirajte proizvode u vašoj prodavnici.',
+      placeholder: 'Izaberite proizvode',
+      helperText: 'Proizvodi za promociju ({{selected}}/{{max}})',
+      clearSelection: 'Očisti izbor',
+      selectionNotice:
+        'Molimo izaberite maksimum {{count}} proizvoda da biste nastavili sa plaćanjem.'
+    },
+    payment: {
+      title: 'Ukupno za plaćanje',
+      subtitle: 'Pregled porudzbine',
+      summary:
+        'Paket: <strong>{{bundleName}}</strong> sa <strong>{{count}} proizvod(a)</strong> za promociju. Ukupna cena: <strong>{{price}} RSD</strong>.'
+    },
+    toasts: {
+      success: 'Uspešno! Promocija je aktivirana.'
+    },
+    bundles: {
+      basic: {
+        name: 'Osnovni Paket',
+        desc: 'Idealno za početak'
+      },
+      standard: {
+        name: 'Standardni Paket',
+        desc: 'Najpopularniji izbor'
+      },
+      premium: {
+        name: 'Premium Paket',
+        desc: 'Maksimalna vidljivost'
+      }
+    }
+  },
   userRecommendation: {
     title: 'Kako da povećaš angažovanje korisnika na svom sadržaju?',
     description:
@@ -866,6 +1233,140 @@ export const sr = {
     phoneNumber: 'Vaš broj telefona',
     message: 'Vaša poruka',
     cancel: 'Odustani',
-    send: 'Pošalji'
+    send: 'Pošalji',
+    allServices: 'Sve usluge',
+    currency: 'RSD',
+    onQuery: 'Na upit',
+    hourly: 'Po satu',
+    fixed: 'Fiksno',
+    negotiable: 'Po dogovoru',
+    notSpecified: 'Nije navedeno',
+    user: 'Korisnik'
+  },
+  blogPostPage: {
+    minRead: 'min čitanja',
+    shareBlog: 'Podeli Blog',
+    leaveComment: 'Ostavite komentar',
+    linkCopied: 'Kopiran link',
+    linkCopyFailed: 'Neuspešno kopiranje linka',
+    aboutAuthor: 'O Autoru:'
+  },
+  messageView: {
+    title: 'Poruke',
+    searchPlaceholder: 'Pretraži korisnike...',
+    noMessages: 'Nema poruka',
+    selectUserToStart: 'Odaberi korisnika da počneš razgovor',
+    errorLoading: 'Došlo je do greške prilikom učitavanja poruka.',
+    noConversations: 'Nemate nijednu konverzaciju.',
+    noSearchResults: 'Nema rezultata pretrage.',
+    messageInputPlaceholder: 'Upiši poruku...',
+    emptyConversation: 'Nema poruka u ovoj konverzaciji.',
+    backToList: 'Nazad na listu poruka'
+  },
+  contactUsView: {
+    hero: {
+      title: 'Kontaktirajte nas',
+      subtitle:
+        'Vaše mišljenje nam je važno. Bilo da imate pitanje, sugestiju ili želite saradnju – tu smo za vas.'
+    },
+    features: {
+      fastResponse: {
+        title: 'Brz odgovor',
+        desc: 'Odgovaramo u roku od 24 sata'
+      },
+      secure: {
+        title: 'Sigurna komunikacija',
+        desc: 'Vaši podaci su zaštićeni'
+      },
+      support: {
+        title: 'Stručna podrška',
+        desc: 'Naš tim je tu za vas'
+      }
+    },
+    form: {
+      badge: 'Pošaljite poruku',
+      title: 'Pišite nam',
+      subtitle:
+        'Ispunite formu ispod i kontaktiraćemo Vas u najkraćem mogućem roku.',
+      labels: {
+        name: 'Ime i prezime',
+        email: 'E-mail adresa',
+        phone: 'Telefon (opcionalno)',
+        subject: 'Tema poruke',
+        message: 'Vaša poruka'
+      },
+      placeholders: {
+        name: 'Vaše ime',
+        email: 'vas@email.com',
+        phone: '+381 60 000 0000',
+        subject: 'O čemu se radi?',
+        message: 'Opišite detaljno vaš upit ili sugestiju...'
+      },
+      submit: 'Pošalji poruku'
+    },
+    info: {
+      title: 'Kontakt informacije',
+      email: 'E-mail',
+      addressTitle: 'Adresa',
+      addressValue: 'Poslujemo samo online'
+    },
+    supportHours: {
+      title: 'Radno vrijeme podrške',
+      weekdays: 'Ponedeljak - Petak',
+      saturday: 'Subota',
+      sunday: 'Nedelja',
+      closed: 'Zatvoreno',
+      note: '* E-mail poruke obrađujemo i van radnog vremena'
+    },
+    whyUs: {
+      title: 'Zašto je komunikacija bitna?',
+      items: {
+        item1: {
+          title: 'Bolje razumijevanje vaših potreba',
+          desc: 'Kroz otvorenu komunikaciju možemo preciznije odgovoriti na vaša pitanja i pružiti personalizovana rešenja.'
+        },
+        item2: {
+          title: 'Stalno poboljšanje usluga',
+          desc: 'Vaši komentari i sugestije nam pomažu da unaprijedimo naše proizvode i usluge.'
+        },
+        item3: {
+          title: 'Izgradnja poverenja',
+          desc: 'Transparentna komunikacija je temelj dugoročnog partnerstva s našim korisnicima.'
+        }
+      }
+    },
+    faq: {
+      badge: 'Česta pitanja',
+      title: 'Najčešća pitanja',
+      subtitle:
+        'Pronađite odgovore na najčešća pitanja. Ako ne pronađete odgovor, slobodno nas kontaktirajte.',
+      items: {
+        q1: {
+          q: 'Koliko brzo mogu očekivati odgovor na upit?',
+          a: 'Trudimo se da na sva pitanja odgovorimo u roku od 24 sata tokom radnih dana. Tokom vikenda i praznika vreme odgovora može biti nešto duže.'
+        },
+        q2: {
+          q: 'Kako mogu da proverim status svoje porudžbine?',
+          a: 'Nakon potvrde porudžbine, putem emaila dobijate kontakt podatke prodavca, kao i naše kontakt informacije. Ukoliko se prodavac ne javi u roku od 48 sati, molimo vas da nas direktno kontaktirate kako bismo pomogli u rešavanju situacije.'
+        },
+        q3: {
+          q: 'Da li nudite savete za izbor i negu biljaka?',
+          a: 'Da! U skladu sa savremenim tehnologijama, naš tim je kreirao AI savetnika specijalizovanog za cvećarstvo i baštovanstvo. Savetniku možete pristupiti putem našeg Instagram naloga, gde vam je uvek na raspolaganju za pitanja i preporuke.'
+        },
+        q4: {
+          q: 'Kako mogu postati partner ili prodavac na platformi Zeleni svet?',
+          a: 'Postati prodavac je jednostavno. Potrebno je da se registrujete na platformi, popunite podatke o svojoj prodavnici i potom dodate proizvode koje nudite kupcima.'
+        },
+        q5: {
+          q: 'Kako funkcioniše plaćanje na platformi Zeleni svet?',
+          a: 'Zeleni svet ne učestvuje u procesu plaćanja između kupca i prodavca. Plaćanje se vrši isključivo direktno sa prodavcem. Ukoliko prodavnice žele da promovišu svoje proizvode ili povećaju kapacitet svoje prodavnice na platformi, plaćanje je moguće izvršiti putem PayPal-a ili platnim karticama.'
+        }
+      }
+    },
+    footerBanner: {
+      title: 'Vaše zadovoljstvo je naš prioritet',
+      subtitle:
+        'Hvala vam na poverenju. Radujemo se vašoj poruci i prilici da vam pomognemo.'
+    }
   }
 } as const;

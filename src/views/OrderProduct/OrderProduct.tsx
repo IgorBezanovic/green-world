@@ -7,7 +7,6 @@ import {
   Card,
   Divider,
   Typography,
-  useTheme,
   OutlinedInput,
   Button,
   TextField,
@@ -39,7 +38,6 @@ export interface OrderFormData {
 
 export const OrderProduct = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const { productId } = useParams();
   const { mutate } = useOrderProduct();
   const navigate = useNavigate();
@@ -110,7 +108,7 @@ export const OrderProduct = () => {
         productName: productData.title,
         productPrice: productData.priceOnRequest
           ? t('orderProductView.priceOnRequest')
-          : `${productData?.price.toLocaleString()},00 RSD`,
+          : `${productData?.price.toLocaleString()},00 ${t('service.currency')}`,
         productId: productData._id
       }));
     }
@@ -198,7 +196,7 @@ export const OrderProduct = () => {
         image={metaObj.image}
       />
       <Box
-        sx={{
+        sx={(theme) => ({
           maxWidth: '1400px',
           width: '100%',
           mx: 'auto',
@@ -213,14 +211,14 @@ export const OrderProduct = () => {
           },
           display: 'flex',
           flexDirection: 'column'
-        }}
+        })}
       >
         <AppBreadcrumbs pages={pages} />
         <Divider />
         <Box className="mb-8 text-center">
           <Typography
             variant="h1"
-            sx={{
+            sx={(theme) => ({
               fontSize: '3.75rem !important',
               [theme.breakpoints.down('md')]: {
                 fontSize: '3rem !important'
@@ -228,7 +226,7 @@ export const OrderProduct = () => {
               fontFamily: 'Ephesis',
               marginBottom: '16px',
               color: 'secondary.main'
-            }}
+            })}
           >
             {t('orderProductView.title')}
           </Typography>
@@ -457,7 +455,7 @@ export const OrderProduct = () => {
           >
             <Box className="space-y-2 flex flex-col">
               <Box component="label" htmlFor="email">
-                Email *
+                {t('contactUsView.form.labels.email')} *
               </Box>
               <TextField
                 id="email"

@@ -77,10 +77,12 @@ export const Footer = () => {
           maxWidth: 1400,
           mx: 'auto',
           display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: 'repeat(2, 1fr)',
-            lg: 'repeat(4, 1fr)'
+          gridTemplateColumns: '1fr',
+          [theme.breakpoints.up('sm')]: {
+            gridTemplateColumns: 'repeat(2, 1fr)'
+          },
+          [theme.breakpoints.up('lg')]: {
+            gridTemplateColumns: 'repeat(4, 1fr)'
           },
           gap: '40px',
           [theme.breakpoints.up('md')]: {
