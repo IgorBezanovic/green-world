@@ -1,10 +1,13 @@
 import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
-import { useAllProducts } from '@green-world/hooks/useAllProducts';
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import {
+  ProductFiltersParams,
+  useAllProducts
+} from '@green-world/hooks/useAllProducts';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
 import {
   getLocalizedGroupLabel,
-  getLocalizedSubGroupLabel
+  getLocalizedSubGroupLabel,
+  useDebounce
 } from '@green-world/utils/helpers';
 import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
@@ -22,7 +25,7 @@ import {
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router';
 
@@ -68,8 +71,8 @@ export const Products = () => {
   const categoryName =
     category && getLocalizedGroupLabel(category, i18n.language);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
   const [search, setSearch] = useState(urlState.search);
   const [selectedGroup, setSelectedGroup] = useState(urlState.group);
   const [selectedSubgroup, setSelectedSubgroup] = useState(urlState.subGroup);
@@ -80,12 +83,33 @@ export const Products = () => {
   const [priceOnRequest, setPriceOnRequest] = useState(urlState.priceOnRequest);
   const [page, setPage] = useState(urlState.page);
 
-  const [oldProducts, setOldProducts] = useState<ProductPreview[]>([]);
-  const [filtersToSend, setFiltersToSend] = useState({});
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const { data, isFetching, refetch } = useAllProducts(filtersToSend);
+  const filtersToSend = useMemo<ProductFiltersParams>(
+    () => ({
+      title: search.length >= 3 ? search : undefined,
+      group: selectedGroup || undefined,
+      subGroup: selectedSubgroup || undefined,
+      minPrice: priceRange[0],
+      maxPrice: priceRange[1],
+      priceOnRequest: priceOnRequest || undefined,
+      inStock: inStockOnly || undefined,
+      page
+    }),
+    [
+      search,
+      selectedGroup,
+      selectedSubgroup,
+      priceRange,
+      priceOnRequest,
+      inStockOnly,
+      page
+    ]
+  );
+
+  const debouncedFilters = useDebounce(filtersToSend, 300);
+
+  const { data, isFetching } = useAllProducts(debouncedFilters);
 
   useEffect(() => {
     if (search !== urlState.search) setSearch(urlState.search);
@@ -138,44 +162,6 @@ export const Products = () => {
     setSearchParams
   ]);
 
-  useEffect(() => {
-    if (!isFetching && data?.products) {
-      setOldProducts(data.products);
-    }
-  }, [data, isFetching]);
-
-  useEffect(() => {
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-
-    debounceTimer.current = setTimeout(() => {
-      const newFilters: any = {
-        title: search.length >= 3 ? search : undefined,
-        group: selectedGroup || undefined,
-        subGroup: selectedSubgroup || undefined,
-        minPrice: priceRange[0] || undefined,
-        maxPrice: priceRange[1] || undefined,
-        priceOnRequest: priceOnRequest || undefined,
-        inStock: inStockOnly || undefined,
-        page
-      };
-      setFiltersToSend(newFilters);
-      refetch();
-    }, 300);
-
-    return () => {
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    };
-  }, [
-    search,
-    selectedGroup,
-    selectedSubgroup,
-    priceRange,
-    inStockOnly,
-    priceOnRequest,
-    page,
-    refetch
-  ]);
-
   const availableSubgroups = useMemo(() => {
     if (!selectedGroup) {
       // Flatten svih subgrupa u jednu listu
@@ -192,6 +178,17 @@ export const Products = () => {
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.products'), route: '/search' }
   ];
+  const hasProducts = Boolean(data?.products?.length);
+
+  const resetFilters = () => {
+    setSearch('');
+    setSelectedGroup(category || '');
+    setSelectedSubgroup('');
+    setPriceRange([undefined, undefined]);
+    setInStockOnly(false);
+    setPriceOnRequest(false);
+    setPage(1);
+  };
 
   return (
     <Box
@@ -227,14 +224,14 @@ export const Products = () => {
             gap: 7,
             [theme.breakpoints.down('md')]: { gap: 2 },
             flexDirection: 'row',
-            [theme.breakpoints.down('md')]: { flexDirection: 'column' }
+            [theme.breakpoints.down('lgm')]: { flexDirection: 'column' }
           })}
         >
           {/* Filters */}
           <Box>
-            {isMobile && (
+            {isTablet && (
               <Button
-                variant="outlined"
+                variant="contained"
                 onClick={() => setIsFiltersOpen(!isFiltersOpen)}
                 sx={{
                   width: '100%',
@@ -247,8 +244,8 @@ export const Products = () => {
               </Button>
             )}
             {/* Filters */}
-            {(isMobile ? isFiltersOpen && isMobile : true) && (
-              <Grow in={isFiltersOpen || !isMobile}>
+            {(isTablet ? isFiltersOpen && isTablet : true) && (
+              <Grow in={isFiltersOpen || !isTablet}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -294,7 +291,10 @@ export const Products = () => {
                     <TextField
                       name="product-title"
                       value={search}
-                      onChange={(e) => setSearch(e.target.value)}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(1);
+                      }}
                       placeholder={t('productsView.productName')}
                       fullWidth
                       sx={{
@@ -306,7 +306,10 @@ export const Products = () => {
                         input: {
                           endAdornment: search ? (
                             <ClearIcon
-                              onClick={() => setSearch('')}
+                              onClick={() => {
+                                setSearch('');
+                                setPage(1);
+                              }}
                               sx={{ cursor: 'pointer' }}
                             />
                           ) : (
@@ -324,7 +327,10 @@ export const Products = () => {
                       <Select
                         labelId="group"
                         value={selectedGroup}
-                        onChange={(e) => setSelectedGroup(e.target.value)}
+                        onChange={(e) => {
+                          setSelectedGroup(e.target.value);
+                          setPage(1);
+                        }}
                         fullWidth
                         sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
                         displayEmpty
@@ -354,7 +360,10 @@ export const Products = () => {
                     <Select
                       labelId="subGroup"
                       value={selectedSubgroup}
-                      onChange={(e) => setSelectedSubgroup(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedSubgroup(e.target.value);
+                        setPage(1);
+                      }}
                       fullWidth
                       disabled={!availableSubgroups.length}
                       sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
@@ -401,9 +410,10 @@ export const Products = () => {
                           const value = Number(e.target.value);
                           setPriceRange([value || undefined, priceRange[1]]);
                           setPriceOnRequest(false);
+                          setPage(1);
                         }}
                         fullWidth
-                        inputProps={{ min: 0 }}
+                        slotProps={{ htmlInput: { min: 0 } }}
                       />
                       <TextField
                         type="number"
@@ -418,9 +428,10 @@ export const Products = () => {
                           const value = Number(e.target.value);
                           setPriceRange([priceRange[0], value || undefined]);
                           setPriceOnRequest(false);
+                          setPage(1);
                         }}
                         fullWidth
-                        inputProps={{ min: 0 }}
+                        slotProps={{ htmlInput: { min: 0 } }}
                       />
                     </Box>
                   </Box>
@@ -429,7 +440,10 @@ export const Products = () => {
                     <Box display="flex" alignItems="center" gap={1}>
                       <Checkbox
                         checked={inStockOnly}
-                        onChange={(e) => setInStockOnly(e.target.checked)}
+                        onChange={(e) => {
+                          setInStockOnly(e.target.checked);
+                          setPage(1);
+                        }}
                       />
                       <Typography>{t('productsView.inStock')}</Typography>
                     </Box>
@@ -440,6 +454,7 @@ export const Products = () => {
                         onChange={(e) => {
                           const checked = e.target.checked;
                           setPriceOnRequest(checked);
+                          setPage(1);
                           if (checked) {
                             setPriceRange([undefined, undefined]);
                           }
@@ -450,6 +465,16 @@ export const Products = () => {
                       </Typography>
                     </Box>
                   </Box>
+
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    fullWidth
+                    onClick={resetFilters}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    {t('productsView.resetFilters')}
+                  </Button>
                 </Box>
               </Grow>
             )}
@@ -463,27 +488,21 @@ export const Products = () => {
                 minHeight: 500,
                 display: 'grid',
                 gap: '20px',
-                gridTemplateColumns:
-                  oldProducts?.length || data?.products?.length
-                    ? 'repeat(1, 1fr)'
-                    : 'none',
+                gridTemplateColumns: hasProducts ? 'repeat(1, 1fr)' : 'none',
                 [theme.breakpoints.up('xs')]: {
-                  gridTemplateColumns:
-                    oldProducts?.length || data?.products?.length
-                      ? 'repeat(2, 1fr)'
-                      : 'none'
+                  gridTemplateColumns: hasProducts ? 'repeat(2, 1fr)' : 'none'
+                },
+                [theme.breakpoints.up('md')]: {
+                  gridTemplateColumns: hasProducts ? 'repeat(3, 1fr)' : 'none'
                 },
                 [theme.breakpoints.up('lgm')]: {
-                  gridTemplateColumns:
-                    oldProducts?.length || data?.products?.length
-                      ? 'repeat(4, 1fr)'
-                      : 'none'
+                  gridTemplateColumns: hasProducts ? 'repeat(4, 1fr)' : 'none'
                 }
               }}
             >
               {isFetching ? (
-                oldProducts.length ? (
-                  oldProducts?.map((product) => (
+                data?.products?.length ? (
+                  data.products.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))
                 ) : (
@@ -497,6 +516,9 @@ export const Products = () => {
                         gridTemplateColumns: 'repeat(2, 1fr)'
                       },
                       [theme.breakpoints.up('md')]: {
+                        gridTemplateColumns: 'repeat(3, 1fr)'
+                      },
+                      [theme.breakpoints.up('lgm')]: {
                         gridTemplateColumns: 'repeat(4, 1fr)'
                       }
                     }}

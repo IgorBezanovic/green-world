@@ -562,7 +562,9 @@ export const CreateEditEvent = () => {
             </FormControl>
             <Button
               type="submit"
-              variant="outlined"
+              variant="contained"
+              size="large"
+              color="primary"
               sx={{ mt: 4 }}
               disabled={isLoadingCreateEvent || isLoadingEditEvent}
             >

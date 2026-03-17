@@ -5,7 +5,7 @@ export const useDeleteImage = () => {
   return useMutation({
     mutationFn: (imageKey: string) =>
       request({
-        url: '/aws/upload/',
+        url: '/aws/delete/',
         method: 'delete',
         data: { imageKey }
       })

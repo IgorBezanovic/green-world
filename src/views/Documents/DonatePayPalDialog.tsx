@@ -247,7 +247,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
           disabled={isCardPaymentActive || isBraintreeActive}
           fullWidth
           margin="dense"
-          inputProps={{ inputMode: 'numeric' }}
+          slotProps={{ htmlInput: { inputMode: 'numeric' } }}
           helperText={`Minimum ${minRsd} RSD`}
         />
 
@@ -259,7 +259,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
           margin="dense"
           multiline
           minRows={3}
-          inputProps={{ maxLength: 500 }}
+          slotProps={{ htmlInput: { maxLength: 500 } }}
         />
 
         <Typography

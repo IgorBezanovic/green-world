@@ -69,7 +69,7 @@ const MAX_IMAGE_MB = 10 * 1024 * 1024;
 export const CreateEditProduct = () => {
   const { t, i18n } = useTranslation();
   const { productId = '' } = useParams();
-  const { data = initProduct, isLoading } = useProduct(productId);
+  const { data, isLoading } = useProduct(productId);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [aiSnackbarOpen, setAiSnackbarOpen] = useState(false);
   const [aiSnackbarMessage, setAiSnackbarMessage] = useState('');
@@ -116,11 +116,7 @@ export const CreateEditProduct = () => {
     setAiSnackbarOpen(false);
   };
 
-  const {
-    mutate: imageMutate,
-    isPending: isImageLoading,
-    data: productImage
-  } = useImage();
+  const { mutateAsync: uploadImage, isPending: isImageLoading } = useImage();
 
   const { mutate: createMutation, isPending: isLoadingCreateProduct } =
     useCreateProduct();
@@ -128,7 +124,7 @@ export const CreateEditProduct = () => {
   const { mutate: editMutation, isPending: isLoadingEditProduct } =
     useEditProduct(productId);
 
-  const { mutate } = useDeleteImage();
+  const { mutate: deleteImageMutate } = useDeleteImage();
 
   const [product, setProduct] = useState<Product>(initProduct);
 
@@ -145,18 +141,9 @@ export const CreateEditProduct = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      setProduct(data);
+      setProduct(data || initProduct);
     }
   }, [data, isLoading]);
-
-  useEffect(() => {
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      images: productImage
-        ? [...(prevProduct?.images || []), productImage]
-        : prevProduct?.images || []
-    }));
-  }, [productImage]);
 
   const handleGroupChange = (e: SelectChangeEvent<string>) => {
     setProduct({ ...product, group: e.target.value as keyof typeof subGroups });
@@ -166,21 +153,37 @@ export const CreateEditProduct = () => {
     setProduct({ ...product, subGroup: e.target.value });
   };
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = Array.from(e.target.files!)[0];
-    if (!file) return;
-
-    if (file.size > MAX_IMAGE_MB) {
-      setSnackbarOpen(true);
-      e.target.value = '';
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    imageMutate(formData);
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
     e.target.value = '';
+
+    if (!selectedFiles.length) return;
+
+    const existingCount = product?.images?.length || 0;
+    const remainingSlots = Math.max(0, 10 - existingCount);
+    if (remainingSlots === 0) return;
+
+    const filesToUpload = selectedFiles.slice(0, remainingSlots);
+
+    for (const file of filesToUpload) {
+      if (file.size > MAX_IMAGE_MB) {
+        setSnackbarOpen(true);
+        continue;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const imageUrl = await uploadImage(formData);
+        setProduct((prevProduct) => ({
+          ...prevProduct,
+          images: [...(prevProduct?.images || []), imageUrl]
+        }));
+      } catch {
+        // Keep processing remaining files even if one upload fails.
+      }
+    }
   };
 
   const handleChange = (
@@ -201,7 +204,7 @@ export const CreateEditProduct = () => {
       (_, index) => index !== indexToDelete
     );
 
-    mutate(deletedImage);
+    deleteImageMutate(deletedImage);
 
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -535,7 +538,7 @@ export const CreateEditProduct = () => {
               component="label"
               variant="outlined"
               color="primary"
-              disabled={product?.images?.length >= 10}
+              disabled={product?.images?.length >= 10 || isImageLoading}
               sx={(theme) => ({
                 py: 1,
                 px: 2,
@@ -566,9 +569,10 @@ export const CreateEditProduct = () => {
               <Box
                 component="input"
                 type="file"
-                disabled={product?.images?.length >= 10}
+                disabled={product?.images?.length >= 10 || isImageLoading}
                 name="profileImage"
                 id="profileImage"
+                multiple
                 accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleImage}
                 sx={{ display: 'none' }}
@@ -854,8 +858,9 @@ export const CreateEditProduct = () => {
 
             <Button
               type="submit"
-              variant="outlined"
+              variant="contained"
               size="large"
+              color="primary"
               disabled={isLoading || isImageLoading}
               sx={{
                 mt: 4
