@@ -11,6 +11,7 @@ import {
 } from '@paypal/react-paypal-js';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -29,6 +30,7 @@ export const PromoBundlePayInline = ({
   onCardPaymentClick,
   onCancel
 }: Props) => {
+  const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -68,7 +70,7 @@ export const PromoBundlePayInline = ({
 
   const handleApprove = async (data: { orderID: string }) => {
     await captureOrderMutation.mutateAsync({ orderId: data.orderID });
-    toast.success('Uspešno! Promocija je aktivirana.');
+    toast.success(t('promoBundleView.toasts.success'));
     // Invalidate relevant queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['userDetails'] });
     queryClient.invalidateQueries({ queryKey: ['allUserProducts'] });

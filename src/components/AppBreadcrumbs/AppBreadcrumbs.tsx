@@ -22,18 +22,16 @@ export const AppBreadcrumbs = ({ pages }: AppBreadcrumbsProps) => {
           <Typography
             key={index}
             color="inherit"
-            sx={{
+            sx={(theme) => ({
               display: 'flex',
               alignItems: 'center',
               cursor: !isLast ? 'pointer' : 'default',
               textDecoration: isLast ? 'underline' : 'none',
               '&:hover': {
-                textDecoration: {
-                  xs: 'none',
-                  md: 'underline'
-                }
+                textDecoration: 'none',
+                [theme.breakpoints.up('md')]: { textDecoration: 'underline' }
               }
-            }}
+            })}
             onClick={() => !isLast && navigate(page.route)}
           >
             {page.label}

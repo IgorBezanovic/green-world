@@ -363,13 +363,14 @@ export const CreateEditProduct = () => {
         <AppBreadcrumbs pages={pages} />
         <Typography
           component="h1"
-          sx={{
+          sx={(theme) => ({
             color: 'primary.main',
-            fontSize: { xs: '3rem', md: '3.75rem' },
+            fontSize: '3rem',
+            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
             fontFamily: 'Ephesis',
             mx: 'auto',
             lineHeight: 1
-          }}
+          })}
         >
           {productId
             ? t('createEditProduct.headingEdit')
@@ -457,7 +458,7 @@ export const CreateEditProduct = () => {
             </Typography>
             {Boolean(product?.images.length) && (
               <Box
-                sx={{
+                sx={(theme) => ({
                   width: '100%',
                   minHeight: 80,
                   mb: 2,
@@ -466,13 +467,13 @@ export const CreateEditProduct = () => {
                   boxShadow: 2,
                   p: 2,
                   display: 'grid',
-                  gridTemplateColumns: {
-                    xs: 'repeat(2, minmax(0, 1fr))',
-                    md: 'repeat(4, minmax(0, 1fr))'
+                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                  [theme.breakpoints.up('md')]: {
+                    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))'
                   },
                   border: '1px solid',
                   borderColor: 'secondary.main'
-                }}
+                })}
               >
                 {product?.images?.map((image, index) => (
                   <Box
@@ -542,9 +543,9 @@ export const CreateEditProduct = () => {
                 textAlign: 'center',
                 mx: 'auto',
                 textTransform: 'uppercase',
-                mb: { xs: !product?.images?.length ? 4 : 2, md: 0 },
-                mt: !product?.images?.length ? 1 : 0,
+                mb: !product?.images?.length ? 4 : 2,
                 [theme.breakpoints.up('md')]: {
+                  mb: 0,
                   mx: 0,
                   '&:hover': {
                     color: 'common.black',
@@ -555,7 +556,8 @@ export const CreateEditProduct = () => {
                     transform: 'translateY(0)',
                     boxShadow: 2
                   }
-                }
+                },
+                mt: !product?.images?.length ? 1 : 0
               })}
             >
               {product?.images?.length >= 10
@@ -574,7 +576,7 @@ export const CreateEditProduct = () => {
               />
             </Button>
             <Alert severity="info" sx={{ mt: 2 }}>
-              <AlertTitle>Informacije o dodavanju fotografija</AlertTitle>
+              <AlertTitle>{t('createEditProduct.photoInfo.title')}</AlertTitle>
               <List sx={{ pl: 3, listStyleType: 'disc' }}>
                 <ListItem sx={{ display: 'list-item', p: 0 }}>
                   <ListItemText

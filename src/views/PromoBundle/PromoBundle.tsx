@@ -31,7 +31,7 @@ import {
   MessageCircleQuestion
 } from 'lucide-react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import {
   BUNDLES,
@@ -40,8 +40,8 @@ import {
 } from './components';
 
 const pages = [
-  { label: 'Profil', route: '/profile' },
-  { label: 'Promotivni Paketi', route: '/promo-bundle' }
+  { label: 'breadcrumbs.profile', route: '/profile' },
+  { label: 'breadcrumbs.promoBundle', route: '/promo-bundle' }
 ];
 
 export const PromoBundle = () => {
@@ -86,7 +86,7 @@ export const PromoBundle = () => {
           sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 3 }}
         >
           <Package color={theme.palette.warning.main} size={28} />
-          Promotivni Paketi
+          {t('promoBundleView.title')}
         </Typography>
 
         <Card
@@ -115,10 +115,13 @@ export const PromoBundle = () => {
               sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
             >
               <Info style={{ width: '24px', height: '24px' }} />
-              Šta dobijate u paketu?
+              {t('promoBundleView.infoCard.title')}
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              Svaki paket uključuje <strong>kombinaciju tri promocije</strong>:
+              <Trans i18nKey="promoBundleView.infoCard.combination">
+                Svaki paket uključuje <strong>kombinaciju tri promocije</strong>
+                :
+              </Trans>
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
@@ -127,8 +130,10 @@ export const PromoBundle = () => {
                   color={theme.palette.success.main}
                 />
                 <Typography variant="body1" color="text.secondary">
-                  <strong>Promocija proizvoda</strong> — vaši proizvodi se
-                  pojavljuju na vrhu pretrage
+                  <strong>
+                    {t('promoBundleView.infoCard.productPromo.title')}
+                  </strong>
+                  {t('promoBundleView.infoCard.productPromo.desc')}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
@@ -137,8 +142,10 @@ export const PromoBundle = () => {
                   color={theme.palette.warning.main}
                 />
                 <Typography variant="body1" color="text.secondary">
-                  <strong>Promocija prodavnice</strong> — vaša prodavnica se
-                  ističe u rezultatima pretrage
+                  <strong>
+                    {t('promoBundleView.infoCard.shopPromo.title')}
+                  </strong>
+                  {t('promoBundleView.infoCard.shopPromo.desc')}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
@@ -147,8 +154,10 @@ export const PromoBundle = () => {
                   color={theme.palette.success.main}
                 />
                 <Typography variant="body1" color="text.secondary">
-                  <strong>Povećanje kapaciteta</strong> — dodatna mesta za više
-                  proizvoda
+                  <strong>
+                    {t('promoBundleView.infoCard.capacity.title')}
+                  </strong>
+                  {t('promoBundleView.infoCard.capacity.desc')}
                 </Typography>
               </Box>
             </Box>
@@ -165,33 +174,35 @@ export const PromoBundle = () => {
               <MessageCircleQuestion
                 style={{ width: '24px', height: '24px' }}
               />
-              Zašto izabrati promotivni paket?
+              {t('promoBundleView.infoCard.whyTitle')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Promotivni paketi su <strong>povoljniji</strong> od kupovine
-              pojedinačnih promocija. Uštedite novac dok maksimalno povećavate
-              vidljivost svoje prodavnice i proizvoda.
+              <Trans i18nKey="promoBundleView.infoCard.whyDesc">
+                Promotivni paketi su <strong>povoljniji</strong> od kupovine
+                pojedinačnih promocija. Uštedite novac dok maksimalno povećavate
+                vidljivost svoje prodavnice i proizvoda.
+              </Trans>
             </Typography>
           </CardContent>
         </Card>
 
         <Typography variant="h4" sx={{ mb: 3 }}>
-          Izaberite paket
+          {t('promoBundleView.chooseBundle')}
         </Typography>
 
         <Box
-          sx={{
+          sx={(theme) => ({
             display: 'grid',
             gap: 3,
             gridTemplateColumns: 'repeat(1, 1fr)',
-            '@media (min-width: 600px)': {
+            [theme.breakpoints.up('sm')]: {
               gridTemplateColumns: 'repeat(2, 1fr)'
             },
-            '@media (min-width: 900px)': {
+            [theme.breakpoints.up('md')]: {
               gridTemplateColumns: 'repeat(3, 1fr)'
             },
             mb: 4
-          }}
+          })}
         >
           {BUNDLES?.map((bundle) => (
             <Card
@@ -235,19 +246,19 @@ export const PromoBundle = () => {
                     fontWeight: 600
                   }}
                 >
-                  Najpopularniji
+                  {t('promoBundleView.mostPopular')}
                 </Box>
               )}
               <CardContent>
                 <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>
-                  {bundle.name}
+                  {t(bundle.name)}
                 </Typography>
                 <Typography
                   variant="body1"
                   color="text.secondary"
                   sx={{ mb: 2 }}
                 >
-                  {bundle.description}
+                  {t(bundle.description)}
                 </Typography>
                 <Box sx={{ mb: 3 }}>
                   <Typography
@@ -265,21 +276,26 @@ export const PromoBundle = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
                     <Typography variant="body1">
-                      {bundle.features.numProducts} proizvoda ×{' '}
-                      {bundle.features.productDays} dana
+                      {t('promoBundleView.bundleFeatures.products', {
+                        count: bundle.features.numProducts,
+                        days: bundle.features.productDays
+                      })}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
                     <Typography variant="body1">
-                      Promovisanje prodavnice {bundle.features.shopDays} dana
+                      {t('promoBundleView.bundleFeatures.shop', {
+                        days: bundle.features.shopDays
+                      })}
                     </Typography>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Check size={16} color={theme.palette.success.main} />
                     <Typography variant="body1">
-                      +{bundle.features.capacityPlaces} mesta kapaciteta
-                      (trajno)
+                      {t('promoBundleView.bundleFeatures.capacity', {
+                        count: bundle.features.capacityPlaces
+                      })}
                     </Typography>
                   </Box>
                 </Box>
@@ -327,16 +343,21 @@ export const PromoBundle = () => {
               >
                 <CardContent>
                   <Typography variant="h4" sx={{ mb: 2 }}>
-                    Izaberite proizvode za promociju
+                    {t('promoBundleView.chooseProducts.title')}
                   </Typography>
                   <Typography
                     variant="body1"
                     color="text.secondary"
                     sx={{ mb: 2 }}
                   >
-                    Ovaj paket uključuje promociju{' '}
-                    <strong>{maxProducts} proizvoda</strong>. Molimo izaberite
-                    proizvode koje želite da promovišete.
+                    <Trans
+                      i18nKey="promoBundleView.chooseProducts.desc"
+                      values={{ count: maxProducts }}
+                    >
+                      Ovaj paket uključuje promociju{' '}
+                      <strong>{maxProducts} proizvoda</strong>. Molimo izaberite
+                      proizvode koje želite da promovišete.
+                    </Trans>
                   </Typography>
 
                   {productsLoading ? (
@@ -347,8 +368,7 @@ export const PromoBundle = () => {
                     </Box>
                   ) : userProducts.length === 0 ? (
                     <Alert severity="warning" sx={{ mb: 2 }}>
-                      Nemate proizvode za promociju. Prvo kreirajte proizvode u
-                      vašoj prodavnici.
+                      {t('promoBundleView.chooseProducts.noProducts')}
                     </Alert>
                   ) : (
                     <>
@@ -361,7 +381,7 @@ export const PromoBundle = () => {
                           onChange={handleProductChange}
                           renderValue={(ids) =>
                             ids.length === 0
-                              ? 'Izaberite proizvode'
+                              ? t('promoBundleView.chooseProducts.placeholder')
                               : ids
                                   .map(
                                     (id) =>
@@ -414,15 +434,19 @@ export const PromoBundle = () => {
                                   {p.price
                                     ?.toString()
                                     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
-                                  {p.priceOnRequest ? 'Cena na upit' : 'RSD'}
+                                  {p.priceOnRequest
+                                    ? t('service.onQuery')
+                                    : t('service.currency')}
                                 </Typography>
                               </Box>
                             </MenuItem>
                           ))}
                         </Select>
                         <FormHelperText>
-                          Proizvodi za promociju ({selectedProductIds.length}/
-                          {maxProducts})
+                          {t('promoBundleView.chooseProducts.helperText', {
+                            selected: selectedProductIds.length,
+                            max: maxProducts
+                          })}
                         </FormHelperText>
                       </FormControl>
 
@@ -437,14 +461,15 @@ export const PromoBundle = () => {
                           fullWidth
                           sx={{ mb: 2 }}
                         >
-                          Očisti izbor
+                          {t('promoBundleView.chooseProducts.clearSelection')}
                         </Button>
                       )}
 
                       {!canProceed && (
                         <Alert severity="info" sx={{ mb: 2 }}>
-                          Molimo izaberite maksimum {maxProducts} proizvoda da
-                          biste nastavili sa plaćanjem.
+                          {t('promoBundleView.chooseProducts.selectionNotice', {
+                            count: maxProducts
+                          })}
                         </Alert>
                       )}
                     </>
@@ -478,10 +503,10 @@ export const PromoBundle = () => {
                         </Box>
                         <Box>
                           <Typography variant="h4">
-                            Ukupno za plaćanje
+                            {t('promoBundleView.payment.title')}
                           </Typography>
                           <Typography variant="caption">
-                            Pregled porudzbine
+                            {t('promoBundleView.payment.subtitle')}
                           </Typography>
                         </Box>
                       </Box>
@@ -499,10 +524,21 @@ export const PromoBundle = () => {
                           backgroundColor: '#F9FCF7'
                         }}
                       >
-                        Paket: <strong>{bundle.name}</strong> sa{' '}
-                        <strong>{selectedProductIds.length} proizvod(a)</strong>{' '}
-                        za promociju. Ukupna cena:{' '}
-                        <strong>{bundle.priceRsd} RSD</strong>.
+                        <Trans
+                          i18nKey="promoBundleView.payment.summary"
+                          values={{
+                            bundleName: t(bundle.name),
+                            count: selectedProductIds.length,
+                            price: bundle.priceRsd
+                          }}
+                        >
+                          Paket: <strong>{t(bundle.name)}</strong> sa{' '}
+                          <strong>
+                            {selectedProductIds.length} proizvod(a)
+                          </strong>{' '}
+                          za promociju. Ukupna cena:
+                          <strong>{bundle.priceRsd} RSD</strong>.
+                        </Trans>
                       </Typography>
                       <Box
                         sx={{

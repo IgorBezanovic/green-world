@@ -220,13 +220,14 @@ export const CreateEditEvent = () => {
         <AppBreadcrumbs pages={pages} />
         <Typography
           component="h1"
-          sx={{
+          sx={(theme) => ({
             color: 'primary.main',
-            fontSize: { xs: '3rem', md: '3.75rem' },
+            fontSize: '3rem',
+            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
             fontFamily: 'Ephesis',
             mx: 'auto',
             lineHeight: 1
-          }}
+          })}
         >
           {eventID
             ? t('createEditEvent.headingEdit')

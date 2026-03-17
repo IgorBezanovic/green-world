@@ -15,9 +15,9 @@ type Bundle = {
 export const BUNDLES: Array<Bundle> = [
   {
     id: 'BASIC',
-    name: 'Osnovni Paket',
+    name: 'promoBundleView.bundles.basic.name',
     priceRsd: 5250,
-    description: 'Idealno za početak',
+    description: 'promoBundleView.bundles.basic.desc',
     features: {
       productDays: 7,
       numProducts: 5,
@@ -27,9 +27,9 @@ export const BUNDLES: Array<Bundle> = [
   },
   {
     id: 'STANDARD',
-    name: 'Standardni Paket',
+    name: 'promoBundleView.bundles.standard.name',
     priceRsd: 12320,
-    description: 'Najpopularniji izbor',
+    description: 'promoBundleView.bundles.standard.desc',
     popular: true,
     features: {
       productDays: 14,
@@ -40,9 +40,9 @@ export const BUNDLES: Array<Bundle> = [
   },
   {
     id: 'PREMIUM',
-    name: 'Premium Paket',
+    name: 'promoBundleView.bundles.premium.name',
     priceRsd: 31360,
-    description: 'Maksimalna vidljivost',
+    description: 'promoBundleView.bundles.premium.desc',
     features: {
       productDays: 28,
       numProducts: 20,

@@ -5,10 +5,15 @@ export const ru = {
     en: 'ENG',
     ru: 'RUS'
   },
+  common: {
+    unknownUser: 'Неизвестный пользователь'
+  },
   breadcrumbs: {
     home: 'Главная',
-    products: 'Товары',
-    userProfile: 'Профиль пользователя'
+    products: 'Продукты',
+    userProfile: 'Профиль пользователя',
+    profile: 'Профиль',
+    promoBundle: 'Промо-пакеты'
   },
   home: {
     bannerAlt: 'Баннер Zeleni Svet',
@@ -42,7 +47,300 @@ export const ru = {
       garden_decoration: 'Садовый декор',
       everything_for_plants: 'Всё для растений'
     },
-    subGroups: {}
+    subGroups: {
+      // flower_assortment
+      bouquets: 'Букеты',
+      cut_flowers: 'Срезанные цветы',
+      floral_gifts: 'Цветочные подарки',
+      floral_arrangements: 'Цветочные композиции',
+      preserved_flowers: 'Сухоцветы',
+      roses: 'Розы',
+      tulips: 'Тюльпаны',
+      lilies: 'Лилии',
+      orchids: 'Орхидеи',
+      daisies: 'Маргаритки',
+      sunflowers: 'Подсолнухи',
+      carnations: 'Гвоздики',
+      peonies: 'Пионы',
+      gerberas: 'Герберы',
+      hydrangeas: 'Гортензии',
+      anemones: 'Анемоны',
+      ranunculus: 'Ранункулюс',
+      chrysanthemums: 'Хризантемы',
+      delphiniums: 'Дельфиниумы',
+      snapdragons: 'Львиный зев',
+      asters: 'Астры',
+      zinnias: 'Циннии',
+      cosmos: 'Космеи',
+      freesias: 'Фрезии',
+      lavender: 'Лаванда',
+      lilacs: 'Сирень',
+      iris: 'Ирисы',
+      calla_lilies: 'Каллы',
+      stock: 'Левкой',
+      salvia: 'Шалфей',
+      pansies: 'Анютины глазки',
+      petunias: 'Петунии',
+      corydalis: 'Хохлатка',
+      bouvardia: 'Бувардия',
+      calendula: 'Календула',
+
+      // succulents
+      indoor_succulents: 'Комнатные суккуленты',
+      outdoor_succulents: 'Уличные суккуленты',
+      cacti: 'Кактусы',
+      succulent_gifts: 'Подарки из суккулентов',
+      echeveria: 'Эхеверия',
+      haworthia: 'Хавортия',
+      aloe_vera: 'Алоэ вера',
+      jade_plant: 'Денежное дерево (крассула)',
+      string_of_pearls: 'Нить жемчуга',
+      burros_tail: 'Очиток Моргана',
+      zebra_plant: 'Хавортия полосатая',
+      panda_plant: 'Каланхоэ войлочное',
+      agave: 'Агава',
+      sedum: 'Очиток',
+      crassula: 'Крассула',
+      kalanchoe: 'Каланхоэ',
+
+      // potted_flowers
+      indoor_plants: 'Комнатные растения',
+      outdoor_plants: 'Уличные растения',
+      flowering_plants: 'Цветущие растения',
+      decorative_plants: 'Декоративные растения',
+      peace_lily: 'Спатифиллум',
+      snake_plant: 'Сансевиерия (тещин язык)',
+      spider_plant: 'Хлорофитум',
+      begonias: 'Бегонии',
+      fuchsias: 'Фуксии',
+      african_violets: 'Сенполии (фиалки)',
+      geraniums: 'Герань (пеларгония)',
+      poinsettia: 'Пуансеттия',
+      anthurium: 'Антуриум',
+      calathea: 'Калатея',
+      ficus: 'Фикус',
+      bromeliads: 'Бромелиевые',
+      philodendron: 'Филодендрон',
+      string_of_hearts: 'Церопегия',
+      zz_plant: 'Замиокулькас',
+      pothos: 'Эпипремнум (потос)',
+      dracaena: 'Драцена',
+      areca_palm: 'Пальма Арека',
+      rubber_plant: 'Фикус каучуконосный',
+      cast_iron_plant: 'Аспидистра',
+      money_plant: 'Пилея',
+      maranta: 'Маранта',
+      bamboo_plant: 'Счастливый бамбук',
+      coleus: 'Колеус',
+      sansevieria: 'Сансевиерия',
+      hoya: 'Хойя',
+      philodendron_birkin: 'Филодендрон Биркин',
+      neoregalia: 'Неорегелия',
+
+      // seedlings
+      flower_seedlings: 'Цветочная рассада',
+      vegetable_seedlings: 'Овощная рассада',
+      fruit_seedlings: 'Плодовые саженцы',
+      herb_seedlings: 'Травяная рассада',
+      rose_seedlings: 'Саженцы роз',
+      lavender_seedlings: 'Саженцы лаванды',
+      sunflower_seedlings: 'Рассада подсолнечника',
+      petunia_seedlings: 'Рассада петунии',
+      marigold_seedlings: 'Рассада бархатцев',
+      tomato_seedlings: 'Рассада томатов',
+      pepper_seedlings: 'Рассада перца',
+      cucumber_seedlings: 'Рассада огурцов',
+      zucchini_seedlings: 'Рассада кабачков',
+      cabbage_seedlings: 'Рассада капусты',
+      carrot_seedlings: 'Рассада моркови',
+      lettuce_seedlings: 'Рассада салата',
+      apple_seedlings: 'Саженцы яблони',
+      pear_seedlings: 'Саженцы груши',
+      plum_seedlings: 'Саженцы сливы',
+      cherry_seedlings: 'Саженцы вишни/черешни',
+      peach_seedlings: 'Саженцы персика',
+      quince_seedlings: 'Саженцы айвы',
+      walnut_seedlings: 'Саженцы грецкого ореха',
+      apricot_seedlings: 'Саженцы абрикоса',
+      basil_seedlings: 'Рассада базилика',
+      oregano_seedlings: 'Рассада орегано',
+      thyme_seedlings: 'Рассада тимьяна',
+      mint_seedlings: 'Рассада мяты',
+      rosemary_seedlings: 'Рассада розмарина',
+      autohtona_sljiva_seedlings: 'Автохтонные сливы',
+      vranac_grape_seedlings: 'Саженцы винограда Вранац',
+      dunja_seedlings: 'Саженцы айвы',
+      lesnik_seedlings: 'Саженцы фундука',
+      malina_seedlings: 'Саженцы малины',
+      kupina_seedlings: 'Саженцы ежевики',
+      šljiva_požegača_seedlings: 'Саженцы сливы Пожегача',
+      prokupac_grape_seedlings: 'Саженцы винограда Прокупац',
+      thuja_seedlings: 'Саженцы туи',
+      juniper_seedlings: 'Саженцы можжевельника',
+      cypress_seedlings: 'Саженцы кипариса',
+      arborvitae_seedlings: 'Саженцы биоты (плосковеточника)',
+      pine_seedlings: 'Саженцы сосны',
+      spruce_seedlings: 'Саженцы ели',
+      fir_seedlings: 'Саженцы пихты',
+
+      // fruits_and_vegetables
+      fresh_fruits: 'Свежие фрукты',
+      apples: 'Яблоки',
+      pears: 'Груши',
+      plums: 'Сливы',
+      cherries: 'Вишня/Черешня',
+      peaches: 'Персики',
+      apricots: 'Абрикосы',
+      quince: 'Айва',
+      strawberries: 'Клубника',
+      raspberries: 'Малина',
+      blackberries: 'Ежевика',
+      blueberries: 'Голубика',
+      grapes: 'Виноград',
+      fresh_vegetables: 'Свежие овощи',
+      tomatoes: 'Помидоры',
+      peppers: 'Перец',
+      cucumbers: 'Огурцы',
+      zucchini: 'Кабачки',
+      cabbage: 'Капуста',
+      carrots: 'Морковь',
+      lettuce: 'Салат',
+      onions: 'Лук',
+      garlic: 'Чеснок',
+      potatoes: 'Картофель',
+      spinach: 'Шпинат',
+      eggplant: 'Баклажан',
+      organic_produce: 'Органические продукты',
+      organic_apples: 'Органические яблоки',
+      organic_tomatoes: 'Органические помидоры',
+      organic_peppers: 'Органический перец',
+      organic_cucumbers: 'Органические огурцы',
+      organic_spinach: 'Органический шпинат',
+      organic_carrots: 'Органическая морковь',
+      seasonal_fruits: 'Сезонные фрукты',
+      šljiva_požegača: 'Слива Пожегача',
+      malina: 'Малина',
+      kupina: 'Ежевика',
+      dunja: 'Айва',
+      prokupac_grapes: 'Виноград Прокупац',
+      jagoda: 'Клубника',
+      šljiva_ranka: 'Слива Ранка',
+      exotic_fruits: 'Экзотические фрукты',
+      bananas: 'Бананы',
+      mangoes: 'Манго',
+      kiwi: 'Киви',
+      pineapple: 'Ананас',
+      papaya: 'Папайя',
+      pomegranate: 'Гранат',
+      dragon_fruit: 'Драконий фрукт',
+      lychee: 'Личи',
+      spinach_seedlings: 'Рассада шпината',
+      eggplant_seedlings: 'Рассада баклажана',
+      grape_seedlings: 'Саженцы винограда',
+
+      // herbal_pharmacy
+      medicinal_herbs: 'Лекарственные травы',
+      herbal_teas: 'Травяные чаи',
+      essential_oils: 'Эфирные масла',
+      herbal_extracts: 'Травяные экстракты',
+      plant_fertilizers: 'Удобрения для растений',
+      organic_fertilizers: 'Органические удобрения',
+      compost: 'Компост',
+      liquid_plant_food: 'Жидкая подкормка',
+      soil_amendments: 'Улучшители почвы',
+      root_boosters: 'Ускорители роста корней',
+      growth_stimulants: 'Стимуляторы роста',
+      natural_pesticides: 'Натуральные пестициды',
+      fungicides: 'Фунгициды',
+      insect_repellents: 'Репелленты от насекомых',
+      plant_antibiotics: 'Растительные антибиотики',
+      bio_protectants: 'Биозащитные средства',
+      plant_vitamins: 'Витамины для растений',
+      mineral_supplements: 'Минеральные добавки',
+      herbal_tinctures: 'Травяные настойки',
+      herbal_balm: 'Травяные бальзамы',
+      herbal_syrups: 'Травяные сиропы',
+      herbal_cough_remedies: 'Растительные средства от кашля',
+      digestive_aids: 'Средства для пищеварения',
+
+      // garden_decoration
+      garden_statues: 'Садовые статуи',
+      outdoor_lighting: 'Уличное освещение',
+      garden_furniture: 'Садовая мебель',
+      decorative_pots: 'Декоративные горшки',
+      water_features: 'Водные элементы',
+      garden_gnomes: 'Садовые гномы',
+      bird_baths: 'Поилки для птиц',
+      birdhouses: 'Скворечники',
+      wind_chimes: 'Музыка ветра',
+      garden_trellises: 'Садовые решетки',
+      pergolas: 'Перголы',
+      hanging_planters: 'Подвесные кашпо',
+      garden_sculptures: 'Садовые скульптуры',
+      garden_pathways: 'Садовые дорожки',
+      decorative_fencing: 'Декоративные заборы',
+      garden_benches: 'Садовые скамейки',
+      garden_swing_seats: 'Садовые качели',
+      gazebos: 'Беседки',
+      fire_pits: 'Чаши для костра',
+      outdoor_rugs: 'Уличные коврики',
+      stepping_stones: 'Плитка для дорожек',
+      flower_beds_borders: 'Бордюры для клумб',
+      outdoor_carpets: 'Уличные ковры',
+      raised_beds: 'Приподнятые грядки',
+      vertical_garden_structures: 'Конструкции для вертикального сада',
+      outdoor_cushions: 'Уличные подушки',
+      patio_umbrellas: 'Зонты для патио',
+      garden_pavilions: 'Садовые павильоны',
+      plant_stands: 'Подставки для растений',
+      garden_mirrors: 'Садовые зеркала',
+      outdoor_screens: 'Уличные ширмы',
+      solar_lights: 'Фонари на солнечных батареях',
+      garden_ornaments: 'Садовые украшения',
+
+      // everything_for_plants
+      fertilizers: 'Удобрения',
+      plant_tools: 'Инструменты для растений',
+      soil: 'Грунт',
+      plant_protection: 'Защита растений',
+      watering_systems: 'Системы полива',
+      plant_stakes: 'Колышки для растений',
+      plant_labels: 'Бирки для растений',
+      plant_cages: 'Опоры-клетки для растений',
+      grow_lights: 'Фитолампы',
+      humidity_trays: 'Поддоны для увлажнения',
+      self_watering_pots: 'Горшки с автополивом',
+      plant_misters: 'Опрыскиватели',
+      watering_cans: 'Лейки',
+      pruning_shears: 'Секаторы',
+      gardening_gloves: 'Садовые перчатки',
+      plant_trays: 'Лотки для растений',
+      mulch: 'Мульча',
+      peat_moss: 'Торфяной мох',
+      perlite: 'Перлит',
+      vermiculite: 'Вермикулит',
+      rooting_hormones: 'Стимуляторы корнеобразования',
+      pest_control_sprays: 'Спреи от вредителей',
+      biodegradable_pots: 'Биоразлагаемые горшки',
+      plant_covers: 'Укрытия для растений',
+      compost_bins: 'Компостеры',
+      greenhouses: 'Теплицы',
+      grow_tents: 'Гроутенты',
+      plant_heating_mats: 'Коврики с подогревом для растений',
+      plant_grafting_tools: 'Инструменты для прививки',
+      hydroponic_systems: 'Гидропонные системы',
+      drip_irrigation_kits: 'Наборы капельного полива',
+      plant_nutrient_solutions: 'Питательные растворы для растений',
+      planters_with_reservoirs: 'Кашпо с резервуаром',
+      plant_trellis: 'Шпалеры для растений',
+      plant_clips: 'Клипсы для растений',
+      bonsai_tools: 'Инструменты для бонсай',
+      plant_saucers: 'Подставки под горшки',
+      plant_supports: 'Опоры для растений',
+      pH_meters: 'pH-метры',
+      soil_test_kits: 'Наборы для тестирования почвы',
+      compost_tea_brewers: 'Установки для приготовления компостного чая'
+    }
   },
   navbar: {
     home: 'Главная',
@@ -129,7 +427,9 @@ export const ru = {
   },
   commentList: {
     title: 'Комментарии ({{count}})',
-    empty: 'Комментариев пока нет.'
+    empty: 'Комментариев пока нет.',
+    reply: 'Ответить',
+    replyTo: 'Ответ:'
   },
   editUserChangePassword: {
     pageTitle: 'Zeleni svet | Смена пароля',
@@ -274,6 +574,7 @@ export const ru = {
     maxImages: 'Максимум 10 изображений',
     addImageButton: 'Добавить фото товара',
     photoInfo: {
+      title: 'Информация о добавлении фотографий',
       ratio: 'Идеальное соотношение фото 1/1.',
       firstIsProfile: 'Первое изображение в списке — профильное.',
       maxPhotos: 'Максимум 10 фотографий.',
@@ -331,7 +632,9 @@ export const ru = {
     from: 'От',
     to: 'До',
     inStock: 'В наличии',
-    priceOnRequest: 'Цена по запросу'
+    priceOnRequest: 'Цена по запросу',
+    noProductsFound: 'В данный момент нет товаров для выбранных фильтров',
+    chooseDifferentFilters: 'Выберите другую комбинацию фильтров'
   },
   productPage: {
     productFallback: 'Товар',
@@ -798,6 +1101,70 @@ export const ru = {
       message: 'Дополнительная информация о заказе...'
     }
   },
+  promoBundleView: {
+    title: 'Промо-пакеты',
+    infoCard: {
+      title: 'Что вы получаете в пакете?',
+      combination:
+        'Каждый пакет включает <strong>комбинацию трех акций</strong>:',
+      productPromo: {
+        title: 'Продвижение товара',
+        desc: ' — ваши товары появляются в топе поиска'
+      },
+      shopPromo: {
+        title: 'Продвижение магазина',
+        desc: ' — ваш магазин выделяется в результатах поиска'
+      },
+      capacity: {
+        title: 'Увеличение емкости',
+        desc: ' — дополнительные места для большего количества товаров'
+      },
+      whyTitle: 'Почему стоит выбрать промо-пакет?',
+      whyDesc:
+        'Промо-пакеты <strong>выгоднее</strong>, чем покупка отдельных акций. Экономьте деньги, максимально увеличивая видимость своего магазина и товаров.'
+    },
+    chooseBundle: 'Выберите пакет',
+    mostPopular: 'Самый популярный',
+    bundleFeatures: {
+      products: '{{count}} товаров × {{days}} дней',
+      shop: 'Продвижение магазина {{days}} дней',
+      capacity: '+{{count}} мест (постоянно)'
+    },
+    chooseProducts: {
+      title: 'Выберите товары для продвижения',
+      desc: 'Этот пакет включает продвижение <strong>{{count}} товаров</strong>. Пожалуйста, выберите товары, которые вы хотите продвигать.',
+      noProducts:
+        'У вас нет товаров для продвижения. Сначала создайте товары в своем магазине.',
+      placeholder: 'Выберите товары',
+      helperText: 'Товары для продвижения ({{selected}}/{{max}})',
+      clearSelection: 'Очистить выбор',
+      selectionNotice:
+        'Пожалуйста, выберите не более {{count}} товаров, чтобы перейти к оплате.'
+    },
+    payment: {
+      title: 'Итого к оплате',
+      subtitle: 'Обзор заказа',
+      summary:
+        'Пакет: <strong>{{bundleName}}</strong> с <strong>{{count}} товаром(ами)</strong> для продвижения. Общая стоимость: <strong>{{price}} RSD</strong>.'
+    },
+    toasts: {
+      success: 'Успешно! Акция активирована.'
+    },
+    bundles: {
+      basic: {
+        name: 'Базовый пакет',
+        desc: 'Идеально для начала'
+      },
+      standard: {
+        name: 'Стандартный пакет',
+        desc: 'Самый популярный выбор'
+      },
+      premium: {
+        name: 'Премиум пакет',
+        desc: 'Максимальная видимость'
+      }
+    }
+  },
   userRecommendation: {
     title: 'Как повысить вовлеченность пользователей в ваш контент?',
     description:
@@ -865,6 +1232,139 @@ export const ru = {
     phoneNumber: 'Ваш номер телефона',
     message: 'Ваше сообщение',
     cancel: 'Отмена',
-    send: 'Отправить'
+    send: 'Отправить',
+    allServices: 'Все услуги',
+    currency: 'RSD',
+    onQuery: 'По запросу',
+    hourly: 'По часам',
+    fixed: 'Фиксировано',
+    negotiable: 'По договоренности',
+    notSpecified: 'Не указано',
+    user: 'Пользователь'
+  },
+  blogPostPage: {
+    minRead: 'мин чтения',
+    shareBlog: 'Поделиться блогом',
+    leaveComment: 'Оставить комментарий',
+    linkCopied: 'Ссылка скопирована',
+    linkCopyFailed: 'Не удалось скопировать ссылку',
+    aboutAuthor: 'Об авторе:'
+  },
+  messageView: {
+    title: 'Сообщения',
+    searchPlaceholder: 'Поиск пользователей...',
+    noMessages: 'Нет сообщений',
+    selectUserToStart: 'Выберите пользователя, чтобы начать разговор',
+    errorLoading: 'Произошла ошибка при загрузке сообщений.',
+    noConversations: 'У вас нет разговоров.',
+    noSearchResults: 'Нет результатов поиска.',
+    messageInputPlaceholder: 'Введите сообщение...',
+    emptyConversation: 'В этом разговоре нет сообщений.',
+    backToList: 'Назад к списку сообщений'
+  },
+  contactUsView: {
+    hero: {
+      title: 'Свяжитесь с нами',
+      subtitle:
+        'Ваше мнение важно для нас. Если у вас есть вопрос, предложение или вы хотите сотрудничать — мы здесь для вас.'
+    },
+    features: {
+      fastResponse: {
+        title: 'Быстрый ответ',
+        desc: 'Отвечаем в течение 24 часов'
+      },
+      secure: {
+        title: 'Безопасное общение',
+        desc: 'Ваши данные защищены'
+      },
+      support: {
+        title: 'Экспертная поддержка',
+        desc: 'Наша команда здесь для вас'
+      }
+    },
+    form: {
+      badge: 'Отправить сообщение',
+      title: 'Напишите нам',
+      subtitle: 'Заполните форму ниже, и мы свяжемся с вами как можно скорее.',
+      labels: {
+        name: 'Имя и фамилия',
+        email: 'E-mail адрес',
+        phone: 'Телефон (необязательно)',
+        subject: 'Тема сообщения',
+        message: 'Ваше сообщение'
+      },
+      placeholders: {
+        name: 'Ваше имя',
+        email: 'vash@email.com',
+        phone: '+381 60 000 0000',
+        subject: 'О чем идет речь?',
+        message: 'Подробно опишите ваш запрос или предложение...'
+      },
+      submit: 'Отправить сообщение'
+    },
+    info: {
+      title: 'Контактная информация',
+      email: 'E-mail',
+      addressTitle: 'Адрес',
+      addressValue: 'Мы работаем только онлайн'
+    },
+    supportHours: {
+      title: 'Часы работы поддержки',
+      weekdays: 'Понедельник - Пятница',
+      saturday: 'Суббота',
+      sunday: 'Воскресенье',
+      closed: 'Закрыто',
+      note: '* Мы обрабатываем электронные сообщения и в нерабочее время'
+    },
+    whyUs: {
+      title: 'Почему коммуникация важна?',
+      items: {
+        item1: {
+          title: 'Лучшее понимание ваших потребностей',
+          desc: 'Через открытое общение мы можем более точно отвечать на ваши вопросы и предоставлять персонализированные решения.'
+        },
+        item2: {
+          title: 'Постоянное улучшение услуг',
+          desc: 'Ваши комментарии и предложения помогают нам улучшать наши продукты и услуги.'
+        },
+        item3: {
+          title: 'Построение доверия',
+          desc: 'Прозрачное общение — это основа долгосрочного партнерства с нашими пользователями.'
+        }
+      }
+    },
+    faq: {
+      badge: 'Часто задаваемые вопросы',
+      title: 'Часто задаваемые вопросы',
+      subtitle:
+        'Найдите ответы на распространенные вопросы. Если вы не найдете ответа, смело обращайтесь к нам.',
+      items: {
+        q1: {
+          q: 'Как быстро я могу ожидать ответа на свой запрос?',
+          a: 'Мы стараемся отвечать на все вопросы в течение 24 часов в рабочие дни. В выходные и праздничные дни время ответа может быть немного дольше.'
+        },
+        q2: {
+          q: 'Как я могу проверить статус своего заказа?',
+          a: 'После подтверждения заказа вы получите контактные данные продавца по электронной почте, а также нашу контактную информацию. Если продавец не отвечает в течение 48 часов, пожалуйста, свяжитесь с нами напрямую, чтобы помочь решить ситуацию.'
+        },
+        q3: {
+          q: 'Даете ли вы советы по выбору и уходу за растениями?',
+          a: 'Да! В соответствии с современными технологиями наша команда создала AI-советника, специализирующегося на цветоводстве и садоводстве. Вы можете получить доступ к советнику через наш аккаунт в Instagram, где он всегда доступен для вопросов и рекомендаций.'
+        },
+        q4: {
+          q: 'Как я могу стать партнером или продавцом на платформе Green World?',
+          a: 'Стать продавцом просто. Вам нужно зарегистрироваться на платформе, заполнит данные вашего магазина, а затем добавить товары, которые вы предлагаете клиентам.'
+        },
+        q5: {
+          q: 'Как работает оплата на платформе Green World?',
+          a: 'Green World не участвует в процессе оплаты между покупателем и продавцом. Оплата производится исключительно напрямую продавцу. Если магазины хотят продвигать свои товары или увеличить вместимость своего магазина на платформе, оплата возможна через PayPal или банковскими картами.'
+        }
+      }
+    },
+    footerBanner: {
+      title: 'Ваше удовлетворение — наш приоритет',
+      subtitle:
+        'Спасибо за ваше доверие. Мы с нетерпением ждем вашего сообщения и возможности помочь вам.'
+    }
   }
 } as const;

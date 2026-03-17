@@ -49,10 +49,13 @@ export const EditUserImageSection = () => {
         />
 
         <Stack
-          direction={{ xs: 'column', lgm: 'row' }}
-          paddingX={4}
-          spacing={4}
-          alignItems="center"
+          sx={(theme) => ({
+            flexDirection: 'column',
+            [theme.breakpoints.up('lgm')]: { flexDirection: 'row' },
+            paddingX: 4,
+            gap: 4,
+            alignItems: 'center'
+          })}
         >
           {/* AVATAR */}
           <Box
@@ -93,20 +96,24 @@ export const EditUserImageSection = () => {
 
       {/* QR CODES */}
       <Stack
-        direction={{ xs: 'column', lgm: 'row' }}
-        spacing={4}
-        justifyContent="space-between"
+        sx={(theme) => ({
+          flexDirection: 'column',
+          [theme.breakpoints.up('lgm')]: { flexDirection: 'row' },
+          gap: 4,
+          justifyContent: 'space-between'
+        })}
       >
         {/* WEBSITE QR */}
         <Box
-          sx={{
-            flex: { xs: '1 1 100%', lgm: '1 1 50%' },
+          sx={(theme) => ({
+            flex: '1 1 100%',
+            [theme.breakpoints.up('lgm')]: { flex: '1 1 50%' },
             backgroundColor: 'background.paper',
             borderRadius: 2,
             py: 3,
             textAlign: 'center',
             boxShadow: '0px 4px 20px rgba(0,0,0,0.05)'
-          }}
+          })}
         >
           <SectionHeader
             icon={ScanQrCode}
@@ -122,13 +129,14 @@ export const EditUserImageSection = () => {
 
         {/* SHOP QR */}
         <Box
-          sx={{
-            flex: { xs: '1 1 100%', lgm: '1 1 50%' },
+          sx={(theme) => ({
+            flex: '1 1 100%',
+            [theme.breakpoints.up('lgm')]: { flex: '1 1 50%' },
             backgroundColor: 'rgba(255, 153, 51, 0.08)',
             borderRadius: 2,
             py: 3,
             textAlign: 'center'
-          }}
+          })}
         >
           <SectionHeader
             icon={Store}

@@ -57,7 +57,7 @@ export const BlogPostPage = () => {
 
     const author =
       `${user?.name || ''} ${user?.lastname || ''}`.trim() ||
-      'Nepoznati korisnik';
+      t('common.unknownUser');
 
     try {
       createComment({ postId, text, parentComment, author });
@@ -76,8 +76,8 @@ export const BlogPostPage = () => {
     );
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Blog', route: '/blog' },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('navbar.blog'), route: '/blog' },
     { label: post?.title || '', route: `/blog/${post?._id}` }
   ];
 
@@ -140,7 +140,7 @@ export const BlogPostPage = () => {
           <h1 className="text-4xl font-bold mb-4">{post?.title}</h1>
 
           <Box
-            sx={{
+            sx={(theme) => ({
               width: '100%',
               display: 'flex',
               alignItems: 'flex-start',
@@ -151,7 +151,7 @@ export const BlogPostPage = () => {
                 alignItems: 'center',
                 flexDirection: 'row'
               }
-            }}
+            })}
           >
             <div className="flex items-center gap-1 text-sm text-gray-500">
               <User />
@@ -164,7 +164,7 @@ export const BlogPostPage = () => {
             {post?.timeOfReading && (
               <div className="flex items-center gap-1 flex flex-wrap gap-2 text-sm text-gray-500">
                 <Clock />
-                {post.timeOfReading} min čitanja
+                {post.timeOfReading} {t('blogPostPage.minRead')}
               </div>
             )}
           </Box>
@@ -217,7 +217,7 @@ export const BlogPostPage = () => {
           </div>
 
           <Box
-            sx={{
+            sx={(theme) => ({
               width: '100%',
               display: 'flex',
               alignItems: 'flex-start',
@@ -228,7 +228,7 @@ export const BlogPostPage = () => {
                 alignItems: 'center',
                 flexDirection: 'row'
               }
-            }}
+            })}
           >
             <VoteButtons
               likes={post?.likes}
@@ -243,15 +243,15 @@ export const BlogPostPage = () => {
                 navigator.clipboard
                   .writeText(`https://www.zelenisvet.rs/blog/${post?._id}`)
                   .then(() => {
-                    toast.success('Kopiran link');
+                    toast.success(t('blogPostPage.linkCopied'));
                   })
                   .catch(() => {
-                    alert('Neuspešno kopiranje linka');
+                    toast.error(t('blogPostPage.linkCopyFailed'));
                   });
               }}
               label={
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Copy /> Podeli Blog
+                  <Copy /> {t('blogPostPage.shareBlog')}
                 </Box>
               }
             />
@@ -259,7 +259,9 @@ export const BlogPostPage = () => {
           </Box>
 
           <Card sx={{ mt: 4, p: 2 }}>
-            <h2 className="text-xl font-semibold mb-3">Ostavite komentar</h2>
+            <h2 className="text-xl font-semibold mb-3">
+              {t('blogPostPage.leaveComment')}
+            </h2>
             <CommentForm onSubmit={handleAddComment} />
             <CommentList
               comments={post?.comments || []}
@@ -268,7 +270,9 @@ export const BlogPostPage = () => {
           </Card>
         </section>
         <section className="w-full md:w-1/4 flex flex-col gap-2 sticky">
-          <h2 className="text-2xl font-bold mb-4">O Autoru:</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            {t('blogPostPage.aboutAuthor')}
+          </h2>
           <UserInfo
             user={sellerData}
             isUserProfile={false}

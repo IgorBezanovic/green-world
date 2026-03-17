@@ -1,8 +1,11 @@
 import { useGetServices } from '@green-world/hooks/useServices';
+import {
+  formatImageUrl,
+  getPlainTextFromHtml
+} from '@green-world/utils/helpers';
 import type { ServiceListingFiltersParams } from '@green-world/utils/types';
 import {
   Box,
-  Container,
   Grid,
   Typography,
   Card,
@@ -101,36 +104,42 @@ const ServiceListingPage = () => {
             'linear-gradient(to right, rgba(22, 163, 74, 0.9), rgba(21, 128, 61, 0.9))'
         }}
       >
-        <Container maxWidth="lg">
+        <Box
+          sx={(theme) => ({
+            maxWidth: '1400px',
+            mx: 'auto',
+            px: 2,
+            [theme.breakpoints.up('sm')]: { px: 3 },
+            [theme.breakpoints.up('xl')]: { px: 0 }
+          })}
+        >
           <Typography
             variant="h3"
             component="h1"
             fontWeight="bold"
             gutterBottom
           >
-            {t('service.title', 'Pronađite najbolje baštovanske usluge')}
+            {t('service.title')}
           </Typography>
           <Typography variant="h6" sx={{ opacity: 0.9, mb: 4, maxWidth: 600 }}>
-            {t(
-              'service.subtitle',
-              'Povežite se sa profesionalcima za održavanje travnjaka, pejzažnu arhitekturu i negu biljaka u vašoj okolini.'
-            )}
+            {t('service.subtitle')}
           </Typography>
 
           <Box
-            sx={{
+            sx={(theme) => ({
               display: 'flex',
               gap: 2,
               bgcolor: 'white',
               p: 1,
               borderRadius: 2,
               boxShadow: 3,
-              flexDirection: { xs: 'column', md: 'row' }
-            }}
+              flexDirection: 'column',
+              [theme.breakpoints.up('md')]: { flexDirection: 'row' }
+            })}
           >
             <TextField
               fullWidth
-              placeholder={t('service.searchPlaceholder', 'Pretraži usluge...')}
+              placeholder={t('service.searchPlaceholder')}
               value={filters.search}
               onChange={handleSearchChange}
               InputProps={{
@@ -146,7 +155,7 @@ const ServiceListingPage = () => {
             />
             <TextField
               fullWidth
-              placeholder={t('service.location', 'Lokacija')}
+              placeholder={t('service.location')}
               value={filters.location}
               onChange={handleLocationChange}
               InputProps={{
@@ -158,17 +167,28 @@ const ServiceListingPage = () => {
                 disableUnderline: true
               }}
               variant="standard"
-              sx={{
+              sx={(theme) => ({
                 px: 2,
                 py: 1,
-                borderLeft: { xs: 'none', md: '1px solid #e0e0e0' }
-              }}
+                borderLeft: 'none',
+                [theme.breakpoints.up('md')]: {
+                  borderLeft: '1px solid #e0e0e0'
+                }
+              })}
             />
           </Box>
-        </Container>
+        </Box>
       </Box>
 
-      <Container maxWidth="lg">
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          mx: 'auto',
+          px: 2,
+          [theme.breakpoints.up('sm')]: { px: 3 },
+          [theme.breakpoints.up('xl')]: { px: 0 }
+        })}
+      >
         <Grid container spacing={4}>
           {/* Sidebar / Filters */}
           <Grid size={{ xs: 12, md: 3 }}>
@@ -180,19 +200,19 @@ const ServiceListingPage = () => {
               }}
             >
               <Typography variant="h6" fontWeight="bold" gutterBottom>
-                {t('service.filters', 'Filteri')}
+                {t('service.filters')}
               </Typography>
 
               <Box sx={{ mt: 3, mb: 4 }}>
                 <FormControl fullWidth size="small">
-                  <InputLabel>{t('service.type', 'Tip usluge')}</InputLabel>
+                  <InputLabel>{t('service.type')}</InputLabel>
                   <Select
                     value={filters.service}
-                    label={t('service.type', 'Tip usluge')}
+                    label={t('service.type')}
                     onChange={handleServiceChange}
                   >
                     <MenuItem value="">
-                      <em>Sve usluge</em>
+                      <em>{t('service.allServices')}</em>
                     </MenuItem>
                     {SERVICE_CATEGORIES.map((cat) => {
                       const camelCat = cat
@@ -201,10 +221,7 @@ const ServiceListingPage = () => {
                         .join('');
                       return (
                         <MenuItem key={cat} value={cat}>
-                          {t(
-                            `service.category${camelCat}`,
-                            cat.replace('_', ' ')
-                          )}
+                          {t(`service.category${camelCat}`)}
                         </MenuItem>
                       );
                     })}
@@ -218,7 +235,7 @@ const ServiceListingPage = () => {
                   gutterBottom
                   color="text.secondary"
                 >
-                  {t('service.priceRange', 'Raspon cene (RSD)')}
+                  {t('service.priceRange')}
                 </Typography>
                 <Slider
                   value={priceRange}
@@ -236,8 +253,12 @@ const ServiceListingPage = () => {
                     mt: 1
                   }}
                 >
-                  <Typography variant="body2">{priceRange[0]} RSD</Typography>
-                  <Typography variant="body2">{priceRange[1]} RSD</Typography>
+                  <Typography variant="body2">
+                    {priceRange[0]} {t('service.currency')}
+                  </Typography>
+                  <Typography variant="body2">
+                    {priceRange[1]} {t('service.currency')}
+                  </Typography>
                 </Box>
               </Box>
 
@@ -248,7 +269,7 @@ const ServiceListingPage = () => {
                 onClick={resetFilters}
                 sx={{ textTransform: 'none', borderRadius: 2 }}
               >
-                {t('service.resetFilters', 'Poništi filtere')}
+                {t('service.resetFilters')}
               </Button>
             </Card>
           </Grid>
@@ -264,8 +285,7 @@ const ServiceListingPage = () => {
               }}
             >
               <Typography variant="h6">
-                {services.length}{' '}
-                {t('service.resultsFound', 'rezultata pronađeno')}
+                {services.length} {t('service.resultsFound')}
               </Typography>
               {/* Could add a Sort By dropdown here */}
             </Box>
@@ -277,10 +297,7 @@ const ServiceListingPage = () => {
             ) : isError ? (
               <Box sx={{ py: 4, textAlign: 'center' }}>
                 <Typography color="error">
-                  {t(
-                    'service.errorLoading',
-                    'Došlo je do greške prilikom učitavanja usluga.'
-                  )}
+                  {t('service.errorLoading')}
                 </Typography>
               </Box>
             ) : services.length === 0 ? (
@@ -294,10 +311,7 @@ const ServiceListingPage = () => {
                 }}
               >
                 <Typography variant="h6" color="text.secondary">
-                  {t(
-                    'service.noServices',
-                    'Nema pronađenih usluga za odabrane filtere.'
-                  )}
+                  {t('service.noServices')}
                 </Typography>
                 <Button
                   variant="contained"
@@ -305,7 +319,7 @@ const ServiceListingPage = () => {
                   onClick={resetFilters}
                   sx={{ mt: 2 }}
                 >
-                  {t('service.viewAllServices', 'Prikaži sve usluge')}
+                  {t('service.viewAllServices')}
                 </Button>
               </Box>
             ) : (
@@ -334,8 +348,9 @@ const ServiceListingPage = () => {
                           component="img"
                           height="200"
                           image={
-                            service.images?.[0] ||
-                            'https://via.placeholder.com/400x200?text=Usluga'
+                            service.images?.[0]
+                              ? formatImageUrl(service.images[0], 55)
+                              : 'https://via.placeholder.com/400x200?text=Usluga'
                           }
                           alt={service.title}
                           sx={{
@@ -346,10 +361,10 @@ const ServiceListingPage = () => {
                         <Chip
                           label={
                             service.priceType === 'hourly'
-                              ? 'Po satu'
+                              ? t('service.hourly')
                               : service.priceType === 'fixed'
-                                ? 'Fiksno'
-                                : 'Po dogovoru'
+                                ? t('service.fixed')
+                                : t('service.negotiable')
                           }
                           size="small"
                           sx={{
@@ -380,7 +395,7 @@ const ServiceListingPage = () => {
                         >
                           <MapPin size={16} />
                           <Typography variant="body2">
-                            {service.location || 'Nije navedeno'}
+                            {service.location || t('service.notSpecified')}
                           </Typography>
                         </Box>
 
@@ -413,7 +428,7 @@ const ServiceListingPage = () => {
                             WebkitBoxOrient: 'vertical'
                           }}
                         >
-                          {service.description}
+                          {getPlainTextFromHtml(service.description)}
                         </Typography>
 
                         <Box
@@ -436,8 +451,12 @@ const ServiceListingPage = () => {
                             <Box
                               component="img"
                               src={
-                                (service.providerId as any)?.profileImage ||
-                                'https://via.placeholder.com/40'
+                                (service.providerId as any)?.profileImage
+                                  ? formatImageUrl(
+                                      (service.providerId as any).profileImage,
+                                      55
+                                    )
+                                  : 'https://via.placeholder.com/40'
                               }
                               sx={{
                                 width: 32,
@@ -451,7 +470,8 @@ const ServiceListingPage = () => {
                               fontWeight="medium"
                               color="text.primary"
                             >
-                              {(service.providerId as any)?.name || 'Korisnik'}{' '}
+                              {(service.providerId as any)?.name ||
+                                t('service.user')}{' '}
                               {(service.providerId as any)?.lastname || ''}
                             </Typography>
                           </Box>
@@ -461,8 +481,8 @@ const ServiceListingPage = () => {
                             color="primary.main"
                           >
                             {service.priceFrom
-                              ? `${service.priceFrom} RSD`
-                              : 'Na upit'}
+                              ? `${service.priceFrom} ${t('service.currency')}`
+                              : t('service.onQuery')}
                           </Typography>
                         </Box>
                       </CardContent>
@@ -473,7 +493,7 @@ const ServiceListingPage = () => {
             )}
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </Box>
   );
 };

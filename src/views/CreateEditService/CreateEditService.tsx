@@ -351,14 +351,15 @@ export const CreateEditService = () => {
         <AppBreadcrumbs pages={pages} />
         <Typography
           component="h1"
-          sx={{
+          sx={(theme) => ({
             color: 'primary.main',
-            fontSize: { xs: '3rem', md: '3.75rem' },
+            fontSize: '3rem',
+            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
             fontFamily: 'Ephesis',
             mx: 'auto',
             lineHeight: 1,
             mb: 4
-          }}
+          })}
         >
           {serviceId
             ? 'Izmeni uslugu'
@@ -548,7 +549,7 @@ export const CreateEditService = () => {
 
             {Boolean(serviceData.images?.length) && (
               <Box
-                sx={{
+                sx={(theme) => ({
                   width: '100%',
                   minHeight: 80,
                   mb: 2,
@@ -557,13 +558,13 @@ export const CreateEditService = () => {
                   boxShadow: 2,
                   p: 2,
                   display: 'grid',
-                  gridTemplateColumns: {
-                    xs: 'repeat(2, minmax(0, 1fr))',
-                    md: 'repeat(4, minmax(0, 1fr))'
+                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                  [theme.breakpoints.up('md')]: {
+                    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))'
                   },
                   border: '1px solid',
                   borderColor: 'secondary.main'
-                }}
+                })}
               >
                 {serviceData.images?.map((image, index) => (
                   <Box
@@ -638,16 +639,17 @@ export const CreateEditService = () => {
                 textAlign: 'center',
                 mx: 'auto',
                 textTransform: 'uppercase',
-                mb: { xs: !serviceData.images?.length ? 4 : 2, md: 2 },
-                mt: !serviceData.images?.length ? 1 : 0,
+                mb: !serviceData.images?.length ? 4 : 2,
                 [theme.breakpoints.up('md')]: {
+                  mb: 0,
                   mx: 0,
                   '&:hover': {
                     color: 'common.black',
                     boxShadow: 4,
                     transform: 'translateY(-1px)'
                   }
-                }
+                },
+                mt: !serviceData.images?.length ? 1 : 0
               })}
             >
               {isImageLoading ? (
@@ -734,12 +736,13 @@ export const CreateEditService = () => {
                   sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}
                 >
                   <Box
-                    sx={{
+                    sx={(theme) => ({
                       flex: 1,
                       display: 'flex',
                       gap: 2,
-                      flexDirection: { xs: 'column', sm: 'row' }
-                    }}
+                      flexDirection: 'column',
+                      [theme.breakpoints.up('sm')]: { flexDirection: 'row' }
+                    })}
                   >
                     <Box sx={{ flex: 1 }}>
                       <OutlinedInput
@@ -800,7 +803,12 @@ export const CreateEditService = () => {
                   <Button
                     onClick={() => handleRemovePortfolioLink(index)}
                     color="error"
-                    sx={{ minWidth: 'auto', p: 1, mt: { xs: 0, sm: '2px' } }}
+                    sx={(theme) => ({
+                      minWidth: 'auto',
+                      p: 1,
+                      mt: 0,
+                      [theme.breakpoints.up('sm')]: { mt: '2px' }
+                    })}
                   >
                     <RemoveCircleOutlineIcon />
                   </Button>

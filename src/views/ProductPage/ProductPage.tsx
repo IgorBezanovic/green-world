@@ -214,9 +214,10 @@ export const ProductPage = () => {
                           justifyContent: 'center',
                           borderRadius: '6px',
                           transition: 'all 0.3s ease',
-                          opacity: { xs: 1, md: 0 },
+                          opacity: 1,
+                          [theme.breakpoints.up('md')]: { opacity: 0 },
                           '&:hover': {
-                            opacity: { md: 1 },
+                            [theme.breakpoints.up('md')]: { opacity: 1 },
                             backgroundColor: 'rgba(81, 81, 81, 0.60)',
                             '& .arrow-icon-left': {
                               display: 'flex'
@@ -269,9 +270,10 @@ export const ProductPage = () => {
                           justifyContent: 'center',
                           borderRadius: '6px',
                           transition: 'all 0.3s ease',
-                          opacity: { xs: 1, md: 0 },
+                          opacity: 1,
+                          [theme.breakpoints.up('md')]: { opacity: 0 },
                           '&:hover': {
-                            opacity: { md: 1 },
+                            [theme.breakpoints.up('md')]: { opacity: 1 },
                             backgroundColor: 'rgba(81, 81, 81, 0.60)',
                             '& .arrow-icon-right': {
                               display: 'flex'

@@ -222,11 +222,13 @@ export const Products = () => {
       >
         <AppBreadcrumbs pages={pages} />
         <Box
-          sx={{
+          sx={(theme) => ({
             display: 'flex',
-            gap: isMobile ? 2 : 7,
-            flexDirection: isMobile ? 'column' : 'row'
-          }}
+            gap: 7,
+            [theme.breakpoints.down('md')]: { gap: 2 },
+            flexDirection: 'row',
+            [theme.breakpoints.down('md')]: { flexDirection: 'column' }
+          })}
         >
           {/* Filters */}
           <Box>
@@ -284,7 +286,7 @@ export const Products = () => {
 
                   <Box>
                     <InputLabel
-                      sx={{ color: (theme) => theme.palette.text.primary }}
+                      sx={{ color: 'text.primary' }}
                       htmlFor="product-title"
                     >
                       {t('productsView.productName')}
@@ -316,10 +318,7 @@ export const Products = () => {
                   </Box>
                   {!category && (
                     <Box>
-                      <InputLabel
-                        sx={{ color: (theme) => theme.palette.text.primary }}
-                        id="group"
-                      >
+                      <InputLabel sx={{ color: 'text.primary' }} id="group">
                         {t('productsView.group')}
                       </InputLabel>
                       <Select
@@ -349,10 +348,7 @@ export const Products = () => {
                     </Box>
                   )}
                   <Box>
-                    <InputLabel
-                      sx={{ color: (theme) => theme.palette.text.primary }}
-                      id="subGroup"
-                    >
+                    <InputLabel sx={{ color: 'text.primary' }} id="subGroup">
                       {t('productsView.subgroup')}
                     </InputLabel>
                     <Select
@@ -542,10 +538,10 @@ export const Products = () => {
                     }}
                   >
                     <Typography variant="h4">
-                      Trenutno nema proizvoda za izabrane filtere
+                      {t('productsView.noProductsFound')}
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                      Izaberite neku drugu kombinaciju filtera
+                      {t('productsView.chooseDifferentFilters')}
                     </Typography>
                     <Box
                       component="img"

@@ -92,7 +92,12 @@ export const Event = () => {
         </Typography>
 
         <Card sx={{ borderRadius: 3 }}>
-          <Stack direction={{ xs: 'column', md: 'row' }}>
+          <Stack
+            sx={(theme) => ({
+              flexDirection: 'column',
+              [theme.breakpoints.up('md')]: { flexDirection: 'row' }
+            })}
+          >
             <Box
               sx={{
                 flex: 1,

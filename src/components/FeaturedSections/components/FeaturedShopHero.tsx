@@ -216,18 +216,20 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
 
       {/* RIGHT WATERMARK */}
       <Typography
-        sx={{
+        sx={(theme) => ({
           position: 'absolute',
-          right: { xs: 16, md: 32 },
+          right: 16,
+          [theme.breakpoints.up('md')]: { right: 32 },
           top: '50%',
           transform: 'translateY(-50%)',
-          fontSize: { xs: '6rem', md: '10rem' },
+          fontSize: '6rem',
+          [theme.breakpoints.up('md')]: { fontSize: '10rem' },
           fontWeight: 800,
           color: 'rgba(0,0,0,0.04)',
           userSelect: 'none',
           pointerEvents: 'none',
           zIndex: 1
-        }}
+        })}
       >
         {title.split(' ')[0].toUpperCase()}
       </Typography>
