@@ -1,9 +1,9 @@
 import {
-  contactServiceProvider,
   createService,
   deleteService,
   getServiceById,
   getServices,
+  sendDirectEmailToServiceProvider,
   updateService
 } from '@green-world/services/serviceApi';
 import type {
@@ -88,23 +88,26 @@ export const useDeleteServiceListing = () => {
   });
 };
 
-export const useContactServiceProvider = () => {
+export const useSendDirectEmailToServiceProvider = () => {
   return useMutation({
     mutationFn: ({
       id,
-      message,
-      phone
+      name,
+      phone,
+      message
     }: {
       id: string;
-      message: string;
+      name: string;
       phone: string;
-    }) => contactServiceProvider(id, { message, phone }),
+      message: string;
+    }) => sendDirectEmailToServiceProvider(id, { name, phone, message }),
     onSuccess: () => {
-      toast.success('Poruka je uspešno poslata pružaocu usluge');
+      toast.success('Email je uspešno poslat pružaocu usluge');
     },
     onError: (err: any) => {
       toast.error(
-        err?.response?.data?.message || 'Greška prilikom slanja poruke'
+        err?.response?.data?.message ||
+          'Greška prilikom slanja direktnog emaila'
       );
     }
   });

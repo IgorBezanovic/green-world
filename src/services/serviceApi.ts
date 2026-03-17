@@ -34,10 +34,13 @@ export const deleteService = async (id: string) => {
   return data.data;
 };
 
-export const contactServiceProvider = async (
+export const sendDirectEmailToServiceProvider = async (
   id: string,
-  contactData: { message: string; phone: string }
+  emailData: { name: string; phone: string; message: string }
 ) => {
-  const { data } = await client.post(`${ENDPOINT}/${id}/contact`, contactData);
+  const { data } = await client.post(
+    `${ENDPOINT}/${id}/direct-email`,
+    emailData
+  );
   return data;
 };

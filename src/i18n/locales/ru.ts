@@ -980,6 +980,7 @@ export const ru = {
       activities: 'Вы еще не добавили активность',
       blogs: 'Вы еще не добавили посты в блог'
     },
+    editService: 'Редактировать услугу',
     viewService: 'Открыть услугу',
     servicePriceOnRequest: 'По запросу',
     serviceLocationNotSpecified: 'Локация не указана'
@@ -1198,6 +1199,13 @@ export const ru = {
     radiusPlaceholder: 'Напр. 50',
     experienceLabel: 'Опыт работы (лет)',
     experiencePlaceholder: 'Напр. 5',
+    equipmentLabel: 'Оборудование, которое вы используете (необязательно)',
+    equipmentPlaceholder: 'Напр. Триммер, газонокосилка, мини-экскаватор...',
+    languagesLabel: 'Языки, на которых вы говорите (необязательно)',
+    languagesPlaceholder: 'Напр. Сербский, Английский...',
+    availabilityLabel: 'Доступность по времени (необязательно)',
+    availabilityPlaceholder:
+      'Напр. По будням 08-16, в выходные по договоренности...',
     filters: 'Фильтры',
     type: 'Тип услуги',
     servicesLabel:
@@ -1239,13 +1247,21 @@ export const ru = {
     notFound: 'Услуга не найдена',
     backToServices: 'Назад к услугам',
     description: 'Описание',
-    includedServices: 'Включенные услуги',
+    includedServices: 'Услуги, которые мы предлагаем',
     equipment: 'Оборудование',
+    languagesProvided: 'Языки, на которых предоставляется услуга',
     availability: 'Доступность',
     contactProvider: 'Свяжитесь с поставщиком услуг',
     yearsExperience: 'лет опыта',
     operatesWithin: 'Выезжает по адресу в пределах',
     sendMessage: 'Отправить сообщение',
+    sendDirectEmail: 'Отправить прямой email',
+    callProvider: 'Позвонить',
+    mustLoginToSendDirectEmail:
+      'Вы должны войти в систему, чтобы отправить прямой email.',
+    directEmailDialogDesc:
+      'Введите имя, телефон и сообщение. Ваш email аккаунта автоматически используется как адрес отправителя.',
+    yourName: 'Ваше полное имя',
     portfolioLinks: 'Ссылки на портфолио',
     contactDialogDesc:
       'Отправьте сообщение с описанием вашей проблемы или запроса, и мы попросим поставщика связи связаться с вами по вашему номеру.',

@@ -11,7 +11,10 @@ import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
 import { useGetServices } from '@green-world/hooks/useServices';
-import { formatImageUrl } from '@green-world/utils/helpers';
+import {
+  formatImageUrl,
+  getPlainTextFromHtml
+} from '@green-world/utils/helpers';
 import { BlogPost, Product, ServiceListing } from '@green-world/utils/types';
 import {
   Tabs,
@@ -453,6 +456,30 @@ export const UserProfile = () => {
                     }}
                   >
                     <Box>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          aspectRatio: '1 / 1',
+                          borderRadius: 1,
+                          overflow: 'hidden',
+                          mb: 1.5,
+                          bgcolor: 'grey.100'
+                        }}
+                      >
+                        {service.images?.[0] ? (
+                          <Box
+                            component="img"
+                            src={formatImageUrl(service.images[0], 55)}
+                            alt={service.title}
+                            sx={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              display: 'block'
+                            }}
+                          />
+                        ) : null}
+                      </Box>
                       <Typography variant="h6" gutterBottom>
                         {service.title}
                       </Typography>
@@ -461,7 +488,7 @@ export const UserProfile = () => {
                         color="text.secondary"
                         sx={{ mb: 1.5 }}
                       >
-                        {service.description}
+                        {getPlainTextFromHtml(service.description || '')}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {service.location ||
@@ -477,13 +504,29 @@ export const UserProfile = () => {
                           : t('userProfileView.servicePriceOnRequest')}
                       </Typography>
                     </Box>
-                    <Button
-                      variant="outlined"
-                      sx={{ mt: 2 }}
-                      onClick={() => navigate(`/services/${service._id}`)}
+                    <Box
+                      sx={{
+                        mt: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1
+                      }}
                     >
-                      {t('userProfileView.viewService')}
-                    </Button>
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          navigate(`/services/${service._id}/edit`)
+                        }
+                      >
+                        {t('userProfileView.editService')}
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() => navigate(`/services/${service._id}`)}
+                      >
+                        {t('userProfileView.viewService')}
+                      </Button>
+                    </Box>
                   </Card>
                 ))
               ) : (
