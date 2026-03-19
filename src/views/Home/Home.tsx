@@ -109,7 +109,10 @@ export const Home = () => {
           >
             {Array.from({ length: 8 }).map((_, idx) => (
               <Box key={idx}>
-                <Skeleton variant="rectangular" sx={{ height: 200, mb: 1.5 }} />
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ height: 200, mb: 1.5, borderRadius: 1 }}
+                />
                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
                 <Skeleton
                   variant="text"
