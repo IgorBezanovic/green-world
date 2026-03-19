@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
-import { PopDelete } from '../PopDelete';
+import { DeleteConfirmDialog } from '../DeleteConfirmDialog';
 
 interface ProductCardProps {
   product: Product | ProductPreview;
@@ -38,7 +38,9 @@ export const ProductCard = ({
   promotedPeriod = false
 }: ProductCardProps) => {
   const { t } = useTranslation();
-  const { mutate } = useDeleteProduct(product?._id);
+  const { mutate, isPending: isDeletingProduct } = useDeleteProduct(
+    product?._id
+  );
   const { mutate: editProduct, isPending: isStockUpdating } = useEditProduct(
     product?._id
   );
@@ -46,6 +48,7 @@ export const ProductCard = ({
   const navigate = useNavigate();
   const location = useLocation();
   const [loaded, setLoaded] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const mainImage = product?.images?.[0]?.includes('cloudinary')
     ? `${product.images[0]}?format=webp&width=400`
@@ -71,6 +74,19 @@ export const ProductCard = ({
     editProduct({
       ...(product as Product),
       onStock: !product.onStock
+    });
+  };
+
+  const handleCloseDeleteDialog = () => {
+    if (isDeletingProduct) return;
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        setIsDeleteDialogOpen(false);
+      }
     });
   };
 
@@ -319,26 +335,32 @@ export const ProductCard = ({
                   <Copy style={{ strokeWidth: '2px' }} />
                 </IconButton>
 
-                <PopDelete
-                  title={t('productCard.deleteTitle')}
-                  description={t('productCard.deleteDescription')}
-                  okText={t('productCard.yes')}
-                  cancelText={t('productCard.no')}
-                  id={product._id}
-                  mutate={mutate}
+                <IconButton
+                  aria-label="Delete Product"
+                  title={t('productCard.deleteProductTitle')}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDeleteDialogOpen(true);
+                  }}
                 >
-                  <IconButton
-                    aria-label="Delete Product"
-                    title={t('productCard.deleteProductTitle')}
-                  >
-                    <Trash style={{ strokeWidth: '2px' }} />
-                  </IconButton>
-                </PopDelete>
+                  <Trash style={{ strokeWidth: '2px' }} />
+                </IconButton>
               </Box>
             </Box>
           </CardActions>
         )}
       </Box>
+
+      <DeleteConfirmDialog
+        open={isDeleteDialogOpen}
+        title={t('productCard.deleteTitle')}
+        description={t('productCard.deleteDescription')}
+        cancelText={t('productCard.no')}
+        confirmText={t('productCard.yes')}
+        onCancel={handleCloseDeleteDialog}
+        onConfirm={handleConfirmDelete}
+        isLoading={isDeletingProduct}
+      />
     </Card>
   );
 };

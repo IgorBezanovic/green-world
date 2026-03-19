@@ -18,8 +18,28 @@ export interface ProductPreview {
   promotedUntil?: string | Date | null;
 }
 
+export interface ServicePreview {
+  _id: string;
+  providerId?:
+    | string
+    | {
+        _id?: string;
+        name?: string;
+        lastname?: string;
+      };
+  title: string;
+  description: string;
+  services: string[];
+  priceType: 'hourly' | 'fixed' | 'negotiable' | 'per_m2' | 'per_tree';
+  priceFrom?: number;
+  priceTo?: number;
+  location?: string;
+  images?: string[] | string;
+}
+
 export interface HomepageProductsResponse {
   recentProducts: ProductPreview[];
+  services: ServicePreview[];
   flower_assortment: ProductPreview[];
   succulents: ProductPreview[];
   potted_flowers: ProductPreview[];

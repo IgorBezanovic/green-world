@@ -20,6 +20,9 @@ export const ru = {
     latestProductsTitle: 'Новейшие Товары',
     latestProductsSubtitle: 'Новейшие товары от наших партнеров',
     searchAllProducts: 'Искать все товары',
+    latestServicesTitle: 'Новейшие Услуги',
+    latestServicesSubtitle: 'Новейшие услуги от наших партнеров',
+    searchAllServices: 'Искать все услуги',
     categoriesTitle: 'Категории Товаров',
     categoriesSubtitle: 'Найдите всё необходимое для идеального сада и дома',
     sectionSubtitles: {
@@ -904,6 +907,7 @@ export const ru = {
   shopStatsCard: {
     addedProducts: 'Добавленные товары',
     createdActivities: 'Созданные активности',
+    addedServices: 'Добавленные услуги',
     publishedBlogs: 'Опубликованные блоги'
   },
   userInfo: {
@@ -981,6 +985,12 @@ export const ru = {
       blogs: 'Вы еще не добавили посты в блог'
     },
     editService: 'Редактировать услугу',
+    deleteService: 'Удалить услугу',
+    deleteServiceDialog: {
+      title: 'Удаление услуги',
+      description: 'Вы уверены, что хотите удалить эту услугу?',
+      confirm: 'Удалить'
+    },
     viewService: 'Открыть услугу',
     servicePriceOnRequest: 'По запросу',
     serviceLocationNotSpecified: 'Локация не указана'
@@ -1359,7 +1369,9 @@ export const ru = {
       'Postavljanje dekorativnog kamenja': 'Укладка декоративного камня',
       'Postavljanje staza u dvorištu': 'Укладка дорожек во дворе',
       'Postavljanje travnog tepiha': 'Укладка рулонного газона'
-    }
+    },
+    linkCopied: 'Ссылка скопирована',
+    linkCopyFailed: 'Ошибка при копировании ссылки'
   },
   blogPostPage: {
     minRead: 'мин чтения',

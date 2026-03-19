@@ -61,6 +61,16 @@ const initServiceListing: Partial<ServiceListing> = {
 };
 
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
+const PREDEFINED_SERVICE_LANGUAGES = [
+  'Srpski',
+  'English',
+  'Русский',
+  'Deutsch',
+  'Français',
+  'Italiano',
+  'Español',
+  'Magyar'
+];
 
 export const CreateEditService = () => {
   const { t } = useTranslation();
@@ -260,6 +270,17 @@ export const CreateEditService = () => {
       [field]: normalizeStringArray(values)
     }));
   };
+
+  const languageOptions = useMemo(
+    () =>
+      Array.from(
+        new Set([
+          ...PREDEFINED_SERVICE_LANGUAGES,
+          ...(serviceData.languages || [])
+        ])
+      ),
+    [serviceData.languages]
+  );
 
   const isValidUrl = (url: string) => {
     if (!url) return true; // empty is handled by required check
@@ -648,10 +669,12 @@ export const CreateEditService = () => {
             <Autocomplete
               multiple
               freeSolo
-              options={[]}
+              options={languageOptions}
+              filterSelectedOptions
+              forcePopupIcon
               value={serviceData.languages || []}
               onChange={(_e, newValue) =>
-                handleArrayFieldChange('languages', newValue as string[])
+                handleArrayFieldChange('languages', newValue)
               }
               renderTags={(value: readonly string[], getTagProps) =>
                 value.map((option: string, index: number) => (
@@ -668,7 +691,7 @@ export const CreateEditService = () => {
                   {...params}
                   placeholder={t(
                     'service.languagesPlaceholder',
-                    'Npr. Srpski, Engleski...'
+                    'Izaberite jedan ili više jezika'
                   )}
                   variant="outlined"
                   size="medium"

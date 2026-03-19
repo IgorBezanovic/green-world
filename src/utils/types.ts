@@ -253,7 +253,11 @@ export interface PortfolioLink {
 
 export interface ServiceListing {
   _id: string;
-  providerId: User | string;
+  providerId: {
+    _id: string;
+    name: string;
+    lastname: string;
+  };
   title: string;
   description: string;
   services: string[];

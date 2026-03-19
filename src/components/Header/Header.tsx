@@ -95,6 +95,11 @@ export const Header = () => {
       onClick: () => handleMenuClick(() => navigate('/services/create'))
     },
     {
+      text: t('header.writeBlog'),
+      icon: <NotebookText className="!w-6 !h-6 ml-2" />,
+      onClick: () => handleMenuClick(() => navigate('/write-post'))
+    },
+    {
       text: t('header.createEvent'),
       icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
       onClick: () => handleMenuClick(() => navigate('/create-event'))
@@ -122,11 +127,6 @@ export const Header = () => {
         </Badge>
       ),
       onClick: () => handleMenuClick(() => navigate('/message'))
-    },
-    {
-      text: t('header.writeBlog'),
-      icon: <NotebookText className="!w-6 !h-6 ml-2" />,
-      onClick: () => handleMenuClick(() => navigate('/write-post'))
     }
   ];
 

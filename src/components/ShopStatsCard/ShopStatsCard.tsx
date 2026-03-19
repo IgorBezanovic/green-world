@@ -1,11 +1,18 @@
 import { Box, Typography, LinearProgress } from '@mui/material';
-import { Package, Activity, FileText, Infinity } from 'lucide-react';
+import {
+  Package,
+  Activity,
+  FileText,
+  Infinity,
+  BriefcaseBusiness
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface ShopStatsCardProps {
   numberOfProducts: number;
   maxShopProducts: number;
   numberOfActions: number;
+  numberOfServices: number;
   numberOfBlogs: number;
 }
 
@@ -13,6 +20,7 @@ export const ShopStatsCard = ({
   numberOfProducts,
   maxShopProducts,
   numberOfActions,
+  numberOfServices,
   numberOfBlogs
 }: ShopStatsCardProps) => {
   const { t } = useTranslation();
@@ -49,7 +57,7 @@ export const ShopStatsCard = ({
                 bgcolor: 'success.light'
               }}
             >
-              <Package size={16} />
+              <Package />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
               {t('shopStatsCard.addedProducts')}
@@ -81,6 +89,45 @@ export const ShopStatsCard = ({
             }}
           />
         </Box>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+            <Box
+              sx={{
+                width: 32,
+                height: 32,
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'error.light'
+              }}
+            >
+              <BriefcaseBusiness />
+            </Box>
+            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+              {t('shopStatsCard.addedServices')}
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5, mb: 1 }}
+          >
+            <Typography sx={{ fontSize: 20, fontWeight: 600 }}>
+              {numberOfServices}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 14,
+                color: 'text.secondary',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5
+              }}
+            >
+              / <Infinity />
+            </Typography>
+          </Box>
+        </Box>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -95,7 +142,7 @@ export const ShopStatsCard = ({
                 bgcolor: 'info.light'
               }}
             >
-              <Activity size={16} />
+              <Activity />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
               {t('shopStatsCard.createdActivities')}
@@ -135,7 +182,7 @@ export const ShopStatsCard = ({
                 bgcolor: 'warning.light'
               }}
             >
-              <FileText size={16} />
+              <FileText />
             </Box>
             <Typography variant="h6" sx={{ color: 'text.secondary' }}>
               {t('shopStatsCard.publishedBlogs')}

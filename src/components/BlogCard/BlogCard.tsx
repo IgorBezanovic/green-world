@@ -12,11 +12,12 @@ import {
   Divider
 } from '@mui/material';
 import { Copy, EditIcon, Trash } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { PopDelete } from '../PopDelete';
+import { DeleteConfirmDialog } from '../DeleteConfirmDialog';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -25,7 +26,21 @@ interface BlogCardProps {
 export const BlogCard = ({ post }: BlogCardProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { mutate } = useDeletePost(post?._id);
+  const { mutate, isPending: isDeletingPost } = useDeletePost(post?._id);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleCloseDeleteDialog = () => {
+    if (isDeletingPost) return;
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        setIsDeleteDialogOpen(false);
+      }
+    });
+  };
 
   return (
     <Card
@@ -89,7 +104,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
               aria-label="Edit Product"
               onClick={() => navigate(`/write-post/${post._id}`)}
             >
-              <EditIcon />
+              <EditIcon style={{ strokeWidth: '2px' }} />
             </IconButton>
             <IconButton
               aria-label="Share Product"
@@ -104,25 +119,32 @@ export const BlogCard = ({ post }: BlogCardProps) => {
                   });
               }}
             >
-              <Copy />
+              <Copy style={{ strokeWidth: '2px' }} />
             </IconButton>
 
-            <PopDelete
-              key="delete"
-              title={t('blogCard.deleteTitle')}
-              description={t('blogCard.deleteDescription')}
-              okText={t('blogCard.yes')}
-              cancelText={t('blogCard.no')}
-              id={post._id}
-              mutate={mutate}
+            <IconButton
+              aria-label="Delete Blog"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDeleteDialogOpen(true);
+              }}
             >
-              <IconButton aria-label="Delete Product">
-                <Trash />
-              </IconButton>
-            </PopDelete>
+              <Trash style={{ strokeWidth: '2px' }} />
+            </IconButton>
           </CardActions>
         </>
       )}
+
+      <DeleteConfirmDialog
+        open={isDeleteDialogOpen}
+        title={t('blogCard.deleteTitle')}
+        description={t('blogCard.deleteDescription')}
+        cancelText={t('blogCard.no')}
+        confirmText={t('blogCard.yes')}
+        onCancel={handleCloseDeleteDialog}
+        onConfirm={handleConfirmDelete}
+        isLoading={isDeletingPost}
+      />
     </Card>
   );
 };
