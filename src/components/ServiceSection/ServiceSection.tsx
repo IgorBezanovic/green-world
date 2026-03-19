@@ -89,7 +89,10 @@ export const ServiceSection = ({
         >
           {Array.from({ length: 8 }).map((_, idx) => (
             <Box key={idx}>
-              <Skeleton variant="rectangular" sx={{ height: 200, mb: 1.5 }} />
+              <Skeleton
+                variant="rectangular"
+                sx={{ height: 200, mb: 1.5, borderRadius: 1 }}
+              />
               <Skeleton
                 variant="text"
                 sx={{ fontSize: '0.875rem', width: '40%' }}
@@ -160,24 +163,21 @@ export const ServiceSection = ({
                     overflow: 'hidden'
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    image={
-                      serviceImage
-                        ? formatImageUrl(String(serviceImage), 55)
-                        : 'https://via.placeholder.com/400x200?text=Usluga'
-                    }
-                    alt={service.title}
-                    onError={(e) => {
-                      e.currentTarget.src =
-                        'https://via.placeholder.com/400x200?text=Usluga';
-                    }}
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
+                  {serviceImage ? (
+                    <CardMedia
+                      component="img"
+                      image={formatImageUrl(String(serviceImage), 55)}
+                      alt={service.title}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  ) : null}
                   <Chip
                     label={
                       service.priceType === 'hourly'

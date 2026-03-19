@@ -508,24 +508,21 @@ const ServiceListingPage = () => {
                           overflow: 'hidden'
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          image={
-                            service.images?.[0]
-                              ? formatImageUrl(service.images[0], 55)
-                              : 'https://via.placeholder.com/400x200?text=Usluga'
-                          }
-                          alt={service.title}
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              'https://via.placeholder.com/400x200?text=Usluga';
-                          }}
-                          sx={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover'
-                          }}
-                        />
+                        {service.images?.[0] ? (
+                          <CardMedia
+                            component="img"
+                            image={formatImageUrl(service.images[0], 55)}
+                            alt={service.title}
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                            sx={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        ) : null}
                         <Chip
                           label={
                             service.priceType === 'hourly'
@@ -549,7 +546,11 @@ const ServiceListingPage = () => {
                         sx={{
                           flexGrow: 1,
                           display: 'flex',
-                          flexDirection: 'column'
+                          flexDirection: 'column',
+                          pb: 2,
+                          '&:last-child': {
+                            pb: 2
+                          }
                         }}
                       >
                         <Box
