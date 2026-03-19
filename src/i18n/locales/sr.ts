@@ -20,6 +20,9 @@ export const sr = {
     latestProductsTitle: 'Najnoviji Proizvodi',
     latestProductsSubtitle: 'Najnoviji proizvodi naših partnera',
     searchAllProducts: 'Pretraži sve proizvode',
+    latestServicesTitle: 'Najnovije Usluge',
+    latestServicesSubtitle: 'Najnovije usluge naših partnera',
+    searchAllServices: 'Pretraži sve usluge',
     categoriesTitle: 'Kategorije Proizvoda',
     categoriesSubtitle:
       'Pronađite sve što vam je potrebno za savršenu baštu i dom',
@@ -906,6 +909,7 @@ export const sr = {
   shopStatsCard: {
     addedProducts: 'Dodati proizvodi',
     createdActivities: 'Kreirane aktivnosti',
+    addedServices: 'Dodate usluge',
     publishedBlogs: 'Objavljeni blogovi'
   },
   userInfo: {
@@ -983,6 +987,12 @@ export const sr = {
       blogs: 'Još uvek niste dodali blog postove'
     },
     editService: 'Uredi uslugu',
+    deleteService: 'Obriši uslugu',
+    deleteServiceDialog: {
+      title: 'Brisanje usluge',
+      description: 'Da li ste sigurni da želite da obrišete ovu uslugu?',
+      confirm: 'Obriši'
+    },
     viewService: 'Pogledaj uslugu',
     servicePriceOnRequest: 'Na upit',
     serviceLocationNotSpecified: 'Lokacija nije navedena'
@@ -1359,7 +1369,9 @@ export const sr = {
       'Postavljanje dekorativnog kamenja': 'Postavljanje dekorativnog kamenja',
       'Postavljanje staza u dvorištu': 'Postavljanje staza u dvorištu',
       'Postavljanje travnog tepiha': 'Postavljanje travnog tepiha'
-    }
+    },
+    linkCopied: 'Kopiran link',
+    linkCopyFailed: 'Greška pri kopiranju linka'
   },
   blogPostPage: {
     minRead: 'min čitanja',

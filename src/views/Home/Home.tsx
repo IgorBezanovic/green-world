@@ -3,13 +3,13 @@ import {
   LazySection,
   ProductSection,
   GridProducts,
-  MetaTags
+  MetaTags,
+  ServiceSection
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
-import { Box, Button, Typography } from '@mui/material';
-import { Skeleton } from 'antd';
+import { Box, Button, Typography, Skeleton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -90,11 +90,43 @@ export const Home = () => {
             {t('home.latestProductsSubtitle')}
           </Typography>
         </div>
-        <Skeleton loading={isFetching} active paragraph={{ rows: 4 }}>
-          {data?.recentProducts.length && (
+        {isFetching ? (
+          <Box
+            sx={(theme) => ({
+              display: 'grid',
+              gap: 3,
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              [theme.breakpoints.up('xs')]: {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              },
+              [theme.breakpoints.up('md')]: {
+                gridTemplateColumns: 'repeat(3, 1fr)'
+              },
+              [theme.breakpoints.up('lg')]: {
+                gridTemplateColumns: 'repeat(4, 1fr)'
+              }
+            })}
+          >
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <Box key={idx}>
+                <Skeleton variant="rectangular" sx={{ height: 200, mb: 1.5 }} />
+                <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: '1rem', width: '80%' }}
+                />
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: '0.9rem', width: '60%' }}
+                />
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          data?.recentProducts.length && (
             <GridProducts products={data?.recentProducts} />
-          )}
-        </Skeleton>
+          )
+        )}
         <LazySection>
           <Button
             variant="contained"
@@ -109,6 +141,18 @@ export const Home = () => {
             {t('home.searchAllProducts')}
           </Button>
         </LazySection>
+
+        <ServiceSection
+          title={t('home.latestServicesTitle')}
+          subTitle={t('home.latestServicesSubtitle')}
+          services={data?.services}
+          isLoading={isFetching}
+          searchAllLabel={t('home.searchAllServices')}
+          onSearchAll={() => navigate('/services')}
+          onOpenService={(serviceId) => navigate(`/services/${serviceId}`)}
+          t={t}
+        />
+
         <div className="text-center my-6 md:my-8">
           <Typography
             variant="h2"

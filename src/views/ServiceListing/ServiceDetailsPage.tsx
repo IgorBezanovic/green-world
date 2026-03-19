@@ -441,11 +441,18 @@ const ServiceDetailsPage = () => {
                       <PencilRuler style={{ width: 24, height: 24 }} />
                       {t('service.equipment')}
                     </Typography>
-                    <Box component="ul" sx={{ m: 0, color: 'text.secondary' }}>
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}
+                    >
                       {service.equipment.map((eq: string, i: number) => (
-                        <li key={i} style={{ paddingBottom: 4 }}>
-                          {eq}
-                        </li>
+                        <Chip
+                          key={i}
+                          label={eq}
+                          sx={{
+                            bgcolor: 'primary.light',
+                            ...theme.typography.body1
+                          }}
+                        />
                       ))}
                     </Box>
                   </Card>
@@ -477,11 +484,18 @@ const ServiceDetailsPage = () => {
                       <Languages style={{ width: 24, height: 24 }} />
                       {t('service.languagesProvided')}
                     </Typography>
-                    <Box component="ul" sx={{ m: 0, color: 'text.secondary' }}>
+                    <Box
+                      sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 2 }}
+                    >
                       {service.languages.map((lang: string, i: number) => (
-                        <li key={i} style={{ paddingBottom: 4 }}>
-                          {lang}
-                        </li>
+                        <Chip
+                          key={i}
+                          label={lang}
+                          sx={{
+                            bgcolor: 'success.light',
+                            ...theme.typography.body1
+                          }}
+                        />
                       ))}
                     </Box>
                   </Card>

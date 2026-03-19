@@ -20,6 +20,9 @@ export const en = {
     latestProductsTitle: 'Latest Products',
     latestProductsSubtitle: 'Newest products from our partners',
     searchAllProducts: 'Search all products',
+    latestServicesTitle: 'Latest Services',
+    latestServicesSubtitle: 'Newest services from our partners',
+    searchAllServices: 'Search all services',
     categoriesTitle: 'Product Categories',
     categoriesSubtitle:
       'Find everything you need for a perfect garden and home',
@@ -902,6 +905,7 @@ export const en = {
   shopStatsCard: {
     addedProducts: 'Added products',
     createdActivities: 'Created activities',
+    addedServices: 'Added services',
     publishedBlogs: 'Published blogs'
   },
   userInfo: {
@@ -979,6 +983,12 @@ export const en = {
       blogs: 'You have not added blog posts yet'
     },
     editService: 'Edit service',
+    deleteService: 'Delete service',
+    deleteServiceDialog: {
+      title: 'Delete service',
+      description: 'Are you sure you want to delete this service?',
+      confirm: 'Delete'
+    },
     viewService: 'View service',
     servicePriceOnRequest: 'On request',
     serviceLocationNotSpecified: 'Location not specified'
@@ -1352,7 +1362,9 @@ export const en = {
       'Postavljanje dekorativnog kamenja': 'Decorative stone placement',
       'Postavljanje staza u dvorištu': 'Yard path installation',
       'Postavljanje travnog tepiha': 'Lawn turf installation'
-    }
+    },
+    linkCopied: 'Link copied',
+    linkCopyFailed: 'Failed to copy link'
   },
   blogPostPage: {
     minRead: 'min read',

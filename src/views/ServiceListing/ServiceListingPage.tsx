@@ -1,3 +1,4 @@
+import { ZSLogoLogoMark } from '@green-world/components/AppLogos';
 import { useGetServices } from '@green-world/hooks/useServices';
 import {
   formatImageUrl,
@@ -18,7 +19,6 @@ import {
   TextField,
   InputAdornment,
   InputLabel,
-  Slider,
   CircularProgress,
   Autocomplete,
   useTheme,
@@ -53,11 +53,6 @@ const ServiceListingPage = () => {
 
   const [filters, setFilters] = useState<ServiceListingFiltersParams>(urlState);
 
-  const [priceRange, setPriceRange] = useState<number[]>([
-    urlState.priceFrom ?? 0,
-    urlState.priceTo ?? 1000
-  ]);
-
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -84,16 +79,6 @@ const ServiceListingPage = () => {
       }
 
       return urlState;
-    });
-
-    setPriceRange((prev) => {
-      const nextRange = [urlState.priceFrom ?? 0, urlState.priceTo ?? 1000];
-
-      if (prev[0] === nextRange[0] && prev[1] === nextRange[1]) {
-        return prev;
-      }
-
-      return nextRange;
     });
   }, [urlState]);
 
@@ -123,18 +108,6 @@ const ServiceListingPage = () => {
     setFilters((prev) => ({ ...prev, location: e.target.value }));
   };
 
-  const handlePriceChange = (_event: Event, newValue: number | number[]) => {
-    setPriceRange(newValue as number[]);
-  };
-
-  const handlePriceChangeCommitted = (
-    _event: React.SyntheticEvent | Event,
-    newValue: number | number[]
-  ) => {
-    const [min, max] = newValue as number[];
-    setFilters((prev) => ({ ...prev, priceFrom: min, priceTo: max }));
-  };
-
   const resetFilters = () => {
     setFilters({
       location: '',
@@ -143,7 +116,6 @@ const ServiceListingPage = () => {
       priceTo: undefined,
       search: ''
     });
-    setPriceRange([0, 1000]);
   };
 
   return (
@@ -155,15 +127,39 @@ const ServiceListingPage = () => {
           color: 'white',
           py: 8,
           mb: 6,
+          position: 'relative',
+          overflow: 'hidden',
           backgroundImage:
             'linear-gradient(to right, rgba(22, 163, 74, 0.9), rgba(21, 128, 61, 0.9))'
         }}
       >
         <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(125px, 1fr))',
+            gridAutoRows: '125px',
+            placeItems: 'center',
+            opacity: 0.14,
+            pointerEvents: 'none'
+          }}
+        >
+          {Array.from({ length: 160 }).map((_, index) => (
+            <Box key={index} sx={{ width: 64, height: 80 }}>
+              <ZSLogoLogoMark color="rgba(255,255,255,0.75)" />
+            </Box>
+          ))}
+        </Box>
+
+        <Box
           sx={(theme) => ({
             maxWidth: '1400px',
             mx: 'auto',
             px: 2,
+            position: 'relative',
+            zIndex: 1,
             [theme.breakpoints.up('sm')]: { px: 3 },
             [theme.breakpoints.up('xl')]: { px: 0 }
           })}
@@ -353,28 +349,51 @@ const ServiceListingPage = () => {
                     <Typography gutterBottom>
                       {t('service.priceRange')}
                     </Typography>
-                    <Slider
-                      value={priceRange}
-                      onChange={handlePriceChange}
-                      onChangeCommitted={handlePriceChangeCommitted}
-                      valueLabelDisplay="auto"
-                      min={0}
-                      max={10000}
-                      step={100}
-                    />
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        mt: 1
-                      }}
-                    >
-                      <Typography variant="body2">
-                        {priceRange[0]} {t('service.currency')}
-                      </Typography>
-                      <Typography variant="body2">
-                        {priceRange[1]} {t('service.currency')}
-                      </Typography>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <TextField
+                        type="number"
+                        placeholder={t('productsView.from')}
+                        value={filters.priceFrom ?? ''}
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          const value = raw === '' ? undefined : Number(raw);
+
+                          setFilters((prev) => ({
+                            ...prev,
+                            priceFrom: Number.isFinite(value)
+                              ? value
+                              : undefined
+                          }));
+                        }}
+                        fullWidth
+                        slotProps={{ htmlInput: { min: 0 } }}
+                        sx={{
+                          '& .MuiInputBase-input': {
+                            padding: '8px'
+                          }
+                        }}
+                      />
+                      <TextField
+                        type="number"
+                        placeholder={t('productsView.to')}
+                        value={filters.priceTo ?? ''}
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          const value = raw === '' ? undefined : Number(raw);
+
+                          setFilters((prev) => ({
+                            ...prev,
+                            priceTo: Number.isFinite(value) ? value : undefined
+                          }));
+                        }}
+                        fullWidth
+                        slotProps={{ htmlInput: { min: 0 } }}
+                        sx={{
+                          '& .MuiInputBase-input': {
+                            padding: '8px'
+                          }
+                        }}
+                      />
                     </Box>
                   </Box>
 

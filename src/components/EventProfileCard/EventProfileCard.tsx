@@ -19,18 +19,35 @@ import {
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import { Copy, EditIcon, Trash } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
-import { PopDelete } from '../PopDelete';
+import { DeleteConfirmDialog } from '../DeleteConfirmDialog';
 
 export const EventProfileCard = ({ ...props }) => {
   const { t } = useTranslation();
-  const { mutate } = useDeleteEvent(props.event?._id);
+  const { mutate, isPending: isDeletingEvent } = useDeleteEvent(
+    props.event?._id
+  );
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const plainText = getPlainTextFromHtml(props.event?.description);
+
+  const handleCloseDeleteDialog = () => {
+    if (isDeletingEvent) return;
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        setIsDeleteDialogOpen(false);
+      }
+    });
+  };
 
   return (
     <Card
@@ -157,7 +174,7 @@ export const EventProfileCard = ({ ...props }) => {
               aria-label="add to favorites"
               onClick={() => navigate(`/edit-event/${props.event?._id}`)}
             >
-              <EditIcon />
+              <EditIcon style={{ strokeWidth: '2px' }} />
             </IconButton>
             <IconButton
               aria-label="share"
@@ -174,25 +191,32 @@ export const EventProfileCard = ({ ...props }) => {
                   });
               }}
             >
-              <Copy />
+              <Copy style={{ strokeWidth: '2px' }} />
             </IconButton>
 
-            <PopDelete
-              key="delete"
-              title={t('eventProfileCard.deleteTitle')}
-              description={t('eventProfileCard.deleteDescription')}
-              okText={t('eventProfileCard.yes')}
-              cancelText={t('eventProfileCard.no')}
-              id={props.event?._id}
-              mutate={mutate}
+            <IconButton
+              aria-label="Delete Event"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDeleteDialogOpen(true);
+              }}
             >
-              <IconButton aria-label="share">
-                <Trash />
-              </IconButton>
-            </PopDelete>
+              <Trash style={{ strokeWidth: '2px' }} />
+            </IconButton>
           </CardActions>
         )}
       </Box>
+
+      <DeleteConfirmDialog
+        open={isDeleteDialogOpen}
+        title={t('eventProfileCard.deleteTitle')}
+        description={t('eventProfileCard.deleteDescription')}
+        cancelText={t('eventProfileCard.no')}
+        confirmText={t('eventProfileCard.yes')}
+        onCancel={handleCloseDeleteDialog}
+        onConfirm={handleConfirmDelete}
+        isLoading={isDeletingEvent}
+      />
     </Card>
   );
 };

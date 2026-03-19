@@ -3,14 +3,18 @@ import {
   UserInfo,
   EventProfileCard,
   MetaTags,
-  PromotionSection
+  PromotionSection,
+  DeleteConfirmDialog
 } from '@green-world/components';
 import { ShopStatsCard, BlogCard } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
-import { useGetServices } from '@green-world/hooks/useServices';
+import {
+  useDeleteServiceListing,
+  useGetServices
+} from '@green-world/hooks/useServices';
 import {
   formatImageUrl,
   getPlainTextFromHtml
@@ -26,12 +30,16 @@ import {
   Alert,
   Typography,
   Card,
-  IconButton
+  IconButton,
+  CardActions,
+  Divider,
+  Chip
 } from '@mui/material';
-import { Edit2Icon, Search } from 'lucide-react';
+import { Edit2Icon, Search, EditIcon, Copy, Trash, MapPin } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 export const UserProfile = () => {
   const { t } = useTranslation();
@@ -46,6 +54,8 @@ export const UserProfile = () => {
     isLoading: servicesLoading,
     isError: servicesError
   } = useGetServices();
+  const { mutate: deleteService, isPending: isDeletingService } =
+    useDeleteServiceListing();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>([]);
   const [eventsToDisplay, setEventsToDisplay] = useState([]);
@@ -53,6 +63,7 @@ export const UserProfile = () => {
     []
   );
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
+  const [serviceToDelete, setServiceToDelete] = useState<string | null>(null);
   // const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
   //   Product[]
   // >([]);
@@ -165,6 +176,24 @@ export const UserProfile = () => {
     [user, t]
   );
 
+  const handleCloseDeleteServiceDialog = () => {
+    if (isDeletingService) return;
+    setServiceToDelete(null);
+  };
+
+  const handleConfirmDeleteService = () => {
+    if (!serviceToDelete) return;
+
+    deleteService(serviceToDelete, {
+      onSuccess: () => {
+        setServicesToDisplay((prev) =>
+          prev.filter((service) => service._id !== serviceToDelete)
+        );
+        setServiceToDelete(null);
+      }
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -226,6 +255,7 @@ export const UserProfile = () => {
             numberOfProducts={user.numberOfProducts}
             maxShopProducts={user.maxShopProducts}
             numberOfActions={user.numberOfActions}
+            numberOfServices={userServices.length}
             numberOfBlogs={user.numberOfBlogs}
           />
           <Button
@@ -449,84 +479,149 @@ export const UserProfile = () => {
                   <Card
                     key={service._id}
                     sx={{
-                      p: 2,
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between'
                     }}
                   >
-                    <Box>
-                      <Box
+                    <Box
+                      sx={{
+                        width: '100%',
+                        aspectRatio: '1 / 1',
+                        overflow: 'hidden',
+                        bgcolor: 'grey.100',
+                        position: 'relative'
+                      }}
+                    >
+                      {service.images?.[0] ? (
+                        <Box
+                          component="img"
+                          src={formatImageUrl(service.images[0], 55)}
+                          alt={service.title}
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block'
+                          }}
+                        />
+                      ) : null}
+                      <Chip
+                        label={
+                          service.priceType === 'hourly'
+                            ? t('service.hourly')
+                            : service.priceType === 'fixed'
+                              ? t('service.fixed')
+                              : t('service.negotiable')
+                        }
+                        size="small"
                         sx={{
-                          width: '100%',
-                          aspectRatio: '1 / 1',
-                          borderRadius: 1,
-                          overflow: 'hidden',
-                          mb: 1.5,
-                          bgcolor: 'grey.100'
+                          position: 'absolute',
+                          top: 12,
+                          right: 12,
+                          bgcolor: 'rgba(255,255,255,0.9)',
+                          fontWeight: 'bold'
                         }}
-                      >
-                        {service.images?.[0] ? (
-                          <Box
-                            component="img"
-                            src={formatImageUrl(service.images[0], 55)}
-                            alt={service.title}
-                            sx={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
-                        ) : null}
-                      </Box>
+                      />
+                    </Box>
+
+                    <Box sx={{ p: 2, flexGrow: 1 }}>
                       <Typography variant="h6" gutterBottom>
                         {service.title}
                       </Typography>
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        sx={{ mb: 1.5 }}
+                        sx={{
+                          lineHeight: 1.5,
+                          minHeight: '4.5em',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}
                       >
                         {getPlainTextFromHtml(service.description || '')}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 0.5,
+                          mt: 'auto',
+                          pt: 1
+                        }}
+                      >
+                        <MapPin size={16} />
                         {service.location ||
                           t('userProfileView.serviceLocationNotSpecified')}
                       </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 2,
+                        py: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderTop: (theme) =>
+                          `1px solid ${theme.palette.divider}`
+                      }}
+                    >
+                      <Typography variant="body2" fontWeight={600}>
+                        {service.providerId?.name ||
+                          t('service.unknownProvider')}
+                      </Typography>
                       <Typography
-                        variant="subtitle2"
+                        variant="body2"
                         color="primary.main"
-                        sx={{ mt: 1 }}
+                        fontWeight={600}
                       >
                         {service.priceFrom
                           ? `${service.priceFrom} RSD`
                           : t('userProfileView.servicePriceOnRequest')}
                       </Typography>
                     </Box>
-                    <Box
-                      sx={{
-                        mt: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1
-                      }}
+                    <Divider />
+                    <CardActions
+                      disableSpacing
+                      sx={{ justifyContent: 'space-around' }}
                     >
-                      <Button
-                        variant="contained"
+                      <IconButton
+                        aria-label="Edit Service"
+                        title={t('userProfileView.editService')}
                         onClick={() =>
                           navigate(`/services/${service._id}/edit`)
                         }
                       >
-                        {t('userProfileView.editService')}
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        onClick={() => navigate(`/services/${service._id}`)}
+                        <EditIcon style={{ strokeWidth: '2px' }} />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Share Service"
+                        title={t('userProfileView.viewService')}
+                        onClick={() => {
+                          navigator.clipboard
+                            .writeText(
+                              `https://www.zelenisvet.rs/services/${service._id}`
+                            )
+                            .then(() => toast.success(t('service.linkCopied')))
+                            .catch(() =>
+                              toast.error(t('service.linkCopyFailed'))
+                            );
+                        }}
                       >
-                        {t('userProfileView.viewService')}
-                      </Button>
-                    </Box>
+                        <Copy style={{ strokeWidth: '2px' }} />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Delete Service"
+                        title={t('userProfileView.deleteService')}
+                        onClick={() => setServiceToDelete(service._id)}
+                      >
+                        <Trash style={{ strokeWidth: '2px' }} />
+                      </IconButton>
+                    </CardActions>
                   </Card>
                 ))
               ) : (
@@ -622,6 +717,17 @@ export const UserProfile = () => {
           )}
         </Box>
       </Box>
+
+      <DeleteConfirmDialog
+        open={Boolean(serviceToDelete)}
+        title={t('userProfileView.deleteServiceDialog.title')}
+        description={t('userProfileView.deleteServiceDialog.description')}
+        cancelText={t('service.cancel')}
+        confirmText={t('userProfileView.deleteServiceDialog.confirm')}
+        onCancel={handleCloseDeleteServiceDialog}
+        onConfirm={handleConfirmDeleteService}
+        isLoading={isDeletingService}
+      />
     </Box>
   );
 };
