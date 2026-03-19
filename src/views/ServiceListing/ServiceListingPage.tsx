@@ -549,7 +549,11 @@ const ServiceListingPage = () => {
                         sx={{
                           flexGrow: 1,
                           display: 'flex',
-                          flexDirection: 'column'
+                          flexDirection: 'column',
+                          pb: 2,
+                          '&:last-child': {
+                            pb: 2
+                          }
                         }}
                       >
                         <Box
