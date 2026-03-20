@@ -49,14 +49,6 @@ export default defineConfig({
             return 'vendor-payments';
           }
 
-          if (id.includes('@mui/x-charts')) {
-            return 'vendor-charts';
-          }
-
-          if (id.includes('@mui/x-date-pickers')) {
-            return 'vendor-mui-x';
-          }
-
           if (id.includes('lucide-react')) {
             return 'vendor-lucide';
           }
