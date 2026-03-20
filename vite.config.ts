@@ -53,10 +53,6 @@ export default defineConfig({
             return 'vendor-lucide';
           }
 
-          if (id.includes('i18next') || id.includes('react-i18next')) {
-            return 'vendor-i18n';
-          }
-
           if (id.includes('socket.io-client')) {
             return 'vendor-socket';
           }
@@ -64,7 +60,9 @@ export default defineConfig({
           if (
             id.includes('/react/') ||
             id.includes('/react-dom/') ||
-            id.includes('react-router')
+            id.includes('react-router') ||
+            id.includes('i18next') ||
+            id.includes('react-i18next')
           ) {
             return 'vendor-react';
           }
