@@ -57,16 +57,11 @@ export default defineConfig({
             return 'vendor-mui-x';
           }
 
-          if (id.includes('@emotion/') || id.includes('@mui/')) {
-            // Keep MUI and Emotion together to avoid cross-chunk init-order issues.
-            return 'vendor-mui-core';
-          }
-
           if (id.includes('lucide-react')) {
             return 'vendor-lucide';
           }
 
-          if (id.includes('i18next') || id.includes('react-i18n')) {
+          if (id.includes('i18next') || id.includes('react-i18next')) {
             return 'vendor-i18n';
           }
 
