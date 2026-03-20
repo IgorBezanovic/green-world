@@ -1,12 +1,10 @@
 import { SocialMedia } from '@green-world/components';
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
+import UserContext from '@green-world/context/UserContext';
 import { useNewsletterSubscribe } from '@green-world/hooks/useNewsletterSubscribe';
-import { getItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { useState, type FormEvent } from 'react';
+import { useContext, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -15,8 +13,7 @@ export const Footer = () => {
   const [userEmail, setUserEmail] = useState<string>('');
   const [isEmailInvalid, setIsEmailInvalid] = useState<boolean>(false);
   const navigate = useNavigate();
-  const token = getItem('token');
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const { isUserLoggedIn } = useContext(UserContext);
   const { t } = useTranslation();
   const { mutateAsync: subscribeToNewsletter, isPending: isNewsletterLoading } =
     useNewsletterSubscribe();
@@ -226,11 +223,9 @@ export const Footer = () => {
                   textDecoration: 'underline',
                   cursor: 'pointer'
                 }}
-                onClick={() =>
-                  navigate(decodedToken?._id ? '/profile' : '/login')
-                }
+                onClick={() => navigate(isUserLoggedIn ? '/profile' : '/login')}
               >
-                {decodedToken?._id ? t('footer.profile') : t('footer.login')}
+                {isUserLoggedIn ? t('footer.profile') : t('footer.login')}
               </Typography>
             </Box>
           </Box>
@@ -239,14 +234,13 @@ export const Footer = () => {
         {/* Korisnička podrška */}
         <Box sx={{ color: 'white' }}>
           <Typography variant="body1">{t('footer.supportTitle')}</Typography>
-          <Box component="ul" sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1 }}>
             {[
               t('footer.supportCreateShop'),
               t('footer.supportCreateAd'),
               t('footer.supportCreateActivity')
             ].map((text) => (
               <Box
-                component="li"
                 key={text}
                 sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
               >

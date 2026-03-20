@@ -14,6 +14,7 @@ import {
 } from '@green-world/utils/helpers';
 import {
   Box,
+  Card,
   Typography,
   Avatar,
   CircularProgress,
@@ -24,7 +25,6 @@ import {
   Chip,
   alpha
 } from '@mui/material';
-import { Card } from 'antd';
 import {
   Phone,
   Mail,
@@ -90,7 +90,14 @@ export const ShopPage = () => {
   if (!userId) return <></>;
   if (isLoading) {
     return (
-      <Box className="flex items-center justify-center min-h-screen">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh'
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -98,7 +105,14 @@ export const ShopPage = () => {
 
   if (!data) {
     return (
-      <Box className="flex items-center justify-center min-h-screen">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh'
+        }}
+      >
         <Typography variant="h6">{t('shopPage.userNotFound')}</Typography>
       </Box>
     );

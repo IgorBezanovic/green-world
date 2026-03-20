@@ -430,7 +430,7 @@ export const PromoBundle = () => {
                                   variant="caption"
                                   sx={{ display: 'flex', alignItems: 'center' }}
                                 >
-                                  <HandCoins className="mr-1" />{' '}
+                                  <HandCoins style={{ marginRight: 4 }} />{' '}
                                   {p.price
                                     ?.toString()
                                     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}

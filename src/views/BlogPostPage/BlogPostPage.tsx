@@ -16,7 +16,7 @@ import { useCreateComment } from '@green-world/hooks/useCreateComment';
 import { useUser } from '@green-world/hooks/useUser';
 import { useVotePost } from '@green-world/hooks/useVotePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
-import { Box, Card, Chip, useTheme } from '@mui/material';
+import { Box, Card, Chip, Typography, useTheme } from '@mui/material';
 import { Calendar, Clock, Copy, User } from 'lucide-react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +70,7 @@ export const BlogPostPage = () => {
   if (loading || userLoading) return <Loader />;
   if (error)
     return (
-      <div className="p-8 text-red-600">
+      <div style={{ padding: 32, color: '#dc2626' }}>
         Error: {(error as any)?.message || String(error)}
       </div>
     );
@@ -95,9 +95,23 @@ export const BlogPostPage = () => {
         keywords={t('seo.blog.keywords')}
       />
 
-      <div className="xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 py-7">
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          mx: 'auto',
+          px: '16px',
+          py: '1.75rem',
+          [theme.breakpoints.up('sm')]: {
+            px: '24px'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          }
+        })}
+      >
         <AppBreadcrumbs pages={pages} />
-      </div>
+      </Box>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -119,9 +133,28 @@ export const BlogPostPage = () => {
           }
         })}
       >
-        <section className="w-full md:w-3/4 flex flex-col gap-5">
+        <Box
+          component="section"
+          sx={(theme) => ({
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            [theme.breakpoints.up('md')]: {
+              width: '75%'
+            }
+          })}
+        >
           {post?.keywords && post.keywords.length > 0 && (
-            <div className="flex flex-wrap gap-3 mb-3 mt-4">
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 3,
+                mb: 0.75,
+                mt: 1
+              }}
+            >
               <ZSLogoLogoMark
                 color={theme.palette.secondary.main}
                 width="24px"
@@ -135,9 +168,14 @@ export const BlogPostPage = () => {
                   color="secondary"
                 />
               ))}
-            </div>
+            </Box>
           )}
-          <h1 className="text-4xl font-bold mb-4">{post?.title}</h1>
+          <Typography
+            variant="h1"
+            sx={{ fontSize: '2.25rem !important', fontWeight: 700 }}
+          >
+            {post?.title}
+          </Typography>
 
           <Box
             sx={(theme) => ({
@@ -145,7 +183,6 @@ export const BlogPostPage = () => {
               display: 'flex',
               alignItems: 'flex-start',
               flexDirection: 'column',
-              marginBottom: '16px',
               gap: '12px',
               [theme.breakpoints.up('md')]: {
                 alignItems: 'center',
@@ -153,19 +190,41 @@ export const BlogPostPage = () => {
               }
             })}
           >
-            <div className="flex items-center gap-1 text-sm text-gray-500">
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                color: 'grey.600'
+              }}
+            >
               <User />
               {post?.author}
-            </div>
-            <div className="flex items-center gap-1 text-sm text-gray-500">
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                color: 'grey.600'
+              }}
+            >
               <Calendar />
               {new Date(post?.createdAt || '').toLocaleDateString()}
-            </div>
+            </Box>
             {post?.timeOfReading && (
-              <div className="flex items-center gap-1 flex flex-wrap gap-2 text-sm text-gray-500">
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                  color: 'grey.600'
+                }}
+              >
                 <Clock />
                 {post.timeOfReading} {t('blogPostPage.minRead')}
-              </div>
+              </Box>
             )}
           </Box>
 
@@ -173,7 +232,13 @@ export const BlogPostPage = () => {
             <img
               src={formatImageUrl(post?.coverImage || '')}
               alt={post?.title}
-              className="w-full rounded mb-4 max-h-[500px] object-cover"
+              style={{
+                width: '100%',
+                borderRadius: 4,
+                marginBottom: 16,
+                maxHeight: 500,
+                objectFit: 'cover'
+              }}
             />
           )}
 
@@ -193,19 +258,28 @@ export const BlogPostPage = () => {
                   i--; // adjust for outer for-loop increment
 
                   elements.push(
-                    <div
+                    <Box
+                      component="div"
                       key={`img-group-${imgs[0]?._id || i}`}
-                      className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
+                      sx={(theme) => ({
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(1, 1fr)',
+                        gap: 2,
+                        mb: 1.5,
+                        [theme.breakpoints.up('md')]: {
+                          gridTemplateColumns: 'repeat(2, 1fr)'
+                        }
+                      })}
                     >
                       {imgs?.map((imgBlock) => (
                         <img
                           key={imgBlock._id}
                           src={formatImageUrl(imgBlock.image || '')}
                           alt={imgBlock.text || ''}
-                          className="w-full rounded"
+                          style={{ width: '100%', borderRadius: 4 }}
                         />
                       ))}
-                    </div>
+                    </Box>
                   );
                 } else {
                   elements.push(<BlogBlock key={b._id} block={b} />);
@@ -259,26 +333,41 @@ export const BlogPostPage = () => {
           </Box>
 
           <Card sx={{ mt: 4, p: 2 }}>
-            <h2 className="text-xl font-semibold mb-3">
+            <Typography
+              variant="h4"
+              sx={{ fontSize: '1.25rem', fontWeight: 600, mb: 0.75 }}
+            >
               {t('blogPostPage.leaveComment')}
-            </h2>
+            </Typography>
             <CommentForm onSubmit={handleAddComment} />
             <CommentList
               comments={post?.comments || []}
               onReply={handleAddComment}
             />
           </Card>
-        </section>
-        <section className="w-full md:w-1/4 flex flex-col gap-2 sticky">
-          <h2 className="text-2xl font-bold mb-4">
+        </Box>
+        <Box
+          component="section"
+          sx={(theme) => ({
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            [theme.breakpoints.up('md')]: {
+              width: '25%'
+            },
+            position: 'sticky'
+          })}
+        >
+          <Typography variant="h2" sx={{ mb: 1 }}>
             {t('blogPostPage.aboutAuthor')}
-          </h2>
+          </Typography>
           <UserInfo
             user={sellerData}
             isUserProfile={false}
             userLoading={userLoading}
           />
-        </section>
+        </Box>
       </Box>
     </Box>
   );

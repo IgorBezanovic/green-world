@@ -1,46 +1,147 @@
-import {
-  Layout,
-  EditUserChangePassword,
-  EditUserData,
-  EditUserImageSection,
-  ProtectedRoute,
-  GoogleAnalytics,
-  UserStatistics
-} from '@green-world/components';
-import {
-  BlogPost,
-  BlogPostPage,
-  ContactUs,
-  Event,
-  Home,
-  IncreaseCapacity,
-  Products,
-  CreateEditProduct,
-  Documents,
-  ForgotPassword,
-  Login,
-  NotFound,
-  ProductPage,
-  PromoteProduct,
-  PromoteShop,
-  PromoBundle,
-  ProfileSettings,
-  PrivacyPolicy,
-  Registration,
-  UserProfile,
-  CreateEditEvent,
-  AdminPanel,
-  ShopPage,
-  Events,
-  Shops,
-  OrderProduct,
-  WritePost,
-  ServiceListingPage,
-  ServiceDetailsPage,
-  CreateEditService
-} from '@green-world/views';
-import { Message } from '@green-world/views/Message';
+import { ProtectedRoute } from '@green-world/components';
+import { lazy } from 'react';
 import { Navigate } from 'react-router';
+
+const lazyRoute = (importer: () => Promise<any>, exportName: string) =>
+  lazy(async () => {
+    const module = await importer();
+    return { default: module[exportName] };
+  });
+
+const Layout = lazyRoute(
+  () => import('@green-world/components/Layout'),
+  'Layout'
+);
+const EditUserChangePassword = lazyRoute(
+  () => import('@green-world/components/EditUser'),
+  'EditUserChangePassword'
+);
+const EditUserData = lazyRoute(
+  () => import('@green-world/components/EditUser'),
+  'EditUserData'
+);
+const EditUserImageSection = lazyRoute(
+  () => import('@green-world/components/EditUser'),
+  'EditUserImageSection'
+);
+const GoogleAnalytics = lazyRoute(
+  () => import('@green-world/components/GoogleAnalytics'),
+  'GoogleAnalytics'
+);
+const UserStatistics = lazyRoute(
+  () => import('@green-world/components/UserStatistics'),
+  'UserStatistics'
+);
+
+const AdminPanel = lazyRoute(
+  () => import('@green-world/views/AdminPanel'),
+  'AdminPanel'
+);
+const BlogPost = lazyRoute(
+  () => import('@green-world/views/BlogPost'),
+  'BlogPost'
+);
+const BlogPostPage = lazyRoute(
+  () => import('@green-world/views/BlogPostPage'),
+  'BlogPostPage'
+);
+const ContactUs = lazyRoute(
+  () => import('@green-world/views/ContactUs'),
+  'ContactUs'
+);
+const CreateEditEvent = lazyRoute(
+  () => import('@green-world/views/CreateEditEvent'),
+  'CreateEditEvent'
+);
+const CreateEditProduct = lazyRoute(
+  () => import('@green-world/views/CreateEditProduct'),
+  'CreateEditProduct'
+);
+const CreateEditService = lazyRoute(
+  () => import('@green-world/views/CreateEditService'),
+  'CreateEditService'
+);
+const Documents = lazyRoute(
+  () => import('@green-world/views/Documents'),
+  'Documents'
+);
+const Event = lazyRoute(() => import('@green-world/views/Event'), 'Event');
+const Events = lazyRoute(() => import('@green-world/views/Events'), 'Events');
+const ForgotPassword = lazyRoute(
+  () => import('@green-world/views/ForgotPassword'),
+  'ForgotPassword'
+);
+const Home = lazyRoute(() => import('@green-world/views/Home'), 'Home');
+const IncreaseCapacity = lazyRoute(
+  () => import('@green-world/views/IncreaseCapacity'),
+  'IncreaseCapacity'
+);
+const Login = lazyRoute(() => import('@green-world/views/Login'), 'Login');
+const Message = lazyRoute(
+  () => import('@green-world/views/Message'),
+  'Message'
+);
+const NotFound = lazyRoute(
+  () => import('@green-world/views/NotFound'),
+  'NotFound'
+);
+const OrderProduct = lazyRoute(
+  () => import('@green-world/views/OrderProduct'),
+  'OrderProduct'
+);
+const PrivacyPolicy = lazyRoute(
+  () => import('@green-world/views/PrivacyPolicy'),
+  'PrivacyPolicy'
+);
+const ProductPage = lazyRoute(
+  () => import('@green-world/views/ProductPage'),
+  'ProductPage'
+);
+const Products = lazyRoute(
+  () => import('@green-world/views/Products'),
+  'Products'
+);
+const ProfileSettings = lazyRoute(
+  () => import('@green-world/views/ProfileSettings'),
+  'ProfileSettings'
+);
+const PromoBundle = lazyRoute(
+  () => import('@green-world/views/PromoBundle'),
+  'PromoBundle'
+);
+const PromoteProduct = lazyRoute(
+  () => import('@green-world/views/PromoteProduct'),
+  'PromoteProduct'
+);
+const PromoteShop = lazyRoute(
+  () => import('@green-world/views/PromoteShop'),
+  'PromoteShop'
+);
+const Registration = lazyRoute(
+  () => import('@green-world/views/Registration'),
+  'Registration'
+);
+const ServiceDetailsPage = lazyRoute(
+  () => import('@green-world/views/ServiceDetails'),
+  'ServiceDetailsPage'
+);
+const ServiceListingPage = lazyRoute(
+  () => import('@green-world/views/ServiceListing'),
+  'ServiceListingPage'
+);
+const ShopPage = lazyRoute(
+  () => import('@green-world/views/ShopPage'),
+  'ShopPage'
+);
+const Shops = lazyRoute(() => import('@green-world/views/Shops'), 'Shops');
+const UserProfile = lazyRoute(
+  () => import('@green-world/views/UserProfile'),
+  'UserProfile'
+);
+const WritePost = lazyRoute(
+  () => import('@green-world/views/WritePost'),
+  'WritePost'
+);
 
 export const routes = [
   {

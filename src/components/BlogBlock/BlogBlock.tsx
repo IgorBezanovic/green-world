@@ -9,7 +9,7 @@ interface BlogBlockProps {
 
 export const BlogBlock = ({ block }: BlogBlockProps) => {
   return (
-    <div className="mb-6">
+    <Box sx={{ mb: 1.5 }}>
       {block.type === 'text' && block.text && (
         <Box {...getHtmlDescriptionProps(block.text)} />
       )}
@@ -18,7 +18,7 @@ export const BlogBlock = ({ block }: BlogBlockProps) => {
         <img
           src={formatImageUrl(block.image)}
           alt=""
-          className="w-full rounded mb-2"
+          style={{ width: '100%', borderRadius: 4, marginBottom: 8 }}
         />
       )}
 
@@ -28,12 +28,12 @@ export const BlogBlock = ({ block }: BlogBlockProps) => {
             <img
               src={formatImageUrl(block.image)}
               alt=""
-              className="w-full rounded mb-2"
+              style={{ width: '100%', borderRadius: 4, marginBottom: 8 }}
             />
           )}
           {block.text && <Box {...getHtmlDescriptionProps(block.text)} />}
         </>
       )}
-    </div>
+    </Box>
   );
 };

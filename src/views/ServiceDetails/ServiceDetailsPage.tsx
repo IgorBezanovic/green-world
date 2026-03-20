@@ -1,15 +1,13 @@
 import { AppBreadcrumbs, SendMessageDialog } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
 import {
   useGetServiceById,
   useSendDirectEmailToServiceProvider
 } from '@green-world/hooks/useServices';
-import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
-  getHtmlDescriptionProps,
-  safeDecodeToken
+  getHtmlDescriptionProps
 } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
 import {
   Box,
   Grid,
@@ -45,16 +43,17 @@ import {
   PencilRuler,
   MessageCircleMore
 } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
 
 import { FullImageDialog } from '../ProductPage/components';
 
-const ServiceDetailsPage = () => {
+export const ServiceDetailsPage = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
   const { t } = useTranslation();
   const theme = useTheme();
+  const { isUserLoggedIn, userId } = useContext(UserContext);
 
   const {
     data: serviceResponse,
@@ -65,8 +64,6 @@ const ServiceDetailsPage = () => {
 
   const { mutate: sendDirectEmail, isPending: isSendingDirectEmail } =
     useSendDirectEmailToServiceProvider();
-
-  const decodedToken = safeDecodeToken<DecodedToken>(getItem('token'));
 
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
   const [directEmailDialogOpen, setDirectEmailDialogOpen] = useState(false);
@@ -150,10 +147,9 @@ const ServiceDetailsPage = () => {
   };
 
   const provider = service.providerId as any;
-  const sendMessageDisabled =
-    !decodedToken?._id || decodedToken?._id === provider?._id;
-  const sendDirectEmailDisabled =
-    !decodedToken?._id || decodedToken?._id === provider?._id;
+  const isProviderSelf = userId === provider?._id;
+  const sendMessageDisabled = !isUserLoggedIn || isProviderSelf;
+  const sendDirectEmailDisabled = !isUserLoggedIn || isProviderSelf;
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.services', 'Usluge'), route: '/services' },
@@ -699,16 +695,13 @@ const ServiceDetailsPage = () => {
 
                 <Tooltip
                   title={
-                    !decodedToken?._id
+                    !isUserLoggedIn
                       ? t('productPage.mustLoginToMessage')
-                      : decodedToken?._id === provider?._id
+                      : isProviderSelf
                         ? t('productPage.cannotMessageSelf')
                         : ''
                   }
-                  disableHoverListener={
-                    Boolean(decodedToken?._id) &&
-                    decodedToken?._id !== provider?._id
-                  }
+                  disableHoverListener={isUserLoggedIn && !isProviderSelf}
                   arrow
                 >
                   <span style={{ display: 'block' }}>
@@ -744,16 +737,13 @@ const ServiceDetailsPage = () => {
 
                 <Tooltip
                   title={
-                    !decodedToken?._id
+                    !isUserLoggedIn
                       ? t('service.mustLoginToSendDirectEmail')
-                      : decodedToken?._id === provider?._id
+                      : isProviderSelf
                         ? t('productPage.cannotMessageSelf')
                         : ''
                   }
-                  disableHoverListener={
-                    Boolean(decodedToken?._id) &&
-                    decodedToken?._id !== provider?._id
-                  }
+                  disableHoverListener={isUserLoggedIn && !isProviderSelf}
                   arrow
                 >
                   <span style={{ display: 'block', marginTop: 12 }}>
@@ -976,5 +966,3 @@ const ServiceDetailsPage = () => {
     </Box>
   );
 };
-
-export default ServiceDetailsPage;

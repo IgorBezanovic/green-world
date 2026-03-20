@@ -57,7 +57,7 @@ export const AdminPanel = () => {
                 onClick={() => navigate('/admin/google-analytics')}
               >
                 <ListItemIcon>
-                  <ChartNoAxesCombined className="ml-[12px]" />
+                  <ChartNoAxesCombined style={{ marginLeft: 12 }} />
                 </ListItemIcon>
                 <ListItemText primary="Google Analitika" />
               </ListItemButton>

@@ -1,1 +1,1 @@
-ignores: ["@green-world/*", "autoprefixer", "tailwindcss", "postcss"]
+ignores: ["@green-world/*"]

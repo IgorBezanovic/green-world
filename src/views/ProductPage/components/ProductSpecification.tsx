@@ -1,5 +1,5 @@
 import { Product } from '@green-world/utils/types';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
 interface ProductSpecificationProps {
   product: Product | undefined;
@@ -16,39 +16,77 @@ export const ProductSpecification = ({
 
   return (
     <Card sx={{ flex: 1 }}>
-      <CardContent className="p-6">
+      <CardContent sx={{ p: 3 }}>
         <Typography variant="h2" sx={{ marginBottom: 2 }}>
           Specifikacije
         </Typography>
         {hasSpecifications ? (
-          <div className="space-y-3">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
             {product?.height && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Visina:</span>
-                <span className="font-medium">{product.height}</span>
-              </div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <Box component="span" sx={{ color: 'text.secondary' }}>
+                  Visina:
+                </Box>
+                <Box component="span" sx={{ fontWeight: 500 }}>
+                  {product.height}
+                </Box>
+              </Box>
             )}
             {product?.width && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Širina:</span>
-                <span className="font-medium">{product.width}</span>
-              </div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <Box component="span" sx={{ color: 'text.secondary' }}>
+                  Širina:
+                </Box>
+                <Box component="span" sx={{ fontWeight: 500 }}>
+                  {product.width}
+                </Box>
+              </Box>
             )}
             {product?.weight && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Težina:</span>
-                <span className="font-medium">{product.weight}</span>
-              </div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <Box component="span" sx={{ color: 'text.secondary' }}>
+                  Težina:
+                </Box>
+                <Box component="span" sx={{ fontWeight: 500 }}>
+                  {product.weight}
+                </Box>
+              </Box>
             )}
             {product?.milliliters && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <Box component="span" sx={{ color: 'text.secondary' }}>
                   Količina tečnosti:
-                </span>
-                <span className="font-medium">{product.milliliters} ml</span>
-              </div>
+                </Box>
+                <Box component="span" sx={{ fontWeight: 500 }}>
+                  {product.milliliters} ml
+                </Box>
+              </Box>
             )}
-          </div>
+          </Box>
         ) : (
           <Typography variant="body2">Nema unetih specifikacija</Typography>
         )}

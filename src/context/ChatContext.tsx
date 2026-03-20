@@ -1,7 +1,11 @@
-import { getItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
-import { createContext, useEffect, useState, ReactNode } from 'react';
+import UserContext from '@green-world/context/UserContext';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode
+} from 'react';
 import { io, Socket } from 'socket.io-client';
 
 export interface Message {
@@ -39,10 +43,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [openChats, setOpenChats] = useState<OpenChat[]>([]);
   const [messages, setMessages] = useState<Record<string, Message[]>>({});
-
-  const token = getItem('token');
-  const decoded = safeDecodeToken<DecodedToken>(token);
-  const currentUser = decoded?._id;
+  const { userId: currentUser } = useContext(UserContext);
 
   useEffect(() => {
     if (!currentUser) return;

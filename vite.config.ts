@@ -17,9 +17,75 @@ export default defineConfig({
       ignored: ['**/coverage/**']
     }
   },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@mui/material',
+      '@emotion/react',
+      '@emotion/styled'
+    ]
+  },
   build: {
+    target: 'esnext',
     cssCodeSplit: true,
     minify: 'esbuild',
-    sourcemap: false
+    sourcemap: false,
+    reportCompressedSize: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+
+          if (id.includes('react-quill-new') || id.includes('/quill/')) {
+            return 'vendor-quill';
+          }
+
+          if (
+            id.includes('@paypal/react-paypal-js') ||
+            id.includes('braintree-web')
+          ) {
+            return 'vendor-payments';
+          }
+
+          if (id.includes('@mui/x-charts')) {
+            return 'vendor-charts';
+          }
+
+          if (id.includes('@mui/x-date-pickers')) {
+            return 'vendor-mui-x';
+          }
+
+          if (id.includes('@emotion/')) {
+            return 'vendor-emotion';
+          }
+
+          if (id.includes('@mui/')) {
+            return 'vendor-mui-core';
+          }
+
+          if (id.includes('lucide-react')) {
+            return 'vendor-lucide';
+          }
+
+          if (id.includes('i18next') || id.includes('react-i18n')) {
+            return 'vendor-i18n';
+          }
+
+          if (id.includes('socket.io-client')) {
+            return 'vendor-socket';
+          }
+
+          if (
+            id.includes('/react/') ||
+            id.includes('/react-dom/') ||
+            id.includes('react-router')
+          ) {
+            return 'vendor-react';
+          }
+        }
+      }
+    }
   }
 });
