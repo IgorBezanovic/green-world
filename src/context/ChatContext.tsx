@@ -27,7 +27,7 @@ interface ChatContextType {
   openChat: (userId: string, userName: string) => void;
   closeChat: (userId: string) => void;
   messages: Record<string, Message[]>;
-  addMessage: (chatWithId: string, message: Message) => void;
+  addMessage: (chatWithId: string, message: Message | Message[]) => void;
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -94,9 +94,37 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
   const addMessage = (chatWithId: string, newMessages: Message | Message[]) => {
     setMessages((prev) => {
       const current = prev[chatWithId] || [];
-      const msgs = Array.isArray(newMessages)
-        ? [...current, ...newMessages]
-        : [...current, newMessages];
+      const incoming = Array.isArray(newMessages) ? newMessages : [newMessages];
+
+      const dedupedIncoming = incoming.filter((candidate) => {
+        return !current.some((existing) => {
+          if (candidate._id && existing._id) {
+            return candidate._id === existing._id;
+          }
+
+          const sameContent =
+            candidate.sender === existing.sender &&
+            candidate.receiver === existing.receiver &&
+            candidate.content === existing.content;
+
+          if (!sameContent) {
+            return false;
+          }
+
+          if (!candidate.createdAt || !existing.createdAt) {
+            return true;
+          }
+
+          return (
+            Math.abs(
+              new Date(candidate.createdAt).getTime() -
+                new Date(existing.createdAt).getTime()
+            ) < 3000
+          );
+        });
+      });
+
+      const msgs = [...current, ...dedupedIncoming];
 
       return { ...prev, [chatWithId]: msgs };
     });
