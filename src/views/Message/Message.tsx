@@ -37,7 +37,8 @@ export const Message = () => {
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { userId } = useContext(UserContext);
-  const { socket, addMessage, messages } = useContext(ChatContext);
+  const { socket, addMessage, messages, markMessagesAsSeen } =
+    useContext(ChatContext);
   const { data: conversationData, isLoading: isConversationLoading } =
     useConversation(selectedUserId || '');
   const sendMessageMutation = useSendMessage();
@@ -135,11 +136,32 @@ export const Message = () => {
   }, [selectedUserId, markAsRead]);
 
   useEffect(() => {
+    if (!selectedUserId) return;
+
+    setLocalConversations((prev) =>
+      prev.map((conv: any) =>
+        conv.otherUserId === selectedUserId ? { ...conv, unreadCount: 0 } : conv
+      )
+    );
+  }, [selectedUserId, messages]);
+
+  useEffect(() => {
     if (!socket || !selectedUserId) return;
 
     const handleReceiveMessage = (msg: Msg) => {
       if (msg.sender === selectedUserId || msg.receiver === selectedUserId) {
         addMessage(selectedUserId, msg);
+
+        if (msg.sender === selectedUserId) {
+          markAsRead.mutate(selectedUserId);
+          setLocalConversations((prev) =>
+            prev.map((conv: any) =>
+              conv.otherUserId === selectedUserId
+                ? { ...conv, unreadCount: 0 }
+                : conv
+            )
+          );
+        }
       }
     };
 
@@ -147,7 +169,25 @@ export const Message = () => {
     return () => {
       socket.off('receive_message', handleReceiveMessage);
     };
-  }, [socket, selectedUserId, addMessage, currentUser]);
+  }, [socket, selectedUserId, addMessage, currentUser, markAsRead]);
+
+  useEffect(() => {
+    if (!socket || !currentUser) return;
+
+    const handleMessagesSeen = (payload: {
+      chatWithId: string;
+      readerId: string;
+    }) => {
+      if (!payload?.chatWithId || !payload?.readerId) return;
+
+      markMessagesAsSeen(payload.chatWithId, currentUser);
+    };
+
+    socket.on('messages_seen', handleMessagesSeen);
+    return () => {
+      socket.off('messages_seen', handleMessagesSeen);
+    };
+  }, [socket, currentUser, markMessagesAsSeen]);
 
   const handleUserClick = (userId: string, userName: string) => {
     setSelectedUserId(userId);
@@ -173,7 +213,8 @@ export const Message = () => {
       sender: currentUser!,
       receiver: selectedUserId,
       content: messageInput,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      isRead: false
     };
 
     socket.emit('private_message', msg);
@@ -212,6 +253,19 @@ export const Message = () => {
     );
     return conv?.otherUserEmail || '';
   };
+
+  const lastSeenOutgoingMessageIndex = useMemo(() => {
+    if (!currentUser) return -1;
+
+    for (let i = selectedConversation.length - 1; i >= 0; i -= 1) {
+      const msg = selectedConversation[i];
+      if (msg.sender === currentUser) {
+        return msg.isRead ? i : -1;
+      }
+    }
+
+    return -1;
+  }, [selectedConversation, currentUser]);
 
   const renderConversationList = () => (
     <Box
@@ -538,6 +592,12 @@ export const Message = () => {
         )}
         {visibleMessages?.map((msg, i) => {
           const isMe = msg.sender === currentUser;
+          const absoluteIndex =
+            selectedConversation.length - visibleMessages.length + i;
+          const isSeenIndicatorMessage =
+            isMe &&
+            absoluteIndex === lastSeenOutgoingMessageIndex &&
+            msg.isRead;
           const messageTime = msg.createdAt
             ? new Date(msg.createdAt).toLocaleString(undefined, {
                 hour: '2-digit',
@@ -547,7 +607,7 @@ export const Message = () => {
 
           return (
             <Box
-              key={i}
+              key={msg._id || `${msg.sender}-${msg.createdAt || i}-${i}`}
               sx={{
                 display: 'flex',
                 justifyContent: isMe ? 'flex-end' : 'flex-start',
@@ -585,6 +645,18 @@ export const Message = () => {
                     }}
                   >
                     {messageTime}
+                  </Typography>
+                )}
+                {isSeenIndicatorMessage && (
+                  <Typography
+                    sx={{
+                      fontSize: 10,
+                      opacity: 0.85,
+                      mt: 0.25,
+                      textAlign: 'right'
+                    }}
+                  >
+                    {t('messageView.seen')}
                   </Typography>
                 )}
               </Box>

@@ -14,6 +14,7 @@ export interface Message {
   receiver: string;
   content: string;
   createdAt?: string;
+  isRead?: boolean;
 }
 
 export interface OpenChat {
@@ -28,6 +29,7 @@ interface ChatContextType {
   closeChat: (userId: string) => void;
   messages: Record<string, Message[]>;
   addMessage: (chatWithId: string, message: Message | Message[]) => void;
+  markMessagesAsSeen: (chatWithId: string, senderId: string) => void;
 }
 
 export const ChatContext = createContext<ChatContextType>({
@@ -36,7 +38,8 @@ export const ChatContext = createContext<ChatContextType>({
   openChat: () => {},
   closeChat: () => {},
   messages: {},
-  addMessage: () => {}
+  addMessage: () => {},
+  markMessagesAsSeen: () => {}
 });
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
@@ -130,6 +133,19 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const markMessagesAsSeen = (chatWithId: string, senderId: string) => {
+    setMessages((prev) => {
+      const current = prev[chatWithId] || [];
+      if (current.length === 0) return prev;
+
+      const next = current.map((msg) =>
+        msg.sender === senderId ? { ...msg, isRead: true } : msg
+      );
+
+      return { ...prev, [chatWithId]: next };
+    });
+  };
+
   return (
     <ChatContext.Provider
       value={{
@@ -138,7 +154,8 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
         openChat,
         closeChat,
         messages,
-        addMessage
+        addMessage,
+        markMessagesAsSeen
       }}
     >
       {children}

@@ -1391,6 +1391,7 @@ export const sr = {
     noSearchResults: 'Nema rezultata pretrage.',
     messageInputPlaceholder: 'Upiši poruku...',
     emptyConversation: 'Nema poruka u ovoj konverzaciji.',
+    seen: 'Viđeno',
     backToList: 'Nazad na listu poruka'
   },
   contactUsView: {
