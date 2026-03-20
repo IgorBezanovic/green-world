@@ -57,11 +57,8 @@ export default defineConfig({
             return 'vendor-mui-x';
           }
 
-          if (id.includes('@emotion/')) {
-            return 'vendor-emotion';
-          }
-
-          if (id.includes('@mui/')) {
+          if (id.includes('@emotion/') || id.includes('@mui/')) {
+            // Keep MUI and Emotion together to avoid cross-chunk init-order issues.
             return 'vendor-mui-core';
           }
 
