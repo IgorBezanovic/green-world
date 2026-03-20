@@ -1,93 +1,131 @@
 import { EventCard } from '@green-world/components';
-import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
-import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material';
-import { Carousel, Empty, Skeleton } from 'antd';
-import { useRef } from 'react';
+import {
+  Box,
+  IconButton,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 export const EventCarousel = ({ ...props }) => {
-  const events = Array.isArray(props.events) ? props.events : [];
-  const carouselRef = useRef<any>(null);
+  const events = useMemo(
+    () => (Array.isArray(props.events) ? props.events : []),
+    [props.events]
+  );
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const [pageIndex, setPageIndex] = useState(0);
+  const cardsPerPage = isDesktop ? 4 : 1;
+
+  const pagedEvents = useMemo(() => {
+    const chunks: any[] = [];
+    for (let i = 0; i < events.length; i += cardsPerPage) {
+      chunks.push(events.slice(i, i + cardsPerPage));
+    }
+    return chunks;
+  }, [events, cardsPerPage]);
 
   const handlePrev = () => {
-    carouselRef.current?.prev();
+    if (!pagedEvents.length) return;
+    setPageIndex((prev) => (prev === 0 ? pagedEvents.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    carouselRef.current?.next();
+    if (!pagedEvents.length) return;
+    setPageIndex((prev) => (prev === pagedEvents.length - 1 ? 0 : prev + 1));
   };
 
-  return events && events.length > 0 ? (
-    <Skeleton loading={props.isLoading} active>
+  if (props.isLoading) {
+    return (
       <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          px: isDesktop ? 6 : 0
-        }}
+        sx={(theme) => ({
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: 'repeat(1, 1fr)',
+          [theme.breakpoints.up('md')]: {
+            gridTemplateColumns: 'repeat(2, 1fr)'
+          }
+        })}
       >
-        {events.length > 4 && isDesktop && (
-          <>
-            <IconButton
-              onClick={handlePrev}
-              sx={{
-                position: 'absolute',
-                left: 0,
-                zIndex: 2,
-                backgroundColor: 'white',
-                boxShadow: 3,
-                '&:hover': { backgroundColor: '#f0f0f0' }
-              }}
-            >
-              <ArrowBackIosNew />
-            </IconButton>
-            <IconButton
-              onClick={handleNext}
-              sx={{
-                position: 'absolute',
-                right: 0,
-                zIndex: 2,
-                backgroundColor: 'white',
-                boxShadow: 3,
-                '&:hover': { backgroundColor: '#f0f0f0' }
-              }}
-            >
-              <ArrowForwardIos />
-            </IconButton>
-          </>
-        )}
-        <Box sx={{ width: '100%' }}>
-          <Carousel
-            ref={carouselRef}
-            draggable={true}
-            infinite
-            slidesToShow={2}
-            rows={events.length < 3 ? 1 : 2}
-            responsive={[
-              {
-                breakpoint: 900,
-                settings: {
-                  slidesToShow: 1,
-                  rows: 1
-                }
-              }
-            ]}
-            slidesToScroll={1}
-          >
-            {events?.map((event) => (
-              <Box key={event.title} sx={{ p: 1 }}>
-                <EventCard event={event} />
-              </Box>
-            ))}
-          </Carousel>
-        </Box>
+        {Array.from({ length: isDesktop ? 4 : 2 }).map((_, idx) => (
+          <Box key={idx} sx={{ p: 1 }}>
+            <Skeleton variant="rectangular" height={260} />
+          </Box>
+        ))}
       </Box>
-    </Skeleton>
-  ) : (
-    <Empty />
+    );
+  }
+
+  if (!events.length) {
+    return (
+      <Box sx={{ py: 6, textAlign: 'center' }}>
+        <Typography color="text.secondary">No events</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        px: isDesktop ? 6 : 0
+      }}
+    >
+      {pagedEvents.length > 1 && isDesktop && (
+        <>
+          <IconButton
+            onClick={handlePrev}
+            sx={{
+              position: 'absolute',
+              left: 0,
+              zIndex: 2,
+              backgroundColor: 'white',
+              boxShadow: 3,
+              '&:hover': { backgroundColor: '#f0f0f0' }
+            }}
+          >
+            <ArrowLeft />
+          </IconButton>
+          <IconButton
+            onClick={handleNext}
+            sx={{
+              position: 'absolute',
+              right: 0,
+              zIndex: 2,
+              backgroundColor: 'white',
+              boxShadow: 3,
+              '&:hover': { backgroundColor: '#f0f0f0' }
+            }}
+          >
+            <ArrowRight />
+          </IconButton>
+        </>
+      )}
+
+      <Box
+        sx={(theme) => ({
+          width: '100%',
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: 'repeat(1, 1fr)',
+          [theme.breakpoints.up('md')]: {
+            gridTemplateColumns: 'repeat(2, 1fr)'
+          }
+        })}
+      >
+        {(pagedEvents[pageIndex] || []).map((event: any) => (
+          <Box key={event._id || event.title} sx={{ p: 1 }}>
+            <EventCard event={event} />
+          </Box>
+        ))}
+      </Box>
+    </Box>
   );
 };

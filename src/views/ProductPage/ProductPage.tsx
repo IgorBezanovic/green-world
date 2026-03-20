@@ -4,19 +4,17 @@ import {
   AppBreadcrumbs,
   SendMessageDialog
 } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
-import { getItem } from '@green-world/utils/cookie';
 import {
   formatImageUrl,
   goToDestination,
   getLocalizedGroupLabel,
-  getLocalizedSubGroupLabel,
-  safeDecodeToken
+  getLocalizedSubGroupLabel
 } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
 import {
   Avatar,
   Box,
@@ -43,7 +41,7 @@ import {
   Receipt,
   CircleX
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
@@ -68,8 +66,7 @@ export const ProductPage = () => {
   const { data: groupProducts } = useProductsByGroup(productData?.group || '');
   const { data: sellerProducts } = useAllUserProducts(productData?.createdBy);
   const [openImageModal, setOpenImageModal] = useState(false);
-  const token = getItem('token');
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const { isUserLoggedIn, userId } = useContext(UserContext);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const handlePrev = () => {
@@ -581,15 +578,14 @@ export const ProductPage = () => {
                 >
                   <Tooltip
                     title={
-                      !decodedToken?._id
+                      !isUserLoggedIn
                         ? t('productPage.mustLoginToMessage')
-                        : decodedToken?._id === sellerData?._id
+                        : userId === sellerData?._id
                           ? t('productPage.cannotMessageSelf')
                           : ''
                     }
                     disableHoverListener={
-                      Boolean(decodedToken?._id) &&
-                      decodedToken?._id !== sellerData?._id
+                      isUserLoggedIn && userId !== sellerData?._id
                     }
                   >
                     <span style={{ width: '100%' }}>
@@ -597,14 +593,11 @@ export const ProductPage = () => {
                         variant="contained"
                         color="secondary"
                         sx={{ width: '100%' }}
-                        disabled={
-                          !decodedToken?._id ||
-                          decodedToken?._id === sellerData?._id
-                        }
+                        disabled={!isUserLoggedIn || userId === sellerData?._id}
                         title={
-                          !decodedToken?._id
+                          !isUserLoggedIn
                             ? t('productPage.mustLoginToMessage')
-                            : decodedToken?._id === sellerData?._id
+                            : userId === sellerData?._id
                               ? t('productPage.cannotMessageSelf')
                               : undefined
                         }

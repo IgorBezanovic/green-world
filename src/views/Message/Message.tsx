@@ -1,12 +1,11 @@
 import { MetaTags } from '@green-world/components';
 import { ChatContext, Message as Msg } from '@green-world/context/ChatContext';
+import UserContext from '@green-world/context/UserContext';
 import { useConversation } from '@green-world/hooks/useConversation';
 import { useMarkAsRead } from '@green-world/hooks/useMarkAsRead';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
-import { getItem } from '@green-world/utils/cookie';
-import { formatImageUrl, safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
+import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   CircularProgress,
   useTheme,
@@ -37,15 +36,14 @@ export const Message = () => {
   const pageTitle = t('seo.message.title');
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const { userId } = useContext(UserContext);
   const { socket, addMessage, messages } = useContext(ChatContext);
   const { data: conversationData, isLoading: isConversationLoading } =
     useConversation(selectedUserId || '');
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkAsRead();
   const alreadyMarked = useRef<string | null>(null);
-  const token = getItem('token');
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
-  const currentUser = decodedToken?._id;
+  const currentUser = userId;
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
@@ -168,7 +166,8 @@ export const Message = () => {
   };
 
   const handleSendMessage = () => {
-    if (!messageInput.trim() || !socket || !selectedUserId) return;
+    if (!messageInput.trim() || !socket || !selectedUserId || !currentUser)
+      return;
 
     const msg: Msg = {
       sender: currentUser!,
@@ -215,33 +214,56 @@ export const Message = () => {
   };
 
   const renderConversationList = () => (
-    <div
-      className={`bg-white border-r border-b border-gray-200 flex flex-col ${
-        isMobileOrTablet ? 'w-full' : 'w-1/3'
-      }`}
+    <Box
+      style={{
+        backgroundColor: '#fff',
+        borderRight: '1px solid #e5e7eb',
+        borderBottom: '1px solid #e5e7eb',
+        display: 'flex',
+        flexDirection: 'column',
+        width: isMobileOrTablet ? '100%' : '33.333333%',
+        height: '100%'
+      }}
     >
-      <div className="mr-6 border-b border-gray-200">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-4xl font-bold text-forestGreen font-ephesis mt-4">
+      <Box style={{ marginRight: 24, borderBottom: '1px solid #e5e7eb' }}>
+        <Box
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 24
+          }}
+        >
+          <Typography
+            component="h1"
+            style={{
+              fontSize: '2.25rem',
+              lineHeight: '2.5rem',
+              fontWeight: 700,
+              color: '#3f7d58',
+              fontFamily: 'Ephesis',
+              marginTop: 16
+            }}
+          >
             {t('messageView.title')}
-          </h1>
-        </div>
+          </Typography>
+        </Box>
         <TextField
           placeholder={t('messageView.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           size="small"
-          className="w-full"
           slotProps={{
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search className="w-4 h-4" />
+                  <Search style={{ width: 16, height: 16 }} />
                 </InputAdornment>
               )
             }
           }}
           sx={{
+            width: '100%',
             '& .MuiOutlinedInput-root': {
               backgroundColor: theme.palette.grey[50],
               '& fieldset': { borderColor: theme.palette.grey[300] },
@@ -251,27 +273,39 @@ export const Message = () => {
             }
           }}
         />
-      </div>
+      </Box>
 
-      <div className="flex-1 overflow-y-auto">
+      <Box style={{ flex: 1, overflowY: 'auto' }}>
         {isLoading && (
-          <div className="flex justify-center items-center">
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
             <CircularProgress style={{ fontSize: 24 }} />
-          </div>
+          </Box>
         )}
 
         {error && (
-          <div className="text-red-500 text-center my-4">
+          <Typography
+            component="p"
+            style={{ color: '#ef4444', textAlign: 'center', margin: '16px 0' }}
+          >
             {t('messageView.errorLoading')}
-          </div>
+          </Typography>
         )}
 
         {!isLoading && filteredConversations.length === 0 && (
-          <div className="my-4 text-gray-500">
+          <Typography
+            component="p"
+            style={{ margin: '16px 0', color: '#6b7280' }}
+          >
             {searchQuery
               ? t('messageView.noSearchResults')
               : t('messageView.noConversations')}
-          </div>
+          </Typography>
         )}
 
         {filteredConversations?.map((conv: any) => {
@@ -286,9 +320,9 @@ export const Message = () => {
             : '';
 
           return (
-            <button
+            <Box
+              component="button"
               key={conv.otherUserId}
-              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -297,10 +331,31 @@ export const Message = () => {
               onMouseDown={(e) => {
                 e.preventDefault();
               }}
-              className={`my-1 w-full px-4 py-3 border-b border-gray-200 flex items-center gap-3 transition-colors ${
-                isSelected ? 'bg-teaGreen' : 'hover:bg-gray-50'
-              }`}
-              style={{ outline: 'none' }}
+              style={{
+                marginTop: 4,
+                marginBottom: 4,
+                width: '100%',
+                border: 'none',
+                paddingLeft: 16,
+                paddingRight: 16,
+                paddingTop: 12,
+                paddingBottom: 12,
+                borderBottom: '1px solid #e5e7eb',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                transition: 'background-color 150ms',
+                backgroundColor: isSelected ? '#E9F4E5' : 'transparent',
+                outline: 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSelected)
+                  e.currentTarget.style.backgroundColor = '#f9fafb';
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected)
+                  e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               <Badge
                 badgeContent={conv.unreadCount > 0 ? conv.unreadCount : null}
@@ -320,42 +375,86 @@ export const Message = () => {
                   {getInitials(conv.otherUserName || t('common.unknownUser'))}
                 </Avatar>
               </Badge>
-              <div className="flex-1 text-left min-w-0">
-                <p
-                  className={`font-semibold text-sm truncate ${
-                    conv.unreadCount > 0 ? 'text-forestGreen' : 'text-gray-700'
-                  }`}
+              <Box style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
+                <Typography
+                  component="p"
+                  style={{
+                    fontWeight: 600,
+                    fontSize: 14,
+                    lineHeight: '20px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    color: conv.unreadCount > 0 ? '#3f7d58' : '#374151'
+                  }}
                 >
                   {conv.otherUserName || t('common.unknownUser')}
-                </p>
-                <div className="flex items-center gap-2 mt-1">
-                  <p className="text-xs text-gray-500 truncate">
+                </Typography>
+                <Box
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    marginTop: 4
+                  }}
+                >
+                  <Typography
+                    component="p"
+                    style={{
+                      fontSize: 12,
+                      lineHeight: '16px',
+                      color: '#6b7280',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
                     {conv.lastMessage?.content || t('messageView.noMessages')}
-                  </p>
+                  </Typography>
                   {lastMessageDate && (
-                    <span className="text-xs text-gray-400 whitespace-nowrap">
+                    <Typography
+                      component="span"
+                      style={{
+                        fontSize: 12,
+                        lineHeight: '16px',
+                        color: '#9ca3af',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
                       • {lastMessageDate}
-                    </span>
+                    </Typography>
                   )}
-                </div>
-              </div>
-            </button>
+                </Box>
+              </Box>
+            </Box>
           );
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 
   const renderChatContent = () => (
     <>
-      <div className="border-b border-gray-200 bg-white pl-4 pr-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <Box
+        style={{
+          borderBottom: '1px solid #e5e7eb',
+          backgroundColor: '#fff',
+          paddingLeft: 16,
+          paddingRight: 16,
+          paddingTop: 16,
+          paddingBottom: 16,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Box style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {isMobileOrTablet && (
             <IconButton
               onClick={handleMobileBack}
               aria-label={t('messageView.backToList')}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft style={{ width: 20, height: 20 }} />
             </IconButton>
           )}
           <Avatar
@@ -375,40 +474,65 @@ export const Message = () => {
           >
             {getInitials(selectedUserName)}
           </Avatar>
-          <div>
-            <h2 className="text-lg font-semibold text-forestGreen">
+          <Box>
+            <Typography
+              component="h2"
+              style={{
+                fontSize: '1.125rem',
+                fontWeight: 600,
+                color: '#3f7d58'
+              }}
+            >
               {selectedUserName}
-            </h2>
+            </Typography>
             {getSelectedUserEmail() && (
-              <p className="text-sm text-gray-500">{getSelectedUserEmail()}</p>
+              <Typography
+                component="p"
+                style={{ fontSize: '0.875rem', color: '#6b7280' }}
+              >
+                {getSelectedUserEmail()}
+              </Typography>
             )}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
 
       <Box
         ref={chatBoxRef}
         onScroll={handleScroll}
-        sx={(theme) => ({
-          height: 690,
-          [theme.breakpoints.down('md')]: {
-            height: 'calc(100vh - 80px - 72px)'
-          },
+        sx={{
+          flex: 1,
+          minHeight: 0,
           overflowY: 'auto',
           py: 3,
           pl: 3,
           pr: 2,
           bgcolor: 'background.main',
           backgroundImage: 'linear-gradient(180deg, #FDFFFB 0%, #F9FCF7 100%)'
-        })}
+        }}
       >
         {isConversationLoading && (
-          <div className="flex justify-center items-center py-10">
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 40,
+              paddingBottom: 40
+            }}
+          >
             <CircularProgress style={{ fontSize: 24 }} />
           </div>
         )}
         {selectedConversation.length === 0 && !isConversationLoading && (
-          <div className="text-center text-gray-500 py-10">
+          <div
+            style={{
+              textAlign: 'center',
+              color: '#6b7280',
+              paddingTop: 40,
+              paddingBottom: 40
+            }}
+          >
             {t('messageView.emptyConversation')}
           </div>
         )}
@@ -467,19 +591,35 @@ export const Message = () => {
             </Box>
           );
         })}
-        <div ref={messagesEndRef} />
+        <Box ref={messagesEndRef} />
       </Box>
 
-      <div className="border-t border-gray-200 md:px-3 py-4">
-        <div className="flex gap-4 items-center px-3 md:px-0">
+      <Box
+        style={{
+          borderTop: '1px solid #e5e7eb',
+          paddingTop: 16,
+          paddingBottom: 16,
+          paddingLeft: isMobileOrTablet ? 0 : 12,
+          paddingRight: isMobileOrTablet ? 0 : 12
+        }}
+      >
+        <Box
+          style={{
+            display: 'flex',
+            gap: 16,
+            alignItems: 'center',
+            paddingLeft: isMobileOrTablet ? 12 : 0,
+            paddingRight: isMobileOrTablet ? 12 : 0
+          }}
+        >
           <TextField
             placeholder={t('messageView.messageInputPlaceholder')}
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
             size="small"
-            className="flex-1"
             sx={{
+              flex: 1,
               '& .MuiOutlinedInput-root': {
                 backgroundColor: theme.palette.grey[50],
                 fontSize: 14
@@ -492,48 +632,79 @@ export const Message = () => {
             onClick={handleSendMessage}
             sx={{
               borderRadius: 1,
-              minWidth: 40,
-              width: 40,
-              height: 40,
-              px: 2,
+              minWidth: 45,
+              width: 45,
+              height: 45,
+              p: 0,
               textTransform: 'none'
             }}
           >
-            <Send className="w-4 h-4" />
+            <Send
+              style={{
+                color: 'white',
+                width: 18,
+                height: 18,
+                strokeWidth: 2
+              }}
+            />
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 
   const renderChatArea = () => (
-    <div
-      className={`flex flex-col bg-whiteLinen ${
-        isMobileOrTablet ? 'w-full' : 'w-2/3 h-[500px] md:h-auto'
-      }`}
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#FDFDFC',
+        width: isMobileOrTablet ? '100%' : '66.666667%',
+        height: '100%',
+        flex: 1,
+        minHeight: 0
+      }}
     >
       {selectedUserId
         ? renderChatContent()
         : !isMobileOrTablet && (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="flex items-center textcenter">
-                <MessageCircle className="mr-2" />
-                <p className="text-gray-500 text-lg">
+            <Box
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Box style={{ display: 'flex', alignItems: 'center' }}>
+                <MessageCircle style={{ marginRight: 8 }} />
+                <Typography
+                  component="p"
+                  style={{ color: '#6b7280', fontSize: '1.125rem' }}
+                >
                   {t('messageView.selectUserToStart')}
-                </p>
-              </div>
-            </div>
+                </Typography>
+              </Box>
+            </Box>
           )}
-    </div>
+    </Box>
   );
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: '100%',
         backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        [theme.breakpoints.down('md')]: {
+          height: 'calc(100vh - 140px)'
+        },
+        [theme.breakpoints.up('md')]: {
+          height: 'calc(100vh - 180px)'
+        }
+      })}
     >
       <MetaTags
         title={pageTitle}
@@ -541,7 +712,27 @@ export const Message = () => {
         keywords={t('seo.message.keywords')}
       />
 
-      <Box className="xl:max-w-[1400px] w-full mx-auto px-4 sm:px-6 xl:px-0 flex flex-col md:flex-row">
+      <Box
+        sx={(theme) => ({
+          maxWidth: '1400px',
+          width: '100%',
+          flex: 1,
+          minHeight: 0, // 🔥 ključno
+          mx: 'auto',
+          px: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          [theme.breakpoints.up('sm')]: {
+            px: '24px'
+          },
+          [theme.breakpoints.up('xl')]: {
+            px: 0
+          },
+          [theme.breakpoints.up('md')]: {
+            flexDirection: 'row'
+          }
+        })}
+      >
         {!isMobileOrTablet && (
           <>
             {renderConversationList()}

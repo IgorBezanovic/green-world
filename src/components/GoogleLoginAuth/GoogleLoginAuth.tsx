@@ -30,7 +30,7 @@ export const GoogleLoginAuth = () => {
   }, []);
 
   return (
-    <div ref={wrapRef} className="w-full">
+    <div ref={wrapRef} style={{ width: '100%' }}>
       {mounted && (
         <GoogleLogin
           containerProps={{

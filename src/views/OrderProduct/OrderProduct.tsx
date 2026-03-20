@@ -13,7 +13,8 @@ import {
   InputAdornment,
   CircularProgress,
   Snackbar,
-  Alert
+  Alert,
+  useTheme
 } from '@mui/material';
 import { Loader2, Package, ShoppingCart } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -38,6 +39,7 @@ export interface OrderFormData {
 
 export const OrderProduct = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { productId } = useParams();
   const { mutate } = useOrderProduct();
   const navigate = useNavigate();
@@ -215,7 +217,7 @@ export const OrderProduct = () => {
       >
         <AppBreadcrumbs pages={pages} />
         <Divider />
-        <Box className="mb-8 text-center">
+        <Box sx={{ mb: 2, textAlign: 'center' }}>
           <Typography
             variant="h1"
             sx={(theme) => ({
@@ -275,8 +277,18 @@ export const OrderProduct = () => {
               </Typography>
             </Box>
           </Box>
-          <Box className="grid gap-4 md:grid-cols-2 mb-4">
-            <Box className="space-y-2 flex flex-col">
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 2,
+              mb: 1,
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              [theme.breakpoints.up('md')]: {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              }
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="productName">
                 {t('orderProductView.fields.productName')}
               </Box>
@@ -308,7 +320,7 @@ export const OrderProduct = () => {
                 }}
               />
             </Box>
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="productPrice">
                 {t('orderProductView.fields.productPrice')}
               </Box>
@@ -341,7 +353,7 @@ export const OrderProduct = () => {
               />
             </Box>
           </Box>
-          <Box className="space-y-2 flex flex-col">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <Box component="label" htmlFor="kolicinaProizvoda">
               {t('orderProductView.fields.quantityNote')}
             </Box>
@@ -395,7 +407,7 @@ export const OrderProduct = () => {
                 variant="h4"
                 sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                <ShoppingCart className="w-5 h-5" />
+                <ShoppingCart style={{ width: 20, height: 20 }} />
                 {t('orderProductView.sections.delivery.title')}
               </Typography>
               <Typography variant="body2">
@@ -404,10 +416,17 @@ export const OrderProduct = () => {
             </Box>
           </Box>
           <Box
-            className="grid gap-4 md:grid-cols-2"
-            sx={{ marginBottom: '16px' }}
+            sx={{
+              marginBottom: '16px',
+              display: 'grid',
+              gap: 2,
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              [theme.breakpoints.up('md')]: {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              }
+            }}
           >
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="name">
                 {t('orderProductView.fields.firstName')}
               </Box>
@@ -427,7 +446,7 @@ export const OrderProduct = () => {
                 }}
               />
             </Box>
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="lastName">
                 {t('orderProductView.fields.lastName')}
               </Box>
@@ -450,10 +469,17 @@ export const OrderProduct = () => {
           </Box>
 
           <Box
-            className="grid gap-4 md:grid-cols-2"
-            sx={{ marginBottom: '16px' }}
+            sx={{
+              marginBottom: '16px',
+              display: 'grid',
+              gap: 2,
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              [theme.breakpoints.up('md')]: {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              }
+            }}
           >
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="email">
                 {t('contactUsView.form.labels.email')} *
               </Box>
@@ -478,7 +504,7 @@ export const OrderProduct = () => {
                 }}
               />
             </Box>
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="phone">
                 {t('orderProductView.fields.phone')}
               </Box>
@@ -502,8 +528,12 @@ export const OrderProduct = () => {
           </Box>
 
           <Box
-            className="space-y-2 flex flex-col"
-            sx={{ marginBottom: '16px' }}
+            sx={{
+              marginBottom: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1
+            }}
           >
             <Box component="label" htmlFor="address">
               {t('orderProductView.fields.address')}
@@ -526,10 +556,17 @@ export const OrderProduct = () => {
           </Box>
 
           <Box
-            className="grid gap-4 md:grid-cols-2"
-            sx={{ marginBottom: '16px' }}
+            sx={{
+              marginBottom: '16px',
+              display: 'grid',
+              gap: 2,
+              gridTemplateColumns: 'repeat(1, 1fr)',
+              [theme.breakpoints.up('md')]: {
+                gridTemplateColumns: 'repeat(2, 1fr)'
+              }
+            }}
           >
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="city">
                 {t('orderProductView.fields.city')}
               </Box>
@@ -549,7 +586,7 @@ export const OrderProduct = () => {
                 }}
               />
             </Box>
-            <Box className="space-y-2 flex flex-col">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box component="label" htmlFor="postalCode">
                 {t('orderProductView.fields.postalCode')}
               </Box>
@@ -571,7 +608,7 @@ export const OrderProduct = () => {
             </Box>
           </Box>
 
-          <Box className="space-y-2 flex flex-col">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <Box component="label" htmlFor="message">
               {t('orderProductView.fields.message')}
             </Box>
@@ -587,16 +624,27 @@ export const OrderProduct = () => {
             />
           </Box>
         </Card>
-        <Box className="flex justify-center">
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="contained"
             disabled={isSubmitting}
-            className="w-full md:w-auto min-w-[200px]"
+            sx={{
+              width: '100%',
+              minWidth: '200px',
+              [theme.breakpoints.up('md')]: { width: 'auto' }
+            }}
             onClick={handleSubmit}
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                <Loader2
+                  style={{
+                    marginRight: 8,
+                    width: 20,
+                    height: 20,
+                    animation: 'spin 1s linear infinite'
+                  }}
+                />
                 {t('orderProductView.submitting')}
               </>
             ) : (

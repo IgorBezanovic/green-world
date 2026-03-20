@@ -161,7 +161,7 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <Phone className="mr-1" /> {option.phone}
+                  <Phone style={{ marginRight: 4 }} /> {option.phone}
                 </Typography>
               )}
               {option.type === 'product' && (
@@ -169,7 +169,7 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <HandCoins className="mr-1" />{' '}
+                  <HandCoins style={{ marginRight: 4 }} />{' '}
                   {option.price === 'Cena Na Upit'
                     ? t('aisearch.priceOnRequest')
                     : `${option.price
@@ -185,7 +185,7 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <CalendarDays className="mr-1" />{' '}
+                  <CalendarDays style={{ marginRight: 4 }} />{' '}
                   {dayjs(option.date).format('DD.MM.YYYY. HH:mm')}
                 </Typography>
               )}
@@ -194,7 +194,7 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <NotebookPen className="mr-1" /> {option.author}
+                  <NotebookPen style={{ marginRight: 4 }} /> {option.author}
                 </Typography>
               )}
             </Box>

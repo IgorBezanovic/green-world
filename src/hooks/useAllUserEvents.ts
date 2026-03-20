@@ -1,12 +1,11 @@
+import UserContext from '@green-world/context/UserContext';
 import { request } from '@green-world/utils/api';
-import { getItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
 import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
 
 export const useAllUserEvents = (userId?: string) => {
-  const getToken = getItem('token');
-  const decodedToken = safeDecodeToken<{ _id?: string }>(getToken);
-  const userIdToUse = userId ?? decodedToken?._id;
+  const { userId: contextUserId } = useContext(UserContext);
+  const userIdToUse = userId || contextUserId;
 
   return useQuery({
     queryKey: ['allUserEvents', userIdToUse],

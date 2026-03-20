@@ -10,6 +10,8 @@ interface UserContextType {
   setUser: (user: User) => void;
   setUserDataInCTX: (user: User) => void;
   isLoading: boolean;
+  isUserLoggedIn: boolean;
+  userId: string;
 }
 
 const defaultUser: User = {
@@ -80,7 +82,9 @@ const UserContext = createContext<UserContextType>({
   user: defaultUser,
   setUser: () => {},
   setUserDataInCTX: () => {},
-  isLoading: false
+  isLoading: false,
+  isUserLoggedIn: false,
+  userId: ''
 });
 
 interface ProviderProps {
@@ -91,10 +95,9 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
   const [user, setUser] = useState(defaultUser);
   const [token, setToken] = useState(getItem('token'));
   const decodedToken = safeDecodeToken<DecodedToken>(token);
-  const { data, isLoading } = useUser(
-    decodedToken?._id ? decodedToken._id : '',
-    true
-  );
+  const userId = decodedToken?._id ?? '';
+  const isUserLoggedIn = Boolean(decodedToken?._id);
+  const { data, isLoading } = useUser(userId, true);
 
   const setUserDataInCTX = (data: User) => {
     setUser(data!);
@@ -133,7 +136,15 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
 
   return (
     <UserContext.Provider
-      value={{ defaultUser, user, setUser, setUserDataInCTX, isLoading }}
+      value={{
+        defaultUser,
+        user,
+        setUser,
+        setUserDataInCTX,
+        isLoading,
+        isUserLoggedIn,
+        userId
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -1,9 +1,7 @@
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
-import { getItem, removeItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
+import { removeItem } from '@green-world/utils/cookie';
 import {
   Box,
   List,
@@ -38,10 +36,8 @@ import { ZSLogoHorizontal } from '../AppLogos';
 
 export const Header = () => {
   const navigate = useNavigate();
-  const token = getItem('token');
   const theme = useTheme();
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
-  const { user } = useContext(UserContext);
+  const { user, isUserLoggedIn } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { t } = useTranslation();
@@ -65,7 +61,7 @@ export const Header = () => {
   };
 
   const handleUser = () => {
-    if (decodedToken?._id) {
+    if (isUserLoggedIn) {
       handleToggleDrawer();
     } else {
       navigate('/login');
@@ -80,39 +76,41 @@ export const Header = () => {
   const menuItems = [
     {
       text: t('header.profile'),
-      icon: <User className="!w-6 !h-6 ml-2" />,
+      icon: <User style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/profile'))
     },
     {
       text: t('header.addProduct'),
-      icon: <PackagePlus className="!w-6 !h-6 ml-2" />,
+      icon: <PackagePlus style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/create-product')),
       disabled: user?.numberOfProducts >= user?.maxShopProducts
     },
     {
       text: t('header.addService'),
-      icon: <BriefcaseBusiness className="!w-6 !h-6 ml-2" />,
+      icon: (
+        <BriefcaseBusiness style={{ width: 24, height: 24, marginLeft: 8 }} />
+      ),
       onClick: () => handleMenuClick(() => navigate('/services/create'))
     },
     {
       text: t('header.writeBlog'),
-      icon: <NotebookText className="!w-6 !h-6 ml-2" />,
+      icon: <NotebookText style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/write-post'))
     },
     {
       text: t('header.createEvent'),
-      icon: <MapPinPlus className="!w-6 !h-6 ml-2" />,
+      icon: <MapPinPlus style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/create-event'))
     },
     {
       text: t('header.profileSettings'),
-      icon: <UserPen className="!w-6 !h-6 ml-2" />,
+      icon: <UserPen style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () =>
         handleMenuClick(() => navigate('/profile-settings/edit-profile'))
     },
     {
       text: t('header.contactUs'),
-      icon: <Mail className="!w-6 !h-6 ml-2" />,
+      icon: <Mail style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/contact-us'))
     },
     {
@@ -123,7 +121,7 @@ export const Header = () => {
           color="error"
           overlap="circular"
         >
-          <MessageCircle className="!w-6 !h-6 ml-2" />
+          <MessageCircle style={{ width: 24, height: 24, marginLeft: 8 }} />
         </Badge>
       ),
       onClick: () => handleMenuClick(() => navigate('/message'))
@@ -136,43 +134,76 @@ export const Header = () => {
     <Box
       component="header"
       sx={{
-        backgroundColor: (theme) => theme.palette.background.main
+        backgroundColor: (theme) => theme.palette.background.main,
+        boxShadow: '0 1px 3px rgb(0 0 0 / 0.10), 0 1px 2px rgb(0 0 0 / 0.06)',
+        px: '16px',
+        py: '12px',
+        [theme.breakpoints.up('sm')]: {
+          px: '28px'
+        },
+        [theme.breakpoints.up('xl')]: {
+          px: 0
+        }
       }}
-      className="shadow px-4 sm:px-7 xl:px-0 py-3"
     >
       <Box
-        className="relative max-w-[1400px] mx-auto flex items-center justify-between gap-6"
-        sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }}
+        sx={{
+          position: 'relative',
+          maxWidth: '1400px',
+          mx: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 6,
+          zIndex: (theme) => theme.zIndex.modal + 10
+        }}
       >
         <Box
           onClick={() => navigate('/')}
-          className="w-40 flex items-center cursor-pointer"
+          sx={{
+            width: '10rem',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer'
+          }}
         >
           <ZSLogoHorizontal color={theme.palette.secondary.main} />
         </Box>
 
-        <Box className="flex-1 max-w-[700px] hidden md:block">
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: '700px',
+            display: 'none',
+            [theme.breakpoints.up('md')]: {
+              display: 'block'
+            }
+          }}
+        >
           <AISearch />
         </Box>
 
-        <Box className="flex items-center gap-4">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <IconButton
             onClick={toggleMobileSearch}
-            className="md:!hidden"
+            sx={{ [theme.breakpoints.up('md')]: { display: 'none' } }}
             aria-label="Search in application"
           >
-            <Search className="!w-6 !h-6 !text-inherit" />
+            <Search style={{ width: 24, height: 24, color: 'inherit' }} />
           </IconButton>
           <Button
             variant="outlined"
             color="inherit"
-            sx={{ textTransform: 'uppercase' }}
+            sx={{
+              textTransform: 'uppercase',
+              display: 'none',
+              [theme.breakpoints.up('md')]: { display: 'inline-flex' }
+            }}
             onClick={handleUser}
-            className="hidden md:block"
             aria-label="Menu"
           >
-            {decodedToken?._id ? (
-              <MenuLucide className="!w-6 !h-6 !text-inherit" />
+            {isUserLoggedIn ? (
+              <MenuLucide style={{ width: 24, height: 24, color: 'inherit' }} />
             ) : (
               t('header.login')
             )}
@@ -181,12 +212,30 @@ export const Header = () => {
       </Box>
 
       {mobileSearchOpen && (
-        <Box className="mt-5 md:hidden transition-all duration-300">
+        <Box
+          sx={{
+            mt: 5,
+            transition: 'all 0.3s ease',
+            [theme.breakpoints.up('md')]: {
+              display: 'none'
+            }
+          }}
+        >
           <AISearch />
         </Box>
       )}
 
-      <Drawer anchor="right" open={drawerOpen} onClose={handleToggleDrawer}>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleToggleDrawer}
+        sx={{
+          zIndex: (theme) => theme.zIndex.tooltip + 100,
+          '& .MuiDrawer-paper': {
+            zIndex: (theme) => theme.zIndex.tooltip + 101
+          }
+        }}
+      >
         <Box
           sx={{
             width: 250,
@@ -220,7 +269,7 @@ export const Header = () => {
               </Box>
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>
-                  <LogOut className="!w-6 !h-6 ml-2" />
+                  <LogOut style={{ width: 24, height: 24, marginLeft: 8 }} />
                 </ListItemIcon>
                 <ListItemText primary={t('header.logout')} />
               </ListItemButton>

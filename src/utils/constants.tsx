@@ -1,10 +1,5 @@
-import { LoginOutlined } from '@ant-design/icons';
-import ContactsOutlined from '@ant-design/icons/lib/icons/ContactsOutlined';
-import MailOutlined from '@ant-design/icons/lib/icons/MailOutlined';
-import NumberOutlined from '@ant-design/icons/lib/icons/NumberOutlined';
-import PhoneOutlined from '@ant-design/icons/lib/icons/PhoneOutlined';
-import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 import { HomeCategory, SubGroups } from '@green-world/utils/types';
+import { AtSign, ContactRound, Hash, Leaf, Phone, User } from 'lucide-react';
 import { ReactNode } from 'react';
 
 export type GroupItemCreateProduct = {
@@ -24,7 +19,7 @@ export const navigationItems = [
   {
     id: 2,
     slug: 'user',
-    title: UserOutlined,
+    title: User,
     route: '/login',
     loggedRoute: '/profile'
   }
@@ -34,27 +29,27 @@ export const userDetails = [
   {
     id: 1,
     property: 'id',
-    icon: NumberOutlined
+    icon: Hash
   },
   {
     id: 2,
     property: 'name',
-    icon: UserOutlined
+    icon: User
   },
   {
     id: 3,
     property: 'username',
-    icon: ContactsOutlined
+    icon: ContactRound
   },
   {
     id: 4,
     property: 'email',
-    icon: MailOutlined
+    icon: AtSign
   },
   {
     id: 5,
     property: 'phone',
-    icon: PhoneOutlined
+    icon: Phone
   }
 ];
 
@@ -499,41 +494,41 @@ export const groupItemsCreateProduct: GroupItemCreateProduct[] = [
   {
     key: 'flower_assortment',
     labelKey: 'catalog.groups.flower_assortment',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'succulents',
     labelKey: 'catalog.groups.succulents',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'potted_flowers',
     labelKey: 'catalog.groups.potted_flowers',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'seedlings',
     labelKey: 'catalog.groups.seedlings',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'fruits_and_vegetables',
     labelKey: 'catalog.groups.fruits_and_vegetables',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'herbal_pharmacy',
     labelKey: 'catalog.groups.herbal_pharmacy',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'garden_decoration',
     labelKey: 'catalog.groups.garden_decoration',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   },
   {
     key: 'everything_for_plants',
     labelKey: 'catalog.groups.everything_for_plants',
-    icon: <LoginOutlined />
+    icon: <Leaf />
   }
 ];

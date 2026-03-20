@@ -1,7 +1,5 @@
-import { getItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
-import { ElementType, useEffect, useState } from 'react';
+import UserContext from '@green-world/context/UserContext';
+import { ElementType, useContext } from 'react';
 import { Navigate } from 'react-router';
 
 export const ProtectedRoute = ({
@@ -10,29 +8,23 @@ export const ProtectedRoute = ({
 }: {
   element: ElementType;
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    const localStorageToken = getItem('token');
-    if (localStorageToken) {
-      const token = safeDecodeToken<DecodedToken>(localStorageToken);
-      if (token && token._id) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    }
-    setIsLoading(false);
-  }, []);
+  const { isLoading, isUserLoggedIn } = useContext(UserContext);
 
   if (isLoading) {
     return (
-      <div className="min-h-viewHeight w-full flex justify-center items-center">
+      <div
+        style={{
+          minHeight: 'calc(100vh - 360px)',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         Loading...
       </div>
     );
   }
 
-  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
+  return isUserLoggedIn ? <Component {...rest} /> : <Navigate to="/login" />;
 };

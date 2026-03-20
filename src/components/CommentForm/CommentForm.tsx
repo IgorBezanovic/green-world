@@ -1,8 +1,6 @@
-import { getItem } from '@green-world/utils/cookie';
-import { safeDecodeToken } from '@green-world/utils/helpers';
-import { DecodedToken } from '@green-world/utils/types';
+import UserContext from '@green-world/context/UserContext';
 import { Box, Button, TextField, Tooltip } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const CommentForm = ({
@@ -15,8 +13,7 @@ export const CommentForm = ({
   submitLabel?: string;
 }) => {
   const { t } = useTranslation();
-  const token = getItem('token');
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const { isUserLoggedIn } = useContext(UserContext);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -56,8 +53,8 @@ export const CommentForm = ({
         sx={{ '& .MuiInputBase-root': { p: 1 } }}
       />
       <Tooltip
-        title={!decodedToken?._id ? t('commentForm.mustLogin') : ''}
-        disableHoverListener={Boolean(decodedToken?._id)}
+        title={!isUserLoggedIn ? t('commentForm.mustLogin') : ''}
+        disableHoverListener={isUserLoggedIn}
       >
         <span
           style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
@@ -65,12 +62,12 @@ export const CommentForm = ({
           <Button
             type="button"
             onClick={() => handle()}
-            disabled={loading || Boolean(!decodedToken?._id)}
+            disabled={loading || !isUserLoggedIn}
             variant="contained"
             color="primary"
             sx={{ px: 3, py: 1, borderRadius: 1 }}
           >
-            {!decodedToken?._id
+            {!isUserLoggedIn
               ? t('commentForm.mustLogin')
               : submitLabel || t('commentForm.submit')}
           </Button>

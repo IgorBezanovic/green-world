@@ -30,7 +30,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
 
-const ServiceListingPage = () => {
+export const ServiceListingPage = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -641,5 +641,3 @@ const ServiceListingPage = () => {
     </Box>
   );
 };
-
-export default ServiceListingPage;

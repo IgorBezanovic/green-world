@@ -8,7 +8,10 @@ export const LazySection = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <Box className="flex flex-col gap-7 w-full" ref={ref}>
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 7, width: '100%' }}
+      ref={ref}
+    >
       {inView ? children : null}
     </Box>
   );

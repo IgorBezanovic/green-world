@@ -282,11 +282,21 @@ export const Shops = () => {
         </Typography>
 
         {isLoading ? (
-          <Box className="flex justify-center items-center min-h-[50vh]">
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '50vh'
+            }}
+          >
             <CircularProgress />
           </Box>
         ) : !data || data.length === 0 ? (
-          <Typography variant="h6" className="text-gray-600 text-center">
+          <Typography
+            variant="h6"
+            sx={{ color: 'grey.600', textAlign: 'center' }}
+          >
             Trenutno nema dostupnih prodavnica.
           </Typography>
         ) : (

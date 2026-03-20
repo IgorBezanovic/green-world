@@ -480,7 +480,14 @@ export const Products = () => {
             )}
           </Box>
 
-          <Box className="w-full flex flex-col gap-4">
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4
+            }}
+          >
             <Box
               component={'section'}
               sx={{

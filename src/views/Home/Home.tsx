@@ -17,6 +17,8 @@ export const Home = () => {
   const { t } = useTranslation();
   const { data, isFetching } = useHomeProducts();
   const navigate = useNavigate();
+  const shouldRenderServiceSection =
+    isFetching || (data?.services?.length ?? 0) > 0;
 
   return (
     <Box
@@ -57,7 +59,13 @@ export const Home = () => {
           decoding="async"
           srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
           sizes="(max-width: 768px) 100vw, 1400px"
-          className="w-full h-auto rounded mb-2 shadow"
+          sx={{
+            width: '100%',
+            height: 'auto',
+            borderRadius: 1,
+            mb: 0.5,
+            boxShadow: 1
+          }}
           style={{
             objectFit: 'cover',
             filter: 'blur(10px)',
@@ -69,7 +77,15 @@ export const Home = () => {
         />
         {/* <FeaturedProducts /> */}
         {/* <FeaturedShops /> */}
-        <div className="text-center my-6 md:my-8">
+        <Box
+          sx={(theme) => ({
+            textAlign: 'center',
+            my: 1.5,
+            [theme.breakpoints.up('md')]: {
+              my: 2
+            }
+          })}
+        >
           <Typography
             variant="h2"
             sx={(theme) => ({
@@ -89,7 +105,7 @@ export const Home = () => {
           >
             {t('home.latestProductsSubtitle')}
           </Typography>
-        </div>
+        </Box>
         {isFetching ? (
           <Box
             sx={(theme) => ({
@@ -145,38 +161,39 @@ export const Home = () => {
           </Button>
         </LazySection>
 
-        <ServiceSection
-          title={t('home.latestServicesTitle')}
-          subTitle={t('home.latestServicesSubtitle')}
-          services={data?.services}
-          isLoading={isFetching}
-          searchAllLabel={t('home.searchAllServices')}
-          onSearchAll={() => navigate('/services')}
-          onOpenService={(serviceId) => navigate(`/services/${serviceId}`)}
-          t={t}
-        />
+        {shouldRenderServiceSection && (
+          <ServiceSection
+            title={t('home.latestServicesTitle')}
+            subTitle={t('home.latestServicesSubtitle')}
+            services={data?.services}
+            isLoading={isFetching}
+            searchAllLabel={t('home.searchAllServices')}
+            onSearchAll={() => navigate('/services')}
+            onOpenService={(serviceId) => navigate(`/services/${serviceId}`)}
+            t={t}
+          />
+        )}
 
-        <div className="text-center my-6 md:my-8">
-          <Typography
-            variant="h2"
-            sx={(theme) => ({
-              fontSize: '3.75rem !important',
-              [theme.breakpoints.down('md')]: {
-                fontSize: '3rem !important'
-              },
-              color: 'secondary.main',
-              fontFamily: 'Ephesis'
-            })}
-          >
-            {t('home.categoriesTitle')}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
-          >
-            {t('home.categoriesSubtitle')}
-          </Typography>
-        </div>
+        <Typography
+          variant="h2"
+          sx={(theme) => ({
+            fontSize: '3.75rem !important',
+            textAlign: 'center',
+            [theme.breakpoints.down('md')]: {
+              fontSize: '3rem !important'
+            },
+            color: 'secondary.main',
+            fontFamily: 'Ephesis'
+          })}
+        >
+          {t('home.categoriesTitle')}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+        >
+          {t('home.categoriesSubtitle')}
+        </Typography>
         <Box
           component="section"
           sx={(theme) => ({

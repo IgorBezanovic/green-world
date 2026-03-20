@@ -84,13 +84,13 @@ export const BlogPost = () => {
                 border: '1px solid',
                 borderColor: 'primary.main',
                 borderRadius: 1,
-                px: 1.5,
-                py: 0.25
+                px: 2,
+                py: 0.5
               }}
             >
               <Typography
-                variant="subtitle1"
                 sx={{
+                  fontSize: '2rem',
                   fontWeight: 600,
                   lineHeight: 1,
                   fontFamily: 'Ephesis',
