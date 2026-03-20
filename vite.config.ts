@@ -32,42 +32,6 @@ export default defineConfig({
     cssCodeSplit: true,
     minify: 'esbuild',
     sourcemap: false,
-    reportCompressedSize: false,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (!id.includes('node_modules')) return;
-
-          if (id.includes('react-quill-new') || id.includes('/quill/')) {
-            return 'vendor-quill';
-          }
-
-          if (
-            id.includes('@paypal/react-paypal-js') ||
-            id.includes('braintree-web')
-          ) {
-            return 'vendor-payments';
-          }
-
-          if (id.includes('lucide-react')) {
-            return 'vendor-lucide';
-          }
-
-          if (id.includes('socket.io-client')) {
-            return 'vendor-socket';
-          }
-
-          if (
-            id.includes('/react/') ||
-            id.includes('/react-dom/') ||
-            id.includes('react-router') ||
-            id.includes('i18next') ||
-            id.includes('react-i18next')
-          ) {
-            return 'vendor-react';
-          }
-        }
-      }
-    }
+    reportCompressedSize: false
   }
 });
