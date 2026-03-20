@@ -1384,6 +1384,7 @@ export const en = {
     noSearchResults: 'No search results.',
     messageInputPlaceholder: 'Type a message...',
     emptyConversation: 'No messages in this conversation.',
+    seen: 'Seen',
     backToList: 'Back to message list'
   },
   contactUsView: {

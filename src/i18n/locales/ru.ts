@@ -1391,6 +1391,7 @@ export const ru = {
     noSearchResults: 'Нет результатов поиска.',
     messageInputPlaceholder: 'Введите сообщение...',
     emptyConversation: 'В этом разговоре нет сообщений.',
+    seen: 'Просмотрено',
     backToList: 'Назад к списку сообщений'
   },
   contactUsView: {
