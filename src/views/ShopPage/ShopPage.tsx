@@ -313,7 +313,8 @@ export const ShopPage = () => {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 2
+                gap: 2,
+                p: 2
               }}
             >
               {data?.name && (
