@@ -392,6 +392,7 @@ export const sr = {
   aisearch: {
     groups: {
       products: 'Proizvodi',
+      services: 'Usluge',
       events: 'Događaji',
       users: 'Korisnici',
       blogs: 'Blogovi'
@@ -399,9 +400,11 @@ export const sr = {
     loading: 'Učitavanje...',
     noResults: 'Nema rezultata',
     promoted: 'Promovisano',
+    from: 'od',
     priceOnRequest: 'Cena Na Upit',
     currency: 'RSD',
-    searchPlaceholder: 'Pretražite proizvode, blogove, korisnike, događaje...'
+    searchPlaceholder:
+      'Pretražite proizvode, usluge, blogove, korisnike, događaje...'
   },
   allRights: {
     text: '© {{year}} <link>Zeleni Svet</link>. Sva prava zadržana.'
@@ -981,7 +984,8 @@ export const sr = {
     },
     empty: {
       products:
-        'Vaša prodavnica neće biti vidljiva u pretragama dok ne dodate proizvode. Kliknite na "Dodaj proizvod" da biste dodali svoj prvi proizvod i povećali vidljivost vaše prodavnice!',
+        'Ukoliko nemate ni jedan proizvod ili uslugu, nećete biti vidljivi u pretrazi. Kliknite na "Dodaj proizvod" ili "Dodaj uslugu" da biste povećali vidljivost vaše prodavnice!',
+
       services: 'Još uvek niste dodali usluge',
       activities: 'Još uvek niste dodali aktivnost',
       blogs: 'Još uvek niste dodali blog postove'

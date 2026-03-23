@@ -33,6 +33,7 @@ export const UserInfo = ({ ...props }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { t } = useTranslation();
+  const canGoToShop = Boolean(props?.user?._id) && !props?.isUserProfile;
 
   if (props?.userLoading) {
     return (
@@ -69,7 +70,11 @@ export const UserInfo = ({ ...props }) => {
             />
             <Typography
               variant="body2"
-              sx={{ fontStyle: props?.user?.shopName ? 'normal' : 'italic' }}
+              sx={{
+                fontStyle: props?.user?.shopName ? 'normal' : 'italic',
+                cursor: canGoToShop ? 'pointer' : 'default'
+              }}
+              onClick={() => canGoToShop && navigate(`/shop/${props.user._id}`)}
             >
               {props?.user?.shopName ?? t('userInfo.enterShopName')}
             </Typography>
@@ -96,11 +101,22 @@ export const UserInfo = ({ ...props }) => {
               height: 96,
               mx: 'auto',
               mb: 4,
-              cursor: props?.isUserProfile ? 'pointer' : 'default'
+              cursor: props?.isUserProfile
+                ? 'pointer'
+                : canGoToShop
+                  ? 'pointer'
+                  : 'default'
             }}
-            onClick={() =>
-              props?.isUserProfile && navigate('/profile-settings/change-image')
-            }
+            onClick={() => {
+              if (props?.isUserProfile) {
+                navigate('/profile-settings/change-image');
+                return;
+              }
+
+              if (canGoToShop) {
+                navigate(`/shop/${props.user._id}`);
+              }
+            }}
           >
             <Avatar
               src={formatImageUrl(props?.user?.profileImage, 55)}

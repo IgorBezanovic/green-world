@@ -393,6 +393,7 @@ export const en = {
   aisearch: {
     groups: {
       products: 'Products',
+      services: 'Services',
       events: 'Events',
       users: 'Users',
       blogs: 'Blogs'
@@ -400,9 +401,10 @@ export const en = {
     loading: 'Loading...',
     noResults: 'No results',
     promoted: 'Promoted',
+    from: 'from',
     priceOnRequest: 'Price on request',
     currency: 'RSD',
-    searchPlaceholder: 'Search products, blogs, users, events...'
+    searchPlaceholder: 'Search products, services, blogs, users, events...'
   },
   allRights: {
     text: '© {{year}} <link>Zeleni Svet</link>. All rights reserved.'
@@ -977,7 +979,8 @@ export const en = {
     },
     empty: {
       products:
-        'Your shop will not be visible in search until you add products. Click "Add product" to publish your first product and increase your shop visibility!',
+        'If you have no products or services, you will not be visible in search. Click "Add product" or "Add service" to increase your shop visibility!',
+
       services: 'You have not added services yet',
       activities: 'You have not added an activity yet',
       blogs: 'You have not added blog posts yet'
