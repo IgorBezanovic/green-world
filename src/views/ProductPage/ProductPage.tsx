@@ -131,9 +131,22 @@ export const ProductPage = () => {
 
   const hasUserReviewed = Boolean(
     userId &&
-      productData?.comments?.some(
-        (comment) => !comment.parentComment && comment.createdBy === userId
-      )
+      productData?.comments?.some((comment) => {
+        if (comment.parentComment) return false;
+
+        const commentAuthorId = String(comment.createdBy || '');
+        if (commentAuthorId) {
+          return commentAuthorId === userId;
+        }
+
+        const currentUserFullName = [user?.name || '', user?.lastname || '']
+          .join(' ')
+          .trim();
+        return Boolean(
+          currentUserFullName &&
+            currentUserFullName === (comment.author || '').trim()
+        );
+      })
   );
 
   const reviewDisabledReason = !isUserLoggedIn
