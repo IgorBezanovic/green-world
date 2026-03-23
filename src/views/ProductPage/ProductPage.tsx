@@ -6,6 +6,7 @@ import {
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { useCreateProductReview } from '@green-world/hooks/useCreateProductReview';
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
@@ -48,6 +49,8 @@ import { useNavigate, useParams } from 'react-router';
 import {
   FullImageDialog,
   ProductDescription,
+  ProductReviewForm,
+  ProductReviewList,
   ProductSpecification
 } from './components';
 
@@ -65,8 +68,9 @@ export const ProductPage = () => {
   const [idexOfImage, setIndexOfImage] = useState(0);
   const { data: groupProducts } = useProductsByGroup(productData?.group || '');
   const { data: sellerProducts } = useAllUserProducts(productData?.createdBy);
+  const { mutateAsync: createProductReview } = useCreateProductReview();
   const [openImageModal, setOpenImageModal] = useState(false);
-  const { isUserLoggedIn, userId } = useContext(UserContext);
+  const { isUserLoggedIn, userId, user } = useContext(UserContext);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
 
   const handlePrev = () => {
@@ -116,6 +120,48 @@ export const ProductPage = () => {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
+  };
+
+  const isOwnProduct = Boolean(
+    isUserLoggedIn &&
+      userId &&
+      productData?.createdBy &&
+      userId === productData.createdBy
+  );
+
+  const hasUserReviewed = Boolean(
+    userId &&
+      productData?.comments?.some(
+        (comment) => !comment.parentComment && comment.createdBy === userId
+      )
+  );
+
+  const reviewDisabledReason = !isUserLoggedIn
+    ? t('productPage.mustLoginToReview')
+    : isOwnProduct
+      ? t('productPage.cannotReviewOwnProduct')
+      : hasUserReviewed
+        ? t('productPage.alreadyReviewedProduct')
+        : '';
+
+  const handleAddReview = async (
+    data: { title?: string; text: string; image?: string },
+    parentComment?: string | null
+  ) => {
+    if (!productId) return;
+
+    const author =
+      `${user?.name || ''} ${user?.lastname || ''}`.trim() ||
+      t('common.unknownUser');
+
+    await createProductReview({
+      productId,
+      title: data.title,
+      text: data.text,
+      image: data.image,
+      parentComment,
+      author
+    });
   };
 
   return (
@@ -710,6 +756,25 @@ export const ProductPage = () => {
               />
               <ProductSpecification product={productData} />
             </Box>
+
+            <Card sx={{ mt: 4, p: 2 }}>
+              <Typography variant="h3" sx={{ mb: 2 }}>
+                {t('productPage.leaveReview')}
+              </Typography>
+              <ProductReviewForm
+                onSubmit={handleAddReview}
+                disableSubmit={
+                  !isUserLoggedIn || isOwnProduct || hasUserReviewed
+                }
+                disableReason={reviewDisabledReason}
+              />
+              <ProductReviewList
+                comments={productData?.comments || []}
+                canReply={isUserLoggedIn && !isOwnProduct}
+                replyDisabledReason={reviewDisabledReason}
+                onReply={handleAddReview}
+              />
+            </Card>
           </Box>
         )}
         <ProductSection
