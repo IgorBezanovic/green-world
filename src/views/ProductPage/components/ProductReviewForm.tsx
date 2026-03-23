@@ -180,7 +180,7 @@ export const ProductReviewForm = ({
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Box
                 component="img"
-                src={formatImageUrl(image, 65)}
+                src={formatImageUrl(image, 55)}
                 alt={t('productPage.reviewImageAlt')}
                 sx={{
                   width: '160px',
