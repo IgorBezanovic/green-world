@@ -45,12 +45,13 @@ import {
 } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { FullImageDialog } from '../ProductPage/components';
 
 export const ServiceDetailsPage = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const theme = useTheme();
   const { isUserLoggedIn, userId } = useContext(UserContext);
@@ -159,6 +160,13 @@ export const ServiceDetailsPage = () => {
     }
   ];
 
+  const singleLineEllipsisSx = {
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  };
+
   return (
     <Box
       sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, pt: 4 }}
@@ -210,6 +218,9 @@ export const ServiceDetailsPage = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
+                    '& svg': {
+                      flexShrink: 0
+                    },
                     color: 'text.secondary'
                   }}
                 >
@@ -550,7 +561,11 @@ export const ServiceDetailsPage = () => {
                   sx={{
                     display: 'flex',
                     alignItems: 'flex-start',
-                    gap: '16px'
+                    gap: '16px',
+                    '@media (max-width:340px)': {
+                      flexDirection: 'column',
+                      alignItems: 'center'
+                    }
                   }}
                 >
                   {provider?.profileImage ? (
@@ -560,10 +575,14 @@ export const ServiceDetailsPage = () => {
                         width: '64px',
                         height: '64px',
                         borderRadius: '50%',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        cursor: provider?._id ? 'pointer' : 'default'
                       }}
                       src={formatImageUrl(provider.profileImage, 55)}
                       alt={provider?.name}
+                      onClick={() =>
+                        provider?._id && navigate(`/shop/${provider._id}`)
+                      }
                     />
                   ) : (
                     <Avatar
@@ -571,27 +590,54 @@ export const ServiceDetailsPage = () => {
                         width: 64,
                         height: 64,
                         bgcolor: 'primary.main',
-                        fontSize: 24
+                        fontSize: 24,
+                        cursor: provider?._id ? 'pointer' : 'default'
                       }}
+                      onClick={() =>
+                        provider?._id && navigate(`/shop/${provider._id}`)
+                      }
                     >
                       {provider?.name?.[0]?.toUpperCase() || ''}
                     </Avatar>
                   )}
-                  <Box sx={{ flex: 1 }}>
+                  <Box
+                    sx={{
+                      flex: 1,
+                      minWidth: 0,
+                      '@media (max-width:340px)': {
+                        width: '100%'
+                      }
+                    }}
+                  >
                     <Box
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        marginBottom: '8px'
+                        '& svg': {
+                          flexShrink: 0,
+                          width: 24,
+                          height: 24
+                        },
+                        marginBottom: '8px',
+                        justifyContent: 'flex-start'
                       }}
                     >
                       <BriefcaseBusiness />
-                      <Typography variant="h3">
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          ...singleLineEllipsisSx,
+                          cursor: provider?._id ? 'pointer' : 'default'
+                        }}
+                        onClick={() =>
+                          provider?._id && navigate(`/shop/${provider._id}`)
+                        }
+                      >
                         {provider?.shopName || provider?.name}
                       </Typography>
                     </Box>
-                    <Typography variant="button">
+                    <Typography variant="button" sx={singleLineEllipsisSx}>
                       {provider?.name} {provider?.lastname}
                     </Typography>
                   </Box>
@@ -604,6 +650,9 @@ export const ServiceDetailsPage = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
+                    '& svg': {
+                      flexShrink: 0
+                    },
                     mb: 4
                   }}
                 >
@@ -613,11 +662,13 @@ export const ServiceDetailsPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
+                        flexWrap: 'nowrap',
+                        minWidth: 0,
                         color: 'text.secondary'
                       }}
                     >
                       <ClipboardClock style={{ width: 20, height: 20 }} />
-                      <Typography variant="body1">
+                      <Typography variant="body1" sx={singleLineEllipsisSx}>
                         {service.experienceYears} {t('service.yearsExperience')}
                       </Typography>
                     </Box>
@@ -628,11 +679,13 @@ export const ServiceDetailsPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
+                        flexWrap: 'nowrap',
+                        minWidth: 0,
                         color: 'text.secondary'
                       }}
                     >
                       <MapPin style={{ width: 20, height: 20 }} />
-                      <Typography variant="body1">
+                      <Typography variant="body1" sx={singleLineEllipsisSx}>
                         {t('service.operatesWithin')} {service.serviceRadiusKm}{' '}
                         km
                       </Typography>
@@ -644,11 +697,13 @@ export const ServiceDetailsPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
+                        flexWrap: 'nowrap',
+                        minWidth: 0,
                         color: 'text.secondary'
                       }}
                     >
                       <Languages style={{ width: 20, height: 20 }} />
-                      <Typography variant="body1">
+                      <Typography variant="body1" sx={singleLineEllipsisSx}>
                         {service.languages.join(', ')}
                       </Typography>
                     </Box>
@@ -661,6 +716,8 @@ export const ServiceDetailsPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
+                        flexWrap: 'nowrap',
+                        minWidth: 0,
                         color: 'text.secondary',
                         '&:hover': {
                           color: 'primary.main',
@@ -669,7 +726,9 @@ export const ServiceDetailsPage = () => {
                       }}
                     >
                       <Phone style={{ width: 20, height: 20 }} />
-                      <Typography variant="body1">{provider.phone}</Typography>
+                      <Typography variant="body1" sx={singleLineEllipsisSx}>
+                        {provider.phone}
+                      </Typography>
                     </Box>
                   )}
                   {provider?.email && (
@@ -680,6 +739,8 @@ export const ServiceDetailsPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,
+                        flexWrap: 'nowrap',
+                        minWidth: 0,
                         color: 'text.secondary',
                         '&:hover': {
                           color: 'primary.main',
@@ -688,7 +749,9 @@ export const ServiceDetailsPage = () => {
                       }}
                     >
                       <Mail style={{ width: 20, height: 20 }} />
-                      <Typography variant="body1">{provider.email}</Typography>
+                      <Typography variant="body1" sx={singleLineEllipsisSx}>
+                        {provider.email}
+                      </Typography>
                     </Box>
                   )}
                 </Box>

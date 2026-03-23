@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router';
 
 export type SearchOptionType = {
   id: string;
-  type: 'product' | 'event' | 'user' | 'shop' | 'blog';
+  type: 'product' | 'event' | 'user' | 'shop' | 'blog' | 'service';
   title: string;
   image?: string;
   phone?: string;
@@ -60,19 +60,20 @@ export const AISearch = () => {
     setInputValue('');
   };
 
+  const getGroupLabel = (option: SearchOptionType) => {
+    if (option.type === 'product') return t('aisearch.groups.products');
+    if (option.type === 'service') return t('aisearch.groups.services');
+    if (option.type === 'event') return t('aisearch.groups.events');
+    if (option.type === 'user') return t('aisearch.groups.users');
+
+    return t('aisearch.groups.blogs');
+  };
+
   return (
     <Autocomplete
       options={memoizedData}
       forcePopupIcon={false}
-      groupBy={(option) =>
-        option.type === 'product'
-          ? t('aisearch.groups.products')
-          : option.type === 'event'
-            ? t('aisearch.groups.events')
-            : option.type === 'user'
-              ? t('aisearch.groups.users')
-              : t('aisearch.groups.blogs')
-      }
+      groupBy={getGroupLabel}
       getOptionLabel={(option) => option.title}
       value={value}
       filterOptions={(x) => x}
@@ -80,7 +81,11 @@ export const AISearch = () => {
         setValue(newValue);
         if (newValue)
           navigate(
-            `/${newValue.type === 'user' ? 'shop' : newValue.type}/${newValue.id}`
+            newValue.type === 'user'
+              ? `/shop/${newValue.id}`
+              : newValue.type === 'service'
+                ? `/services/${newValue.id}`
+                : `/${newValue.type}/${newValue.id}`
           );
       }}
       noOptionsText={
@@ -156,7 +161,7 @@ export const AISearch = () => {
                   </>
                 )}
               </Box>
-              {option.type === 'shop' && (
+              {(option.type === 'shop' || option.type === 'user') && (
                 <Typography
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
@@ -178,6 +183,17 @@ export const AISearch = () => {
                           /\B(?=(\d{3})+(?!\d))/g,
                           '.'
                         )} ${t('aisearch.currency')}`}
+                </Typography>
+              )}
+              {option.type === 'service' && (
+                <Typography
+                  variant="caption"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <HandCoins style={{ marginRight: 4 }} />{' '}
+                  {option.price
+                    ? `${t('aisearch.from')} ${option.price} ${t('aisearch.currency')}`
+                    : t('aisearch.priceOnRequest')}
                 </Typography>
               )}
               {option.type === 'event' && (

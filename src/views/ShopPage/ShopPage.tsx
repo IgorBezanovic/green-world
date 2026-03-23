@@ -194,13 +194,19 @@ export const ShopPage = () => {
             label={t('shopPage.onlineOnlyChip')}
             color="success"
             variant="outlined"
-            sx={{
+            sx={(theme) => ({
               position: 'absolute',
               top: 16,
               left: 40,
+              right: 40,
               paddingX: '4px',
-              color: 'common.black'
-            }}
+              color: 'common.black',
+              [theme.breakpoints.up('sm')]: {
+                left: 40,
+                right: 'auto',
+                maxWidth: 'none'
+              }
+            })}
           />
         )}
         <Box

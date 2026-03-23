@@ -25,11 +25,12 @@ import {
 } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 export const Event = () => {
   const { t } = useTranslation();
   const { eventId } = useParams();
+  const navigate = useNavigate();
   const { data: eventData } = useEvent(eventId!);
 
   const metaObj = useMemo(
@@ -190,7 +191,19 @@ export const Event = () => {
               </Typography>
 
               {eventData.contactPerson && (
-                <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  mb={1}
+                  sx={{
+                    cursor: eventData.createdBy ? 'pointer' : 'default'
+                  }}
+                  onClick={() =>
+                    eventData.createdBy &&
+                    navigate(`/shop/${eventData.createdBy}`)
+                  }
+                >
                   <Person fontSize="small" />
                   <Typography>{eventData.contactPerson}</Typography>
                 </Stack>

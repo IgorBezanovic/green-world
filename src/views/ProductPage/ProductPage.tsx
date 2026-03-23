@@ -111,6 +111,13 @@ export const ProductPage = () => {
     }
   ];
 
+  const singleLineEllipsisSx = {
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  };
+
   return (
     <Box
       sx={{
@@ -423,7 +430,14 @@ export const ProductPage = () => {
                       sx={{
                         display: 'flex',
                         alignItems: 'flex-start',
-                        gap: '16px'
+                        gap: '16px',
+                        '@media (max-width:340px)': {
+                          flexDirection: 'column',
+                          alignItems: 'center'
+                        },
+                        '& svg': {
+                          flexShrink: 0
+                        }
                       }}
                     >
                       {sellerData?.profileImage ? (
@@ -433,10 +447,15 @@ export const ProductPage = () => {
                             width: '64px',
                             height: '64px',
                             borderRadius: '50%',
-                            objectFit: 'cover'
+                            objectFit: 'cover',
+                            cursor: sellerData?._id ? 'pointer' : 'default'
                           }}
                           src={formatImageUrl(sellerData.profileImage, 55)}
                           alt={sellerData?.name}
+                          onClick={() => {
+                            if (!sellerData?._id) return;
+                            navigate(`/shop/${sellerData._id}`);
+                          }}
                         />
                       ) : (
                         <Avatar
@@ -444,31 +463,72 @@ export const ProductPage = () => {
                             width: 64,
                             height: 64,
                             bgcolor: 'primary.main',
-                            fontSize: 24
+                            fontSize: 24,
+                            cursor: sellerData?._id ? 'pointer' : 'default'
+                          }}
+                          onClick={() => {
+                            if (!sellerData?._id) return;
+                            navigate(`/shop/${sellerData._id}`);
                           }}
                         >
                           {sellerData?.name?.[0]?.toUpperCase() || ''}
                         </Avatar>
                       )}
-                      <Box sx={{ flex: 1 }}>
+                      <Box
+                        sx={{
+                          flex: 1,
+                          minWidth: 0,
+                          '@media (max-width:340px)': {
+                            width: '100%'
+                          }
+                        }}
+                      >
                         <Box
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '8px',
+                            justifyContent: 'flex-start',
+                            '& svg': {
+                              flexShrink: 0,
+                              width: 24,
+                              height: 24
+                            },
                             marginBottom: '8px'
                           }}
                         >
                           <Store />
-                          <Typography variant="h3">
+                          <Typography
+                            variant="h3"
+                            sx={{
+                              ...singleLineEllipsisSx,
+                              cursor: sellerData?._id ? 'pointer' : 'default'
+                            }}
+                            onClick={() => {
+                              if (!sellerData?._id) return;
+                              navigate(`/shop/${sellerData._id}`);
+                            }}
+                          >
                             {sellerData?.shopName || sellerData?.name}
                           </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant="button">
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minWidth: 0
+                          }}
+                        >
+                          <Typography
+                            variant="button"
+                            sx={singleLineEllipsisSx}
+                          >
                             {sellerData?.name} {sellerData?.lastname}
                           </Typography>
-                          <Typography variant="button">
+                          <Typography
+                            variant="button"
+                            sx={singleLineEllipsisSx}
+                          >
                             {t('productPage.memberSince')}{' '}
                             {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
@@ -482,6 +542,9 @@ export const ProductPage = () => {
                       sx={{
                         display: 'flex',
                         flexDirection: 'column',
+                        '& svg': {
+                          flexShrink: 0
+                        },
                         gap: '8px'
                       }}
                     >
@@ -491,20 +554,26 @@ export const ProductPage = () => {
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
+                            minWidth: 0,
                             fontSize: '14px',
                             [theme.breakpoints.down('sm')]: {
                               fontSize: '12px'
                             },
                             gap: '8px',
+                            color: '#266041',
+                            textDecoration: 'none',
                             '&:hover': {
-                              color: 'primary.main',
+                              color: '#316357',
+                              textDecoration: 'none',
                               transition: 'color 0.3s ease'
                             }
                           }}
                           href={`tel:${sellerData?.phone}`}
                         >
                           <Phone />
-                          <span>{sellerData?.phone}</span>
+                          <Box component="span" sx={singleLineEllipsisSx}>
+                            {sellerData?.phone}
+                          </Box>
                         </Box>
                       )}
                       {sellerData?.email && (
@@ -513,20 +582,26 @@ export const ProductPage = () => {
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
+                            minWidth: 0,
                             fontSize: '14px',
                             [theme.breakpoints.down('sm')]: {
                               fontSize: '12px'
                             },
                             gap: '8px',
+                            color: '#266041',
+                            textDecoration: 'none',
                             '&:hover': {
-                              color: 'primary.main',
+                              color: '#316357',
+                              textDecoration: 'none',
                               transition: 'color 0.3s ease'
                             }
                           }}
                           href={`mailto:${sellerData?.email}`}
                         >
                           <Mail />
-                          <span>{sellerData?.email}</span>
+                          <Box component="span" sx={singleLineEllipsisSx}>
+                            {sellerData?.email}
+                          </Box>
                         </Box>
                       )}
                       <Box

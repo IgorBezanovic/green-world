@@ -44,3 +44,14 @@ input[data-autocompleted] {
   height: auto !important;
   stroke-width: auto !important;
 }
+
+a,
+a:visited {
+  color: #266041;
+}
+
+a:hover,
+a:active,
+a:focus {
+  color: #316357;
+}
