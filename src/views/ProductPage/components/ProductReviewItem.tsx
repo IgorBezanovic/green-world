@@ -86,7 +86,7 @@ export const ProductReviewItem = ({
           {comment?.image && (
             <Box
               component="img"
-              src={formatImageUrl(comment.image, 65)}
+              src={formatImageUrl(comment.image, 55)}
               alt={comment.title || t('productPage.reviewImageAlt')}
               sx={{
                 mt: 1.5,
