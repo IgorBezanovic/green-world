@@ -35,6 +35,7 @@ export interface Product {
   onStock: boolean;
   promotedAt?: string | Date | null;
   promotedUntil?: string | Date | null;
+  comments?: Comment[];
 }
 
 export type NewPasswordValues = {
@@ -232,7 +233,9 @@ export interface Comment {
   targetId: string;
   targetType: 'BlogPost' | 'Product' | 'Action';
   author: string;
+  title?: string;
   text: string;
+  image?: string;
   parentComment?: string | null;
   createdAt: Date;
   createdBy: string;
