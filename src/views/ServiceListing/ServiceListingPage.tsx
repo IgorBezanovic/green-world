@@ -19,7 +19,7 @@ import {
   TextField,
   InputAdornment,
   InputLabel,
-  CircularProgress,
+  Skeleton,
   Autocomplete,
   useTheme,
   useMediaQuery,
@@ -428,8 +428,39 @@ export const ServiceListingPage = () => {
             </Box>
 
             {isLoading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-                <CircularProgress color="primary" />
+              <Box
+                component="section"
+                sx={(theme) => ({
+                  width: '100%',
+                  minHeight: '70vh',
+                  display: 'grid',
+                  gap: '24px',
+                  gridTemplateColumns: 'repeat(1, 1fr)',
+                  [theme.breakpoints.up('xs')]: {
+                    gridTemplateColumns: 'repeat(2, 1fr)'
+                  },
+                  [theme.breakpoints.up('md')]: {
+                    gridTemplateColumns: 'repeat(3, 1fr)'
+                  },
+                  [theme.breakpoints.up('lgm')]: {
+                    gridTemplateColumns: 'repeat(4, 1fr)'
+                  }
+                })}
+              >
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <Card key={index} sx={{ width: '100%', minWidth: 0 }}>
+                    <Skeleton variant="rectangular" height={200} />
+                    <CardContent>
+                      <Skeleton variant="text" height={18} width="50%" />
+                      <Skeleton variant="text" height={28} width="85%" />
+                      <Skeleton variant="text" height={20} width="95%" />
+                      <Skeleton variant="text" height={20} width="70%" />
+                      <Box sx={{ mt: 2, pt: 2 }}>
+                        <Skeleton variant="text" height={20} width="60%" />
+                      </Box>
+                    </CardContent>
+                  </Card>
+                ))}
               </Box>
             ) : isError ? (
               <Box sx={{ py: 4, textAlign: 'center' }}>
@@ -466,6 +497,7 @@ export const ServiceListingPage = () => {
                   width: '100%',
                   display: 'grid',
                   gap: '24px',
+                  gridAutoRows: '1fr',
                   gridTemplateColumns: services.length
                     ? 'repeat(1, 1fr)'
                     : 'none',
@@ -487,7 +519,7 @@ export const ServiceListingPage = () => {
                 })}
               >
                 {services.map((service) => (
-                  <Box key={service._id}>
+                  <Box key={service._id} sx={{ width: '100%', minWidth: 0 }}>
                     <Card
                       component={Link}
                       to={`/services/${service._id}`}
@@ -495,6 +527,8 @@ export const ServiceListingPage = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         height: '100%',
+                        width: '100%',
+                        minWidth: 0,
                         textDecoration: 'none',
                         flexGrow: 1
                       }}
@@ -519,7 +553,8 @@ export const ServiceListingPage = () => {
                             sx={{
                               width: '100%',
                               height: '100%',
-                              objectFit: 'cover'
+                              objectFit: 'cover',
+                              objectPosition: 'center'
                             }}
                           />
                         ) : null}
