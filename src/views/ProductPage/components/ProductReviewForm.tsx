@@ -216,7 +216,15 @@ export const ProductReviewForm = ({
             disabled={isDisabled}
             variant="contained"
             color="primary"
-            sx={{ px: 3, py: 1, borderRadius: 1 }}
+            sx={(theme) => ({
+              px: 3,
+              py: 1,
+              borderRadius: 1,
+              width: '100%',
+              [theme.breakpoints.up('sm')]: {
+                width: 'auto'
+              }
+            })}
           >
             {!isUserLoggedIn
               ? t('productPage.mustLoginToReview')

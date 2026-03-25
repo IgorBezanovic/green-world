@@ -45,7 +45,17 @@ export const ProductReviewList = ({
       </Typography>
 
       {grouped.parents.length === 0 ? (
-        <Typography sx={{ color: 'text.secondary' }}>
+        <Typography
+          sx={(theme) => ({
+            color: 'text.secondary',
+            textAlign: 'center',
+            mt: 2,
+            mb: 1,
+            [theme.breakpoints.up('sm')]: {
+              textAlign: 'left'
+            }
+          })}
+        >
           {t('productPage.reviewsEmpty')}
         </Typography>
       ) : (

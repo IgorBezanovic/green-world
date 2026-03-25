@@ -125,7 +125,7 @@ export type User = {
   numberOfActions: number;
   numberOfBlogs: number;
   statistics: UserStatistics;
-  workingTime: WorkingTime;
+  workingTime?: WorkingTime;
 };
 
 export type ContactUsValues = {

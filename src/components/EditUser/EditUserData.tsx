@@ -107,8 +107,8 @@ export const EditUserData = () => {
   ];
 
   const defaultWorkingTimeValue = {
-    open: '08:00',
-    close: '16:00',
+    open: '',
+    close: '',
     isClosed: false
   };
 
@@ -181,10 +181,20 @@ export const EditUserData = () => {
   ) => {
     const existingDay = user?.workingTime?.[day] || defaultWorkingTimeValue;
 
+    const currentWorkingTime = user?.workingTime ?? {
+      monday: defaultWorkingTimeValue,
+      tuesday: defaultWorkingTimeValue,
+      wednesday: defaultWorkingTimeValue,
+      thursday: defaultWorkingTimeValue,
+      friday: defaultWorkingTimeValue,
+      saturday: defaultWorkingTimeValue,
+      sunday: defaultWorkingTimeValue
+    };
+
     setUser({
       ...user,
       workingTime: {
-        ...user.workingTime,
+        ...currentWorkingTime,
         [day]: {
           ...existingDay,
           [field]: value

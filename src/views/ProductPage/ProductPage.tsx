@@ -2,7 +2,8 @@ import {
   ProductSection,
   MetaTags,
   AppBreadcrumbs,
-  SendMessageDialog
+  SendMessageDialog,
+  ImageGallery
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -34,8 +35,6 @@ import {
   Store,
   Phone,
   Mail,
-  ArrowLeft,
-  ArrowRight,
   ShieldUser,
   Check,
   Users,
@@ -47,7 +46,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 import {
-  FullImageDialog,
   ProductDescription,
   ProductReviewForm,
   ProductReviewList,
@@ -65,29 +63,11 @@ export const ProductPage = () => {
   const { data: sellerData, isLoading: userLoading } = useUser(
     productData?.createdBy || ''
   );
-  const [idexOfImage, setIndexOfImage] = useState(0);
   const { data: groupProducts } = useProductsByGroup(productData?.group || '');
   const { data: sellerProducts } = useAllUserProducts(productData?.createdBy);
   const { mutateAsync: createProductReview } = useCreateProductReview();
-  const [openImageModal, setOpenImageModal] = useState(false);
   const { isUserLoggedIn, userId, user } = useContext(UserContext);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
-
-  const handlePrev = () => {
-    if (!productData?.images.length) return;
-
-    setIndexOfImage((prevIndex) =>
-      prevIndex === 0 ? productData?.images?.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    if (!productData?.images.length) return;
-
-    setIndexOfImage((prevIndex) =>
-      prevIndex === productData?.images?.length - 1 ? 0 : prevIndex + 1
-    );
-  };
 
   const metaObj = useMemo(
     () => ({
@@ -245,165 +225,10 @@ export const ProductPage = () => {
                 gap: 4
               })}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                  gap: '16px'
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '1 / 1',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {productData?.images.length &&
-                    productData?.images.length !== 1 && (
-                      <Button
-                        onClick={handlePrev}
-                        sx={{
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          bottom: 0,
-                          width: 50,
-                          backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '6px',
-                          transition: 'all 0.3s ease',
-                          opacity: 1,
-                          [theme.breakpoints.up('md')]: { opacity: 0 },
-                          '&:hover': {
-                            [theme.breakpoints.up('md')]: { opacity: 1 },
-                            backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                            '& .arrow-icon-left': {
-                              display: 'flex'
-                            }
-                          },
-                          minWidth: 0,
-                          padding: 0
-                        }}
-                      >
-                        <Box
-                          className="arrow-icon-left"
-                          sx={(theme) => ({
-                            [theme.breakpoints.up('md')]: {
-                              display: 'none'
-                            },
-                            transition: 'opacity 0.3s ease'
-                          })}
-                        >
-                          <ArrowLeft className="override-size" color="#fff" />
-                        </Box>
-                      </Button>
-                    )}
-                  <Box
-                    component="img"
-                    src={formatImageUrl(productData?.images[idexOfImage] || '')}
-                    alt={productData?.title}
-                    onClick={() => setOpenImageModal(true)}
-                    sx={{
-                      borderRadius: '6px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      cursor: 'pointer'
-                    }}
-                  />
-                  {productData?.images.length &&
-                    productData?.images.length !== 1 && (
-                      <Button
-                        onClick={handleNext}
-                        sx={{
-                          position: 'absolute',
-                          right: 0,
-                          top: 0,
-                          bottom: 0,
-                          width: 50,
-                          backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderRadius: '6px',
-                          transition: 'all 0.3s ease',
-                          opacity: 1,
-                          [theme.breakpoints.up('md')]: { opacity: 0 },
-                          '&:hover': {
-                            [theme.breakpoints.up('md')]: { opacity: 1 },
-                            backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                            '& .arrow-icon-right': {
-                              display: 'flex'
-                            }
-                          },
-                          minWidth: 0,
-                          padding: 0
-                        }}
-                      >
-                        <Box
-                          className="arrow-icon-right"
-                          sx={(theme) => ({
-                            [theme.breakpoints.up('md')]: {
-                              display: 'none'
-                            },
-                            transition: 'opacity 0.3s ease'
-                          })}
-                        >
-                          <ArrowRight className="override-size" color="#fff" />
-                        </Box>
-                      </Button>
-                    )}
-                </Box>
-                {productData?.images?.length &&
-                  productData?.images?.length > 1 && (
-                    <Box
-                      component="footer"
-                      sx={(theme) => ({
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                        [theme.breakpoints.up('xs')]: {
-                          gridTemplateColumns: 'repeat(4, minmax(0, 1fr))'
-                        },
-                        width: '100%',
-                        gap: '16px'
-                      })}
-                    >
-                      {productData?.images?.map(
-                        (image: string, index: number) => (
-                          <Box
-                            component="img"
-                            src={formatImageUrl(image, 55)}
-                            alt={image}
-                            key={image}
-                            onClick={() => setIndexOfImage(index)}
-                            sx={(theme) => ({
-                              borderRadius: '6px',
-                              boxShadow:
-                                'var(--mui-shadow, 0px 1px 3px rgba(0,0,0,0.1))',
-                              aspectRatio: '1 / 1',
-                              width: '100%',
-                              objectFit: 'cover',
-                              cursor: 'pointer',
-                              transition: 'all 0.3s ease',
-
-                              ...(idexOfImage === index && {
-                                boxShadow: theme.shadows[10],
-                                border: '2px solid',
-                                borderColor: 'forestGreen'
-                              })
-                            })}
-                          />
-                        )
-                      )}
-                    </Box>
-                  )}
-              </Box>
+              <ImageGallery
+                images={productData?.images || []}
+                title={productData?.title}
+              />
               <Box
                 sx={{
                   width: '100%',
@@ -804,15 +629,6 @@ export const ProductPage = () => {
           products={groupProducts}
         />
       </Box>
-      <FullImageDialog
-        idexOfImage={idexOfImage}
-        handleNext={handleNext}
-        handlePrev={handlePrev}
-        setOpenImageModal={setOpenImageModal}
-        openImageModal={openImageModal}
-        images={productData?.images}
-        title={productData?.title}
-      />
       <SendMessageDialog
         open={openSendMessageDialog}
         onClose={() => setOpenSendMessageDialog(false)}

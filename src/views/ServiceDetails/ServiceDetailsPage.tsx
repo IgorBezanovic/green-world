@@ -1,4 +1,8 @@
-import { AppBreadcrumbs, SendMessageDialog } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  SendMessageDialog,
+  ImageGallery
+} from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
   useGetServiceById,
@@ -31,7 +35,6 @@ import {
 import {
   MapPin,
   ArrowLeft,
-  ArrowRight,
   Mail,
   Phone,
   BriefcaseBusiness,
@@ -46,8 +49,6 @@ import {
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-
-import { FullImageDialog } from '../ProductPage/components';
 
 export const ServiceDetailsPage = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -73,8 +74,6 @@ export const ServiceDetailsPage = () => {
     phone: '',
     message: ''
   });
-  const [idexOfImage, setIndexOfImage] = useState(0);
-  const [openImageModal, setOpenImageModal] = useState(false);
 
   if (isLoading) {
     return (
@@ -129,22 +128,6 @@ export const ServiceDetailsPage = () => {
         }
       );
     }
-  };
-
-  const handlePrev = () => {
-    if (!service?.images?.length) return;
-
-    setIndexOfImage((prevIndex) =>
-      prevIndex === 0 ? service.images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    if (!service?.images?.length) return;
-
-    setIndexOfImage((prevIndex) =>
-      prevIndex === service.images.length - 1 ? 0 : prevIndex + 1
-    );
   };
 
   const provider = service.providerId as any;
@@ -245,130 +228,12 @@ export const ServiceDetailsPage = () => {
             </Box>
 
             {service.images && service.images.length > 0 && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px',
-                  mb: 4
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '1 / 1',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {service.images.length > 1 && (
-                    <Button
-                      onClick={handlePrev}
-                      sx={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 50,
-                        backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                        borderRadius: '6px',
-                        opacity: 1,
-                        [theme.breakpoints.up('md')]: { opacity: 0 },
-                        '&:hover': {
-                          [theme.breakpoints.up('md')]: { opacity: 1 },
-                          backgroundColor: 'rgba(81, 81, 81, 0.60)'
-                        },
-                        minWidth: 0,
-                        padding: 0,
-                        zIndex: 1
-                      }}
-                    >
-                      <ArrowLeft color="#fff" />
-                    </Button>
-                  )}
-
-                  <Box
-                    component="img"
-                    src={formatImageUrl(service?.images[idexOfImage], 85)}
-                    alt={service.title}
-                    onClick={() => setOpenImageModal(true)}
-                    sx={{
-                      borderRadius: '6px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      cursor: 'pointer'
-                    }}
-                  />
-
-                  {service.images.length > 1 && (
-                    <Button
-                      onClick={handleNext}
-                      sx={{
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 50,
-                        backgroundColor: 'rgba(81, 81, 81, 0.60)',
-                        borderRadius: '6px',
-                        opacity: 1,
-                        [theme.breakpoints.up('md')]: { opacity: 0 },
-                        '&:hover': {
-                          [theme.breakpoints.up('md')]: { opacity: 1 },
-                          backgroundColor: 'rgba(81, 81, 81, 0.60)'
-                        },
-                        minWidth: 0,
-                        padding: 0,
-                        zIndex: 1
-                      }}
-                    >
-                      <ArrowRight color="#fff" />
-                    </Button>
-                  )}
-                </Box>
-
-                {service.images.length > 1 && (
-                  <Box
-                    component="footer"
-                    sx={(theme) => ({
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                      [theme.breakpoints.up('xs')]: {
-                        gridTemplateColumns: 'repeat(4, minmax(0, 1fr))'
-                      },
-                      width: '100%',
-                      gap: '16px'
-                    })}
-                  >
-                    {service.images.map((image: string, index: number) => (
-                      <Box
-                        component="img"
-                        src={formatImageUrl(image, 55)}
-                        alt={image}
-                        key={image}
-                        onClick={() => setIndexOfImage(index)}
-                        sx={(theme) => ({
-                          borderRadius: '6px',
-                          boxShadow:
-                            'var(--mui-shadow, 0px 1px 3px rgba(0,0,0,0.1))',
-                          aspectRatio: '1 / 1',
-                          width: '100%',
-                          objectFit: 'cover',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          ...(idexOfImage === index && {
-                            boxShadow: theme.shadows[10],
-                            border: '2px solid',
-                            borderColor: 'forestGreen'
-                          })
-                        })}
-                      />
-                    ))}
-                  </Box>
-                )}
-              </Box>
+              <ImageGallery
+                images={service.images}
+                title={service.title}
+                mainImageQuality={85}
+                mb={4}
+              />
             )}
 
             <Card
@@ -913,16 +778,6 @@ export const ServiceDetailsPage = () => {
           </Grid>
         </Grid>
       </Box>
-
-      <FullImageDialog
-        idexOfImage={idexOfImage}
-        handleNext={handleNext}
-        handlePrev={handlePrev}
-        setOpenImageModal={setOpenImageModal}
-        openImageModal={openImageModal}
-        images={service.images}
-        title={service.title}
-      />
       {/* Direct Email Dialog */}
       <Dialog
         open={directEmailDialogOpen}
