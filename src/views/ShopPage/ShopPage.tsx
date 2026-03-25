@@ -3,7 +3,8 @@ import {
   MetaTags,
   ProductCard,
   SendMessageDialog,
-  SocialMedia
+  SocialMedia,
+  WorkingHoursCard
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { useUser } from '@green-world/hooks/useUser';
@@ -483,34 +484,7 @@ export const ShopPage = () => {
 
           {/* WORKING TIME */}
           {data?.workingTime && (
-            <Card>
-              <Box>
-                <Typography fontWeight={600} mb={2}>
-                  {t('shopPage.workingHours')}
-                </Typography>
-
-                {Object.entries(data.workingTime).map(([day, value]) => (
-                  <Box
-                    key={day}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      py: 0.6
-                    }}
-                  >
-                    <Typography sx={{ textTransform: 'capitalize' }}>
-                      {t(`editUserData.days.${day}`, { defaultValue: day })}
-                    </Typography>
-
-                    <Typography color="text.secondary">
-                      {value.isClosed
-                        ? t('shopPage.closed')
-                        : `${value.open} - ${value.close}`}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Card>
+            <WorkingHoursCard workingTime={data.workingTime} />
           )}
         </Box>
 

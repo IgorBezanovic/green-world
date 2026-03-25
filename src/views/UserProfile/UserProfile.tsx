@@ -4,7 +4,8 @@ import {
   EventProfileCard,
   MetaTags,
   PromotionSection,
-  DeleteConfirmDialog
+  DeleteConfirmDialog,
+  WorkingHoursCard
 } from '@green-world/components';
 import { ShopStatsCard, BlogCard } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
@@ -35,7 +36,7 @@ import {
   Divider,
   Chip
 } from '@mui/material';
-import { Edit2Icon, Search, EditIcon, Copy, Trash, MapPin } from 'lucide-react';
+import { Search, EditIcon, Copy, Trash, MapPin } from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -279,49 +280,12 @@ export const UserProfile = () => {
           </Button>
           {/* WORKING TIME */}
           {user?.workingTime && (
-            <Card sx={{ p: 2 }}>
-              <Box>
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography fontWeight={600} mb={2}>
-                    {t('shopPage.workingHours')}
-                  </Typography>
-                  <IconButton
-                    onClick={() =>
-                      navigate('/profile-settings/edit-profile#working-hours')
-                    }
-                  >
-                    <Edit2Icon />
-                  </IconButton>
-                </Box>
-
-                {Object.entries(user.workingTime).map(([day, value]) => (
-                  <Box
-                    key={day}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      py: 0.6
-                    }}
-                  >
-                    <Typography sx={{ textTransform: 'capitalize' }}>
-                      {t(`editUserData.days.${day}`, { defaultValue: day })}
-                    </Typography>
-
-                    <Typography color="text.secondary">
-                      {value.isClosed
-                        ? t('shopPage.closed')
-                        : `${value.open} - ${value.close}`}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Card>
+            <WorkingHoursCard
+              workingTime={user.workingTime}
+              onEdit={() =>
+                navigate('/profile-settings/edit-profile#working-hours')
+              }
+            />
           )}
         </Box>
 
