@@ -73,8 +73,6 @@ export const Products = () => {
     };
   }, [category, searchParams]);
 
-  const categoryName =
-    category && getLocalizedGroupLabel(category, i18n.language);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
@@ -227,7 +225,7 @@ export const Products = () => {
           width: '100%',
           mx: 'auto',
           px: '16px',
-          py: '1.75rem',
+          py: 0,
           gap: 4,
           [theme.breakpoints.up('sm')]: {
             px: '1.5rem'
@@ -243,6 +241,7 @@ export const Products = () => {
         <Box
           sx={(theme) => ({
             display: 'flex',
+            mt: 2,
             gap: 7,
             [theme.breakpoints.down('md')]: { gap: 2 },
             flexDirection: 'row',
@@ -290,7 +289,7 @@ export const Products = () => {
                       color="secondary.main"
                       sx={{ fontFamily: 'Ephesis' }}
                     >
-                      {categoryName || t('breadcrumbs.products')}
+                      {t('productsView.openFilters')}
                     </Typography>
                     {isFetching && (
                       <Typography

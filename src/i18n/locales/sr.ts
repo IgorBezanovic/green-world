@@ -11,6 +11,8 @@ export const sr = {
   breadcrumbs: {
     home: 'Početna',
     products: 'Proizvodi',
+    services: 'Usluge',
+    events: 'Događaji',
     userProfile: 'Korisnički profil',
     profile: 'Profil',
     promoBundle: 'Promotivni Paketi'

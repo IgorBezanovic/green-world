@@ -14,6 +14,8 @@ import {
   Card,
   CardContent,
   Chip,
+  CircularProgress,
+  Grow,
   InputLabel,
   Pagination,
   Skeleton,
@@ -158,7 +160,12 @@ export const Events = () => {
     ]
   );
 
-  const { data: eventsResponse, isLoading, isError } = useAllEvents(filters);
+  const {
+    data: eventsResponse,
+    isLoading,
+    isError,
+    isFetching
+  } = useAllEvents(filters);
   const events = eventsResponse?.events || [];
   const totalEvents = eventsResponse?.totalEvents ?? 0;
   const totalPages = eventsResponse?.pages ?? 1;
@@ -206,7 +213,7 @@ export const Events = () => {
 
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
-    { label: 'Događaji', route: '/events' }
+    { label: t('breadcrumbs.events'), route: '/events' }
   ];
 
   return (
@@ -264,149 +271,174 @@ export const Events = () => {
                 onClick={() => setIsFiltersOpen((prev) => !prev)}
                 sx={{ width: '100%', mb: 2 }}
               >
-                {isFiltersOpen ? 'Zatvori filtere' : 'Otvori filtere'}
+                {isFiltersOpen
+                  ? t('productsView.closeFilters')
+                  : t('productsView.openFilters')}
               </Button>
             )}
 
             {(!isTablet || isFiltersOpen) && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 2,
-                  position: 'sticky',
-                  top: '120px'
-                }}
-              >
-                <Typography
-                  variant="h1"
-                  color="secondary.main"
-                  sx={{ fontFamily: 'Ephesis' }}
-                >
-                  Filteri
-                </Typography>
-
-                <Box>
-                  <InputLabel
-                    sx={{ color: 'text.primary', mb: 1 }}
-                    htmlFor="event-location"
-                  >
-                    Lokacija
-                  </InputLabel>
-                  <TextField
-                    id="event-location"
-                    value={filterLocation}
-                    onChange={(e) => {
-                      setFilterLocation(e.target.value);
-                      setPage(1);
-                    }}
-                    placeholder="Unesite lokaciju"
-                    fullWidth
-                    sx={{
-                      '& .MuiInputBase-input': {
-                        padding: '8px'
-                      }
-                    }}
-                  />
-                </Box>
-
-                <Box>
-                  <InputLabel
-                    sx={{ color: 'text.primary', mb: 1 }}
-                    id="event-type-label"
-                  >
-                    Tip događaja
-                  </InputLabel>
-                  <Autocomplete
-                    id="event-type"
-                    options={EVENT_TYPE_OPTIONS}
-                    value={eventType || null}
-                    onChange={(_e, newValue) => {
-                      setEventType((newValue as EventType) || '');
-                      setPage(1);
-                    }}
-                    getOptionLabel={(option) =>
-                      EVENT_TYPE_LABELS[option as EventType] || ''
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        placeholder="Svi tipovi"
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          bgcolor: 'background.paper',
-                          '& .MuiOutlinedInput-root': {
-                            borderRadius: '8px'
-                          }
-                        }}
-                      />
-                    )}
-                    fullWidth
-                  />
-                </Box>
-
-                <Button
-                  variant="outlined"
-                  color="inherit"
-                  fullWidth
-                  onClick={resetFilters}
-                  sx={{ textTransform: 'none' }}
-                >
-                  Poništi filtere
-                </Button>
-
-                <Card
+              <Grow in={isFiltersOpen || !isTablet}>
+                <Box
                   sx={{
-                    bgcolor: 'rgba(134, 239, 172, 0.22)',
-                    border: '1px solid rgba(22, 163, 74, 0.12)'
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    position: 'sticky',
+                    top: '120px'
                   }}
                 >
-                  <CardContent>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1,
-                        mb: 1
-                      }}
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Typography
+                      variant="h1"
+                      color="secondary.main"
+                      sx={{ fontFamily: 'Ephesis' }}
                     >
-                      <Calendar size={18} color={theme.palette.success.dark} />
-                      <Typography variant="body1" fontWeight={700}>
-                        O događajima
-                      </Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      Svaki događaj nudi priliku za učenje, druženje i pozitivan
-                      uticaj na zajednicu i prirodu.
+                      Filteri
                     </Typography>
-
-                    <Box sx={{ mt: 1.5 }}>
+                    {isFetching && (
                       <Typography
-                        variant="body2"
-                        fontWeight={700}
-                        color="text.primary"
-                        sx={{ mb: 0.75 }}
+                        variant="overline"
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                       >
-                        Tipovi događaja:
+                        <CircularProgress size={16} thickness={4} />
+                        {t('productsView.loading')}
+                      </Typography>
+                    )}
+                  </Box>
+
+                  <Box>
+                    <InputLabel
+                      sx={{ color: 'text.primary', mb: 1 }}
+                      htmlFor="event-location"
+                    >
+                      Lokacija
+                    </InputLabel>
+                    <TextField
+                      id="event-location"
+                      value={filterLocation}
+                      onChange={(e) => {
+                        setFilterLocation(e.target.value);
+                        setPage(1);
+                      }}
+                      placeholder="Unesite lokaciju"
+                      fullWidth
+                      sx={{
+                        '& .MuiInputBase-input': {
+                          padding: '8px'
+                        }
+                      }}
+                    />
+                  </Box>
+
+                  <Box>
+                    <InputLabel
+                      sx={{ color: 'text.primary', mb: 1 }}
+                      id="event-type-label"
+                    >
+                      Tip događaja
+                    </InputLabel>
+                    <Autocomplete
+                      id="event-type"
+                      options={EVENT_TYPE_OPTIONS}
+                      value={eventType || null}
+                      onChange={(_e, newValue) => {
+                        setEventType((newValue as EventType) || '');
+                        setPage(1);
+                      }}
+                      getOptionLabel={(option) =>
+                        EVENT_TYPE_LABELS[option as EventType] || ''
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Svi tipovi"
+                          variant="outlined"
+                          size="small"
+                          sx={{
+                            bgcolor: 'background.paper',
+                            '& .MuiOutlinedInput-root': {
+                              borderRadius: '8px'
+                            }
+                          }}
+                        />
+                      )}
+                      fullWidth
+                    />
+                  </Box>
+
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    fullWidth
+                    onClick={resetFilters}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    Poništi filtere
+                  </Button>
+
+                  <Card
+                    sx={{
+                      bgcolor: 'rgba(134, 239, 172, 0.22)',
+                      border: '1px solid rgba(22, 163, 74, 0.12)'
+                    }}
+                  >
+                    <CardContent>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          mb: 1
+                        }}
+                      >
+                        <Calendar
+                          size={18}
+                          color={theme.palette.success.dark}
+                        />
+                        <Typography variant="body1" fontWeight={700}>
+                          O događajima
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        Svaki događaj nudi priliku za učenje, druženje i
+                        pozitivan uticaj na zajednicu i prirodu.
                       </Typography>
 
-                      <Typography variant="body2" color="text.secondary">
-                        • Čišćenje: akcije uklanjanja otpada i uređenja javnih
-                        površina.
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        • Prodaja: prodaja i razmena lokalnih, domaćih i
-                        održivih proizvoda.
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        • Sadnja: organizovana sadnja drveća, cveća i drugih
-                        biljaka za ozelenjavanje prostora.
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Box>
+                      <Box sx={{ mt: 1.5 }}>
+                        <Typography
+                          variant="body2"
+                          fontWeight={700}
+                          color="text.primary"
+                          sx={{ mb: 0.75 }}
+                        >
+                          Tipovi događaja:
+                        </Typography>
+
+                        <Typography variant="body2" color="text.secondary">
+                          • Čišćenje: akcije uklanjanja otpada i uređenja javnih
+                          površina.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          • Prodaja: prodaja i razmena lokalnih, domaćih i
+                          održivih proizvoda.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          • Sadnja: organizovana sadnja drveća, cveća i drugih
+                          biljaka za ozelenjavanje prostora.
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Grow>
             )}
           </Box>
 

@@ -16,6 +16,7 @@ import {
   CardMedia,
   Button,
   Chip,
+  CircularProgress,
   TextField,
   InputLabel,
   Skeleton,
@@ -68,7 +69,8 @@ export const ServiceListingPage = () => {
   const {
     data: servicesResponse,
     isLoading,
-    isError
+    isError,
+    isFetching
   } = useGetServicesPaginated(debouncedFilters);
   const services = servicesResponse?.data || [];
   const servicesMeta = servicesResponse?.meta;
@@ -184,13 +186,31 @@ export const ServiceListingPage = () => {
                     top: '133px'
                   }}
                 >
-                  <Typography
-                    variant="h1"
-                    color="secondary.main"
-                    sx={{ fontFamily: 'Ephesis' }}
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
                   >
-                    {t('service.filters')}
-                  </Typography>
+                    <Typography
+                      variant="h1"
+                      color="secondary.main"
+                      sx={{ fontFamily: 'Ephesis' }}
+                    >
+                      {t('service.filters')}
+                    </Typography>
+                    {isFetching && (
+                      <Typography
+                        variant="overline"
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <CircularProgress size={16} thickness={4} />
+                        {t('productsView.loading')}
+                      </Typography>
+                    )}
+                  </Box>
 
                   <Box>
                     <InputLabel
