@@ -1,16 +1,32 @@
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, useLocation, useNavigate } from 'react-router';
 
 export const ProfileSettings = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
     { label: t('profileSettingsView.breadcrumb'), route: '/edit-profile' }
   ];
+
+  const isActiveRoute = (route: string) => location.pathname.startsWith(route);
+
+  const getButtonSx = (route: string) => {
+    const isActive = isActiveRoute(route);
+
+    return {
+      fontWeight: isActive ? 700 : 500,
+      boxShadow: isActive ? 3 : 0,
+      bgcolor: isActive ? 'info.dark' : 'info.main',
+      '&:hover': {
+        bgcolor: isActive ? 'info.dark' : 'info.main'
+      }
+    };
+  };
 
   return (
     <Box
@@ -103,6 +119,7 @@ export const ProfileSettings = () => {
             onClick={() => navigate('/profile-settings/edit-profile')}
             variant="contained"
             color="info"
+            sx={getButtonSx('/profile-settings/edit-profile')}
           >
             {t('profileSettingsView.buttons.profileData')}
           </Button>
@@ -110,6 +127,7 @@ export const ProfileSettings = () => {
             onClick={() => navigate('/profile-settings/change-image')}
             variant="contained"
             color="info"
+            sx={getButtonSx('/profile-settings/change-image')}
           >
             {t('profileSettingsView.buttons.imageQr')}
           </Button>
@@ -117,6 +135,7 @@ export const ProfileSettings = () => {
             onClick={() => navigate('/profile-settings/change-password')}
             variant="contained"
             color="info"
+            sx={getButtonSx('/profile-settings/change-password')}
           >
             {t('profileSettingsView.buttons.changePassword')}
           </Button>
@@ -124,6 +143,7 @@ export const ProfileSettings = () => {
             variant="contained"
             color="info"
             onClick={() => navigate('/profile-settings/statistics')}
+            sx={getButtonSx('/profile-settings/statistics')}
           >
             {t('profileSettingsView.buttons.statistics')}
           </Button>
