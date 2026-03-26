@@ -252,6 +252,13 @@ export const UserProfile = () => {
           >
             {t('userProfileView.buttons.profileSettings')}
           </Button>
+          <Button
+            variant="contained"
+            color="info"
+            onClick={() => navigate('/profile-settings/statistics')}
+          >
+            {t('profileSettingsView.buttons.statistics')}
+          </Button>
           <ShopStatsCard
             numberOfProducts={user.numberOfProducts}
             maxShopProducts={user.maxShopProducts}
