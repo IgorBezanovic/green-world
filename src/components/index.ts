@@ -44,6 +44,7 @@ export * from '@green-world/components/RegistrationForm';
 export * from '@green-world/components/ScrollToTop';
 export * from '@green-world/components/SendMessageDialog';
 export * from '@green-world/components/ServiceSection';
+export * from '@green-world/components/SharedPagination';
 export * from '@green-world/components/ShopCard';
 export * from '@green-world/components/ShopStatsCard';
 export * from '@green-world/components/SocialMedia';

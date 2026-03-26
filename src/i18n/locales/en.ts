@@ -13,6 +13,8 @@ export const en = {
     products: 'Products',
     services: 'Services',
     events: 'Events',
+    shops: 'Shops',
+    blog: 'Blog',
     userProfile: 'User profile',
     profile: 'Profile',
     promoBundle: 'Promotional Bundles'
@@ -735,6 +737,32 @@ export const en = {
     acceptPrefix: 'By signing in, you accept our',
     privacyPolicy: 'Privacy Policy',
     acceptSuffix: '.'
+  },
+  shopsView: {
+    hero: {
+      kicker: 'Browse Shops',
+      title: 'Shops',
+      subtitle:
+        'Find trusted plant, seedling, and gardening sellers near you or online.',
+      searchPlaceholder: 'Search by shop name'
+    },
+    showing: 'Showing {{shown}} of {{total}} shops'
+  },
+  blogView: {
+    hero: {
+      kicker: 'Zeleni Svet Blog',
+      title: 'Stories from Our Garden',
+      subtitle:
+        'Discover the inspiration, plants, and philosophy behind every plant we grow with love and care.',
+      titlePlaceholder: 'Search by title',
+      authorPlaceholder: 'Search by author'
+    },
+    noPostsTitle: 'No published posts',
+    writeFirstPost: 'Write the first post',
+    ctaTitle: 'Want More Information?',
+    ctaSubtitle:
+      'Join our community and be the first to know about new plants, stories, and events.',
+    writeBlog: 'Write a Blog'
   },
   metaTags: {
     defaultDescription:

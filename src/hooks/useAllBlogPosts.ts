@@ -1,14 +1,19 @@
 import { request } from '@green-world/utils/api';
-import { BlogPost } from '@green-world/utils/types';
+import {
+  BlogPost,
+  BlogPostsListFiltersParams,
+  PaginatedResponse
+} from '@green-world/utils/types';
 import { useQuery } from '@tanstack/react-query';
 
-export const useAllBlogPosts = () => {
+export const useAllBlogPosts = (filters?: BlogPostsListFiltersParams) => {
   return useQuery({
-    queryKey: ['blogPosts'],
+    queryKey: ['blogPosts', filters],
     queryFn: () =>
       request({
         url: '/blog-post',
-        method: 'get'
-      }) as Promise<BlogPost[]>
+        method: 'get',
+        params: filters
+      }) as Promise<PaginatedResponse<BlogPost>>
   });
 };

@@ -1,4 +1,9 @@
-import { AppBreadcrumbs, ItemsHero, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  ItemsHero,
+  MetaTags,
+  SharedPagination
+} from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import {
   formatDate,
@@ -17,7 +22,6 @@ import {
   CircularProgress,
   Grow,
   InputLabel,
-  Pagination,
   Skeleton,
   TextField,
   Typography,
@@ -166,9 +170,9 @@ export const Events = () => {
     isError,
     isFetching
   } = useAllEvents(filters);
-  const events = eventsResponse?.events || [];
-  const totalEvents = eventsResponse?.totalEvents ?? 0;
-  const totalPages = eventsResponse?.pages ?? 1;
+  const events = eventsResponse?.data || [];
+  const totalEvents = eventsResponse?.meta?.totalItems ?? 0;
+  const totalPages = eventsResponse?.meta?.pages ?? 1;
 
   useEffect(() => {
     if (search !== urlState.search) setSearch(urlState.search);
@@ -772,39 +776,26 @@ export const Events = () => {
               </Box>
             )}
 
-            {!isLoading && !isError && totalPages > 1 ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  mt: 5
-                }}
-              >
-                <Pagination
-                  count={totalPages}
-                  page={eventsResponse?.currentPage ?? page}
-                  onChange={(_, value) => {
-                    setPage(value);
-                    setSearchParams((prev) => {
-                      const next = new URLSearchParams(prev);
-                      if (value > 1) {
-                        next.set('page', String(value));
-                      } else {
-                        next.delete('page');
-                      }
-                      return next;
-                    });
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  color="primary"
-                  variant="outlined"
-                  shape="rounded"
-                  size={isMobile ? 'medium' : 'large'}
-                  siblingCount={1}
-                  boundaryCount={isMobile ? 1 : 2}
-                />
-              </Box>
-            ) : null}
+            <SharedPagination
+              totalPages={totalPages}
+              currentPage={eventsResponse?.meta?.currentPage ?? page}
+              isLoading={isLoading}
+              isError={isError}
+              isMobile={isMobile}
+              onPageChange={(value) => {
+                setPage(value);
+                setSearchParams((prev) => {
+                  const next = new URLSearchParams(prev);
+                  if (value > 1) {
+                    next.set('page', String(value));
+                  } else {
+                    next.delete('page');
+                  }
+                  return next;
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
           </Box>
         </Box>
       </Box>

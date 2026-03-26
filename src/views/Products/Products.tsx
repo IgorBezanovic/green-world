@@ -2,7 +2,8 @@ import {
   ProductCard,
   MetaTags,
   AppBreadcrumbs,
-  ItemsHero
+  ItemsHero,
+  SharedPagination
 } from '@green-world/components';
 import {
   ProductFiltersParams,
@@ -25,8 +26,7 @@ import {
   TextField,
   Typography,
   Button,
-  CircularProgress,
-  Pagination
+  CircularProgress
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Grow from '@mui/material/Grow';
@@ -182,7 +182,9 @@ export const Products = () => {
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.products'), route: '/search' }
   ];
-  const hasProducts = Boolean(data?.products?.length);
+  const products = data?.data || [];
+  const productsMeta = data?.meta;
+  const hasProducts = Boolean(products.length);
 
   const resetFilters = () => {
     setSearch('');
@@ -529,8 +531,8 @@ export const Products = () => {
               }}
             >
               {isFetching ? (
-                data?.products?.length ? (
-                  data.products.map((product) => (
+                products.length ? (
+                  products.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))
                 ) : (
@@ -564,8 +566,8 @@ export const Products = () => {
                     ))}
                   </Box>
                 )
-              ) : data?.products.length ? (
-                data?.products?.map((product) => (
+              ) : products.length ? (
+                products.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (
@@ -605,35 +607,21 @@ export const Products = () => {
               )}
             </Box>
 
-            {data?.pages && data.pages > 1 ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  mt: 4
-                }}
-              >
-                <Pagination
-                  count={data.pages}
-                  page={page}
-                  onChange={(_, value) => {
-                    setPage(value);
-                    setSearchParams((prev) => {
-                      const next = new URLSearchParams(prev);
-                      next.set('page', String(value));
-                      return next;
-                    });
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  color="primary"
-                  variant="outlined"
-                  shape="rounded"
-                  size={isMobile ? 'medium' : 'large'}
-                  siblingCount={1}
-                  boundaryCount={isMobile ? 1 : 2}
-                />
-              </Box>
-            ) : null}
+            <SharedPagination
+              totalPages={productsMeta?.pages}
+              currentPage={productsMeta?.currentPage ?? page}
+              isMobile={isMobile}
+              onPageChange={(value) => {
+                setPage(value);
+                setSearchParams((prev) => {
+                  const next = new URLSearchParams(prev);
+                  next.set('page', String(value));
+                  return next;
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              marginTop={4}
+            />
           </Box>
         </Box>
         {/* <FeaturedProducts /> */}

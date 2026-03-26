@@ -1,31 +1,87 @@
 import {
   AppBreadcrumbs,
   BlogCard,
+  ItemsHero,
   MetaTags,
+  SharedPagination,
   SocialMedia
 } from '@green-world/components';
 import { useAllBlogPosts } from '@green-world/hooks/useAllBlogPosts';
+import { useDebounce } from '@green-world/utils/helpers';
 import {
   Box,
   Button,
   Typography,
   CircularProgress,
-  Divider
+  useMediaQuery
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
+import { User } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 export const BlogPost = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data: posts, isLoading } = useAllBlogPosts();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const urlState = useMemo(
+    () => ({
+      page: Math.max(Number(searchParams.get('page') || 1), 1),
+      titleSearch: searchParams.get('titleSearch') ?? '',
+      authorSearch: searchParams.get('authorSearch') ?? ''
+    }),
+    [searchParams]
+  );
+
+  const [titleSearch, setTitleSearch] = useState(urlState.titleSearch);
+  const [authorSearch, setAuthorSearch] = useState(urlState.authorSearch);
+
+  const debouncedTitle = useDebounce(titleSearch, 300);
+  const debouncedAuthor = useDebounce(authorSearch, 300);
+
+  const currentPage = urlState.page;
+
+  useEffect(() => {
+    if (titleSearch !== urlState.titleSearch)
+      setTitleSearch(urlState.titleSearch);
+    if (authorSearch !== urlState.authorSearch)
+      setAuthorSearch(urlState.authorSearch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlState]);
+
+  useEffect(() => {
+    const next = new URLSearchParams();
+    if (debouncedTitle) next.set('titleSearch', debouncedTitle);
+    if (debouncedAuthor) next.set('authorSearch', debouncedAuthor);
+    if (currentPage > 1) next.set('page', String(currentPage));
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTitle, debouncedAuthor, currentPage]);
+
+  const {
+    data: postsResponse,
+    isLoading,
+    isError
+  } = useAllBlogPosts({
+    page: currentPage,
+    titleSearch: debouncedTitle || undefined,
+    authorSearch: debouncedAuthor || undefined
+  });
+  const posts = postsResponse?.data || [];
+  const postsMeta = postsResponse?.meta;
+
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Blog', route: '/blog' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.blog'), route: '/blog' }
   ];
 
   return (
@@ -40,6 +96,43 @@ export const BlogPost = () => {
         title={t('seo.blog.title')}
         description={t('seo.blog.description')}
         keywords={t('seo.blog.keywords')}
+      />
+
+      <ItemsHero
+        kicker={t('blogView.hero.kicker')}
+        title={t('blogView.hero.title')}
+        subtitle={t('blogView.hero.subtitle')}
+        searchPlaceholder={t('blogView.hero.titlePlaceholder')}
+        searchValue={titleSearch}
+        onSearchChange={(value) => {
+          setTitleSearch(value);
+          setSearchParams(
+            (prev) => {
+              const next = new URLSearchParams(prev);
+              if (value) next.set('titleSearch', value);
+              else next.delete('titleSearch');
+              next.delete('page');
+              return next;
+            },
+            { replace: true }
+          );
+        }}
+        secondFieldPlaceholder={t('blogView.hero.authorPlaceholder')}
+        secondFieldValue={authorSearch}
+        onSecondFieldChange={(value) => {
+          setAuthorSearch(value);
+          setSearchParams(
+            (prev) => {
+              const next = new URLSearchParams(prev);
+              if (value) next.set('authorSearch', value);
+              else next.delete('authorSearch');
+              next.delete('page');
+              return next;
+            },
+            { replace: true }
+          );
+        }}
+        secondFieldIcon={User}
       />
 
       <Box
@@ -68,70 +161,13 @@ export const BlogPost = () => {
           </Box>
         )}
 
-        <Box sx={{ mb: 12, textAlign: 'center' }}>
-          <Box
-            sx={{
-              mb: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 2
-            }}
-          >
-            <Divider sx={{ height: 1.5, width: 48, bgcolor: 'primary.main' }} />
-            <Box
-              sx={{
-                border: '1px solid',
-                borderColor: 'primary.main',
-                borderRadius: 1,
-                px: 2,
-                py: 0.5
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: '2rem',
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  fontFamily: 'Ephesis',
-                  color: 'secondary.main'
-                }}
-              >
-                Zeleni Svet Blog
-              </Typography>
-            </Box>
-            <Divider sx={{ height: 1.5, width: 48, bgcolor: 'primary.main' }} />
-          </Box>
-
-          <Typography
-            component="h1"
-            sx={{
-              mb: 2,
-              fontFamily: 'Ephesis',
-              fontWeight: 700,
-              color: 'secondary.main',
-              fontSize: '2.5rem',
-              [theme.breakpoints.up('md')]: {
-                fontSize: '3.75rem'
-              }
-            }}
-          >
-            Priče iz Naše Bašte
+        {!isLoading && (
+          <Typography variant="body1" color="common.black">
+            {postsMeta?.totalItems ?? posts.length} rezultata pronađeno
           </Typography>
+        )}
 
-          <Typography
-            sx={{
-              mx: 'auto',
-              maxWidth: 800,
-              fontSize: '1.125rem'
-            }}
-          >
-            Otkrijte inspiraciju, biljke i filozofiju iza svake biljke koju
-            gajimo sa ljubavlju i pažnjom.
-          </Typography>
-        </Box>
-
-        {posts && posts.length > 0 && (
+        {posts.length > 0 && (
           <Box
             sx={(theme) => ({
               display: 'grid',
@@ -145,11 +181,31 @@ export const BlogPost = () => {
               }
             })}
           >
-            {posts?.map((post) => (
+            {posts.map((post) => (
               <BlogCard key={post._id} post={post} />
             ))}
           </Box>
         )}
+
+        <SharedPagination
+          totalPages={postsMeta?.pages}
+          currentPage={postsMeta?.currentPage ?? currentPage}
+          isLoading={isLoading}
+          isError={isError}
+          isMobile={isMobile}
+          onPageChange={(value) => {
+            setSearchParams((prev) => {
+              const next = new URLSearchParams(prev);
+              if (value > 1) {
+                next.set('page', String(value));
+              } else {
+                next.delete('page');
+              }
+              return next;
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
         <Box
           sx={(theme) => ({
             mt: 8,
@@ -174,12 +230,11 @@ export const BlogPost = () => {
               variant="h2"
               sx={{ mb: 2, color: 'text.primary' }}
             >
-              Želite Više Informacija?
+              {t('blogView.ctaTitle')}
             </Typography>
 
             <Typography sx={{ mb: 3, color: 'text.secondary' }}>
-              Pridružite se našoj zajednici i budite prvi koji će saznati za
-              nove biljke, priče i događaje.
+              {t('blogView.ctaSubtitle')}
             </Typography>
 
             <Box
@@ -202,16 +257,16 @@ export const BlogPost = () => {
               color="primary"
               onClick={() => navigate('/write-post')}
             >
-              Napiši Blog
+              {t('blogView.writeBlog')}
               <ArrowRight style={{ marginLeft: 8 }} />
             </Button>
           </Box>
         </Box>
 
-        {posts && posts.length === 0 && (
+        {posts.length === 0 && !isLoading && (
           <Box textAlign="center" py={8}>
             <Typography variant="h6" color="text.secondary">
-              Nema objavljenih postova
+              {t('blogView.noPostsTitle')}
             </Typography>
             <Button
               variant="contained"
@@ -219,7 +274,7 @@ export const BlogPost = () => {
               sx={{ mt: 2 }}
               onClick={() => navigate('/write-post')}
             >
-              Napiši prvi post
+              {t('blogView.writeFirstPost')}
             </Button>
           </Box>
         )}

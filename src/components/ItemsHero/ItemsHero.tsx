@@ -6,19 +6,28 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { MapPin, Search } from 'lucide-react';
+import { type LucideIcon, MapPin, Search } from 'lucide-react';
 
 type ItemsHeroProps = {
   kicker: string;
   title: string;
   subtitle: string;
   searchPlaceholder: string;
-  locationPlaceholder: string;
   searchValue: string;
-  locationValue: string;
   onSearchChange: (value: string) => void;
-  onLocationChange: (value: string) => void;
   subtitleMaxWidth?: number | string;
+  /** Second search field — omit to render only one field */
+  secondFieldPlaceholder?: string;
+  secondFieldValue?: string;
+  onSecondFieldChange?: (value: string) => void;
+  /** Icon for the second field. Defaults to MapPin. */
+  secondFieldIcon?: LucideIcon;
+  /** @deprecated use secondFieldPlaceholder */
+  locationPlaceholder?: string;
+  /** @deprecated use secondFieldValue */
+  locationValue?: string;
+  /** @deprecated use onSecondFieldChange */
+  onLocationChange?: (value: string) => void;
 };
 
 export const ItemsHero = ({
@@ -26,13 +35,25 @@ export const ItemsHero = ({
   title,
   subtitle,
   searchPlaceholder,
-  locationPlaceholder,
   searchValue,
-  locationValue,
   onSearchChange,
-  onLocationChange,
-  subtitleMaxWidth = 760
+  subtitleMaxWidth = 760,
+  secondFieldPlaceholder,
+  secondFieldValue,
+  onSecondFieldChange,
+  secondFieldIcon: SecondIcon = MapPin,
+  // deprecated aliases — prefer secondField* props
+  locationPlaceholder,
+  locationValue,
+  onLocationChange
 }: ItemsHeroProps) => {
+  const resolvedSecondPlaceholder =
+    secondFieldPlaceholder ?? locationPlaceholder;
+  const resolvedSecondValue = secondFieldValue ?? locationValue ?? '';
+  const resolvedOnSecondChange = onSecondFieldChange ?? onLocationChange;
+  const showSecondField = Boolean(
+    resolvedSecondPlaceholder && resolvedOnSecondChange
+  );
   return (
     <Box
       sx={{
@@ -137,31 +158,33 @@ export const ItemsHero = ({
             sx={{ px: 2, py: 1 }}
           />
 
-          <TextField
-            fullWidth
-            placeholder={locationPlaceholder}
-            value={locationValue}
-            onChange={(e) => onLocationChange(e.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MapPin color="gray" size={20} />
-                  </InputAdornment>
-                ),
-                disableUnderline: true
-              }
-            }}
-            variant="standard"
-            sx={(theme) => ({
-              px: 2,
-              py: 1,
-              borderLeft: 'none',
-              [theme.breakpoints.up('md')]: {
-                borderLeft: '1px solid #e0e0e0'
-              }
-            })}
-          />
+          {showSecondField && (
+            <TextField
+              fullWidth
+              placeholder={resolvedSecondPlaceholder}
+              value={resolvedSecondValue}
+              onChange={(e) => resolvedOnSecondChange!(e.target.value)}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SecondIcon color="gray" size={20} />
+                    </InputAdornment>
+                  ),
+                  disableUnderline: true
+                }
+              }}
+              variant="standard"
+              sx={(theme) => ({
+                px: 2,
+                py: 1,
+                borderLeft: 'none',
+                [theme.breakpoints.up('md')]: {
+                  borderLeft: '1px solid #e0e0e0'
+                }
+              })}
+            />
+          )}
         </Box>
       </Box>
     </Box>

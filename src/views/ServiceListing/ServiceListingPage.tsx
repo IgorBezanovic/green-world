@@ -1,4 +1,8 @@
-import { AppBreadcrumbs, ItemsHero } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  ItemsHero,
+  SharedPagination
+} from '@green-world/components';
 import { useGetServicesPaginated } from '@green-world/hooks/useServices';
 import {
   formatImageUrl,
@@ -21,7 +25,6 @@ import {
   InputLabel,
   Skeleton,
   Autocomplete,
-  Pagination,
   useTheme,
   useMediaQuery,
   Grow
@@ -352,7 +355,7 @@ export const ServiceListingPage = () => {
               }}
             >
               <Typography variant="h6">
-                {servicesMeta?.totalServices ?? services.length}{' '}
+                {servicesMeta?.totalItems ?? services.length}{' '}
                 {t('service.resultsFound')}
               </Typography>
               {/* Could add a Sort By dropdown here */}
@@ -602,39 +605,26 @@ export const ServiceListingPage = () => {
               </Box>
             )}
 
-            {!isLoading && !isError && (servicesMeta?.pages ?? 1) > 1 ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  mt: 5
-                }}
-              >
-                <Pagination
-                  count={servicesMeta?.pages ?? 1}
-                  page={servicesMeta?.currentPage ?? filters.page ?? 1}
-                  onChange={(_, value) => {
-                    setFilters((prev) => ({ ...prev, page: value }));
-                    setSearchParams((prev) => {
-                      const next = new URLSearchParams(prev);
-                      if (value > 1) {
-                        next.set('page', String(value));
-                      } else {
-                        next.delete('page');
-                      }
-                      return next;
-                    });
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  color="primary"
-                  variant="outlined"
-                  shape="rounded"
-                  size={isMobile ? 'medium' : 'large'}
-                  siblingCount={1}
-                  boundaryCount={isMobile ? 1 : 2}
-                />
-              </Box>
-            ) : null}
+            <SharedPagination
+              totalPages={servicesMeta?.pages}
+              currentPage={servicesMeta?.currentPage ?? filters.page ?? 1}
+              isLoading={isLoading}
+              isError={isError}
+              isMobile={isMobile}
+              onPageChange={(value) => {
+                setFilters((prev) => ({ ...prev, page: value }));
+                setSearchParams((prev) => {
+                  const next = new URLSearchParams(prev);
+                  if (value > 1) {
+                    next.set('page', String(value));
+                  } else {
+                    next.delete('page');
+                  }
+                  return next;
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
           </Grid>
         </Grid>
       </Box>

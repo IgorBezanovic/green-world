@@ -1,4 +1,5 @@
 import { request } from '@green-world/utils/api';
+import { PaginatedResponse } from '@green-world/utils/types';
 import {
   keepPreviousData,
   useQuery,
@@ -7,12 +8,10 @@ import {
 
 import { ProductPreview } from './useHomeProducts';
 
-export type ProductsResponse = {
-  currentPage: number;
-  pages: number;
-  products: ProductPreview[];
-  totalProducts: number;
-  priceLimits: [number, number];
+export type ProductsResponse = PaginatedResponse<ProductPreview> & {
+  extras?: {
+    priceLimits?: [number, number];
+  };
 };
 
 export type ProductFiltersParams = {
