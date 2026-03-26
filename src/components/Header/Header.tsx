@@ -183,7 +183,19 @@ export const Header = () => {
           <AISearch />
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            [theme.breakpoints.up('sm')]: {
+              gap: 2
+            },
+            [theme.breakpoints.up('md')]: {
+              gap: 4
+            }
+          })}
+        >
           <IconButton
             onClick={toggleMobileSearch}
             sx={{ [theme.breakpoints.up('md')]: { display: 'none' } }}
@@ -194,11 +206,23 @@ export const Header = () => {
           <Button
             variant="outlined"
             color="inherit"
-            sx={{
+            sx={(theme) => ({
               textTransform: 'uppercase',
-              display: 'none',
-              [theme.breakpoints.up('md')]: { display: 'inline-flex' }
-            }}
+              display: 'inline-flex',
+              minWidth: 'auto',
+              px: 1.2,
+              py: 0.4,
+              fontSize: '0.7rem',
+              [theme.breakpoints.up('sm')]: {
+                px: 1.5,
+                fontSize: '0.75rem'
+              },
+              [theme.breakpoints.up('md')]: {
+                px: 2,
+                py: 0.6,
+                fontSize: '0.875rem'
+              }
+            })}
             onClick={handleUser}
             aria-label="Menu"
           >

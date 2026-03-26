@@ -629,6 +629,14 @@ export const sr = {
   },
   productsView: {
     metaTitle: 'Zeleni svet | Pretraga proizvoda | Svi proizvodi',
+    hero: {
+      kicker: 'Istraži ponudu',
+      title: 'Proizvodi',
+      subtitle:
+        'Pronađite proizvode iz vaše okoline - domaću hranu, ručne radove i održiva rešenja za svakodnevni život.',
+      searchPlaceholder: 'Pretraži po nazivu ili opisu',
+      locationPlaceholder: 'Lokacija'
+    },
     openFilters: 'Filteri',
     closeFilters: 'Zatvori filtere',
     loading: 'Učitavam..',

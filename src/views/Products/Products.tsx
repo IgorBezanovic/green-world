@@ -1,4 +1,9 @@
-import { ProductCard, MetaTags, AppBreadcrumbs } from '@green-world/components';
+import {
+  ProductCard,
+  MetaTags,
+  AppBreadcrumbs,
+  ListingHero
+} from '@green-world/components';
 import {
   ProductFiltersParams,
   useAllProducts
@@ -74,6 +79,7 @@ export const Products = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
   const [search, setSearch] = useState(urlState.search);
+  const [heroLocation, setHeroLocation] = useState('');
   const [selectedGroup, setSelectedGroup] = useState(urlState.group);
   const [selectedSubgroup, setSelectedSubgroup] = useState(urlState.subGroup);
   const [priceRange, setPriceRange] = useState<
@@ -199,6 +205,22 @@ export const Products = () => {
       }}
     >
       <MetaTags title={t('productsView.metaTitle')} />
+
+      <ListingHero
+        kicker={t('productsView.hero.kicker')}
+        title={t('productsView.hero.title')}
+        subtitle={t('productsView.hero.subtitle')}
+        searchPlaceholder={t('productsView.hero.searchPlaceholder')}
+        locationPlaceholder={t('productsView.hero.locationPlaceholder')}
+        searchValue={search}
+        locationValue={heroLocation}
+        onSearchChange={(value) => {
+          setSearch(value);
+          setPage(1);
+        }}
+        onLocationChange={setHeroLocation}
+      />
+
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
