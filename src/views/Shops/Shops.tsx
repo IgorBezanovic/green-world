@@ -1,6 +1,8 @@
 import {
   AppBreadcrumbs,
+  ItemsHero,
   MetaTags,
+  SharedPagination,
   ShopCard,
   StatCard
 } from '@green-world/components';
@@ -11,7 +13,9 @@ import {
   Typography,
   CircularProgress,
   Chip,
-  InputBase
+  InputBase,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import {
   Store,
@@ -22,66 +26,88 @@ import {
   Search,
   ArrowUpAZ
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 export const Shops = () => {
   const { t } = useTranslation();
-  const { data, isLoading } = useAllUsers();
-
-  const totalProducts =
-    data?.reduce((sum, u) => sum + (u?.numberOfProducts || 0), 0) ?? 0;
-
-  const totalOnlineShops =
-    data?.reduce((sum, u) => sum + (u?.onlyOnline ? 1 : 0), 0) ?? 0;
-
-  const totalOfflineShops =
-    data?.reduce((sum, u) => sum + (u?.onlyOnline ? 0 : 1), 0) ?? 0;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   type ShopFilter = 'all' | 'offline' | 'online';
   type SortType = 'none' | 'name-asc' | 'products-desc';
 
-  const [filter, setFilter] = useState<ShopFilter>('all');
-  const [sort, setSort] = useState<SortType>('none');
-  const [search, setSearch] = useState('');
+  const parsePage = (value: string | null) => {
+    const parsed = Number(value || 1);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  };
+
+  const urlState = useMemo(
+    () => ({
+      search: searchParams.get('search') ?? '',
+      filter: (searchParams.get('filter') as ShopFilter | null) ?? 'all',
+      sort: (searchParams.get('sort') as SortType | null) ?? 'none',
+      page: parsePage(searchParams.get('page'))
+    }),
+    [searchParams]
+  );
+
+  const [filter, setFilter] = useState<ShopFilter>(urlState.filter);
+  const [sort, setSort] = useState<SortType>(urlState.sort);
+  const [search, setSearch] = useState(urlState.search);
+  const [page, setPage] = useState(urlState.page);
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const filteredShops = (data || [])
-    .filter((user) => {
-      const shopTitle = (user?.shopName || user?.name || '').toLowerCase();
+  const {
+    data: usersResponse,
+    isLoading,
+    isError
+  } = useAllUsers({
+    search: debouncedSearch || undefined,
+    filter,
+    sort,
+    page
+  });
 
-      const matchesSearch = shopTitle.includes(debouncedSearch.toLowerCase());
+  const data = usersResponse?.data || [];
+  const usersMeta = usersResponse?.meta;
 
-      const matchesFilter =
-        filter === 'all' ||
-        (filter === 'online' && user?.onlyOnline) ||
-        (filter === 'offline' && !user?.onlyOnline);
+  useEffect(() => {
+    if (search !== urlState.search) setSearch(urlState.search);
+    if (filter !== urlState.filter) setFilter(urlState.filter);
+    if (sort !== urlState.sort) setSort(urlState.sort);
+    if (page !== urlState.page) setPage(urlState.page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlState]);
 
-      return matchesSearch && matchesFilter;
-    })
-    .sort((a, b) => {
-      if (sort === 'name-asc') {
-        const nameA = (a?.shopName || a?.name || '').trim();
-        const nameB = (b?.shopName || b?.name || '').trim();
+  useEffect(() => {
+    const next = new URLSearchParams();
 
-        if (!nameA && nameB) return 1;
-        if (nameA && !nameB) return -1;
-        if (!nameA && !nameB) return 0;
+    if (search) next.set('search', search);
+    if (filter !== 'all') next.set('filter', filter);
+    if (sort !== 'none') next.set('sort', sort);
+    if (page > 1) next.set('page', String(page));
 
-        return nameA.localeCompare(nameB, 'sr');
-      }
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [filter, page, search, searchParams, setSearchParams, sort]);
 
-      if (sort === 'products-desc') {
-        return (b?.numberOfProducts || 0) - (a?.numberOfProducts || 0);
-      }
+  const totalProducts =
+    data.reduce((sum, u) => sum + (u?.numberOfProducts || 0), 0) ?? 0;
 
-      return 0;
-    });
+  const totalOnlineShops =
+    data.reduce((sum, u) => sum + (u?.onlyOnline ? 1 : 0), 0) ?? 0;
+
+  const totalOfflineShops =
+    data.reduce((sum, u) => sum + (u?.onlyOnline ? 0 : 1), 0) ?? 0;
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Prodavnice', route: '/shops' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.shops'), route: '/shops' }
   ];
 
   return (
@@ -96,6 +122,18 @@ export const Shops = () => {
         title={t('seo.shops.title')}
         description={t('seo.shops.description')}
         keywords={t('seo.shops.keywords')}
+      />
+
+      <ItemsHero
+        kicker={t('shopsView.hero.kicker')}
+        title={t('shopsView.hero.title')}
+        subtitle={t('shopsView.hero.subtitle')}
+        searchPlaceholder={t('shopsView.hero.searchPlaceholder')}
+        searchValue={search}
+        onSearchChange={(value) => {
+          setSearch(value);
+          setPage(1);
+        }}
       />
 
       <Box
@@ -117,24 +155,6 @@ export const Shops = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-
-        <Box>
-          <Typography
-            variant="h1"
-            color="secondary"
-            sx={{
-              fontSize: '42px !important',
-              textAlign: 'left',
-              fontFamily: 'Ephesis, Roboto, sans-serif'
-            }}
-          >
-            Prodavnice
-          </Typography>
-          <Typography variant="body1">
-            Pronađite pouzdane prodavce biljaka, sadnica i baštovanskog
-            asortimana u vašoj blizini ili online.
-          </Typography>
-        </Box>
 
         {/* Stats */}
         <Box
@@ -218,9 +238,12 @@ export const Shops = () => {
           >
             <Search size={18} />
             <InputBase
-              placeholder="Pretraži prodavnice..."
+              placeholder={t('shopsView.hero.searchPlaceholder')}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
               sx={{ width: '100%' }}
             />
           </Box>
@@ -232,7 +255,10 @@ export const Shops = () => {
               label="Sve"
               clickable
               color={filter === 'all' ? 'success' : 'default'}
-              onClick={() => setFilter('all')}
+              onClick={() => {
+                setFilter('all');
+                setPage(1);
+              }}
               sx={{ padding: '0 6px' }}
             />
             <Chip
@@ -240,7 +266,10 @@ export const Shops = () => {
               label="Fizičke"
               clickable
               color={filter === 'offline' ? 'success' : 'default'}
-              onClick={() => setFilter('offline')}
+              onClick={() => {
+                setFilter('offline');
+                setPage(1);
+              }}
               sx={{ padding: '0 6px' }}
             />
             <Chip
@@ -248,7 +277,10 @@ export const Shops = () => {
               label="Online"
               clickable
               color={filter === 'online' ? 'success' : 'default'}
-              onClick={() => setFilter('online')}
+              onClick={() => {
+                setFilter('online');
+                setPage(1);
+              }}
               sx={{ padding: '0 6px' }}
             />
 
@@ -257,9 +289,10 @@ export const Shops = () => {
               label="A–Z"
               clickable
               color={sort === 'name-asc' ? 'success' : 'default'}
-              onClick={() =>
-                setSort((prev) => (prev === 'name-asc' ? 'none' : 'name-asc'))
-              }
+              onClick={() => {
+                setSort((prev) => (prev === 'name-asc' ? 'none' : 'name-asc'));
+                setPage(1);
+              }}
               sx={{ padding: '0 6px' }}
             />
             <Chip
@@ -267,18 +300,22 @@ export const Shops = () => {
               label="Najviše proizvoda"
               clickable
               color={sort === 'products-desc' ? 'success' : 'default'}
-              onClick={() =>
+              onClick={() => {
                 setSort((prev) =>
                   prev === 'products-desc' ? 'none' : 'products-desc'
-                )
-              }
+                );
+                setPage(1);
+              }}
               sx={{ padding: '0 6px' }}
             />
           </Box>
         </Box>
         {/* <FeaturedShops /> */}
         <Typography variant="body1" color="common.black">
-          Prikazano {filteredShops.length} od {data?.length || 0} prodavnica
+          {t('shopsView.showing', {
+            shown: data.length,
+            total: usersMeta?.totalItems || 0
+          })}
         </Typography>
 
         {isLoading ? (
@@ -292,7 +329,7 @@ export const Shops = () => {
           >
             <CircularProgress />
           </Box>
-        ) : !data || data.length === 0 ? (
+        ) : data.length === 0 ? (
           <Typography
             variant="h6"
             sx={{ color: 'grey.600', textAlign: 'center' }}
@@ -320,7 +357,7 @@ export const Shops = () => {
               }
             }}
           >
-            {filteredShops?.map((user) => (
+            {data.map((user) => (
               <ShopCard
                 key={user._id}
                 id={user._id!}
@@ -336,6 +373,27 @@ export const Shops = () => {
             ))}
           </Box>
         )}
+
+        <SharedPagination
+          totalPages={usersMeta?.pages}
+          currentPage={usersMeta?.currentPage ?? page}
+          isLoading={isLoading}
+          isError={isError}
+          isMobile={isMobile}
+          onPageChange={(value) => {
+            setPage(value);
+            setSearchParams((prev) => {
+              const next = new URLSearchParams(prev);
+              if (value > 1) {
+                next.set('page', String(value));
+              } else {
+                next.delete('page');
+              }
+              return next;
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
         {/* <FeaturedShopsBanner /> */}
       </Box>
     </Box>

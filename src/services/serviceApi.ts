@@ -1,20 +1,13 @@
 import { client } from '@green-world/utils/api';
 import type {
+  PaginatedResponse,
   ServiceListing,
   ServiceListingFiltersParams
 } from '@green-world/utils/types';
 
 const ENDPOINT = 'services';
 
-export type ServicesPaginatedResponse = {
-  data: ServiceListing[];
-  meta: {
-    currentPage: number;
-    pages: number;
-    totalServices: number;
-    pageSize: number;
-  };
-};
+export type ServicesPaginatedResponse = PaginatedResponse<ServiceListing>;
 
 export const getServices = async (params?: ServiceListingFiltersParams) => {
   const { data } = await client.get(ENDPOINT, { params });
@@ -26,15 +19,7 @@ export const getServicesPaginated = async (
 ) => {
   const { data } = await client.get(ENDPOINT, { params });
 
-  return {
-    data: (data?.data ?? []) as ServiceListing[],
-    meta: {
-      currentPage: Number(data?.meta?.currentPage ?? 1),
-      pages: Number(data?.meta?.pages ?? 1),
-      totalServices: Number(data?.meta?.totalServices ?? 0),
-      pageSize: Number(data?.meta?.pageSize ?? 16)
-    }
-  } as ServicesPaginatedResponse;
+  return data as ServicesPaginatedResponse;
 };
 
 export const getServiceById = async (id: string) => {

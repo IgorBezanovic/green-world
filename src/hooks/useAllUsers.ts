@@ -1,14 +1,21 @@
 import { request } from '@green-world/utils/api';
-import { User } from '@green-world/utils/types';
+import {
+  PaginatedResponse,
+  User,
+  UsersListFiltersParams
+} from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-export const useAllUsers = (): UseQueryResult<User[]> => {
+export const useAllUsers = (
+  filters?: UsersListFiltersParams
+): UseQueryResult<PaginatedResponse<User>> => {
   return useQuery({
-    queryKey: ['allUsers'],
+    queryKey: ['allUsers', filters],
     queryFn: () =>
       request({
         url: '/user/all-users',
-        method: 'get'
+        method: 'get',
+        params: filters
       })
   });
 };

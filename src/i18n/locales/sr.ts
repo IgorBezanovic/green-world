@@ -13,6 +13,8 @@ export const sr = {
     products: 'Proizvodi',
     services: 'Usluge',
     events: 'Događaji',
+    shops: 'Prodavnice',
+    blog: 'Blog',
     userProfile: 'Korisnički profil',
     profile: 'Profil',
     promoBundle: 'Promotivni Paketi'
@@ -739,6 +741,32 @@ export const sr = {
     acceptPrefix: 'Prijavom prihvatate našu',
     privacyPolicy: 'Politiku privatnosti',
     acceptSuffix: '.'
+  },
+  shopsView: {
+    hero: {
+      kicker: 'Istraži prodavnice',
+      title: 'Prodavnice',
+      subtitle:
+        'Pronađite pouzdane prodavce biljaka, sadnica i baštovanskog asortimana u vašoj blizini ili online.',
+      searchPlaceholder: 'Pretraži po imenu prodavnice'
+    },
+    showing: 'Prikazano {{shown}} od {{total}} prodavnica'
+  },
+  blogView: {
+    hero: {
+      kicker: 'Zeleni Svet Blog',
+      title: 'Priče iz Naše Bašte',
+      subtitle:
+        'Otkrijte inspiraciju, biljke i filozofiju iza svake biljke koju gajimo sa ljubavlju i pažnjom.',
+      titlePlaceholder: 'Pretraži po naslovu',
+      authorPlaceholder: 'Pretraži po autoru'
+    },
+    noPostsTitle: 'Nema objavljenih postova',
+    writeFirstPost: 'Napiši prvi post',
+    ctaTitle: 'Želite Više Informacija?',
+    ctaSubtitle:
+      'Pridružite se našoj zajednici i budite prvi koji će saznati za nove biljke, priče i događaje.',
+    writeBlog: 'Napiši Blog'
   },
   metaTags: {
     defaultDescription:

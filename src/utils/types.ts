@@ -287,6 +287,20 @@ export type ServiceListingFiltersParams = {
   priceTo?: number;
   search?: string;
   page?: number;
+  pageSize?: number;
+};
+
+export type PaginatedMeta = {
+  currentPage: number;
+  pages: number;
+  totalItems: number;
+  pageSize: number;
+};
+
+export type PaginatedResponse<T> = {
+  data: T[];
+  meta: PaginatedMeta;
+  extras?: Record<string, unknown>;
 };
 
 export type EventListFiltersParams = {
@@ -295,12 +309,22 @@ export type EventListFiltersParams = {
   filterLocation?: string;
   typeAction?: Event['typeAction'];
   page?: number;
+  pageSize?: number;
 };
 
-export type EventsResponse = {
-  events: Event[];
-  currentPage: number;
-  pages: number;
-  totalEvents: number;
-  pageSize: number;
+export type EventsResponse = PaginatedResponse<Event>;
+
+export type BlogPostsListFiltersParams = {
+  page?: number;
+  pageSize?: number;
+  titleSearch?: string;
+  authorSearch?: string;
+};
+
+export type UsersListFiltersParams = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  filter?: 'all' | 'offline' | 'online';
+  sort?: 'none' | 'name-asc' | 'products-desc';
 };

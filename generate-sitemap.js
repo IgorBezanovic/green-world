@@ -16,6 +16,37 @@ async function generateSitemap() {
       : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/prod/${url}_${quality || 85}.webp`;
   };
 
+  const extractItems = (payload, legacyKey) => {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.data)) return payload.data;
+    if (legacyKey && Array.isArray(payload?.[legacyKey])) {
+      return payload[legacyKey];
+    }
+    return [];
+  };
+
+  const fetchAllItems = async (endpoint, legacyKey) => {
+    const items = [];
+    let page = 1;
+    let pages = 1;
+
+    do {
+      const separator = endpoint.includes('?') ? '&' : '?';
+      const res = await fetch(
+        `${hostname}${endpoint}${separator}page=${page}&pageSize=100`
+      );
+      const payload = await res.json();
+      const pageItems = extractItems(payload, legacyKey);
+      items.push(...pageItems);
+
+      if (!payload?.meta) break;
+      pages = Number(payload.meta.pages) || 1;
+      page += 1;
+    } while (page <= pages);
+
+    return items;
+  };
+
   const staticPages = [
     {
       url: '/',
@@ -158,9 +189,8 @@ async function generateSitemap() {
   staticPages.forEach((page) => smStream.write(page));
 
   // API proizvoda
-  const resProduct = await fetch(`${hostname}/api/product/all`);
-  const products = await resProduct.json();
-  products.products.forEach((p) =>
+  const products = await fetchAllItems('/api/product/all', 'products');
+  products.forEach((p) =>
     smStream.write({
       url: `/product/${p._id}`,
       changefreq: 'daily',
@@ -176,9 +206,8 @@ async function generateSitemap() {
   );
 
   // API dogadjaja
-  const resEvent = await fetch(`${hostname}/api/action/all`);
-  const event = await resEvent.json();
-  event.forEach((e) =>
+  const events = await fetchAllItems('/api/action/all', 'events');
+  events.forEach((e) =>
     smStream.write({
       url: `/event/${e._id}`,
       changefreq: 'daily',
@@ -193,10 +222,26 @@ async function generateSitemap() {
     })
   );
 
+  // API usluga
+  const services = await fetchAllItems('/api/services', 'services');
+  services.forEach((s) =>
+    smStream.write({
+      url: `/services/${s._id}`,
+      changefreq: 'daily',
+      priority: 1,
+      img: [
+        {
+          url: formatImageUrl(s.images?.[0] || ''),
+          title: s.title || '',
+          caption: s.description || ''
+        }
+      ]
+    })
+  );
+
   // API user-a
-  const resUser = await fetch(`${hostname}/api/user/all-users`);
-  const user = await resUser.json();
-  user.forEach((u) =>
+  const users = await fetchAllItems('/api/user/all-users', 'users');
+  users.forEach((u) =>
     smStream.write({
       url: `/shop/${u._id}`,
       changefreq: 'daily',

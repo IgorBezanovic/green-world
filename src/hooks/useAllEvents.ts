@@ -13,7 +13,7 @@ export const useAllEvents = (filters?: EventListFiltersParams) => {
         url: 'action/all',
         method: 'get',
         params: filters
-      }),
+      }) as Promise<EventsResponse>,
     placeholderData: keepPreviousData
   });
 };
