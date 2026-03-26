@@ -1,13 +1,19 @@
 import { request } from '@green-world/utils/api';
-import { useQuery } from '@tanstack/react-query';
+import {
+  EventListFiltersParams,
+  EventsResponse
+} from '@green-world/utils/types';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
-export const useAllEvents = () => {
-  return useQuery({
-    queryKey: ['allEvents'],
+export const useAllEvents = (filters?: EventListFiltersParams) => {
+  return useQuery<EventsResponse>({
+    queryKey: ['allEvents', filters],
     queryFn: () =>
       request({
         url: 'action/all',
-        method: 'get'
-      })
+        method: 'get',
+        params: filters
+      }),
+    placeholderData: keepPreviousData
   });
 };

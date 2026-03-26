@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { MapPin, Search } from 'lucide-react';
 
-type ListingHeroProps = {
+type ItemsHeroProps = {
   kicker: string;
   title: string;
   subtitle: string;
@@ -21,7 +21,7 @@ type ListingHeroProps = {
   subtitleMaxWidth?: number | string;
 };
 
-export const ListingHero = ({
+export const ItemsHero = ({
   kicker,
   title,
   subtitle,
@@ -32,7 +32,7 @@ export const ListingHero = ({
   onSearchChange,
   onLocationChange,
   subtitleMaxWidth = 760
-}: ListingHeroProps) => {
+}: ItemsHeroProps) => {
   return (
     <Box
       sx={{

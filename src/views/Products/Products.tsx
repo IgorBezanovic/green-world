@@ -2,7 +2,7 @@ import {
   ProductCard,
   MetaTags,
   AppBreadcrumbs,
-  ListingHero
+  ItemsHero
 } from '@green-world/components';
 import {
   ProductFiltersParams,
@@ -206,7 +206,7 @@ export const Products = () => {
     >
       <MetaTags title={t('productsView.metaTitle')} />
 
-      <ListingHero
+      <ItemsHero
         kicker={t('productsView.hero.kicker')}
         title={t('productsView.hero.title')}
         subtitle={t('productsView.hero.subtitle')}
