@@ -1,4 +1,4 @@
-import { ZSLogoLogoMark } from '@green-world/components/AppLogos';
+import { AppBreadcrumbs, ListingHero } from '@green-world/components';
 import { useGetServices } from '@green-world/hooks/useServices';
 import {
   formatImageUrl,
@@ -17,7 +17,6 @@ import {
   Button,
   Chip,
   TextField,
-  InputAdornment,
   InputLabel,
   Skeleton,
   Autocomplete,
@@ -25,7 +24,7 @@ import {
   useMediaQuery,
   Grow
 } from '@mui/material';
-import { Search, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -33,6 +32,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 export const ServiceListingPage = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const pages = [
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('breadcrumbs.services'), route: '/services' }
+  ];
 
   const parseNumberParam = (value: string | null) => {
     if (value === null || value === '') return undefined;
@@ -100,10 +103,6 @@ export const ServiceListingPage = () => {
     }
   }, [filters, searchParams, setSearchParams]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prev) => ({ ...prev, search: e.target.value }));
-  };
-
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilters((prev) => ({ ...prev, location: e.target.value }));
   };
@@ -120,124 +119,22 @@ export const ServiceListingPage = () => {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
-      {/* Hero Section */}
-      <Box
-        sx={{
-          bgcolor: 'primary.main',
-          color: 'white',
-          py: 8,
-          mb: 6,
-          position: 'relative',
-          overflow: 'hidden',
-          backgroundImage:
-            'linear-gradient(to right, rgba(22, 163, 74, 0.9), rgba(21, 128, 61, 0.9))'
-        }}
-      >
-        <Box
-          aria-hidden
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(125px, 1fr))',
-            gridAutoRows: '125px',
-            placeItems: 'center',
-            opacity: 0.14,
-            pointerEvents: 'none'
-          }}
-        >
-          {Array.from({ length: 160 }).map((_, index) => (
-            <Box key={index} sx={{ width: 64, height: 80 }}>
-              <ZSLogoLogoMark color="rgba(255,255,255,0.75)" />
-            </Box>
-          ))}
-        </Box>
-
-        <Box
-          sx={(theme) => ({
-            maxWidth: '1400px',
-            mx: 'auto',
-            px: 2,
-            position: 'relative',
-            zIndex: 1,
-            [theme.breakpoints.up('sm')]: { px: 3 },
-            [theme.breakpoints.up('xl')]: { px: 0 }
-          })}
-        >
-          <Typography
-            variant="h3"
-            component="h1"
-            fontWeight="bold"
-            gutterBottom
-          >
-            {t('service.title')}
-          </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.9, mb: 4, maxWidth: 600 }}>
-            {t('service.subtitle')}
-          </Typography>
-
-          <Box
-            sx={(theme) => ({
-              display: 'flex',
-              gap: 2,
-              bgcolor: 'white',
-              p: 1,
-              borderRadius: 2,
-              boxShadow: 3,
-              maxWidth: 1024,
-              width: '100%',
-              mx: 'auto',
-              mt: '24px',
-              flexDirection: 'column',
-              [theme.breakpoints.up('md')]: { flexDirection: 'row' }
-            })}
-          >
-            <TextField
-              fullWidth
-              placeholder={t('service.searchPlaceholder')}
-              value={filters.search}
-              onChange={handleSearchChange}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search color="gray" size={20} />
-                    </InputAdornment>
-                  ),
-                  disableUnderline: true
-                }
-              }}
-              variant="standard"
-              sx={{ px: 2, py: 1 }}
-            />
-            <TextField
-              fullWidth
-              placeholder={t('service.location')}
-              value={filters.location}
-              onChange={handleLocationChange}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <MapPin color="gray" size={20} />
-                    </InputAdornment>
-                  ),
-                  disableUnderline: true
-                }
-              }}
-              variant="standard"
-              sx={(theme) => ({
-                px: 2,
-                py: 1,
-                borderLeft: 'none',
-                [theme.breakpoints.up('md')]: {
-                  borderLeft: '1px solid #e0e0e0'
-                }
-              })}
-            />
-          </Box>
-        </Box>
-      </Box>
+      <ListingHero
+        kicker="Pronađi uslugu"
+        title={t('service.title')}
+        subtitle={t('service.subtitle')}
+        searchPlaceholder={t('service.searchPlaceholder')}
+        locationPlaceholder={t('service.location')}
+        searchValue={filters.search ?? ''}
+        locationValue={filters.location ?? ''}
+        onSearchChange={(value) =>
+          setFilters((prev) => ({ ...prev, search: value }))
+        }
+        onLocationChange={(value) =>
+          setFilters((prev) => ({ ...prev, location: value }))
+        }
+        subtitleMaxWidth={600}
+      />
 
       <Box
         sx={(theme) => ({
@@ -248,7 +145,8 @@ export const ServiceListingPage = () => {
           [theme.breakpoints.up('xl')]: { px: 0 }
         })}
       >
-        <Grid container spacing={4}>
+        <AppBreadcrumbs pages={pages} />
+        <Grid container spacing={4} sx={{ mt: 2 }}>
           {/* Sidebar / Filters */}
           <Grid size={{ xs: 12, lgm: 3 }}>
             {isTablet && (

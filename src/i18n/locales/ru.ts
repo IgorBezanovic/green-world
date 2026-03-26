@@ -625,6 +625,14 @@ export const ru = {
   },
   productsView: {
     metaTitle: 'Zeleni svet | Поиск товаров | Все товары',
+    hero: {
+      kicker: 'Изучите предложения',
+      title: 'Товары',
+      subtitle:
+        'Находите товары рядом с вами — домашние продукты, изделия ручной работы и экологичные решения для повседневной жизни.',
+      searchPlaceholder: 'Поиск по названию или описанию',
+      locationPlaceholder: 'Локация'
+    },
     openFilters: 'Фильтры',
     closeFilters: 'Закрыть фильтры',
     loading: 'Загрузка..',

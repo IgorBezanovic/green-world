@@ -625,6 +625,14 @@ export const en = {
   },
   productsView: {
     metaTitle: 'Zeleni svet | Product search | All products',
+    hero: {
+      kicker: 'Explore the offer',
+      title: 'Products',
+      subtitle:
+        'Find products in your area - homemade food, handmade items, and sustainable solutions for everyday life.',
+      searchPlaceholder: 'Search by title or description',
+      locationPlaceholder: 'Location'
+    },
     openFilters: 'Filters',
     closeFilters: 'Close filters',
     loading: 'Loading..',
