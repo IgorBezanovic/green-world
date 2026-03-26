@@ -11,6 +11,8 @@ export const en = {
   breadcrumbs: {
     home: 'Home',
     products: 'Products',
+    services: 'Services',
+    events: 'Events',
     userProfile: 'User profile',
     profile: 'Profile',
     promoBundle: 'Promotional Bundles'

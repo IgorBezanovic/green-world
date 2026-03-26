@@ -11,6 +11,8 @@ export const ru = {
   breadcrumbs: {
     home: 'Главная',
     products: 'Продукты',
+    services: 'Услуги',
+    events: 'События',
     userProfile: 'Профиль пользователя',
     profile: 'Профиль',
     promoBundle: 'Промо-пакеты'
