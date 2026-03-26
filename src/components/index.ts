@@ -27,7 +27,7 @@ export * from '@green-world/components/ImageGallery';
 export * from '@green-world/components/LazySection';
 export * from '@green-world/components/Layout/Layout';
 export * from '@green-world/components/LanguageSwitcher';
-export * from '@green-world/components/ListingHero';
+export * from '@green-world/components/ItemsHero';
 export * from '@green-world/components/Loader';
 export * from '@green-world/components/LoginForm';
 export * from '@green-world/components/MetaLoginAuth';

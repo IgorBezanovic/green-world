@@ -1,5 +1,5 @@
-import { AppBreadcrumbs, ListingHero } from '@green-world/components';
-import { useGetServices } from '@green-world/hooks/useServices';
+import { AppBreadcrumbs, ItemsHero } from '@green-world/components';
+import { useGetServicesPaginated } from '@green-world/hooks/useServices';
 import {
   formatImageUrl,
   getPlainTextFromHtml,
@@ -20,6 +20,7 @@ import {
   InputLabel,
   Skeleton,
   Autocomplete,
+  Pagination,
   useTheme,
   useMediaQuery,
   Grow
@@ -49,7 +50,8 @@ export const ServiceListingPage = () => {
       service: searchParams.get('service') ?? '',
       priceFrom: parseNumberParam(searchParams.get('priceFrom')),
       priceTo: parseNumberParam(searchParams.get('priceTo')),
-      search: searchParams.get('search') ?? ''
+      search: searchParams.get('search') ?? '',
+      page: Math.max(parseNumberParam(searchParams.get('page')) ?? 1, 1)
     }),
     [searchParams]
   );
@@ -57,6 +59,7 @@ export const ServiceListingPage = () => {
   const [filters, setFilters] = useState<ServiceListingFiltersParams>(urlState);
 
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
@@ -66,8 +69,9 @@ export const ServiceListingPage = () => {
     data: servicesResponse,
     isLoading,
     isError
-  } = useGetServices(debouncedFilters);
-  const services = servicesResponse || [];
+  } = useGetServicesPaginated(debouncedFilters);
+  const services = servicesResponse?.data || [];
+  const servicesMeta = servicesResponse?.meta;
 
   useEffect(() => {
     setFilters((prev) => {
@@ -76,7 +80,8 @@ export const ServiceListingPage = () => {
         prev.service === urlState.service &&
         prev.priceFrom === urlState.priceFrom &&
         prev.priceTo === urlState.priceTo &&
-        prev.search === urlState.search
+        prev.search === urlState.search &&
+        prev.page === urlState.page
       ) {
         return prev;
       }
@@ -97,6 +102,9 @@ export const ServiceListingPage = () => {
     if (filters.priceTo !== undefined) {
       next.set('priceTo', String(filters.priceTo));
     }
+    if (filters.page && filters.page > 1) {
+      next.set('page', String(filters.page));
+    }
 
     if (next.toString() !== searchParams.toString()) {
       setSearchParams(next, { replace: true });
@@ -104,7 +112,7 @@ export const ServiceListingPage = () => {
   }, [filters, searchParams, setSearchParams]);
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prev) => ({ ...prev, location: e.target.value }));
+    setFilters((prev) => ({ ...prev, location: e.target.value, page: 1 }));
   };
 
   const resetFilters = () => {
@@ -113,13 +121,14 @@ export const ServiceListingPage = () => {
       service: '',
       priceFrom: undefined,
       priceTo: undefined,
-      search: ''
+      search: '',
+      page: 1
     });
   };
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
-      <ListingHero
+      <ItemsHero
         kicker="Pronađi uslugu"
         title={t('service.title')}
         subtitle={t('service.subtitle')}
@@ -128,10 +137,10 @@ export const ServiceListingPage = () => {
         searchValue={filters.search ?? ''}
         locationValue={filters.location ?? ''}
         onSearchChange={(value) =>
-          setFilters((prev) => ({ ...prev, search: value }))
+          setFilters((prev) => ({ ...prev, search: value, page: 1 }))
         }
         onLocationChange={(value) =>
-          setFilters((prev) => ({ ...prev, location: value }))
+          setFilters((prev) => ({ ...prev, location: value, page: 1 }))
         }
         subtitleMaxWidth={600}
       />
@@ -218,7 +227,8 @@ export const ServiceListingPage = () => {
                       onChange={(_e, newValue) => {
                         setFilters((prev) => ({
                           ...prev,
-                          service: newValue || ''
+                          service: newValue || '',
+                          page: 1
                         }));
                       }}
                       getOptionLabel={(option) => {
@@ -260,7 +270,8 @@ export const ServiceListingPage = () => {
                             ...prev,
                             priceFrom: Number.isFinite(value)
                               ? value
-                              : undefined
+                              : undefined,
+                            page: 1
                           }));
                         }}
                         fullWidth
@@ -281,7 +292,8 @@ export const ServiceListingPage = () => {
 
                           setFilters((prev) => ({
                             ...prev,
-                            priceTo: Number.isFinite(value) ? value : undefined
+                            priceTo: Number.isFinite(value) ? value : undefined,
+                            page: 1
                           }));
                         }}
                         fullWidth
@@ -320,7 +332,8 @@ export const ServiceListingPage = () => {
               }}
             >
               <Typography variant="h6">
-                {services.length} {t('service.resultsFound')}
+                {servicesMeta?.totalServices ?? services.length}{' '}
+                {t('service.resultsFound')}
               </Typography>
               {/* Could add a Sort By dropdown here */}
             </Box>
@@ -568,6 +581,40 @@ export const ServiceListingPage = () => {
                 ))}
               </Box>
             )}
+
+            {!isLoading && !isError && (servicesMeta?.pages ?? 1) > 1 ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 5
+                }}
+              >
+                <Pagination
+                  count={servicesMeta?.pages ?? 1}
+                  page={servicesMeta?.currentPage ?? filters.page ?? 1}
+                  onChange={(_, value) => {
+                    setFilters((prev) => ({ ...prev, page: value }));
+                    setSearchParams((prev) => {
+                      const next = new URLSearchParams(prev);
+                      if (value > 1) {
+                        next.set('page', String(value));
+                      } else {
+                        next.delete('page');
+                      }
+                      return next;
+                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                  size={isMobile ? 'medium' : 'large'}
+                  siblingCount={1}
+                  boundaryCount={isMobile ? 1 : 2}
+                />
+              </Box>
+            ) : null}
           </Grid>
         </Grid>
       </Box>

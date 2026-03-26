@@ -3,6 +3,8 @@ import {
   deleteService,
   getServiceById,
   getServices,
+  getServicesPaginated,
+  ServicesPaginatedResponse,
   sendDirectEmailToServiceProvider,
   updateService
 } from '@green-world/services/serviceApi';
@@ -17,6 +19,8 @@ export const SERVICE_KEYS = {
   all: ['services'] as const,
   list: (filters?: ServiceListingFiltersParams) =>
     [...SERVICE_KEYS.all, 'list', filters] as const,
+  paginatedList: (filters?: ServiceListingFiltersParams) =>
+    [...SERVICE_KEYS.all, 'paginated-list', filters] as const,
   detail: (id: string) => [...SERVICE_KEYS.all, 'detail', id] as const
 };
 
@@ -24,6 +28,15 @@ export const useGetServices = (filters?: ServiceListingFiltersParams) => {
   return useQuery({
     queryKey: SERVICE_KEYS.list(filters),
     queryFn: () => getServices(filters)
+  });
+};
+
+export const useGetServicesPaginated = (
+  filters?: ServiceListingFiltersParams
+) => {
+  return useQuery<ServicesPaginatedResponse>({
+    queryKey: SERVICE_KEYS.paginatedList(filters),
+    queryFn: () => getServicesPaginated(filters)
   });
 };
 

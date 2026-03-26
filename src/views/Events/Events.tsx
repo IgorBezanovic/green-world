@@ -1,4 +1,4 @@
-import { AppBreadcrumbs, ListingHero, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, ItemsHero, MetaTags } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
 import {
   formatDate,
@@ -15,6 +15,7 @@ import {
   CardContent,
   Chip,
   InputLabel,
+  Pagination,
   Skeleton,
   TextField,
   Typography,
@@ -23,9 +24,9 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Calendar, Clock3, User } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 type EventType = Event['typeAction'];
 
@@ -68,6 +69,10 @@ const EVENT_TYPE_BADGE_SX: Record<
   }
 };
 
+const isEventType = (value: string): value is EventType => {
+  return value === 'cleaning' || value === 'selling' || value === 'planting';
+};
+
 const isEventFinished = (event: Event) => {
   const status = String(event.status || '').toLowerCase();
 
@@ -94,59 +99,101 @@ const isEventFinished = (event: Event) => {
 export const Events = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lgm'));
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const parseNumberParam = (value: string | null) => {
+    if (value === null || value === '') return undefined;
+    const num = Number(value);
+    return Number.isFinite(num) ? num : undefined;
+  };
+
+  const urlState = useMemo<{
+    search: string;
+    location: string;
+    filterLocation: string;
+    eventType: EventType | '';
+    page: number;
+  }>(
+    () => ({
+      search: searchParams.get('search') ?? '',
+      location: searchParams.get('location') ?? '',
+      filterLocation: searchParams.get('filterLocation') ?? '',
+      eventType: isEventType(searchParams.get('eventType') ?? '')
+        ? (searchParams.get('eventType') as EventType)
+        : '',
+      page: Math.max(parseNumberParam(searchParams.get('page')) ?? 1, 1)
+    }),
+    [searchParams]
+  );
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  const [location, setLocation] = useState('');
-  const [filterLocation, setFilterLocation] = useState('');
-  const [eventType, setEventType] = useState<EventType | ''>('');
+  const [search, setSearch] = useState(urlState.search);
+  const [location, setLocation] = useState(urlState.location);
+  const [filterLocation, setFilterLocation] = useState(urlState.filterLocation);
+  const [eventType, setEventType] = useState<EventType | ''>(
+    urlState.eventType
+  );
+  const [page, setPage] = useState(urlState.page);
 
   const debouncedSearch = useDebounce(search, 300);
   const debouncedLocation = useDebounce(location, 300);
   const debouncedFilterLocation = useDebounce(filterLocation, 300);
 
-  const { data: allEvents, isLoading, isError } = useAllEvents();
+  const filters = useMemo(
+    () => ({
+      search: debouncedSearch || undefined,
+      location: debouncedLocation || undefined,
+      filterLocation: debouncedFilterLocation || undefined,
+      typeAction: eventType || undefined,
+      page
+    }),
+    [
+      debouncedFilterLocation,
+      debouncedLocation,
+      debouncedSearch,
+      eventType,
+      page
+    ]
+  );
 
-  const filteredEvents = useMemo(() => {
-    const events = allEvents || [];
+  const { data: eventsResponse, isLoading, isError } = useAllEvents(filters);
+  const events = eventsResponse?.events || [];
+  const totalEvents = eventsResponse?.totalEvents ?? 0;
+  const totalPages = eventsResponse?.pages ?? 1;
 
-    const normalizedSearch = debouncedSearch.trim().toLowerCase();
-    const normalizedHeaderLocation = debouncedLocation.trim().toLowerCase();
-    const normalizedFilterLocation = debouncedFilterLocation
-      .trim()
-      .toLowerCase();
+  useEffect(() => {
+    if (search !== urlState.search) setSearch(urlState.search);
+    if (location !== urlState.location) setLocation(urlState.location);
+    if (filterLocation !== urlState.filterLocation) {
+      setFilterLocation(urlState.filterLocation);
+    }
+    if (eventType !== urlState.eventType) setEventType(urlState.eventType);
+    if (page !== urlState.page) setPage(urlState.page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlState]);
 
-    return events.filter((event: Event) => {
-      const plainDescription = getPlainTextFromHtml(event.description || '');
-      const searchMatch =
-        !normalizedSearch ||
-        event.title.toLowerCase().includes(normalizedSearch) ||
-        plainDescription.toLowerCase().includes(normalizedSearch);
+  useEffect(() => {
+    const next = new URLSearchParams();
 
-      const eventLocation =
-        `${event.place || ''} ${event.address || ''}`.toLowerCase();
+    if (search) next.set('search', search);
+    if (location) next.set('location', location);
+    if (filterLocation) next.set('filterLocation', filterLocation);
+    if (eventType) next.set('eventType', eventType);
+    if (page > 1) next.set('page', String(page));
 
-      const headerLocationMatch =
-        !normalizedHeaderLocation ||
-        eventLocation.includes(normalizedHeaderLocation);
-
-      const filterLocationMatch =
-        !normalizedFilterLocation ||
-        eventLocation.includes(normalizedFilterLocation);
-
-      const typeMatch = !eventType || event.typeAction === eventType;
-
-      return (
-        searchMatch && headerLocationMatch && filterLocationMatch && typeMatch
-      );
-    });
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
   }, [
-    allEvents,
-    debouncedFilterLocation,
-    debouncedLocation,
-    debouncedSearch,
-    eventType
+    eventType,
+    filterLocation,
+    location,
+    page,
+    search,
+    searchParams,
+    setSearchParams
   ]);
 
   const resetFilters = () => {
@@ -154,6 +201,7 @@ export const Events = () => {
     setLocation('');
     setFilterLocation('');
     setEventType('');
+    setPage(1);
   };
 
   const pages = [
@@ -169,7 +217,7 @@ export const Events = () => {
         keywords={t('seo.events.keywords')}
       />
 
-      <ListingHero
+      <ItemsHero
         kicker="Pridruži se zajednici"
         title="Događaji"
         subtitle="Pronađite događaje u vašoj blizini - akcije čišćenja, pijace lokalnih proizvoda i radionice sadnje biljaka."
@@ -177,8 +225,14 @@ export const Events = () => {
         locationPlaceholder="Lokacija"
         searchValue={search}
         locationValue={location}
-        onSearchChange={setSearch}
-        onLocationChange={setLocation}
+        onSearchChange={(value) => {
+          setSearch(value);
+          setPage(1);
+        }}
+        onLocationChange={(value) => {
+          setLocation(value);
+          setPage(1);
+        }}
       />
 
       <Box
@@ -242,7 +296,10 @@ export const Events = () => {
                   <TextField
                     id="event-location"
                     value={filterLocation}
-                    onChange={(e) => setFilterLocation(e.target.value)}
+                    onChange={(e) => {
+                      setFilterLocation(e.target.value);
+                      setPage(1);
+                    }}
                     placeholder="Unesite lokaciju"
                     fullWidth
                     sx={{
@@ -264,9 +321,10 @@ export const Events = () => {
                     id="event-type"
                     options={EVENT_TYPE_OPTIONS}
                     value={eventType || null}
-                    onChange={(_e, newValue) =>
-                      setEventType((newValue as EventType) || '')
-                    }
+                    onChange={(_e, newValue) => {
+                      setEventType((newValue as EventType) || '');
+                      setPage(1);
+                    }}
                     getOptionLabel={(option) =>
                       EVENT_TYPE_LABELS[option as EventType] || ''
                     }
@@ -354,7 +412,7 @@ export const Events = () => {
 
           <Box>
             <Typography variant="h6" sx={{ mb: 3 }}>
-              {filteredEvents.length} događaja pronađeno
+              {totalEvents} događaja pronađeno
             </Typography>
 
             {isLoading ? (
@@ -395,7 +453,7 @@ export const Events = () => {
                   Greška pri učitavanju događaja.
                 </Typography>
               </Box>
-            ) : filteredEvents.length === 0 ? (
+            ) : events.length === 0 ? (
               <Box
                 sx={{
                   py: 8,
@@ -437,7 +495,7 @@ export const Events = () => {
                   }
                 })}
               >
-                {filteredEvents.map((event: Event) => (
+                {events.map((event: Event) => (
                   <Box key={event._id} sx={{ width: '100%', minWidth: 0 }}>
                     {(() => {
                       const isFinished = isEventFinished(event);
@@ -681,6 +739,40 @@ export const Events = () => {
                 ))}
               </Box>
             )}
+
+            {!isLoading && !isError && totalPages > 1 ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 5
+                }}
+              >
+                <Pagination
+                  count={totalPages}
+                  page={eventsResponse?.currentPage ?? page}
+                  onChange={(_, value) => {
+                    setPage(value);
+                    setSearchParams((prev) => {
+                      const next = new URLSearchParams(prev);
+                      if (value > 1) {
+                        next.set('page', String(value));
+                      } else {
+                        next.delete('page');
+                      }
+                      return next;
+                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                  size={isMobile ? 'medium' : 'large'}
+                  siblingCount={1}
+                  boundaryCount={isMobile ? 1 : 2}
+                />
+              </Box>
+            ) : null}
           </Box>
         </Box>
       </Box>

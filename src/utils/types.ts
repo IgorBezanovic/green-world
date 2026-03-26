@@ -286,4 +286,21 @@ export type ServiceListingFiltersParams = {
   priceFrom?: number;
   priceTo?: number;
   search?: string;
+  page?: number;
+};
+
+export type EventListFiltersParams = {
+  search?: string;
+  location?: string;
+  filterLocation?: string;
+  typeAction?: Event['typeAction'];
+  page?: number;
+};
+
+export type EventsResponse = {
+  events: Event[];
+  currentPage: number;
+  pages: number;
+  totalEvents: number;
+  pageSize: number;
 };
