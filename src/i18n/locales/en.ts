@@ -427,6 +427,9 @@ export const en = {
     linkCopiedInfo: 'Link copied. Press Cmd/Ctrl+D to bookmark this page.',
     bookmarkShortcutAlert: 'Press Cmd/Ctrl+D to bookmark this page: {{url}}'
   },
+  copyLinkButton: {
+    label: 'Copy link'
+  },
   commentForm: {
     submit: 'Submit comment',
     replyPlaceholder: 'Write a reply...',
@@ -539,6 +542,22 @@ export const en = {
     yes: 'Yes',
     no: 'No'
   },
+  eventPage: {
+    eventFallback: 'Event',
+    contact: 'Event organizer contact',
+    description: 'Event description',
+    views: '{{count}} views',
+    shareEvent: 'Share event',
+    linkCopied: 'Link copied',
+    linkCopyFailed: 'Failed to copy link',
+    noDateInfo: "We don't have the exact information",
+    contactOrganizer: 'Contact organizer',
+    status: {
+      active: 'Active',
+      cancelled: 'Cancelled',
+      finished: 'Finished'
+    }
+  },
   featuredProduct: {
     featured: 'Featured',
     fallbackDescription: 'Check out our offer.',
@@ -650,6 +669,7 @@ export const en = {
     to: 'To',
     inStock: 'In stock',
     priceOnRequest: 'Price on request',
+    resultsFound: 'products found',
     noProductsFound: 'Currently no products for selected filters',
     chooseDifferentFilters: 'Choose a different combination of filters',
     resetFilters: 'Reset filters'

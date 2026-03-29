@@ -1,5 +1,5 @@
-import { Box, Button } from '@mui/material';
-import { CheckCheck } from 'lucide-react';
+import { Box, Button, Typography } from '@mui/material';
+import { CheckCheck, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useCallback, useContext, useState } from 'react';
 
 import UserContext from '../../context/UserContext';
@@ -23,6 +23,7 @@ export const VoteButtons = ({
 
   const hasLiked = !!userId && likes?.includes(userId);
   const hasDisliked = !!userId && dislikes?.includes(userId);
+  const score = (likes?.length || 0) - (dislikes?.length || 0);
 
   const handle = useCallback(
     async (vote: VoteType) => {
@@ -38,56 +39,110 @@ export const VoteButtons = ({
   );
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Box
+      sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 1,
+        p: 0.75,
+        borderRadius: 999,
+        border: '1px solid',
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
+        boxShadow: '0 10px 30px rgb(15 23 42 / 0.06)',
+        flexWrap: 'wrap'
+      }}
+    >
       <Button
         aria-label="like"
         onClick={() => handle('like')}
-        disabled={disabled || hasLiked}
-        variant="outlined"
+        disabled={disabled || hasLiked || pending !== null}
+        variant={hasLiked ? 'contained' : 'text'}
+        color={hasLiked ? 'success' : 'inherit'}
         sx={{
-          px: 2,
+          minWidth: 0,
+          px: 1.5,
+          py: 1,
+          borderRadius: 999,
           textTransform: 'none',
-          display: 'flex',
-          alignItems: 'center'
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 1,
+          fontWeight: 700,
+          color: hasLiked ? 'common.white' : 'text.primary',
+          bgcolor: hasLiked ? undefined : 'success.light',
+          '& svg': {
+            color: 'inherit'
+          },
+          '&:hover': {
+            bgcolor: hasLiked ? undefined : 'success.main',
+            color: hasLiked ? 'common.white' : 'common.white',
+            '& svg': {
+              color: 'common.white'
+            }
+          },
+          '&.Mui-disabled': {
+            opacity: hasLiked ? 0.92 : 0.55,
+            color: hasLiked ? 'common.white' : 'text.secondary'
+          }
         }}
       >
-        <Box component="span" sx={{ mr: 1 }}>
-          👍
-        </Box>
+        <ThumbsUp size={16} strokeWidth={2} />
+        <Typography component="span" variant="button" sx={{ color: 'inherit' }}>
+          {likes?.length || 0}
+        </Typography>
         {hasLiked && <CheckCheck />}
       </Button>
       <Box
-        component="span"
+        component="div"
         sx={{
-          mx: 1,
-          minWidth: 30,
+          minWidth: 44,
+          px: 0.5,
           textAlign: 'center',
-          fontWeight: 'bold',
-          color:
-            (likes?.length || 0) - (dislikes?.length || 0) >= 0
-              ? 'success.main'
-              : 'error.main'
+          fontWeight: 800,
+          color: score >= 0 ? 'success.dark' : 'error.main'
         }}
       >
-        {(likes?.length || 0) - (dislikes?.length || 0) >= 0
-          ? `+${(likes?.length || 0) - (dislikes?.length || 0)}`
-          : `${(likes?.length || 0) - (dislikes?.length || 0)}`}
+        {score >= 0 ? `+${score}` : `${score}`}
       </Box>
       <Button
         aria-label="dislike"
         onClick={() => handle('dislike')}
-        disabled={disabled || hasDisliked}
-        variant="outlined"
+        disabled={disabled || hasDisliked || pending !== null}
+        variant={hasDisliked ? 'contained' : 'text'}
+        color={hasDisliked ? 'error' : 'inherit'}
         sx={{
-          px: 2,
+          minWidth: 0,
+          px: 1.5,
+          py: 1,
+          borderRadius: 999,
           textTransform: 'none',
-          display: 'flex',
-          alignItems: 'center'
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 1,
+          fontWeight: 700,
+          color: hasDisliked ? 'common.white' : 'text.primary',
+          bgcolor: hasDisliked ? undefined : 'error.light',
+          '& svg': {
+            color: 'inherit'
+          },
+          '&:hover': {
+            bgcolor: hasDisliked ? undefined : 'error.main',
+            color: hasDisliked ? 'common.white' : 'common.white',
+            '& svg': {
+              color: 'common.white'
+            }
+          },
+          '&.Mui-disabled': {
+            opacity: hasDisliked ? 0.92 : 0.55,
+            color: hasDisliked ? 'common.white' : 'text.secondary'
+          }
         }}
       >
-        <Box component="span" sx={{ mr: 1 }}>
-          👎
-        </Box>
+        <ThumbsDown size={16} strokeWidth={2} />
+        <Typography component="span" variant="button" sx={{ color: 'inherit' }}>
+          {dislikes?.length || 0}
+        </Typography>
         {hasDisliked && <CheckCheck />}
       </Button>
     </Box>

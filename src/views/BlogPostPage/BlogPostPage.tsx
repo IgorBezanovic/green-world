@@ -2,6 +2,7 @@ import {
   Loader,
   BlogBlock,
   BookmarkButton,
+  CopyLinkButton,
   VoteButtons,
   CommentForm,
   CommentList,
@@ -17,11 +18,10 @@ import { useUser } from '@green-world/hooks/useUser';
 import { useVotePost } from '@green-world/hooks/useVotePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Box, Card, Chip, Typography, useTheme } from '@mui/material';
-import { Calendar, Clock, Copy, User } from 'lucide-react';
+import { Calendar, Clock, User } from 'lucide-react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 export const BlogPostPage = () => {
   const { t } = useTranslation();
@@ -309,25 +309,9 @@ export const BlogPostPage = () => {
               dislikes={post?.dislikes}
               onVote={handlePostVote}
             />
-            <Chip
-              aria-label="share"
-              variant="outlined"
-              color="secondary"
-              onClick={() => {
-                navigator.clipboard
-                  .writeText(`https://www.zelenisvet.rs/blog/${post?._id}`)
-                  .then(() => {
-                    toast.success(t('blogPostPage.linkCopied'));
-                  })
-                  .catch(() => {
-                    toast.error(t('blogPostPage.linkCopyFailed'));
-                  });
-              }}
-              label={
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Copy /> {t('blogPostPage.shareBlog')}
-                </Box>
-              }
+            <CopyLinkButton
+              successMessage={t('blogPostPage.linkCopied')}
+              errorMessage={t('blogPostPage.linkCopyFailed')}
             />
             <BookmarkButton />
           </Box>

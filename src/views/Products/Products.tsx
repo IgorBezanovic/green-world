@@ -3,6 +3,8 @@ import {
   MetaTags,
   AppBreadcrumbs,
   ItemsHero,
+  ListingContentLayout,
+  ListingStateSection,
   SharedPagination
 } from '@green-world/components';
 import {
@@ -29,7 +31,6 @@ import {
   CircularProgress
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
-import Grow from '@mui/material/Grow';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router';
@@ -221,412 +222,327 @@ export const Products = () => {
         onLocationChange={setHeroLocation}
       />
 
-      <Box
-        sx={(theme) => ({
-          maxWidth: '1400px',
-          width: '100%',
-          mx: 'auto',
-          px: '16px',
-          py: 0,
-          gap: 4,
-          [theme.breakpoints.up('sm')]: {
-            px: '1.5rem'
-          },
-          [theme.breakpoints.up('xl')]: {
-            px: 0
-          },
-          display: 'flex',
-          flexDirection: 'column'
-        })}
-      >
-        <AppBreadcrumbs pages={pages} />
-        <Box
-          sx={(theme) => ({
-            display: 'flex',
-            mt: 2,
-            gap: 7,
-            [theme.breakpoints.down('md')]: { gap: 2 },
-            flexDirection: 'row',
-            [theme.breakpoints.down('lgm')]: { flexDirection: 'column' }
-          })}
-        >
-          {/* Filters */}
-          <Box>
-            {isTablet && (
-              <Button
-                variant="contained"
-                onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                sx={{
-                  width: '100%',
-                  marginBottom: '16px'
-                }}
-              >
-                {!isFiltersOpen
-                  ? t('productsView.openFilters')
-                  : t('productsView.closeFilters')}
-              </Button>
-            )}
-            {/* Filters */}
-            {(isTablet ? isFiltersOpen && isTablet : true) && (
-              <Grow in={isFiltersOpen || !isTablet}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '16px',
-                    position: 'sticky',
-                    top: '133px'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography
-                      variant="h1"
-                      color="secondary.main"
-                      sx={{ fontFamily: 'Ephesis' }}
-                    >
-                      {t('productsView.openFilters')}
-                    </Typography>
-                    {isFetching && (
-                      <Typography
-                        variant="overline"
-                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                      >
-                        <CircularProgress size={16} thickness={4} />
-                        {t('productsView.loading')}
-                      </Typography>
-                    )}
-                  </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: 'text.primary' }}
-                      htmlFor="product-title"
-                    >
-                      {t('productsView.productName')}
-                    </InputLabel>
-                    <TextField
-                      name="product-title"
-                      value={search}
-                      onChange={(e) => {
-                        setSearch(e.target.value);
-                        setPage(1);
-                      }}
-                      placeholder={t('productsView.productName')}
-                      fullWidth
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          padding: '8px'
-                        }
-                      }}
-                      slotProps={{
-                        input: {
-                          endAdornment: search ? (
-                            <ClearIcon
-                              onClick={() => {
-                                setSearch('');
-                                setPage(1);
-                              }}
-                              sx={{ cursor: 'pointer' }}
-                            />
-                          ) : (
-                            <SearchIcon color="action" />
-                          )
-                        }
-                      }}
-                    />
-                  </Box>
-                  {!category && (
-                    <Box>
-                      <InputLabel sx={{ color: 'text.primary' }} id="group">
-                        {t('productsView.group')}
-                      </InputLabel>
-                      <Select
-                        labelId="group"
-                        value={selectedGroup}
-                        onChange={(e) => {
-                          setSelectedGroup(e.target.value);
-                          setPage(1);
-                        }}
-                        fullWidth
-                        sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
-                        displayEmpty
-                        renderValue={(selected) => {
-                          if (!selected) return t('productsView.allGroups');
-                          return getLocalizedGroupLabel(
-                            selected,
-                            i18n.language
-                          );
-                        }}
-                      >
-                        <MenuItem value="">
-                          {t('productsView.allGroups')}
-                        </MenuItem>
-                        {homeCategories?.map((cat) => (
-                          <MenuItem key={cat.slug} value={cat.slug}>
-                            {getLocalizedGroupLabel(cat.slug, i18n.language)}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </Box>
-                  )}
-                  <Box>
-                    <InputLabel sx={{ color: 'text.primary' }} id="subGroup">
-                      {t('productsView.subgroup')}
-                    </InputLabel>
-                    <Select
-                      labelId="subGroup"
-                      value={selectedSubgroup}
-                      onChange={(e) => {
-                        setSelectedSubgroup(e.target.value);
-                        setPage(1);
-                      }}
-                      fullWidth
-                      disabled={!availableSubgroups.length}
-                      sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
-                      displayEmpty
-                      renderValue={(selected) => {
-                        if (!selected) return t('productsView.allSubgroups');
-                        return getLocalizedSubGroupLabel(
-                          selectedGroupKey,
-                          selected,
-                          i18n.language
-                        );
-                      }}
-                    >
-                      <MenuItem value="">
-                        {t('productsView.allSubgroups')}
-                      </MenuItem>
-                      {availableSubgroups?.map((sg) => (
-                        <MenuItem key={sg.label} value={sg.label}>
-                          {getLocalizedSubGroupLabel(
-                            selectedGroupKey,
-                            sg.label,
-                            i18n.language
-                          )}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-
-                  <Box>
-                    <Typography gutterBottom>
-                      {t('productsView.price')}
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
-                      <TextField
-                        type="number"
-                        placeholder={t('productsView.from')}
-                        value={priceRange[0] || ''}
-                        sx={{
-                          '& .MuiInputBase-input': {
-                            padding: '8px'
-                          }
-                        }}
-                        onChange={(e) => {
-                          const value = Number(e.target.value);
-                          setPriceRange([value || undefined, priceRange[1]]);
-                          setPriceOnRequest(false);
-                          setPage(1);
-                        }}
-                        fullWidth
-                        slotProps={{ htmlInput: { min: 0 } }}
-                      />
-                      <TextField
-                        type="number"
-                        placeholder={t('productsView.to')}
-                        value={priceRange[1] || ''}
-                        sx={{
-                          '& .MuiInputBase-input': {
-                            padding: '8px'
-                          }
-                        }}
-                        onChange={(e) => {
-                          const value = Number(e.target.value);
-                          setPriceRange([priceRange[0], value || undefined]);
-                          setPriceOnRequest(false);
-                          setPage(1);
-                        }}
-                        fullWidth
-                        slotProps={{ htmlInput: { min: 0 } }}
-                      />
-                    </Box>
-                  </Box>
-
-                  <Box>
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Checkbox
-                        checked={inStockOnly}
-                        onChange={(e) => {
-                          setInStockOnly(e.target.checked);
-                          setPage(1);
-                        }}
-                      />
-                      <Typography>{t('productsView.inStock')}</Typography>
-                    </Box>
-
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Checkbox
-                        checked={priceOnRequest}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          setPriceOnRequest(checked);
-                          setPage(1);
-                          if (checked) {
-                            setPriceRange([undefined, undefined]);
-                          }
-                        }}
-                      />
-                      <Typography>
-                        {t('productsView.priceOnRequest')}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    fullWidth
-                    onClick={resetFilters}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    {t('productsView.resetFilters')}
-                  </Button>
-                </Box>
-              </Grow>
-            )}
-          </Box>
-
+      <ListingContentLayout
+        breadcrumbs={<AppBreadcrumbs pages={pages} />}
+        isTablet={isTablet}
+        isFiltersOpen={isFiltersOpen}
+        onToggleFilters={() => setIsFiltersOpen(!isFiltersOpen)}
+        openFiltersLabel={t('productsView.openFilters')}
+        closeFiltersLabel={t('productsView.closeFilters')}
+        summary={
+          <Typography variant="h6">
+            {productsMeta?.totalItems ?? products.length}{' '}
+            {t('productsView.resultsFound')}
+          </Typography>
+        }
+        filters={
           <Box
             sx={{
-              width: '100%',
               display: 'flex',
               flexDirection: 'column',
-              gap: 4
+              gap: 2
             }}
           >
             <Box
-              component={'section'}
               sx={{
                 width: '100%',
-                minHeight: 500,
-                display: 'grid',
-                gap: '20px',
-                gridTemplateColumns: hasProducts ? 'repeat(1, 1fr)' : 'none',
-                [theme.breakpoints.up('xs')]: {
-                  gridTemplateColumns: hasProducts ? 'repeat(2, 1fr)' : 'none'
-                },
-                [theme.breakpoints.up('md')]: {
-                  gridTemplateColumns: hasProducts ? 'repeat(3, 1fr)' : 'none'
-                },
-                [theme.breakpoints.up('lgm')]: {
-                  gridTemplateColumns: hasProducts ? 'repeat(4, 1fr)' : 'none'
-                }
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}
             >
-              {isFetching ? (
-                products.length ? (
-                  products.map((product) => (
-                    <ProductCard key={product._id} product={product} />
-                  ))
-                ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      display: 'grid',
-                      gap: 2,
-                      gridTemplateColumns: 'repeat(1, 1fr)',
-                      [theme.breakpoints.up('xs')]: {
-                        gridTemplateColumns: 'repeat(2, 1fr)'
-                      },
-                      [theme.breakpoints.up('md')]: {
-                        gridTemplateColumns: 'repeat(3, 1fr)'
-                      },
-                      [theme.breakpoints.up('lgm')]: {
-                        gridTemplateColumns: 'repeat(4, 1fr)'
-                      }
-                    }}
-                  >
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <Box
-                        key={i}
-                        sx={{
-                          height: 200,
-                          width: '100%',
-                          backgroundColor: theme.palette.grey[100],
-                          borderRadius: 2
-                        }}
-                      />
-                    ))}
-                  </Box>
-                )
-              ) : products.length ? (
-                products.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))
-              ) : (
-                <Box
-                  sx={{
-                    width: '100%',
-                    textAlign: 'center',
-                    mb: 8,
-                    px: 2
-                  }}
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                sx={{ fontFamily: 'Ephesis' }}
+              >
+                {t('productsView.openFilters')}
+              </Typography>
+              {isFetching && (
+                <Typography
+                  variant="overline"
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: 'column',
-                      gap: '8px',
-                      marginBottom: '16px'
-                    }}
-                  >
-                    <Typography variant="h4">
-                      {t('productsView.noProductsFound')}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      {t('productsView.chooseDifferentFilters')}
-                    </Typography>
-                    <Box
-                      component="img"
-                      sx={{
-                        height: '300px'
-                      }}
-                      src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
-                    />
-                  </Box>
-                </Box>
+                  <CircularProgress size={16} thickness={4} />
+                  {t('productsView.loading')}
+                </Typography>
               )}
             </Box>
 
-            <SharedPagination
-              totalPages={productsMeta?.pages}
-              currentPage={productsMeta?.currentPage ?? page}
-              isMobile={isMobile}
-              onPageChange={(value) => {
-                setPage(value);
-                setSearchParams((prev) => {
-                  const next = new URLSearchParams(prev);
-                  next.set('page', String(value));
-                  return next;
-                });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              marginTop={4}
-            />
+            <Box>
+              <InputLabel
+                sx={{ color: 'text.primary' }}
+                htmlFor="product-title"
+              >
+                {t('productsView.productName')}
+              </InputLabel>
+              <TextField
+                name="product-title"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                placeholder={t('productsView.productName')}
+                fullWidth
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px'
+                  }
+                }}
+                slotProps={{
+                  input: {
+                    endAdornment: search ? (
+                      <ClearIcon
+                        onClick={() => {
+                          setSearch('');
+                          setPage(1);
+                        }}
+                        sx={{ cursor: 'pointer' }}
+                      />
+                    ) : (
+                      <SearchIcon color="action" />
+                    )
+                  }
+                }}
+              />
+            </Box>
+            {!category && (
+              <Box>
+                <InputLabel sx={{ color: 'text.primary' }} id="group">
+                  {t('productsView.group')}
+                </InputLabel>
+                <Select
+                  labelId="group"
+                  value={selectedGroup}
+                  onChange={(e) => {
+                    setSelectedGroup(e.target.value);
+                    setPage(1);
+                  }}
+                  fullWidth
+                  sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
+                  displayEmpty
+                  renderValue={(selected) => {
+                    if (!selected) return t('productsView.allGroups');
+                    return getLocalizedGroupLabel(selected, i18n.language);
+                  }}
+                >
+                  <MenuItem value="">{t('productsView.allGroups')}</MenuItem>
+                  {homeCategories?.map((cat) => (
+                    <MenuItem key={cat.slug} value={cat.slug}>
+                      {getLocalizedGroupLabel(cat.slug, i18n.language)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+            )}
+            <Box>
+              <InputLabel sx={{ color: 'text.primary' }} id="subGroup">
+                {t('productsView.subgroup')}
+              </InputLabel>
+              <Select
+                labelId="subGroup"
+                value={selectedSubgroup}
+                onChange={(e) => {
+                  setSelectedSubgroup(e.target.value);
+                  setPage(1);
+                }}
+                fullWidth
+                disabled={!availableSubgroups.length}
+                sx={{ '& .MuiInputBase-input': { padding: '8px' } }}
+                displayEmpty
+                renderValue={(selected) => {
+                  if (!selected) return t('productsView.allSubgroups');
+                  return getLocalizedSubGroupLabel(
+                    selectedGroupKey,
+                    selected,
+                    i18n.language
+                  );
+                }}
+              >
+                <MenuItem value="">{t('productsView.allSubgroups')}</MenuItem>
+                {availableSubgroups?.map((sg) => (
+                  <MenuItem key={sg.label} value={sg.label}>
+                    {getLocalizedSubGroupLabel(
+                      selectedGroupKey,
+                      sg.label,
+                      i18n.language
+                    )}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+
+            <Box>
+              <Typography gutterBottom>{t('productsView.price')}</Typography>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <TextField
+                  type="number"
+                  placeholder={t('productsView.from')}
+                  value={priceRange[0] || ''}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      padding: '8px'
+                    }
+                  }}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    setPriceRange([value || undefined, priceRange[1]]);
+                    setPriceOnRequest(false);
+                    setPage(1);
+                  }}
+                  fullWidth
+                  slotProps={{ htmlInput: { min: 0 } }}
+                />
+                <TextField
+                  type="number"
+                  placeholder={t('productsView.to')}
+                  value={priceRange[1] || ''}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      padding: '8px'
+                    }
+                  }}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    setPriceRange([priceRange[0], value || undefined]);
+                    setPriceOnRequest(false);
+                    setPage(1);
+                  }}
+                  fullWidth
+                  slotProps={{ htmlInput: { min: 0 } }}
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <Box display="flex" alignItems="center" gap={1}>
+                <Checkbox
+                  checked={inStockOnly}
+                  onChange={(e) => {
+                    setInStockOnly(e.target.checked);
+                    setPage(1);
+                  }}
+                />
+                <Typography>{t('productsView.inStock')}</Typography>
+              </Box>
+
+              <Box display="flex" alignItems="center" gap={1}>
+                <Checkbox
+                  checked={priceOnRequest}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setPriceOnRequest(checked);
+                    setPage(1);
+                    if (checked) {
+                      setPriceRange([undefined, undefined]);
+                    }
+                  }}
+                />
+                <Typography>{t('productsView.priceOnRequest')}</Typography>
+              </Box>
+            </Box>
+
+            <Button
+              variant="outlined"
+              color="inherit"
+              fullWidth
+              onClick={resetFilters}
+              sx={{ textTransform: 'none' }}
+            >
+              {t('productsView.resetFilters')}
+            </Button>
           </Box>
-        </Box>
-        {/* <FeaturedProducts /> */}
-        {/* <FeaturedShops /> */}
-      </Box>
+        }
+        content={
+          <ListingStateSection
+            status={
+              isFetching && !products.length
+                ? 'loading'
+                : products.length
+                  ? 'ready'
+                  : 'empty'
+            }
+            emptyTitle={t('productsView.noProductsFound')}
+            emptyDescription={
+              <Box
+                sx={{
+                  width: '100%',
+                  textAlign: 'center',
+                  px: 2,
+                  mt: 1
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}
+                >
+                  <Typography variant="body1" gutterBottom>
+                    {t('productsView.chooseDifferentFilters')}
+                  </Typography>
+                  <Box
+                    component="img"
+                    sx={{
+                      height: '300px'
+                    }}
+                    src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                  />
+                </Box>
+              </Box>
+            }
+            readyContent={
+              <Box
+                component="section"
+                sx={{
+                  width: '100%',
+                  minHeight: 500,
+                  display: 'grid',
+                  gap: '20px',
+                  gridTemplateColumns: hasProducts ? 'repeat(1, 1fr)' : 'none',
+                  [theme.breakpoints.up('xs')]: {
+                    gridTemplateColumns: hasProducts ? 'repeat(2, 1fr)' : 'none'
+                  },
+                  [theme.breakpoints.up('md')]: {
+                    gridTemplateColumns: hasProducts ? 'repeat(3, 1fr)' : 'none'
+                  },
+                  [theme.breakpoints.up('lgm')]: {
+                    gridTemplateColumns: hasProducts ? 'repeat(4, 1fr)' : 'none'
+                  }
+                }}
+              >
+                {products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </Box>
+            }
+          />
+        }
+        pagination={
+          <SharedPagination
+            totalPages={productsMeta?.pages}
+            currentPage={productsMeta?.currentPage ?? page}
+            isMobile={isMobile}
+            onPageChange={(value) => {
+              setPage(value);
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                next.set('page', String(value));
+                return next;
+              });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            marginTop={0}
+          />
+        }
+      />
+      {/* <FeaturedProducts /> */}
+      {/* <FeaturedShops /> */}
     </Box>
   );
 };
