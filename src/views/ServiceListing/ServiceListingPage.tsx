@@ -1,38 +1,29 @@
 import {
   AppBreadcrumbs,
   ItemsHero,
+  ListingContentLayout,
+  ListingStateSection,
+  ServiceListingCard,
   SharedPagination
 } from '@green-world/components';
 import { useGetServicesPaginated } from '@green-world/hooks/useServices';
-import {
-  formatImageUrl,
-  getPlainTextFromHtml,
-  useDebounce
-} from '@green-world/utils/helpers';
+import { useDebounce } from '@green-world/utils/helpers';
 import { getAllPredefinedServices } from '@green-world/utils/serviceConstants';
 import type { ServiceListingFiltersParams } from '@green-world/utils/types';
 import {
   Box,
-  Grid,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
   Button,
-  Chip,
   CircularProgress,
   TextField,
   InputLabel,
-  Skeleton,
   Autocomplete,
   useTheme,
-  useMediaQuery,
-  Grow
+  useMediaQuery
 } from '@mui/material';
-import { MapPin } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 export const ServiceListingPage = () => {
   const { t } = useTranslation();
@@ -150,281 +141,196 @@ export const ServiceListingPage = () => {
         subtitleMaxWidth={600}
       />
 
-      <Box
-        sx={(theme) => ({
-          maxWidth: '1400px',
-          mx: 'auto',
-          px: 2,
-          [theme.breakpoints.up('sm')]: { px: 3 },
-          [theme.breakpoints.up('xl')]: { px: 0 }
-        })}
-      >
-        <AppBreadcrumbs pages={pages} />
-        <Grid container spacing={4} sx={{ mt: 2 }}>
-          {/* Sidebar / Filters */}
-          <Grid size={{ xs: 12, lgm: 3 }}>
-            {isTablet && (
-              <Button
-                variant="contained"
-                onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                sx={{
-                  width: '100%',
-                  marginBottom: '16px'
-                }}
-              >
-                {!isFiltersOpen
-                  ? t('productsView.openFilters')
-                  : t('productsView.closeFilters')}
-              </Button>
-            )}
-            {/* Filters */}
-            {(isTablet ? isFiltersOpen && isTablet : true) && (
-              <Grow in={isFiltersOpen || !isTablet}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '16px',
-                    position: 'sticky',
-                    top: '133px'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography
-                      variant="h1"
-                      color="secondary.main"
-                      sx={{ fontFamily: 'Ephesis' }}
-                    >
-                      {t('service.filters')}
-                    </Typography>
-                    {isFetching && (
-                      <Typography
-                        variant="overline"
-                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                      >
-                        <CircularProgress size={16} thickness={4} />
-                        {t('productsView.loading')}
-                      </Typography>
-                    )}
-                  </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: 'text.primary' }}
-                      htmlFor="location"
-                    >
-                      {t('service.location')}
-                    </InputLabel>
-                    <TextField
-                      id="location"
-                      value={filters.location}
-                      onChange={handleLocationChange}
-                      placeholder={t('service.location')}
-                      fullWidth
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          padding: '8px'
-                        }
-                      }}
-                    />
-                  </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: 'text.primary', mb: 1 }}
-                      id="service-type"
-                    >
-                      {t('service.type')}
-                    </InputLabel>
-                    <Autocomplete
-                      id="service-type-autocomplete"
-                      options={getAllPredefinedServices()}
-                      value={filters.service}
-                      onChange={(_e, newValue) => {
-                        setFilters((prev) => ({
-                          ...prev,
-                          service: newValue || '',
-                          page: 1
-                        }));
-                      }}
-                      getOptionLabel={(option) => {
-                        if (!option) return t('service.allServices');
-                        return t(`service.serviceNames.${option}`, option);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder={t('service.allServices')}
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            bgcolor: 'background.paper',
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: '8px'
-                            }
-                          }}
-                        />
-                      )}
-                      fullWidth
-                    />
-                  </Box>
-
-                  <Box>
-                    <Typography gutterBottom>
-                      {t('service.priceRange')}
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
-                      <TextField
-                        type="number"
-                        placeholder={t('productsView.from')}
-                        value={filters.priceFrom ?? ''}
-                        onChange={(e) => {
-                          const raw = e.target.value;
-                          const value = raw === '' ? undefined : Number(raw);
-
-                          setFilters((prev) => ({
-                            ...prev,
-                            priceFrom: Number.isFinite(value)
-                              ? value
-                              : undefined,
-                            page: 1
-                          }));
-                        }}
-                        fullWidth
-                        slotProps={{ htmlInput: { min: 0 } }}
-                        sx={{
-                          '& .MuiInputBase-input': {
-                            padding: '8px'
-                          }
-                        }}
-                      />
-                      <TextField
-                        type="number"
-                        placeholder={t('productsView.to')}
-                        value={filters.priceTo ?? ''}
-                        onChange={(e) => {
-                          const raw = e.target.value;
-                          const value = raw === '' ? undefined : Number(raw);
-
-                          setFilters((prev) => ({
-                            ...prev,
-                            priceTo: Number.isFinite(value) ? value : undefined,
-                            page: 1
-                          }));
-                        }}
-                        fullWidth
-                        slotProps={{ htmlInput: { min: 0 } }}
-                        sx={{
-                          '& .MuiInputBase-input': {
-                            padding: '8px'
-                          }
-                        }}
-                      />
-                    </Box>
-                  </Box>
-
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    fullWidth
-                    onClick={resetFilters}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    {t('service.resetFilters')}
-                  </Button>
-                </Box>
-              </Grow>
-            )}
-          </Grid>
-
-          {/* Service Listings Grid */}
-          <Grid size={{ xs: 12, lgm: 9 }}>
+      <ListingContentLayout
+        breadcrumbs={<AppBreadcrumbs pages={pages} />}
+        isTablet={isTablet}
+        isFiltersOpen={isFiltersOpen}
+        onToggleFilters={() => setIsFiltersOpen(!isFiltersOpen)}
+        openFiltersLabel={t('productsView.openFilters')}
+        closeFiltersLabel={t('productsView.closeFilters')}
+        filters={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2
+            }}
+          >
             <Box
               sx={{
+                width: '100%',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 3
+                alignItems: 'center'
               }}
             >
-              <Typography variant="h6">
-                {servicesMeta?.totalItems ?? services.length}{' '}
-                {t('service.resultsFound')}
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                sx={{ fontFamily: 'Ephesis' }}
+              >
+                {t('service.filters')}
               </Typography>
-              {/* Could add a Sort By dropdown here */}
+              {isFetching && (
+                <Typography
+                  variant="overline"
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                >
+                  <CircularProgress size={16} thickness={4} />
+                  {t('productsView.loading')}
+                </Typography>
+              )}
             </Box>
 
-            {isLoading ? (
-              <Box
-                component="section"
-                sx={(theme) => ({
-                  width: '100%',
-                  minHeight: '70vh',
-                  display: 'grid',
-                  gap: '24px',
-                  gridTemplateColumns: 'repeat(1, 1fr)',
-                  [theme.breakpoints.up('xs')]: {
-                    gridTemplateColumns: 'repeat(2, 1fr)'
-                  },
-                  [theme.breakpoints.up('md')]: {
-                    gridTemplateColumns: 'repeat(3, 1fr)'
-                  },
-                  [theme.breakpoints.up('lgm')]: {
-                    gridTemplateColumns: 'repeat(4, 1fr)'
-                  }
-                })}
-              >
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <Card key={index} sx={{ width: '100%', minWidth: 0 }}>
-                    <Skeleton variant="rectangular" height={200} />
-                    <CardContent>
-                      <Skeleton variant="text" height={18} width="50%" />
-                      <Skeleton variant="text" height={28} width="85%" />
-                      <Skeleton variant="text" height={20} width="95%" />
-                      <Skeleton variant="text" height={20} width="70%" />
-                      <Box sx={{ mt: 2, pt: 2 }}>
-                        <Skeleton variant="text" height={20} width="60%" />
-                      </Box>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            ) : isError ? (
-              <Box sx={{ py: 4, textAlign: 'center' }}>
-                <Typography color="error">
-                  {t('service.errorLoading')}
-                </Typography>
-              </Box>
-            ) : services.length === 0 ? (
-              <Box
+            <Box>
+              <InputLabel sx={{ color: 'text.primary' }} htmlFor="location">
+                {t('service.location')}
+              </InputLabel>
+              <TextField
+                id="location"
+                value={filters.location}
+                onChange={handleLocationChange}
+                placeholder={t('service.location')}
+                fullWidth
                 sx={{
-                  py: 8,
-                  textAlign: 'center',
-                  bgcolor: 'white',
-                  borderRadius: 3,
-                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                  '& .MuiInputBase-input': {
+                    padding: '8px'
+                  }
                 }}
+              />
+            </Box>
+
+            <Box>
+              <InputLabel
+                sx={{ color: 'text.primary', mb: 1 }}
+                id="service-type"
               >
-                <Typography variant="h6" color="text.secondary">
-                  {t('service.noServices')}
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={resetFilters}
-                  sx={{ mt: 2 }}
-                >
-                  {t('service.viewAllServices')}
-                </Button>
+                {t('service.type')}
+              </InputLabel>
+              <Autocomplete
+                id="service-type-autocomplete"
+                options={getAllPredefinedServices()}
+                value={filters.service}
+                onChange={(_e, newValue) => {
+                  setFilters((prev) => ({
+                    ...prev,
+                    service: newValue || '',
+                    page: 1
+                  }));
+                }}
+                getOptionLabel={(option) => {
+                  if (!option) return t('service.allServices');
+                  return t(`service.serviceNames.${option}`, option);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder={t('service.allServices')}
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      bgcolor: 'background.paper',
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px'
+                      }
+                    }}
+                  />
+                )}
+                fullWidth
+              />
+            </Box>
+
+            <Box>
+              <Typography gutterBottom>{t('service.priceRange')}</Typography>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <TextField
+                  type="number"
+                  placeholder={t('productsView.from')}
+                  value={filters.priceFrom ?? ''}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    const value = raw === '' ? undefined : Number(raw);
+
+                    setFilters((prev) => ({
+                      ...prev,
+                      priceFrom: Number.isFinite(value) ? value : undefined,
+                      page: 1
+                    }));
+                  }}
+                  fullWidth
+                  slotProps={{ htmlInput: { min: 0 } }}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      padding: '8px'
+                    }
+                  }}
+                />
+                <TextField
+                  type="number"
+                  placeholder={t('productsView.to')}
+                  value={filters.priceTo ?? ''}
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    const value = raw === '' ? undefined : Number(raw);
+
+                    setFilters((prev) => ({
+                      ...prev,
+                      priceTo: Number.isFinite(value) ? value : undefined,
+                      page: 1
+                    }));
+                  }}
+                  fullWidth
+                  slotProps={{ htmlInput: { min: 0 } }}
+                  sx={{
+                    '& .MuiInputBase-input': {
+                      padding: '8px'
+                    }
+                  }}
+                />
               </Box>
-            ) : (
+            </Box>
+
+            <Button
+              variant="outlined"
+              color="inherit"
+              fullWidth
+              onClick={resetFilters}
+              sx={{ textTransform: 'none' }}
+            >
+              {t('service.resetFilters')}
+            </Button>
+          </Box>
+        }
+        summary={
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Typography variant="h6">
+              {servicesMeta?.totalItems ?? services.length}{' '}
+              {t('service.resultsFound')}
+            </Typography>
+          </Box>
+        }
+        content={
+          <ListingStateSection
+            status={
+              isLoading
+                ? 'loading'
+                : isError
+                  ? 'error'
+                  : services.length === 0
+                    ? 'empty'
+                    : 'ready'
+            }
+            errorText={t('service.errorLoading')}
+            emptyTitle={t('service.noServices')}
+            emptyActionLabel={t('service.viewAllServices')}
+            onEmptyAction={resetFilters}
+            readyContent={
               <Box
                 component="section"
                 sx={(theme) => ({
@@ -454,180 +360,36 @@ export const ServiceListingPage = () => {
               >
                 {services.map((service) => (
                   <Box key={service._id} sx={{ width: '100%', minWidth: 0 }}>
-                    <Card
-                      component={Link}
-                      to={`/services/${service._id}`}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%',
-                        width: '100%',
-                        minWidth: 0,
-                        textDecoration: 'none',
-                        flexGrow: 1
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          position: 'relative',
-                          height: 200,
-                          minHeight: 200,
-                          bgcolor: 'grey.100',
-                          overflow: 'hidden'
-                        }}
-                      >
-                        {service.images?.[0] ? (
-                          <CardMedia
-                            component="img"
-                            image={formatImageUrl(service.images[0], 55)}
-                            alt={service.title}
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                            sx={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              objectPosition: 'center'
-                            }}
-                          />
-                        ) : null}
-                        <Chip
-                          label={
-                            service.priceType === 'hourly'
-                              ? t('service.hourly')
-                              : service.priceType === 'fixed'
-                                ? t('service.fixed')
-                                : t('service.negotiable')
-                          }
-                          size="small"
-                          sx={{
-                            position: 'absolute',
-                            top: 12,
-                            right: 12,
-                            bgcolor: 'rgba(255,255,255,0.9)',
-                            fontWeight: 'bold'
-                          }}
-                        />
-                      </Box>
-
-                      <CardContent
-                        sx={{
-                          flexGrow: 1,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          pb: 2,
-                          '&:last-child': {
-                            pb: 2
-                          }
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                            mb: 1,
-                            color: 'text.secondary'
-                          }}
-                        >
-                          <MapPin size={16} />
-                          <Typography variant="body2">
-                            {service.location || t('service.notSpecified')}
-                          </Typography>
-                        </Box>
-
-                        <Typography
-                          gutterBottom
-                          variant="h6"
-                          component="h2"
-                          fontWeight="bold"
-                          sx={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            color: 'text.primary'
-                          }}
-                        >
-                          {service.title}
-                        </Typography>
-
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            mb: 2,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical'
-                          }}
-                        >
-                          {getPlainTextFromHtml(service.description)}
-                        </Typography>
-
-                        <Box
-                          sx={{
-                            mt: 'auto',
-                            pt: 2,
-                            borderTop: '1px solid #f0f0f0',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <Typography
-                            variant="body2"
-                            fontWeight="medium"
-                            color="text.primary"
-                          >
-                            {(service.providerId as any)?.name ||
-                              t('service.user')}{' '}
-                            {(service.providerId as any)?.lastname || ''}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            fontWeight={600}
-                            color="primary.main"
-                          >
-                            {service.priceFrom
-                              ? `${t('service.fromPricePrefix')} ${service.priceFrom} ${t('service.currency')}`
-                              : t('service.onQuery')}
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                    </Card>
+                    <ServiceListingCard service={service} />
                   </Box>
                 ))}
               </Box>
-            )}
-
-            <SharedPagination
-              totalPages={servicesMeta?.pages}
-              currentPage={servicesMeta?.currentPage ?? filters.page ?? 1}
-              isLoading={isLoading}
-              isError={isError}
-              isMobile={isMobile}
-              onPageChange={(value) => {
-                setFilters((prev) => ({ ...prev, page: value }));
-                setSearchParams((prev) => {
-                  const next = new URLSearchParams(prev);
-                  if (value > 1) {
-                    next.set('page', String(value));
-                  } else {
-                    next.delete('page');
-                  }
-                  return next;
-                });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
+            }
+          />
+        }
+        pagination={
+          <SharedPagination
+            totalPages={servicesMeta?.pages}
+            currentPage={servicesMeta?.currentPage ?? filters.page ?? 1}
+            isLoading={isLoading}
+            isError={isError}
+            isMobile={isMobile}
+            onPageChange={(value) => {
+              setFilters((prev) => ({ ...prev, page: value }));
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (value > 1) {
+                  next.set('page', String(value));
+                } else {
+                  next.delete('page');
+                }
+                return next;
+              });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        }
+      />
     </Box>
   );
 };

@@ -1,6 +1,8 @@
 import {
   AppBreadcrumbs,
   ItemsHero,
+  ListingContentLayout,
+  ListingStateSection,
   MetaTags,
   SharedPagination
 } from '@green-world/components';
@@ -20,9 +22,7 @@ import {
   CardContent,
   Chip,
   CircularProgress,
-  Grow,
   InputLabel,
-  Skeleton,
   TextField,
   Typography,
   useMediaQuery,
@@ -246,272 +246,188 @@ export const Events = () => {
         }}
       />
 
-      <Box
-        sx={(theme) => ({
-          maxWidth: '1400px',
-          mx: 'auto',
-          px: 2,
-          [theme.breakpoints.up('sm')]: { px: 3 },
-          [theme.breakpoints.up('xl')]: { px: 0 }
-        })}
-      >
-        <AppBreadcrumbs pages={pages} />
-
-        <Box
-          sx={(theme) => ({
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: 4,
-            mt: 2,
-            [theme.breakpoints.up('lgm')]: {
-              gridTemplateColumns: '280px 1fr'
-            }
-          })}
-        >
-          <Box>
-            {isTablet && (
-              <Button
-                variant="contained"
-                onClick={() => setIsFiltersOpen((prev) => !prev)}
-                sx={{ width: '100%', mb: 2 }}
+      <ListingContentLayout
+        breadcrumbs={<AppBreadcrumbs pages={pages} />}
+        isTablet={isTablet}
+        isFiltersOpen={isFiltersOpen}
+        onToggleFilters={() => setIsFiltersOpen((prev) => !prev)}
+        openFiltersLabel={t('productsView.openFilters')}
+        closeFiltersLabel={t('productsView.closeFilters')}
+        filters={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2
+            }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+            >
+              <Typography
+                variant="h1"
+                color="secondary.main"
+                sx={{ fontFamily: 'Ephesis' }}
               >
-                {isFiltersOpen
-                  ? t('productsView.closeFilters')
-                  : t('productsView.openFilters')}
-              </Button>
-            )}
+                Filteri
+              </Typography>
+              {isFetching && (
+                <Typography
+                  variant="overline"
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                >
+                  <CircularProgress size={16} thickness={4} />
+                  {t('productsView.loading')}
+                </Typography>
+              )}
+            </Box>
 
-            {(!isTablet || isFiltersOpen) && (
-              <Grow in={isFiltersOpen || !isTablet}>
+            <Box>
+              <InputLabel
+                sx={{ color: 'text.primary', mb: 1 }}
+                htmlFor="event-location"
+              >
+                Lokacija
+              </InputLabel>
+              <TextField
+                id="event-location"
+                value={filterLocation}
+                onChange={(e) => {
+                  setFilterLocation(e.target.value);
+                  setPage(1);
+                }}
+                placeholder="Unesite lokaciju"
+                fullWidth
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px'
+                  }
+                }}
+              />
+            </Box>
+
+            <Box>
+              <InputLabel
+                sx={{ color: 'text.primary', mb: 1 }}
+                id="event-type-label"
+              >
+                Tip događaja
+              </InputLabel>
+              <Autocomplete
+                id="event-type"
+                options={EVENT_TYPE_OPTIONS}
+                value={eventType || null}
+                onChange={(_e, newValue) => {
+                  setEventType((newValue as EventType) || '');
+                  setPage(1);
+                }}
+                getOptionLabel={(option) =>
+                  EVENT_TYPE_LABELS[option as EventType] || ''
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Svi tipovi"
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      bgcolor: 'background.paper',
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px'
+                      }
+                    }}
+                  />
+                )}
+                fullWidth
+              />
+            </Box>
+
+            <Button
+              variant="outlined"
+              color="inherit"
+              fullWidth
+              onClick={resetFilters}
+              sx={{ textTransform: 'none' }}
+            >
+              Poništi filtere
+            </Button>
+
+            <Card
+              sx={{
+                bgcolor: 'rgba(134, 239, 172, 0.22)',
+                border: '1px solid rgba(22, 163, 74, 0.12)'
+              }}
+            >
+              <CardContent>
                 <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                    position: 'sticky',
-                    top: '120px'
+                    alignItems: 'center',
+                    gap: 1,
+                    mb: 1
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography
-                      variant="h1"
-                      color="secondary.main"
-                      sx={{ fontFamily: 'Ephesis' }}
-                    >
-                      Filteri
-                    </Typography>
-                    {isFetching && (
-                      <Typography
-                        variant="overline"
-                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                      >
-                        <CircularProgress size={16} thickness={4} />
-                        {t('productsView.loading')}
-                      </Typography>
-                    )}
-                  </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: 'text.primary', mb: 1 }}
-                      htmlFor="event-location"
-                    >
-                      Lokacija
-                    </InputLabel>
-                    <TextField
-                      id="event-location"
-                      value={filterLocation}
-                      onChange={(e) => {
-                        setFilterLocation(e.target.value);
-                        setPage(1);
-                      }}
-                      placeholder="Unesite lokaciju"
-                      fullWidth
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          padding: '8px'
-                        }
-                      }}
-                    />
-                  </Box>
-
-                  <Box>
-                    <InputLabel
-                      sx={{ color: 'text.primary', mb: 1 }}
-                      id="event-type-label"
-                    >
-                      Tip događaja
-                    </InputLabel>
-                    <Autocomplete
-                      id="event-type"
-                      options={EVENT_TYPE_OPTIONS}
-                      value={eventType || null}
-                      onChange={(_e, newValue) => {
-                        setEventType((newValue as EventType) || '');
-                        setPage(1);
-                      }}
-                      getOptionLabel={(option) =>
-                        EVENT_TYPE_LABELS[option as EventType] || ''
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          placeholder="Svi tipovi"
-                          variant="outlined"
-                          size="small"
-                          sx={{
-                            bgcolor: 'background.paper',
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: '8px'
-                            }
-                          }}
-                        />
-                      )}
-                      fullWidth
-                    />
-                  </Box>
-
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    fullWidth
-                    onClick={resetFilters}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    Poništi filtere
-                  </Button>
-
-                  <Card
-                    sx={{
-                      bgcolor: 'rgba(134, 239, 172, 0.22)',
-                      border: '1px solid rgba(22, 163, 74, 0.12)'
-                    }}
-                  >
-                    <CardContent>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                          mb: 1
-                        }}
-                      >
-                        <Calendar
-                          size={18}
-                          color={theme.palette.success.dark}
-                        />
-                        <Typography variant="body1" fontWeight={700}>
-                          O događajima
-                        </Typography>
-                      </Box>
-                      <Typography variant="body2" color="text.secondary">
-                        Svaki događaj nudi priliku za učenje, druženje i
-                        pozitivan uticaj na zajednicu i prirodu.
-                      </Typography>
-
-                      <Box sx={{ mt: 1.5 }}>
-                        <Typography
-                          variant="body2"
-                          fontWeight={700}
-                          color="text.primary"
-                          sx={{ mb: 0.75 }}
-                        >
-                          Tipovi događaja:
-                        </Typography>
-
-                        <Typography variant="body2" color="text.secondary">
-                          • Čišćenje: akcije uklanjanja otpada i uređenja javnih
-                          površina.
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          • Prodaja: prodaja i razmena lokalnih, domaćih i
-                          održivih proizvoda.
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          • Sadnja: organizovana sadnja drveća, cveća i drugih
-                          biljaka za ozelenjavanje prostora.
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
+                  <Calendar size={18} color={theme.palette.success.dark} />
+                  <Typography variant="body1" fontWeight={700}>
+                    O događajima
+                  </Typography>
                 </Box>
-              </Grow>
-            )}
+                <Typography variant="body2" color="text.secondary">
+                  Svaki događaj nudi priliku za učenje, druženje i pozitivan
+                  uticaj na zajednicu i prirodu.
+                </Typography>
+
+                <Box sx={{ mt: 1.5 }}>
+                  <Typography
+                    variant="body2"
+                    fontWeight={700}
+                    color="text.primary"
+                    sx={{ mb: 0.75 }}
+                  >
+                    Tipovi događaja:
+                  </Typography>
+
+                  <Typography variant="body2" color="text.secondary">
+                    • Čišćenje: akcije uklanjanja otpada i uređenja javnih
+                    površina.
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    • Prodaja: prodaja i razmena lokalnih, domaćih i održivih
+                    proizvoda.
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    • Sadnja: organizovana sadnja drveća, cveća i drugih biljaka
+                    za ozelenjavanje prostora.
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
           </Box>
-
-          <Box>
-            <Typography variant="h6" sx={{ mb: 3 }}>
-              {totalEvents} događaja pronađeno
-            </Typography>
-
-            {isLoading ? (
-              <Box
-                sx={(theme) => ({
-                  width: '100%',
-                  minHeight: '70vh',
-                  display: 'grid',
-                  gap: '24px',
-                  gridAutoRows: '1fr',
-                  gridTemplateColumns: 'repeat(1, 1fr)',
-                  [theme.breakpoints.up('xs')]: {
-                    gridTemplateColumns: 'repeat(2, 1fr)'
-                  },
-                  [theme.breakpoints.up('md')]: {
-                    gridTemplateColumns: 'repeat(3, 1fr)'
-                  },
-                  [theme.breakpoints.up('lgm')]: {
-                    gridTemplateColumns: 'repeat(4, 1fr)'
-                  }
-                })}
-              >
-                {Array.from({ length: 8 }).map((_, index) => (
-                  <Card key={index}>
-                    <Skeleton variant="rectangular" height={220} />
-                    <CardContent>
-                      <Skeleton variant="text" height={28} width="80%" />
-                      <Skeleton variant="text" height={20} width="100%" />
-                      <Skeleton variant="text" height={20} width="100%" />
-                      <Skeleton variant="text" height={20} width="70%" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            ) : isError ? (
-              <Box sx={{ py: 6, textAlign: 'center' }}>
-                <Typography color="error">
-                  Greška pri učitavanju događaja.
-                </Typography>
-              </Box>
-            ) : events.length === 0 ? (
-              <Box
-                sx={{
-                  py: 8,
-                  textAlign: 'center',
-                  bgcolor: 'white',
-                  borderRadius: 3,
-                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                }}
-              >
-                <Typography variant="h6" color="text.secondary">
-                  Nema događaja za izabrane filtere.
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={resetFilters}
-                  sx={{ mt: 2 }}
-                >
-                  Prikaži sve događaje
-                </Button>
-              </Box>
-            ) : (
+        }
+        summary={
+          <Typography variant="h6">{totalEvents} događaja pronađeno</Typography>
+        }
+        content={
+          <ListingStateSection
+            status={
+              isLoading
+                ? 'loading'
+                : isError
+                  ? 'error'
+                  : events.length === 0
+                    ? 'empty'
+                    : 'ready'
+            }
+            errorText="Greška pri učitavanju događaja."
+            emptyTitle="Nema događaja za izabrane filtere."
+            emptyActionLabel="Prikaži sve događaje"
+            onEmptyAction={resetFilters}
+            readyContent={
               <Box
                 component="section"
                 sx={(theme) => ({
@@ -774,31 +690,32 @@ export const Events = () => {
                   </Box>
                 ))}
               </Box>
-            )}
-
-            <SharedPagination
-              totalPages={totalPages}
-              currentPage={eventsResponse?.meta?.currentPage ?? page}
-              isLoading={isLoading}
-              isError={isError}
-              isMobile={isMobile}
-              onPageChange={(value) => {
-                setPage(value);
-                setSearchParams((prev) => {
-                  const next = new URLSearchParams(prev);
-                  if (value > 1) {
-                    next.set('page', String(value));
-                  } else {
-                    next.delete('page');
-                  }
-                  return next;
-                });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
+            }
+          />
+        }
+        pagination={
+          <SharedPagination
+            totalPages={totalPages}
+            currentPage={eventsResponse?.meta?.currentPage ?? page}
+            isLoading={isLoading}
+            isError={isError}
+            isMobile={isMobile}
+            onPageChange={(value) => {
+              setPage(value);
+              setSearchParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (value > 1) {
+                  next.set('page', String(value));
+                } else {
+                  next.delete('page');
+                }
+                return next;
+              });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        }
+      />
     </Box>
   );
 };

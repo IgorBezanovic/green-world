@@ -426,6 +426,9 @@ export const ru = {
     bookmarkShortcutAlert:
       'Нажмите Cmd/Ctrl+D, чтобы добавить эту страницу в закладки: {{url}}'
   },
+  copyLinkButton: {
+    label: 'Копировать ссылку'
+  },
   commentForm: {
     submit: 'Отправить комментарий',
     replyPlaceholder: 'Напишите ответ...',
@@ -536,6 +539,22 @@ export const ru = {
     deleteDescription: 'Вы уверены, что хотите удалить эту активность?',
     yes: 'Да',
     no: 'Нет'
+  },
+  eventPage: {
+    eventFallback: 'Событие',
+    contact: 'Контакт организатора',
+    description: 'Описание события',
+    views: '{{count}} просмотров',
+    shareEvent: 'Поделиться событием',
+    linkCopied: 'Ссылка скопирована',
+    linkCopyFailed: 'Не удалось скопировать ссылку',
+    noDateInfo: 'У нас нет точной информации',
+    contactOrganizer: 'Связаться с организатором',
+    status: {
+      active: 'Активно',
+      cancelled: 'Отменено',
+      finished: 'Завершено'
+    }
   },
   featuredProduct: {
     featured: 'Рекомендуем',
@@ -648,6 +667,7 @@ export const ru = {
     to: 'До',
     inStock: 'В наличии',
     priceOnRequest: 'Цена по запросу',
+    resultsFound: 'товаров найдено',
     noProductsFound: 'В данный момент нет товаров для выбранных фильтров',
     chooseDifferentFilters: 'Выберите другую комбинацию фильтров',
     resetFilters: 'Сбросить фильтры'

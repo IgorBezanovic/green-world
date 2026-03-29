@@ -429,6 +429,9 @@ export const sr = {
     bookmarkShortcutAlert:
       'Pritisnite Cmd/Ctrl+D da sačuvate ovu stranicu: {{url}}'
   },
+  copyLinkButton: {
+    label: 'Kopiraj link'
+  },
   commentForm: {
     submit: 'Pošaljite komentar',
     replyPlaceholder: 'Napišite odgovor...',
@@ -543,6 +546,22 @@ export const sr = {
     yes: 'Da',
     no: 'Ne'
   },
+  eventPage: {
+    eventFallback: 'Događaj',
+    contact: 'Kontakt organizatora',
+    description: 'Opis događaja',
+    views: '{{count}} pregleda',
+    shareEvent: 'Podeli događaj',
+    linkCopied: 'Kopiran link',
+    linkCopyFailed: 'Neuspešno kopiranje linka',
+    noDateInfo: 'Nemamo tačnu informaciju',
+    contactOrganizer: 'Kontaktiraj organizatora',
+    status: {
+      active: 'Aktivno',
+      cancelled: 'Otkazano',
+      finished: 'Završeno'
+    }
+  },
   featuredProduct: {
     featured: 'Istaknuto',
     fallbackDescription: 'Pogledajte našu ponudu.',
@@ -654,6 +673,7 @@ export const sr = {
     to: 'Do',
     inStock: 'Na stanju',
     priceOnRequest: 'Cena na upit',
+    resultsFound: 'proizvoda pronađeno',
     noProductsFound: 'Trenutno nema proizvoda za izabrane filtere',
     chooseDifferentFilters: 'Izaberite neku drugu kombinaciju filtera',
     resetFilters: 'Poništi filtere'

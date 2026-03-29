@@ -192,6 +192,9 @@ export type Event = {
   contactPhone?: string;
   contactMail?: string;
   status: string;
+  viewCounter?: number;
+  likes?: string[];
+  dislikes?: string[];
 };
 
 export type HomeCategory = {

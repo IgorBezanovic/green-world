@@ -1,9 +1,16 @@
-import { Chip, Box } from '@mui/material';
+import { Box, Chip } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { Bookmark as BookmarkIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-export const BookmarkButton = ({ label = 'Bookmark' }: { label?: string }) => {
+export const BookmarkButton = ({
+  label = 'Bookmark',
+  sx
+}: {
+  label?: string;
+  sx?: SxProps<Theme>;
+}) => {
   const { t } = useTranslation();
 
   const handleClick = () => {
@@ -45,9 +52,25 @@ export const BookmarkButton = ({ label = 'Bookmark' }: { label?: string }) => {
       variant="outlined"
       color="secondary"
       onClick={handleClick}
+      sx={[
+        {
+          height: 55,
+          borderRadius: 999,
+          borderColor: 'divider',
+          bgcolor: 'background.paper',
+          boxShadow: '0 10px 30px rgb(15 23 42 / 0.06)',
+          '& .MuiChip-label': {
+            px: 1.75,
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center'
+          }
+        },
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : [])
+      ]}
       label={
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <BookmarkIcon /> {t('bookmarkButton.label')}
+          <BookmarkIcon size={16} /> {t('bookmarkButton.label')}
         </Box>
       }
     />
