@@ -51,30 +51,31 @@ export const Home = () => {
           flexDirection: 'column'
         })}
       >
-        <Box
-          component="img"
-          src={ZSBannerRs}
-          alt={t('home.bannerAlt')}
-          loading="eager"
-          decoding="async"
-          srcSet={`${ZSBannerRsTablet} 768w, ${ZSBannerRs} 1400w`}
-          sizes="(max-width: 768px) 100vw, 1400px"
-          sx={{
-            width: '100%',
-            height: 'auto',
-            borderRadius: 1,
-            mb: 0.5,
-            boxShadow: 1
-          }}
-          style={{
-            objectFit: 'cover',
-            filter: 'blur(10px)',
-            transition: 'filter 0.5s ease'
-          }}
-          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
-          }}
-        />
+        <Box component="picture" sx={{ display: 'block', width: '100%' }}>
+          <source media="(max-width: 768px)" srcSet={ZSBannerRsTablet} />
+          <Box
+            component="img"
+            src={ZSBannerRs}
+            alt={t('home.bannerAlt')}
+            loading="eager"
+            decoding="async"
+            sx={{
+              width: '100%',
+              height: 'auto',
+              borderRadius: 1,
+              mb: 0.5,
+              boxShadow: 1
+            }}
+            style={{
+              objectFit: 'cover',
+              filter: 'blur(10px)',
+              transition: 'filter 0.5s ease'
+            }}
+            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
+            }}
+          />
+        </Box>
         {/* <FeaturedProducts /> */}
         {/* <FeaturedShops /> */}
         <Box
