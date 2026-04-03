@@ -1,14 +1,19 @@
 import { request } from '@green-world/utils/api';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useEvent = (id: string) => {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: ['eventDetails', id],
-    queryFn: () =>
-      request({
+    queryFn: async () => {
+      const data = await request({
         url: `/action/details/${id}`,
         method: 'get'
-      }),
+      });
+      queryClient.invalidateQueries({ queryKey: ['userDetails'] });
+      return data;
+    },
     enabled: !!id
   });
 };

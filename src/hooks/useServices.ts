@@ -41,9 +41,15 @@ export const useGetServicesPaginated = (
 };
 
 export const useGetServiceById = (id: string, enabled = true) => {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: SERVICE_KEYS.detail(id),
-    queryFn: () => getServiceById(id),
+    queryFn: async () => {
+      const data = await getServiceById(id);
+      queryClient.invalidateQueries({ queryKey: ['userDetails'] });
+      return data;
+    },
     enabled: !!id && enabled
   });
 };

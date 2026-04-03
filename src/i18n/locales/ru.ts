@@ -972,6 +972,7 @@ export const ru = {
     addedProductsTitle: 'Добавленные товары',
     createdActivitiesTitle: 'Созданные активности',
     publishedBlogsTitle: 'Опубликованные блоги',
+    addedServicesTitle: 'Добавленные услуги',
     viewsCount: '{{count}} просмотров',
     engagementTitle: 'Индекс вовлеченности',
     engagementDescription:
@@ -983,10 +984,11 @@ export const ru = {
   contentDistribution: {
     title: 'Распределение контента',
     description:
-      'Обзор того, как ваш контент распределен на платформе. Сбалансированное распределение товаров, активностей и блогов повышает видимость, вовлеченность и шансы на продажу.',
+      'Обзор того, как ваш контент распределен на платформе. Сбалансированное распределение товаров, активностей, блогов и услуг повышает видимость, вовлеченность и шансы на продажу.',
     products: 'Товары',
     activities: 'Активности',
-    blogs: 'Блоги'
+    blogs: 'Блоги',
+    services: 'Услуги'
   },
   statsBarChart: {
     title: 'Просмотры по типу контента',
@@ -994,6 +996,7 @@ export const ru = {
     products: 'Товары',
     activities: 'Активности',
     blogs: 'Блоги',
+    services: 'Услуги',
     total: 'Всего',
     average: 'Среднее'
   },
@@ -1001,12 +1004,16 @@ export const ru = {
     title: 'Самый просматриваемый контент',
     mostVisitedProductGroup: 'Самая посещаемая группа товаров',
     topProduct: 'Топ-товар',
+    topBlog: 'Топ-блог',
     products: 'Товары',
     product: 'Товар',
     blogs: 'Блоги',
     blog: 'Блог',
     activities: 'Активности',
-    activity: 'Активность'
+    activity: 'Активность',
+    services: 'Услуги',
+    service: 'Услуга',
+    topService: 'Топ-услуга'
   },
   userProfileView: {
     tabs: {

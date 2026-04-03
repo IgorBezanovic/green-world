@@ -42,27 +42,34 @@ const defaultUser: User = {
   maxShopProducts: 25,
   numberOfActions: 0,
   numberOfBlogs: 0,
+  numberOfServiceListings: 0,
   statistics: {
     numberOfOrdersByEmail: 0,
     mostVisitedProductGroup: null,
     mostVisitedProduct: null,
+    mostVisitedBlog: null,
+    mostVisitedService: null,
     totalViews: {
       products: 0,
       actions: 0,
-      blogs: 0
+      blogs: 0,
+      services: 0
     },
     averageViews: {
       product: 0,
       action: 0,
-      blog: 0
+      blog: 0,
+      service: 0
     },
     products: [],
     actions: [],
     blogs: [],
+    services: [],
     contentDistribution: {
       products: 0,
       actions: 0,
-      blogs: 0
+      blogs: 0,
+      services: 0
     },
     engagementScore: 0
   }

@@ -97,13 +97,23 @@ export const Shops = () => {
   }, [filter, page, search, searchParams, setSearchParams, sort]);
 
   const totalProducts =
-    data.reduce((sum, u) => sum + (u?.numberOfProducts || 0), 0) ?? 0;
+    Number(usersMeta?.totalProducts ?? usersResponse?.extras?.totalProducts) ||
+    data.reduce((sum, u) => sum + (u?.numberOfProducts || 0), 0) ||
+    0;
 
   const totalOnlineShops =
-    data.reduce((sum, u) => sum + (u?.onlyOnline ? 1 : 0), 0) ?? 0;
+    Number(
+      usersMeta?.totalOnlineShops ?? usersResponse?.extras?.totalOnlineShops
+    ) ||
+    data.reduce((sum, u) => sum + (u?.onlyOnline ? 1 : 0), 0) ||
+    0;
 
   const totalOfflineShops =
-    data.reduce((sum, u) => sum + (u?.onlyOnline ? 0 : 1), 0) ?? 0;
+    Number(
+      usersMeta?.totalOfflineShops ?? usersResponse?.extras?.totalOfflineShops
+    ) ||
+    data.reduce((sum, u) => sum + (u?.onlyOnline ? 0 : 1), 0) ||
+    0;
 
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
@@ -179,7 +189,7 @@ export const Shops = () => {
         >
           <StatCard
             icon={Store}
-            value={data?.length || 0}
+            value={usersMeta?.totalItems || 0}
             title="Prodavnica"
             subtitle="Aktivnih prodavaca"
           />

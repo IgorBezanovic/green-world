@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 export const StatsBarChart = ({ user }: { user: User }) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const totalViews = user.statistics?.totalViews;
+  const averageViews = user.statistics?.averageViews;
 
   return (
     <Box
@@ -36,7 +38,8 @@ export const StatsBarChart = ({ user }: { user: User }) => {
                 data: [
                   t('statsBarChart.products'),
                   t('statsBarChart.activities'),
-                  t('statsBarChart.blogs')
+                  t('statsBarChart.blogs'),
+                  t('statsBarChart.services')
                 ]
               }
             ]}
@@ -44,18 +47,20 @@ export const StatsBarChart = ({ user }: { user: User }) => {
               {
                 label: t('statsBarChart.total'),
                 data: [
-                  user.statistics.totalViews.products,
-                  user.statistics.totalViews.actions,
-                  user.statistics.totalViews.blogs
+                  Number(totalViews?.products ?? 0),
+                  Number(totalViews?.actions ?? 0),
+                  Number(totalViews?.blogs ?? 0),
+                  Number(totalViews?.services ?? 0)
                 ],
                 color: theme.palette.success.main
               },
               {
                 label: t('statsBarChart.average'),
                 data: [
-                  user.statistics.averageViews.product,
-                  user.statistics.averageViews.action,
-                  user.statistics.averageViews.blog
+                  Number(averageViews?.product ?? 0),
+                  Number(averageViews?.action ?? 0),
+                  Number(averageViews?.blog ?? 0),
+                  Number(averageViews?.service ?? 0)
                 ],
                 color: theme.palette.primary.main
               }
