@@ -7,7 +7,8 @@ type RenterItemProps = {
   item:
     | User['statistics']['products'][0]
     | User['statistics']['blogs'][0]
-    | User['statistics']['actions'][0];
+    | User['statistics']['actions'][0]
+    | User['statistics']['services'][0];
   typeLabel: string;
 };
 
@@ -117,6 +118,94 @@ export const TopContent = ({ user }: { user: User }) => {
         </Card>
       )}
 
+      {/* MOST VISITED BLOG */}
+      {user.statistics.mostVisitedBlog && (
+        <Card
+          sx={{
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'warning.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #FFFDF4 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            mb: 4
+          }}
+        >
+          <Typography variant="h5" color="text.secondary" mb={1}>
+            {t('topContent.topBlog')}
+          </Typography>
+
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <Avatar
+              src={formatUrl(user.statistics.mostVisitedBlog.coverImage || '')}
+              variant="rounded"
+              sx={{ width: 44, height: 44 }}
+            />
+
+            <Box sx={{ flex: 1 }}>
+              <Typography fontSize={14} variant="h6">
+                {user.statistics.mostVisitedBlog.title}
+              </Typography>
+            </Box>
+
+            <Typography variant="h5">
+              {user.statistics.mostVisitedBlog.viewCounter ?? 0}
+            </Typography>
+          </Stack>
+        </Card>
+      )}
+
+      {/* MOST VISITED SERVICE */}
+      {user.statistics.mostVisitedService && (
+        <Card
+          sx={{
+            position: 'relative',
+            overflow: 'visible',
+            p: 3,
+            height: '100%',
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'primary.light',
+            boxShadow: 'none',
+            background: 'linear-gradient(180deg, #F4F8FB 0%, #FFFFFF 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            mb: 4
+          }}
+        >
+          <Typography variant="h5" color="text.secondary" mb={1}>
+            {t('topContent.topService')}
+          </Typography>
+
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <Avatar
+              src={formatUrl(
+                user.statistics.mostVisitedService.images?.[0] || ''
+              )}
+              variant="rounded"
+              sx={{ width: 44, height: 44 }}
+            />
+
+            <Box sx={{ flex: 1 }}>
+              <Typography fontSize={14} variant="h6">
+                {user.statistics.mostVisitedService.title}
+              </Typography>
+            </Box>
+
+            <Typography variant="h5">
+              {user.statistics.mostVisitedService.viewCounter ?? 0}
+            </Typography>
+          </Stack>
+        </Card>
+      )}
+
       {/* PRODUCTS */}
       <Box mb={3}>
         <Typography variant="h5" mb={1}>
@@ -149,6 +238,18 @@ export const TopContent = ({ user }: { user: User }) => {
         <Stack spacing={1.5}>
           {user.statistics.actions?.map((item) =>
             renderItem({ item, typeLabel: t('topContent.activity') })
+          )}
+        </Stack>
+      </Box>
+
+      {/* SERVICES */}
+      <Box mt={3}>
+        <Typography variant="h5" mb={1}>
+          {t('topContent.services')}
+        </Typography>
+        <Stack spacing={1.5}>
+          {user.statistics.services?.map((item) =>
+            renderItem({ item, typeLabel: t('topContent.service') })
           )}
         </Stack>
       </Box>

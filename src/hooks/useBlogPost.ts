@@ -4,10 +4,15 @@ import {
   storeEncrypted
 } from '@green-world/utils/saveToLocalStorage';
 import { BlogPost } from '@green-world/utils/types';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  useQuery,
+  useQueryClient,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 export const useBlogPost = (id?: string): UseQueryResult<BlogPost> => {
   const storageKey = 'blogpost';
+  const queryClient = useQueryClient();
 
   return useQuery<BlogPost>({
     queryKey: ['blogPost', id],
@@ -18,6 +23,7 @@ export const useBlogPost = (id?: string): UseQueryResult<BlogPost> => {
         method: 'get'
       });
       storeEncrypted(storageKey, data);
+      queryClient.invalidateQueries({ queryKey: ['userDetails'] });
       return data as BlogPost;
     },
     enabled: !!id,

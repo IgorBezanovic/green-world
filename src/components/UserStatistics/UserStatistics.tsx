@@ -1,6 +1,14 @@
 import UserContext from '@green-world/context/UserContext';
 import { Box, Stack } from '@mui/material';
-import { Activity, Eye, Mail, Notebook, Package, Sparkles } from 'lucide-react';
+import {
+  Activity,
+  BriefcaseBusiness,
+  Eye,
+  Mail,
+  Notebook,
+  Package,
+  Sparkles
+} from 'lucide-react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,12 +24,14 @@ import {
 export const UserStatistics = () => {
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
-  const { engagementScore } = user.statistics;
+  const totalViewsByType = user.statistics?.totalViews;
+  const productsViews = Number(totalViewsByType?.products ?? 0);
+  const actionsViews = Number(totalViewsByType?.actions ?? 0);
+  const blogsViews = Number(totalViewsByType?.blogs ?? 0);
+  const servicesViews = Number(totalViewsByType?.services ?? 0);
+  const engagementScore = Number(user.statistics?.engagementScore ?? 0);
 
-  const totalViews =
-    user.statistics.totalViews.products +
-    user.statistics.totalViews.actions +
-    user.statistics.totalViews.blogs;
+  const totalViews = productsViews + actionsViews + blogsViews + servicesViews;
 
   return (
     <Stack spacing={2}>
@@ -53,7 +63,7 @@ export const UserStatistics = () => {
           value={user.numberOfProducts}
           title={t('userStatistics.addedProductsTitle')}
           subtitle={t('userStatistics.viewsCount', {
-            count: user.statistics.totalViews.products
+            count: productsViews
           })}
         />
         <StatCard
@@ -61,7 +71,7 @@ export const UserStatistics = () => {
           value={user.numberOfActions}
           title={t('userStatistics.createdActivitiesTitle')}
           subtitle={t('userStatistics.viewsCount', {
-            count: user.statistics.totalViews.actions
+            count: actionsViews
           })}
         />
         <StatCard
@@ -69,7 +79,15 @@ export const UserStatistics = () => {
           value={user.numberOfBlogs}
           title={t('userStatistics.publishedBlogsTitle')}
           subtitle={t('userStatistics.viewsCount', {
-            count: user.statistics.totalViews.blogs
+            count: blogsViews
+          })}
+        />
+        <StatCard
+          icon={BriefcaseBusiness}
+          value={user.numberOfServiceListings || 0}
+          title={t('userStatistics.addedServicesTitle')}
+          subtitle={t('userStatistics.viewsCount', {
+            count: servicesViews
           })}
         />
       </Box>

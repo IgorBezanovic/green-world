@@ -998,6 +998,7 @@ export const en = {
     addedProductsTitle: 'Added products',
     createdActivitiesTitle: 'Created activities',
     publishedBlogsTitle: 'Published blogs',
+    addedServicesTitle: 'Added services',
     viewsCount: '{{count}} views',
     engagementTitle: 'Engagement score',
     engagementDescription:
@@ -1009,10 +1010,11 @@ export const en = {
   contentDistribution: {
     title: 'Content distribution',
     description:
-      'Overview of how your content is distributed on the platform. Balanced distribution of products, activities, and blogs increases visibility, user engagement, and sales chances.',
+      'Overview of how your content is distributed on the platform. Balanced distribution of products, activities, blogs, and services increases visibility, user engagement, and sales chances.',
     products: 'Products',
     activities: 'Activities',
-    blogs: 'Blogs'
+    blogs: 'Blogs',
+    services: 'Services'
   },
   statsBarChart: {
     title: 'Views by content type',
@@ -1020,6 +1022,7 @@ export const en = {
     products: 'Products',
     activities: 'Activities',
     blogs: 'Blogs',
+    services: 'Services',
     total: 'Total',
     average: 'Average'
   },
@@ -1027,12 +1030,16 @@ export const en = {
     title: 'Most viewed content',
     mostVisitedProductGroup: 'Most visited product group',
     topProduct: 'Top product',
+    topBlog: 'Top blog',
     products: 'Products',
     product: 'Product',
     blogs: 'Blogs',
     blog: 'Blog',
     activities: 'Activities',
-    activity: 'Activity'
+    activity: 'Activity',
+    services: 'Services',
+    service: 'Service',
+    topService: 'Top service'
   },
   userProfileView: {
     tabs: {

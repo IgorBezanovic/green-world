@@ -1003,6 +1003,7 @@ export const sr = {
     addedProductsTitle: 'Dodati proizvodi',
     createdActivitiesTitle: 'Kreirane aktivnosti',
     publishedBlogsTitle: 'Objavljeni blogovi',
+    addedServicesTitle: 'Dodate usluge',
     viewsCount: '{{count}} pregleda',
     engagementTitle: 'Engagement score',
     engagementDescription:
@@ -1014,10 +1015,11 @@ export const sr = {
   contentDistribution: {
     title: 'Distribucija sadržaja',
     description:
-      'Prikaz kako je vaš sadržaj raspoređen na platformi. Balansirana distribucija proizvoda, aktivnosti i blogova povećava vidljivost, angažman korisnika i šanse za prodaju.',
+      'Prikaz kako je vaš sadržaj raspoređen na platformi. Balansirana distribucija proizvoda, aktivnosti, blogova i usluga povećava vidljivost, angažman korisnika i šanse za prodaju.',
     products: 'Proizvodi',
     activities: 'Aktivnosti',
-    blogs: 'Blogovi'
+    blogs: 'Blogovi',
+    services: 'Usluge'
   },
   statsBarChart: {
     title: 'Pregledi po tipu sadržaja',
@@ -1025,6 +1027,7 @@ export const sr = {
     products: 'Proizvodi',
     activities: 'Aktivnosti',
     blogs: 'Blogovi',
+    services: 'Usluge',
     total: 'Ukupno',
     average: 'Prosek'
   },
@@ -1032,12 +1035,16 @@ export const sr = {
     title: 'Najgledaniji sadržaj',
     mostVisitedProductGroup: 'Najposećenija grupa proizvoda',
     topProduct: 'Top proizvod',
+    topBlog: 'Top blog',
     products: 'Proizvodi',
     product: 'Proizvod',
     blogs: 'Blogovi',
     blog: 'Blog',
     activities: 'Aktivnosti',
-    activity: 'Aktivnost'
+    activity: 'Aktivnost',
+    services: 'Usluge',
+    service: 'Usluga',
+    topService: 'Top usluga'
   },
   userProfileView: {
     tabs: {

@@ -68,23 +68,39 @@ export type UserStatistics = {
     viewCounter?: number;
     group?: string;
   } | null;
+  mostVisitedService: {
+    _id: string;
+    title: string;
+    images: string[];
+    viewCounter?: number;
+  } | null;
+  mostVisitedBlog: {
+    _id: string;
+    title: string;
+    coverImage?: string;
+    viewCounter?: number;
+  } | null;
   totalViews: {
     products: number;
     actions: number;
     blogs: number;
+    services: number;
   };
   averageViews: {
     product: number;
     action: number;
     blog: number;
+    service: number;
   };
   products: StatisticItem[];
   actions: StatisticItem[];
   blogs: StatisticItem[];
+  services: StatisticItem[];
   contentDistribution: {
     products: number;
     actions: number;
     blogs: number;
+    services: number;
   };
   engagementScore: number;
 };
@@ -124,6 +140,7 @@ export type User = {
   maxShopProducts: number;
   numberOfActions: number;
   numberOfBlogs: number;
+  numberOfServiceListings?: number;
   statistics: UserStatistics;
   workingTime?: WorkingTime;
 };
@@ -279,6 +296,7 @@ export interface ServiceListing {
   languages?: string[];
   availability?: string[];
   videoUrl?: string;
+  viewCounter?: number;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -298,6 +316,9 @@ export type PaginatedMeta = {
   pages: number;
   totalItems: number;
   pageSize: number;
+  totalProducts?: number;
+  totalOnlineShops?: number;
+  totalOfflineShops?: number;
 };
 
 export type PaginatedResponse<T> = {

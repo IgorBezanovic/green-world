@@ -16,7 +16,11 @@ const LegendItem = ({ label, value }: { label: string; value: number }) => (
 
 export const ContentDistribution = ({ user }: { user: User }) => {
   const { t } = useTranslation();
-  const { contentDistribution } = user.statistics;
+  const contentDistribution = user.statistics?.contentDistribution;
+  const products = Number(contentDistribution?.products ?? 0);
+  const actions = Number(contentDistribution?.actions ?? 0);
+  const blogs = Number(contentDistribution?.blogs ?? 0);
+  const services = Number(contentDistribution?.services ?? 0);
 
   return (
     <Box
@@ -45,18 +49,23 @@ export const ContentDistribution = ({ user }: { user: User }) => {
               data: [
                 {
                   id: 0,
-                  value: contentDistribution.products,
+                  value: products,
                   label: t('contentDistribution.products')
                 },
                 {
                   id: 1,
-                  value: contentDistribution.actions,
+                  value: actions,
                   label: t('contentDistribution.activities')
                 },
                 {
                   id: 2,
-                  value: contentDistribution.blogs,
+                  value: blogs,
                   label: t('contentDistribution.blogs')
+                },
+                {
+                  id: 3,
+                  value: services,
+                  label: t('contentDistribution.services')
                 }
               ],
               innerRadius: 50,
@@ -72,15 +81,16 @@ export const ContentDistribution = ({ user }: { user: User }) => {
       <Stack direction="row" justifyContent="center" mt={2} px={1} spacing={2}>
         <LegendItem
           label={t('contentDistribution.products')}
-          value={contentDistribution.products}
+          value={products}
         />
         <LegendItem
           label={t('contentDistribution.activities')}
-          value={contentDistribution.actions}
+          value={actions}
         />
+        <LegendItem label={t('contentDistribution.blogs')} value={blogs} />
         <LegendItem
-          label={t('contentDistribution.blogs')}
-          value={contentDistribution.blogs}
+          label={t('contentDistribution.services')}
+          value={services}
         />
       </Stack>
     </Box>
