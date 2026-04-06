@@ -379,125 +379,158 @@ export const WritePost = () => {
           </Alert>
         )}
 
-        <Box>
-          <label
-            htmlFor="post-title"
-            style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
-          >
-            <Typography component="span" variant="subtitle2">
-              {t('writePost.titleLabel')}
-            </Typography>
-          </label>
-          <TextField
-            id="post-title"
-            fullWidth
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            error={!!errors.title}
-            helperText={errors.title || t('writePost.titleHelper')}
-            placeholder={t('writePost.titlePlaceholder')}
-            disabled={isCreating || isImageUploading}
-          />
-        </Box>
-
-        <Box>
-          <label
-            htmlFor="post-author"
-            style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
-          >
-            <Typography component="span" variant="subtitle2">
-              {t('writePost.authorLabel')}
-            </Typography>
-          </label>
-          <TextField
-            id="post-author"
-            fullWidth
-            required
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            error={!!errors.author}
-            helperText={errors.author || t('writePost.authorHelper')}
-            placeholder={t('writePost.authorPlaceholder')}
-            disabled={isCreating || isImageUploading}
-          />
-        </Box>
-
-        <Box>
-          <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
-            {t('writePost.keywordsLabel')}
-          </Typography>
-          <Box
-            sx={(theme) => ({
-              display: 'flex',
-              gap: 2,
-              alignItems: 'flex-start',
-              flexDirection: 'column',
-              [theme.breakpoints.up('sm')]: {
-                flexDirection: 'row'
-              }
-            })}
-          >
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            gap: 4,
+            flexDirection: 'column',
+            [theme.breakpoints.up('md')]: {
+              flexDirection: 'row'
+            }
+          })}
+        >
+          <Box sx={{ flex: 1 }}>
+            <label
+              htmlFor="post-title"
+              style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
+            >
+              <Typography component="span" variant="subtitle2">
+                {t('writePost.titleLabel')}
+              </Typography>
+            </label>
             <TextField
-              sx={{ mt: '1.5px', width: '100%' }}
-              value={keywordInput}
-              onChange={(e) => setKeywordInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  addKeyword();
-                }
-              }}
-              placeholder={t('writePost.keywordsPlaceholder')}
-              helperText={errors.keywords || t('writePost.keywordsHelper')}
-              size="small"
-              disabled={isCreating || isImageUploading || keywords.length >= 5}
-              error={!!errors.keywords}
+              id="post-title"
+              fullWidth
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              error={!!errors.title}
+              helperText={errors.title || t('writePost.titleHelper')}
+              placeholder={t('writePost.titlePlaceholder')}
+              disabled={isCreating || isImageUploading}
             />
-            <Button
-              variant="outlined"
-              onClick={addKeyword}
+          </Box>
+
+          <Box sx={{ flex: 1 }}>
+            <label
+              htmlFor="post-author"
+              style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
+            >
+              <Typography component="span" variant="subtitle2">
+                {t('writePost.authorLabel')}
+              </Typography>
+            </label>
+            <TextField
+              id="post-author"
+              fullWidth
+              required
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              error={!!errors.author}
+              helperText={errors.author || t('writePost.authorHelper')}
+              placeholder={t('writePost.authorPlaceholder')}
+              disabled={isCreating || isImageUploading}
+            />
+          </Box>
+        </Box>
+
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            gap: 4,
+            flexDirection: 'column',
+            [theme.breakpoints.up('md')]: {
+              flexDirection: 'row',
+              alignItems: 'flex-start'
+            }
+          })}
+        >
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
+              {t('writePost.keywordsLabel')}
+            </Typography>
+            <Box
               sx={(theme) => ({
-                width: '100%',
+                display: 'flex',
+                gap: 2,
+                alignItems: 'flex-start',
+                flexDirection: 'column',
                 [theme.breakpoints.up('sm')]: {
-                  width: 'auto'
+                  flexDirection: 'row'
                 }
               })}
-              disabled={isCreating || isImageUploading || keywords.length >= 5}
             >
-              {t('writePost.keywordsAddButton')}
-            </Button>
+              <TextField
+                sx={{ mt: '1.5px', width: '100%' }}
+                value={keywordInput}
+                onChange={(e) => setKeywordInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addKeyword();
+                  }
+                }}
+                placeholder={t('writePost.keywordsPlaceholder')}
+                helperText={errors.keywords || t('writePost.keywordsHelper')}
+                size="small"
+                disabled={
+                  isCreating || isImageUploading || keywords.length >= 5
+                }
+                error={!!errors.keywords}
+              />
+              <Button
+                variant="contained"
+                onClick={addKeyword}
+                sx={(theme) => ({
+                  width: '100%',
+                  mt: 0.5,
+                  [theme.breakpoints.up('sm')]: {
+                    width: 'auto'
+                  }
+                })}
+                disabled={
+                  isCreating || isImageUploading || keywords.length >= 5
+                }
+              >
+                {t('writePost.keywordsAddButton')}
+              </Button>
+            </Box>
+            <Box display="flex" gap={1} mt={1} flexWrap="wrap">
+              {keywords?.map((k) => (
+                <Chip
+                  key={k}
+                  label={k}
+                  onDelete={() => removeKeyword(k)}
+                  color="success"
+                />
+              ))}
+            </Box>
           </Box>
-          <Box display="flex" gap={1} mt={1}>
-            {keywords?.map((k) => (
-              <Chip key={k} label={k} onDelete={() => removeKeyword(k)} />
-            ))}
-          </Box>
-        </Box>
 
-        <Box>
-          <Typography variant="h6" gutterBottom>
-            {t('writePost.timeLabel')}
-          </Typography>
-          <TextField
-            type="number"
-            size="small"
-            value={timeOfReading}
-            onChange={(e) =>
-              setTimeOfReading(
-                e.target.value === '' ? '' : Number(e.target.value)
-              )
-            }
-            error={!!errors.timeOfReading}
-            helperText={errors.timeOfReading || t('writePost.timeHelper')}
-            placeholder={t('writePost.timePlaceholder')}
-            sx={{ width: 160 }}
-            disabled={isCreating || isImageUploading}
-            slotProps={{ htmlInput: { min: 0 } }}
-          />
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
+              {t('writePost.timeLabel')}
+            </Typography>
+            <TextField
+              type="number"
+              size="small"
+              value={timeOfReading}
+              onChange={(e) =>
+                setTimeOfReading(
+                  e.target.value === '' ? '' : Number(e.target.value)
+                )
+              }
+              error={!!errors.timeOfReading}
+              helperText={errors.timeOfReading || t('writePost.timeHelper')}
+              placeholder={t('writePost.timePlaceholder')}
+              sx={{ width: '100%' }}
+              disabled={isCreating || isImageUploading}
+              slotProps={{ htmlInput: { min: 0 } }}
+            />
+          </Box>
         </Box>
         <Box>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
             {t('writePost.coverImageLabel')}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
@@ -540,7 +573,7 @@ export const WritePost = () => {
         </Box>
 
         <Box>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
             {t('writePost.contentLabel')}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -660,10 +693,40 @@ export const WritePost = () => {
         </Box>
 
         {/* Submit */}
-        <Box display="flex" gap={2}>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1.5,
+            pt: 3,
+            borderTop: '1px solid',
+            borderColor: 'divider',
+            [theme.breakpoints.up('md')]: {
+              flexDirection: 'row',
+              justifyContent: 'flex-end'
+            }
+          })}
+        >
+          <Button
+            variant="outlined"
+            size="large"
+            onClick={() => navigate('/blog')}
+            sx={(theme) => ({
+              width: '100%',
+              order: 2,
+              [theme.breakpoints.up('md')]: {
+                width: 'auto',
+                order: 1
+              }
+            })}
+          >
+            {t('writePost.cancel')}
+          </Button>
           <Button
             variant="contained"
             color="secondary"
+            size="large"
             onClick={handleSubmit}
             disabled={
               isCreating ||
@@ -673,15 +736,21 @@ export const WritePost = () => {
               isLoadingPost ||
               isSubmitting
             }
+            sx={(theme) => ({
+              width: '100%',
+              minWidth: 180,
+              order: 1,
+              [theme.breakpoints.up('md')]: {
+                width: 'auto',
+                order: 2
+              }
+            })}
           >
             {isCreating ? (
-              <CircularProgress size={24} />
+              <CircularProgress size={24} color="inherit" />
             ) : (
               t('writePost.submit')
             )}
-          </Button>
-          <Button variant="outlined" onClick={() => navigate('/blog')}>
-            {t('writePost.cancel')}
           </Button>
         </Box>
       </Box>
