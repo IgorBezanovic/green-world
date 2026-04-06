@@ -637,6 +637,7 @@ export const sr = {
     submitUpdate: 'Azuriraj proizvod',
     submitCreate: 'Kreiraj proizvod',
     maxFileSizeError: 'Maksimalna veličina fajla je 10MB!',
+    imageTooLarge: 'Fotografija ne sme biti veća od 10MB.',
     ai: {
       title: 'AI generisanje opisa proizvoda:',
       conditions:

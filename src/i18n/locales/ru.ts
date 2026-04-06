@@ -631,6 +631,7 @@ export const ru = {
     submitUpdate: 'Обновить товар',
     submitCreate: 'Создать товар',
     maxFileSizeError: 'Максимальный размер файла 10MB!',
+    imageTooLarge: 'Размер фотографии не должен превышать 10MB.',
     ai: {
       title: 'AI-генерация описания товара:',
       conditions:

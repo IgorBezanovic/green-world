@@ -633,6 +633,7 @@ export const en = {
     submitUpdate: 'Update product',
     submitCreate: 'Create product',
     maxFileSizeError: 'Maximum file size is 10MB!',
+    imageTooLarge: 'Image must not exceed 10MB.',
     ai: {
       title: 'AI product description generation:',
       conditions:
