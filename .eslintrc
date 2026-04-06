@@ -66,5 +66,5 @@
       }
     ]
   },
-  "ignorePatterns": ["bin/**/*.js", "build/"]
+  "ignorePatterns": ["bin/**/*.js", "build/", "next-env.d.ts"]
 }
