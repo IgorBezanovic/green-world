@@ -1,3 +1,5 @@
+'use client';
+
 import UserContext from '@green-world/context/UserContext';
 import { ElementType, useContext } from 'react';
 import { Navigate } from 'react-router';

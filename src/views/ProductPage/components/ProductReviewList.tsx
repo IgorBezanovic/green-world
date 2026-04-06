@@ -1,3 +1,5 @@
+'use client';
+
 import { Comment } from '@green-world/utils/types';
 import { ProductReviewItem } from '@green-world/views/ProductPage/components/ProductReviewItem';
 import { Box, Typography } from '@mui/material';

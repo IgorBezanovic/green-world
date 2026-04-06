@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "paths": {
-      "@green-world/*": ["./src/*"]
+      "@green-world/*": ["./src/*"],
+      "react-router": ["./src/compat/react-router.tsx"],
+      "react-router-dom": ["./src/compat/react-router.tsx"],
+      "react-i18next": ["./src/compat/react-i18next.tsx"]
     }
   }
 }

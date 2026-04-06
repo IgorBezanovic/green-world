@@ -1,3 +1,5 @@
+'use client';
+
 import { useUser } from '@green-world/hooks/useUser';
 import { getItem } from '@green-world/utils/cookie';
 import { safeDecodeToken } from '@green-world/utils/helpers';
@@ -91,7 +93,9 @@ interface ProviderProps {
 
 export const UserContextProvider = ({ children }: ProviderProps) => {
   const [user, setUser] = useState(defaultUser);
-  const [token, setToken] = useState(getItem('token'));
+  // Initialize as undefined to avoid SSR/client mismatch — cookie is only
+  // readable on the client, so we hydrate after mount via useEffect.
+  const [token, setToken] = useState<string | undefined>(undefined);
   const decodedToken = safeDecodeToken<DecodedToken>(token);
   const userId = decodedToken?._id ?? '';
   const isUserLoggedIn = Boolean(decodedToken?._id);
@@ -106,6 +110,11 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
       setUserDataInCTX(data);
     }
   }, [data, isLoading]);
+
+  useEffect(() => {
+    // Read cookie on client after hydration to avoid SSR mismatch
+    setToken(getItem('token'));
+  }, []);
 
   useEffect(() => {
     const handleLogout = () => {

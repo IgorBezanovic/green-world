@@ -1,3 +1,5 @@
+'use client';
+
 // import UserContext from '@green-world/context/UserContext';
 // import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 // import { Product } from '@green-world/utils/types';

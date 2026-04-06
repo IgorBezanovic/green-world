@@ -1,3 +1,5 @@
+'use client';
+
 import { ZSLogoLogoMark } from '@green-world/components';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';

@@ -1,0 +1,102 @@
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from 'next';
+import '@fontsource/montserrat';
+import '@fontsource/ephesis';
+import '@green-world/styles.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://www.zelenisvet.rs'),
+  title: {
+    template: '%s | Zeleni Svet',
+    default: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija'
+  },
+  description:
+    'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
+  keywords: [
+    'online cveće',
+    'online cvećara',
+    'kupovina cveća',
+    'kupovina cveća online',
+    'naruči cveće online',
+    'dostava cveća beograd',
+    'cvećara srbija',
+    'cvećare srbija',
+    'rasadnici srbija',
+    'saksijsko cveće',
+    'rezano cveće',
+    'zeleni svet',
+    'marketplace cveća',
+    'baštovanstvo'
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true }
+  },
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon.ico' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
+    other: [
+      {
+        rel: 'icon',
+        url: '/android-chrome-192x192.png',
+        sizes: '192x192',
+        type: 'image/png'
+      },
+      {
+        rel: 'icon',
+        url: '/android-chrome-512x512.png',
+        sizes: '512x512',
+        type: 'image/png'
+      }
+    ]
+  },
+  manifest: '/manifest.json',
+  openGraph: {
+    type: 'website',
+    siteName: 'Zeleni Svet',
+    locale: 'sr_RS',
+    url: 'https://www.zelenisvet.rs',
+    title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
+    description:
+      'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
+    images: [
+      {
+        url: '/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'Zeleni Svet – online cveće i cvećare Srbija'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
+    description:
+      'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
+    images: ['/android-chrome-512x512.png']
+  }
+};
+
+export default function RootLayout({
+  children
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="sr">
+      <body>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  );
+}

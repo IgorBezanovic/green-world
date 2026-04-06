@@ -23,7 +23,7 @@ export const translateGroupToSr = (group: string): string => {
 
 export const getLocalizedGroupLabel = (
   group: string,
-  language: string = i18n.language
+  language: string = 'sr'
 ): string => {
   const normalizedLanguage = normalizeLanguage(language);
 
@@ -50,7 +50,7 @@ export const translateSubGroupToSr = (
 export const getLocalizedSubGroupLabel = (
   group: keyof typeof subGroups | undefined,
   subGroup: string,
-  language: string = i18n.language
+  language: string = 'sr'
 ): string => {
   const normalizedLanguage = normalizeLanguage(language);
   const normalizedGroup = group || undefined;
@@ -89,11 +89,10 @@ export const goToDestination = (street = '', city = '', country = 'Srbija') => {
 
 export const formatImageUrl = (url: string, quality?: number) => {
   if (!url) return '';
-  const { VITE_AWS_BUCKET_NAME, VITE_AWS_REGION, VITE_ENV } = import.meta.env;
 
   return url.includes('cloudinary') || url.includes('google')
     ? url
-    : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/${VITE_ENV}/${url}_${quality || 85}.webp`;
+    : `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${process.env.NEXT_PUBLIC_ENV}/${url}_${quality || 85}.webp`;
 };
 
 export const formatDate = (
@@ -143,6 +142,14 @@ export const getHtmlDescriptionProps = (description: string) => ({
 
 export const getPlainTextFromHtml = (html?: string): string => {
   if (!html) return '';
+
+  if (typeof window === 'undefined') {
+    return html
+      .replace(/<br\s*\/?\s*>/gi, '\n')
+      .replace(/<\/?p>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .trim();
+  }
 
   const doc = new DOMParser().parseFromString(html, 'text/html');
 

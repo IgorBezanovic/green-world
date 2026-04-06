@@ -1,3 +1,5 @@
+'use client';
+
 import UserContext from '@green-world/context/UserContext';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Comment } from '@green-world/utils/types';

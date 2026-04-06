@@ -1,3 +1,5 @@
+'use client';
+
 import { MetaTags } from '@green-world/components';
 import { ChatContext, Message as Msg } from '@green-world/context/ChatContext';
 import UserContext from '@green-world/context/UserContext';

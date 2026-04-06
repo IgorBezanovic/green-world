@@ -1,3 +1,5 @@
+'use client';
+
 import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Box,

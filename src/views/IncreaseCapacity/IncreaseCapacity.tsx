@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';

@@ -1,3 +1,5 @@
+'use client';
+
 import UserContext from '@green-world/context/UserContext';
 import { useImage } from '@green-world/hooks/useImage';
 import { formatImageUrl } from '@green-world/utils/helpers';

@@ -1,3 +1,5 @@
+'use client';
+
 import UserContext from '@green-world/context/UserContext';
 import {
   createContext,
@@ -50,7 +52,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!currentUser) return;
-    const s = io(import.meta.env.VITE_API_SOCKET, {
+    const s = io(process.env.NEXT_PUBLIC_API_SOCKET as string, {
       path: '/socket.io',
       query: { userId: currentUser }
     });

@@ -1,3 +1,5 @@
+'use client';
+
 import { useChangePassword } from '@green-world/hooks/useChangePassword';
 import { NewPasswordValues } from '@green-world/utils/types';
 import {

@@ -1,3 +1,5 @@
+'use client';
+
 import { MetaTags } from '@green-world/components';
 import { useContactUs } from '@green-world/hooks/useContactUs';
 import {

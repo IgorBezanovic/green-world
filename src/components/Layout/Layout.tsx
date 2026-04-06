@@ -1,21 +1,20 @@
+'use client';
+
 import {
   Footer,
   Header,
   NavTrack,
   ScrollToTop,
   AllRights,
-  AnalyticsTracker,
   Navbar
 } from '@green-world/components';
 import { Box } from '@mui/material';
 import React from 'react';
-import { Outlet } from 'react-router';
 
-export const Layout = () => {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <React.Fragment>
       <ScrollToTop />
-      <AnalyticsTracker />
       <NavTrack />
       <Box
         sx={{
@@ -29,7 +28,7 @@ export const Layout = () => {
         <Header />
         <Navbar />
       </Box>
-      <Outlet />
+      {children}
       <Footer />
       <AllRights />
     </React.Fragment>

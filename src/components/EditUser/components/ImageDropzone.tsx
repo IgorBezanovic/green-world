@@ -1,3 +1,5 @@
+'use client';
+
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import { Box, Stack, Typography } from '@mui/material';
 import { useRef } from 'react';

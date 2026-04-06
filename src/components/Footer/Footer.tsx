@@ -1,3 +1,5 @@
+'use client';
+
 import { SocialMedia } from '@green-world/components';
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';

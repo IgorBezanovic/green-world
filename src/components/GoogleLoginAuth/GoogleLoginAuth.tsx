@@ -1,3 +1,5 @@
+'use client';
+
 import { useGoogleLogin } from '@green-world/hooks/useGoogleLogin';
 import { GoogleLogin } from '@react-oauth/google';
 import { useEffect, useRef, useState } from 'react';

@@ -1,1 +1,1 @@
-export * from './GridProducts.tsx';
+export * from './GridProducts';

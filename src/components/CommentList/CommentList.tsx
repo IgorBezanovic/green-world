@@ -1,3 +1,5 @@
+'use client';
+
 import { CommentItem } from '@green-world/components';
 import { Comment } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';

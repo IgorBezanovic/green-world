@@ -1,3 +1,4 @@
+import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 interface PageSEOProps {
@@ -14,16 +15,19 @@ export const MetaTags = ({
   image = 'https://www.zelenisvet.rs/green-world.svg'
 }: PageSEOProps) => {
   const { t } = useTranslation();
+  const pathname = usePathname();
+  const url = `https://www.zelenisvet.rs${pathname ?? ''}`;
   const finalDescription = description ?? t('metaTags.defaultDescription');
   const finalKeywords = keywords ?? t('metaTags.defaultKeywords');
-  const url = window.location.href;
 
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={finalDescription} />
       <meta name="keywords" content={finalKeywords} />
-      <meta property="og:title" content={`Zeleni svet | ${title}`} />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Zeleni Svet" />
+      <meta property="og:title" content={title} />
       <meta property="og:description" content={finalDescription} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={url} />
@@ -40,7 +44,7 @@ export const MetaTags = ({
             {
               '@context': 'https://schema.org',
               '@type': 'WebPage',
-              name: `Zeleni svet | ${title}`,
+              name: title,
               description: finalDescription,
               url,
               image,
@@ -49,7 +53,9 @@ export const MetaTags = ({
                 name: 'Zeleni svet',
                 logo: {
                   '@type': 'ImageObject',
-                  url: 'https://media.licdn.com/dms/image/v2/D4D0BAQFVzgxtJMN08g/company-logo_100_100/B4DZlcK5XVH0AQ-/0/1758187984852/zeleni_svet_logo?e=1762387200&v=beta&t=eAPy1aq48-Bs1CJrgA84bAnPLrBmlr0iXTRzASHn22M'
+                  url: 'https://www.zelenisvet.rs/android-chrome-512x512.png',
+                  width: 512,
+                  height: 512
                 }
               }
             },

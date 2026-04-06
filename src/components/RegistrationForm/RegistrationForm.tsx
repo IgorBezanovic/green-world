@@ -1,3 +1,5 @@
+'use client';
+
 import { GoogleLoginAuth, MetaLoginAuth } from '@green-world/components';
 import { RegistrationValues } from '@green-world/utils/types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';

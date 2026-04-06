@@ -369,7 +369,8 @@ export const ru = {
     contactUs: 'Связаться с нами',
     messages: 'Сообщения',
     writeBlog: 'Написать блог',
-    logout: 'Выйти'
+    logout: 'Выйти',
+    statistics: 'Статистика'
   },
   footer: {
     newsletterLabel: 'Подпишитесь на новости из мира растений',
@@ -386,7 +387,7 @@ export const ru = {
     supportTitle: 'Мы предоставляем поддержку пользователям:',
     supportCreateShop: 'Создание магазина',
     supportCreateAd: 'Создание объявления',
-    supportCreateActivity: 'Создание активности',
+    supportCreateActivity: 'Создание события',
     promoTitle: 'Хотите выделить ваше объявление/магазин на главной странице?',
     newsletterAriaLabel: 'Email для подписки на новости',
     gardenerIllustrationAlt: 'Иллюстрация садовника'
@@ -408,7 +409,7 @@ export const ru = {
     searchPlaceholder: 'Ищите товары, услуги, блоги, пользователей, события...'
   },
   allRights: {
-    text: '© {{year}} <link>Zeleni Svet</link>. Все права защищены.'
+    text: '© {year} <link>Zeleni Svet</link>. Все права защищены.'
   },
   blogCard: {
     noDescription: 'Нет описания...',
@@ -424,7 +425,7 @@ export const ru = {
     linkCopiedInfo:
       'Ссылка скопирована. Нажмите Cmd/Ctrl+D, чтобы добавить страницу в закладки.',
     bookmarkShortcutAlert:
-      'Нажмите Cmd/Ctrl+D, чтобы добавить эту страницу в закладки: {{url}}'
+      'Нажмите Cmd/Ctrl+D, чтобы добавить эту страницу в закладки: {url}'
   },
   copyLinkButton: {
     label: 'Копировать ссылку'
@@ -436,7 +437,7 @@ export const ru = {
     mustLogin: 'Вы должны войти в систему'
   },
   commentList: {
-    title: 'Комментарии ({{count}})',
+    title: 'Комментарии ({count})',
     empty: 'Комментариев пока нет.',
     reply: 'Ответить',
     replyTo: 'Ответ:'
@@ -464,7 +465,7 @@ export const ru = {
       saturday: 'Суббота',
       sunday: 'Воскресенье'
     },
-    validUrl: 'Введите корректный URL для {{name}}.',
+    validUrl: 'Введите корректный URL для {name}.',
     basicInfo: {
       title: 'Основная информация',
       description: 'Данные о вашем бизнесе и контакты',
@@ -535,8 +536,8 @@ export const ru = {
     },
     linkCopied: 'Ссылка скопирована',
     linkCopyFailed: 'Не удалось скопировать ссылку',
-    deleteTitle: 'Удалить активность',
-    deleteDescription: 'Вы уверены, что хотите удалить эту активность?',
+    deleteTitle: 'Удалить событие',
+    deleteDescription: 'Вы уверены, что хотите удалить это событие?',
     yes: 'Да',
     no: 'Нет'
   },
@@ -544,7 +545,7 @@ export const ru = {
     eventFallback: 'Событие',
     contact: 'Контакт организатора',
     description: 'Описание события',
-    views: '{{count}} просмотров',
+    views: '{count} просмотров',
     shareEvent: 'Поделиться событием',
     linkCopied: 'Ссылка скопирована',
     linkCopyFailed: 'Не удалось скопировать ссылку',
@@ -566,7 +567,7 @@ export const ru = {
     shop: 'Магазин',
     fallbackDescription: 'Посмотрите предложение этого премиум-магазина.',
     premiumShop: 'Премиум-магазин',
-    productsCount: '{{count}} товаров',
+    productsCount: '{count} товаров',
     visitShop: 'Перейти в магазин'
   },
   featuredShopsBanner: {
@@ -645,12 +646,13 @@ export const ru = {
     }
   },
   productsView: {
-    metaTitle: 'Zeleni svet | Поиск товаров | Все товары',
+    metaTitle:
+      'Zeleni Svet | Купить цветы онлайн | Интернет-магазин цветов Сербия',
     hero: {
       kicker: 'Изучите предложения',
       title: 'Товары',
       subtitle:
-        'Находите товары рядом с вами — домашние продукты, изделия ручной работы и экологичные решения для повседневной жизни.',
+        'Купите цветы, растения и садовый ассортимент онлайн – напрямую от флористов и производителей в Сербии.',
       searchPlaceholder: 'Поиск по названию или описанию',
       locationPlaceholder: 'Локация'
     },
@@ -688,7 +690,7 @@ export const ru = {
     sendMessage: 'Отправить сообщение',
     orderProduct: 'Заказать товар',
     leaveReview: 'Оставьте отзыв',
-    reviewsCount: 'Отзывы ({{count}})',
+    reviewsCount: 'Отзывы ({count})',
     reviewsEmpty: 'Для этого товара пока нет отзывов.',
     submitReview: 'Оставить отзыв',
     replyToReview: 'Ответить',
@@ -708,7 +710,7 @@ export const ru = {
     uploadingImage: 'Загрузка изображения...',
     reviewImageAlt: 'Фото отзыва',
     allSellerProducts: 'Все товары продавца',
-    productsFromGroup: 'Товары из группы {{group}}',
+    productsFromGroup: 'Товары из группы {group}',
     linkCopied: 'Ссылка скопирована',
     linkCopyFailed: 'Не удалось скопировать ссылку'
   },
@@ -719,7 +721,7 @@ export const ru = {
     bounceRateDescription:
       'Показатель отказов — это процент посетителей, которые покинули сайт после просмотра только одной страницы, без взаимодействия с другим контентом. Данные из Google Analytics.',
     topPages: 'Топ-страницы (сессии и просмотры)',
-    sessionsViews: '{{sessions}} сессий / {{views}} просмотров',
+    sessionsViews: '{sessions} сессий / {views} просмотров',
     demographics: 'Демография',
     country: 'Страна',
     city: 'Город'
@@ -742,7 +744,7 @@ export const ru = {
     },
     changePassword: {
       success: 'Пароль успешно изменен!',
-      error: 'Произошла ошибка: {{message}}',
+      error: 'Произошла ошибка: {message}',
       unknownError: 'Неизвестная ошибка'
     }
   },
@@ -762,18 +764,18 @@ export const ru = {
   },
   metaTags: {
     defaultDescription:
-      'Zeleni Svet — это ведущая платформа, объединяющая любителей растений с лучшими цветочными магазинами и питомниками. Найдите идеальные цветы, садовое оборудование и советы по уходу за растениями в одном месте.',
+      'Zeleni Svet — ведущий онлайн-маркетплейс для покупки цветов и растений в Сербии. Найдите интернет-магазины цветов, горшечные растения, срезанные цветы и садовый ассортимент в одном месте.',
     defaultKeywords:
-      'доставка цветов белград, онлайн цветочный магазин сербия, цветочный маркетплейс, купить растения онлайн, садовое оборудование, растения сербия, уход за растениями, цветочная платформа, zeleni svet, комнатные растения, уличные растения, семена, садовый декор'
+      'купить цветы онлайн, интернет-магазин цветов, заказать цветы онлайн, цветы сербия, доставка цветов белград, цветочный магазин онлайн сербия, купить растения онлайн, садовое оборудование, питомники сербия, комнатные растения, срезанные цветы, zeleni svet, цветочный маркетплейс'
   },
   seo: {
     home: {
       title:
-        'Zeleni Svet | Цветочный маркетплейс и садовая платформа | Доставка цветов',
+        'Купить цветы онлайн | Zeleni Svet | Интернет-магазин цветов Сербия',
       description:
-        'Свяжитесь с лучшими местными флористами и производителями растений. Найдите новейшие товары, советы и оборудование на Zeleni Svet, вашем онлайн-цветочном маркетплейсе.',
+        'Купите цветы онлайн на Zeleni Svet – ведущем маркетплейсе интернет-магазинов цветов в Сербии. Горшечные растения, срезанные цветы и садовый ассортимент с доставкой.',
       keywords:
-        'zeleni svet, цветочный маркетплейс, онлайн-рынок растений, цветы белград, садоводство сербия, местные флористы'
+        'купить цветы онлайн, интернет-магазин цветов, заказать цветы онлайн, доставка цветов, цветочный магазин сербия, цветы белград, zeleni svet, цветочный маркетплейс, садоводство сербия'
     },
     events: {
       title: 'Zeleni svet | Поиск событий',
@@ -783,11 +785,12 @@ export const ru = {
         'события, эко события, посадка, уборка, местное сообщество, green world'
     },
     shops: {
-      title: 'Zeleni svet | Магазины',
+      title:
+        'Интернет-магазины цветов Сербия | Zeleni Svet | Цветочные магазины',
       description:
-        'Найдите проверенные магазины растений, саженцев и садового ассортимента рядом с вами или онлайн.',
+        'Найдите интернет-магазины цветов и цветочные магазины в Сербии в одном месте. Просматривайте ассортимент, часы работы и адреса проверенных флористов и питомников.',
       keywords:
-        'магазины, магазины растений, саженцы, садовые магазины, онлайн-магазины, green world'
+        'интернет-магазин цветов, цветочные магазины сербия, купить цветы, флорист белград, онлайн цветочный магазин, заказать цветы, питомники сербия, zeleni svet цветы'
     },
     contactUs: {
       title: 'Zeleni svet | Связаться с нами',
@@ -887,7 +890,7 @@ export const ru = {
     currency: 'RSD',
     renew: 'Продлить',
     promote: 'Продвигать',
-    activeFor: 'Активно еще {{days}} {{dayLabel}}',
+    activeFor: 'Активно еще {days} {dayLabel}',
     day: 'день',
     days: 'дней',
     inStock: 'В наличии',
@@ -942,7 +945,7 @@ export const ru = {
     locationNotAdded: 'Локация не добавлена',
     onlyOnline: 'Только онлайн',
     physicalShop: 'Офлайн-магазин',
-    productsCount: '{{count}} товаров',
+    productsCount: '{count} товаров',
     viewShop: 'Открыть магазин'
   },
   shopPage: {
@@ -955,12 +958,12 @@ export const ru = {
     contactSeller: 'Связаться с продавцом',
     workingHours: 'Часы работы',
     closed: 'Закрыто',
-    productsCount: '{{count}} товаров',
+    productsCount: '{count} товаров',
     searchPlaceholder: 'Поиск по магазину...'
   },
   shopStatsCard: {
     addedProducts: 'Добавленные товары',
-    createdActivities: 'Созданные активности',
+    createdActivities: 'Созданные события',
     addedServices: 'Добавленные услуги',
     publishedBlogs: 'Опубликованные блоги'
   },
@@ -972,23 +975,23 @@ export const ru = {
     totalViewsTitle: 'Всего просмотров',
     totalViewsSubtitle: 'Все просмотры контента',
     addedProductsTitle: 'Добавленные товары',
-    createdActivitiesTitle: 'Созданные активности',
+    createdActivitiesTitle: 'Созданные события',
     publishedBlogsTitle: 'Опубликованные блоги',
     addedServicesTitle: 'Добавленные услуги',
-    viewsCount: '{{count}} просмотров',
+    viewsCount: '{count} просмотров',
     engagementTitle: 'Индекс вовлеченности',
     engagementDescription:
-      'Ваш текущий индекс вовлеченности: {{score}}. Он показывает, насколько пользователи взаимодействуют с вашими товарами, активностями и блогами. Более высокий показатель означает лучшую видимость и вовлеченность.',
+      'Ваш текущий индекс вовлеченности: {score}. Он показывает, насколько пользователи взаимодействуют с вашими товарами, событиями и блогами. Более высокий показатель означает лучшую видимость и вовлеченность.',
     ordersByEmailTitle: 'Заказы по e-mail',
     ordersByEmailDescription:
-      'Количество заказов, полученных по e-mail: {{count}}.'
+      'Количество заказов, полученных по e-mail: {count}.'
   },
   contentDistribution: {
     title: 'Распределение контента',
     description:
-      'Обзор того, как ваш контент распределен на платформе. Сбалансированное распределение товаров, активностей, блогов и услуг повышает видимость, вовлеченность и шансы на продажу.',
+      'Обзор того, как ваш контент распределен на платформе. Сбалансированное распределение товаров, событий, блогов и услуг повышает видимость, вовлеченность и шансы на продажу.',
     products: 'Товары',
-    activities: 'Активности',
+    activities: 'События',
     blogs: 'Блоги',
     services: 'Услуги'
   },
@@ -996,7 +999,7 @@ export const ru = {
     title: 'Просмотры по типу контента',
     subtitle: 'Сравнение общего числа просмотров и среднего значения',
     products: 'Товары',
-    activities: 'Активности',
+    activities: 'События',
     blogs: 'Блоги',
     services: 'Услуги',
     total: 'Всего',
@@ -1011,8 +1014,8 @@ export const ru = {
     product: 'Товар',
     blogs: 'Блоги',
     blog: 'Блог',
-    activities: 'Активности',
-    activity: 'Активность',
+    activities: 'События',
+    activity: 'Событие',
     services: 'Услуги',
     service: 'Услуга',
     topService: 'Топ-услуга'
@@ -1021,13 +1024,13 @@ export const ru = {
     tabs: {
       products: 'Товары',
       services: 'Мои услуги',
-      activities: 'Активности',
+      activities: 'События',
       myBlogs: 'Мои блоги'
     },
     buttons: {
       profileSettings: 'Настройки профиля',
       addProduct: 'Добавить товар',
-      createActivity: 'Создать активность',
+      createActivity: 'Создать событие',
       writeBlogPost: 'Написать пост в блог',
       addService: 'Добавить услугу'
     },
@@ -1035,7 +1038,7 @@ export const ru = {
     contentType: {
       products: 'товаров',
       services: 'услуг',
-      activities: 'активностей',
+      activities: 'событий',
       blogs: 'блогов'
     },
     empty: {
@@ -1043,7 +1046,7 @@ export const ru = {
         'Если у вас нет ни одного товара или услуги, вы не будете видны в поиске. Нажмите «Добавить товар» или «Добавить услугу», чтобы повысить видимость вашего магазина!',
 
       services: 'Вы еще не добавили услуги',
-      activities: 'Вы еще не добавили активность',
+      activities: 'Вы еще не добавили событие',
       blogs: 'Вы еще не добавили посты в блог'
     },
     editService: 'Редактировать услугу',
@@ -1094,37 +1097,37 @@ export const ru = {
     headingEdit: 'Обновить событие',
     headingCreate: 'Создать событие',
     fields: {
-      titleLabel: 'Название активности:',
-      titlePlaceholder: 'Введите название активности',
-      typeLabel: 'Тип активности:',
-      typePlaceholder: 'Выберите тип активности',
+      titleLabel: 'Название события:',
+      titlePlaceholder: 'Введите название события',
+      typeLabel: 'Тип события:',
+      typePlaceholder: 'Выберите тип события',
       contactPersonLabel: 'Контактное лицо:',
       contactPersonPlaceholder: 'Контактное лицо',
-      placeLabel: 'Место активности:',
-      placePlaceholder: 'Введите место активности',
-      addressLabel: 'Адрес активности:',
-      addressPlaceholder: 'Введите адрес активности',
-      imageLabel: 'Добавьте фото активности:',
+      placeLabel: 'Место события:',
+      placePlaceholder: 'Введите место события',
+      addressLabel: 'Адрес события:',
+      addressPlaceholder: 'Введите адрес события',
+      imageLabel: 'Добавьте фото события:',
       addImage: 'Добавить фото',
-      descriptionLabel: 'Описание активности:',
-      dateLabel: 'Дата активности:',
-      startTimeLabel: 'Время начала активности:',
-      startTimePlaceholder: 'Введите время начала активности',
-      endTimeLabel: 'Время окончания активности:',
-      endTimePlaceholder: 'Введите время окончания активности',
+      descriptionLabel: 'Описание события:',
+      dateLabel: 'Дата события:',
+      startTimeLabel: 'Время начала события:',
+      startTimePlaceholder: 'Введите время начала события',
+      endTimeLabel: 'Время окончания события:',
+      endTimePlaceholder: 'Введите время окончания события',
       contactPhoneLabel: 'Контактный телефон:',
       contactMailLabel: 'Контактный email:',
       contactMailPlaceholder: 'Контактный email',
-      statusLabel: 'Статус активности:',
-      statusPlaceholder: 'Выберите статус активности'
+      statusLabel: 'Статус события:',
+      statusPlaceholder: 'Выберите статус события'
     },
     status: {
       active: 'Активно',
       cancelled: 'Отменено',
       finished: 'Завершено'
     },
-    submitEdit: 'Обновить активность',
-    submitCreate: 'Создать активность'
+    submitEdit: 'Обновить событие',
+    submitCreate: 'Создать событие'
   },
   orderProductView: {
     metaFallbackTitle: 'Zeleni svet | Товар',
@@ -1200,26 +1203,26 @@ export const ru = {
     chooseBundle: 'Выберите пакет',
     mostPopular: 'Самый популярный',
     bundleFeatures: {
-      products: '{{count}} товаров × {{days}} дней',
-      shop: 'Продвижение магазина {{days}} дней',
-      capacity: '+{{count}} мест (постоянно)'
+      products: '{count} товаров × {days} дней',
+      shop: 'Продвижение магазина {days} дней',
+      capacity: '+{count} мест (постоянно)'
     },
     chooseProducts: {
       title: 'Выберите товары для продвижения',
-      desc: 'Этот пакет включает продвижение <strong>{{count}} товаров</strong>. Пожалуйста, выберите товары, которые вы хотите продвигать.',
+      desc: 'Этот пакет включает продвижение <strong>{count} товаров</strong>. Пожалуйста, выберите товары, которые вы хотите продвигать.',
       noProducts:
         'У вас нет товаров для продвижения. Сначала создайте товары в своем магазине.',
       placeholder: 'Выберите товары',
-      helperText: 'Товары для продвижения ({{selected}}/{{max}})',
+      helperText: 'Товары для продвижения ({selected}/{max})',
       clearSelection: 'Очистить выбор',
       selectionNotice:
-        'Пожалуйста, выберите не более {{count}} товаров, чтобы перейти к оплате.'
+        'Пожалуйста, выберите не более {count} товаров, чтобы перейти к оплате.'
     },
     payment: {
       title: 'Итого к оплате',
       subtitle: 'Обзор заказа',
       summary:
-        'Пакет: <strong>{{bundleName}}</strong> с <strong>{{count}} товаром(ами)</strong> для продвижения. Общая стоимость: <strong>{{price}} RSD</strong>.'
+        'Пакет: <strong>{bundleName}</strong> с <strong>{count} товаром(ами)</strong> для продвижения. Общая стоимость: <strong>{price} RSD</strong>.'
     },
     toasts: {
       success: 'Успешно! Акция активирована.'

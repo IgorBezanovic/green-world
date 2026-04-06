@@ -1,3 +1,5 @@
+'use client';
+
 import { useSearch } from '@green-world/hooks/useSearch';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import {

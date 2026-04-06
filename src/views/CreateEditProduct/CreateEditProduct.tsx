@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
@@ -36,13 +38,15 @@ import {
   Card,
   Typography
 } from '@mui/material';
-import React, { useRef } from 'react';
+import dynamic from 'next/dynamic';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactQuill from 'react-quill-new';
 import { useParams } from 'react-router';
 
 import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import { AiButton } from './component';
 
 const initProduct: Product = {
@@ -77,7 +81,6 @@ export const CreateEditProduct = () => {
     'success' | 'error'
   >('success');
 
-  const quillRef = useRef<ReactQuill>(null);
   const modules = {
     toolbar: [
       { header: [false, '1', '2', '3', '4', '5', '6'] },
@@ -265,7 +268,7 @@ export const CreateEditProduct = () => {
   const handleGenerateAiDescription = async () => {
     try {
       setIsAiLoading(true);
-      const baseUrl = import.meta.env.VITE_API_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       const res = await fetch(baseUrl + 'ai/description', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -697,7 +700,6 @@ export const CreateEditProduct = () => {
 
             <Box sx={{ mb: 2 }}>
               <ReactQuill
-                ref={quillRef}
                 modules={modules}
                 value={product?.description || ''}
                 onChange={handleRichTextDescription}

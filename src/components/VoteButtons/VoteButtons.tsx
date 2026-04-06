@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Button, Typography } from '@mui/material';
 import { CheckCheck, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useCallback, useContext, useState } from 'react';
