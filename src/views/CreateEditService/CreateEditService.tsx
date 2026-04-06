@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useImage } from '@green-world/hooks/useImage';
@@ -35,12 +37,14 @@ import {
   TextField,
   Select
 } from '@mui/material';
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactQuill from 'react-quill-new';
 import { useParams, useNavigate } from 'react-router';
 
 import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const initServiceListing: Partial<ServiceListing> = {
   title: '',
@@ -82,7 +86,6 @@ export const CreateEditService = () => {
   const existingService = serviceResponse;
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const quillRef = useRef<ReactQuill>(null);
   const modules = {
     toolbar: [
       { header: [false, '1', '2', '3', '4', '5', '6'] },
@@ -994,7 +997,6 @@ export const CreateEditService = () => {
             </Typography>
             <Box sx={{ mb: 4 }}>
               <ReactQuill
-                ref={quillRef}
                 modules={modules}
                 value={serviceData.description || ''}
                 onChange={handleRichTextDescription}

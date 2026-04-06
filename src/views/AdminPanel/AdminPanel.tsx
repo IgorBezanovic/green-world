@@ -1,3 +1,5 @@
+'use client';
+
 import { MetaTags } from '@green-world/components';
 import {
   Box,
@@ -10,11 +12,11 @@ import {
 } from '@mui/material';
 import { ChartNoAxesCombined } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Outlet, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const drawerWidth = 220;
 
-export const AdminPanel = () => {
+export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -77,8 +79,7 @@ export const AdminPanel = () => {
           p: 2
         }}
       >
-        {/* Ovde će se renderovati child rute */}
-        <Outlet />
+        {children}
       </Box>
     </Box>
   );

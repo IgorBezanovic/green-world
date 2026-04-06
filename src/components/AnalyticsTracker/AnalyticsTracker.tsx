@@ -1,3 +1,5 @@
+'use client';
+
 import { track } from '@vercel/analytics/react';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';

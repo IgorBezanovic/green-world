@@ -365,13 +365,14 @@ export const sr = {
     login: 'Prijavi se',
     profile: 'Korisnički Profil',
     addProduct: 'Dodaj proizvod',
-    createEvent: 'Kreiraj aktivnost',
+    createEvent: 'Kreiraj događaj',
     addService: 'Dodaj uslugu',
     profileSettings: 'Podešavanje profila',
     contactUs: 'Kontaktirajte nas',
     messages: 'Poruke',
     writeBlog: 'Napiši blog',
-    logout: 'Izloguj se'
+    logout: 'Izloguj se',
+    statistics: 'Statistika'
   },
   footer: {
     newsletterLabel: 'Prijavite se za novosti iz sveta biljaka',
@@ -388,7 +389,7 @@ export const sr = {
     supportTitle: 'Nudimo korisničku podršku:',
     supportCreateShop: 'Kreiranje radnje',
     supportCreateAd: 'Kreiranje oglasa',
-    supportCreateActivity: 'Kreiranje aktivnosti',
+    supportCreateActivity: 'Kreiranje događaja',
     promoTitle: 'Želite da istaknete svoj oglas/radnju na početnoj strani?',
     newsletterAriaLabel: 'Email za prijavu na novosti',
     gardenerIllustrationAlt: 'Ilustracija baštovana'
@@ -411,7 +412,7 @@ export const sr = {
       'Pretražite proizvode, usluge, blogove, korisnike, događaje...'
   },
   allRights: {
-    text: '© {{year}} <link>Zeleni Svet</link>. Sva prava zadržana.'
+    text: '© {year} <link>Zeleni Svet</link>. Sva prava zadržana.'
   },
   blogCard: {
     noDescription: 'Nema opisa...',
@@ -427,7 +428,7 @@ export const sr = {
     linkCopiedInfo:
       'Link je kopiran. Pritisnite Cmd/Ctrl+D da sačuvate stranicu.',
     bookmarkShortcutAlert:
-      'Pritisnite Cmd/Ctrl+D da sačuvate ovu stranicu: {{url}}'
+      'Pritisnite Cmd/Ctrl+D da sačuvate ovu stranicu: {url}'
   },
   copyLinkButton: {
     label: 'Kopiraj link'
@@ -439,7 +440,7 @@ export const sr = {
     mustLogin: 'Morate biti ulogovani'
   },
   commentList: {
-    title: 'Komentari ({{count}})',
+    title: 'Komentari ({count})',
     empty: 'Nema još komentara.',
     reply: 'Odgovori',
     replyTo: 'Odgovor:'
@@ -467,7 +468,7 @@ export const sr = {
       saturday: 'Subota',
       sunday: 'Nedelja'
     },
-    validUrl: 'Unesite validan {{name}} URL.',
+    validUrl: 'Unesite validan {name} URL.',
     basicInfo: {
       title: 'Osnovni podaci',
       description: 'Vaši poslovni i kontakt podaci',
@@ -541,8 +542,8 @@ export const sr = {
     },
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Neuspešno kopiranje linka',
-    deleteTitle: 'Brisanje aktivnosti',
-    deleteDescription: 'Da li ste sigurni da želite da obrišete aktivnost?',
+    deleteTitle: 'Brisanje događaja',
+    deleteDescription: 'Da li ste sigurni da želite da obrišete događaj?',
     yes: 'Da',
     no: 'Ne'
   },
@@ -550,7 +551,7 @@ export const sr = {
     eventFallback: 'Događaj',
     contact: 'Kontakt organizatora',
     description: 'Opis događaja',
-    views: '{{count}} pregleda',
+    views: '{count} pregleda',
     shareEvent: 'Podeli događaj',
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Neuspešno kopiranje linka',
@@ -572,7 +573,7 @@ export const sr = {
     shop: 'Prodavnica',
     fallbackDescription: 'Pogledajte ponudu ove premium prodavnice.',
     premiumShop: 'Premium prodavnica',
-    productsCount: '{{count}} proizvoda',
+    productsCount: '{count} proizvoda',
     visitShop: 'Poseti prodavnicu'
   },
   featuredShopsBanner: {
@@ -651,12 +652,12 @@ export const sr = {
     }
   },
   productsView: {
-    metaTitle: 'Zeleni svet | Pretraga proizvoda | Svi proizvodi',
+    metaTitle: 'Zeleni Svet | Online Cveće i Biljke | Kupovina Cveća Srbija',
     hero: {
       kicker: 'Istraži ponudu',
       title: 'Proizvodi',
       subtitle:
-        'Pronađite proizvode iz vaše okoline - domaću hranu, ručne radove i održiva rešenja za svakodnevni život.',
+        'Kupite cveće, biljke i baštenski asortiman online – direktno od cvećara i proizvođača u Srbiji.',
       searchPlaceholder: 'Pretraži po nazivu ili opisu',
       locationPlaceholder: 'Lokacija'
     },
@@ -694,7 +695,7 @@ export const sr = {
     sendMessage: 'Pošalji poruku',
     orderProduct: 'Poruči proizvod',
     leaveReview: 'Ostavite recenziju',
-    reviewsCount: 'Recenzije ({{count}})',
+    reviewsCount: 'Recenzije ({count})',
     reviewsEmpty: 'Još uvek nema recenzija za ovaj proizvod.',
     submitReview: 'Ostavi recenziju',
     replyToReview: 'Odgovori',
@@ -714,7 +715,7 @@ export const sr = {
     uploadingImage: 'Otpremanje slike...',
     reviewImageAlt: 'Fotografija recenzije',
     allSellerProducts: 'Svi proizvodi prodavca',
-    productsFromGroup: 'Proizvodi iz grupe {{group}}',
+    productsFromGroup: 'Proizvodi iz grupe {group}',
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Greška pri kopiranju linka'
   },
@@ -725,7 +726,7 @@ export const sr = {
     bounceRateDescription:
       'Bounce Rate predstavlja procenat posetilaca koji su napustili sajt nakon posete samo jedne stranice, bez interakcije sa drugim sadržajem. Podaci dolaze iz Google Analytics-a.',
     topPages: 'Najposećenije stranice (sesije i pregledi)',
-    sessionsViews: '{{sessions}} sesija / {{views}} pregleda',
+    sessionsViews: '{sessions} sesija / {views} pregleda',
     demographics: 'Demografija',
     country: 'Država',
     city: 'Grad'
@@ -747,7 +748,7 @@ export const sr = {
     },
     changePassword: {
       success: 'Uspešno ste promenili password!',
-      error: 'Došlo je do greške: {{message}}',
+      error: 'Došlo je do greške: {message}',
       unknownError: 'Nepoznata greška'
     }
   },
@@ -769,10 +770,10 @@ export const sr = {
       kicker: 'Istraži prodavnice',
       title: 'Prodavnice',
       subtitle:
-        'Pronađite pouzdane prodavce biljaka, sadnica i baštovanskog asortimana u vašoj blizini ili online.',
+        'Pronađite online cvećare, rasadnike i prodavnice biljaka blizu vas – ili poručite cveće online uz dostavu.',
       searchPlaceholder: 'Pretraži po imenu prodavnice'
     },
-    showing: 'Prikazano {{shown}} od {{total}} prodavnica'
+    showing: 'Prikazano {shown} od {total} prodavnica'
   },
   blogView: {
     hero: {
@@ -792,18 +793,17 @@ export const sr = {
   },
   metaTags: {
     defaultDescription:
-      'Zeleni Svet je vodeća platforma koja povezuje ljubitelje biljaka sa najboljim cvećarama i rasadnicima. Pronađite savršeno cveće, baštensku opremu i savete za negu biljaka na jednom mestu.',
+      'Zeleni Svet je vodeća online cvećara i marketplace za kupovinu cveća i biljaka u Srbiji. Povežite se sa najboljim cvećarama, pronađite saksijsko cveće, rezano cveće i baštenski asortiman na jednom mestu.',
     defaultKeywords:
-      'cveće, platforma za cveće, dostava cveća beograd, online cvećara srbija, rasadnici srbija, kupovina biljaka, baštovanstvo, saksijsko cveće, dekoracija bašte, cvećare, zeleni svet, marketplace za cveće, baštenski alati, semena, nega biljaka'
+      'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće, cveće srbija, dostava cveća beograd, cvećara online srbija, rasadnici srbija, kupovina biljaka, baštovanstvo, saksijsko cveće, rezano cveće, dekoracija bašte, cvećare, zeleni svet, marketplace za cveće'
   },
   seo: {
     home: {
-      title:
-        'Zeleni svet | Marketplace za cveće i baštovanstvo | Dostava cveća',
+      title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
       description:
-        'Povežite se sa najboljim lokalnim cvećarama i proizvođačima biljaka. Pronađite najnovije proizvode, savete i opremu na Zelenom Svetu.',
+        'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Pronađite online cvećare, saksijsko cveće i baštenski asortiman uz dostavu.',
       keywords:
-        'zeleni svet, marketplace cveća, online pijaca biljaka, cveće beograd, baštovanstvo srbija, lokalni prodavci'
+        'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće online, dostava cveća, cvećara srbija, cveće beograd, zeleni svet, marketplace cveća, baštovanstvo srbija'
     },
     events: {
       title: 'Zeleni svet | Pretraga događaja',
@@ -813,11 +813,11 @@ export const sr = {
         'događaji, eko događaji, sadnja, čišćenje, lokalna zajednica, zeleni svet'
     },
     shops: {
-      title: 'Zeleni svet | Prodavnice',
+      title: 'Online Cvećare Srbija | Zeleni Svet | Prodavnice Cveća',
       description:
-        'Pronađite pouzdane prodavce biljaka, sadnica i baštovanskog asortimana u vašoj blizini ili online.',
+        'Pronađite online cvećare i prodavnice cveća u Srbiji na jednom mestu. Pogledajte asortiman, radno vreme i lokacije cvećara i rasadnika.',
       keywords:
-        'prodavnice, prodavnice biljaka, sadnice, baštovanske prodavnice, online prodavnice, zeleni svet'
+        'online cvećara, cvećare srbija, prodavnice cveća, cvećara beograd, online prodavnice cveća, kupovina cveća, rasadnici srbija, zeleni svet cvećare'
     },
     contactUs: {
       title: 'Zeleni svet | Kontaktirajte nas',
@@ -918,7 +918,7 @@ export const sr = {
     currency: 'RSD',
     renew: 'Obnovi',
     promote: 'Promoviši',
-    activeFor: 'Aktivno još {{days}} {{dayLabel}}',
+    activeFor: 'Aktivno još {days} {dayLabel}',
     day: 'dan',
     days: 'dana',
     inStock: 'Na stanju',
@@ -973,7 +973,7 @@ export const sr = {
     locationNotAdded: 'Lokacija nije dodata',
     onlyOnline: 'Samo online',
     physicalShop: 'Fizička prodavnica',
-    productsCount: '{{count}} proizvoda',
+    productsCount: '{count} proizvoda',
     viewShop: 'Pogledaj prodavnicu'
   },
   shopPage: {
@@ -986,12 +986,12 @@ export const sr = {
     contactSeller: 'Kontaktiraj prodavca',
     workingHours: 'Radno vreme',
     closed: 'Zatvoreno',
-    productsCount: '{{count}} proizvoda',
+    productsCount: '{count} proizvoda',
     searchPlaceholder: 'Pretraži prodavnicu...'
   },
   shopStatsCard: {
     addedProducts: 'Dodati proizvodi',
-    createdActivities: 'Kreirane aktivnosti',
+    createdActivities: 'Kreirani događaji',
     addedServices: 'Dodate usluge',
     publishedBlogs: 'Objavljeni blogovi'
   },
@@ -1003,23 +1003,23 @@ export const sr = {
     totalViewsTitle: 'Ukupno pregleda',
     totalViewsSubtitle: 'Svi pregledi sadržaja',
     addedProductsTitle: 'Dodati proizvodi',
-    createdActivitiesTitle: 'Kreirane aktivnosti',
+    createdActivitiesTitle: 'Kreirani događaji',
     publishedBlogsTitle: 'Objavljeni blogovi',
     addedServicesTitle: 'Dodate usluge',
-    viewsCount: '{{count}} pregleda',
+    viewsCount: '{count} pregleda',
     engagementTitle: 'Engagement score',
     engagementDescription:
-      'Vaš trenutni engagement score je {{score}}. Ovaj skor odražava koliko su vaši proizvodi, aktivnosti i blogovi angažovani od strane korisnika. Viši skor ukazuje na bolju vidljivost i interakciju sa vašim sadržajem.',
+      'Vaš trenutni engagement score je {score}. Ovaj skor odražava koliko su vaši proizvodi, događaji i blogovi angažovani od strane korisnika. Viši skor ukazuje na bolju vidljivost i interakciju sa vašim sadržajem.',
     ordersByEmailTitle: 'Porudžbine putem e-maila',
     ordersByEmailDescription:
-      'Broj porudžbina koje ste primili putem e-maila iznosi {{count}}.'
+      'Broj porudžbina koje ste primili putem e-maila iznosi {count}.'
   },
   contentDistribution: {
     title: 'Distribucija sadržaja',
     description:
-      'Prikaz kako je vaš sadržaj raspoređen na platformi. Balansirana distribucija proizvoda, aktivnosti, blogova i usluga povećava vidljivost, angažman korisnika i šanse za prodaju.',
+      'Prikaz kako je vaš sadržaj raspoređen na platformi. Balansirana distribucija proizvoda, događaja, blogova i usluga povećava vidljivost, angažman korisnika i šanse za prodaju.',
     products: 'Proizvodi',
-    activities: 'Aktivnosti',
+    activities: 'Događaji',
     blogs: 'Blogovi',
     services: 'Usluge'
   },
@@ -1027,7 +1027,7 @@ export const sr = {
     title: 'Pregledi po tipu sadržaja',
     subtitle: 'Uporedni prikaz ukupnih pregleda i proseka',
     products: 'Proizvodi',
-    activities: 'Aktivnosti',
+    activities: 'Događaji',
     blogs: 'Blogovi',
     services: 'Usluge',
     total: 'Ukupno',
@@ -1042,8 +1042,8 @@ export const sr = {
     product: 'Proizvod',
     blogs: 'Blogovi',
     blog: 'Blog',
-    activities: 'Aktivnosti',
-    activity: 'Aktivnost',
+    activities: 'Događaji',
+    activity: 'Događaj',
     services: 'Usluge',
     service: 'Usluga',
     topService: 'Top usluga'
@@ -1052,13 +1052,13 @@ export const sr = {
     tabs: {
       products: 'Proizvodi',
       services: 'Moje usluge',
-      activities: 'Aktivnosti',
+      activities: 'Događaji',
       myBlogs: 'Moji blogovi'
     },
     buttons: {
       profileSettings: 'Podešavanje profila',
       addProduct: 'Dodaj proizvod',
-      createActivity: 'Kreiraj aktivnost',
+      createActivity: 'Kreiraj događaj',
       writeBlogPost: 'Napiši blog post',
       addService: 'Dodaj uslugu'
     },
@@ -1066,7 +1066,7 @@ export const sr = {
     contentType: {
       products: 'proizvoda',
       services: 'usluga',
-      activities: 'aktivnosti',
+      activities: 'događaji',
       blogs: 'blogova'
     },
     empty: {
@@ -1074,7 +1074,7 @@ export const sr = {
         'Ukoliko nemate ni jedan proizvod ili uslugu, nećete biti vidljivi u pretrazi. Kliknite na "Dodaj proizvod" ili "Dodaj uslugu" da biste povećali vidljivost vaše prodavnice!',
 
       services: 'Još uvek niste dodali usluge',
-      activities: 'Još uvek niste dodali aktivnost',
+      activities: 'Još uvek niste dodali događaj',
       blogs: 'Još uvek niste dodali blog postove'
     },
     editService: 'Uredi uslugu',
@@ -1125,24 +1125,24 @@ export const sr = {
     headingEdit: 'Ažuriraj događaj',
     headingCreate: 'Kreiraj događaj',
     fields: {
-      titleLabel: 'Naziv aktivnosti:',
-      titlePlaceholder: 'Unesite naziv aktivnosti',
-      typeLabel: 'Tip aktivnosti:',
-      typePlaceholder: 'Izaberite tip aktivnosti',
+      titleLabel: 'Naziv događaja:',
+      titlePlaceholder: 'Unesite naziv događaja',
+      typeLabel: 'Tip događaja:',
+      typePlaceholder: 'Izaberite tip događaja',
       contactPersonLabel: 'Kontakt osoba:',
       contactPersonPlaceholder: 'Kontakt osoba',
-      placeLabel: 'Mesto aktivnosti:',
-      placePlaceholder: 'Unesite mesto aktivnosti',
-      addressLabel: 'Adresa aktivnosti:',
-      addressPlaceholder: 'Unesite adresu aktivnosti',
-      imageLabel: 'Dodajte fotografiju aktivnosti:',
+      placeLabel: 'Mesto događaja:',
+      placePlaceholder: 'Unesite mesto događaja',
+      addressLabel: 'Adresa događaja:',
+      addressPlaceholder: 'Unesite adresu događaja',
+      imageLabel: 'Dodajte fotografiju događaja:',
       addImage: 'Dodaj sliku',
-      descriptionLabel: 'Opis aktivnosti:',
-      dateLabel: 'Datum aktivnosti:',
-      startTimeLabel: 'Vreme početka aktivnosti:',
-      startTimePlaceholder: 'Unesite vreme početka aktivnosti',
-      endTimeLabel: 'Vreme završetka aktivnosti:',
-      endTimePlaceholder: 'Unesite vreme završetka aktivnosti',
+      descriptionLabel: 'Opis događaja:',
+      dateLabel: 'Datum događaja:',
+      startTimeLabel: 'Vreme početka događaja:',
+      startTimePlaceholder: 'Unesite vreme početka događaja',
+      endTimeLabel: 'Vreme završetka događaja:',
+      endTimePlaceholder: 'Unesite vreme završetka događaja',
       contactPhoneLabel: 'Kontakt telefon:',
       contactMailLabel: 'Kontakt mail:',
       contactMailPlaceholder: 'Kontakt mail',
@@ -1154,8 +1154,8 @@ export const sr = {
       cancelled: 'Otkazano',
       finished: 'Završeno'
     },
-    submitEdit: 'Ažuriraj aktivnost',
-    submitCreate: 'Kreiraj aktivnost'
+    submitEdit: 'Ažuriraj događaj',
+    submitCreate: 'Kreiraj događaj'
   },
   orderProductView: {
     metaFallbackTitle: 'Zeleni svet | proizvod',
@@ -1231,26 +1231,26 @@ export const sr = {
     chooseBundle: 'Izaberite paket',
     mostPopular: 'Najpopularniji',
     bundleFeatures: {
-      products: '{{count}} proizvoda × {{days}} dana',
-      shop: 'Promovisanje prodavnice {{days}} dana',
-      capacity: '+{{count}} mesta kapaciteta (trajno)'
+      products: '{count} proizvoda × {days} dana',
+      shop: 'Promovisanje prodavnice {days} dana',
+      capacity: '+{count} mesta kapaciteta (trajno)'
     },
     chooseProducts: {
       title: 'Izaberite proizvode za promociju',
-      desc: 'Ovaj paket uključuje promociju <strong>{{count}} proizvoda</strong>. Molimo izaberite proizvode koje želite da promovišete.',
+      desc: 'Ovaj paket uključuje promociju <strong>{count} proizvoda</strong>. Molimo izaberite proizvode koje želite da promovišete.',
       noProducts:
         'Nemate proizvode za promociju. Prvo kreirajte proizvode u vašoj prodavnici.',
       placeholder: 'Izaberite proizvode',
-      helperText: 'Proizvodi za promociju ({{selected}}/{{max}})',
+      helperText: 'Proizvodi za promociju ({selected}/{max})',
       clearSelection: 'Očisti izbor',
       selectionNotice:
-        'Molimo izaberite maksimum {{count}} proizvoda da biste nastavili sa plaćanjem.'
+        'Molimo izaberite maksimum {count} proizvoda da biste nastavili sa plaćanjem.'
     },
     payment: {
       title: 'Ukupno za plaćanje',
       subtitle: 'Pregled porudzbine',
       summary:
-        'Paket: <strong>{{bundleName}}</strong> sa <strong>{{count}} proizvod(a)</strong> za promociju. Ukupna cena: <strong>{{price}} RSD</strong>.'
+        'Paket: <strong>{bundleName}</strong> sa <strong>{count} proizvod(a)</strong> za promociju. Ukupna cena: <strong>{price} RSD</strong>.'
     },
     toasts: {
       success: 'Uspešno! Promocija je aktivirana.'

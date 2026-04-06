@@ -1,3 +1,5 @@
+'use client';
+
 import { useForgotPassword } from '@green-world/hooks/useForgotPassword';
 import {
   Box,

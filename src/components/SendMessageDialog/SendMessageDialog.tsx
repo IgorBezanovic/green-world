@@ -1,3 +1,5 @@
+'use client';
+
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import {
   Dialog,

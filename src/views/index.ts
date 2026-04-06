@@ -20,6 +20,7 @@ export * from '@green-world/views/ShopPage';
 export * from '@green-world/views/Shops';
 export * from '@green-world/views/ForgotPassword';
 export * from '@green-world/views/Login';
+export * from '@green-world/views/Message';
 export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ProfileSettings';
 export * from '@green-world/views/Registration';

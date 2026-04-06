@@ -1,3 +1,5 @@
+'use client';
+
 import { useDeletePost } from '@green-world/hooks/useDeletePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { BlogPost } from '@green-world/utils/types';

@@ -1,9 +1,11 @@
+'use client';
+
 import { useMetaAuth } from '@green-world/hooks/useMetaAuth';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
 
-const APP_ID = import.meta.env.VITE_API_META_APP_ID;
+const APP_ID = process.env.NEXT_PUBLIC_API_META_APP_ID;
 
 declare global {
   interface Window {

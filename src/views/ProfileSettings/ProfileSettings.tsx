@@ -1,9 +1,15 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-export const ProfileSettings = () => {
+export const ProfileSettings = ({
+  children
+}: {
+  children?: React.ReactNode;
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -153,7 +159,7 @@ export const ProfileSettings = () => {
             width: '100%'
           }}
         >
-          <Outlet />
+          {children}
         </Box>
       </Box>
     </Box>

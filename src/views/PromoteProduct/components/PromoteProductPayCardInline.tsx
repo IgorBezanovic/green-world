@@ -1,3 +1,5 @@
+'use client';
+
 import {
   useCreatePayPalOrder,
   useCapturePayPalOrder,
@@ -13,7 +15,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
-const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
+const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string;
 
 type Props = {
   productIds: string[];

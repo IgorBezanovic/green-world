@@ -1,3 +1,5 @@
+'use client';
+
 import { CommentForm } from '@green-world/components';
 import { Comment } from '@green-world/utils/types';
 import {

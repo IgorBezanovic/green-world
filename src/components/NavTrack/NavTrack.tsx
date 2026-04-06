@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Button, useTheme } from '@mui/material';
 import { Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

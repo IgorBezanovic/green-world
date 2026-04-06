@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useOrderProduct } from '@green-world/hooks/useOrderProduct';
 import { useProduct } from '@green-world/hooks/useProduct';

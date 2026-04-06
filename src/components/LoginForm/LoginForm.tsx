@@ -1,3 +1,5 @@
+'use client';
+
 import { GoogleLoginAuth, MetaLoginAuth } from '@green-world/components';
 import { AuthValues } from '@green-world/utils/types';
 import Visibility from '@mui/icons-material/Visibility';

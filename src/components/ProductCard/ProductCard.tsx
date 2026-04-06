@@ -1,3 +1,5 @@
+'use client';
+
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';

@@ -3,3 +3,5 @@ disallow: /downloads/
 
 user-agent: magicsearchbot
 disallow: /uploads/
+
+Sitemap: https://www.zelenisvet.rs/sitemap.xml

@@ -1,3 +1,5 @@
+'use client';
+
 import { useFeaturedShops } from '@green-world/hooks/useFeaturedShops';
 import { Box, Skeleton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';

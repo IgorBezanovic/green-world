@@ -1,7 +1,5 @@
 import { Box } from '@mui/material';
 
-import GIFLoader from '/loader.gif';
-
 export const Loader = () => {
   return (
     <Box
@@ -21,7 +19,7 @@ export const Loader = () => {
     >
       <Box
         component="img"
-        src={GIFLoader}
+        src="/loader.gif"
         alt="Loader"
         height="75px"
         width="95px"

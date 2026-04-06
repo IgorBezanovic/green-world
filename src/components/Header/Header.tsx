@@ -1,3 +1,5 @@
+'use client';
+
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
@@ -25,7 +27,8 @@ import {
   Search,
   MessageCircle,
   NotebookText,
-  BriefcaseBusiness
+  BriefcaseBusiness,
+  BarChart2
 } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -52,6 +55,7 @@ export const Header = () => {
 
   const handleLogout = () => {
     removeItem('token');
+    window.dispatchEvent(new CustomEvent('auth:logout'));
     navigate('/');
     setDrawerOpen(false);
   };
@@ -112,6 +116,12 @@ export const Header = () => {
       text: t('header.contactUs'),
       icon: <Mail style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () => handleMenuClick(() => navigate('/contact-us'))
+    },
+    {
+      text: t('header.statistics'),
+      icon: <BarChart2 style={{ width: 24, height: 24, marginLeft: 8 }} />,
+      onClick: () =>
+        handleMenuClick(() => navigate('/profile-settings/statistics'))
     },
     {
       text: t('header.messages'),

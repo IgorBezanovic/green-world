@@ -1,3 +1,5 @@
+'use client';
+
 import { TikTokIcon } from '@green-world/components';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';

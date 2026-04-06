@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useCreateBlogPost } from '@green-world/hooks/useCreateBlogPost';
 import { useImage } from '@green-world/hooks/useImage';
@@ -22,11 +24,13 @@ import {
   CircularProgress,
   Chip
 } from '@mui/material';
+import dynamic from 'next/dynamic';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactQuill from 'react-quill-new';
 import { useNavigate, useParams } from 'react-router';
 import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 type Block = {
   id: string;

@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
@@ -19,12 +21,14 @@ import {
 } from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
-import React, { useRef } from 'react';
+import dynamic from 'next/dynamic';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useParams } from 'react-router';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const initEvent: Event = {
   title: '',
@@ -46,7 +50,6 @@ export const CreateEditEvent = () => {
   const { t } = useTranslation();
   const { eventID = '' } = useParams();
   const { data = initEvent, isLoading } = useEvent(eventID);
-  const quillRef = useRef<ReactQuill>(null);
 
   const modules = {
     toolbar: [
@@ -420,7 +423,6 @@ export const CreateEditEvent = () => {
             </Typography>
             <Box sx={{ mb: 2 }}>
               <ReactQuill
-                ref={quillRef}
                 modules={modules}
                 value={event?.description || ''}
                 onChange={handleRichTextDescription}

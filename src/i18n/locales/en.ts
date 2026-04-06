@@ -372,7 +372,8 @@ export const en = {
     contactUs: 'Contact us',
     messages: 'Messages',
     writeBlog: 'Write blog',
-    logout: 'Log out'
+    logout: 'Log out',
+    statistics: 'Statistics'
   },
   footer: {
     newsletterLabel: 'Sign up for news from the world of plants',
@@ -389,7 +390,7 @@ export const en = {
     supportTitle: 'We provide user support:',
     supportCreateShop: 'Create a shop',
     supportCreateAd: 'Create an ad',
-    supportCreateActivity: 'Create an activity',
+    supportCreateActivity: 'Create an event',
     promoTitle: 'Do you want to feature your ad/shop on the homepage?',
     newsletterAriaLabel: 'Email for newsletter signup',
     gardenerIllustrationAlt: 'Gardener illustration'
@@ -411,7 +412,7 @@ export const en = {
     searchPlaceholder: 'Search products, services, blogs, users, events...'
   },
   allRights: {
-    text: '© {{year}} <link>Zeleni Svet</link>. All rights reserved.'
+    text: '© {year} <link>Zeleni Svet</link>. All rights reserved.'
   },
   blogCard: {
     noDescription: 'No description...',
@@ -425,7 +426,7 @@ export const en = {
   bookmarkButton: {
     label: 'Add to bookmarks',
     linkCopiedInfo: 'Link copied. Press Cmd/Ctrl+D to bookmark this page.',
-    bookmarkShortcutAlert: 'Press Cmd/Ctrl+D to bookmark this page: {{url}}'
+    bookmarkShortcutAlert: 'Press Cmd/Ctrl+D to bookmark this page: {url}'
   },
   copyLinkButton: {
     label: 'Copy link'
@@ -437,7 +438,7 @@ export const en = {
     mustLogin: 'You must be logged in'
   },
   commentList: {
-    title: 'Comments ({{count}})',
+    title: 'Comments ({count})',
     empty: 'No comments yet.',
     reply: 'Reply',
     replyTo: 'Reply:'
@@ -465,7 +466,7 @@ export const en = {
       saturday: 'Saturday',
       sunday: 'Sunday'
     },
-    validUrl: 'Enter a valid {{name}} URL.',
+    validUrl: 'Enter a valid {name} URL.',
     basicInfo: {
       title: 'Basic info',
       description: 'Your business and contact details',
@@ -537,8 +538,8 @@ export const en = {
     },
     linkCopied: 'Link copied',
     linkCopyFailed: 'Failed to copy link',
-    deleteTitle: 'Delete activity',
-    deleteDescription: 'Are you sure you want to delete this activity?',
+    deleteTitle: 'Delete event',
+    deleteDescription: 'Are you sure you want to delete this event?',
     yes: 'Yes',
     no: 'No'
   },
@@ -546,7 +547,7 @@ export const en = {
     eventFallback: 'Event',
     contact: 'Event organizer contact',
     description: 'Event description',
-    views: '{{count}} views',
+    views: '{count} views',
     shareEvent: 'Share event',
     linkCopied: 'Link copied',
     linkCopyFailed: 'Failed to copy link',
@@ -568,7 +569,7 @@ export const en = {
     shop: 'Shop',
     fallbackDescription: 'See the offer from this premium shop.',
     premiumShop: 'Premium shop',
-    productsCount: '{{count}} products',
+    productsCount: '{count} products',
     visitShop: 'Visit shop'
   },
   featuredShopsBanner: {
@@ -647,12 +648,13 @@ export const en = {
     }
   },
   productsView: {
-    metaTitle: 'Zeleni svet | Product search | All products',
+    metaTitle:
+      'Zeleni Svet | Buy Flowers & Plants Online | Online Florist Serbia',
     hero: {
       kicker: 'Explore the offer',
       title: 'Products',
       subtitle:
-        'Find products in your area - homemade food, handmade items, and sustainable solutions for everyday life.',
+        'Buy flowers, plants, and gardening supplies online – directly from florists and growers in Serbia.',
       searchPlaceholder: 'Search by title or description',
       locationPlaceholder: 'Location'
     },
@@ -690,7 +692,7 @@ export const en = {
     sendMessage: 'Send message',
     orderProduct: 'Order product',
     leaveReview: 'Leave a review',
-    reviewsCount: 'Reviews ({{count}})',
+    reviewsCount: 'Reviews ({count})',
     reviewsEmpty: 'No reviews for this product yet.',
     submitReview: 'Leave a review',
     replyToReview: 'Reply',
@@ -710,7 +712,7 @@ export const en = {
     uploadingImage: 'Uploading image...',
     reviewImageAlt: 'Review image',
     allSellerProducts: 'All seller products',
-    productsFromGroup: 'Products from group {{group}}',
+    productsFromGroup: 'Products from group {group}',
     linkCopied: 'Link copied',
     linkCopyFailed: 'Failed to copy link'
   },
@@ -721,7 +723,7 @@ export const en = {
     bounceRateDescription:
       'Bounce Rate is the percentage of visitors who left the site after viewing only one page, without interacting with other content. Data comes from Google Analytics.',
     topPages: 'Top Pages (Sessions & PageViews)',
-    sessionsViews: '{{sessions}} sessions / {{views}} views',
+    sessionsViews: '{sessions} sessions / {views} views',
     demographics: 'Demographics',
     country: 'Country',
     city: 'City'
@@ -743,7 +745,7 @@ export const en = {
     },
     changePassword: {
       success: 'Password changed successfully!',
-      error: 'An error occurred: {{message}}',
+      error: 'An error occurred: {message}',
       unknownError: 'Unknown error'
     }
   },
@@ -765,10 +767,10 @@ export const en = {
       kicker: 'Browse Shops',
       title: 'Shops',
       subtitle:
-        'Find trusted plant, seedling, and gardening sellers near you or online.',
+        'Find online florists, nurseries, and plant stores near you – or order flowers online with delivery.',
       searchPlaceholder: 'Search by shop name'
     },
-    showing: 'Showing {{shown}} of {{total}} shops'
+    showing: 'Showing {shown} of {total} shops'
   },
   blogView: {
     hero: {
@@ -788,18 +790,17 @@ export const en = {
   },
   metaTags: {
     defaultDescription:
-      'Zeleni Svet is the leading platform connecting plant lovers with the best florists and nurseries. Find perfect flowers, gardening equipment, and plant care tips in one place.',
+      'Zeleni Svet is the leading online florist marketplace for buying flowers and plants in Serbia. Find florists, potted plants, cut flowers, and gardening supplies in one place.',
     defaultKeywords:
-      'flower delivery belgrade, online florist serbia, flower marketplace, buy plants online, gardening equipment, plants serbia, plant care, florist platform, green world, indoor plants, outdoor plants, seeds, garden decor'
+      'buy flowers online, online florist, order flowers online, flowers serbia, flower delivery belgrade, online flower shop serbia, buy plants online, gardening equipment, nurseries serbia, indoor plants, cut flowers, green world, flower marketplace'
   },
   seo: {
     home: {
-      title:
-        'Zeleni Svet | Flowermarket & Gardening Platform | Flower Delivery',
+      title: 'Buy Flowers Online | Zeleni Svet | Online Florist Serbia',
       description:
-        'Connect with the best local florists and plant growers. Find the latest products, tips, and equipment on Zeleni Svet, your online flower marketplace.',
+        'Buy flowers online at Zeleni Svet – the leading marketplace for online florists and flowers in Serbia. Browse potted plants, cut flowers, and gardening supplies with delivery.',
       keywords:
-        'zeleni svet, flower marketplace, online plant market, flowers belgrade, gardening serbia, local florists'
+        'buy flowers online, online florist, order flowers online, flower delivery, florist serbia, flowers belgrade, zeleni svet, flower marketplace, gardening serbia'
     },
     events: {
       title: 'Zeleni svet | Event Search',
@@ -809,11 +810,11 @@ export const en = {
         'events, eco events, planting, cleanup, local community, green world'
     },
     shops: {
-      title: 'Zeleni svet | Shops',
+      title: 'Online Florists Serbia | Zeleni Svet | Flower Shops',
       description:
-        'Find trusted plant, seedling, and gardening shops near you or online.',
+        'Find online florists and flower shops in Serbia in one place. Browse assortments, working hours, and locations of verified florists and nurseries.',
       keywords:
-        'shops, plant shops, seedlings, gardening stores, online shops, green world'
+        'online florist, florists serbia, flower shops, florist belgrade, online flower shops, buy flowers, nurseries serbia, zeleni svet florists'
     },
     contactUs: {
       title: 'Zeleni svet | Contact Us',
@@ -914,7 +915,7 @@ export const en = {
     currency: 'RSD',
     renew: 'Renew',
     promote: 'Promote',
-    activeFor: 'Active for {{days}} more {{dayLabel}}',
+    activeFor: 'Active for {days} more {dayLabel}',
     day: 'day',
     days: 'days',
     inStock: 'In stock',
@@ -968,7 +969,7 @@ export const en = {
     locationNotAdded: 'Location not added',
     onlyOnline: 'Online only',
     physicalShop: 'Physical shop',
-    productsCount: '{{count}} products',
+    productsCount: '{count} products',
     viewShop: 'View shop'
   },
   shopPage: {
@@ -981,12 +982,12 @@ export const en = {
     contactSeller: 'Contact seller',
     workingHours: 'Working hours',
     closed: 'Closed',
-    productsCount: '{{count}} products',
+    productsCount: '{count} products',
     searchPlaceholder: 'Search shop...'
   },
   shopStatsCard: {
     addedProducts: 'Added products',
-    createdActivities: 'Created activities',
+    createdActivities: 'Created events',
     addedServices: 'Added services',
     publishedBlogs: 'Published blogs'
   },
@@ -998,23 +999,22 @@ export const en = {
     totalViewsTitle: 'Total views',
     totalViewsSubtitle: 'All content views',
     addedProductsTitle: 'Added products',
-    createdActivitiesTitle: 'Created activities',
+    createdActivitiesTitle: 'Created events',
     publishedBlogsTitle: 'Published blogs',
     addedServicesTitle: 'Added services',
-    viewsCount: '{{count}} views',
+    viewsCount: '{count} views',
     engagementTitle: 'Engagement score',
     engagementDescription:
-      'Your current engagement score is {{score}}. This score reflects how engaged users are with your products, activities, and blogs. A higher score indicates better visibility and interaction with your content.',
+      'Your current engagement score is {score}. This score reflects how engaged users are with your products, events, and blogs. A higher score indicates better visibility and interaction with your content.',
     ordersByEmailTitle: 'Orders via e-mail',
-    ordersByEmailDescription:
-      'Number of orders received via e-mail is {{count}}.'
+    ordersByEmailDescription: 'Number of orders received via e-mail is {count}.'
   },
   contentDistribution: {
     title: 'Content distribution',
     description:
-      'Overview of how your content is distributed on the platform. Balanced distribution of products, activities, blogs, and services increases visibility, user engagement, and sales chances.',
+      'Overview of how your content is distributed on the platform. Balanced distribution of products, events, blogs, and services increases visibility, user engagement, and sales chances.',
     products: 'Products',
-    activities: 'Activities',
+    activities: 'Events',
     blogs: 'Blogs',
     services: 'Services'
   },
@@ -1022,7 +1022,7 @@ export const en = {
     title: 'Views by content type',
     subtitle: 'Comparative overview of total views and average',
     products: 'Products',
-    activities: 'Activities',
+    activities: 'Events',
     blogs: 'Blogs',
     services: 'Services',
     total: 'Total',
@@ -1037,8 +1037,8 @@ export const en = {
     product: 'Product',
     blogs: 'Blogs',
     blog: 'Blog',
-    activities: 'Activities',
-    activity: 'Activity',
+    activities: 'Events',
+    activity: 'Event',
     services: 'Services',
     service: 'Service',
     topService: 'Top service'
@@ -1047,13 +1047,13 @@ export const en = {
     tabs: {
       products: 'Products',
       services: 'My services',
-      activities: 'Activities',
+      activities: 'Events',
       myBlogs: 'My blogs'
     },
     buttons: {
       profileSettings: 'Profile settings',
       addProduct: 'Add product',
-      createActivity: 'Create activity',
+      createActivity: 'Create event',
       writeBlogPost: 'Write blog post',
       addService: 'Add service'
     },
@@ -1061,7 +1061,7 @@ export const en = {
     contentType: {
       products: 'products',
       services: 'services',
-      activities: 'activities',
+      activities: 'events',
       blogs: 'blogs'
     },
     empty: {
@@ -1069,7 +1069,7 @@ export const en = {
         'If you have no products or services, you will not be visible in search. Click "Add product" or "Add service" to increase your shop visibility!',
 
       services: 'You have not added services yet',
-      activities: 'You have not added an activity yet',
+      activities: 'You have not added an event yet',
       blogs: 'You have not added blog posts yet'
     },
     editService: 'Edit service',
@@ -1226,26 +1226,26 @@ export const en = {
     chooseBundle: 'Choose a bundle',
     mostPopular: 'Most Popular',
     bundleFeatures: {
-      products: '{{count}} products × {{days}} days',
-      shop: 'Shop promotion {{days}} days',
-      capacity: '+{{count}} capacity places (permanent)'
+      products: '{count} products × {days} days',
+      shop: 'Shop promotion {days} days',
+      capacity: '+{count} capacity places (permanent)'
     },
     chooseProducts: {
       title: 'Select products for promotion',
-      desc: 'This bundle includes promotion of <strong>{{count}} products</strong>. Please select products you want to promote.',
+      desc: 'This bundle includes promotion of <strong>{count} products</strong>. Please select products you want to promote.',
       noProducts:
         'You have no products for promotion. First create products in your shop.',
       placeholder: 'Select products',
-      helperText: 'Products for promotion ({{selected}}/{{max}})',
+      helperText: 'Products for promotion ({selected}/{max})',
       clearSelection: 'Clear selection',
       selectionNotice:
-        'Please select a maximum of {{count}} products to proceed with payment.'
+        'Please select a maximum of {count} products to proceed with payment.'
     },
     payment: {
       title: 'Total for payment',
       subtitle: 'Order overview',
       summary:
-        'Bundle: <strong>{{bundleName}}</strong> with <strong>{{count}} product(s)</strong> for promotion. Total price: <strong>{{price}} RSD</strong>.'
+        'Bundle: <strong>{bundleName}</strong> with <strong>{count} product(s)</strong> for promotion. Total price: <strong>{price} RSD</strong>.'
     },
     toasts: {
       success: 'Success! Promotion is activated.'

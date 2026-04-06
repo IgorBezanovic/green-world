@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, LoginForm, MetaTags } from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import { Box } from '@mui/material';

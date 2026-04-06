@@ -7,7 +7,7 @@ import { safeDecodeToken } from './helpers';
 import type { DecodedToken } from './types';
 
 export const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: process.env.NEXT_PUBLIC_API_URL
 });
 
 export const request = async ({ ...options }) => {
@@ -34,10 +34,12 @@ const handleSessionExpired = () => {
   didNotifySessionExpired = true;
 
   removeItem('token');
-  window.dispatchEvent(new CustomEvent('auth:logout'));
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('auth:logout'));
+  }
   toast.info('Login sesija Vam je istekla');
 
-  if (window.location.pathname !== '/') {
+  if (typeof window !== 'undefined' && window.location.pathname !== '/') {
     window.location.assign('/');
   }
 };

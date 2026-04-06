@@ -1,3 +1,5 @@
+'use client';
+
 import { useGA } from '@green-world/hooks/useGA';
 import {
   Box,

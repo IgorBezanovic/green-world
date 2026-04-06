@@ -1,3 +1,5 @@
+'use client';
+
 import { useDeleteEvent } from '@green-world/hooks/useDeleteEvent';
 import {
   formatDate,

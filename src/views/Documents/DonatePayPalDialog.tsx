@@ -1,3 +1,5 @@
+'use client';
+
 import {
   useBraintreeClientToken,
   useBraintreeDonation
@@ -29,7 +31,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 type Props = { open: boolean; onClose: () => void };
 
 export const DonatePayPalDialog = ({ open, onClose }: Props) => {
-  const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string;
 
   const [amountRsd, setAmountRsd] = useState<string>('');
   const [message, setMessage] = useState<string>('');

@@ -1,3 +1,5 @@
+'use client';
+
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Box, Chip, Typography, useTheme } from '@mui/material';

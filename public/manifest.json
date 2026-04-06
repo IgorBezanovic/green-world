@@ -1,6 +1,12 @@
 {
-  "name": "Zeleni svet",
-  "short_name": "Zeleni svet",
+  "name": "Zeleni Svet",
+  "short_name": "Zeleni Svet",
+  "description": "Marketplace za cveće i baštovanstvo u Srbiji",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#266041",
+  "lang": "sr",
   "icons": [
     {
       "src": "/favicon-192.png",
@@ -18,7 +24,7 @@
       "type": "image/png"
     },
         {
-      "src": "/favicon-16.png",
+      "src": "/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },

@@ -1,3 +1,5 @@
+'use client';
+
 import UserContext from '@green-world/context/UserContext';
 import { Box, Button, TextField, Tooltip } from '@mui/material';
 import React, { useCallback, useContext, useState } from 'react';

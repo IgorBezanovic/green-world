@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Divider, Typography, Button } from '@mui/material';
 import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
