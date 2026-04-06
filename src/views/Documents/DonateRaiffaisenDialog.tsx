@@ -29,7 +29,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 type Props = { open: boolean; onClose: () => void };
 
 export const DonateRaiffeisenDialog = ({ open, onClose }: Props) => {
-  const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;
+  const clientId = process.env.VITE_PAYPAL_CLIENT_ID as string;
 
   const [amountRsd, setAmountRsd] = useState<string>('');
   const [message, setMessage] = useState<string>('');
