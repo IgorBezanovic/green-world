@@ -1,13 +1,17 @@
 import {
   AppBreadcrumbs,
   SendMessageDialog,
-  ImageGallery
+  ImageGallery,
+  VoteButtons,
+  CopyLinkButton,
+  BookmarkButton
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
   useGetServiceById,
   useSendDirectEmailToServiceProvider
 } from '@green-world/hooks/useServices';
+import { useVoteService } from '@green-world/hooks/useVoteService';
 import {
   formatImageUrl,
   getHtmlDescriptionProps
@@ -66,6 +70,12 @@ export const ServiceDetailsPage = () => {
 
   const { mutate: sendDirectEmail, isPending: isSendingDirectEmail } =
     useSendDirectEmailToServiceProvider();
+  const { mutate: voteMutate } = useVoteService(serviceId || '');
+
+  const handleServiceVote = (vote: 'like' | 'dislike' | string) => {
+    if (!serviceId) return;
+    voteMutate({ vote });
+  };
 
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
   const [directEmailDialogOpen, setDirectEmailDialogOpen] = useState(false);
@@ -236,6 +246,31 @@ export const ServiceDetailsPage = () => {
               />
             )}
 
+            <Box
+              sx={(theme) => ({
+                width: '100%',
+                display: 'flex',
+                alignItems: 'flex-start',
+                flexDirection: 'column',
+                gap: 1.25,
+                my: 3,
+                [theme.breakpoints.up('sm')]: {
+                  alignItems: 'center',
+                  flexDirection: 'row'
+                }
+              })}
+            >
+              <VoteButtons
+                likes={service.likes}
+                dislikes={service.dislikes}
+                onVote={handleServiceVote}
+              />
+              <CopyLinkButton
+                successMessage={t('service.linkCopied')}
+                errorMessage={t('service.linkCopyFailed')}
+              />
+              <BookmarkButton />
+            </Box>
             <Card
               sx={{
                 p: 3,

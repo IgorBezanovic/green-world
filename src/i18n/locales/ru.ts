@@ -708,7 +708,9 @@ export const ru = {
     uploadingImage: 'Загрузка изображения...',
     reviewImageAlt: 'Фото отзыва',
     allSellerProducts: 'Все товары продавца',
-    productsFromGroup: 'Товары из группы {{group}}'
+    productsFromGroup: 'Товары из группы {{group}}',
+    linkCopied: 'Ссылка скопирована',
+    linkCopyFailed: 'Не удалось скопировать ссылку'
   },
   googleAnalytics: {
     overviewLast30Days: 'Обзор Google Analytics (за последние 30 дней)',
