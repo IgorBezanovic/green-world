@@ -13,7 +13,7 @@ export const Navbar = () => {
 
   const navItems = [
     { label: t('navbar.home'), path: '/' },
-    { label: t('navbar.products'), path: '/search' },
+    { label: t('navbar.products'), path: '/products' },
     { label: t('navbar.services'), path: '/services' },
     { label: t('navbar.events'), path: '/events' },
     { label: t('navbar.shops'), path: '/shops' },

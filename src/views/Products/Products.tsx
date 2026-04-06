@@ -183,7 +183,7 @@ export const Products = () => {
 
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
-    { label: t('breadcrumbs.products'), route: '/search' }
+    { label: t('breadcrumbs.products'), route: '/products' }
   ];
   const products = data?.data || [];
   const productsMeta = data?.meta;

@@ -5,6 +5,20 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  async redirects() {
+    return [
+      {
+        source: '/search',
+        destination: '/products',
+        permanent: true
+      },
+      {
+        source: '/search/:category',
+        destination: '/products/:category',
+        permanent: true
+      }
+    ];
+  },
   async rewrites() {
     return {
       // Fallback for Turbopack dev: the next-intl middleware correctly rewrites

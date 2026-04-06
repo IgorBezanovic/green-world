@@ -158,7 +158,7 @@ export const Home = () => {
               padding: 2,
               marginY: 2
             }}
-            onClick={() => navigate('/search')}
+            onClick={() => navigate('/products')}
           >
             {t('home.searchAllProducts')}
           </Button>
@@ -228,7 +228,7 @@ export const Home = () => {
               marginTop: 6,
               marginBottom: 1
             }}
-            onClick={() => navigate('/search')}
+            onClick={() => navigate('/products')}
           >
             {t('home.searchAllProducts')}
           </Button>
