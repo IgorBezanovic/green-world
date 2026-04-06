@@ -1621,7 +1621,7 @@ export const sr = {
     coverImageChange: 'Promeni sliku',
     contentLabel: 'Sadržaj posta',
     contentDesc:
-      'Gradite sadržaj dodavanjem blokova teksta i slika. Možete ih preurediti strelicama ili obrisati. Svaki blok teksta ima bogati editor sa formatiranjem.',
+      'Gradite sadržaj dodavanjem blokova teksta i slika. Možete ih preurediti strelicama ili obrisati.',
     textBlock: 'Tekst blok',
     imageBlock: 'Slika blok',
     addTextBlock: 'Dodaj blok tekst',

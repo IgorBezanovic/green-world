@@ -1613,7 +1613,7 @@ export const en = {
     coverImageChange: 'Change Image',
     contentLabel: 'Post Content',
     contentDesc:
-      'Build content by adding text and image blocks. You can reorder them with arrows or delete them. Each text block has a rich editor with formatting.',
+      'Build content by adding text and image blocks. You can reorder them with arrows or delete them.',
     textBlock: 'Text Block',
     imageBlock: 'Image Block',
     addTextBlock: 'Add Text Block',
