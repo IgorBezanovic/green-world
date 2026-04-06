@@ -69,20 +69,22 @@ export const WritePost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Blog', route: '/blog' },
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('navbar.blog'), route: '/blog' },
     {
-      label: postId ? 'Izmeni post' : 'Novi post',
+      label: postId
+        ? t('writePost.breadcrumbEdit')
+        : t('writePost.breadcrumbNew'),
       route: postId ? `/write-post/${postId}` : '/write-post'
     }
   ];
 
   const validate = () => {
     const newErrors: typeof errors = {};
-    if (!title.trim()) newErrors.title = 'Naslov je obavezan';
-    if (!author.trim()) newErrors.author = 'Autor je obavezan';
+    if (!title.trim()) newErrors.title = t('writePost.errorTitle');
+    if (!author.trim()) newErrors.author = t('writePost.errorAuthor');
     if (blocks.length === 0) {
-      newErrors.blocks = 'Dodajte minimum jedan blok';
+      newErrors.blocks = t('writePost.errorBlocksEmpty');
     } else {
       const hasEmpty = blocks.some((b) => {
         if (b.type === 'text')
@@ -90,18 +92,18 @@ export const WritePost = () => {
         if (b.type === 'image') return !(b.image && b.image.trim());
         return false;
       });
-      if (hasEmpty) newErrors.blocks = 'Svi blokovi moraju imati sadržaj';
+      if (hasEmpty) newErrors.blocks = t('writePost.errorBlocksContent');
     }
-    if (!coverImage) newErrors.coverImage = 'Naslovna slika je obavezna';
-    if (keywords.length > 5) newErrors.keywords = 'Maksimalno 5 ključnih reči';
+    if (!coverImage) newErrors.coverImage = t('writePost.errorCoverImage');
+    if (keywords.length > 5)
+      newErrors.keywords = t('writePost.errorKeywordsMax');
     const invalidKeyword = keywords.find((k) => !k || /\s+/.test(k));
-    if (invalidKeyword)
-      newErrors.keywords = 'Ključne reči moraju biti jedne reči bez razmaka';
+    if (invalidKeyword) newErrors.keywords = t('writePost.errorKeywordsFormat');
     if (
       timeOfReading !== '' &&
       (Number.isNaN(Number(timeOfReading)) || Number(timeOfReading) <= 0)
     )
-      newErrors.timeOfReading = 'Unesite pozitivnu vrednost (minuti)';
+      newErrors.timeOfReading = t('writePost.errorTimeOfReading');
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -226,14 +228,14 @@ export const WritePost = () => {
     if (k.includes(' ')) {
       setErrors((prev) => ({
         ...prev,
-        keywords: 'Ključna reč mora biti jedna reč'
+        keywords: t('writePost.errorKeywordOneWord')
       }));
       return;
     }
     if (keywords.length >= 5) {
       setErrors((prev) => ({
         ...prev,
-        keywords: 'Maksimalno 5 ključnih reči'
+        keywords: t('writePost.errorKeywordsMax')
       }));
       return;
     }
@@ -367,13 +369,13 @@ export const WritePost = () => {
         <AppBreadcrumbs pages={pages} />
 
         <Typography variant="h1" color="secondary.main">
-          Napiši novi post
+          {postId ? t('writePost.pageTitleEdit') : t('writePost.pageTitle')}
         </Typography>
 
         {error && (
           <Alert severity="error">
             {(error as any)?.response?.data?.message ||
-              'Greška prilikom kreiranja posta'}
+              t('writePost.createError')}
           </Alert>
         )}
 
@@ -383,7 +385,7 @@ export const WritePost = () => {
             style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
           >
             <Typography component="span" variant="subtitle2">
-              Naslov posta
+              {t('writePost.titleLabel')}
             </Typography>
           </label>
           <TextField
@@ -393,7 +395,8 @@ export const WritePost = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             error={!!errors.title}
-            helperText={errors.title}
+            helperText={errors.title || t('writePost.titleHelper')}
+            placeholder={t('writePost.titlePlaceholder')}
             disabled={isCreating || isImageUploading}
           />
         </Box>
@@ -404,7 +407,7 @@ export const WritePost = () => {
             style={{ display: 'block', marginBottom: 8, cursor: 'pointer' }}
           >
             <Typography component="span" variant="subtitle2">
-              Autor
+              {t('writePost.authorLabel')}
             </Typography>
           </label>
           <TextField
@@ -414,14 +417,15 @@ export const WritePost = () => {
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             error={!!errors.author}
-            helperText={errors.author}
+            helperText={errors.author || t('writePost.authorHelper')}
+            placeholder={t('writePost.authorPlaceholder')}
             disabled={isCreating || isImageUploading}
           />
         </Box>
 
         <Box>
           <Typography variant="subtitle2" sx={{ display: 'block', mb: 1 }}>
-            Ključne reči (maks. 5, jedna reč svaka)
+            {t('writePost.keywordsLabel')}
           </Typography>
           <Box
             sx={(theme) => ({
@@ -438,11 +442,17 @@ export const WritePost = () => {
               sx={{ mt: '1.5px', width: '100%' }}
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
-              placeholder="Dodaj ključnu reč"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  addKeyword();
+                }
+              }}
+              placeholder={t('writePost.keywordsPlaceholder')}
+              helperText={errors.keywords || t('writePost.keywordsHelper')}
               size="small"
               disabled={isCreating || isImageUploading || keywords.length >= 5}
               error={!!errors.keywords}
-              helperText={errors.keywords}
             />
             <Button
               variant="outlined"
@@ -455,7 +465,7 @@ export const WritePost = () => {
               })}
               disabled={isCreating || isImageUploading || keywords.length >= 5}
             >
-              Dodaj
+              {t('writePost.keywordsAddButton')}
             </Button>
           </Box>
           <Box display="flex" gap={1} mt={1}>
@@ -467,7 +477,7 @@ export const WritePost = () => {
 
         <Box>
           <Typography variant="h6" gutterBottom>
-            Vreme čitanja (min)
+            {t('writePost.timeLabel')}
           </Typography>
           <TextField
             type="number"
@@ -479,7 +489,8 @@ export const WritePost = () => {
               )
             }
             error={!!errors.timeOfReading}
-            helperText={errors.timeOfReading}
+            helperText={errors.timeOfReading || t('writePost.timeHelper')}
+            placeholder={t('writePost.timePlaceholder')}
             sx={{ width: 160 }}
             disabled={isCreating || isImageUploading}
             slotProps={{ htmlInput: { min: 0 } }}
@@ -487,7 +498,10 @@ export const WritePost = () => {
         </Box>
         <Box>
           <Typography variant="h6" gutterBottom>
-            Naslovna slika
+            {t('writePost.coverImageLabel')}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+            {t('writePost.coverImageDesc')}
           </Typography>
           <Button
             variant="outlined"
@@ -495,7 +509,9 @@ export const WritePost = () => {
             startIcon={<ImageIcon />}
             disabled={isCreating || isImageUploading}
           >
-            {coverImage ? 'Promeni sliku' : 'Dodaj naslovnu sliku'}
+            {coverImage
+              ? t('writePost.coverImageChange')
+              : t('writePost.coverImageAdd')}
             <input
               type="file"
               hidden
@@ -525,7 +541,10 @@ export const WritePost = () => {
 
         <Box>
           <Typography variant="h6" gutterBottom>
-            Sadržaj posta
+            {t('writePost.contentLabel')}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            {t('writePost.contentDesc')}
           </Typography>
 
           {errors.blocks && (
@@ -544,7 +563,9 @@ export const WritePost = () => {
                   mb={2}
                 >
                   <Typography variant="subtitle2">
-                    {block.type === 'text' ? 'Tekst blok' : 'Slika blok'}
+                    {block.type === 'text'
+                      ? t('writePost.textBlock')
+                      : t('writePost.imageBlock')}
                   </Typography>
                   <Box>
                     <IconButton
@@ -590,7 +611,9 @@ export const WritePost = () => {
                       startIcon={<ImageIcon />}
                       disabled={isCreating || isImageUploading}
                     >
-                      {block.image ? 'Promeni sliku' : 'Dodaj sliku'}
+                      {block.image
+                        ? t('writePost.blockImageChange')
+                        : t('writePost.blockImageAdd')}
                       <input
                         type="file"
                         hidden
@@ -623,7 +646,7 @@ export const WritePost = () => {
               onClick={() => addBlock('text')}
               disabled={isCreating || isImageUploading}
             >
-              Dodaj blok tekst
+              {t('writePost.addTextBlock')}
             </Button>
             <Button
               variant="outlined"
@@ -631,7 +654,7 @@ export const WritePost = () => {
               onClick={() => addBlock('image')}
               disabled={isCreating || isImageUploading}
             >
-              Dodaj sliku u blog
+              {t('writePost.addImageBlock')}
             </Button>
           </Box>
         </Box>
@@ -651,10 +674,14 @@ export const WritePost = () => {
               isSubmitting
             }
           >
-            {isCreating ? <CircularProgress size={24} /> : 'Objavi post'}
+            {isCreating ? (
+              <CircularProgress size={24} />
+            ) : (
+              t('writePost.submit')
+            )}
           </Button>
           <Button variant="outlined" onClick={() => navigate('/blog')}>
-            Otkaži
+            {t('writePost.cancel')}
           </Button>
         </Box>
       </Box>

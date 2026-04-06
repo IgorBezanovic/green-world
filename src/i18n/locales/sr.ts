@@ -1591,5 +1591,53 @@ export const sr = {
       subtitle:
         'Hvala vam na poverenju. Radujemo se vašoj poruci i prilici da vam pomognemo.'
     }
+  },
+  writePost: {
+    pageTitle: 'Napiši novi post',
+    pageTitleEdit: 'Izmeni post',
+    breadcrumbNew: 'Novi post',
+    breadcrumbEdit: 'Izmeni post',
+    createError: 'Greška prilikom kreiranja posta',
+    titleLabel: 'Naslov posta',
+    titlePlaceholder: 'Npr. 10 saveta za negu sukulenata...',
+    titleHelper:
+      'Kratki, jasan naslov koji privlači čitaoce. Npr. "10 saveta za negu sukulenata"',
+    authorLabel: 'Autor',
+    authorPlaceholder: 'Npr. Marija Jovanović',
+    authorHelper: 'Vaše ime ili pseudonim koji čitaoci vide ispod naslova',
+    keywordsLabel: 'Ključne reči (maks. 5, jedna reč svaka)',
+    keywordsPlaceholder: 'Npr. sukulenti, sobno-bilje, cveće...',
+    keywordsHelper:
+      'Jedna reč bez razmaka. Pomaže čitaocima da pronađu vaš post. (Enter ili klik Dodaj)',
+    keywordsAddButton: 'Dodaj',
+    timeLabel: 'Vreme čitanja (min)',
+    timePlaceholder: 'Npr. 5',
+    timeHelper:
+      'Procenjeno vreme čitanja u minutima. Npr. 3 za kratak post, 8 za detaljan vodič',
+    coverImageLabel: 'Naslovna slika',
+    coverImageDesc:
+      'Prva stvar koju čitaoci vide. Odaberite atraktivnu, oštru fotografiju koja predstavlja temu posta. Preporučena razmera 16:9.',
+    coverImageAdd: 'Dodaj naslovnu sliku',
+    coverImageChange: 'Promeni sliku',
+    contentLabel: 'Sadržaj posta',
+    contentDesc:
+      'Gradite sadržaj dodavanjem blokova teksta i slika. Možete ih preurediti strelicama ili obrisati. Svaki blok teksta ima bogati editor sa formatiranjem.',
+    textBlock: 'Tekst blok',
+    imageBlock: 'Slika blok',
+    addTextBlock: 'Dodaj blok tekst',
+    addImageBlock: 'Dodaj sliku u blog',
+    blockImageAdd: 'Dodaj sliku',
+    blockImageChange: 'Promeni sliku',
+    submit: 'Objavi post',
+    cancel: 'Otkaži',
+    errorTitle: 'Naslov je obavezan',
+    errorAuthor: 'Autor je obavezan',
+    errorBlocksEmpty: 'Dodajte minimum jedan blok',
+    errorBlocksContent: 'Svi blokovi moraju imati sadržaj',
+    errorCoverImage: 'Naslovna slika je obavezna',
+    errorKeywordsMax: 'Maksimalno 5 ključnih reči',
+    errorKeywordsFormat: 'Ključne reči moraju biti jedne reči bez razmaka',
+    errorKeywordOneWord: 'Ključna reč mora biti jedna reč',
+    errorTimeOfReading: 'Unesite pozitivnu vrednost (minuti)'
   }
 } as const;

@@ -1583,5 +1583,53 @@ export const en = {
       subtitle:
         'Thank you for your trust. We look forward to your message and the opportunity to help you.'
     }
+  },
+  writePost: {
+    pageTitle: 'Write New Post',
+    pageTitleEdit: 'Edit Post',
+    breadcrumbNew: 'New Post',
+    breadcrumbEdit: 'Edit Post',
+    createError: 'Error while creating the post',
+    titleLabel: 'Post Title',
+    titlePlaceholder: 'E.g. 10 Tips for Caring for Succulents...',
+    titleHelper:
+      'Short, clear title that attracts readers. E.g. "10 Tips for Caring for Succulents"',
+    authorLabel: 'Author',
+    authorPlaceholder: 'E.g. Maria Johnson',
+    authorHelper: 'Your name or pseudonym that readers see below the title',
+    keywordsLabel: 'Keywords (max. 5, one word each)',
+    keywordsPlaceholder: 'E.g. succulents, indoor-plants, flowers...',
+    keywordsHelper:
+      'One word without spaces. Helps readers find your post. (Enter or click Add)',
+    keywordsAddButton: 'Add',
+    timeLabel: 'Reading Time (min)',
+    timePlaceholder: 'E.g. 5',
+    timeHelper:
+      'Estimated reading time in minutes. E.g. 3 for a short post, 8 for a detailed guide',
+    coverImageLabel: 'Cover Image',
+    coverImageDesc:
+      'The first thing readers see. Choose an attractive, sharp photo that represents the topic of the post. Recommended ratio 16:9.',
+    coverImageAdd: 'Add Cover Image',
+    coverImageChange: 'Change Image',
+    contentLabel: 'Post Content',
+    contentDesc:
+      'Build content by adding text and image blocks. You can reorder them with arrows or delete them. Each text block has a rich editor with formatting.',
+    textBlock: 'Text Block',
+    imageBlock: 'Image Block',
+    addTextBlock: 'Add Text Block',
+    addImageBlock: 'Add Image to Blog',
+    blockImageAdd: 'Add Image',
+    blockImageChange: 'Change Image',
+    submit: 'Publish Post',
+    cancel: 'Cancel',
+    errorTitle: 'Title is required',
+    errorAuthor: 'Author is required',
+    errorBlocksEmpty: 'Add at least one block',
+    errorBlocksContent: 'All blocks must have content',
+    errorCoverImage: 'Cover image is required',
+    errorKeywordsMax: 'Maximum 5 keywords',
+    errorKeywordsFormat: 'Keywords must be single words without spaces',
+    errorKeywordOneWord: 'Keyword must be a single word',
+    errorTimeOfReading: 'Enter a positive value (minutes)'
   }
 } as const;
