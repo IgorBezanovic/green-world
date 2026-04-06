@@ -36,6 +36,7 @@ import {
   Divider,
   Avatar,
   Tooltip,
+  Skeleton,
   useTheme
 } from '@mui/material';
 import {
@@ -89,8 +90,63 @@ export const ServiceDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', py: 12 }}>
-        <CircularProgress />
+      <Box
+        sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, pt: 4 }}
+      >
+        <Box
+          sx={(theme) => ({
+            maxWidth: '1400px',
+            mx: 'auto',
+            px: 2,
+            [theme.breakpoints.up('sm')]: { px: 3 },
+            [theme.breakpoints.up('xl')]: { px: 0 }
+          })}
+        >
+          <Skeleton variant="text" width={300} height={28} sx={{ mb: 3 }} />
+          <Divider sx={{ mb: 4 }} />
+          <Grid container spacing={4}>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Skeleton variant="text" width="70%" height={52} sx={{ mb: 1 }} />
+              <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
+                <Skeleton variant="rounded" width={90} height={32} />
+                <Skeleton variant="rounded" width={120} height={32} />
+                <Skeleton variant="rounded" width={80} height={32} />
+              </Box>
+              <Skeleton
+                variant="rectangular"
+                height={320}
+                sx={{ borderRadius: 2, mb: 3 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                height={160}
+                sx={{ borderRadius: 2, mb: 3 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                height={100}
+                sx={{ borderRadius: 2 }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Skeleton
+                variant="rectangular"
+                height={220}
+                sx={{ borderRadius: 2, mb: 2 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                height={140}
+                sx={{ borderRadius: 2, mb: 2 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                height={60}
+                sx={{ borderRadius: 2 }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     );
   }

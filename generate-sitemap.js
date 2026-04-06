@@ -89,7 +89,7 @@ async function generateSitemap() {
       priority: 0.9
     },
     {
-      url: '/search',
+      url: '/products',
       changefreq: 'daily',
       priority: 0.9
     },

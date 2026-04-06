@@ -211,7 +211,7 @@ export const Footer = () => {
                   textDecoration: 'underline',
                   cursor: 'pointer'
                 }}
-                onClick={() => navigate('/search')}
+                onClick={() => navigate('/products')}
               >
                 {t('footer.products')}
               </Typography>

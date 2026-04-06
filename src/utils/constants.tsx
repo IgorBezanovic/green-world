@@ -76,7 +76,7 @@ export const homeCategories: HomeCategory[] = [
     id: 1,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734375/rolkuumcojvnay4srdbl.webp',
-    route: '/search/flower_assortment',
+    route: '/products/flower_assortment',
     text: 'Cvetni asortiman',
     slug: 'flower_assortment'
   },
@@ -84,7 +84,7 @@ export const homeCategories: HomeCategory[] = [
     id: 2,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734437/nwhuyfbqntll4chzwrys.webp',
-    route: '/search/succulents',
+    route: '/products/succulents',
     text: 'Sukulenti',
     slug: 'succulents'
   },
@@ -92,7 +92,7 @@ export const homeCategories: HomeCategory[] = [
     id: 3,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734487/dh61q6w6vhvufl2nqsju.webp',
-    route: '/search/potted_flowers',
+    route: '/products/potted_flowers',
     text: 'Saksijsko cveće',
     slug: 'potted_flowers'
   },
@@ -100,7 +100,7 @@ export const homeCategories: HomeCategory[] = [
     id: 4,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734524/e2c7yyqu2wxmosyosfap.webp',
-    route: '/search/seedlings',
+    route: '/products/seedlings',
     text: 'Sadnice',
     slug: 'seedlings'
   },
@@ -108,7 +108,7 @@ export const homeCategories: HomeCategory[] = [
     id: 5,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734567/qi6vrxr7ck98fdqqvb83.webp',
-    route: '/search/fruits_and_vegetables',
+    route: '/products/fruits_and_vegetables',
     text: 'Voće i povrće',
     slug: 'fruits_and_vegetables'
   },
@@ -116,7 +116,7 @@ export const homeCategories: HomeCategory[] = [
     id: 6,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734608/qkv49cwxehh6osu3cfx4.webp',
-    route: '/search/herbal_pharmacy',
+    route: '/products/herbal_pharmacy',
     text: 'Biljna apoteka',
     slug: 'herbal_pharmacy'
   },
@@ -124,7 +124,7 @@ export const homeCategories: HomeCategory[] = [
     id: 7,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734642/jofstgnbcqqlpsnbt7pp.webp',
-    route: '/search/garden_decoration',
+    route: '/products/garden_decoration',
     text: 'Baštenska dekoracija',
     slug: 'garden_decoration'
   },
@@ -132,7 +132,7 @@ export const homeCategories: HomeCategory[] = [
     id: 8,
     image:
       'https://res.cloudinary.com/dijofqxeu/image/upload/v1756734674/yc4pttb6sp02jmnjz9hh.webp',
-    route: '/search/everything_for_plants',
+    route: '/products/everything_for_plants',
     text: 'Sve za biljke',
     slug: 'everything_for_plants'
   }

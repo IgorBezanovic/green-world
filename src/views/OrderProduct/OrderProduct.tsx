@@ -174,7 +174,7 @@ export const OrderProduct = () => {
 
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
-    { label: t('breadcrumbs.products'), route: '/search' },
+    { label: t('breadcrumbs.products'), route: '/products' },
     {
       label: productData?.title || t('productPage.productFallback'),
       route: `/product/${productId}`

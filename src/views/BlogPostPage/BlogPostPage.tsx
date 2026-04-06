@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Loader,
   BlogBlock,
   BookmarkButton,
   CopyLinkButton,
@@ -19,7 +18,15 @@ import { useCreateComment } from '@green-world/hooks/useCreateComment';
 import { useUser } from '@green-world/hooks/useUser';
 import { useVotePost } from '@green-world/hooks/useVotePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
-import { Box, Card, Chip, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Card,
+  Chip,
+  Divider,
+  Skeleton,
+  Typography,
+  useTheme
+} from '@mui/material';
 import { Calendar, Clock, User } from 'lucide-react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -69,7 +76,96 @@ export const BlogPostPage = () => {
     }
   };
 
-  if (loading || userLoading) return <Loader />;
+  if (loading || userLoading)
+    return (
+      <Box
+        sx={{
+          width: '100%',
+          backgroundColor: 'background.paper',
+          minHeight: 'calc(100vh - 360px)'
+        }}
+      >
+        <Box
+          sx={(theme) => ({
+            maxWidth: '1400px',
+            width: '100%',
+            mx: 'auto',
+            px: '16px',
+            py: '1.75rem',
+            [theme.breakpoints.up('sm')]: { px: '24px' },
+            [theme.breakpoints.up('xl')]: { px: 0 }
+          })}
+        >
+          <Skeleton variant="text" width={280} height={28} />
+        </Box>
+        <Box
+          sx={(theme) => ({
+            maxWidth: '1400px',
+            width: '100%',
+            mx: 'auto',
+            px: '16px',
+            gap: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            [theme.breakpoints.up('sm')]: { px: '1.5rem' },
+            [theme.breakpoints.up('xl')]: { px: 0 },
+            [theme.breakpoints.up('md')]: { flexDirection: 'row' }
+          })}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 3
+            }}
+          >
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Skeleton variant="rounded" width={70} height={30} />
+              <Skeleton variant="rounded" width={90} height={30} />
+              <Skeleton variant="rounded" width={60} height={30} />
+            </Box>
+            <Skeleton variant="text" width="80%" height={52} />
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Skeleton variant="text" width={120} height={28} />
+              <Skeleton variant="text" width={100} height={28} />
+              <Skeleton variant="text" width={80} height={28} />
+            </Box>
+            <Divider />
+            <Skeleton
+              variant="rectangular"
+              height={360}
+              sx={{ borderRadius: 2 }}
+            />
+            <Skeleton variant="text" height={24} />
+            <Skeleton variant="text" height={24} width="90%" />
+            <Skeleton variant="text" height={24} width="75%" />
+            <Skeleton variant="text" height={24} />
+            <Skeleton variant="text" height={24} width="85%" />
+          </Box>
+          <Box
+            sx={(theme) => ({
+              width: '100%',
+              [theme.breakpoints.up('md')]: { width: '30%' }
+            })}
+          >
+            <Skeleton
+              variant="circular"
+              width={80}
+              height={80}
+              sx={{ mx: 'auto', mb: 2 }}
+            />
+            <Skeleton variant="text" width="60%" sx={{ mx: 'auto' }} />
+            <Skeleton variant="text" width="40%" sx={{ mx: 'auto', mb: 3 }} />
+            <Skeleton
+              variant="rectangular"
+              height={120}
+              sx={{ borderRadius: 2 }}
+            />
+          </Box>
+        </Box>
+      </Box>
+    );
   if (error)
     return (
       <div style={{ padding: 32, color: '#dc2626' }}>

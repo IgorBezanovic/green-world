@@ -25,7 +25,8 @@ const websiteSchema = {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://www.zelenisvet.rs/search?title={search_term_string}'
+      urlTemplate:
+        'https://www.zelenisvet.rs/products?title={search_term_string}'
     },
     'query-input': 'required name=search_term_string'
   }
