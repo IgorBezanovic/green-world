@@ -714,7 +714,9 @@ export const sr = {
     uploadingImage: 'Otpremanje slike...',
     reviewImageAlt: 'Fotografija recenzije',
     allSellerProducts: 'Svi proizvodi prodavca',
-    productsFromGroup: 'Proizvodi iz grupe {{group}}'
+    productsFromGroup: 'Proizvodi iz grupe {{group}}',
+    linkCopied: 'Kopiran link',
+    linkCopyFailed: 'Greška pri kopiranju linka'
   },
   googleAnalytics: {
     overviewLast30Days: 'Google Analytics pregled (poslednjih 30 dana)',

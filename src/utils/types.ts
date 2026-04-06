@@ -36,6 +36,8 @@ export interface Product {
   promotedAt?: string | Date | null;
   promotedUntil?: string | Date | null;
   comments?: Comment[];
+  likes?: string[];
+  dislikes?: string[];
 }
 
 export type NewPasswordValues = {
@@ -297,6 +299,8 @@ export interface ServiceListing {
   availability?: string[];
   videoUrl?: string;
   viewCounter?: number;
+  likes?: string[];
+  dislikes?: string[];
   createdAt?: string;
   updatedAt?: string;
 }

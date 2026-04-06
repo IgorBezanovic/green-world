@@ -710,7 +710,9 @@ export const en = {
     uploadingImage: 'Uploading image...',
     reviewImageAlt: 'Review image',
     allSellerProducts: 'All seller products',
-    productsFromGroup: 'Products from group {{group}}'
+    productsFromGroup: 'Products from group {{group}}',
+    linkCopied: 'Link copied',
+    linkCopyFailed: 'Failed to copy link'
   },
   googleAnalytics: {
     overviewLast30Days: 'Google Analytics overview (last 30 days)',

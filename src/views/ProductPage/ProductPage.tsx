@@ -3,7 +3,10 @@ import {
   MetaTags,
   AppBreadcrumbs,
   SendMessageDialog,
-  ImageGallery
+  ImageGallery,
+  VoteButtons,
+  CopyLinkButton,
+  BookmarkButton
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -11,6 +14,7 @@ import { useCreateProductReview } from '@green-world/hooks/useCreateProductRevie
 import { useProduct } from '@green-world/hooks/useProduct';
 import { useProductsByGroup } from '@green-world/hooks/useProductsByGroup';
 import { useUser } from '@green-world/hooks/useUser';
+import { useVoteProduct } from '@green-world/hooks/useVoteProduct';
 import {
   formatImageUrl,
   goToDestination,
@@ -66,8 +70,14 @@ export const ProductPage = () => {
   const { data: groupProducts } = useProductsByGroup(productData?.group || '');
   const { data: sellerProducts } = useAllUserProducts(productData?.createdBy);
   const { mutateAsync: createProductReview } = useCreateProductReview();
+  const { mutate: voteMutate } = useVoteProduct(productId || '');
   const { isUserLoggedIn, userId, user } = useContext(UserContext);
   const [openSendMessageDialog, setOpenSendMessageDialog] = useState(false);
+
+  const handleProductVote = (vote: 'like' | 'dislike' | string) => {
+    if (!productId) return;
+    voteMutate({ vote });
+  };
 
   const metaObj = useMemo(
     () => ({
@@ -229,6 +239,7 @@ export const ProductPage = () => {
                 images={productData?.images || []}
                 title={productData?.title}
               />
+
               <Box
                 sx={{
                   width: '100%',
@@ -573,6 +584,31 @@ export const ProductPage = () => {
                   >
                     {t('productPage.orderProduct')}
                   </Button>
+                </Box>
+                <Box
+                  sx={(theme) => ({
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    flexDirection: 'column',
+                    gap: 1.25,
+                    my: 3,
+                    [theme.breakpoints.up('sm')]: {
+                      alignItems: 'center',
+                      flexDirection: 'row'
+                    }
+                  })}
+                >
+                  <VoteButtons
+                    likes={productData?.likes}
+                    dislikes={productData?.dislikes}
+                    onVote={handleProductVote}
+                  />
+                  <CopyLinkButton
+                    successMessage={t('productPage.linkCopied')}
+                    errorMessage={t('productPage.linkCopyFailed')}
+                  />
+                  <BookmarkButton />
                 </Box>
               </Box>
             </Box>
