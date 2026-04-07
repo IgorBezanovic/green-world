@@ -9,7 +9,7 @@ import {
   StatCard
 } from '@green-world/components';
 import { useAllUsers } from '@green-world/hooks/useAllUsers';
-import { useDebounce } from '@green-world/utils/helpers';
+import { useDebounce } from '@green-world/hooks/useDebounce';
 import {
   Box,
   Typography,

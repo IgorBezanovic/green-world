@@ -9,11 +9,11 @@ import {
   SharedPagination
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
+import { useDebounce } from '@green-world/hooks/useDebounce';
 import {
   formatDate,
   formatImageUrl,
-  getPlainTextFromHtml,
-  useDebounce
+  getPlainTextFromHtml
 } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import {

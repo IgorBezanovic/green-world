@@ -8,8 +8,8 @@ import {
   ServiceListingCard,
   SharedPagination
 } from '@green-world/components';
+import { useDebounce } from '@green-world/hooks/useDebounce';
 import { useGetServicesPaginated } from '@green-world/hooks/useServices';
-import { useDebounce } from '@green-world/utils/helpers';
 import { getAllPredefinedServices } from '@green-world/utils/serviceConstants';
 import type { ServiceListingFiltersParams } from '@green-world/utils/types';
 import {

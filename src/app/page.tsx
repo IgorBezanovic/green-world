@@ -7,11 +7,23 @@
  * any URL change, keeping behaviour consistent with all other sr pages.
  */
 import { Layout } from '@green-world/components/Layout/Layout';
+import { createPageMetadata } from '@green-world/seo/metadata';
 import { Home } from '@green-world/views/Home';
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 
 import { Providers } from './providers';
+
+export const metadata: Metadata = createPageMetadata({
+  locale: 'sr',
+  pathname: '/',
+  title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
+  description:
+    'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Pronađite online cvećare, saksijsko cveće i baštenski asortiman uz dostavu.',
+  keywords:
+    'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće online, dostava cveća, cvećara srbija, cveće beograd, zeleni svet, marketplace cveća, baštovanstvo srbija'
+});
 
 const websiteSchema = {
   '@context': 'https://schema.org',

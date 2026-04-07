@@ -64,15 +64,14 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Zeleni Svet',
     locale: 'sr_RS',
-    url: 'https://www.zelenisvet.rs',
     title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
     description:
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
     images: [
       {
-        url: '/android-chrome-512x512.png',
-        width: 512,
-        height: 512,
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
         alt: 'Zeleni Svet – online cveće i cvećare Srbija'
       }
     ]
@@ -82,7 +81,7 @@ export const metadata: Metadata = {
     title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
     description:
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
-    images: ['/android-chrome-512x512.png']
+    images: ['/opengraph-image']
   }
 };
 

@@ -13,11 +13,11 @@ import {
   ProductFiltersParams,
   useAllProducts
 } from '@green-world/hooks/useAllProducts';
+import { useDebounce } from '@green-world/hooks/useDebounce';
 import { homeCategories, subGroups } from '@green-world/utils/constants';
 import {
   getLocalizedGroupLabel,
-  getLocalizedSubGroupLabel,
-  useDebounce
+  getLocalizedSubGroupLabel
 } from '@green-world/utils/helpers';
 import ClearIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
