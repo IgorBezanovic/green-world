@@ -1,6 +1,10 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  PageContent,
+  PageLoader
+} from '@green-world/components';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useImage } from '@green-world/hooks/useImage';
 import {
@@ -423,24 +427,12 @@ export const CreateEditService = () => {
   };
 
   if (isLoadingService) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
-        }}
-      >
-        <CircularProgress color="success" />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
   const formModeLabel = serviceId
     ? t('service.editService', 'Izmeni uslugu')
     : t('service.addService', 'Dodaj uslugu');
-  const pageTitle = `Zeleni svet | ${formModeLabel}`;
   const pages = [
     { label: t('breadcrumbs.home', 'Početna'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
@@ -451,14 +443,7 @@ export const CreateEditService = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={pageTitle} />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -1160,6 +1145,6 @@ export const CreateEditService = () => {
           )}
         </Alert>
       </Snackbar>
-    </Box>
+    </PageContent>
   );
 };

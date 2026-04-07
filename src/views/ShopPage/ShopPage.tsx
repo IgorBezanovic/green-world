@@ -2,7 +2,9 @@
 
 import {
   AppBreadcrumbs,
-  MetaTags,
+  PageCenteredState,
+  PageContent,
+  PageLoader,
   ProductCard,
   SendMessageDialog,
   SocialMedia,
@@ -20,7 +22,6 @@ import {
   Card,
   Typography,
   Avatar,
-  CircularProgress,
   IconButton,
   useTheme,
   Button,
@@ -69,55 +70,16 @@ export const ShopPage = () => {
     });
   }, [sellerProducts, search]);
 
-  const metaObj = useMemo(
-    () => ({
-      title: data
-        ? [
-            'Zeleni svet',
-            t('breadcrumbs.userProfile'),
-            data.shopName,
-            data.name
-          ]
-            .filter(Boolean)
-            .join(' | ')
-        : `Zeleni svet | ${t('breadcrumbs.userProfile')}`,
-      description:
-        data?.shopDescription || t('shopPage.meta.descriptionFallback'),
-      image:
-        formatImageUrl(data?.profileImage || '') ||
-        'https://www.zelenisvet.rs/green-world.svg'
-    }),
-    [data, t]
-  );
-
   if (!userId) return <></>;
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh'
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
   if (!data) {
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh'
-        }}
-      >
+      <PageCenteredState>
         <Typography variant="h6">{t('shopPage.userNotFound')}</Typography>
-      </Box>
+      </PageCenteredState>
     );
   }
 
@@ -145,20 +107,7 @@ export const ShopPage = () => {
       : 'Serbia';
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={metaObj.title}
-        description={metaObj.description}
-        keywords={metaObj.description}
-        image={metaObj.image}
-      />
-
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -567,6 +516,6 @@ export const ShopPage = () => {
         onClose={() => setOpenSendMessageDialog(false)}
         userId={userId || ''}
       />
-    </Box>
+    </PageContent>
   );
 };

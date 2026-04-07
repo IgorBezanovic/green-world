@@ -1,6 +1,6 @@
 'use client';
 
-import { MetaTags } from '@green-world/components';
+import { PageContent } from '@green-world/components';
 import {
   Box,
   Drawer,
@@ -11,30 +11,21 @@ import {
   ListItemText
 } from '@mui/material';
 import { ChartNoAxesCombined } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 const drawerWidth = 220;
 
 export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <Box
+    <PageContent
       sx={{
         display: 'flex',
-        width: '100%',
         backgroundColor: 'background.paper',
-        position: 'relative',
-        minHeight: 'calc(100vh - 360px)'
+        position: 'relative'
       }}
     >
-      <MetaTags
-        title={t('seo.adminPanel.title')}
-        description={t('seo.adminPanel.description')}
-        keywords={t('seo.adminPanel.keywords')}
-      />
       {/* Drawer meni */}
       <Drawer
         variant="permanent"
@@ -81,6 +72,6 @@ export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
       >
         {children}
       </Box>
-    </Box>
+    </PageContent>
   );
 };

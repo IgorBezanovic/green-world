@@ -4,6 +4,8 @@ import {
   AppBreadcrumbs,
   BlogCard,
   ItemsHero,
+  PageCenteredState,
+  PageContent,
   SharedPagination,
   SocialMedia
 } from '@green-world/components';
@@ -86,13 +88,7 @@ export const BlogPost = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <ItemsHero
         kicker={t('blogView.hero.kicker')}
         title={t('blogView.hero.title')}
@@ -151,9 +147,9 @@ export const BlogPost = () => {
         <AppBreadcrumbs pages={pages} />
 
         {isLoading && (
-          <Box display="flex" justifyContent="center" py={4}>
+          <PageCenteredState minHeight={320}>
             <CircularProgress />
-          </Box>
+          </PageCenteredState>
         )}
 
         {!isLoading && (
@@ -274,6 +270,6 @@ export const BlogPost = () => {
           </Box>
         )}
       </Box>
-    </Box>
+    </PageContent>
   );
 };

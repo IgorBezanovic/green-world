@@ -5,6 +5,7 @@ import {
   AppBreadcrumbs,
   ItemsHero,
   ListingContentLayout,
+  PageContent,
   ListingStateSection,
   SharedPagination
 } from '@green-world/components';
@@ -199,13 +200,7 @@ export const Products = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <ItemsHero
         kicker={t('productsView.hero.kicker')}
         title={t('productsView.hero.title')}
@@ -374,7 +369,16 @@ export const Products = () => {
 
             <Box>
               <Typography gutterBottom>{t('productsView.price')}</Typography>
-              <Box sx={{ display: 'flex', gap: 2 }}>
+              <Box
+                sx={(theme) => ({
+                  display: 'grid',
+                  gap: 2,
+                  gridTemplateColumns: '1fr',
+                  [theme.breakpoints.up('sm')]: {
+                    gridTemplateColumns: 'repeat(2, 1fr)'
+                  }
+                })}
+              >
                 <TextField
                   type="number"
                   placeholder={t('productsView.from')}
@@ -542,6 +546,6 @@ export const Products = () => {
       />
       {/* <FeaturedProducts /> */}
       {/* <FeaturedShops /> */}
-    </Box>
+    </PageContent>
   );
 };

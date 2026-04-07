@@ -3,7 +3,8 @@
 import {
   AppBreadcrumbs,
   ItemsHero,
-  MetaTags,
+  PageCenteredState,
+  PageContent,
   SharedPagination,
   ShopCard,
   StatCard
@@ -123,19 +124,7 @@ export const Shops = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.shops.title')}
-        description={t('seo.shops.description')}
-        keywords={t('seo.shops.keywords')}
-      />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <ItemsHero
         kicker={t('shopsView.hero.kicker')}
         title={t('shopsView.hero.title')}
@@ -331,16 +320,9 @@ export const Shops = () => {
         </Typography>
 
         {isLoading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '50vh'
-            }}
-          >
+          <PageCenteredState minHeight={320}>
             <CircularProgress />
-          </Box>
+          </PageCenteredState>
         ) : data.length === 0 ? (
           <Typography
             variant="h6"
@@ -408,6 +390,6 @@ export const Shops = () => {
         />
         {/* <FeaturedShopsBanner /> */}
       </Box>
-    </Box>
+    </PageContent>
   );
 };

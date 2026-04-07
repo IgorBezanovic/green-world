@@ -6,7 +6,9 @@ import {
   ImageGallery,
   VoteButtons,
   CopyLinkButton,
-  BookmarkButton
+  BookmarkButton,
+  PageCenteredState,
+  PageContent
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
@@ -55,7 +57,7 @@ import {
 } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const ServiceDetailsPage = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -90,9 +92,7 @@ export const ServiceDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <Box
-        sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, pt: 4 }}
-      >
+      <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
         <Box
           sx={(theme) => ({
             maxWidth: '1400px',
@@ -102,30 +102,29 @@ export const ServiceDetailsPage = () => {
             [theme.breakpoints.up('xl')]: { px: 0 }
           })}
         >
-          <Skeleton variant="text" width={300} height={28} sx={{ mb: 3 }} />
-          <Divider sx={{ mb: 4 }} />
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, md: 7 }}>
-              <Skeleton variant="text" width="70%" height={52} sx={{ mb: 1 }} />
-              <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
-                <Skeleton variant="rounded" width={90} height={32} />
+              <Skeleton variant="text" width="60%" height={72} sx={{ mb: 2 }} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  flexWrap: 'wrap',
+                  mb: 3
+                }}
+              >
                 <Skeleton variant="rounded" width={120} height={32} />
-                <Skeleton variant="rounded" width={80} height={32} />
+                <Skeleton variant="rounded" width={180} height={32} />
               </Box>
               <Skeleton
-                variant="rectangular"
-                height={320}
-                sx={{ borderRadius: 2, mb: 3 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                height={160}
-                sx={{ borderRadius: 2, mb: 3 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                height={100}
                 sx={{ borderRadius: 2 }}
+                variant="rectangular"
+                height={420}
+              />
+              <Skeleton
+                variant="rectangular"
+                height={220}
+                sx={{ borderRadius: 2, mt: 4 }}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 5 }}>
@@ -147,35 +146,39 @@ export const ServiceDetailsPage = () => {
             </Grid>
           </Grid>
         </Box>
-      </Box>
+      </PageContent>
     );
   }
 
   if (isError || !service) {
     return (
-      <Box
-        sx={(theme) => ({
-          maxWidth: '1400px',
-          mx: 'auto',
-          px: 2,
-          [theme.breakpoints.up('sm')]: { px: 3 },
-          [theme.breakpoints.up('xl')]: { px: 0 },
-          py: 8,
-          textAlign: 'center'
-        })}
-      >
-        <Typography variant="h5" color="error" gutterBottom>
-          {t('service.notFound')}
-        </Typography>
-        <Button
-          component={Link}
-          to="/services"
-          startIcon={<ArrowLeft />}
-          sx={{ mt: 2 }}
-        >
-          {t('service.backToServices')}
-        </Button>
-      </Box>
+      <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
+        <PageCenteredState sx={{ bgcolor: 'background.default' }}>
+          <Box
+            sx={(theme) => ({
+              maxWidth: '1400px',
+              mx: 'auto',
+              px: 2,
+              [theme.breakpoints.up('sm')]: { px: 3 },
+              [theme.breakpoints.up('xl')]: { px: 0 },
+              py: 8,
+              textAlign: 'center'
+            })}
+          >
+            <Typography variant="h5" color="error" gutterBottom>
+              {t('service.notFound')}
+            </Typography>
+            <Button
+              startIcon={<ArrowLeft size={18} />}
+              onClick={() => navigate('/services')}
+              variant="outlined"
+              sx={{ mt: 2 }}
+            >
+              {t('service.backToServices')}
+            </Button>
+          </Box>
+        </PageCenteredState>
+      </PageContent>
     );
   }
 
@@ -219,9 +222,7 @@ export const ServiceDetailsPage = () => {
   };
 
   return (
-    <Box
-      sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, pt: 4 }}
-    >
+    <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -508,11 +509,14 @@ export const ServiceDetailsPage = () => {
           {/* Sidebar */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Card
-              sx={{
-                position: 'sticky',
-                top: 120,
-                borderRadius: 1
-              }}
+              sx={(theme) => ({
+                position: 'static',
+                borderRadius: 1,
+                [theme.breakpoints.up('md')]: {
+                  position: 'sticky',
+                  top: 120
+                }
+              })}
             >
               <CardContent sx={{ padding: '24px' }}>
                 <Box
@@ -974,6 +978,6 @@ export const ServiceDetailsPage = () => {
         onClose={() => setOpenSendMessageDialog(false)}
         userId={provider?._id || ''}
       />
-    </Box>
+    </PageContent>
   );
 };

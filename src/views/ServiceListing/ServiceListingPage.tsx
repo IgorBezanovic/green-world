@@ -5,6 +5,7 @@ import {
   ItemsHero,
   ListingContentLayout,
   ListingStateSection,
+  PageContent,
   ServiceListingCard,
   SharedPagination
 } from '@green-world/components';
@@ -125,7 +126,7 @@ export const ServiceListingPage = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
+    <PageContent sx={{ bgcolor: 'background.default', pb: 8 }}>
       <ItemsHero
         kicker="Pronađi uslugu"
         title={t('service.title')}
@@ -392,6 +393,6 @@ export const ServiceListingPage = () => {
           />
         }
       />
-    </Box>
+    </PageContent>
   );
 };

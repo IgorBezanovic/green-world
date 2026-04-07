@@ -1,5 +1,3 @@
-'use client';
-
 import { AdminPanel } from '@green-world/views/AdminPanel';
 
 export default function AdminLayout({

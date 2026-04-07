@@ -3,9 +3,9 @@
 import {
   GroupButton,
   LazySection,
+  PageContent,
   ProductSection,
   GridProducts,
-  MetaTags,
   ServiceSection
 } from '@green-world/components';
 import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
@@ -23,18 +23,7 @@ export const Home = () => {
     isFetching || (data?.services?.length ?? 0) > 0;
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.home.title')}
-        description={t('seo.home.description')}
-        keywords={t('seo.home.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -275,6 +264,6 @@ export const Home = () => {
           products={data?.everything_for_plants}
         />
       </Box>
-    </Box>
+    </PageContent>
   );
 };

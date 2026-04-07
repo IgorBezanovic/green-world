@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
 import {
   Check,
@@ -11,7 +11,6 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import {
   SHOP_PACKAGES,
@@ -25,7 +24,6 @@ const pages = [
 ];
 
 export const PromoteShop = () => {
-  const { t } = useTranslation();
   const theme = useTheme();
 
   const [selectedPackageId, setSelectedPackageId] = useState<string>(
@@ -39,18 +37,7 @@ export const PromoteShop = () => {
   const totalRsd = selectedPackage.priceRsd;
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.promoteShop.title')}
-        description={t('seo.promoteShop.description')}
-        keywords={t('seo.promoteShop.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -322,6 +309,6 @@ export const PromoteShop = () => {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

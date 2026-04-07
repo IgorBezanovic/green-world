@@ -3,6 +3,7 @@
 import {
   ProductSection,
   AppBreadcrumbs,
+  PageContent,
   SendMessageDialog,
   ImageGallery,
   VoteButtons,
@@ -154,13 +155,7 @@ export const ProductPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -650,6 +645,6 @@ export const ProductPage = () => {
         onClose={() => setOpenSendMessageDialog(false)}
         userId={sellerData?._id || ''}
       />
-    </Box>
+    </PageContent>
   );
 };

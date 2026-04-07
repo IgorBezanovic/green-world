@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { Box, Divider, Typography, Button } from '@mui/material';
 import { Heart, ShieldCheck, Trash2, Users, Info } from 'lucide-react';
 import { useState } from 'react';
@@ -11,25 +11,14 @@ import { DonatePayPalDialog } from './DonatePayPalDialog';
 export const Documents = () => {
   const { t } = useTranslation();
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Dokumenta', route: '/documents' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('documentsView.title'), route: '/documents' }
   ];
 
   const [donateOpen, setDonateOpen] = useState(false);
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.documents.title')}
-        description={t('seo.documents.description')}
-        keywords={t('seo.documents.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1000px',
@@ -50,15 +39,12 @@ export const Documents = () => {
 
         <Box>
           <Typography variant="h2" sx={{ mb: 2, display: 'flex', gap: 1 }}>
-            <Users /> Naša vizija i misija
+            <Users /> {t('documentsView.sections.vision.title')}
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Naša misija je da povežemo ljude koji proizvode, sade i neguju
-            biljke sa onima koji ih vole i žele da ulepšaju svoj prostor
-            prirodom.
+            {t('documentsView.sections.vision.paragraph1')}
             <br />
-            Vizija Zelenog sveta je da postane centralno mesto okupljanja
-            ljubitelja prirode, baštovanstva i održivog načina života.
+            {t('documentsView.sections.vision.paragraph2')}
           </Typography>
         </Box>
 
@@ -66,14 +52,12 @@ export const Documents = () => {
 
         <Box>
           <Typography variant="h2" sx={{ mb: 2, display: 'flex', gap: 1 }}>
-            <ShieldCheck /> Politika privatnosti
+            <ShieldCheck /> {t('documentsView.sections.privacy.title')}
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Zeleni svet poštuje privatnost svojih korisnika. Lični podaci
-            prikupljaju se samo u meri neophodnoj za korišćenje platforme.
+            {t('documentsView.sections.privacy.paragraph1')}
             <br />
-            Svi podaci se čuvaju na siguran način i ne dele se sa trećim licima
-            osim u slučajevima zakonske obaveze.
+            {t('documentsView.sections.privacy.paragraph2')}
           </Typography>
         </Box>
 
@@ -81,14 +65,12 @@ export const Documents = () => {
 
         <Box>
           <Typography variant="h2" sx={{ mb: 2, display: 'flex', gap: 1 }}>
-            <Heart /> Donacije
+            <Heart /> {t('documentsView.sections.donations.title')}
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Donacije su dobrodošle i pomažu nam da održavamo platformu
-            besplatnom za sve korisnike.
+            {t('documentsView.sections.donations.paragraph1')}
             <br />
-            Ukoliko želiš da podržiš razvoj Zelenog Sveta, možeš to učiniti
-            uplatom simbolične donacije.
+            {t('documentsView.sections.donations.paragraph2')}
           </Typography>
           <Button
             variant="contained"
@@ -96,7 +78,7 @@ export const Documents = () => {
             sx={{ position: 'relative' }}
             // onClick={() => setDonateOpen(true)}
           >
-            Doniraj - USKORO
+            {t('documentsView.sections.donations.button')}
           </Button>
 
           <DonatePayPalDialog
@@ -109,15 +91,13 @@ export const Documents = () => {
 
         <Box>
           <Typography variant="h2" sx={{ mb: 2, display: 'flex', gap: 1 }}>
-            <Trash2 /> Brisanje naloga
+            <Trash2 /> {t('documentsView.sections.accountDeletion.title')}
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Ukoliko želiš da obrišeš svoj nalog i sve podatke sa platforme,
-            pošalji zahtev putem e-mail adrese{' '}
+            {t('documentsView.sections.accountDeletion.prefix')}{' '}
             <strong>info@zelenisvet.rs</strong>.
             <br />
-            Nakon potvrde identiteta, svi tvoji podaci i objavljeni proizvodi
-            biće trajno uklonjeni u roku od 48 sati.
+            {t('documentsView.sections.accountDeletion.suffix')}
           </Typography>
         </Box>
 
@@ -125,18 +105,15 @@ export const Documents = () => {
 
         <Box>
           <Typography variant="h2" sx={{ mb: 2, display: 'flex', gap: 1 }}>
-            <Info /> Odricanje od odgovornosti
+            <Info /> {t('documentsView.sections.disclaimer.title')}
           </Typography>
           <Typography variant="body1">
-            Zeleni svet ne prodaje proizvode objavljene na platformi. Mi
-            omogućavamo kontakt između kupaca i prodavaca — naši korisnici sami
-            objavljuju, uređuju i odgovaraju za svoje ponude.
+            {t('documentsView.sections.disclaimer.paragraph1')}
             <br />
-            Ipak, u slučaju problema ili spora, naš tim može preuzeti
-            komunikaciju između strana i pomoći u rešavanju nesporazuma.
+            {t('documentsView.sections.disclaimer.paragraph2')}
           </Typography>
         </Box>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

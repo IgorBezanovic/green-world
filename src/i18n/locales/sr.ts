@@ -776,6 +776,73 @@ export const sr = {
     },
     showing: 'Prikazano {shown} od {total} prodavnica'
   },
+  privacyPolicyView: {
+    title: 'Politika privatnosti',
+    intro:
+      'Ova politika privatnosti objašnjava kako prikupljamo, koristimo i štitimo vaše lične podatke kada koristite našu web platformu.',
+    sections: {
+      dataCollection: {
+        title: 'Koje podatke prikupljamo',
+        body: 'Kada se prijavite putem Google ili Facebook-a, prikupljamo osnovne javne podatke iz vašeg profila, uključujući vaše ime i prezime, email adresu i profilnu sliku.'
+      },
+      dataUsage: {
+        title: 'Kako koristimo vaše podatke',
+        body: 'Vaše podatke koristimo isključivo za kreiranje korisničkog profila i poboljšanje vašeg iskustva na našoj platformi. Ne delimo i ne prodajemo vaše podatke trećim licima.'
+      },
+      platform: {
+        title: 'O našoj platformi',
+        body: 'Naša platforma omogućava lokalnim prodavnicama i malim biznisima da oglase svoje proizvode. Mi sami ne prodajemo proizvode niti naplaćujemo bilo kakve naknade. Naš cilj je da spojimo kupce sa prodavcima na jednom mestu.'
+      },
+      deletionAndContact: {
+        title: 'Brisanje podataka i kontakt',
+        prefix:
+          'Ukoliko želite da obrišemo vaš nalog ili vaše podatke, možete nas kontaktirati na',
+        suffix: '.'
+      }
+    },
+    lastUpdated: 'Poslednje ažuriranje: 28. jul 2025.'
+  },
+  documentsView: {
+    title: 'Dokumenta',
+    sections: {
+      vision: {
+        title: 'Naša vizija i misija',
+        paragraph1:
+          'Naša misija je da povežemo ljude koji proizvode, sade i neguju biljke sa onima koji ih vole i žele da ulepšaju svoj prostor prirodom.',
+        paragraph2:
+          'Vizija Zelenog sveta je da postane centralno mesto okupljanja ljubitelja prirode, baštovanstva i održivog načina života.'
+      },
+      privacy: {
+        title: 'Politika privatnosti',
+        paragraph1:
+          'Zeleni svet poštuje privatnost svojih korisnika. Lični podaci prikupljaju se samo u meri neophodnoj za korišćenje platforme.',
+        paragraph2:
+          'Svi podaci se čuvaju na siguran način i ne dele se sa trećim licima osim u slučajevima zakonske obaveze.'
+      },
+      donations: {
+        title: 'Donacije',
+        paragraph1:
+          'Donacije su dobrodošle i pomažu nam da održavamo platformu besplatnom za sve korisnike.',
+        paragraph2:
+          'Ukoliko želiš da podržiš razvoj Zelenog Sveta, možeš to učiniti uplatom simbolične donacije.',
+        button: 'Doniraj - USKORO'
+      },
+      accountDeletion: {
+        title: 'Brisanje naloga',
+        prefix:
+          'Ukoliko želiš da obrišeš svoj nalog i sve podatke sa platforme, pošalji zahtev putem e-mail adrese',
+        suffix:
+          'Nakon potvrde identiteta, svi tvoji podaci i objavljeni proizvodi biće trajno uklonjeni u roku od 48 sati.'
+      },
+      disclaimer: {
+        title: 'Odricanje od odgovornosti',
+        paragraph1:
+          'Zeleni svet ne prodaje proizvode objavljene na platformi. Mi omogućavamo kontakt između kupaca i prodavaca — naši korisnici sami objavljuju, uređuju i odgovaraju za svoje ponude.',
+        paragraph2:
+          'Ipak, u slučaju problema ili spora, naš tim može preuzeti komunikaciju između strana i pomoći u rešavanju nesporazuma.'
+      }
+    }
+  },
   blogView: {
     hero: {
       kicker: 'Zeleni Svet Blog',

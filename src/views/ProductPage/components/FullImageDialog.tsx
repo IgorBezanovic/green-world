@@ -1,3 +1,5 @@
+'use client';
+
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { ChevronLeft, ChevronRight, Close } from '@mui/icons-material';
 import { Box, Dialog, IconButton } from '@mui/material';

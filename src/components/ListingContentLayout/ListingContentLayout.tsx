@@ -68,10 +68,13 @@ export const ListingContentLayout = ({
           {(!isTablet || isFiltersOpen) && (
             <Grow in={isFiltersOpen || !isTablet}>
               <Box
-                sx={{
-                  position: 'sticky',
-                  top: filtersTopOffset
-                }}
+                sx={(theme) => ({
+                  position: 'static',
+                  [theme.breakpoints.up('lgm')]: {
+                    position: 'sticky',
+                    top: filtersTopOffset
+                  }
+                })}
               >
                 {filters}
               </Box>

@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { useCreateBlogPost } from '@green-world/hooks/useCreateBlogPost';
 import { useImage } from '@green-world/hooks/useImage';
 import { request } from '@green-world/utils/api';
@@ -336,18 +336,7 @@ export const WritePost = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.writePost.title')}
-        description={t('seo.writePost.description')}
-        keywords={t('seo.writePost.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -754,6 +743,6 @@ export const WritePost = () => {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

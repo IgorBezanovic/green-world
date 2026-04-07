@@ -16,6 +16,8 @@ const SITE_URL = 'https://www.zelenisvet.rs';
 const DEFAULT_OG_IMAGE = '/opengraph-image';
 const DEFAULT_OG_WIDTH = 1200;
 const DEFAULT_OG_HEIGHT = 630;
+const TITLE_SEPARATOR = ' | ';
+const SITE_TITLE_ALIASES = new Set([SITE_NAME.toLowerCase(), 'green world']);
 
 const OG_LOCALE_BY_LANGUAGE = {
   sr: 'sr_RS',
@@ -131,6 +133,39 @@ export const truncate = (value: string, maxLength = 180) => {
   return `${value.slice(0, maxLength - 1).trimEnd()}…`;
 };
 
+const createEntityTitle = (
+  entityTitle: string | null | undefined,
+  entityType: string
+) => {
+  if (!entityTitle) {
+    return [SITE_NAME, entityType].join(TITLE_SEPARATOR);
+  }
+
+  return [SITE_NAME, entityTitle, entityType].join(TITLE_SEPARATOR);
+};
+
+const splitTitleSegments = (value: string) =>
+  value
+    .split(TITLE_SEPARATOR)
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+
+export const createAppTitle = (
+  ...segments: Array<string | null | undefined>
+) => {
+  const normalizedSegments = segments.flatMap((segment) => {
+    if (!segment) {
+      return [];
+    }
+
+    return splitTitleSegments(segment).filter(
+      (titleSegment) => !SITE_TITLE_ALIASES.has(titleSegment.toLowerCase())
+    );
+  });
+
+  return [SITE_NAME, ...normalizedSegments].join(TITLE_SEPARATOR);
+};
+
 const buildRobots = (noIndex?: boolean): Metadata['robots'] | undefined => {
   if (!noIndex) {
     return undefined;
@@ -201,6 +236,38 @@ export const createPageMetadata = ({
   };
 };
 
+type LocalizedPageMetadataInput = Omit<
+  MetadataInput,
+  'title' | 'description'
+> & {
+  title: string;
+  description?: string;
+};
+
+export const createLocalizedPageMetadata = ({
+  locale,
+  title,
+  description,
+  keywords,
+  image,
+  pathname,
+  type,
+  noIndex
+}: LocalizedPageMetadataInput): Metadata => {
+  const messages = getLocaleMessages(locale);
+
+  return createPageMetadata({
+    locale,
+    title: createAppTitle(title),
+    description: description ?? messages.metaTags.defaultDescription,
+    keywords: keywords ?? messages.metaTags.defaultKeywords,
+    image,
+    pathname,
+    type,
+    noIndex
+  });
+};
+
 export const createLocaleFallbackMetadata = (locale: AppLocale): Metadata => {
   const messages = getLocaleMessages(locale);
 
@@ -246,11 +313,7 @@ export const buildProductMetadata = async (
   return createPageMetadata({
     locale,
     pathname: `/product/${productId}`,
-    title: product?.title
-      ? ['Zeleni svet', product.title, messages.seo.product.label]
-          .filter(Boolean)
-          .join(' | ')
-      : messages.seo.product.fallbackTitle,
+    title: createEntityTitle(product?.title, messages.seo.product.label),
     description: truncate(
       stripHtml(
         product?.description ||
@@ -273,11 +336,7 @@ export const buildEventMetadata = async (
   return createPageMetadata({
     locale,
     pathname: `/event/${eventId}`,
-    title: event?.title
-      ? ['Zeleni svet', messages.seo.event.label, event.title]
-          .filter(Boolean)
-          .join(' | ')
-      : messages.seo.event.fallbackTitle,
+    title: createEntityTitle(event?.title, messages.seo.event.label),
     description: truncate(
       stripHtml(event?.description || messages.seo.event.fallbackDescription)
     ),
@@ -300,11 +359,7 @@ export const buildBlogPostMetadata = async (
 ) => {
   const messages = getLocaleMessages(locale);
   const post = await fetchApiData<BlogPost>(`/blog-post/post/${postId}`);
-  const title = post?.title
-    ? ['Zeleni svet', messages.seo.blog.title, post.title]
-        .filter(Boolean)
-        .join(' | ')
-    : messages.seo.blog.title;
+  const title = createEntityTitle(post?.title, messages.topContent.blog);
 
   return createPageMetadata({
     locale,
@@ -321,15 +376,12 @@ export const buildShopMetadata = async (locale: AppLocale, userId: string) => {
   const messages = getLocaleMessages(locale);
   const user = await fetchApiData<User>(`/user/details/${userId}`);
   const profileLabel = messages.breadcrumbs.userProfile;
+  const shopTitle = user?.shopName || user?.name;
 
   return createPageMetadata({
     locale,
     pathname: `/shop/${userId}`,
-    title: user
-      ? ['Zeleni svet', profileLabel, user.shopName, user.name]
-          .filter(Boolean)
-          .join(' | ')
-      : `Zeleni svet | ${profileLabel}`,
+    title: createEntityTitle(shopTitle, profileLabel),
     description: truncate(
       stripHtml(
         user?.shopDescription || messages.shopPage.meta.descriptionFallback
@@ -347,19 +399,47 @@ export const buildServiceMetadata = async (
 ) => {
   const messages = getLocaleMessages(locale);
   const service = await fetchApiData<ServiceListing>(`/services/${serviceId}`);
-  const serviceLabel = messages.breadcrumbs.services;
+  const serviceLabel = messages.topContent.service;
 
   return createPageMetadata({
     locale,
     pathname: `/services/${serviceId}`,
-    title: service?.title
-      ? ['Zeleni svet', serviceLabel, service.title].filter(Boolean).join(' | ')
-      : `Zeleni svet | ${serviceLabel}`,
+    title: createEntityTitle(service?.title, serviceLabel),
     description: truncate(
       stripHtml(service?.description || messages.metaTags.defaultDescription)
     ),
     keywords:
       service?.services?.join(', ') || messages.metaTags.defaultKeywords,
     image: toAssetImageUrl(service?.images?.[0]) || DEFAULT_OG_IMAGE
+  });
+};
+
+export const buildOrderProductMetadata = async (
+  locale: AppLocale,
+  productId: string
+) => {
+  const messages = getLocaleMessages(locale);
+  const product = await fetchApiData<Product>(`/product/details/${productId}`);
+  const title = product?.title
+    ? [messages.orderProductView.breadcrumb, product.title].join(
+        TITLE_SEPARATOR
+      )
+    : messages.orderProductView.breadcrumb;
+
+  return createLocalizedPageMetadata({
+    locale,
+    pathname: `/order-product/${productId}`,
+    title,
+    description: truncate(
+      stripHtml(
+        product?.description ||
+          messages.orderProductView.metaFallbackDescription
+      )
+    ),
+    keywords:
+      stripHtml(product?.shortDescription || product?.description) ||
+      messages.metaTags.defaultKeywords,
+    image: toAssetImageUrl(product?.images?.[0]) || DEFAULT_OG_IMAGE,
+    noIndex: true
   });
 };

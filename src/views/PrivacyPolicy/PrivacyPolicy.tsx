@@ -1,30 +1,18 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 export const PrivacyPolicy = () => {
   const { t } = useTranslation();
   const pages = [
-    { label: 'Početna', route: '/' },
-    { label: 'Politika privatnosti', route: '/privacy-policy' }
+    { label: t('breadcrumbs.home'), route: '/' },
+    { label: t('privacyPolicyView.title'), route: '/privacy-policy' }
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.privacyPolicy.title')}
-        description={t('seo.privacyPolicy.description')}
-        keywords={t('seo.privacyPolicy.keywords')}
-      />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -47,65 +35,58 @@ export const PrivacyPolicy = () => {
 
         <Container maxWidth="md" sx={{ py: 6 }}>
           <Typography variant="h3" gutterBottom>
-            Politika privatnosti
+            {t('privacyPolicyView.title')}
           </Typography>
 
           <Typography variant="body1">
-            Ova politika privatnosti objašnjava kako prikupljamo, koristimo i
-            štitimo vaše lične podatke kada koristite našu web platformu.
+            {t('privacyPolicyView.intro')}
           </Typography>
 
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>
-              Koje podatke prikupljamo
+              {t('privacyPolicyView.sections.dataCollection.title')}
             </Typography>
             <Typography variant="body1">
-              Kada se prijavite putem Google ili Facebook-a, prikupljamo osnovne
-              osnovne javne podatke iz vašeg profila, uključujući vaše ime i
-              prezime, email adresu i profilnu sliku.
+              {t('privacyPolicyView.sections.dataCollection.body')}
             </Typography>
           </Box>
 
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>
-              Kako koristimo vaše podatke
+              {t('privacyPolicyView.sections.dataUsage.title')}
             </Typography>
             <Typography variant="body1">
-              Vaše podatke koristimo isključivo za kreiranje korisničkog profila
-              i poboljšanje vašeg iskustva na našoj platformi. Ne delimo i ne
-              prodajemo vaše podatke trećim licima.
+              {t('privacyPolicyView.sections.dataUsage.body')}
             </Typography>
           </Box>
 
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>
-              O našoj platformi
+              {t('privacyPolicyView.sections.platform.title')}
             </Typography>
             <Typography variant="body1">
-              Naša platforma omogućava lokalnim prodavnicama i malim biznisima
-              da oglase svoje proizvode. Mi sami ne prodajemo proizvode niti
-              naplaćujemo bilo kakve naknade. Naš cilj je da spojimo kupce sa
-              prodavcima na jednom mestu.
+              {t('privacyPolicyView.sections.platform.body')}
             </Typography>
           </Box>
 
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>
-              Brisanje podataka i kontakt
+              {t('privacyPolicyView.sections.deletionAndContact.title')}
             </Typography>
             <Typography variant="body1">
-              Ukoliko želite da obrišemo vaš nalog ili vaše podatke, možete nas
-              kontaktirati na <strong>info@zelenisvet.rs</strong>.
+              {t('privacyPolicyView.sections.deletionAndContact.prefix')}{' '}
+              <strong>info@zelenisvet.rs</strong>
+              {t('privacyPolicyView.sections.deletionAndContact.suffix')}
             </Typography>
           </Box>
 
           <Box mt={4}>
             <Typography variant="body2">
-              Poslednje ažuriranje: 28. jul 2025.
+              {t('privacyPolicyView.lastUpdated')}
             </Typography>
           </Box>
         </Container>
       </Box>
-    </Box>
+    </PageContent>
   );
 };
