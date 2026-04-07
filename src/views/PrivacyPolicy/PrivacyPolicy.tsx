@@ -1,3 +1,5 @@
+'use client';
+
 import { AppBreadcrumbs, MetaTags } from '@green-world/components';
 import { Box, Typography, Container } from '@mui/material';
 import { useTranslation } from 'react-i18next';

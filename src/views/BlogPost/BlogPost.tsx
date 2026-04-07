@@ -9,7 +9,7 @@ import {
   SocialMedia
 } from '@green-world/components';
 import { useAllBlogPosts } from '@green-world/hooks/useAllBlogPosts';
-import { useDebounce } from '@green-world/utils/helpers';
+import { useDebounce } from '@green-world/hooks/useDebounce';
 import {
   Box,
   Button,

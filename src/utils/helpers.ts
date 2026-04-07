@@ -1,7 +1,6 @@
 import i18n from '@green-world/i18n';
 import dayjs, { Dayjs } from 'dayjs';
 import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
 
 import { homeCategories, subGroups } from './constants';
 
@@ -161,17 +160,6 @@ export const getPlainTextFromHtml = (html?: string): string => {
     .forEach((el) => el.prepend(document.createTextNode('\n')));
 
   return doc.body.textContent?.trim() || '';
-};
-
-export const useDebounce = <T>(value: T, delay = 300) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-
-  return debouncedValue;
 };
 
 export const getGroupLabel = (group: string): string => {
