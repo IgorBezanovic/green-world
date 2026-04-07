@@ -1,7 +1,7 @@
-import { LOCALE_COOKIE_NAME, routing } from './routing';
 import { en } from './locales/en';
 import { ru } from './locales/ru';
 import { sr } from './locales/sr';
+import { LOCALE_COOKIE_NAME, routing } from './routing';
 
 export const SUPPORTED_LANGUAGES = ['sr', 'en', 'ru'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
