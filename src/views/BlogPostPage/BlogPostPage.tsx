@@ -9,6 +9,8 @@ import {
   CommentList,
   ZSLogoLogoMark,
   AppBreadcrumbs,
+  PageCenteredState,
+  PageContent,
   UserInfo
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
@@ -77,13 +79,7 @@ export const BlogPostPage = () => {
 
   if (loading || userLoading)
     return (
-      <Box
-        sx={{
-          width: '100%',
-          backgroundColor: 'background.paper',
-          minHeight: 'calc(100vh - 360px)'
-        }}
-      >
+      <PageContent>
         <Box
           sx={(theme) => ({
             maxWidth: '1400px',
@@ -163,13 +159,15 @@ export const BlogPostPage = () => {
             />
           </Box>
         </Box>
-      </Box>
+      </PageContent>
     );
   if (error)
     return (
-      <div style={{ padding: 32, color: '#dc2626' }}>
-        Error: {(error as any)?.message || String(error)}
-      </div>
+      <PageCenteredState>
+        <Typography color="error" sx={{ px: 2, textAlign: 'center' }}>
+          Error: {(error as any)?.message || String(error)}
+        </Typography>
+      </PageCenteredState>
     );
 
   const pages = [
@@ -179,13 +177,7 @@ export const BlogPostPage = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -444,6 +436,6 @@ export const BlogPostPage = () => {
           />
         </Box>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

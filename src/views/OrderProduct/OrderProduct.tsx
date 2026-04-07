@@ -1,9 +1,8 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { useOrderProduct } from '@green-world/hooks/useOrderProduct';
 import { useProduct } from '@green-world/hooks/useProduct';
-import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Box,
   Card,
@@ -19,7 +18,7 @@ import {
   useTheme
 } from '@mui/material';
 import { Loader2, Package, ShoppingCart } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
@@ -154,22 +153,6 @@ export const OrderProduct = () => {
     });
   };
 
-  const metaObj = useMemo(
-    () => ({
-      title: productData
-        ? ['Zeleni svet', productData.title, t('seo.product.label')]
-            .filter(Boolean)
-            .join(' | ')
-        : t('orderProductView.metaFallbackTitle'),
-      description:
-        productData?.description ||
-        t('orderProductView.metaFallbackDescription'),
-      image:
-        formatImageUrl(productData?.images[0] || '') ||
-        'https://www.zelenisvet.rs/green-world.svg'
-    }),
-    [productData, t]
-  );
   if (!productId) return <></>;
 
   const pages = [
@@ -186,19 +169,7 @@ export const OrderProduct = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={metaObj.title}
-        description={metaObj.description}
-        keywords={metaObj.description}
-        image={metaObj.image}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -669,6 +640,6 @@ export const OrderProduct = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </PageContent>
   );
 };

@@ -1,6 +1,10 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  PageContent,
+  PageLoader
+} from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
@@ -307,25 +311,9 @@ export const CreateEditProduct = () => {
   };
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
-        }}
-      >
-        <CircularProgress color="success" />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
-  const pageTitle = `Zeleni svet | ${
-    productId
-      ? t('createEditProduct.pageTitleEdit')
-      : t('createEditProduct.pageTitleCreate')
-  }`;
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
@@ -340,14 +328,7 @@ export const CreateEditProduct = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={pageTitle} />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -915,6 +896,6 @@ export const CreateEditProduct = () => {
           {aiSnackbarMessage}
         </Alert>
       </Snackbar>
-    </Box>
+    </PageContent>
   );
 };

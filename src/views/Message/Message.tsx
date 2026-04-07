@@ -1,6 +1,5 @@
 'use client';
 
-import { MetaTags } from '@green-world/components';
 import { ChatContext, Message as Msg } from '@green-world/context/ChatContext';
 import UserContext from '@green-world/context/UserContext';
 import { useConversation } from '@green-world/hooks/useConversation';
@@ -35,7 +34,6 @@ export const Message = () => {
   const [messageInput, setMessageInput] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
 
-  const pageTitle = t('seo.message.title');
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { userId } = useContext(UserContext);
@@ -780,12 +778,6 @@ export const Message = () => {
         }
       })}
     >
-      <MetaTags
-        title={pageTitle}
-        description={t('seo.message.description')}
-        keywords={t('seo.message.keywords')}
-      />
-
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

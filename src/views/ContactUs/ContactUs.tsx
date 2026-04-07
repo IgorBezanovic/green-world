@@ -1,6 +1,5 @@
 'use client';
 
-import { MetaTags } from '@green-world/components';
 import { useContactUs } from '@green-world/hooks/useContactUs';
 import {
   Accordion,
@@ -86,12 +85,6 @@ ${contactForm.message}`;
 
   return (
     <Box sx={{ bgcolor: 'background.default' }}>
-      <MetaTags
-        title={t('seo.contactUs.title')}
-        description={t('seo.contactUs.description')}
-        keywords={t('seo.contactUs.keywords')}
-      />
-
       {/* HERO */}
       <Box
         sx={(theme) => ({

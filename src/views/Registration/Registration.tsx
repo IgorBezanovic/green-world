@@ -1,6 +1,8 @@
+'use client';
+
 import {
   AppBreadcrumbs,
-  MetaTags,
+  PageContent,
   RegistrationForm
 } from '@green-world/components';
 import { useSignUp } from '@green-world/hooks/useSignUp';
@@ -17,15 +19,7 @@ export const Registration = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={t('registrationView.metaTitle')} />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -47,6 +41,6 @@ export const Registration = () => {
         <AppBreadcrumbs pages={pages} />
         <RegistrationForm mutate={mutate} error={error} isLoading={isPending} />
       </Box>
-    </Box>
+    </PageContent>
   );
 };

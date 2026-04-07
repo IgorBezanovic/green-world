@@ -1,6 +1,10 @@
 'use client';
 
-import { AppBreadcrumbs, LoginForm, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  LoginForm,
+  PageContent
+} from '@green-world/components';
 import { useLogin } from '@green-world/hooks/useLogin';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -19,15 +23,7 @@ export const Login = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={t('loginView.metaTitle')} />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: 1400,
@@ -56,6 +52,6 @@ export const Login = () => {
           isUserLogged={isUserLogged}
         />
       </Box>
-    </Box>
+    </PageContent>
   );
 };

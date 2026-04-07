@@ -4,6 +4,7 @@ import {
   AppBreadcrumbs,
   BookmarkButton,
   CopyLinkButton,
+  PageContent,
   VoteButtons
 } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -121,13 +122,7 @@ export const Event = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -463,6 +458,6 @@ export const Event = () => {
           </Box>
         ) : null}
       </Box>
-    </Box>
+    </PageContent>
   );
 };

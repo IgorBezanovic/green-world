@@ -773,6 +773,47 @@ export const en = {
     },
     showing: 'Showing {shown} of {total} shops'
   },
+  documentsView: {
+    title: 'Documents',
+    sections: {
+      vision: {
+        title: 'Our vision and mission',
+        paragraph1:
+          'Our mission is to connect people who grow, plant, and care for plants with those who love them and want to enrich their space with nature.',
+        paragraph2:
+          'The vision of Green World is to become a central meeting place for nature lovers, gardening enthusiasts, and supporters of a sustainable lifestyle.'
+      },
+      privacy: {
+        title: 'Privacy Policy',
+        paragraph1:
+          'Green World respects the privacy of its users. Personal data is collected only to the extent necessary for using the platform.',
+        paragraph2:
+          'All data is stored securely and is not shared with third parties except where required by law.'
+      },
+      donations: {
+        title: 'Donations',
+        paragraph1:
+          'Donations are welcome and help us keep the platform free for all users.',
+        paragraph2:
+          'If you would like to support the development of Green World, you can do so with a symbolic donation.',
+        button: 'Donate - COMING SOON'
+      },
+      accountDeletion: {
+        title: 'Account deletion',
+        prefix:
+          'If you want to delete your account and all data from the platform, send a request to the email address',
+        suffix:
+          'After identity verification, all your data and published products will be permanently removed within 48 hours.'
+      },
+      disclaimer: {
+        title: 'Disclaimer',
+        paragraph1:
+          'Green World does not sell products published on the platform. We facilitate contact between buyers and sellers — our users publish, edit, and take responsibility for their own offers.',
+        paragraph2:
+          'However, in the event of a problem or dispute, our team may take over communication between the parties and help resolve misunderstandings.'
+      }
+    }
+  },
   blogView: {
     hero: {
       kicker: 'Zeleni Svet Blog',
@@ -788,6 +829,32 @@ export const en = {
     ctaSubtitle:
       'Join our community and be the first to know about new plants, stories, and events.',
     writeBlog: 'Write a Blog'
+  },
+  privacyPolicyView: {
+    title: 'Privacy Policy',
+    intro:
+      'This privacy policy explains how we collect, use, and protect your personal data when you use our web platform.',
+    sections: {
+      dataCollection: {
+        title: 'What data we collect',
+        body: 'When you sign in through Google or Facebook, we collect basic public profile data, including your first and last name, email address, and profile picture.'
+      },
+      dataUsage: {
+        title: 'How we use your data',
+        body: 'We use your data exclusively to create your user profile and improve your experience on our platform. We do not share or sell your data to third parties.'
+      },
+      platform: {
+        title: 'About our platform',
+        body: 'Our platform allows local shops and small businesses to advertise their products. We do not sell products ourselves and we do not charge any fees. Our goal is to connect buyers and sellers in one place.'
+      },
+      deletionAndContact: {
+        title: 'Data deletion and contact',
+        prefix:
+          'If you would like us to delete your account or your data, you can contact us at',
+        suffix: '.'
+      }
+    },
+    lastUpdated: 'Last updated: July 28, 2025.'
   },
   metaTags: {
     defaultDescription:

@@ -5,6 +5,7 @@ import {
   ItemsHero,
   ListingContentLayout,
   ListingStateSection,
+  PageContent,
   SharedPagination
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
@@ -222,7 +223,7 @@ export const Events = () => {
   ];
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
+    <PageContent sx={{ bgcolor: 'background.default', pb: 8 }}>
       <ItemsHero
         kicker="Pridruži se zajednici"
         title="Događaji"
@@ -711,6 +712,6 @@ export const Events = () => {
           />
         }
       />
-    </Box>
+    </PageContent>
   );
 };

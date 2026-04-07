@@ -4,7 +4,7 @@ import {
   ProductCard,
   UserInfo,
   EventProfileCard,
-  MetaTags,
+  PageContent,
   PromotionSection,
   DeleteConfirmDialog,
   WorkingHoursCard
@@ -158,27 +158,6 @@ export const UserProfile = () => {
     }
   };
 
-  const metaObj = useMemo(
-    () => ({
-      title: user
-        ? [
-            'Zeleni svet',
-            t('breadcrumbs.userProfile'),
-            user.shopName,
-            user.name
-          ]
-            .filter(Boolean)
-            .join(' | ')
-        : t('seo.userProfile.fallbackTitle'),
-      description:
-        user?.shopDescription || t('seo.userProfile.fallbackDescription'),
-      image:
-        formatImageUrl(user?.profileImage) ||
-        'https://www.zelenisvet.rs/green-world.svg'
-    }),
-    [user, t]
-  );
-
   const handleCloseDeleteServiceDialog = () => {
     if (isDeletingService) return;
     setServiceToDelete(null);
@@ -198,20 +177,7 @@ export const UserProfile = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={metaObj.title}
-        description={metaObj.description}
-        keywords={metaObj.description}
-        image={metaObj.image}
-      />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={{
           width: '100%',
@@ -701,6 +667,6 @@ export const UserProfile = () => {
         onConfirm={handleConfirmDeleteService}
         isLoading={isDeletingService}
       />
-    </Box>
+    </PageContent>
   );
 };

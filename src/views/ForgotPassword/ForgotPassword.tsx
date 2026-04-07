@@ -1,7 +1,9 @@
+'use client';
+
 import {
   AppBreadcrumbs,
   ForgotPasswordForm,
-  MetaTags
+  PageContent
 } from '@green-world/components';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -15,15 +17,7 @@ export const ForgotPassword = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={t('forgotPasswordView.metaTitle')} />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: 1400,
@@ -44,6 +38,6 @@ export const ForgotPassword = () => {
         <AppBreadcrumbs pages={pages} />
         <ForgotPasswordForm />
       </Box>
-    </Box>
+    </PageContent>
   );
 };

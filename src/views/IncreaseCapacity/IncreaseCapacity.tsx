@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
 import {
@@ -12,7 +12,6 @@ import {
   HandCoins
 } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import {
   CAPACITY_PACKAGES,
@@ -26,7 +25,6 @@ const pages = [
 ];
 
 export const IncreaseCapacity = () => {
-  const { t } = useTranslation();
   const theme = useTheme();
   const { user } = useContext(UserContext);
   const [selectedPackageId, setSelectedPackageId] = useState<string>(
@@ -41,18 +39,7 @@ export const IncreaseCapacity = () => {
   const totalRsd = selectedPackage.priceRsd;
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.increaseCapacity.title')}
-        description={t('seo.increaseCapacity.description')}
-        keywords={t('seo.increaseCapacity.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -317,6 +304,6 @@ export const IncreaseCapacity = () => {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

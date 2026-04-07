@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import {
@@ -59,18 +59,7 @@ export const PromoBundle = () => {
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags
-        title={t('seo.promoBundle.title')}
-        description={t('seo.promoBundle.description')}
-        keywords={t('seo.promoBundle.keywords')}
-      />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -580,6 +569,6 @@ export const PromoBundle = () => {
             );
           })()}
       </Box>
-    </Box>
+    </PageContent>
   );
 };

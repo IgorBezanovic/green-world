@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { Box, Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -35,15 +35,7 @@ export const ProfileSettings = ({
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={t('profileSettingsView.metaTitle')} />
-
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           width: '100%',
@@ -162,6 +154,6 @@ export const ProfileSettings = ({
           {children}
         </Box>
       </Box>
-    </Box>
+    </PageContent>
   );
 };

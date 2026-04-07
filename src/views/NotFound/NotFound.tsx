@@ -3,7 +3,6 @@
 import {
   Footer,
   Header,
-  MetaTags,
   Navbar,
   NavTrack,
   ZSLogoLogoMark
@@ -20,7 +19,6 @@ export const NotFound = () => {
 
   return (
     <React.Fragment>
-      <MetaTags title={t('notFoundView.metaTitle')} />
       <NavTrack />
       <Header />
       <Navbar />

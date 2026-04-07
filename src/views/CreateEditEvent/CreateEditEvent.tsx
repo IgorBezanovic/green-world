@@ -1,6 +1,10 @@
 'use client';
 
-import { AppBreadcrumbs, MetaTags } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  PageContent,
+  PageLoader
+} from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -165,23 +169,9 @@ export const CreateEditEvent = () => {
   };
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
-        }}
-      >
-        <CircularProgress color="success" />
-      </Box>
-    );
+    return <PageLoader />;
   }
 
-  const pageTitle = eventID
-    ? t('createEditEvent.pageTitleEdit')
-    : t('createEditEvent.pageTitleCreate');
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
@@ -194,14 +184,7 @@ export const CreateEditEvent = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        backgroundColor: 'background.paper',
-        minHeight: 'calc(100vh - 360px)'
-      }}
-    >
-      <MetaTags title={pageTitle} />
+    <PageContent sx={{ backgroundColor: 'background.paper' }}>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -584,6 +567,6 @@ export const CreateEditEvent = () => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </PageContent>
   );
 };
