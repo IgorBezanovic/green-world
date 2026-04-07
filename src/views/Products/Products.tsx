@@ -2,7 +2,6 @@
 
 import {
   ProductCard,
-  MetaTags,
   AppBreadcrumbs,
   ItemsHero,
   ListingContentLayout,
@@ -207,8 +206,6 @@ export const Products = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags title={t('productsView.metaTitle')} />
-
       <ItemsHero
         kicker={t('productsView.hero.kicker')}
         title={t('productsView.hero.title')}

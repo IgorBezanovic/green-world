@@ -301,7 +301,9 @@ export const buildBlogPostMetadata = async (
   const messages = getLocaleMessages(locale);
   const post = await fetchApiData<BlogPost>(`/blog-post/post/${postId}`);
   const title = post?.title
-    ? `${post.title} | ${SITE_NAME} Blog`
+    ? ['Zeleni svet', messages.seo.blog.title, post.title]
+        .filter(Boolean)
+        .join(' | ')
     : messages.seo.blog.title;
 
   return createPageMetadata({

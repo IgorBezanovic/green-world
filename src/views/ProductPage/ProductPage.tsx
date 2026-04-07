@@ -2,7 +2,6 @@
 
 import {
   ProductSection,
-  MetaTags,
   AppBreadcrumbs,
   SendMessageDialog,
   ImageGallery,
@@ -47,7 +46,7 @@ import {
   Receipt,
   CircleX
 } from 'lucide-react';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
@@ -81,21 +80,6 @@ export const ProductPage = () => {
     voteMutate({ vote });
   };
 
-  const metaObj = useMemo(
-    () => ({
-      title: productData
-        ? ['Zeleni svet', productData.title, t('seo.product.label')]
-            .filter(Boolean)
-            .join(' | ')
-        : t('seo.product.fallbackTitle'),
-      description:
-        productData?.description || t('seo.product.fallbackDescription'),
-      image:
-        formatImageUrl(productData?.images[0] || '') ||
-        'https://www.zelenisvet.rs/green-world.svg'
-    }),
-    [productData, t]
-  );
   if (!productId) return <></>;
 
   const pages = [
@@ -177,12 +161,6 @@ export const ProductPage = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags
-        title={metaObj.title}
-        description={metaObj.description}
-        keywords={metaObj.description}
-        image={metaObj.image}
-      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

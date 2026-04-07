@@ -4,7 +4,6 @@ import {
   AppBreadcrumbs,
   BookmarkButton,
   CopyLinkButton,
-  MetaTags,
   VoteButtons
 } from '@green-world/components';
 import { useEvent } from '@green-world/hooks/useEvent';
@@ -28,7 +27,6 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Calendar, Clock, Eye, Mail, MapPin, Phone, User } from 'lucide-react';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
@@ -72,21 +70,6 @@ export const Event = () => {
       }
     );
   };
-
-  const metaObj = useMemo(
-    () => ({
-      title: eventData
-        ? ['Zeleni svet', t('seo.event.label'), eventData.title]
-            .filter(Boolean)
-            .join(' | ')
-        : t('seo.event.fallbackTitle'),
-      description: eventData?.description || t('seo.event.fallbackDescription'),
-      image:
-        formatImageUrl(eventData?.coverImage, 85) ||
-        'https://www.zelenisvet.rs/green-world.svg'
-    }),
-    [eventData, t]
-  );
 
   if (!eventId) return null;
 
@@ -145,12 +128,6 @@ export const Event = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags
-        title={metaObj.title}
-        description={metaObj.description}
-        keywords={metaObj.description}
-        image={metaObj.image}
-      />
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
