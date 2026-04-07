@@ -1,3 +1,4 @@
+import { LOCALE_COOKIE_NAME, routing } from './routing';
 import { en } from './locales/en';
 import { ru } from './locales/ru';
 import { sr } from './locales/sr';
@@ -5,8 +6,7 @@ import { sr } from './locales/sr';
 export const SUPPORTED_LANGUAGES = ['sr', 'en', 'ru'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
-const STORAGE_KEY = 'app_lang';
-const DEFAULT_LANGUAGE: SupportedLanguage = 'sr';
+const DEFAULT_LANGUAGE = routing.defaultLocale as SupportedLanguage;
 
 const resources = { sr, en, ru } as const;
 
@@ -23,22 +23,46 @@ const normalizeLanguage = (language?: string | null): SupportedLanguage => {
   return DEFAULT_LANGUAGE;
 };
 
+const getCookieLanguage = (): SupportedLanguage | null => {
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  const cookie = document.cookie
+    .split('; ')
+    .find((entry) => entry.startsWith(`${LOCALE_COOKIE_NAME}=`));
+
+  if (!cookie) {
+    return null;
+  }
+
+  return normalizeLanguage(cookie.split('=').slice(1).join('='));
+};
+
+const setCookieLanguage = (language: SupportedLanguage) => {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  document.cookie = `${LOCALE_COOKIE_NAME}=${language}; path=/; SameSite=Lax`;
+};
+
 const getCurrentLanguage = (): SupportedLanguage => {
   if (typeof document !== 'undefined' && document.documentElement.lang) {
     return normalizeLanguage(document.documentElement.lang);
   }
 
-  if (typeof window !== 'undefined') {
-    return normalizeLanguage(localStorage.getItem(STORAGE_KEY));
+  const cookieLanguage = getCookieLanguage();
+
+  if (cookieLanguage) {
+    return cookieLanguage;
   }
 
   return DEFAULT_LANGUAGE;
 };
 
 const setCurrentLanguage = (language: SupportedLanguage) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEY, language);
-  }
+  setCookieLanguage(language);
 
   if (typeof document !== 'undefined') {
     document.documentElement.lang = language;
