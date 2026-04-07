@@ -4,7 +4,6 @@ import {
   AppBreadcrumbs,
   BlogCard,
   ItemsHero,
-  MetaTags,
   SharedPagination,
   SocialMedia
 } from '@green-world/components';
@@ -94,12 +93,6 @@ export const BlogPost = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags
-        title={t('seo.blog.title')}
-        description={t('seo.blog.description')}
-        keywords={t('seo.blog.keywords')}
-      />
-
       <ItemsHero
         kicker={t('blogView.hero.kicker')}
         title={t('blogView.hero.title')}

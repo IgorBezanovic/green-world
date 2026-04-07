@@ -9,7 +9,6 @@ import {
   CommentList,
   ZSLogoLogoMark,
   AppBreadcrumbs,
-  MetaTags,
   UserInfo
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
@@ -187,12 +186,6 @@ export const BlogPostPage = () => {
         minHeight: 'calc(100vh - 360px)'
       }}
     >
-      <MetaTags
-        title={t('seo.blog.title')}
-        description={t('seo.blog.description')}
-        keywords={t('seo.blog.keywords')}
-      />
-
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

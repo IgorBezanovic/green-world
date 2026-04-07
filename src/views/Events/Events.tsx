@@ -5,7 +5,6 @@ import {
   ItemsHero,
   ListingContentLayout,
   ListingStateSection,
-  MetaTags,
   SharedPagination
 } from '@green-world/components';
 import { useAllEvents } from '@green-world/hooks/useAllEvents';
@@ -224,12 +223,6 @@ export const Events = () => {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
-      <MetaTags
-        title={t('seo.events.title')}
-        description={t('seo.events.description')}
-        keywords={t('seo.events.keywords')}
-      />
-
       <ItemsHero
         kicker="Pridruži se zajednici"
         title="Događaji"
