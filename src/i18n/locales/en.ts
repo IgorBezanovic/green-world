@@ -1051,6 +1051,7 @@ export const en = {
     workingHours: 'Working hours',
     closed: 'Closed',
     productsCount: '{count} products',
+    servicesCount: '{count} services',
     searchPlaceholder: 'Search shop...'
   },
   shopStatsCard: {

@@ -7,10 +7,12 @@ import {
   PageLoader,
   ProductCard,
   SendMessageDialog,
+  ServiceListingCard,
   SocialMedia,
   WorkingHoursCard
 } from '@green-world/components';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { useAllUserServices } from '@green-world/hooks/useAllUserServices';
 import { useUser } from '@green-world/hooks/useUser';
 import {
   formatImageUrl,
@@ -27,7 +29,9 @@ import {
   Button,
   InputBase,
   Chip,
-  alpha
+  alpha,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
 import {
   Phone,
@@ -37,9 +41,11 @@ import {
   MapPin,
   X,
   Search,
-  MessageCircle
+  MessageCircle,
+  Package,
+  Wrench
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
@@ -48,8 +54,22 @@ export const ShopPage = () => {
   const { userId } = useParams();
   const { data, isLoading } = useUser(userId || '');
   const { data: sellerProducts } = useAllUserProducts(userId);
+  const { data: sellerServices } = useAllUserServices(userId);
   const [search, setSearch] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'products' | 'services'>(
+    'products'
+  );
   const theme = useTheme();
+
+  const hasProducts = (sellerProducts?.length ?? 0) > 0;
+  const hasServices = (sellerServices?.length ?? 0) > 0;
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const showSwitch = mounted && hasProducts && hasServices;
 
   const handleClear = () => {
     setSearch('');
@@ -69,6 +89,19 @@ export const ShopPage = () => {
       return matchesName || matchesDescription;
     });
   }, [sellerProducts, search]);
+
+  const filteredServices = useMemo(() => {
+    return sellerServices?.filter((svc) => {
+      const matchesTitle = svc.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      return matchesTitle;
+    });
+  }, [sellerServices, search]);
+
+  // When only services exist, default to services tab
+  const resolvedTab: 'products' | 'services' =
+    !hasProducts && hasServices ? 'services' : activeTab;
 
   if (!userId) return <></>;
   if (isLoading) {
@@ -199,7 +232,7 @@ export const ShopPage = () => {
 
         {/* Avatar */}
         <Avatar
-          src={formatImageUrl(data?.profileImage, 120)}
+          src={formatImageUrl(data?.profileImage, 55)}
           sx={{
             width: 120,
             height: 120,
@@ -439,7 +472,7 @@ export const ShopPage = () => {
           )}
         </Box>
 
-        {/* PRODUCTS */}
+        {/* CONTENT */}
         <Box>
           {/* HEADER */}
           <Box
@@ -447,15 +480,77 @@ export const ShopPage = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              mb: 3
+              mb: 3,
+              flexWrap: 'wrap',
+              gap: 2
             }}
           >
-            <Typography variant="h4">{t('navbar.products')}</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              {showSwitch ? (
+                <ToggleButtonGroup
+                  value={resolvedTab === activeTab ? activeTab : resolvedTab}
+                  exclusive
+                  onChange={(_, val) => {
+                    if (val) setActiveTab(val);
+                  }}
+                  size="small"
+                  sx={{
+                    '& .MuiToggleButton-root': {
+                      px: 2.5,
+                      py: 1,
+                      gap: 1,
+                      fontWeight: 600,
+                      borderRadius: '24px !important',
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      textTransform: 'none',
+                      '&.Mui-selected': {
+                        backgroundColor: 'secondary.main',
+                        color: 'white',
+                        borderColor: 'secondary.main',
+                        '&:hover': {
+                          backgroundColor: 'secondary.dark'
+                        }
+                      }
+                    },
+                    '& .MuiToggleButtonGroup-grouped': {
+                      '&:not(:last-of-type)': { mr: 1, borderRight: 'inherit' },
+                      '&:not(:first-of-type)': { borderLeft: 'inherit' }
+                    }
+                  }}
+                >
+                  <ToggleButton value="products">
+                    <Package
+                      size={16}
+                      color={resolvedTab === 'products' ? 'white' : '#266041'}
+                    />
+                    {t('navbar.products')}
+                  </ToggleButton>
+                  <ToggleButton value="services">
+                    <Wrench
+                      size={16}
+                      color={resolvedTab === 'services' ? 'white' : '#266041'}
+                    />
+                    {t('navbar.services')}
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              ) : (
+                <Typography variant="h4">
+                  {resolvedTab === 'services'
+                    ? t('navbar.services')
+                    : t('navbar.products')}
+                </Typography>
+              )}
+            </Box>
 
             <Typography color="text.secondary">
-              {t('shopPage.productsCount', {
-                count: filteredProducts?.length || 0
-              })}
+              {resolvedTab === 'services'
+                ? t('shopPage.servicesCount', {
+                    count: filteredServices?.length || 0
+                  })
+                : t('shopPage.productsCount', {
+                    count: filteredProducts?.length || 0
+                  })}
             </Typography>
           </Box>
 
@@ -488,7 +583,7 @@ export const ShopPage = () => {
             )}
           </Box>
 
-          {/* PRODUCTS GRID */}
+          {/* GRID */}
           <Box
             sx={(theme) => ({
               display: 'grid',
@@ -505,9 +600,13 @@ export const ShopPage = () => {
               }
             })}
           >
-            {filteredProducts?.map((product) => (
-              <ProductCard product={product} key={product._id} />
-            ))}
+            {resolvedTab === 'services'
+              ? filteredServices?.map((service) => (
+                  <ServiceListingCard service={service} key={service._id} />
+                ))
+              : filteredProducts?.map((product) => (
+                  <ProductCard product={product} key={product._id} />
+                ))}
           </Box>
         </Box>
       </Box>

@@ -313,6 +313,7 @@ export type ServiceListingFiltersParams = {
   search?: string;
   page?: number;
   pageSize?: number;
+  providerId?: string;
 };
 
 export type PaginatedMeta = {

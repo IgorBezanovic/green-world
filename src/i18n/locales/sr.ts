@@ -1055,6 +1055,7 @@ export const sr = {
     workingHours: 'Radno vreme',
     closed: 'Zatvoreno',
     productsCount: '{count} proizvoda',
+    servicesCount: '{count} usluga',
     searchPlaceholder: 'Pretraži prodavnicu...'
   },
   shopStatsCard: {

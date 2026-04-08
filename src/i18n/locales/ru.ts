@@ -1027,6 +1027,7 @@ export const ru = {
     workingHours: 'Часы работы',
     closed: 'Закрыто',
     productsCount: '{count} товаров',
+    servicesCount: '{count} услуг',
     searchPlaceholder: 'Поиск по магазину...'
   },
   shopStatsCard: {
