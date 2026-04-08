@@ -214,6 +214,7 @@ export type Event = {
   viewCounter?: number;
   likes?: string[];
   dislikes?: string[];
+  comments?: Comment[];
 };
 
 export type HomeCategory = {
