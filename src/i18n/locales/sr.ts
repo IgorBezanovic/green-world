@@ -1707,5 +1707,12 @@ export const sr = {
     errorKeywordsFormat: 'Ključne reči moraju biti jedne reči bez razmaka',
     errorKeywordOneWord: 'Ključna reč mora biti jedna reč',
     errorTimeOfReading: 'Unesite pozitivnu vrednost (minuti)'
+  },
+  deletedItem: {
+    title: 'Ovaj {{itemType}} više nije dostupan',
+    description:
+      'Korisnik je obrisao ovaj {{itemType}}. Sadržaj više nije moguće pregledati.',
+    visitShop: 'Poseti korisnika',
+    creatorGone: 'Ovaj korisnik više nije korisnik Zelenog Sveta.'
   }
 } as const;

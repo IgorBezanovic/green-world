@@ -7,11 +7,13 @@ import {
   CommentList,
   CopyLinkButton,
   PageContent,
-  VoteButtons
+  VoteButtons,
+  DeletedItemOverlay
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useCreateEventComment } from '@green-world/hooks/useCreateEventComment';
 import { useEvent } from '@green-world/hooks/useEvent';
+import { useUser } from '@green-world/hooks/useUser';
 import { useVoteEvent } from '@green-world/hooks/useVoteEvent';
 import {
   formatDate,
@@ -62,6 +64,9 @@ export const Event = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
   const { data: eventData, isLoading, refetch } = useEvent(eventId!);
+  const { data: creatorData, isLoading: creatorLoading } = useUser(
+    eventData?.createdBy || ''
+  );
   const { mutate: voteMutate } = useVoteEvent(eventId || '');
   const { mutate: createComment } = useCreateEventComment();
   const { user } = useContext(UserContext);
@@ -145,6 +150,13 @@ export const Event = () => {
 
   return (
     <PageContent>
+      {(eventData as any)?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="dogadjaj"
+          creatorId={eventData?.createdBy as string | undefined}
+          creatorNotFound={!creatorLoading && !creatorData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

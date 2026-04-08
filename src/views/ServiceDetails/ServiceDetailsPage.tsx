@@ -8,7 +8,8 @@ import {
   CopyLinkButton,
   BookmarkButton,
   PageCenteredState,
-  PageContent
+  PageContent,
+  DeletedItemOverlay
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import {
@@ -223,6 +224,13 @@ export const ServiceDetailsPage = () => {
 
   return (
     <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
+      {(service as any)?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="uslugu"
+          creatorId={provider?._id}
+          creatorNotFound={!isLoading && !provider}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

@@ -37,6 +37,7 @@ export * from '@green-world/components/MetaLoginAuth';
 export * from '@green-world/components/Navbar';
 export * from '@green-world/components/NavTrack';
 export * from '@green-world/components/DeleteConfirmDialog';
+export * from '@green-world/components/DeletedItemOverlay';
 export * from '@green-world/components/ProductCard';
 export * from '@green-world/components/ProductSection';
 export * from '@green-world/components/PromotionCard';
