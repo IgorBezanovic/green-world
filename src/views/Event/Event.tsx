@@ -3,10 +3,14 @@
 import {
   AppBreadcrumbs,
   BookmarkButton,
+  CommentForm,
+  CommentList,
   CopyLinkButton,
   PageContent,
   VoteButtons
 } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
+import { useCreateEventComment } from '@green-world/hooks/useCreateEventComment';
 import { useEvent } from '@green-world/hooks/useEvent';
 import { useVoteEvent } from '@green-world/hooks/useVoteEvent';
 import {
@@ -28,6 +32,7 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Calendar, Clock, Eye, Mail, MapPin, Phone, User } from 'lucide-react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
@@ -58,6 +63,8 @@ export const Event = () => {
   const navigate = useNavigate();
   const { data: eventData, isLoading, refetch } = useEvent(eventId!);
   const { mutate: voteMutate } = useVoteEvent(eventId || '');
+  const { mutate: createComment } = useCreateEventComment();
+  const { user } = useContext(UserContext);
 
   const handleEventVote = (vote: 'like' | 'dislike' | string) => {
     if (!eventId) return;
@@ -70,6 +77,21 @@ export const Event = () => {
         }
       }
     );
+  };
+
+  const handleAddComment = (text: string, parentComment?: string | null) => {
+    if (!eventId) return;
+
+    const author =
+      `${user?.name || ''} ${user?.lastname || ''}`.trim() ||
+      t('common.unknownUser');
+
+    try {
+      createComment({ actionId: eventId, text, parentComment, author });
+      refetch();
+    } catch (e) {
+      console.error('Create event comment failed', e);
+    }
   };
 
   if (!eventId) return null;
@@ -455,6 +477,21 @@ export const Event = () => {
               </Typography>
               <Box {...getHtmlDescriptionProps(eventData.description)} />
             </Box>
+
+            {/* ── Comments ── */}
+            <Card sx={{ mt: 2, p: 2 }}>
+              <Typography
+                variant="h4"
+                sx={{ fontSize: '1.25rem', fontWeight: 600, mb: 0.75 }}
+              >
+                {t('blogPostPage.leaveComment')}
+              </Typography>
+              <CommentForm onSubmit={handleAddComment} />
+              <CommentList
+                comments={eventData?.comments || []}
+                onReply={handleAddComment}
+              />
+            </Card>
           </Box>
         ) : null}
       </Box>
