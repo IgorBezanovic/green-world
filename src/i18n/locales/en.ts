@@ -1699,5 +1699,12 @@ export const en = {
     errorKeywordsFormat: 'Keywords must be single words without spaces',
     errorKeywordOneWord: 'Keyword must be a single word',
     errorTimeOfReading: 'Enter a positive value (minutes)'
+  },
+  deletedItem: {
+    title: 'This {{itemType}} is no longer available',
+    description:
+      'The owner has deleted this {{itemType}}. The content can no longer be accessed.',
+    visitShop: 'Visit user profile',
+    creatorGone: 'This user is no longer a member of Zeleni Svet.'
   }
 } as const;

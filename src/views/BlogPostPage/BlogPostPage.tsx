@@ -11,7 +11,8 @@ import {
   AppBreadcrumbs,
   PageCenteredState,
   PageContent,
-  UserInfo
+  UserInfo,
+  DeletedItemOverlay
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import useBlogPost from '@green-world/hooks/useBlogPost';
@@ -178,6 +179,13 @@ export const BlogPostPage = () => {
 
   return (
     <PageContent>
+      {post?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="blog post"
+          creatorId={post?.createdBy}
+          creatorNotFound={!userLoading && !sellerData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

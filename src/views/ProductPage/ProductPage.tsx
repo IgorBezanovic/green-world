@@ -8,7 +8,8 @@ import {
   ImageGallery,
   VoteButtons,
   CopyLinkButton,
-  BookmarkButton
+  BookmarkButton,
+  DeletedItemOverlay
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -156,6 +157,13 @@ export const ProductPage = () => {
 
   return (
     <PageContent>
+      {productData?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="proizvod"
+          creatorId={productData?.createdBy}
+          creatorNotFound={!userLoading && !sellerData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
