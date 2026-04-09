@@ -55,7 +55,7 @@ export const SectionHeader = ({
             minWidth: 0
           }}
         >
-          <Typography fontWeight={600}>{title}</Typography>
+          <Typography variant="body1">{title}</Typography>
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>

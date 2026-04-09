@@ -866,7 +866,7 @@ export const en = {
     home: {
       title: 'Buy Flowers Online | Zeleni Svet | Online Florist Serbia',
       description:
-        'Buy flowers online at Zeleni Svet – the leading marketplace for online florists and flowers in Serbia. Browse potted plants, cut flowers, and gardening supplies with delivery.',
+        'Buy flowers online at Zeleni Svet – the leading marketplace for florists in Serbia. Browse potted plants, cut flowers, and gardening supplies.',
       keywords:
         'buy flowers online, online florist, order flowers online, flower delivery, florist serbia, flowers belgrade, zeleni svet, flower marketplace, gardening serbia'
     },

@@ -208,7 +208,11 @@ export const Header = () => {
         >
           <IconButton
             onClick={toggleMobileSearch}
-            sx={{ [theme.breakpoints.up('md')]: { display: 'none' } }}
+            sx={{
+              display: 'none',
+              [theme.breakpoints.up('xxs')]: { display: 'flex' },
+              [theme.breakpoints.up('md')]: { display: 'none' }
+            }}
             aria-label="Search in application"
           >
             <Search style={{ width: 24, height: 24, color: 'inherit' }} />
@@ -250,9 +254,9 @@ export const Header = () => {
           sx={{
             mt: 5,
             transition: 'all 0.3s ease',
-            [theme.breakpoints.up('md')]: {
-              display: 'none'
-            }
+            display: 'none',
+            [theme.breakpoints.up('xxs')]: { display: 'block' },
+            [theme.breakpoints.up('md')]: { display: 'none' }
           }}
         >
           <AISearch />

@@ -369,9 +369,7 @@ export const Events = () => {
                   }}
                 >
                   <Calendar size={18} color={theme.palette.success.dark} />
-                  <Typography variant="body1" fontWeight={700}>
-                    O događajima
-                  </Typography>
+                  <Typography variant="body1">O događajima</Typography>
                 </Box>
                 <Typography variant="body2" color="text.secondary">
                   Svaki događaj nudi priliku za učenje, druženje i pozitivan
@@ -381,7 +379,6 @@ export const Events = () => {
                 <Box sx={{ mt: 1.5 }}>
                   <Typography
                     variant="body2"
-                    fontWeight={700}
                     color="text.primary"
                     sx={{ mb: 0.75 }}
                   >
@@ -627,7 +624,6 @@ export const Events = () => {
                                       <Calendar size={14} />
                                       <Typography
                                         variant="caption"
-                                        fontWeight={600}
                                         color="text.secondary"
                                         sx={{
                                           whiteSpace: 'nowrap',
@@ -642,7 +638,6 @@ export const Events = () => {
                                       <User size={14} />
                                       <Typography
                                         variant="caption"
-                                        fontWeight={600}
                                         color="text.secondary"
                                         sx={{
                                           whiteSpace: 'nowrap',
@@ -667,7 +662,6 @@ export const Events = () => {
                                   <Typography
                                     variant="caption"
                                     color="text.secondary"
-                                    fontWeight={700}
                                     sx={{
                                       whiteSpace: 'nowrap',
                                       fontSize: '0.72rem'

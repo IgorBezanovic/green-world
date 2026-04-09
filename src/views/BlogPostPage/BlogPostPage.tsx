@@ -230,7 +230,7 @@ export const BlogPostPage = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            gap: 4,
+            gap: 3,
             [theme.breakpoints.up('md')]: {
               width: '75%'
             }
@@ -241,9 +241,13 @@ export const BlogPostPage = () => {
               sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: 3,
+                gap: 1,
                 mb: 0.75,
-                mt: 1
+                mt: 1,
+                flexDirection: 'column',
+                [theme.breakpoints.up('xs')]: {
+                  flexDirection: 'row'
+                }
               }}
             >
               <ZSLogoLogoMark
@@ -251,22 +255,26 @@ export const BlogPostPage = () => {
                 width="24px"
                 height="42spx"
               />
-              {post.keywords?.map((kw) => (
-                <Chip
-                  key={kw}
-                  label={kw}
-                  variant="outlined"
-                  color="secondary"
-                />
-              ))}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  flexWrap: 'wrap'
+                }}
+              >
+                {post.keywords?.map((kw) => (
+                  <Chip
+                    key={kw}
+                    label={kw}
+                    variant="outlined"
+                    color="secondary"
+                  />
+                ))}
+              </Box>
             </Box>
           )}
-          <Typography
-            variant="h1"
-            sx={{ fontSize: '2.25rem !important', fontWeight: 700 }}
-          >
-            {post?.title}
-          </Typography>
+          <Typography variant="h1">{post?.title}</Typography>
 
           <Box
             sx={(theme) => ({

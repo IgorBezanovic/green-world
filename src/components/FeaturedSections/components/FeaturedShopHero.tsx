@@ -154,7 +154,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
               }}
             >
               <Package size={18} />
-              <Typography fontWeight={600}>
+              <Typography variant="body2">
                 {t('featuredShopHero.productsCount', {
                   count: shop?.numberOfProducts
                 })}
@@ -176,7 +176,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
             }}
           >
             <Star size={18} fill={theme.palette.success.main} />
-            <Typography fontWeight={600}>5.0</Typography>
+            <Typography variant="body2">5.0</Typography>
           </Box>
         </Box>
       </Box>

@@ -546,7 +546,7 @@ export const EditUserData = () => {
             }}
           >
             <Box>
-              <Typography fontWeight={600}>
+              <Typography variant="body2" color="text.secondary">
                 {t('editUserData.settings.onlineOnlyTitle')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -573,7 +573,7 @@ export const EditUserData = () => {
             }}
           >
             <Box>
-              <Typography fontWeight={600}>
+              <Typography variant="body2" color="text.secondary">
                 {t('editUserData.settings.onlyOnSiteTitle')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -619,7 +619,7 @@ export const EditUserData = () => {
                   }
                 })}
               >
-                <Typography fontWeight={600}>{label}</Typography>
+                <Typography variant="body1">{label}</Typography>
 
                 <TextField
                   type="time"

@@ -152,7 +152,7 @@ export const ServiceListingCard = ({ service }: ServiceListingCardProps) => {
             {(service.providerId as any)?.name || t('service.user')}{' '}
             {(service.providerId as any)?.lastname || ''}
           </Typography>
-          <Typography variant="body2" fontWeight={600} color="primary.main">
+          <Typography variant="body2" color="primary.main">
             {service.priceFrom
               ? `${t('service.fromPricePrefix')} ${service.priceFrom} ${t('service.currency')}`
               : t('service.onQuery')}
