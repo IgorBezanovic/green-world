@@ -140,9 +140,7 @@ export const AISearch = () => {
             />
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography variant="body2" fontWeight={500}>
-                  {option.title}
-                </Typography>
+                <Typography variant="body2">{option.title}</Typography>
                 {option.isPromoted && (
                   <>
                     <Chip

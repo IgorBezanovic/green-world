@@ -48,7 +48,7 @@ export const CommentItem = ({
             })}
             spacing={2}
           >
-            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+            <Typography variant="subtitle2">
               {comment?.author || t('common.unknownUser')}
             </Typography>
             <Typography variant="caption" color="text.secondary">
@@ -131,7 +131,7 @@ export const CommentItem = ({
                   })}
                   spacing={2}
                 >
-                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  <Typography variant="subtitle2">
                     {r?.author || t('common.unknownUser')}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">

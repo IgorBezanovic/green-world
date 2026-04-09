@@ -22,7 +22,7 @@ export const StatsBarChart = ({ user }: { user: User }) => {
       }}
     >
       <Box sx={{ pb: 2.5 }}>
-        <Typography fontWeight={600} mb={2}>
+        <Typography variant="body1" mb={2}>
           {t('statsBarChart.title')}
         </Typography>
 

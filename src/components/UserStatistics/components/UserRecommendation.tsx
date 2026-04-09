@@ -19,21 +19,19 @@ export const UserRecommendation = () => {
     >
       <Stack direction="row" spacing={1.5} mb={1}>
         <Sparkles size={20} />
-        <Typography fontWeight={600}>
-          {t('userRecommendation.title')}
-        </Typography>
+        <Typography variant="body1">{t('userRecommendation.title')}</Typography>
       </Stack>
 
-      <Typography fontSize={14} color="text.secondary" mb={2}>
+      <Typography variant="body2" color="text.secondary" mb={2}>
         {t('userRecommendation.description')}
       </Typography>
 
       <Stack spacing={1}>
-        <Typography fontSize={14}>{t('userRecommendation.item1')}</Typography>
-        <Typography fontSize={14}>{t('userRecommendation.item2')}</Typography>
-        <Typography fontSize={14}>{t('userRecommendation.item3')}</Typography>
-        <Typography fontSize={14}>{t('userRecommendation.item4')}</Typography>
-        <Typography fontSize={14}>{t('userRecommendation.item5')}</Typography>
+        <Typography variant="body2">{t('userRecommendation.item1')}</Typography>
+        <Typography variant="body2">{t('userRecommendation.item2')}</Typography>
+        <Typography variant="body2">{t('userRecommendation.item3')}</Typography>
+        <Typography variant="body2">{t('userRecommendation.item4')}</Typography>
+        <Typography variant="body2">{t('userRecommendation.item5')}</Typography>
       </Stack>
     </Box>
   );

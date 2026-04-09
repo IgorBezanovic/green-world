@@ -49,15 +49,11 @@ export const StatCard = ({
         </Box>
 
         {/* Value */}
-        <Typography variant="h4" fontWeight={700}>
-          {value}
-        </Typography>
+        <Typography variant="h4">{value}</Typography>
       </Box>
 
       {/* Title */}
-      <Typography variant="subtitle1" fontWeight={600}>
-        {title}
-      </Typography>
+      <Typography variant="subtitle1">{title}</Typography>
 
       {/* Subtitle */}
       <Typography variant="body1" color="text.secondary">

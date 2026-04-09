@@ -32,7 +32,7 @@ export const CommentList = ({
 
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h6" component="h3" sx={{ fontWeight: 600, mb: 1.5 }}>
+      <Typography variant="h6" component="h3" sx={{ mb: 1.5 }}>
         {t('commentList.title', { count: comments.length })}
       </Typography>
 

@@ -1,6 +1,7 @@
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { Product } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import { GridProducts, LazySection } from '../../components';
 
@@ -11,7 +12,13 @@ type SectionProps = {
 };
 
 export const ProductSection = ({ title, subTitle, products }: SectionProps) => {
-  if (!products || products.length === 0) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !products || products.length === 0) return null;
 
   return (
     <LazySection>

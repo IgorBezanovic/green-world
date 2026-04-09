@@ -202,9 +202,7 @@ export const ShopCard = ({
 
           {/* TITLE & CHIPS */}
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4" fontWeight={700}>
-              {title}
-            </Typography>
+            <Typography variant="h4">{title}</Typography>
 
             <Box
               sx={{

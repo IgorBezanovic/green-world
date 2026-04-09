@@ -241,7 +241,7 @@ export const PromoBundle = () => {
                 </Box>
               )}
               <CardContent>
-                <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   {t(bundle.name)}
                 </Typography>
                 <Typography

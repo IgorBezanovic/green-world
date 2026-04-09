@@ -861,7 +861,7 @@ export const sr = {
   },
   metaTags: {
     defaultDescription:
-      'Zeleni Svet je vodeća online cvećara i marketplace za kupovinu cveća i biljaka u Srbiji. Povežite se sa najboljim cvećarama, pronađite saksijsko cveće, rezano cveće i baštenski asortiman na jednom mestu.',
+      'Zeleni Svet – vodeća platforma za kupovinu cveća i biljaka u Srbiji. Povežite se sa online cvećarama i pronađite saksijsko i rezano cveće.',
     defaultKeywords:
       'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće, cveće srbija, dostava cveća beograd, cvećara online srbija, rasadnici srbija, kupovina biljaka, baštovanstvo, saksijsko cveće, rezano cveće, dekoracija bašte, cvećare, zeleni svet, marketplace za cveće'
   },
@@ -869,7 +869,7 @@ export const sr = {
     home: {
       title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
       description:
-        'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Pronađite online cvećare, saksijsko cveće i baštenski asortiman uz dostavu.',
+        'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Online cvećare, saksijsko cveće i baštenski asortiman.',
       keywords:
         'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće online, dostava cveća, cvećara srbija, cveće beograd, zeleni svet, marketplace cveća, baštovanstvo srbija'
     },

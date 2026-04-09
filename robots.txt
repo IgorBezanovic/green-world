@@ -1,7 +1,8 @@
-user-agent: *
-disallow: /downloads/
+User-agent: *
+Allow: /
+Disallow: /downloads/
 
-user-agent: magicsearchbot
-disallow: /uploads/
+User-agent: magicsearchbot
+Disallow: /uploads/
 
 Sitemap: https://www.zelenisvet.rs/sitemap.xml
