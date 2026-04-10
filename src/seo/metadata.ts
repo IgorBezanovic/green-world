@@ -13,7 +13,7 @@ import type { Metadata } from 'next';
 
 const SITE_NAME = 'Zeleni Svet';
 const SITE_URL = 'https://www.zelenisvet.rs';
-const DEFAULT_OG_IMAGE = '/opengraph-image';
+const DEFAULT_OG_IMAGE = '/zeleni-svet-yellow-transparent.png';
 const DEFAULT_OG_WIDTH = 1200;
 const DEFAULT_OG_HEIGHT = 630;
 const TITLE_SEPARATOR = ' | ';

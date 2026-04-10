@@ -168,13 +168,6 @@ export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
             <>
               {t('featuredProduct.currency')}{' '}
               {product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-              <Typography
-                component="span"
-                variant="caption"
-                sx={{ fontSize: '0.75em' }}
-              >
-                ,00
-              </Typography>
             </>
           )}
         </Typography>

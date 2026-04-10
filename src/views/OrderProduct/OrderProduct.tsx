@@ -111,7 +111,7 @@ export const OrderProduct = () => {
         productName: productData.title,
         productPrice: productData.priceOnRequest
           ? t('orderProductView.priceOnRequest')
-          : `${productData?.price.toLocaleString()},00 ${t('service.currency')}`,
+          : `${productData?.price.toLocaleString()} ${t('service.currency')}`,
         productId: productData._id
       }));
     }
