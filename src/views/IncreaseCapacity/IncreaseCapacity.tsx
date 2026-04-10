@@ -276,7 +276,7 @@ export const IncreaseCapacity = () => {
               }}
             >
               Ukupno za plaćanje: {selectedPackage.name} ={' '}
-              <strong>{totalRsd},00 RSD</strong>
+              <strong>{totalRsd} RSD</strong>
             </Typography>
             <Box
               sx={{

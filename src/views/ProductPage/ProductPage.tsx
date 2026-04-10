@@ -258,9 +258,11 @@ export const ProductPage = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, my: 5 }}>
                   <Typography variant="h2">
-                    {productData?.priceOnRequest
-                      ? t('productPage.priceOnRequest')
-                      : `${productData?.price.toLocaleString()},00 RSD`}
+                    {productData?.priceOnRequest ? (
+                      t('productPage.priceOnRequest')
+                    ) : (
+                      <>{productData?.price.toLocaleString()} RSD</>
+                    )}
                   </Typography>
                   <Typography
                     variant="button"
