@@ -200,7 +200,7 @@ export const Products = () => {
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <ItemsHero
         kicker={t('productsView.hero.kicker')}
         title={t('productsView.hero.title')}
@@ -514,7 +514,7 @@ export const Products = () => {
                   [theme.breakpoints.up('md')]: {
                     gridTemplateColumns: hasProducts ? 'repeat(3, 1fr)' : 'none'
                   },
-                  [theme.breakpoints.up('lgm')]: {
+                  [theme.breakpoints.up('xl')]: {
                     gridTemplateColumns: hasProducts ? 'repeat(4, 1fr)' : 'none'
                   }
                 }}

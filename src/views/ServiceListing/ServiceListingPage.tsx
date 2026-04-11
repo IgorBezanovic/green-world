@@ -126,7 +126,7 @@ export const ServiceListingPage = () => {
   };
 
   return (
-    <PageContent sx={{ bgcolor: 'background.default', pb: 8 }}>
+    <PageContent>
       <ItemsHero
         kicker="Pronađi uslugu"
         title={t('service.title')}
@@ -354,7 +354,7 @@ export const ServiceListingPage = () => {
                       ? 'repeat(3, 1fr)'
                       : 'none'
                   },
-                  [theme.breakpoints.up('lgm')]: {
+                  [theme.breakpoints.up('xl')]: {
                     gridTemplateColumns: services.length
                       ? 'repeat(4, 1fr)'
                       : 'none'

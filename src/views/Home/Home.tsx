@@ -12,6 +12,7 @@ import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Button, Typography, Skeleton } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -22,8 +23,17 @@ export const Home = () => {
   const shouldRenderServiceSection =
     isFetching || (data?.services?.length ?? 0) > 0;
 
+  const [isBannerLoaded, setIsBannerLoaded] = useState(false);
+  const bannerRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (bannerRef.current?.complete) {
+      setIsBannerLoaded(true);
+    }
+  }, []);
+
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         component="h1"
         sx={{
@@ -62,6 +72,7 @@ export const Home = () => {
           <source media="(max-width: 768px)" srcSet={ZSBannerRsTablet} />
           <Box
             component="img"
+            ref={bannerRef}
             src={ZSBannerRs}
             alt={t('home.bannerAlt')}
             loading="eager"
@@ -75,12 +86,10 @@ export const Home = () => {
             }}
             style={{
               objectFit: 'cover',
-              filter: 'blur(10px)',
+              filter: isBannerLoaded ? 'blur(0)' : 'blur(10px)',
               transition: 'filter 0.5s ease'
             }}
-            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
-            }}
+            onLoad={() => setIsBannerLoaded(true)}
           />
         </Box>
         {/* <FeaturedProducts /> */}

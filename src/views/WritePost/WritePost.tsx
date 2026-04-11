@@ -336,7 +336,7 @@ export const WritePost = () => {
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

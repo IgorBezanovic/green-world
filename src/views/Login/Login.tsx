@@ -23,7 +23,7 @@ export const Login = () => {
   ];
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: 1400,

@@ -124,7 +124,7 @@ export const Shops = () => {
   ];
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <ItemsHero
         kicker={t('shopsView.hero.kicker')}
         title={t('shopsView.hero.title')}

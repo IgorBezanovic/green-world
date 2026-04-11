@@ -35,7 +35,7 @@ export const ProfileSettings = ({
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           width: '100%',

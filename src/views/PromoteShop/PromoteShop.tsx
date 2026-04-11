@@ -37,7 +37,7 @@ export const PromoteShop = () => {
   const totalRsd = selectedPackage.priceRsd;
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

@@ -59,7 +59,7 @@ export const PromoBundle = () => {
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',

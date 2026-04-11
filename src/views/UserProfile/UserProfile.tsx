@@ -177,7 +177,7 @@ export const UserProfile = () => {
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={{
           width: '100%',

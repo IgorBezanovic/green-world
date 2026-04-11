@@ -18,7 +18,7 @@ export const Documents = () => {
   const [donateOpen, setDonateOpen] = useState(false);
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1000px',

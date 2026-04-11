@@ -88,7 +88,7 @@ export const BlogPost = () => {
   ];
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <ItemsHero
         kicker={t('blogView.hero.kicker')}
         title={t('blogView.hero.title')}
@@ -160,17 +160,20 @@ export const BlogPost = () => {
 
         {posts.length > 0 && (
           <Box
-            sx={(theme) => ({
+            sx={{
               display: 'grid',
-              gap: theme.spacing(3),
+              gap: 3,
               gridTemplateColumns: 'repeat(1, 1fr)',
-              [theme.breakpoints.up('xs')]: {
+              '@media (min-width: 600px)': {
                 gridTemplateColumns: 'repeat(2, 1fr)'
               },
-              [theme.breakpoints.up('md')]: {
+              '@media (min-width: 1000px)': {
+                gridTemplateColumns: 'repeat(3, 1fr)'
+              },
+              '@media (min-width: 1200px)': {
                 gridTemplateColumns: 'repeat(4, 1fr)'
               }
-            })}
+            }}
           >
             {posts.map((post) => (
               <BlogCard key={post._id} post={post} />

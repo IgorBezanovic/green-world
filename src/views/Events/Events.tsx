@@ -223,7 +223,7 @@ export const Events = () => {
   ];
 
   return (
-    <PageContent sx={{ bgcolor: 'background.default', pb: 8 }}>
+    <PageContent>
       <ItemsHero
         kicker="Pridruži se zajednici"
         title="Događaji"
@@ -435,7 +435,7 @@ export const Events = () => {
                   [theme.breakpoints.up('md')]: {
                     gridTemplateColumns: 'repeat(3, 1fr)'
                   },
-                  [theme.breakpoints.up('lgm')]: {
+                  [theme.breakpoints.up('xl')]: {
                     gridTemplateColumns: 'repeat(4, 1fr)'
                   }
                 })}
