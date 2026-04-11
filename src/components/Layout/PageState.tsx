@@ -12,7 +12,7 @@ const PAGE_CONTENT_SX = {
   width: '100%',
   backgroundColor: 'background.paper',
   minHeight: APP_PAGE_MIN_HEIGHT
-} satisfies SxProps<Theme>;
+};
 
 const normalizeSx = (sx?: SxProps<Theme>) => {
   if (!sx) {

@@ -93,7 +93,7 @@ export const ServiceDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
+      <PageContent sx={{ pb: 8, pt: 4 }}>
         <Box
           sx={(theme) => ({
             maxWidth: '1400px',
@@ -153,7 +153,7 @@ export const ServiceDetailsPage = () => {
 
   if (isError || !service) {
     return (
-      <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
+      <PageContent sx={{ pb: 8, pt: 4 }}>
         <PageCenteredState sx={{ bgcolor: 'background.default' }}>
           <Box
             sx={(theme) => ({
@@ -223,7 +223,7 @@ export const ServiceDetailsPage = () => {
   };
 
   return (
-    <PageContent sx={{ bgcolor: 'background.default', pb: 8, pt: 4 }}>
+    <PageContent sx={{ pb: 8, pt: 4 }}>
       {(service as any)?.status === 'deleted' && (
         <DeletedItemOverlay
           itemType="uslugu"

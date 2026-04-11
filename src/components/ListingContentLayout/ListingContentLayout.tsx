@@ -36,7 +36,7 @@ export const ListingContentLayout = ({
         maxWidth: '1400px',
         mx: 'auto',
         px: 2,
-        pb: 4,
+        py: 4,
         [theme.breakpoints.up('sm')]: { px: 3 },
         [theme.breakpoints.up('xl')]: { px: 0 }
       })}
