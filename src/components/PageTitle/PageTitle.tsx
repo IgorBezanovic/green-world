@@ -9,7 +9,7 @@ export const PageTitle = ({ children, sx, ...props }: TypographyProps) => {
           color: 'secondary.main',
           fontSize: '3rem',
           [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
-          fontFamily: 'Ephesis',
+          fontFamily: 'var(--font-ephesis, Ephesis), cursive',
           mx: 'auto',
           lineHeight: 1
         }),
