@@ -362,6 +362,7 @@ export const Shops = () => {
                 profileImage={user.profileImage}
                 onlyOnline={user.onlyOnline}
                 numberOfProducts={user.numberOfProducts}
+                numberOfServices={user.numberOfServices}
                 address={user.address}
               />
             ))}

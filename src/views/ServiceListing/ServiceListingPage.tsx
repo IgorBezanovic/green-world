@@ -19,7 +19,6 @@ import {
   Button,
   CircularProgress,
   TextField,
-  InputLabel,
   Autocomplete,
   useTheme,
   useMediaQuery
@@ -168,9 +167,13 @@ export const ServiceListingPage = () => {
               }}
             >
               <Typography
-                variant="h1"
                 color="secondary.main"
-                sx={{ fontFamily: 'Ephesis' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2.2rem',
+                  lineHeight: 1
+                }}
               >
                 {t('service.filters')}
               </Typography>
@@ -186,9 +189,7 @@ export const ServiceListingPage = () => {
             </Box>
 
             <Box>
-              <InputLabel sx={{ color: 'text.primary' }} htmlFor="location">
-                {t('service.location')}
-              </InputLabel>
+              <Typography gutterBottom>{t('service.location')}</Typography>
               <TextField
                 id="location"
                 value={filters.location}
@@ -204,12 +205,7 @@ export const ServiceListingPage = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary', mb: 1 }}
-                id="service-type"
-              >
-                {t('service.type')}
-              </InputLabel>
+              <Typography gutterBottom>{t('service.type')}</Typography>
               <Autocomplete
                 id="service-type-autocomplete"
                 options={getAllPredefinedServices()}

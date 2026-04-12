@@ -142,6 +142,7 @@ export type User = {
   maxShopProducts: number;
   numberOfActions: number;
   numberOfBlogs: number;
+  numberOfServices?: number;
   numberOfServiceListings?: number;
   statistics: UserStatistics;
   workingTime?: WorkingTime;

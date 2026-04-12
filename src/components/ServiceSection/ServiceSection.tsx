@@ -41,9 +41,11 @@ export const ServiceSection = ({
       <Box
         sx={(theme) => ({
           textAlign: 'center',
-          my: 6,
+          mt: 6,
+          mb: 0,
           [theme.breakpoints.down('md')]: {
-            my: 4
+            mt: 4,
+            mb: 0
           }
         })}
       >
@@ -55,14 +57,21 @@ export const ServiceSection = ({
               fontSize: '3rem !important'
             },
             color: 'secondary.main',
-            fontFamily: 'Ephesis'
+            fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+            fontWeight: 400
           })}
         >
           {title}
         </Typography>
         <Typography
           variant="body1"
-          sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+          sx={{
+            maxWidth: '42rem',
+            marginX: 'auto',
+            color: 'text.primary',
+            fontSize: '1.2rem',
+            lineHeight: 1.6
+          }}
         >
           {subTitle}
         </Typography>

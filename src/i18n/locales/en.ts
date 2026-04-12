@@ -6,7 +6,8 @@ export const en = {
     ru: 'RUS'
   },
   common: {
-    unknownUser: 'Unknown user'
+    unknownUser: 'Unknown user',
+    noDescription: 'No description...'
   },
   breadcrumbs: {
     home: 'Home',
@@ -1038,6 +1039,7 @@ export const en = {
     onlyOnline: 'Online only',
     physicalShop: 'Physical shop',
     productsCount: '{count} products',
+    servicesCount: '{count} services',
     viewShop: 'View shop'
   },
   shopPage: {

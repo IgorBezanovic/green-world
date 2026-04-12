@@ -24,8 +24,9 @@ import {
   CardContent,
   Chip,
   CircularProgress,
-  InputLabel,
+  Divider,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme
@@ -266,9 +267,13 @@ export const Events = () => {
               }}
             >
               <Typography
-                variant="h1"
                 color="secondary.main"
-                sx={{ fontFamily: 'Ephesis' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2.2rem',
+                  lineHeight: 1
+                }}
               >
                 Filteri
               </Typography>
@@ -284,12 +289,7 @@ export const Events = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary', mb: 1 }}
-                htmlFor="event-location"
-              >
-                Lokacija
-              </InputLabel>
+              <Typography gutterBottom>Lokacija</Typography>
               <TextField
                 id="event-location"
                 value={filterLocation}
@@ -308,12 +308,7 @@ export const Events = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary', mb: 1 }}
-                id="event-type-label"
-              >
-                Tip događaja
-              </InputLabel>
+              <Typography gutterBottom>Tip događaja</Typography>
               <Autocomplete
                 id="event-type"
                 options={EVENT_TYPE_OPTIONS}
@@ -564,34 +559,36 @@ export const Events = () => {
                               }
                             }}
                           >
-                            <Typography
-                              variant="h6"
-                              component="h2"
-                              fontWeight="bold"
-                              sx={{
-                                color: 'text.primary',
-                                mb: 1,
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: 'vertical'
-                              }}
-                            >
-                              {event.title}
-                            </Typography>
-
+                            <Tooltip title={event.title} arrow>
+                              <Typography
+                                variant="h3"
+                                component="h2"
+                                fontWeight={500}
+                                sx={{
+                                  color: 'text.primary',
+                                  mb: 1,
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 1,
+                                  WebkitBoxOrient: 'vertical',
+                                  minHeight: '1.4em'
+                                }}
+                              >
+                                {event.title}
+                              </Typography>
+                            </Tooltip>
+                            <Divider variant="fullWidth" />
                             <Typography
                               variant="body2"
-                              color="text.secondary"
                               sx={{
-                                minHeight: '4.5em',
-                                lineHeight: 1.5,
+                                display: '-webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 3,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 3,
-                                WebkitBoxOrient: 'vertical'
+                                minHeight: '4.5rem',
+                                paddingTop: '8px'
                               }}
                             >
                               {getPlainTextFromHtml(event.description)}

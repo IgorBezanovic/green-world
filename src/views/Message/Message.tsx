@@ -293,9 +293,9 @@ export const Message = () => {
             style={{
               fontSize: '2.25rem',
               lineHeight: '2.5rem',
-              fontWeight: 700,
               color: '#3f7d58',
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               marginTop: 16
             }}
           >

@@ -157,7 +157,19 @@ export const ProductCard = ({
           sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}
         >
           <Tooltip title={product.title} arrow>
-            <Typography gutterBottom variant="h3" noWrap>
+            <Typography
+              gutterBottom
+              variant="h3"
+              fontWeight={500}
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 1,
+                WebkitBoxOrient: 'vertical',
+                minHeight: '1.4em'
+              }}
+            >
               {product.title}
             </Typography>
           </Tooltip>
@@ -172,14 +184,16 @@ export const ProductCard = ({
                 WebkitLineClamp: 3,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                minHeight: '5em',
+                minHeight: '4.5rem',
                 paddingTop: '8px'
               }}
             >
-              {product.shortDescription || product.description}
+              {product.shortDescription ||
+                product.description ||
+                t('common.noDescription')}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography variant="h5">
+            <Typography variant="h5" fontWeight={500}>
               {product.priceOnRequest ? (
                 t('productCard.priceOnRequest')
               ) : (

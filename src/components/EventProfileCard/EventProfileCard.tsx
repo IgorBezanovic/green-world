@@ -144,9 +144,11 @@ export const EventProfileCard = ({ ...props }) => {
                 minHeight: '3.0em'
               }}
             >
-              {plainText.length > 50
-                ? plainText.substring(0, 50) + '...'
-                : plainText}
+              {(plainText || '').trim().length === 0
+                ? t('common.noDescription')
+                : plainText.length > 50
+                  ? plainText.substring(0, 50) + '...'
+                  : plainText}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
               <Typography

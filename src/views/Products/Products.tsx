@@ -24,7 +24,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Checkbox,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -246,9 +245,13 @@ export const Products = () => {
               }}
             >
               <Typography
-                variant="h1"
                 color="secondary.main"
-                sx={{ fontFamily: 'Ephesis' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2.2rem',
+                  lineHeight: 1
+                }}
               >
                 {t('productsView.openFilters')}
               </Typography>
@@ -264,12 +267,9 @@ export const Products = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary' }}
-                htmlFor="product-title"
-              >
+              <Typography gutterBottom>
                 {t('productsView.productName')}
-              </InputLabel>
+              </Typography>
               <TextField
                 name="product-title"
                 value={search}
@@ -303,9 +303,7 @@ export const Products = () => {
             </Box>
             {!category && (
               <Box>
-                <InputLabel sx={{ color: 'text.primary' }} id="group">
-                  {t('productsView.group')}
-                </InputLabel>
+                <Typography gutterBottom>{t('productsView.group')}</Typography>
                 <Select
                   labelId="group"
                   value={selectedGroup}
@@ -331,9 +329,7 @@ export const Products = () => {
               </Box>
             )}
             <Box>
-              <InputLabel sx={{ color: 'text.primary' }} id="subGroup">
-                {t('productsView.subgroup')}
-              </InputLabel>
+              <Typography gutterBottom>{t('productsView.subgroup')}</Typography>
               <Select
                 labelId="subGroup"
                 value={selectedSubgroup}

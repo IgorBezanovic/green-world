@@ -100,9 +100,11 @@ export const Home = () => {
         <Box
           sx={(theme) => ({
             textAlign: 'center',
-            my: 1.5,
+            mt: 1.5,
+            mb: 0,
             [theme.breakpoints.up('md')]: {
-              my: 2
+              mt: 2,
+              mb: 0
             }
           })}
         >
@@ -114,14 +116,21 @@ export const Home = () => {
                 fontSize: '3rem !important'
               },
               color: 'secondary.main',
-              fontFamily: 'Ephesis'
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400
             })}
           >
             {t('home.latestProductsTitle')}
           </Typography>
           <Typography
             variant="body1"
-            sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+            sx={{
+              maxWidth: '42rem',
+              marginX: 'auto',
+              color: 'text.primary',
+              fontSize: '1.2rem',
+              lineHeight: 1.6
+            }}
           >
             {t('home.latestProductsSubtitle')}
           </Typography>
@@ -194,26 +203,44 @@ export const Home = () => {
           />
         )}
 
-        <Typography
-          variant="h2"
+        <Box
           sx={(theme) => ({
-            fontSize: '3.75rem !important',
             textAlign: 'center',
-            [theme.breakpoints.down('md')]: {
-              fontSize: '3rem !important'
-            },
-            color: 'secondary.main',
-            fontFamily: 'Ephesis'
+            mt: 1.5,
+            mb: 0,
+            [theme.breakpoints.up('md')]: {
+              mt: 2,
+              mb: 0
+            }
           })}
         >
-          {t('home.categoriesTitle')}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
-        >
-          {t('home.categoriesSubtitle')}
-        </Typography>
+          <Typography
+            variant="h2"
+            sx={(theme) => ({
+              fontSize: '3.75rem !important',
+              [theme.breakpoints.down('md')]: {
+                fontSize: '3rem !important'
+              },
+              color: 'secondary.main',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400
+            })}
+          >
+            {t('home.categoriesTitle')}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              maxWidth: '42rem',
+              marginX: 'auto',
+              color: 'text.primary',
+              fontSize: '1.2rem',
+              lineHeight: 1.6
+            }}
+          >
+            {t('home.categoriesSubtitle')}
+          </Typography>
+        </Box>
         <Box
           component="section"
           sx={(theme) => ({

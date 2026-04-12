@@ -6,7 +6,8 @@ export const sr = {
     ru: 'RUS'
   },
   common: {
-    unknownUser: 'Nepoznat korisnik'
+    unknownUser: 'Nepoznat korisnik',
+    noDescription: 'Nema opisa...'
   },
   breadcrumbs: {
     home: 'Početna',
@@ -1042,6 +1043,7 @@ export const sr = {
     onlyOnline: 'Samo online',
     physicalShop: 'Fizička prodavnica',
     productsCount: '{count} proizvoda',
+    servicesCount: '{count} usluga',
     viewShop: 'Pogledaj prodavnicu'
   },
   shopPage: {
