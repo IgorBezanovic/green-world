@@ -645,7 +645,7 @@ export const sr = {
       manualOrAiTitle: 'Najpre dodajte sliku proizvoda',
       manualOrAiHint:
         'Kada dodate prvu sliku, možete kliknuti na "Popuni ostala polja pomoću AI" ili ručno popuniti ostatak forme.',
-      keywordsLabel: 'Ključne fraze za generisanje (min 2 / max 10):',
+      keywordsLabel: 'Ključne fraze za generisanje opisa(min 2 / max 10):',
       keywordsPlaceholder: 'Dodaj ključne fraze (ENTER ili ,)',
       hint: 'Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo, fikus, zalivanje…',
       generateButton: 'Generiši opis',
