@@ -16,6 +16,7 @@ import {
 } from '@green-world/utils/constants';
 import {
   formatImageUrl,
+  getPlainTextFromHtml,
   getLocalizedSubGroupLabel,
   getLocalizedGroupLabel
 } from '@green-world/utils/helpers';
@@ -73,6 +74,20 @@ const initProduct: Product = {
 };
 
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
+
+type ImageAutofillResponse = {
+  title?: string;
+  shortDescription?: string;
+  group?: keyof typeof subGroups;
+  subGroup?: string;
+  keywords?: string[];
+};
+
+type InappropriateFields = {
+  title: boolean;
+  description: boolean;
+  shortDescription: boolean;
+};
 
 export const CreateEditProduct = () => {
   const { t, i18n } = useTranslation();
@@ -137,6 +152,29 @@ export const CreateEditProduct = () => {
 
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const [isAiImageAutofillLoading, setIsAiImageAutofillLoading] =
+    useState(false);
+  const [inappropriateFields, setInappropriateFields] =
+    useState<InappropriateFields>({
+      title: false,
+      description: false,
+      shortDescription: false
+    });
+
+  const allowedGroupsForAi = React.useMemo(
+    () =>
+      Object.fromEntries(
+        groupItemsCreateProduct.map((item) => [
+          item.key,
+          subGroups[item.key].map((subGroup) => subGroup.label)
+        ])
+      ),
+    []
+  );
+
+  const isCreateMode = !productId;
+  const hasImages = (product?.images?.length ?? 0) > 0;
+  const shouldShowDetails = !isCreateMode || hasImages;
 
   const handleCheckboxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -202,6 +240,18 @@ export const CreateEditProduct = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (
+      inappropriateFields.title ||
+      inappropriateFields.description ||
+      inappropriateFields.shortDescription
+    ) {
+      setAiSnackbarSeverity('error');
+      setAiSnackbarMessage(t('createEditProduct.ai.submitBlockedWarning'));
+      setAiSnackbarOpen(true);
+      return;
+    }
+
     productId ? editMutation(product) : createMutation(product);
   };
 
@@ -254,6 +304,22 @@ export const CreateEditProduct = () => {
     }
   };
 
+  const getModerationOutlinedSx = (fieldFlagged: boolean) => ({
+    ...outlinedInputSx,
+    ...(fieldFlagged
+      ? {
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'warning.main',
+            borderWidth: 2
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'warning.main',
+            borderWidth: 2
+          }
+        }
+      : {})
+  });
+
   const outlinedSelectSx = {
     mb: 2,
     bgcolor: 'background.default',
@@ -272,8 +338,11 @@ export const CreateEditProduct = () => {
   const handleGenerateAiDescription = async () => {
     try {
       setIsAiLoading(true);
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-      const res = await fetch(baseUrl + 'ai/description', {
+      const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
+        /\/+$/,
+        ''
+      );
+      const res = await fetch(`${apiBaseUrl}/ai/description`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -309,6 +378,146 @@ export const CreateEditProduct = () => {
       setIsAiLoading(false);
     }
   };
+
+  const handleAiImageAutofillClick = () => {
+    const profileImage = product?.images?.[0];
+
+    if (!profileImage) return;
+
+    void handleImageAutofill(profileImage);
+  };
+
+  const handleImageAutofill = async (rawImageUrl: string) => {
+    try {
+      setIsAiImageAutofillLoading(true);
+      const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
+        /\/+$/,
+        ''
+      );
+      const res = await fetch(`${apiBaseUrl}/ai/image-autofill`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageUrl: formatImageUrl(rawImageUrl),
+          allowedGroups: allowedGroupsForAi
+        })
+      });
+
+      if (!res.ok) {
+        const { error } = await res
+          .json()
+          .catch(() => ({ error: t('createEditProduct.ai.genericError') }));
+        throw new Error(error || t('createEditProduct.ai.imageAutofillFailed'));
+      }
+
+      const suggestion: ImageAutofillResponse = await res.json();
+
+      setProduct((prevProduct) => {
+        const previousGroup = prevProduct.group;
+        const nextGroup =
+          !previousGroup && suggestion.group ? suggestion.group : previousGroup;
+
+        const allowedSubGroupsForNextGroup = nextGroup
+          ? subGroups[nextGroup as SubGroupKeys]
+          : [];
+
+        const nextSubGroup =
+          !prevProduct.subGroup &&
+          suggestion.subGroup &&
+          allowedSubGroupsForNextGroup.some(
+            (subGroup) => subGroup.label === suggestion.subGroup
+          )
+            ? suggestion.subGroup
+            : prevProduct.subGroup;
+
+        return {
+          ...prevProduct,
+          title: prevProduct.title || suggestion.title || prevProduct.title,
+          shortDescription:
+            prevProduct.shortDescription ||
+            suggestion.shortDescription ||
+            prevProduct.shortDescription,
+          group: nextGroup,
+          subGroup: nextSubGroup
+        };
+      });
+
+      setKeywords((prev) => {
+        if (prev.length > 0) return prev;
+        const next = Array.isArray(suggestion.keywords)
+          ? suggestion.keywords
+              .map((value) => String(value).trim())
+              .filter(Boolean)
+              .slice(0, 10)
+          : [];
+        return next;
+      });
+
+      setAiSnackbarSeverity('success');
+      setAiSnackbarMessage(t('createEditProduct.ai.imageAutofillSuccess'));
+      setAiSnackbarOpen(true);
+    } catch (e: any) {
+      setAiSnackbarSeverity('error');
+      setAiSnackbarMessage(
+        e?.message || t('createEditProduct.ai.imageAutofillFailed')
+      );
+      setAiSnackbarOpen(true);
+    } finally {
+      setIsAiImageAutofillLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const titleValue = product?.title?.trim() || '';
+    const descriptionValue = getPlainTextFromHtml(product?.description).trim();
+    const shortDescriptionValue = product?.shortDescription?.trim() || '';
+
+    if (!titleValue && !descriptionValue && !shortDescriptionValue) {
+      setInappropriateFields({
+        title: false,
+        description: false,
+        shortDescription: false
+      });
+      return;
+    }
+
+    const timeout = setTimeout(async () => {
+      try {
+        const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
+          /\/+$/,
+          ''
+        );
+        const res = await fetch(`${apiBaseUrl}/ai/moderate-text`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fields: {
+              title: titleValue,
+              description: descriptionValue,
+              shortDescription: shortDescriptionValue
+            }
+          })
+        });
+
+        if (!res.ok) return;
+
+        const moderation = (await res.json()) as {
+          flaggedFields?: string[];
+        };
+
+        const flagged = moderation.flaggedFields || [];
+        setInappropriateFields({
+          title: flagged.includes('title'),
+          description: flagged.includes('description'),
+          shortDescription: flagged.includes('shortDescription')
+        });
+      } catch {
+        // Do not block the form if moderation service fails.
+      }
+    }, 600);
+
+    return () => clearTimeout(timeout);
+  }, [product?.title, product?.description, product?.shortDescription]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -377,63 +586,6 @@ export const CreateEditProduct = () => {
           onSubmit={handleSubmit}
         >
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography htmlFor="group" component="label" sx={labelSx}>
-              {t('createEditProduct.selectGroupLabel')}
-            </Typography>
-            <FormControl fullWidth>
-              <Select
-                displayEmpty
-                value={product.group || ''}
-                onChange={handleGroupChange}
-                disabled={isLoading}
-                sx={outlinedSelectSx}
-              >
-                <MenuItem value="" disabled>
-                  {t('createEditProduct.selectGroupPlaceholder')}
-                </MenuItem>
-                {groupItemsCreateProduct.map((item) => (
-                  <MenuItem key={item.key} value={item.key}>
-                    {t(item.labelKey, {
-                      defaultValue: getLocalizedGroupLabel(
-                        item.key,
-                        i18n.language
-                      )
-                    })}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Typography
-              htmlFor="subGroup"
-              component="label"
-              sx={{ ...labelSx, mt: 1 }}
-            >
-              {t('createEditProduct.selectSubGroupLabel')}
-            </Typography>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <Select
-                displayEmpty
-                value={product.subGroup || ''}
-                onChange={handleSubGroupChange}
-                disabled={isLoading}
-                sx={outlinedSelectSx}
-              >
-                <MenuItem value="" disabled>
-                  {t('createEditProduct.selectSubGroupPlaceholder')}
-                </MenuItem>
-                {subGroups[
-                  (product.group as SubGroupKeys) || 'flower_assortment'
-                ]!.map((item: SubGroup) => (
-                  <MenuItem key={item?.label} value={item?.label}>
-                    {getLocalizedSubGroupLabel(
-                      product.group as SubGroupKeys,
-                      item.label,
-                      i18n.language
-                    )}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <Typography
               htmlFor={
                 product?.images?.length >= 10 ? undefined : 'profileImage'
@@ -588,108 +740,302 @@ export const CreateEditProduct = () => {
                 </ListItem>
               </List>
             </Alert>
+            {isCreateMode && (hasImages || isAiImageAutofillLoading) && (
+              <Box
+                sx={{
+                  mt: 2,
+                  mb: 2,
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1.5
+                }}
+              >
+                {hasImages && (
+                  <>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <AiButton
+                        isAiLoading={isAiImageAutofillLoading}
+                        canGenerate={hasImages}
+                        onClick={handleAiImageAutofillClick}
+                        label={t('createEditProduct.ai.imageAutofillButton')}
+                      />
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      {t('createEditProduct.ai.imageAutofillHint')}
+                    </Typography>
+                  </>
+                )}
+                {isAiImageAutofillLoading && (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1
+                    }}
+                  >
+                    <CircularProgress size={18} />
+                    <Typography variant="body2" color="text.secondary">
+                      {t('createEditProduct.ai.imageAutofillLoading')}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
+            <Typography htmlFor="group" component="label" sx={labelSx}>
+              {t('createEditProduct.selectGroupLabel')}
+            </Typography>
+            <FormControl fullWidth>
+              <Select
+                displayEmpty
+                value={product.group || ''}
+                onChange={handleGroupChange}
+                disabled={isLoading}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  {t('createEditProduct.selectGroupPlaceholder')}
+                </MenuItem>
+                {groupItemsCreateProduct.map((item) => (
+                  <MenuItem key={item.key} value={item.key}>
+                    {t(item.labelKey, {
+                      defaultValue: getLocalizedGroupLabel(
+                        item.key,
+                        i18n.language
+                      )
+                    })}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography
+              htmlFor="subGroup"
+              component="label"
+              sx={{ ...labelSx, mt: 1 }}
+            >
+              {t('createEditProduct.selectSubGroupLabel')}
+            </Typography>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <Select
+                displayEmpty
+                value={product.subGroup || ''}
+                onChange={handleSubGroupChange}
+                disabled={isLoading}
+                sx={outlinedSelectSx}
+              >
+                <MenuItem value="" disabled>
+                  {t('createEditProduct.selectSubGroupPlaceholder')}
+                </MenuItem>
+                {subGroups[
+                  (product.group as SubGroupKeys) || 'flower_assortment'
+                ]!.map((item: SubGroup) => (
+                  <MenuItem key={item?.label} value={item?.label}>
+                    {getLocalizedSubGroupLabel(
+                      product.group as SubGroupKeys,
+                      item.label,
+                      i18n.language
+                    )}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {isCreateMode && !hasImages && (
+              <Alert severity="info" sx={{ mt: 2 }}>
+                <AlertTitle>
+                  {t('createEditProduct.ai.manualOrAiTitle')}
+                </AlertTitle>
+                {t('createEditProduct.ai.manualOrAiHint')}
+              </Alert>
+            )}
           </Box>
 
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography htmlFor="title" component="label" sx={labelSx}>
-              {t('createEditProduct.productNameLabel')}
-            </Typography>
-            <OutlinedInput
-              required
-              type="text"
-              name="title"
-              id="title"
-              placeholder={t('createEditProduct.productNamePlaceholder')}
-              value={product?.title || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-
-            <Card sx={{ p: 2, borderColor: 'divider' }}>
-              <Typography variant="h4" color="secondary">
-                {t('createEditProduct.ai.title')}
+          {shouldShowDetails && (
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <Typography htmlFor="group" component="label" sx={labelSx}>
+                {t('createEditProduct.selectGroupLabel')}
               </Typography>
-              <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
-                {t('createEditProduct.ai.conditions')}
-              </Typography>
-              <Typography component="label" sx={{ ...labelSx, mt: 1 }}>
-                {t('createEditProduct.ai.keywordsLabel')}
-              </Typography>
-              <Autocomplete
-                multiple
-                freeSolo
-                options={[]}
-                value={keywords}
-                onChange={(_, vals) => {
-                  const cleaned = vals
-                    .flatMap((v) => String(v).split(','))
-                    .map((v) => v.trim())
-                    .filter(Boolean)
-                    .slice(0, 10);
-                  setKeywords(cleaned);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder={t('createEditProduct.ai.keywordsPlaceholder')}
-                  />
-                )}
-                sx={{
-                  mb: 1,
-                  '& .MuiOutlinedInput-root': {
-                    bgcolor: 'background.default'
-                  }
-                }}
-              />
+              <FormControl fullWidth>
+                <Select
+                  displayEmpty
+                  value={product.group || ''}
+                  onChange={handleGroupChange}
+                  disabled={isLoading}
+                  sx={outlinedSelectSx}
+                >
+                  <MenuItem value="" disabled>
+                    {t('createEditProduct.selectGroupPlaceholder')}
+                  </MenuItem>
+                  {groupItemsCreateProduct.map((item) => (
+                    <MenuItem key={item.key} value={item.key}>
+                      {t(item.labelKey, {
+                        defaultValue: getLocalizedGroupLabel(
+                          item.key,
+                          i18n.language
+                        )
+                      })}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <Typography
-                variant="caption"
-                sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 1 }}
-              >
-                {t('createEditProduct.ai.hint')}
-              </Typography>
-            </Card>
-
-            <Box
-              sx={(theme) => ({
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: 2,
-                mt: 1.5,
-                mb: 1,
-                [theme.breakpoints.up('md')]: {
-                  flexDirection: 'row'
-                }
-              })}
-            >
-              <Typography
-                htmlFor="description"
+                htmlFor="subGroup"
                 component="label"
-                sx={{ ...labelSx, mb: 0 }}
+                sx={{ ...labelSx, mt: 1 }}
               >
-                {t('createEditProduct.descriptionLabel')}
+                {t('createEditProduct.selectSubGroupLabel')}
               </Typography>
-              <AiButton
-                isAiLoading={isAiLoading}
-                canGenerate={canGenerate}
-                onClick={handleGenerateAiDescription}
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <Select
+                  displayEmpty
+                  value={product.subGroup || ''}
+                  onChange={handleSubGroupChange}
+                  disabled={isLoading}
+                  sx={outlinedSelectSx}
+                >
+                  <MenuItem value="" disabled>
+                    {t('createEditProduct.selectSubGroupPlaceholder')}
+                  </MenuItem>
+                  {subGroups[
+                    (product.group as SubGroupKeys) || 'flower_assortment'
+                  ]!.map((item: SubGroup) => (
+                    <MenuItem key={item?.label} value={item?.label}>
+                      {getLocalizedSubGroupLabel(
+                        product.group as SubGroupKeys,
+                        item.label,
+                        i18n.language
+                      )}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography htmlFor="title" component="label" sx={labelSx}>
+                {t('createEditProduct.productNameLabel')}
+              </Typography>
+              <OutlinedInput
+                required
+                type="text"
+                name="title"
+                id="title"
+                placeholder={t('createEditProduct.productNamePlaceholder')}
+                value={product?.title || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={getModerationOutlinedSx(inappropriateFields.title)}
               />
-            </Box>
+              {inappropriateFields.title && (
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'warning.main', mt: -1.5, mb: 1.5 }}
+                >
+                  {t('createEditProduct.ai.inappropriateFieldWarning')}
+                </Typography>
+              )}
 
-            <Box sx={{ mb: 2 }}>
-              <ReactQuill
-                modules={modules}
-                value={product?.description || ''}
-                onChange={handleRichTextDescription}
-                id="description"
-                theme="snow"
-                style={{ minHeight: 200 }}
-              />
-              <style>
-                {`
+              <Card sx={{ p: 2, borderColor: 'divider' }}>
+                <Typography variant="h4" color="secondary">
+                  {t('createEditProduct.ai.title')}
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
+                  {t('createEditProduct.ai.conditions')}
+                </Typography>
+                <Typography component="label" sx={{ ...labelSx, mt: 1 }}>
+                  {t('createEditProduct.ai.keywordsLabel')}
+                </Typography>
+                <Autocomplete
+                  multiple
+                  freeSolo
+                  options={[]}
+                  value={keywords}
+                  onChange={(_, vals) => {
+                    const cleaned = vals
+                      .flatMap((v) => String(v).split(','))
+                      .map((v) => v.trim())
+                      .filter(Boolean)
+                      .slice(0, 10);
+                    setKeywords(cleaned);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder={t(
+                        'createEditProduct.ai.keywordsPlaceholder'
+                      )}
+                    />
+                  )}
+                  sx={{
+                    mb: 1,
+                    '& .MuiOutlinedInput-root': {
+                      bgcolor: 'background.default'
+                    }
+                  }}
+                />
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 1 }}
+                >
+                  {t('createEditProduct.ai.hint')}
+                </Typography>
+              </Card>
+
+              <Box
+                sx={(theme) => ({
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 2,
+                  mt: 1.5,
+                  mb: 1,
+                  [theme.breakpoints.up('md')]: {
+                    flexDirection: 'row'
+                  }
+                })}
+              >
+                <Typography
+                  htmlFor="description"
+                  component="label"
+                  sx={{ ...labelSx, mb: 0 }}
+                >
+                  {t('createEditProduct.descriptionLabel')}
+                </Typography>
+                <AiButton
+                  isAiLoading={isAiLoading}
+                  canGenerate={canGenerate}
+                  onClick={handleGenerateAiDescription}
+                  label={t('createEditProduct.ai.generateButton')}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  mb: 2,
+                  ...(inappropriateFields.description
+                    ? {
+                        '& .ql-toolbar.ql-snow, & .ql-container': {
+                          borderColor: 'warning.main !important'
+                        }
+                      }
+                    : {})
+                }}
+              >
+                <ReactQuill
+                  modules={modules}
+                  value={product?.description || ''}
+                  onChange={handleRichTextDescription}
+                  id="description"
+                  theme="snow"
+                  style={{ minHeight: 200 }}
+                />
+                <style>
+                  {`
                 .ql-toolbar.ql-snow{
                   border-top-left-radius: 0.375rem;
                   border-top-right-radius: 0.375rem;
@@ -709,161 +1055,180 @@ export const CreateEditProduct = () => {
                   overflow-wrap: break-word;
                 }
                 `}
-              </style>
-            </Box>
-
-            <Typography
-              htmlFor="shortDescription"
-              component="label"
-              sx={labelSx}
-            >
-              {t('createEditProduct.shortDescriptionLabel')}{' '}
-              <Typography
-                component="span"
-                variant="caption"
-                sx={{ color: 'text.secondary', fontStyle: 'italic' }}
-              >
-                {t('createEditProduct.max80')}
-              </Typography>
-            </Typography>
-            <OutlinedInput
-              name="shortDescription"
-              id="shortDescription"
-              inputProps={{ maxLength: 80 }}
-              placeholder={t('createEditProduct.shortDescriptionPlaceholder')}
-              value={product?.shortDescription || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-            <Typography
-              variant="caption"
-              sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}
-            >
-              {t('createEditProduct.shortDescriptionHint')}
-            </Typography>
-
-            <Typography htmlFor="price" component="label" sx={labelSx}>
-              {t('createEditProduct.priceLabel')}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ mb: 1, color: 'text.secondary', fontStyle: 'italic' }}
-            >
-              {t('createEditProduct.priceHint')}
-            </Typography>
-            <OutlinedInput
-              required
-              type="text"
-              name="price"
-              id="price"
-              placeholder={t('createEditProduct.pricePlaceholder')}
-              value={product?.price || ''}
-              onChange={handleChange}
-              disabled={product?.priceOnRequest}
-              fullWidth
-              sx={outlinedInputSx}
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 2 }}>
-              <Checkbox
-                checked={product?.priceOnRequest ?? false}
-                onChange={handleCheckboxPrice}
-                color="success"
-                id="priceOnRequest"
-              />
-              <Typography
-                htmlFor="priceOnRequest"
-                component="label"
-                sx={{ color: 'secondary.main', fontSize: '1rem' }}
-              >
-                {t('createEditProduct.priceOnRequestLabel')}{' '}
-                <strong>{t('createEditProduct.priceOnRequest')}</strong>
-              </Typography>
-            </Box>
-
-            <Typography htmlFor="height" component="label" sx={labelSx}>
-              {t('createEditProduct.heightLabel')}
-            </Typography>
-            <OutlinedInput
-              type="text"
-              name="height"
-              id="height"
-              placeholder={t('createEditProduct.heightPlaceholder')}
-              value={product?.height || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-            <Typography htmlFor="width" component="label" sx={labelSx}>
-              {t('createEditProduct.widthLabel')}
-            </Typography>
-            <OutlinedInput
-              type="text"
-              name="width"
-              id="width"
-              placeholder={t('createEditProduct.widthPlaceholder')}
-              value={product?.width || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-            <Typography htmlFor="weight" component="label" sx={labelSx}>
-              {t('createEditProduct.weightLabel')}
-            </Typography>
-            <OutlinedInput
-              type="text"
-              name="weight"
-              id="weight"
-              placeholder={t('createEditProduct.weightPlaceholder')}
-              value={product?.weight || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-            <Typography htmlFor="milliliters" component="label" sx={labelSx}>
-              {t('createEditProduct.millilitersLabel')}
-            </Typography>
-            <OutlinedInput
-              type="text"
-              name="milliliters"
-              id="milliliters"
-              placeholder={t('createEditProduct.millilitersPlaceholder')}
-              value={product?.milliliters || ''}
-              onChange={handleChange}
-              fullWidth
-              disabled={isLoading}
-              sx={outlinedInputSx}
-            />
-
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              color="primary"
-              disabled={isLoading || isImageLoading}
-              sx={{
-                mt: 4
-              }}
-            >
-              {isLoading ||
-              isImageLoading ||
-              isLoadingCreateProduct ||
-              isLoadingEditProduct ? (
-                <CircularProgress
-                  size={20}
-                  sx={{ color: 'primary.main', my: 1 }}
-                />
-              ) : productId ? (
-                t('createEditProduct.submitUpdate')
-              ) : (
-                t('createEditProduct.submitCreate')
+                </style>
+              </Box>
+              {inappropriateFields.description && (
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'warning.main', mt: -1, mb: 2 }}
+                >
+                  {t('createEditProduct.ai.inappropriateFieldWarning')}
+                </Typography>
               )}
-            </Button>
-          </Box>
+
+              <Typography
+                htmlFor="shortDescription"
+                component="label"
+                sx={labelSx}
+              >
+                {t('createEditProduct.shortDescriptionLabel')}{' '}
+                <Typography
+                  component="span"
+                  variant="caption"
+                  sx={{ color: 'text.secondary', fontStyle: 'italic' }}
+                >
+                  {t('createEditProduct.max80')}
+                </Typography>
+              </Typography>
+              <OutlinedInput
+                name="shortDescription"
+                id="shortDescription"
+                inputProps={{ maxLength: 80 }}
+                placeholder={t('createEditProduct.shortDescriptionPlaceholder')}
+                value={product?.shortDescription || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={getModerationOutlinedSx(
+                  inappropriateFields.shortDescription
+                )}
+              />
+              {inappropriateFields.shortDescription && (
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'warning.main', mt: -1.5, mb: 1.5 }}
+                >
+                  {t('createEditProduct.ai.inappropriateFieldWarning')}
+                </Typography>
+              )}
+              <Typography
+                variant="caption"
+                sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}
+              >
+                {t('createEditProduct.shortDescriptionHint')}
+              </Typography>
+
+              <Typography htmlFor="price" component="label" sx={labelSx}>
+                {t('createEditProduct.priceLabel')}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ mb: 1, color: 'text.secondary', fontStyle: 'italic' }}
+              >
+                {t('createEditProduct.priceHint')}
+              </Typography>
+              <OutlinedInput
+                required
+                type="text"
+                name="price"
+                id="price"
+                placeholder={t('createEditProduct.pricePlaceholder')}
+                value={product?.price || ''}
+                onChange={handleChange}
+                disabled={product?.priceOnRequest}
+                fullWidth
+                sx={outlinedInputSx}
+              />
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 2 }}>
+                <Checkbox
+                  checked={product?.priceOnRequest ?? false}
+                  onChange={handleCheckboxPrice}
+                  color="success"
+                  id="priceOnRequest"
+                />
+                <Typography
+                  htmlFor="priceOnRequest"
+                  component="label"
+                  sx={{ color: 'secondary.main', fontSize: '1rem' }}
+                >
+                  {t('createEditProduct.priceOnRequestLabel')}{' '}
+                  <strong>{t('createEditProduct.priceOnRequest')}</strong>
+                </Typography>
+              </Box>
+
+              <Typography htmlFor="height" component="label" sx={labelSx}>
+                {t('createEditProduct.heightLabel')}
+              </Typography>
+              <OutlinedInput
+                type="text"
+                name="height"
+                id="height"
+                placeholder={t('createEditProduct.heightPlaceholder')}
+                value={product?.height || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={outlinedInputSx}
+              />
+              <Typography htmlFor="width" component="label" sx={labelSx}>
+                {t('createEditProduct.widthLabel')}
+              </Typography>
+              <OutlinedInput
+                type="text"
+                name="width"
+                id="width"
+                placeholder={t('createEditProduct.widthPlaceholder')}
+                value={product?.width || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={outlinedInputSx}
+              />
+              <Typography htmlFor="weight" component="label" sx={labelSx}>
+                {t('createEditProduct.weightLabel')}
+              </Typography>
+              <OutlinedInput
+                type="text"
+                name="weight"
+                id="weight"
+                placeholder={t('createEditProduct.weightPlaceholder')}
+                value={product?.weight || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={outlinedInputSx}
+              />
+              <Typography htmlFor="milliliters" component="label" sx={labelSx}>
+                {t('createEditProduct.millilitersLabel')}
+              </Typography>
+              <OutlinedInput
+                type="text"
+                name="milliliters"
+                id="milliliters"
+                placeholder={t('createEditProduct.millilitersPlaceholder')}
+                value={product?.milliliters || ''}
+                onChange={handleChange}
+                fullWidth
+                disabled={isLoading}
+                sx={outlinedInputSx}
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                color="primary"
+                disabled={isLoading || isImageLoading}
+                sx={{
+                  mt: 4
+                }}
+              >
+                {isLoading ||
+                isImageLoading ||
+                isLoadingCreateProduct ||
+                isLoadingEditProduct ? (
+                  <CircularProgress
+                    size={20}
+                    sx={{ color: 'primary.main', my: 1 }}
+                  />
+                ) : productId ? (
+                  t('createEditProduct.submitUpdate')
+                ) : (
+                  t('createEditProduct.submitCreate')
+                )}
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
       <Snackbar

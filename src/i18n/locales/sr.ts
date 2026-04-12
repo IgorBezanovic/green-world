@@ -642,14 +642,27 @@ export const sr = {
       title: 'AI generisanje opisa proizvoda:',
       conditions:
         'Uslovi za AI generisanje deskripcije: dodata minimum jedna fotografija, popunjen naziv proizvoda i dodato minimum 2, a maximum 10 ključnih reci',
+      manualOrAiTitle: 'Najpre dodajte sliku proizvoda',
+      manualOrAiHint:
+        'Kada dodate prvu sliku, možete kliknuti na "Popuni ostala polja pomoću AI" ili ručno popuniti ostatak forme.',
       keywordsLabel: 'Ključne fraze za generisanje (min 2 / max 10):',
       keywordsPlaceholder: 'Dodaj ključne fraze (ENTER ili ,)',
       hint: 'Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo, fikus, zalivanje…',
       generateButton: 'Generiši opis',
+      imageAutofillButton: 'Popuni ostala polja pomoću AI',
+      imageAutofillHint:
+        'AI će analizirati profilnu sliku i pokušati da popuni naziv, kratak opis, grupu, podgrupu i ključne fraze.',
       genericError: 'Greška',
       generationError: 'Greška pri generisanju opisa.',
       generated: 'AI opis generisan ✅',
-      generationFailed: 'Nije uspelo generisanje opisa.'
+      generationFailed: 'Nije uspelo generisanje opisa.',
+      imageAutofillLoading: 'AI analizira fotografiju i popunjava polja...',
+      imageAutofillSuccess: 'Polja su automatski popunjena na osnovu slike ✅',
+      imageAutofillFailed: 'AI analiza slike nije uspela.',
+      inappropriateFieldWarning:
+        'Uneli ste neprikladnu reč ili sadržaj. Obrišite neprikladan unos.',
+      submitBlockedWarning:
+        'Obrišite neprikladnu reč iz naziva, opisa ili kratkog opisa pre kreiranja proizvoda.'
     }
   },
   productsView: {
