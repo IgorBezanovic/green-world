@@ -170,7 +170,9 @@ export const AISearch = () => {
                 >
                   {option.phone ? (
                     <>
-                      <Phone style={{ marginRight: 4, width: 14, height: 14 }} />{' '}
+                      <Phone
+                        style={{ marginRight: 4, width: 14, height: 14 }}
+                      />{' '}
                       {option.phone}
                     </>
                   ) : option.email ? (
@@ -186,7 +188,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <HandCoins style={{ marginRight: 4, width: 14, height: 14 }} />{' '}
+                  <HandCoins
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {option.price === 'Cena Na Upit'
                     ? t('aisearch.priceOnRequest')
                     : `${option.price
@@ -202,7 +206,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <HandCoins style={{ marginRight: 4, width: 14, height: 14 }} />{' '}
+                  <HandCoins
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {option.price
                     ? `${t('aisearch.from')} ${option.price} ${t('aisearch.currency')}`
                     : t('aisearch.priceOnRequest')}
@@ -213,7 +219,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <CalendarDays style={{ marginRight: 4, width: 14, height: 14 }} />{' '}
+                  <CalendarDays
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {dayjs(option.date).format('DD.MM.YYYY. HH:mm')}
                 </Typography>
               )}
@@ -222,7 +230,10 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                   <NotebookPen style={{ marginRight: 4, width: 14, height: 14 }} /> {option.author}
+                  <NotebookPen
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
+                  {option.author}
                 </Typography>
               )}
             </Box>

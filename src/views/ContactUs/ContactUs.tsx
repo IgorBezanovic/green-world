@@ -403,7 +403,12 @@ ${contactForm.message}`;
           >
             <Typography
               variant="h5"
-              sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem', mb: 3 }}
+              sx={{
+                fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                fontWeight: 400,
+                fontSize: '2rem',
+                mb: 3
+              }}
             >
               {t('contactUsView.info.title')}
             </Typography>
@@ -486,7 +491,11 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2rem'
+                }}
               >
                 {t('contactUsView.supportHours.title')}
               </Typography>
@@ -575,7 +584,11 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2rem'
+                }}
               >
                 {t('contactUsView.whyUs.title')}
               </Typography>
