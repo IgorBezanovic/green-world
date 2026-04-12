@@ -76,6 +76,7 @@ export const Home = () => {
             src={ZSBannerRs}
             alt={t('home.bannerAlt')}
             loading="eager"
+            fetchPriority="high"
             decoding="async"
             width="100%"
             sx={{

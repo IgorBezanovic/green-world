@@ -1,7 +1,6 @@
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
-import '@fontsource/ephesis';
+import { Montserrat, Ephesis } from 'next/font/google';
 import '@green-world/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -87,6 +86,13 @@ const montserrat = Montserrat({
   variable: '--font-montserrat'
 });
 
+const ephesis = Ephesis({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-ephesis'
+});
+
 export default function RootLayout({
   children
 }: Readonly<{
@@ -94,7 +100,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="sr">
-      <body className={montserrat.variable}>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link
+          rel="preconnect"
+          href="https://green-world-images.s3.eu-west-1.amazonaws.com"
+        />
+      </head>
+      <body className={`${montserrat.variable} ${ephesis.variable}`}>
         {children}
         <Analytics />
       </body>
