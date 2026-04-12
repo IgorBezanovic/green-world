@@ -3,7 +3,8 @@
 import {
   AppBreadcrumbs,
   PageContent,
-  PageLoader
+  PageLoader,
+  PageTitle
 } from '@green-world/components';
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
@@ -348,21 +349,11 @@ export const CreateEditProduct = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-        <Typography
-          component="h1"
-          sx={(theme) => ({
-            color: 'primary.main',
-            fontSize: '3rem',
-            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
-            fontFamily: 'Ephesis',
-            mx: 'auto',
-            lineHeight: 1
-          })}
-        >
+        <PageTitle>
           {productId
             ? t('createEditProduct.headingEdit')
             : t('createEditProduct.headingCreate')}
-        </Typography>
+        </PageTitle>
         <Box
           component="form"
           sx={(theme) => ({

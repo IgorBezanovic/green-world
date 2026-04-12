@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
-import '@fontsource/montserrat';
+import { Montserrat } from 'next/font/google';
 import '@fontsource/ephesis';
 import '@green-world/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
     images: [
       {
-        url: '/opengraph-image',
+        url: '/zeleni-svet-yellow-transparent.png',
         width: 1200,
         height: 630,
         alt: 'Zeleni Svet – online cveće i cvećare Srbija'
@@ -77,9 +77,15 @@ export const metadata: Metadata = {
     title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
     description:
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
-    images: ['/opengraph-image']
+    images: ['/zeleni-svet-yellow-transparent.png']
   }
 };
+
+const montserrat = Montserrat({
+  subsets: ['latin', 'cyrillic', 'latin-ext', 'cyrillic-ext'],
+  display: 'swap',
+  variable: '--font-montserrat'
+});
 
 export default function RootLayout({
   children
@@ -88,7 +94,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="sr">
-      <body>
+      <body className={montserrat.variable}>
         {children}
         <Analytics />
       </body>

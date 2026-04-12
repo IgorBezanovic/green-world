@@ -494,7 +494,7 @@ export const Products = () => {
                     sx={{
                       height: '300px'
                     }}
-                    src="https://res.cloudinary.com/dijofqxeu/image/upload/v1747514245/u5ed1xffzv502yrzuvyl.png"
+                    src="https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1747514245/u5ed1xffzv502yrzuvyl.png"
                   />
                 </Box>
               </Box>
