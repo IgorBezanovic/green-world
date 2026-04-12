@@ -3,7 +3,8 @@
 import {
   AppBreadcrumbs,
   PageContent,
-  PageLoader
+  PageLoader,
+  PageTitle
 } from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
@@ -194,7 +195,7 @@ export const CreateEditEvent = () => {
           py: '1.75rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: 3.5,
+          gap: 4,
           [theme.breakpoints.up('sm')]: {
             px: '1.5rem'
           },
@@ -204,21 +205,11 @@ export const CreateEditEvent = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-        <Typography
-          component="h1"
-          sx={(theme) => ({
-            color: 'primary.main',
-            fontSize: '3rem',
-            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
-            fontFamily: 'Ephesis',
-            mx: 'auto',
-            lineHeight: 1
-          })}
-        >
+        <PageTitle>
           {eventID
             ? t('createEditEvent.headingEdit')
             : t('createEditEvent.headingCreate')}
-        </Typography>
+        </PageTitle>
         <Box
           component="form"
           sx={(theme) => ({

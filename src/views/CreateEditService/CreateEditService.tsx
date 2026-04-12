@@ -3,7 +3,8 @@
 import {
   AppBreadcrumbs,
   PageContent,
-  PageLoader
+  PageLoader,
+  PageTitle
 } from '@green-world/components';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useImage } from '@green-world/hooks/useImage';
@@ -459,22 +460,11 @@ export const CreateEditService = () => {
         })}
       >
         <AppBreadcrumbs pages={pages} />
-        <Typography
-          component="h1"
-          sx={(theme) => ({
-            color: 'primary.main',
-            fontSize: '3rem',
-            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
-            fontFamily: 'Ephesis',
-            mx: 'auto',
-            lineHeight: 1,
-            mb: 4
-          })}
-        >
+        <PageTitle>
           {serviceId
             ? t('service.editService', 'Izmeni uslugu')
             : t('service.offerService', 'Ponudite uslugu')}
-        </Typography>
+        </PageTitle>
 
         <Box
           component="form"

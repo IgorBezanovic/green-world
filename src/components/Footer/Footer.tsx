@@ -272,7 +272,7 @@ export const Footer = () => {
           </Box>
           <Box
             component="img"
-            src="https://res.cloudinary.com/dijofqxeu/image/upload/v1745438146/uqdzbq3113jypz6ercok.png"
+            src="https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1745438146/uqdzbq3113jypz6ercok.png"
             alt={t('footer.gardenerIllustrationAlt')}
             loading="lazy"
             sx={{

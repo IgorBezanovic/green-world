@@ -3,7 +3,7 @@ import { TypographyVariantsOptions } from '@mui/material';
 export const typography: TypographyVariantsOptions = {
   htmlFontSize: 16,
   fontSize: 14,
-  fontFamily: 'Montserrat, sans-serif',
+  fontFamily: 'var(--font-montserrat, Montserrat), sans-serif',
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 500,

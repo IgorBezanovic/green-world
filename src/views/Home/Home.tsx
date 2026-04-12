@@ -77,9 +77,11 @@ export const Home = () => {
             alt={t('home.bannerAlt')}
             loading="eager"
             decoding="async"
+            width="100%"
             sx={{
               width: '100%',
-              height: 'auto',
+              height: '100%',
+              maxHeight: '325px',
               borderRadius: 1,
               mb: 0.5,
               boxShadow: 1
