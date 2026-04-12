@@ -229,7 +229,22 @@ export const ProductPage = () => {
                   overflow: 'hidden'
                 }}
               >
-                <Typography variant="h1">{productData?.title}</Typography>
+                <Typography
+                  variant="h1"
+                  sx={(theme) => ({
+                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                    fontWeight: 400,
+                    fontSize: '2.5rem',
+                    [theme.breakpoints.up('md')]: {
+                      fontSize: '3rem'
+                    },
+                    color: 'secondary.main',
+                    lineHeight: 1.2,
+                    mb: 1
+                  })}
+                >
+                  {productData?.title}
+                </Typography>
                 <Box sx={{ mt: 1, mb: 3, display: 'flex', gap: 1 }}>
                   <Chip
                     label={getLocalizedGroupLabel(

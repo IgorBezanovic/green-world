@@ -198,7 +198,8 @@ export const OrderProduct = () => {
               [theme.breakpoints.down('md')]: {
                 fontSize: '3rem !important'
               },
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               marginBottom: '16px',
               color: 'secondary.main'
             })}

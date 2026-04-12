@@ -97,7 +97,8 @@ ${contactForm.message}`;
         <Box sx={{ maxWidth: 1400, mx: 'auto' }}>
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '3rem'
             }}
           >
@@ -248,7 +249,8 @@ ${contactForm.message}`;
 
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '2.5rem'
             }}
           >
@@ -401,7 +403,7 @@ ${contactForm.message}`;
           >
             <Typography
               variant="h5"
-              sx={{ fontFamily: 'Ephesis', fontSize: '2rem', mb: 3 }}
+              sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem', mb: 3 }}
             >
               {t('contactUsView.info.title')}
             </Typography>
@@ -484,7 +486,7 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
+                sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem' }}
               >
                 {t('contactUsView.supportHours.title')}
               </Typography>
@@ -573,7 +575,7 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
+                sx={{ fontFamily: 'var(--font-ephesis, Ephesis), cursive', fontWeight: 400, fontSize: '2rem' }}
               >
                 {t('contactUsView.whyUs.title')}
               </Typography>
@@ -635,7 +637,8 @@ ${contactForm.message}`;
             </Box>
             <Typography
               sx={{
-                fontFamily: 'Ephesis',
+                fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                fontWeight: 400,
                 fontSize: '3rem',
                 color: 'success.dark',
                 mb: 2
@@ -732,7 +735,8 @@ ${contactForm.message}`;
           </Box>
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '3.5rem',
               mb: 2
             }}

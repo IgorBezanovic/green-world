@@ -291,7 +291,22 @@ export const Event = () => {
                 </Stack>
 
                 {/* Title */}
-                <Typography variant="h1">{eventData.title}</Typography>
+                <Typography
+                  variant="h1"
+                  sx={(theme) => ({
+                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                    fontWeight: 400,
+                    fontSize: '2.5rem',
+                    [theme.breakpoints.up('md')]: {
+                      fontSize: '3rem'
+                    },
+                    color: 'secondary.main',
+                    lineHeight: 1.2,
+                    mb: 1
+                  })}
+                >
+                  {eventData.title}
+                </Typography>
 
                 {/* Metadata */}
                 <Stack spacing={1.5}>
