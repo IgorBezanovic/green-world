@@ -198,7 +198,6 @@ export const Home = () => {
             isLoading={isFetching}
             searchAllLabel={t('home.searchAllServices')}
             onSearchAll={() => navigate('/services')}
-            onOpenService={(serviceId) => navigate(`/services/${serviceId}`)}
             t={t}
           />
         )}

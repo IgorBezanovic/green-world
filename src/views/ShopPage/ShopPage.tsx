@@ -265,18 +265,16 @@ export const ShopPage = () => {
         >
           <Typography variant="h3">{data?.shopName || data?.name}</Typography>
 
-          {data?.shopDescription && (
-            <Typography
-              variant="h5"
-              sx={{
-                fontStyle: 'italic',
-                color: 'text.main',
-                mt: 1
-              }}
-            >
-              {data.shopDescription}
-            </Typography>
-          )}
+          <Typography
+            variant="h5"
+            sx={{
+              fontStyle: 'italic',
+              color: 'text.main',
+              mt: 1
+            }}
+          >
+            {data?.shopDescription?.trim() || t('common.noDescription')}
+          </Typography>
         </Box>
       </Box>
 
@@ -317,7 +315,13 @@ export const ShopPage = () => {
                     minWidth: 0
                   }}
                 >
-                  <Box sx={{ flexShrink: 0 }}>
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     <User style={{ width: '22px', height: '22px' }} />
                   </Box>
                   <Typography>{data.name}</Typography>
@@ -333,7 +337,13 @@ export const ShopPage = () => {
                     minWidth: 0
                   }}
                 >
-                  <Box sx={{ flexShrink: 0 }}>
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     <Mail style={{ width: '22px', height: '22px' }} />
                   </Box>
 
@@ -358,7 +368,13 @@ export const ShopPage = () => {
                     alignItems: 'center'
                   }}
                 >
-                  <Box sx={{ flexShrink: 0 }}>
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     <Phone style={{ width: '22px', height: '22px' }} />
                   </Box>
 
@@ -375,7 +391,13 @@ export const ShopPage = () => {
                     minWidth: 0
                   }}
                 >
-                  <Box sx={{ flexShrink: 0 }}>
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     <Globe style={{ width: '22px', height: '22px' }} />
                   </Box>
 
@@ -411,7 +433,13 @@ export const ShopPage = () => {
                     alignItems: 'center'
                   }}
                 >
-                  <Box sx={{ flexShrink: 0 }}>
+                  <Box
+                    sx={{
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     <MapPin style={{ width: '22px', height: '22px' }} />
                   </Box>
                   <Typography>
@@ -433,8 +461,7 @@ export const ShopPage = () => {
                 sx={{
                   mt: 2,
                   py: 1.4,
-                  textTransform: 'none',
-                  fontWeight: 600
+                  textTransform: 'none'
                 }}
                 onClick={() => setOpenSendMessageDialog(true)}
               >
@@ -499,7 +526,6 @@ export const ShopPage = () => {
                       px: 2.5,
                       py: 1,
                       gap: 1,
-                      fontWeight: 600,
                       borderRadius: '24px !important',
                       border: '1px solid',
                       borderColor: 'divider',

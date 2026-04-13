@@ -25,7 +25,7 @@ export const ProfileSettings = ({
     const isActive = isActiveRoute(route);
 
     return {
-      fontWeight: isActive ? 700 : 500,
+      fontWeight: 500,
       boxShadow: isActive ? 3 : 0,
       bgcolor: isActive ? 'info.dark' : 'info.main',
       '&:hover': {

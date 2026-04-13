@@ -10,6 +10,11 @@ export const components: Components<
   },
   MuiButton: {
     styleOverrides: {
+      root: {
+        fontWeight: 500,
+        fontSize: '0.875rem',
+        textTransform: 'none'
+      },
       sizeSmall: {
         padding: '4px 10px'
       },
@@ -18,6 +23,15 @@ export const components: Components<
       },
       sizeLarge: {
         padding: '10px 22px'
+      }
+    }
+  },
+  MuiToggleButton: {
+    styleOverrides: {
+      root: {
+        fontWeight: 500,
+        fontSize: '0.875rem',
+        textTransform: 'none'
       }
     }
   },

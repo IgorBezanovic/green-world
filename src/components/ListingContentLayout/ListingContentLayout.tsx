@@ -62,9 +62,6 @@ export const ListingContentLayout = ({
               sx={{
                 width: '100%',
                 mb: 2,
-                textTransform: 'none',
-                fontSize: { xs: '1rem', sm: '1.05rem' },
-                fontWeight: 600,
                 py: 1.1
               }}
             >
