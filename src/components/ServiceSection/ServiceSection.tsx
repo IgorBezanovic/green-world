@@ -1,19 +1,8 @@
 import { ServicePreview } from '@green-world/hooks/useHomeProducts';
-import {
-  formatImageUrl,
-  getPlainTextFromHtml
-} from '@green-world/utils/helpers';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-  Skeleton,
-  Typography
-} from '@mui/material';
-import { MapPin } from 'lucide-react';
+import type { ServiceListing } from '@green-world/utils/types';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
+
+import { ServiceListingCard } from '../ServiceListingCard';
 
 type ServiceSectionProps = {
   title: string;
@@ -22,7 +11,6 @@ type ServiceSectionProps = {
   isLoading?: boolean;
   searchAllLabel: string;
   onSearchAll: () => void;
-  onOpenService: (serviceId: string) => void;
   t: (key: string) => string;
 };
 
@@ -33,7 +21,6 @@ export const ServiceSection = ({
   isLoading,
   searchAllLabel,
   onSearchAll,
-  onOpenService,
   t
 }: ServiceSectionProps) => {
   return (
@@ -84,6 +71,7 @@ export const ServiceSection = ({
             width: '100%',
             display: 'grid',
             gap: '24px',
+            gridAutoRows: '1fr',
             gridTemplateColumns: 'repeat(1, 1fr)',
             [theme.breakpoints.up('xs')]: {
               gridTemplateColumns: 'repeat(2, 1fr)'
@@ -125,6 +113,7 @@ export const ServiceSection = ({
             width: '100%',
             display: 'grid',
             gap: '24px',
+            gridAutoRows: '1fr',
             gridTemplateColumns: services?.length ? 'repeat(1, 1fr)' : 'none',
             [theme.breakpoints.up('xs')]: {
               gridTemplateColumns: services?.length ? 'repeat(2, 1fr)' : 'none'
@@ -138,153 +127,37 @@ export const ServiceSection = ({
           })}
         >
           {services?.map((service) => {
-            const serviceImage = Array.isArray(service.images)
-              ? service.images[0]
-              : service.images;
+            const serviceImages = Array.isArray(service.images)
+              ? service.images
+              : service.images
+                ? [service.images]
+                : [];
             const provider =
               service.providerId && typeof service.providerId !== 'string'
                 ? service.providerId
                 : undefined;
-            const providerName =
-              provider?.name || provider?.lastname
-                ? `${provider?.name || ''} ${provider?.lastname || ''}`.trim()
-                : t('service.user');
+            const normalizedService: ServiceListing = {
+              _id: service._id,
+              providerId: {
+                _id: provider?._id || '',
+                name: provider?.name || t('service.user'),
+                lastname: provider?.lastname || ''
+              },
+              title: service.title,
+              description: service.description,
+              services: service.services || [],
+              images: serviceImages,
+              portfolioLinks: [],
+              priceType: service.priceType,
+              priceFrom: service.priceFrom,
+              priceTo: service.priceTo,
+              location: service.location || ''
+            };
 
             return (
-              <Card
-                key={service._id}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                  textDecoration: 'none',
-                  flexGrow: 1,
-                  cursor: 'pointer'
-                }}
-                onClick={() => onOpenService(service._id)}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    height: 200,
-                    minHeight: 200,
-                    bgcolor: 'grey.100',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {serviceImage ? (
-                    <CardMedia
-                      component="img"
-                      image={formatImageUrl(String(serviceImage), 55)}
-                      alt={service.title}
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  ) : null}
-                  <Chip
-                    label={
-                      service.priceType === 'hourly'
-                        ? t('service.hourly')
-                        : service.priceType === 'fixed'
-                          ? t('service.fixed')
-                          : t('service.negotiable')
-                    }
-                    size="small"
-                    sx={{
-                      position: 'absolute',
-                      top: 12,
-                      right: 12,
-                      bgcolor: 'rgba(255,255,255,0.9)',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                </Box>
-
-                <CardContent
-                  sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      mb: 1,
-                      color: 'text.secondary'
-                    }}
-                  >
-                    <MapPin size={16} />
-                    <Typography variant="body2">
-                      {service.location || t('service.notSpecified')}
-                    </Typography>
-                  </Box>
-
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="h2"
-                    fontWeight="bold"
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      color: 'text.primary'
-                    }}
-                  >
-                    {service.title}
-                  </Typography>
-
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      mb: 2,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical'
-                    }}
-                  >
-                    {getPlainTextFromHtml(service.description || '')}
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      mt: 'auto',
-                      pt: 2,
-                      borderTop: '1px solid #f0f0f0',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography
-                      variant="body2"
-                      fontWeight="medium"
-                      color="text.primary"
-                    >
-                      {providerName}
-                    </Typography>
-                    <Typography variant="body2" color="primary.main">
-                      {service.priceFrom
-                        ? `${t('service.fromPricePrefix')} ${service.priceFrom} ${t('service.currency')}`
-                        : t('service.onQuery')}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Card>
+              <Box key={service._id} sx={{ width: '100%', minWidth: 0 }}>
+                <ServiceListingCard service={normalizedService} />
+              </Box>
             );
           })}
         </Box>

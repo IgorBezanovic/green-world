@@ -226,15 +226,12 @@ export const Header = () => {
               minWidth: 'auto',
               px: 1.2,
               py: 0.4,
-              fontSize: '0.7rem',
               [theme.breakpoints.up('sm')]: {
-                px: 1.5,
-                fontSize: '0.75rem'
+                px: 1.5
               },
               [theme.breakpoints.up('md')]: {
                 px: 2,
-                py: 0.6,
-                fontSize: '0.875rem'
+                py: 0.6
               }
             })}
             onClick={handleUser}
