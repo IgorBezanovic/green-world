@@ -8,7 +8,13 @@ import {
 import { useCreateProduct } from '@green-world/hooks/useCreateProduct';
 import { useDeleteImage } from '@green-world/hooks/useDeleteImage';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
+import { useGenerateAiDescription } from '@green-world/hooks/useGenerateAiDescription';
 import { useImage } from '@green-world/hooks/useImage';
+import {
+  ImageAutofillResponse,
+  useImageAutofill
+} from '@green-world/hooks/useImageAutofill';
+import { useModerateText } from '@green-world/hooks/useModerateText';
 import { useProduct } from '@green-world/hooks/useProduct';
 import {
   groupItemsCreateProduct,
@@ -75,14 +81,6 @@ const initProduct: Product = {
 
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
 
-type ImageAutofillResponse = {
-  title?: string;
-  shortDescription?: string;
-  group?: keyof typeof subGroups;
-  subGroup?: string;
-  keywords?: string[];
-};
-
 type InappropriateFields = {
   title: boolean;
   description: boolean;
@@ -147,12 +145,16 @@ export const CreateEditProduct = () => {
     useEditProduct(productId);
 
   const { mutate: deleteImageMutate } = useDeleteImage();
+  const { mutateAsync: generateDescription } = useGenerateAiDescription(
+    t('createEditProduct.ai.generationError')
+  );
+  const { mutateAsync: imageAutofill, isPending: isAiImageAutofillLoading } =
+    useImageAutofill(t('createEditProduct.ai.imageAutofillFailed'));
+  const { mutateAsync: moderateText } = useModerateText();
 
   const [product, setProduct] = useState<Product>(initProduct);
 
   const [keywords, setKeywords] = useState<string[]>([]);
-  const [isAiImageAutofillLoading, setIsAiImageAutofillLoading] =
-    useState(false);
   const [inappropriateFields, setInappropriateFields] =
     useState<InappropriateFields>({
       title: false,
@@ -160,7 +162,7 @@ export const CreateEditProduct = () => {
       shortDescription: false
     });
 
-  const allowedGroupsForAi = React.useMemo(
+  const allowedGroupsForAi = React.useMemo<Record<string, string[]>>(
     () =>
       Object.fromEntries(
         groupItemsCreateProduct.map((item) => [
@@ -336,39 +338,25 @@ export const CreateEditProduct = () => {
     successMessage?: string;
   }) => {
     try {
-      const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
-        /\/+$/,
-        ''
-      );
-      const res = await fetch(`${apiBaseUrl}/ai/description`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: params.title,
-          keywords: params.keywords,
-          images: params.images,
-          context: params.context
-        })
+      const { descriptionHtml } = await generateDescription({
+        title: params.title,
+        keywords: params.keywords,
+        images: params.images,
+        context: params.context
       });
 
-      if (!res.ok) {
-        const { error } = await res
-          .json()
-          .catch(() => ({ error: t('createEditProduct.ai.genericError') }));
-        throw new Error(error || t('createEditProduct.ai.generationError'));
-      }
-
-      const { descriptionHtml } = await res.json();
       handleRichTextDescription(descriptionHtml);
       setAiSnackbarSeverity('success');
       setAiSnackbarMessage(
         params.successMessage || t('createEditProduct.ai.generated')
       );
       setAiSnackbarOpen(true);
-    } catch (e: any) {
+    } catch (e: unknown) {
       setAiSnackbarSeverity('error');
       setAiSnackbarMessage(
-        e?.message || t('createEditProduct.ai.generationFailed')
+        e instanceof Error
+          ? e.message
+          : t('createEditProduct.ai.generationFailed')
       );
       setAiSnackbarOpen(true);
     }
@@ -384,33 +372,15 @@ export const CreateEditProduct = () => {
 
   const handleImageAutofill = async (rawImageUrl: string) => {
     try {
-      setIsAiImageAutofillLoading(true);
-      const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
-        /\/+$/,
-        ''
-      );
-      const res = await fetch(`${apiBaseUrl}/ai/image-autofill`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageUrl: formatImageUrl(rawImageUrl),
-          allowedGroups: allowedGroupsForAi
-        })
+      const suggestion: ImageAutofillResponse = await imageAutofill({
+        imageUrl: formatImageUrl(rawImageUrl),
+        allowedGroups: allowedGroupsForAi
       });
-
-      if (!res.ok) {
-        const { error } = await res
-          .json()
-          .catch(() => ({ error: t('createEditProduct.ai.genericError') }));
-        throw new Error(error || t('createEditProduct.ai.imageAutofillFailed'));
-      }
-
-      const suggestion: ImageAutofillResponse = await res.json();
 
       const nextTitle = product.title || suggestion.title || '';
       const nextGroup =
         (!product.group && suggestion.group
-          ? suggestion.group
+          ? (suggestion.group as keyof typeof subGroups)
           : product.group) || ('' as Product['group']);
 
       const allowedSubGroupsForNextGroup = nextGroup
@@ -473,14 +443,14 @@ export const CreateEditProduct = () => {
         setAiSnackbarMessage(t('createEditProduct.ai.imageAutofillSuccess'));
         setAiSnackbarOpen(true);
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       setAiSnackbarSeverity('error');
       setAiSnackbarMessage(
-        e?.message || t('createEditProduct.ai.imageAutofillFailed')
+        e instanceof Error
+          ? e.message
+          : t('createEditProduct.ai.imageAutofillFailed')
       );
       setAiSnackbarOpen(true);
-    } finally {
-      setIsAiImageAutofillLoading(false);
     }
   };
 
@@ -500,27 +470,13 @@ export const CreateEditProduct = () => {
 
     const timeout = setTimeout(async () => {
       try {
-        const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || '').replace(
-          /\/+$/,
-          ''
-        );
-        const res = await fetch(`${apiBaseUrl}/ai/moderate-text`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fields: {
-              title: titleValue,
-              description: descriptionValue,
-              shortDescription: shortDescriptionValue
-            }
-          })
+        const moderation = await moderateText({
+          fields: {
+            title: titleValue,
+            description: descriptionValue,
+            shortDescription: shortDescriptionValue
+          }
         });
-
-        if (!res.ok) return;
-
-        const moderation = (await res.json()) as {
-          flaggedFields?: string[];
-        };
 
         const flagged = moderation.flaggedFields || [];
         setInappropriateFields({
@@ -534,7 +490,12 @@ export const CreateEditProduct = () => {
     }, 600);
 
     return () => clearTimeout(timeout);
-  }, [product?.title, product?.description, product?.shortDescription]);
+  }, [
+    moderateText,
+    product?.title,
+    product?.description,
+    product?.shortDescription
+  ]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -879,63 +840,6 @@ export const CreateEditProduct = () => {
 
           {shouldShowDetails && (
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <Typography htmlFor="group" component="label" sx={labelSx}>
-                {t('createEditProduct.selectGroupLabel')}
-              </Typography>
-              <FormControl fullWidth>
-                <Select
-                  displayEmpty
-                  value={product.group || ''}
-                  onChange={handleGroupChange}
-                  disabled={isLoading}
-                  sx={outlinedSelectSx}
-                >
-                  <MenuItem value="" disabled>
-                    {t('createEditProduct.selectGroupPlaceholder')}
-                  </MenuItem>
-                  {groupItemsCreateProduct.map((item) => (
-                    <MenuItem key={item.key} value={item.key}>
-                      {t(item.labelKey, {
-                        defaultValue: getLocalizedGroupLabel(
-                          item.key,
-                          i18n.language
-                        )
-                      })}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography
-                htmlFor="subGroup"
-                component="label"
-                sx={{ ...labelSx, mt: 1 }}
-              >
-                {t('createEditProduct.selectSubGroupLabel')}
-              </Typography>
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <Select
-                  displayEmpty
-                  value={product.subGroup || ''}
-                  onChange={handleSubGroupChange}
-                  disabled={isLoading}
-                  sx={outlinedSelectSx}
-                >
-                  <MenuItem value="" disabled>
-                    {t('createEditProduct.selectSubGroupPlaceholder')}
-                  </MenuItem>
-                  {subGroups[
-                    (product.group as SubGroupKeys) || 'flower_assortment'
-                  ]!.map((item: SubGroup) => (
-                    <MenuItem key={item?.label} value={item?.label}>
-                      {getLocalizedSubGroupLabel(
-                        product.group as SubGroupKeys,
-                        item.label,
-                        i18n.language
-                      )}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
               <Typography htmlFor="title" component="label" sx={labelSx}>
                 {t('createEditProduct.productNameLabel')}
               </Typography>
