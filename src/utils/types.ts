@@ -207,7 +207,7 @@ export type Event = {
   dateAction: PickerValue | string | undefined;
   startTime: string;
   endTime?: string;
-  typeAction: 'cleaning' | 'selling' | 'planting';
+  typeAction: 'cleaning' | 'selling' | 'planting' | 'education';
   contactPerson?: string;
   contactPhone?: string;
   contactMail?: string;

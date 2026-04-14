@@ -531,7 +531,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     finished: 'Završeno'
   },
@@ -539,7 +540,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Neuspešno kopiranje linka',
