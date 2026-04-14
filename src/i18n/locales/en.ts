@@ -639,7 +639,7 @@ export const en = {
       title: 'AI product description generation:',
       conditions:
         'Conditions for AI description generation: at least one image added, product name filled, and 2 to 10 keywords added',
-      manualOrAiHint:'First add an image, then continue with the AI button or manually.',
+      manualOrAiHint:'FThe first image is used for AI field completion.',
       keywordsLabel: 'Keywords for generation (min 2 / max 10):',
       keywordsPlaceholder: 'Add keywords (ENTER or ,)',
       hint: 'Use gardening terms: e.g. pot, substrate, fertilizer, ficus, watering…',

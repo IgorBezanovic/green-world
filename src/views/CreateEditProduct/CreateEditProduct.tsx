@@ -553,11 +553,6 @@ export const CreateEditProduct = () => {
           })}
           onSubmit={handleSubmit}
         >
-          {isCreateMode && !hasImages && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                {t('createEditProduct.ai.manualOrAiHint')}
-              </Alert>
-            )}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography
               htmlFor={
@@ -694,6 +689,11 @@ export const CreateEditProduct = () => {
                   {t('createEditProduct.photoInfo.title')}
                 </AlertTitle>
                 <List sx={{ pl: 3, listStyleType: 'disc' }}>
+                  <ListItem sx={{ display: 'list-item', p: 0 }}>
+                    <ListItemText
+                      primary={t('createEditProduct.ai.manualOrAiHint')}
+                    />
+                  </ListItem>
                   <ListItem sx={{ display: 'list-item', p: 0 }}>
                     <ListItemText
                       primary={t('createEditProduct.photoInfo.ratio')}
