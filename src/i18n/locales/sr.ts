@@ -643,9 +643,7 @@ export const sr = {
       title: 'AI generisanje opisa proizvoda:',
       conditions:
         'Uslovi za AI generisanje deskripcije: dodata minimum jedna fotografija, popunjen naziv proizvoda i dodato minimum 2, a maximum 10 ključnih reci',
-      manualOrAiTitle: 'Najpre dodajte sliku proizvoda',
-      manualOrAiHint:
-        'Kada dodate prvu sliku, možete kliknuti na "Popuni ostala polja pomoću AI" ili ručno popuniti ostatak forme.',
+      manualOrAiHint:'Prva slika služi za AI popunjavanje polja.',
       keywordsLabel: 'Ključne fraze za generisanje opisa(min 2 / max 10):',
       keywordsPlaceholder: 'Dodaj ključne fraze (ENTER ili ,)',
       hint: 'Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo, fikus, zalivanje…',
