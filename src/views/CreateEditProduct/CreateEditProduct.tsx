@@ -176,7 +176,6 @@ export const CreateEditProduct = () => {
 
   const isCreateMode = !productId;
   const hasImages = (product?.images?.length ?? 0) > 0;
-  const shouldShowDetails = !isCreateMode || hasImages;
 
   const handleCheckboxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -554,6 +553,11 @@ export const CreateEditProduct = () => {
           })}
           onSubmit={handleSubmit}
         >
+          {isCreateMode && !hasImages && (
+              <Alert severity="info" sx={{ mt: 2 }}>
+                {t('createEditProduct.ai.manualOrAiHint')}
+              </Alert>
+            )}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography
               htmlFor={
@@ -819,17 +823,9 @@ export const CreateEditProduct = () => {
                 ))}
               </Select>
             </FormControl>
-            {isCreateMode && !hasImages && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                <AlertTitle>
-                  {t('createEditProduct.ai.manualOrAiTitle')}
-                </AlertTitle>
-                {t('createEditProduct.ai.manualOrAiHint')}
-              </Alert>
-            )}
           </Box>
 
-          {shouldShowDetails && (
+
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Typography htmlFor="title" component="label" sx={labelSx}>
                 {t('createEditProduct.productNameLabel')}
@@ -1119,7 +1115,7 @@ export const CreateEditProduct = () => {
                 )}
               </Button>
             </Box>
-          )}
+
         </Box>
       </Box>
       <Snackbar
