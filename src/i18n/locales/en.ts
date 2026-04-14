@@ -639,14 +639,27 @@ export const en = {
       title: 'AI product description generation:',
       conditions:
         'Conditions for AI description generation: at least one image added, product name filled, and 2 to 10 keywords added',
+      manualOrAiTitle: 'Add a product image first',
+      manualOrAiHint:
+        'After you add the first image, you can click "Fill the remaining fields with AI" or complete the rest of the form manually.',
       keywordsLabel: 'Keywords for generation (min 2 / max 10):',
       keywordsPlaceholder: 'Add keywords (ENTER or ,)',
       hint: 'Use gardening terms: e.g. pot, substrate, fertilizer, ficus, watering…',
       generateButton: 'Generate description',
+      imageAutofillButton: 'Fill the remaining fields with AI',
+      imageAutofillHint:
+        'AI will analyze the profile image and try to fill the title, short description, group, subgroup, and keywords.',
       genericError: 'Error',
       generationError: 'Error generating description.',
       generated: 'AI description generated ✅',
-      generationFailed: 'Description generation failed.'
+      generationFailed: 'Description generation failed.',
+      imageAutofillLoading: 'AI is analyzing the photo and filling fields...',
+      imageAutofillSuccess: 'Fields auto-filled from image ✅',
+      imageAutofillFailed: 'Image AI analysis failed.',
+      inappropriateFieldWarning:
+        'You entered inappropriate wording or content. Remove the inappropriate input.',
+      submitBlockedWarning:
+        'Remove inappropriate wording from the title, description, or short description before creating the product.'
     }
   },
   productsView: {
