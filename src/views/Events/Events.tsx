@@ -42,13 +42,15 @@ type EventType = Event['typeAction'];
 const EVENT_TYPE_OPTIONS: Array<EventType> = [
   'cleaning',
   'selling',
-  'planting'
+  'planting',
+  'education'
 ];
 
 const EVENT_TYPE_LABELS: Record<EventType, string> = {
   cleaning: 'Čišćenje',
   selling: 'Prodaja',
-  planting: 'Sadnja'
+  planting: 'Sadnja',
+  education: 'Edukacija'
 };
 
 const EVENT_TYPE_COLORS: Record<
@@ -57,7 +59,8 @@ const EVENT_TYPE_COLORS: Record<
 > = {
   cleaning: 'success',
   selling: 'info',
-  planting: 'warning'
+  planting: 'warning',
+  education: 'secondary'
 };
 
 const EVENT_TYPE_BADGE_SX: Record<
@@ -75,11 +78,20 @@ const EVENT_TYPE_BADGE_SX: Record<
   planting: {
     bgcolor: 'warning.light',
     color: 'warning.dark'
+  },
+  education: {
+    bgcolor: 'secondary.light',
+    color: 'secondary.dark'
   }
 };
 
 const isEventType = (value: string): value is EventType => {
-  return value === 'cleaning' || value === 'selling' || value === 'planting';
+  return (
+    value === 'cleaning' ||
+    value === 'selling' ||
+    value === 'planting' ||
+    value === 'education'
+  );
 };
 
 const isEventFinished = (event: Event) => {

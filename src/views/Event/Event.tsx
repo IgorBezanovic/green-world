@@ -38,7 +38,7 @@ import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
-type EventTypeAction = 'cleaning' | 'selling' | 'planting';
+type EventTypeAction = 'cleaning' | 'selling' | 'planting' | 'education';
 type EventStatus = 'active' | 'cancelled' | 'finished';
 
 const EVENT_TYPE_COLORS: Record<
@@ -47,7 +47,8 @@ const EVENT_TYPE_COLORS: Record<
 > = {
   cleaning: 'success',
   selling: 'info',
-  planting: 'warning'
+  planting: 'warning',
+  education: 'secondary'
 };
 
 const EVENT_STATUS_COLORS: Record<

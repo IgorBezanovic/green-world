@@ -525,7 +525,8 @@ export const ru = {
     type: {
       cleaning: 'Уборка',
       selling: 'Продажа',
-      planting: 'Посадка'
+      planting: 'Посадка',
+      education: 'Обучение'
     },
     finished: 'Завершено'
   },
@@ -533,7 +534,8 @@ export const ru = {
     type: {
       cleaning: 'Уборка',
       selling: 'Продажа',
-      planting: 'Посадка'
+      planting: 'Посадка',
+      education: 'Обучение'
     },
     linkCopied: 'Ссылка скопирована',
     linkCopyFailed: 'Не удалось скопировать ссылку',

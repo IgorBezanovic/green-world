@@ -527,7 +527,8 @@ export const en = {
     type: {
       cleaning: 'Cleaning',
       selling: 'Selling',
-      planting: 'Planting'
+      planting: 'Planting',
+      education: 'Education'
     },
     finished: 'Finished'
   },
@@ -535,7 +536,8 @@ export const en = {
     type: {
       cleaning: 'Cleaning',
       selling: 'Selling',
-      planting: 'Planting'
+      planting: 'Planting',
+      education: 'Education'
     },
     linkCopied: 'Link copied',
     linkCopyFailed: 'Failed to copy link',
