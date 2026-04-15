@@ -87,14 +87,18 @@ export const EventProfileCard = ({ ...props }) => {
               ? t('eventProfileCard.type.cleaning')
               : props.event?.typeAction === 'selling'
                 ? t('eventProfileCard.type.selling')
-                : t('eventProfileCard.type.planting')
+                : props.event?.typeAction === 'planting'
+                  ? t('eventProfileCard.type.planting')
+                  : t('eventProfileCard.type.education')
           }
           color={
             props.event?.typeAction === 'cleaning'
               ? 'error'
               : props.event?.typeAction === 'selling'
                 ? 'info'
-                : 'success'
+                : props.event?.typeAction === 'planting'
+                  ? 'success'
+                  : 'secondary'
           }
           sx={{
             position: 'absolute',

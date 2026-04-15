@@ -263,6 +263,9 @@ export const CreateEditEvent = () => {
                 <MenuItem value="planting">
                   {t('eventCard.type.planting')}
                 </MenuItem>
+                <MenuItem value="education">
+                  {t('eventCard.type.education')}
+                </MenuItem>
               </Select>
             </FormControl>
             <Typography htmlFor="contactPerson" component="label" sx={labelSx}>

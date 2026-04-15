@@ -32,7 +32,6 @@ import {
   CardContent,
   Chip,
   Divider,
-  Skeleton,
   Tooltip,
   Typography,
   useTheme
@@ -54,6 +53,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import {
   ProductDescription,
+  ProductPageSkeleton,
   ProductReviewForm,
   ProductReviewList,
   ProductSpecification
@@ -185,20 +185,7 @@ export const ProductPage = () => {
         <AppBreadcrumbs pages={pages} />
         <Divider />
         {productLoading || userLoading ? (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Skeleton
-              variant="rectangular"
-              height={400}
-              sx={{ borderRadius: 2 }}
-            />
-            <Skeleton variant="text" height={40} width="60%" />
-            <Skeleton variant="text" height={30} width="40%" />
-            <Skeleton
-              variant="rectangular"
-              height={80}
-              sx={{ borderRadius: 2 }}
-            />
-          </Box>
+          <ProductPageSkeleton />
         ) : (
           <Box
             sx={{

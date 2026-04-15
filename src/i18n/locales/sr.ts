@@ -531,7 +531,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     finished: 'Završeno'
   },
@@ -539,7 +540,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Neuspešno kopiranje linka',
@@ -643,7 +645,7 @@ export const sr = {
       title: 'AI generisanje opisa proizvoda:',
       conditions:
         'Uslovi za AI generisanje deskripcije: dodata minimum jedna fotografija, popunjen naziv proizvoda i dodato minimum 2, a maximum 10 ključnih reci',
-      manualOrAiHint:'Prva slika služi za AI popunjavanje polja.',
+      manualOrAiHint: 'Prva slika služi za AI popunjavanje polja.',
       keywordsLabel: 'Ključne fraze za generisanje opisa(min 2 / max 10):',
       keywordsPlaceholder: 'Dodaj ključne fraze (ENTER ili ,)',
       hint: 'Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo, fikus, zalivanje…',
@@ -1722,9 +1724,9 @@ export const sr = {
     errorTimeOfReading: 'Unesite pozitivnu vrednost (minuti)'
   },
   deletedItem: {
-    title: 'Ovaj {{itemType}} više nije dostupan',
+    title: 'Ovaj {itemType} više nije dostupan',
     description:
-      'Korisnik je obrisao ovaj {{itemType}}. Sadržaj više nije moguće pregledati.',
+      'Korisnik je obrisao ovaj {itemType}. Sadržaj više nije moguće pregledati.',
     visitShop: 'Poseti korisnika',
     creatorGone: 'Ovaj korisnik više nije korisnik Zelenog Sveta.'
   }

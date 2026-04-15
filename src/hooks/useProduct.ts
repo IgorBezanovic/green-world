@@ -25,6 +25,6 @@ export const useProduct = (id: string): UseQueryResult<Product> => {
       return data;
     },
     enabled: !!id,
-    initialData: () => getDecrypted('product', id)
+    initialData: () => getDecrypted('product', id) ?? undefined
   });
 };
