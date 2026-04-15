@@ -799,6 +799,71 @@ export const en = {
   },
   documentsView: {
     title: 'Documents',
+    hero: {
+      chip: 'Platform transparency',
+      title: 'Our platform, our values',
+      subtitle:
+        'Everything you need to know about how Zeleni Svet works — from data protection to artificial intelligence.'
+    },
+    ai: {
+      title: 'How we use artificial intelligence',
+      intro:
+        'Zeleni Svet uses AI exclusively to make the platform safer and more useful for everyone. AI systems never make final decisions — all disputed cases are manually reviewed by our team.',
+      uses: {
+        moderation: {
+          title: 'Content moderation',
+          description:
+            'Every new listing, event or service automatically goes through AI analysis to detect offensive language, fraud or inappropriate content.'
+        },
+        search: {
+          title: 'Smart search',
+          description:
+            'AI understands search context and returns relevant results even when input does not exactly match the title.'
+        },
+        imageCheck: {
+          title: 'Image analysis',
+          description:
+            'Photos uploaded by users go through automatic screening to detect explicit or inappropriate visual content.'
+        },
+        profileCheck: {
+          title: 'Profile verification',
+          description:
+            'User bios and shop data are analysed to detect false information or potentially harmful content.'
+        },
+        comments: {
+          title: 'Comment review',
+          description:
+            'Comments and messages are monitored to detect harassment, spam or hate speech — to maintain a healthy community space.'
+        },
+        blogCheck: {
+          title: 'Blog moderation',
+          description:
+            'Blog posts are analysed before publishing to detect misinformation, unsubstantiated health claims or harmful content.'
+        }
+      },
+      badge: {
+        title: 'What does the AI verification badge mean?',
+        verified: {
+          label: 'Verified',
+          description:
+            'AI has reviewed the content and found no issues. The listing/profile complies with platform guidelines.'
+        },
+        flagged: {
+          label: 'Warning',
+          description:
+            'AI detected a potential issue. Our team has been notified and will contact the creator. Content remains visible until a violation is confirmed.'
+        },
+        checking: {
+          label: 'Checking',
+          description:
+            'Content is new or updated and is currently being analysed by AI. This status lasts only a few seconds.'
+        }
+      },
+      dataPrivacy: {
+        title: 'Your data is safe',
+        body: "Content that goes through AI analysis (listing text, images, links) is used solely for safety assessment and is not stored in AI systems. Zeleni Svet does not pass users' personal data to third parties for AI processing. All models comply with GDPR guidelines and data is not used to train AI models."
+      }
+    },
     sections: {
       vision: {
         title: 'Our vision and mission',
