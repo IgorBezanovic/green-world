@@ -38,6 +38,8 @@ export interface Product {
   comments?: Comment[];
   likes?: string[];
   dislikes?: string[];
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export type NewPasswordValues = {
@@ -146,6 +148,8 @@ export type User = {
   numberOfServiceListings?: number;
   statistics: UserStatistics;
   workingTime?: WorkingTime;
+  verified?: boolean;
+  verifiedDone?: boolean;
 };
 
 export type ContactUsValues = {
@@ -216,6 +220,8 @@ export type Event = {
   likes?: string[];
   dislikes?: string[];
   comments?: Comment[];
+  verified?: boolean;
+  verifiedDone?: boolean;
 };
 
 export type HomeCategory = {
@@ -250,6 +256,8 @@ export interface BlogPost {
   comments?: Comment[];
   keywords?: string[];
   timeOfReading?: number;
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export interface Comment {
@@ -305,6 +313,8 @@ export interface ServiceListing {
   dislikes?: string[];
   createdAt?: string;
   updatedAt?: string;
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export type ServiceListingFiltersParams = {

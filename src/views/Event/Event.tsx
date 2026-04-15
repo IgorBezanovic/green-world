@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   AppBreadcrumbs,
   BookmarkButton,
   CommentForm,
@@ -270,6 +271,30 @@ export const Event = () => {
                   minWidth: 0
                 }}
               >
+                <Box>
+                  <AIVerificationBadge
+                    verifiedDone={eventData?.verifiedDone}
+                    verified={eventData?.verified}
+                  />
+                </Box>
+                {/* Title */}
+                <Typography
+                  variant="h1"
+                  sx={(theme) => ({
+                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                    fontWeight: 400,
+                    fontSize: '2.5rem',
+                    [theme.breakpoints.up('md')]: {
+                      fontSize: '3rem'
+                    },
+                    color: 'secondary.main',
+                    lineHeight: 1.2,
+                    mb: 1
+                  })}
+                >
+                  {eventData.title}
+                </Typography>
+
                 {/* Type + Status chips */}
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                   <Chip
@@ -290,24 +315,6 @@ export const Event = () => {
                     variant="outlined"
                   />
                 </Stack>
-
-                {/* Title */}
-                <Typography
-                  variant="h1"
-                  sx={(theme) => ({
-                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
-                    fontWeight: 400,
-                    fontSize: '2.5rem',
-                    [theme.breakpoints.up('md')]: {
-                      fontSize: '3rem'
-                    },
-                    color: 'secondary.main',
-                    lineHeight: 1.2,
-                    mb: 1
-                  })}
-                >
-                  {eventData.title}
-                </Typography>
 
                 {/* Metadata */}
                 <Stack spacing={1.5}>

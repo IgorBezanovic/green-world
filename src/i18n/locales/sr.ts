@@ -395,6 +395,16 @@ export const sr = {
     newsletterAriaLabel: 'Email za prijavu na novosti',
     gardenerIllustrationAlt: 'Ilustracija baštovana'
   },
+  aiVerification: {
+    checking: 'Proveravanje sadržaja...',
+    verified: 'Verifikovano od AI',
+    verifiedTooltip:
+      'Ovaj sadržaj je prošao automatsku AI proveru bezbednosti.',
+    warning: 'Upozorenje',
+    warningTooltip: 'Ovaj sadržaj je označen kao potencijalno neprikladni.',
+    warningHelper:
+      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će što pre kontaktirati kreatora kako bi regulisali potencijalni problem.'
+  },
   aisearch: {
     groups: {
       products: 'Proizvodi',

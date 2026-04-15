@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   AppBreadcrumbs,
   PageCenteredState,
   PageContent,
@@ -264,6 +265,13 @@ export const ShopPage = () => {
           }}
         >
           <Typography variant="h3">{data?.shopName || data?.name}</Typography>
+
+          <Box sx={{ mb: 1.5 }}>
+            <AIVerificationBadge
+              verifiedDone={data?.verifiedDone}
+              verified={data?.verified}
+            />
+          </Box>
 
           <Typography
             variant="h5"
