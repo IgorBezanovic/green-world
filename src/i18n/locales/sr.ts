@@ -828,6 +828,71 @@ export const sr = {
   },
   documentsView: {
     title: 'Dokumenta',
+    hero: {
+      chip: 'Transparentnost platforme',
+      title: 'Naša platforma, naše vrednosti',
+      subtitle:
+        'Sve što treba da znate o tome kako Zeleni Svet funkcioniše — od zaštite podataka do upotrebe veštačke inteligencije.'
+    },
+    ai: {
+      title: 'Kako koristimo veštačku inteligenciju',
+      intro:
+        'Zeleni Svet koristi AI isključivo da bi platforma bila bezbednija i korisnija za sve. AI sistemi nikada ne donose finalne odluke — svi sporni slučajevi se ručno proveravaju od strane našeg tima.',
+      uses: {
+        moderation: {
+          title: 'Moderacija sadržaja',
+          description:
+            'Svaki novi oglas, događaj ili usluga automatski prolazi AI analizu kojom se detektuju uvredljiv jezik, prevara ili neprikladni sadržaj.'
+        },
+        search: {
+          title: 'Pametna pretraga',
+          description:
+            'AI razume kontekst pretrage i vraća relevantne rezultate čak i kada se unos ne poklapa tačno sa naslovom.'
+        },
+        imageCheck: {
+          title: 'Analiza slika',
+          description:
+            'Fotografije koje korisnici postavljaju prolaze automatsku proveru radi otkrivanja eksplicitnog ili neprikladnog vizuelnog sadržaja.'
+        },
+        profileCheck: {
+          title: 'Verifikacija profila',
+          description:
+            'Korisničke biografije i podaci o prodavnici analiziraju se radi otkrivanja lažnih informacija ili potencijalno štetnog sadržaja.'
+        },
+        comments: {
+          title: 'Pregled komentara',
+          description:
+            'Komentari i poruke prate se radi otkrivanja uznemiravanja, spama ili govora mržnje — u cilju očuvanja zdravog prostora zajednice.'
+        },
+        blogCheck: {
+          title: 'Blog moderacija',
+          description:
+            'Blog postovi se analiziraju pre objavljivanja radi detekcije dezinformacija, zdravstvenih tvrdnji bez pokrića ili štetnog sadržaja.'
+        }
+      },
+      badge: {
+        title: 'Šta znači AI bedž verifikacije?',
+        verified: {
+          label: 'Verifikovano',
+          description:
+            'AI je pregledao sadržaj i nije pronašao nikakve probleme. Oglas/profil je u skladu sa pravilima platforme.'
+        },
+        flagged: {
+          label: 'Upozorenje',
+          description:
+            'AI je detektovao potencijalni problem. Naš tim je obavešten i kontaktiraće kreatora. Sadržaj je i dalje vidljiv dok se ne utvrdi prekršaj.'
+        },
+        checking: {
+          label: 'Proveravam',
+          description:
+            'Sadržaj je novi ili ažuriran i trenutno prolazi AI analizu. Ovaj status traje samo nekoliko sekundi.'
+        }
+      },
+      dataPrivacy: {
+        title: 'Vaši podaci su bezbedni',
+        body: 'Sadržaj koji prolazi AI analizu (tekst oglasa, slike, linkovi) koristi se isključivo za procenu bezbednosti i ne čuva se u AI sistemima. Zeleni Svet ne prosleđuje lične podatke korisnika trećim licima u svrhe AI obrade. Svi modeli poštuju GDPR smernice i podaci se ne koriste za trening AI modela.'
+      }
+    },
     sections: {
       vision: {
         title: 'Naša vizija i misija',
