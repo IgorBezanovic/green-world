@@ -1183,27 +1183,42 @@ export const ru = {
     headingCreate: 'Создать событие',
     fields: {
       titleLabel: 'Название события:',
-      titlePlaceholder: 'Введите название события',
+      titleHint: 'Введите понятное и запоминающееся название события',
+      titlePlaceholder: 'Напр. Уборка парка Ташмайдан, Ярмарка саженцев...',
       typeLabel: 'Тип события:',
+      typeHint: 'Выберите тип, который лучше всего описывает вашу акцию',
       typePlaceholder: 'Выберите тип события',
       contactPersonLabel: 'Контактное лицо:',
-      contactPersonPlaceholder: 'Контактное лицо',
+      contactPersonHint: 'Имя и фамилия контактного лица (необязательно)',
+      contactPersonPlaceholder: 'Напр. Мария Иванова',
       placeLabel: 'Место события:',
-      placePlaceholder: 'Введите место события',
+      placeHint: 'Город или район проведения события',
+      placePlaceholder: 'Напр. Београд, Нови Сад, Ниш...',
       addressLabel: 'Адрес события:',
-      addressPlaceholder: 'Введите адрес события',
+      addressHint: 'Точный адрес проведения события (необязательно)',
+      addressPlaceholder: 'Напр. ул. Кнез Михайлова 12, парк у фонтана...',
       imageLabel: 'Добавьте фото события:',
+      imageHint: 'Добавьте фото, которое визуально описывает событие',
       addImage: 'Добавить фото',
       descriptionLabel: 'Описание события:',
+      descriptionHint: 'Опишите детали, что нужно принести, особые заметки...',
       dateLabel: 'Дата события:',
+      dateHint:
+        'Дата должна быть не менее чем через 24 часа от текущего момента',
       startTimeLabel: 'Время начала события:',
-      startTimePlaceholder: 'Введите время начала события',
+      startTimeHint: 'Напр. 10:00 или 10ч',
+      startTimePlaceholder: 'Напр. 10:00',
       endTimeLabel: 'Время окончания события:',
-      endTimePlaceholder: 'Введите время окончания события',
+      endTimeHint: 'Напр. 18:00 или 18ч (необязательно)',
+      endTimePlaceholder: 'Напр. 18:00',
       contactPhoneLabel: 'Контактный телефон:',
+      contactPhoneHint: 'Телефон для прямого контакта (необязательно)',
+      contactPhonePlaceholder: 'Напр. +381 60 123 456 7',
       contactMailLabel: 'Контактный email:',
-      contactMailPlaceholder: 'Контактный email',
+      contactMailHint: 'Email адрес для контакта (необязательно)',
+      contactMailPlaceholder: 'Напр. contact@greenworldapp.com',
       statusLabel: 'Статус события:',
+      statusHint: 'Выберите текущий статус вашей акции',
       statusPlaceholder: 'Выберите статус события'
     },
     status: {
@@ -1212,7 +1227,17 @@ export const ru = {
       finished: 'Завершено'
     },
     submitEdit: 'Обновить событие',
-    submitCreate: 'Создать событие'
+    submitCreate: 'Создать событие',
+    requiredFieldsLegend: 'Поля, отмеченные *, являются обязательными',
+    validation: {
+      titleRequired: 'Название события обязательно',
+      typeRequired: 'Тип события обязателен',
+      placeRequired: 'Место события обязательно',
+      startTimeRequired: 'Время начала обязательно',
+      statusRequired: 'Статус события обязателен',
+      dateTooSoon:
+        'Дата должна быть не менее чем через 24 часа от текущего момента'
+    }
   },
   orderProductView: {
     metaFallbackTitle: 'Zeleni svet | Товар',
