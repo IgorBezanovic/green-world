@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   BlogBlock,
   BookmarkButton,
   CopyLinkButton,
@@ -290,6 +291,13 @@ export const BlogPostPage = () => {
           >
             {post?.title}
           </Typography>
+
+          <Box sx={{ mb: 1.5 }}>
+            <AIVerificationBadge
+              verifiedDone={post?.verifiedDone}
+              verified={post?.verified}
+            />
+          </Box>
 
           <Box
             sx={(theme) => ({

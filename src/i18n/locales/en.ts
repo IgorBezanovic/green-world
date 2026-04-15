@@ -396,6 +396,16 @@ export const en = {
     newsletterAriaLabel: 'Email for newsletter signup',
     gardenerIllustrationAlt: 'Gardener illustration'
   },
+  aiVerification: {
+    checking: 'Checking content...',
+    verified: 'Verified by AI',
+    verifiedTooltip: 'This content has passed the automated AI safety check.',
+    warning: 'Warning',
+    warningTooltip:
+      'This content has been flagged as potentially inappropriate.',
+    warningHelper:
+      'This content may contain inappropriate material. Please proceed with caution. The Zeleni Svet team will contact the creator as soon as possible to resolve the potential issue.'
+  },
   aisearch: {
     groups: {
       products: 'Products',

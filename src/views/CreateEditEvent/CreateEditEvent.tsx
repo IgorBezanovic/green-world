@@ -217,6 +217,8 @@ export const CreateEditEvent = () => {
             px: 0
           }
         })}
+        component="form"
+        onSubmit={handleSubmit}
       >
         <AppBreadcrumbs pages={pages} />
         <PageTitle>
@@ -225,7 +227,6 @@ export const CreateEditEvent = () => {
             : t('createEditEvent.headingCreate')}
         </PageTitle>
         <Box
-          component="form"
           sx={(theme) => ({
             display: 'flex',
             flexDirection: 'column',
@@ -235,7 +236,6 @@ export const CreateEditEvent = () => {
               gap: 5
             }
           })}
-          onSubmit={handleSubmit}
         >
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="title" component="label" sx={labelSx}>

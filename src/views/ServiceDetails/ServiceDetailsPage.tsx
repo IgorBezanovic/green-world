@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   AppBreadcrumbs,
   SendMessageDialog,
   ImageGallery,
@@ -250,6 +251,12 @@ export const ServiceDetailsPage = () => {
           {/* Main Content */}
           <Grid size={{ xs: 12, md: 7 }}>
             <Box mb={4}>
+              <Box sx={{ mb: 1.5 }}>
+                <AIVerificationBadge
+                  verifiedDone={service?.verifiedDone}
+                  verified={service?.verified}
+                />
+              </Box>
               <Typography
                 variant="h1"
                 sx={(theme) => ({

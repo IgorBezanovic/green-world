@@ -9,7 +9,8 @@ import {
   VoteButtons,
   CopyLinkButton,
   BookmarkButton,
-  DeletedItemOverlay
+  DeletedItemOverlay,
+  AIVerificationBadge
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -216,6 +217,12 @@ export const ProductPage = () => {
                   overflow: 'hidden'
                 }}
               >
+                <Box sx={{ mb: 1.5 }}>
+                  <AIVerificationBadge
+                    verifiedDone={productData?.verifiedDone}
+                    verified={productData?.verified}
+                  />
+                </Box>
                 <Typography
                   variant="h1"
                   sx={(theme) => ({
