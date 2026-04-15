@@ -641,7 +641,7 @@ export const en = {
       title: 'AI product description generation:',
       conditions:
         'Conditions for AI description generation: at least one image added, product name filled, and 2 to 10 keywords added',
-      manualOrAiHint:'The first image is used for AI field completion.',
+      manualOrAiHint: 'The first image is used for AI field completion.',
       keywordsLabel: 'Keywords for generation (min 2 / max 10):',
       keywordsPlaceholder: 'Add keywords (ENTER or ,)',
       hint: 'Use gardening terms: e.g. pot, substrate, fertilizer, ficus, watering…',
@@ -1716,9 +1716,9 @@ export const en = {
     errorTimeOfReading: 'Enter a positive value (minutes)'
   },
   deletedItem: {
-    title: 'This {{itemType}} is no longer available',
+    title: 'This {itemType} is no longer available',
     description:
-      'The owner has deleted this {{itemType}}. The content can no longer be accessed.',
+      'The owner has deleted this {itemType}. The content can no longer be accessed.',
     visitShop: 'Visit user profile',
     creatorGone: 'This user is no longer a member of Zeleni Svet.'
   }
