@@ -6,7 +6,7 @@ import {
   UseQueryResult
 } from '@tanstack/react-query';
 
-import { ProductPreview } from './useHomeProducts';
+import { ProductPreview } from './useHomeItems';
 
 export type ProductsResponse = PaginatedResponse<ProductPreview> & {
   extras?: {

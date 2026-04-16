@@ -1,4 +1,4 @@
-import { HomepageProductsResponse } from '@green-world/hooks/useHomeProducts';
+import { HomepageItemsResponse } from '@green-world/hooks/useHomeItems';
 import { User, Product, BlogPost } from '@green-world/utils/types';
 import CryptoJS from 'crypto-js';
 
@@ -9,7 +9,7 @@ export const storeEncrypted = (
   response:
     | Product
     | (User & { _id: string })
-    | HomepageProductsResponse
+    | HomepageItemsResponse
     | BlogPost[]
 ) => {
   if (typeof window === 'undefined') return;
@@ -31,7 +31,7 @@ export const storeEncrypted = (
 export const getDecrypted = (
   type: string,
   id?: string
-): User | Product | HomepageProductsResponse | null => {
+): User | Product | HomepageItemsResponse | null => {
   if (typeof window === 'undefined') return null;
 
   const key =

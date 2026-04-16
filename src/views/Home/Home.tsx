@@ -6,9 +6,14 @@ import {
   PageContent,
   ProductSection,
   GridProducts,
-  ServiceSection
+  ServiceSection,
+  ItemSection,
+  BlogCard,
+  EventCard,
+  ShopCard,
+  ResponsiveCardGrid
 } from '@green-world/components';
-import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
+import { useHomeItems } from '@green-world/hooks/useHomeItems';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Button, Typography, Skeleton } from '@mui/material';
@@ -18,7 +23,7 @@ import { useNavigate } from 'react-router';
 
 export const Home = () => {
   const { t } = useTranslation();
-  const { data, isFetching } = useHomeProducts();
+  const { data, isFetching } = useHomeItems();
   const navigate = useNavigate();
   const shouldRenderServiceSection =
     isFetching || (data?.services?.length ?? 0) > 0;
@@ -317,6 +322,84 @@ export const Home = () => {
           subTitle={t('home.sectionSubtitles.everything_for_plants')}
           products={data?.everything_for_plants}
         />
+        <ProductSection
+          title={t('catalog.groups.equipment_and_tools')}
+          subTitle={t('home.sectionSubtitles.equipment_and_tools')}
+          products={data?.equipment_and_tools}
+        />
+        <ProductSection
+          title={t('catalog.groups.urban_gardening')}
+          subTitle={t('home.sectionSubtitles.urban_gardening')}
+          products={data?.urban_gardening}
+        />
+        <ProductSection
+          title={t('catalog.groups.seeds_and_bulbs')}
+          subTitle={t('home.sectionSubtitles.seeds_and_bulbs')}
+          products={data?.seeds_and_bulbs}
+        />
+        <ProductSection
+          title={t('catalog.groups.eco_and_organic')}
+          subTitle={t('home.sectionSubtitles.eco_and_organic')}
+          products={data?.eco_and_organic}
+        />
+
+        {data?.blogs && data.blogs.length > 0 && (
+          <ItemSection
+            title={t('home.latestBlogsTitle')}
+            subTitle={t('home.latestBlogsSubtitle')}
+            viewAllLabel={t('home.searchAllBlogs')}
+            onViewAll={() => navigate('/blog')}
+          >
+            <ResponsiveCardGrid>
+              {data.blogs.map((post) => (
+                <BlogCard key={post._id} post={post as any} />
+              ))}
+            </ResponsiveCardGrid>
+          </ItemSection>
+        )}
+
+        {data?.events && data.events.length > 0 && (
+          <ItemSection
+            title={t('home.latestEventsTitle')}
+            subTitle={t('home.latestEventsSubtitle')}
+            viewAllLabel={t('home.searchAllEvents')}
+            onViewAll={() => navigate('/events')}
+            buttonColor="secondary"
+          >
+            <ResponsiveCardGrid>
+              {data.events.map((event) => (
+                <EventCard key={event._id} event={event} />
+              ))}
+            </ResponsiveCardGrid>
+          </ItemSection>
+        )}
+
+        {data?.users && data.users.length > 0 && (
+          <ItemSection
+            title={t('home.latestUsersTitle')}
+            subTitle={t('home.latestUsersSubtitle')}
+            viewAllLabel={t('home.searchAllUsers')}
+            onViewAll={() => navigate('/shops')}
+          >
+            <ResponsiveCardGrid>
+              {data.users.map((user) => (
+                <ShopCard
+                  key={user._id}
+                  id={user._id}
+                  name={user.name}
+                  shopName={user.shopName}
+                  description={user.description}
+                  email={user.email}
+                  profileImage={user.profileImage}
+                  onlyOnline={user.onlyOnline}
+                  numberOfProducts={user.numberOfProducts}
+                  numberOfServices={user.numberOfServices}
+                  address={user.address}
+                />
+              ))}
+            </ResponsiveCardGrid>
+          </ItemSection>
+        )}
       </Box>
     </PageContent>
   );

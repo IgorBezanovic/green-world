@@ -6,6 +6,7 @@ import {
   ItemsHero,
   PageCenteredState,
   PageContent,
+  ResponsiveCardGrid,
   SharedPagination,
   SocialMedia
 } from '@green-world/components';
@@ -159,26 +160,11 @@ export const BlogPost = () => {
         )}
 
         {posts.length > 0 && (
-          <Box
-            sx={{
-              display: 'grid',
-              gap: 3,
-              gridTemplateColumns: 'repeat(1, 1fr)',
-              '@media (min-width: 600px)': {
-                gridTemplateColumns: 'repeat(2, 1fr)'
-              },
-              '@media (min-width: 1000px)': {
-                gridTemplateColumns: 'repeat(3, 1fr)'
-              },
-              '@media (min-width: 1200px)': {
-                gridTemplateColumns: 'repeat(4, 1fr)'
-              }
-            }}
-          >
+          <ResponsiveCardGrid>
             {posts.map((post) => (
               <BlogCard key={post._id} post={post} />
             ))}
-          </Box>
+          </ResponsiveCardGrid>
         )}
 
         <SharedPagination

@@ -1,3 +1,4 @@
+import { EventCardType } from '@green-world/components';
 import { request } from '@green-world/utils/api';
 import {
   getDecrypted,
@@ -37,7 +38,48 @@ export interface ServicePreview {
   images?: string[] | string;
 }
 
-export interface HomepageProductsResponse {
+export interface UserPreview {
+  _id: string;
+  name?: string;
+  lastname?: string;
+  shopName?: string;
+  profileImage?: string;
+  description?: string;
+  email?: string;
+  onlyOnline?: boolean;
+  numberOfProducts?: number;
+  numberOfServices?: number;
+  address?: {
+    street?: string;
+    city?: string;
+    country?: string;
+  };
+}
+
+export interface BlogPreview {
+  _id: string;
+  title: string;
+  coverImage?: string;
+  author?: string;
+  createdAt: Date;
+  blocks?: Array<{ type: string; text?: string; image?: string }>;
+}
+
+export interface EventPreview {
+  _id: string;
+  title: string;
+  description: string;
+  coverImage: string;
+  dateAction: string;
+  startTime: string;
+  endTime: string;
+  place: string;
+  typeAction: EventCardType;
+  contactPerson: string;
+  status: string;
+}
+
+export interface HomepageItemsResponse {
   recentProducts: ProductPreview[];
   services: ServicePreview[];
   flower_assortment: ProductPreview[];
@@ -48,14 +90,24 @@ export interface HomepageProductsResponse {
   herbal_pharmacy: ProductPreview[];
   garden_decoration: ProductPreview[];
   everything_for_plants: ProductPreview[];
+  equipment_and_tools: ProductPreview[];
+  urban_gardening: ProductPreview[];
+  seeds_and_bulbs: ProductPreview[];
+  eco_and_organic: ProductPreview[];
+  blogs: BlogPreview[];
+  events: EventPreview[];
+  users: UserPreview[];
 }
 
-export const useHomeProducts = (): UseQueryResult<HomepageProductsResponse> => {
+/** @deprecated Use HomepageItemsResponse */
+export type HomepageProductsResponse = HomepageItemsResponse;
+
+export const useHomeItems = (): UseQueryResult<HomepageItemsResponse> => {
   return useQuery({
-    queryKey: ['allProducts'],
+    queryKey: ['homeItems'],
     queryFn: async () => {
       const data = await request({
-        url: '/product/homepage-products',
+        url: '/home/items',
         method: 'get'
       });
       storeEncrypted('homepage-products', data);

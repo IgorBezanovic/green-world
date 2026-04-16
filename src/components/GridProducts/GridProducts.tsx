@@ -1,4 +1,4 @@
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { Product } from '@green-world/utils/types';
 import { Box } from '@mui/material';
 

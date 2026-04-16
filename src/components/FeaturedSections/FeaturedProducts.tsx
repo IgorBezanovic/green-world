@@ -1,5 +1,5 @@
 import { useFeaturedProducts } from '@green-world/hooks/useFeaturedProducts';
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { Box, Skeleton } from '@mui/material';
 
 import { FeaturedProduct } from './FeaturedProduct';

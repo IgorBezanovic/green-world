@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Box, Chip, Typography, useTheme } from '@mui/material';
 import { Star } from 'lucide-react';

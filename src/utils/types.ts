@@ -172,7 +172,11 @@ export type SubGroups = {
     | 'fruits_and_vegetables'
     | 'herbal_pharmacy'
     | 'garden_decoration'
-    | 'everything_for_plants']: SubGroup[];
+    | 'everything_for_plants'
+    | 'equipment_and_tools'
+    | 'urban_gardening'
+    | 'seeds_and_bulbs'
+    | 'eco_and_organic']: SubGroup[];
 };
 
 export type DecodedToken = {
