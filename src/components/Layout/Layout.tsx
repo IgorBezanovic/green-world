@@ -28,7 +28,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <Navbar />
       </Box>
-      {children}
+      <Box component="main">{children}</Box>
       <Footer />
       <AllRights />
     </React.Fragment>

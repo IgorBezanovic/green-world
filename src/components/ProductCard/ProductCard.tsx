@@ -193,7 +193,7 @@ export const ProductCard = ({
                 t('common.noDescription')}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography variant="h5" fontWeight={500}>
+            <Typography variant="h5" component="p" fontWeight={500}>
               {product.priceOnRequest ? (
                 t('productCard.priceOnRequest')
               ) : (

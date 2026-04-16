@@ -61,6 +61,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
         >
           <Typography
             className="group-text"
+            component="span"
             variant="subtitle2"
             sx={(theme) => ({
               textTransform: 'uppercase',

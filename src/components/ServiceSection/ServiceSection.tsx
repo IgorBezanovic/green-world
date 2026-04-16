@@ -165,6 +165,7 @@ export const ServiceSection = ({
 
       <Button
         variant="contained"
+        color="secondary"
         size="large"
         sx={{
           textTransform: 'uppercase',

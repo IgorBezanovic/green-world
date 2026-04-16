@@ -34,7 +34,7 @@ export const lightPalette: PaletteOptions = {
     main: '#82a0bc', // air superiority blue
     dark: '#42607b',
     light: '#b3c5d6',
-    contrastText: '#ffffff'
+    contrastText: '#000000'
   },
   success: {
     main: '#308d29', // iz nyanza skale (zelena)
@@ -61,7 +61,7 @@ export const lightPalette: PaletteOptions = {
   },
   text: {
     primary: '#12263a', // prussian blue (tamna)
-    secondary: '#54807f', // myrtle green
+    secondary: '#3d6262', // myrtle green (darkened for WCAG 4.5:1 on white)
     disabled: '#9e9e9e'
   },
   divider: '#e0e0e0',
