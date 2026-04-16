@@ -372,23 +372,51 @@ export const buildBlogPostMetadata = async (
   });
 };
 
+const resolveShopOgImage = async (
+  user: User | null,
+  userId: string
+): Promise<string> => {
+  const profileImg = toAssetImageUrl(user?.profileImage, 120);
+  if (profileImg) return profileImg;
+
+  const [products, services, events, blogs] = await Promise.all([
+    fetchApiData<Product[]>(`/product/personal/${userId}`),
+    fetchApiData<ServiceListing[]>(`/services?providerId=${userId}`),
+    fetchApiData<Event[]>(`/action/personal/${userId}`),
+    fetchApiData<BlogPost[]>(`/blog-post/${userId}`)
+  ]);
+
+  const productImg = toAssetImageUrl(products?.[0]?.images?.[0]);
+  if (productImg) return productImg;
+
+  const serviceImg = toAssetImageUrl(services?.[0]?.images?.[0]);
+  if (serviceImg) return serviceImg;
+
+  const eventImg = toAssetImageUrl(events?.[0]?.coverImage);
+  if (eventImg) return eventImg;
+
+  const blogImg = toAssetImageUrl(blogs?.[0]?.coverImage);
+  if (blogImg) return blogImg;
+
+  return DEFAULT_OG_IMAGE;
+};
+
 export const buildShopMetadata = async (locale: AppLocale, userId: string) => {
   const messages = getLocaleMessages(locale);
   const user = await fetchApiData<User>(`/user/details/${userId}`);
   const profileLabel = messages.breadcrumbs.userProfile;
   const shopTitle = user?.shopName || user?.name;
+  const image = await resolveShopOgImage(user, userId);
 
   return createPageMetadata({
     locale,
     pathname: `/shop/${userId}`,
     title: createEntityTitle(shopTitle, profileLabel),
     description: truncate(
-      stripHtml(
-        user?.shopDescription || messages.shopPage.meta.descriptionFallback
-      )
+      stripHtml(user?.shopDescription || messages.metaTags.defaultDescription)
     ),
     keywords: user?.shopName || messages.metaTags.defaultKeywords,
-    image: toAssetImageUrl(user?.profileImage, 120) || DEFAULT_OG_IMAGE,
+    image,
     type: 'profile'
   });
 };
