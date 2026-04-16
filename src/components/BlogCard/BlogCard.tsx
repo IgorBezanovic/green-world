@@ -109,7 +109,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
           }}
         >
           {post.blocks
-            .find((b: any) => b.type === 'text')
+            ?.find((b: any) => b.type === 'text')
             ?.text?.replace(/<[^>]*>/g, '') || t('common.noDescription')}
         </Typography>
       </CardContent>

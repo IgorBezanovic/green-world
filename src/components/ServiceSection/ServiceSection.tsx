@@ -1,4 +1,4 @@
-import { ServicePreview } from '@green-world/hooks/useHomeProducts';
+import { ServicePreview } from '@green-world/hooks/useHomeItems';
 import type { ServiceListing } from '@green-world/utils/types';
 import { Box, Button, Skeleton, Typography } from '@mui/material';
 

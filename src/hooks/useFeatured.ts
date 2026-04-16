@@ -1,4 +1,4 @@
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { request } from '@green-world/utils/api';
 import { User } from '@green-world/utils/types';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';

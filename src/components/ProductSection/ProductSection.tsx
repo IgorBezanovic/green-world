@@ -1,4 +1,4 @@
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { Product } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';

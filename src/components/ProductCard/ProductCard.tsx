@@ -2,7 +2,7 @@
 
 import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
-import { ProductPreview } from '@green-world/hooks/useHomeProducts';
+import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Product } from '@green-world/utils/types';
 import {

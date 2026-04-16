@@ -5,6 +5,7 @@ import {
   ItemsHero,
   PageCenteredState,
   PageContent,
+  ResponsiveCardGrid,
   SharedPagination,
   ShopCard,
   StatCard
@@ -331,26 +332,7 @@ export const Shops = () => {
             Trenutno nema dostupnih prodavnica.
           </Typography>
         ) : (
-          <Box
-            component="section"
-            sx={{
-              display: 'grid',
-              gap: 3,
-              maxWidth: '1400px',
-              width: '100%',
-              mx: 'auto',
-              gridTemplateColumns: 'repeat(1, 1fr)',
-              '@media (min-width: 600px)': {
-                gridTemplateColumns: 'repeat(2, 1fr)'
-              },
-              '@media (min-width: 1000px)': {
-                gridTemplateColumns: 'repeat(3, 1fr)'
-              },
-              '@media (min-width: 1200px)': {
-                gridTemplateColumns: 'repeat(4, 1fr)'
-              }
-            }}
-          >
+          <ResponsiveCardGrid>
             {data.map((user) => (
               <ShopCard
                 key={user._id}
@@ -366,7 +348,7 @@ export const Shops = () => {
                 address={user.address}
               />
             ))}
-          </Box>
+          </ResponsiveCardGrid>
         )}
 
         <SharedPagination
