@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   BlogBlock,
   BookmarkButton,
   CopyLinkButton,
@@ -11,7 +12,8 @@ import {
   AppBreadcrumbs,
   PageCenteredState,
   PageContent,
-  UserInfo
+  UserInfo,
+  DeletedItemOverlay
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import useBlogPost from '@green-world/hooks/useBlogPost';
@@ -178,6 +180,13 @@ export const BlogPostPage = () => {
 
   return (
     <PageContent>
+      {post?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="blog post"
+          creatorId={post?.createdBy}
+          creatorNotFound={!userLoading && !sellerData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -222,7 +231,7 @@ export const BlogPostPage = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            gap: 4,
+            gap: 3,
             [theme.breakpoints.up('md')]: {
               width: '75%'
             }
@@ -233,9 +242,13 @@ export const BlogPostPage = () => {
               sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: 3,
+                gap: 1,
                 mb: 0.75,
-                mt: 1
+                mt: 1,
+                flexDirection: 'column',
+                [theme.breakpoints.up('xs')]: {
+                  flexDirection: 'row'
+                }
               }}
             >
               <ZSLogoLogoMark
@@ -243,22 +256,48 @@ export const BlogPostPage = () => {
                 width="24px"
                 height="42spx"
               />
-              {post.keywords?.map((kw) => (
-                <Chip
-                  key={kw}
-                  label={kw}
-                  variant="outlined"
-                  color="secondary"
-                />
-              ))}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  flexWrap: 'wrap'
+                }}
+              >
+                {post.keywords?.map((kw) => (
+                  <Chip
+                    key={kw}
+                    label={kw}
+                    variant="outlined"
+                    color="secondary"
+                  />
+                ))}
+              </Box>
             </Box>
           )}
           <Typography
             variant="h1"
-            sx={{ fontSize: '2.25rem !important', fontWeight: 700 }}
+            sx={(theme) => ({
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
+              fontSize: '2.5rem',
+              [theme.breakpoints.up('md')]: {
+                fontSize: '3.5rem'
+              },
+              color: 'secondary.main',
+              lineHeight: 1.2,
+              mb: 1
+            })}
           >
             {post?.title}
           </Typography>
+
+          <Box sx={{ mb: 1.5 }}>
+            <AIVerificationBadge
+              verifiedDone={post?.verifiedDone}
+              verified={post?.verified}
+            />
+          </Box>
 
           <Box
             sx={(theme) => ({

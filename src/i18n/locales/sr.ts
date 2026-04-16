@@ -6,7 +6,8 @@ export const sr = {
     ru: 'RUS'
   },
   common: {
-    unknownUser: 'Nepoznat korisnik'
+    unknownUser: 'Nepoznat korisnik',
+    noDescription: 'Nema opisa...'
   },
   breadcrumbs: {
     home: 'Početna',
@@ -394,6 +395,16 @@ export const sr = {
     newsletterAriaLabel: 'Email za prijavu na novosti',
     gardenerIllustrationAlt: 'Ilustracija baštovana'
   },
+  aiVerification: {
+    checking: 'Proveravanje sadržaja...',
+    verified: 'Verifikovano od AI',
+    verifiedTooltip:
+      'Ovaj sadržaj je prošao automatsku AI proveru bezbednosti.',
+    warning: 'Upozorenje',
+    warningTooltip: 'Ovaj sadržaj je označen kao potencijalno neprikladni.',
+    warningHelper:
+      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će što pre kontaktirati kreatora kako bi regulisali potencijalni problem.'
+  },
   aisearch: {
     groups: {
       products: 'Proizvodi',
@@ -530,7 +541,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     finished: 'Završeno'
   },
@@ -538,7 +550,8 @@ export const sr = {
     type: {
       cleaning: 'Čišćenje',
       selling: 'Prodaja',
-      planting: 'Sadnja'
+      planting: 'Sadnja',
+      education: 'Edukacija'
     },
     linkCopied: 'Kopiran link',
     linkCopyFailed: 'Neuspešno kopiranje linka',
@@ -642,14 +655,25 @@ export const sr = {
       title: 'AI generisanje opisa proizvoda:',
       conditions:
         'Uslovi za AI generisanje deskripcije: dodata minimum jedna fotografija, popunjen naziv proizvoda i dodato minimum 2, a maximum 10 ključnih reci',
-      keywordsLabel: 'Ključne fraze za generisanje (min 2 / max 10):',
+      manualOrAiHint: 'Prva slika služi za AI popunjavanje polja.',
+      keywordsLabel: 'Ključne fraze za generisanje opisa(min 2 / max 10):',
       keywordsPlaceholder: 'Dodaj ključne fraze (ENTER ili ,)',
       hint: 'Koristi pojmove iz baštovanstva: npr. saksija, supstrat, đubrivo, fikus, zalivanje…',
       generateButton: 'Generiši opis',
+      imageAutofillButton: 'Popuni ostala polja pomoću AI',
+      imageAutofillHint:
+        'AI će analizirati profilnu sliku i pokušati da popuni naziv, kratak opis, grupu, podgrupu i ključne fraze.',
       genericError: 'Greška',
       generationError: 'Greška pri generisanju opisa.',
       generated: 'AI opis generisan ✅',
-      generationFailed: 'Nije uspelo generisanje opisa.'
+      generationFailed: 'Nije uspelo generisanje opisa.',
+      imageAutofillLoading: 'AI analizira fotografiju i popunjava polja...',
+      imageAutofillSuccess: 'Polja su automatski popunjena na osnovu slike ✅',
+      imageAutofillFailed: 'AI analiza slike nije uspela.',
+      inappropriateFieldWarning:
+        'Uneli ste neprikladnu reč ili sadržaj. Obrišite neprikladan unos.',
+      submitBlockedWarning:
+        'Obrišite neprikladnu reč iz naziva, opisa ili kratkog opisa pre kreiranja proizvoda.'
     }
   },
   productsView: {
@@ -804,6 +828,71 @@ export const sr = {
   },
   documentsView: {
     title: 'Dokumenta',
+    hero: {
+      chip: 'Transparentnost platforme',
+      title: 'Naša platforma, naše vrednosti',
+      subtitle:
+        'Sve što treba da znate o tome kako Zeleni Svet funkcioniše — od zaštite podataka do upotrebe veštačke inteligencije.'
+    },
+    ai: {
+      title: 'Kako koristimo veštačku inteligenciju',
+      intro:
+        'Zeleni Svet koristi AI isključivo da bi platforma bila bezbednija i korisnija za sve. AI sistemi nikada ne donose finalne odluke — svi sporni slučajevi se ručno proveravaju od strane našeg tima.',
+      uses: {
+        moderation: {
+          title: 'Moderacija sadržaja',
+          description:
+            'Svaki novi oglas, događaj ili usluga automatski prolazi AI analizu kojom se detektuju uvredljiv jezik, prevara ili neprikladni sadržaj.'
+        },
+        search: {
+          title: 'Pametna pretraga',
+          description:
+            'AI razume kontekst pretrage i vraća relevantne rezultate čak i kada se unos ne poklapa tačno sa naslovom.'
+        },
+        imageCheck: {
+          title: 'Analiza slika',
+          description:
+            'Fotografije koje korisnici postavljaju prolaze automatsku proveru radi otkrivanja eksplicitnog ili neprikladnog vizuelnog sadržaja.'
+        },
+        profileCheck: {
+          title: 'Verifikacija profila',
+          description:
+            'Korisničke biografije i podaci o prodavnici analiziraju se radi otkrivanja lažnih informacija ili potencijalno štetnog sadržaja.'
+        },
+        comments: {
+          title: 'Pregled komentara',
+          description:
+            'Komentari i poruke prate se radi otkrivanja uznemiravanja, spama ili govora mržnje — u cilju očuvanja zdravog prostora zajednice.'
+        },
+        blogCheck: {
+          title: 'Blog moderacija',
+          description:
+            'Blog postovi se analiziraju pre objavljivanja radi detekcije dezinformacija, zdravstvenih tvrdnji bez pokrića ili štetnog sadržaja.'
+        }
+      },
+      badge: {
+        title: 'Šta znači AI bedž verifikacije?',
+        verified: {
+          label: 'Verifikovano',
+          description:
+            'AI je pregledao sadržaj i nije pronašao nikakve probleme. Oglas/profil je u skladu sa pravilima platforme.'
+        },
+        flagged: {
+          label: 'Upozorenje',
+          description:
+            'AI je detektovao potencijalni problem. Naš tim je obavešten i kontaktiraće kreatora. Sadržaj je i dalje vidljiv dok se ne utvrdi prekršaj.'
+        },
+        checking: {
+          label: 'Proveravam',
+          description:
+            'Sadržaj je novi ili ažuriran i trenutno prolazi AI analizu. Ovaj status traje samo nekoliko sekundi.'
+        }
+      },
+      dataPrivacy: {
+        title: 'Vaši podaci su bezbedni',
+        body: 'Sadržaj koji prolazi AI analizu (tekst oglasa, slike, linkovi) koristi se isključivo za procenu bezbednosti i ne čuva se u AI sistemima. Zeleni Svet ne prosleđuje lične podatke korisnika trećim licima u svrhe AI obrade. Svi modeli poštuju GDPR smernice i podaci se ne koriste za trening AI modela.'
+      }
+    },
     sections: {
       vision: {
         title: 'Naša vizija i misija',
@@ -861,7 +950,7 @@ export const sr = {
   },
   metaTags: {
     defaultDescription:
-      'Zeleni Svet je vodeća online cvećara i marketplace za kupovinu cveća i biljaka u Srbiji. Povežite se sa najboljim cvećarama, pronađite saksijsko cveće, rezano cveće i baštenski asortiman na jednom mestu.',
+      'Zeleni Svet – vodeća platforma za kupovinu cveća i biljaka u Srbiji. Povežite se sa online cvećarama i pronađite saksijsko i rezano cveće.',
     defaultKeywords:
       'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće, cveće srbija, dostava cveća beograd, cvećara online srbija, rasadnici srbija, kupovina biljaka, baštovanstvo, saksijsko cveće, rezano cveće, dekoracija bašte, cvećare, zeleni svet, marketplace za cveće'
   },
@@ -869,7 +958,7 @@ export const sr = {
     home: {
       title: 'Online Cveće i Biljke | Zeleni Svet | Kupovina Cveća Srbija',
       description:
-        'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Pronađite online cvećare, saksijsko cveće i baštenski asortiman uz dostavu.',
+        'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za cveće i biljke u Srbiji. Online cvećare, saksijsko cveće i baštenski asortiman.',
       keywords:
         'online cveće, online cvećara, kupovina cveća, kupovina cveća online, naruči cveće online, dostava cveća, cvećara srbija, cveće beograd, zeleni svet, marketplace cveća, baštovanstvo srbija'
     },
@@ -1042,6 +1131,7 @@ export const sr = {
     onlyOnline: 'Samo online',
     physicalShop: 'Fizička prodavnica',
     productsCount: '{count} proizvoda',
+    servicesCount: '{count} usluga',
     viewShop: 'Pogledaj prodavnicu'
   },
   shopPage: {
@@ -1055,6 +1145,7 @@ export const sr = {
     workingHours: 'Radno vreme',
     closed: 'Zatvoreno',
     productsCount: '{count} proizvoda',
+    servicesCount: '{count} usluga',
     searchPlaceholder: 'Pretraži prodavnicu...'
   },
   shopStatsCard: {
@@ -1194,27 +1285,42 @@ export const sr = {
     headingCreate: 'Kreiraj događaj',
     fields: {
       titleLabel: 'Naziv događaja:',
-      titlePlaceholder: 'Unesite naziv događaja',
+      titleHint: 'Unesite jasan i prepoznatljiv naziv događaja',
+      titlePlaceholder: 'Npr. Čišćenje parka Tašmajdan, Sajam sadnica...',
       typeLabel: 'Tip događaja:',
+      typeHint: 'Izaberite tip koji najbolje opisuje vašu akciju',
       typePlaceholder: 'Izaberite tip događaja',
       contactPersonLabel: 'Kontakt osoba:',
-      contactPersonPlaceholder: 'Kontakt osoba',
+      contactPersonHint: 'Ime i prezime kontakt osobe (opciono)',
+      contactPersonPlaceholder: 'Npr. Marija Jovanović',
       placeLabel: 'Mesto događaja:',
-      placePlaceholder: 'Unesite mesto događaja',
+      placeHint: 'Grad ili opština gde se događaj odvija',
+      placePlaceholder: 'Npr. Beograd, Novi Sad, Niš...',
       addressLabel: 'Adresa događaja:',
-      addressPlaceholder: 'Unesite adresu događaja',
+      addressHint: 'Precizna adresa održavanja događaja (opciono)',
+      addressPlaceholder: 'Npr. Ulica Knez Mihailova 12, park kod fontane...',
       imageLabel: 'Dodajte fotografiju događaja:',
+      imageHint: 'Dodajte fotografiju koja vizuelno opisuje događaj',
       addImage: 'Dodaj sliku',
       descriptionLabel: 'Opis događaja:',
+      descriptionHint:
+        'Opišite detalje, šta je potrebno doneti, posebne napomene...',
       dateLabel: 'Datum događaja:',
+      dateHint: 'Datum mora biti najmanje 24 sata od sada',
       startTimeLabel: 'Vreme početka događaja:',
-      startTimePlaceholder: 'Unesite vreme početka događaja',
+      startTimeHint: 'Npr. 10:00 ili 10h',
+      startTimePlaceholder: 'Npr. 10:00',
       endTimeLabel: 'Vreme završetka događaja:',
-      endTimePlaceholder: 'Unesite vreme završetka događaja',
+      endTimeHint: 'Npr. 18:00 ili 18h (opciono)',
+      endTimePlaceholder: 'Npr. 18:00',
       contactPhoneLabel: 'Kontakt telefon:',
+      contactPhoneHint: 'Telefon za direktan kontakt (opciono)',
+      contactPhonePlaceholder: 'Npr. +381 60 123 456 7',
       contactMailLabel: 'Kontakt mail:',
-      contactMailPlaceholder: 'Kontakt mail',
+      contactMailHint: 'Email adresa za kontakt (opciono)',
+      contactMailPlaceholder: 'Npr. kontakt@zelenisvet.rs',
       statusLabel: 'Status akcije:',
+      statusHint: 'Izaberite trenutni status vaše akcije',
       statusPlaceholder: 'Izaberite status akcije'
     },
     status: {
@@ -1223,7 +1329,16 @@ export const sr = {
       finished: 'Završeno'
     },
     submitEdit: 'Ažuriraj događaj',
-    submitCreate: 'Kreiraj događaj'
+    submitCreate: 'Kreiraj događaj',
+    requiredFieldsLegend: 'Polja označena sa * su obavezna',
+    validation: {
+      titleRequired: 'Naziv događaja je obavezan',
+      typeRequired: 'Tip događaja je obavezan',
+      placeRequired: 'Mesto događaja je obavezno',
+      startTimeRequired: 'Vreme početka je obavezno',
+      statusRequired: 'Status akcije je obavezan',
+      dateTooSoon: 'Datum mora biti najmanje 24 sata od sada'
+    }
   },
   orderProductView: {
     metaFallbackTitle: 'Zeleni svet | proizvod',
@@ -1706,5 +1821,12 @@ export const sr = {
     errorKeywordsFormat: 'Ključne reči moraju biti jedne reči bez razmaka',
     errorKeywordOneWord: 'Ključna reč mora biti jedna reč',
     errorTimeOfReading: 'Unesite pozitivnu vrednost (minuti)'
+  },
+  deletedItem: {
+    title: 'Ovaj {itemType} više nije dostupan',
+    description:
+      'Korisnik je obrisao ovaj {itemType}. Sadržaj više nije moguće pregledati.',
+    visitShop: 'Poseti korisnika',
+    creatorGone: 'Ovaj korisnik više nije korisnik Zelenog Sveta.'
   }
 } as const;

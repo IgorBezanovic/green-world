@@ -2,12 +2,12 @@
 
 import { Button, CircularProgress, styled } from '@mui/material';
 import { Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 type AiButtonProps = {
   isAiLoading: boolean;
   canGenerate: boolean;
   onClick: () => void;
+  label: string;
 };
 
 const GradientButton = styled(Button)(({ theme }) => ({
@@ -51,10 +51,9 @@ const GradientButton = styled(Button)(({ theme }) => ({
 export const AiButton = ({
   isAiLoading,
   canGenerate,
-  onClick
+  onClick,
+  label
 }: AiButtonProps) => {
-  const { t } = useTranslation();
-
   return (
     <GradientButton
       variant="contained"
@@ -71,7 +70,7 @@ export const AiButton = ({
           sx={{ color: (theme) => theme.palette.primary.main }}
         />
       ) : (
-        t('createEditProduct.ai.generateButton')
+        label
       )}
     </GradientButton>
   );

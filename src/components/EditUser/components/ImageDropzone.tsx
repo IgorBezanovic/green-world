@@ -78,7 +78,7 @@ export const ImageDropzone = ({ onChange, disabled }: ImageDropzoneProps) => {
           <CloudUploadOutlinedIcon />
         </Box>
 
-        <Typography fontWeight={600}>Prevucite sliku ovde</Typography>
+        <Typography>Prevucite sliku ovde</Typography>
 
         <Typography variant="body2" color="text.secondary">
           ili kliknite da izaberete fajl

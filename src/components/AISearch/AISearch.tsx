@@ -19,6 +19,7 @@ import {
   HandCoins,
   NotebookPen,
   Phone,
+  Mail,
   Search,
   Sparkles,
   X,
@@ -34,6 +35,7 @@ export type SearchOptionType = {
   title: string;
   image?: string;
   phone?: string;
+  email?: string;
   price?: string;
   date?: string;
   author?: string;
@@ -140,9 +142,7 @@ export const AISearch = () => {
             />
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Typography variant="body2" fontWeight={500}>
-                  {option.title}
-                </Typography>
+                <Typography variant="body2">{option.title}</Typography>
                 {option.isPromoted && (
                   <>
                     <Chip
@@ -168,7 +168,19 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <Phone style={{ marginRight: 4 }} /> {option.phone}
+                  {option.phone ? (
+                    <>
+                      <Phone
+                        style={{ marginRight: 4, width: 14, height: 14 }}
+                      />{' '}
+                      {option.phone}
+                    </>
+                  ) : option.email ? (
+                    <>
+                      <Mail style={{ marginRight: 4, width: 14, height: 14 }} />{' '}
+                      {option.email}
+                    </>
+                  ) : null}
                 </Typography>
               )}
               {option.type === 'product' && (
@@ -176,7 +188,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <HandCoins style={{ marginRight: 4 }} />{' '}
+                  <HandCoins
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {option.price === 'Cena Na Upit'
                     ? t('aisearch.priceOnRequest')
                     : `${option.price
@@ -192,7 +206,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <HandCoins style={{ marginRight: 4 }} />{' '}
+                  <HandCoins
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {option.price
                     ? `${t('aisearch.from')} ${option.price} ${t('aisearch.currency')}`
                     : t('aisearch.priceOnRequest')}
@@ -203,7 +219,9 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <CalendarDays style={{ marginRight: 4 }} />{' '}
+                  <CalendarDays
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
                   {dayjs(option.date).format('DD.MM.YYYY. HH:mm')}
                 </Typography>
               )}
@@ -212,7 +230,10 @@ export const AISearch = () => {
                   variant="caption"
                   sx={{ display: 'flex', alignItems: 'center' }}
                 >
-                  <NotebookPen style={{ marginRight: 4 }} /> {option.author}
+                  <NotebookPen
+                    style={{ marginRight: 4, width: 14, height: 14 }}
+                  />{' '}
+                  {option.author}
                 </Typography>
               )}
             </Box>

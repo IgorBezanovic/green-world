@@ -1,8 +1,9 @@
 import { ProductPreview } from '@green-world/hooks/useHomeProducts';
 import { Product } from '@green-world/utils/types';
 import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
-import { GridProducts, LazySection } from '../../components';
+import { GridProducts, LazySection, PageTitle } from '../../components';
 
 type SectionProps = {
   title: string;
@@ -11,35 +12,37 @@ type SectionProps = {
 };
 
 export const ProductSection = ({ title, subTitle, products }: SectionProps) => {
-  if (!products || products.length === 0) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !products || products.length === 0) return null;
 
   return (
     <LazySection>
       <Box
         sx={(theme) => ({
           textAlign: 'center',
-          my: 6,
+          mt: 6,
+          mb: 0,
           [theme.breakpoints.down('md')]: {
-            my: 4
+            mt: 4,
+            mb: 0
           }
         })}
       >
-        <Typography
-          variant="h2"
-          sx={(theme) => ({
-            fontSize: '3.75rem !important',
-            [theme.breakpoints.down('md')]: {
-              fontSize: '3rem !important'
-            },
-            color: 'secondary.main',
-            fontFamily: 'Ephesis'
-          })}
-        >
-          {title}
-        </Typography>
+        <PageTitle component="h2">{title}</PageTitle>
         <Typography
           variant="body1"
-          sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+          sx={{
+            maxWidth: '42rem',
+            marginX: 'auto',
+            color: 'text.primary',
+            fontSize: '1.2rem',
+            lineHeight: 1.6
+          }}
         >
           {subTitle}
         </Typography>

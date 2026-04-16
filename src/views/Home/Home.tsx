@@ -12,6 +12,7 @@ import { useHomeProducts } from '@green-world/hooks/useHomeProducts';
 import { homeCategories } from '@green-world/utils/constants';
 import { ZSBannerRs, ZSBannerRsTablet } from '@green-world/utils/images';
 import { Box, Button, Typography, Skeleton } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -22,8 +23,33 @@ export const Home = () => {
   const shouldRenderServiceSection =
     isFetching || (data?.services?.length ?? 0) > 0;
 
+  const [isBannerLoaded, setIsBannerLoaded] = useState(false);
+  const bannerRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (bannerRef.current?.complete) {
+      setIsBannerLoaded(true);
+    }
+  }, []);
+
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
+      <Box
+        component="h1"
+        sx={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+          whiteSpace: 'nowrap',
+          border: 0
+        }}
+      >
+        {t('seo.home.title')}
+      </Box>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -46,25 +72,27 @@ export const Home = () => {
           <source media="(max-width: 768px)" srcSet={ZSBannerRsTablet} />
           <Box
             component="img"
+            ref={bannerRef}
             src={ZSBannerRs}
             alt={t('home.bannerAlt')}
             loading="eager"
+            fetchPriority="high"
             decoding="async"
+            width="100%"
             sx={{
               width: '100%',
-              height: 'auto',
+              height: '100%',
+              maxHeight: '325px',
               borderRadius: 1,
               mb: 0.5,
               boxShadow: 1
             }}
             style={{
               objectFit: 'cover',
-              filter: 'blur(10px)',
+              filter: isBannerLoaded ? 'blur(0)' : 'blur(10px)',
               transition: 'filter 0.5s ease'
             }}
-            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              (e.currentTarget as HTMLImageElement).style.filter = 'blur(0)';
-            }}
+            onLoad={() => setIsBannerLoaded(true)}
           />
         </Box>
         {/* <FeaturedProducts /> */}
@@ -72,9 +100,11 @@ export const Home = () => {
         <Box
           sx={(theme) => ({
             textAlign: 'center',
-            my: 1.5,
+            mt: 1.5,
+            mb: 0,
             [theme.breakpoints.up('md')]: {
-              my: 2
+              mt: 2,
+              mb: 0
             }
           })}
         >
@@ -86,14 +116,21 @@ export const Home = () => {
                 fontSize: '3rem !important'
               },
               color: 'secondary.main',
-              fontFamily: 'Ephesis'
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400
             })}
           >
             {t('home.latestProductsTitle')}
           </Typography>
           <Typography
             variant="body1"
-            sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
+            sx={{
+              maxWidth: '42rem',
+              marginX: 'auto',
+              color: 'text.primary',
+              fontSize: '1.2rem',
+              lineHeight: 1.6
+            }}
           >
             {t('home.latestProductsSubtitle')}
           </Typography>
@@ -161,31 +198,48 @@ export const Home = () => {
             isLoading={isFetching}
             searchAllLabel={t('home.searchAllServices')}
             onSearchAll={() => navigate('/services')}
-            onOpenService={(serviceId) => navigate(`/services/${serviceId}`)}
             t={t}
           />
         )}
 
-        <Typography
-          variant="h2"
+        <Box
           sx={(theme) => ({
-            fontSize: '3.75rem !important',
             textAlign: 'center',
-            [theme.breakpoints.down('md')]: {
-              fontSize: '3rem !important'
-            },
-            color: 'secondary.main',
-            fontFamily: 'Ephesis'
+            mt: 1.5,
+            mb: 0,
+            [theme.breakpoints.up('md')]: {
+              mt: 2,
+              mb: 0
+            }
           })}
         >
-          {t('home.categoriesTitle')}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: '42rem', marginX: 'auto', color: 'text.primary' }}
-        >
-          {t('home.categoriesSubtitle')}
-        </Typography>
+          <Typography
+            variant="h2"
+            sx={(theme) => ({
+              fontSize: '3.75rem !important',
+              [theme.breakpoints.down('md')]: {
+                fontSize: '3rem !important'
+              },
+              color: 'secondary.main',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400
+            })}
+          >
+            {t('home.categoriesTitle')}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              maxWidth: '42rem',
+              marginX: 'auto',
+              color: 'text.primary',
+              fontSize: '1.2rem',
+              lineHeight: 1.6
+            }}
+          >
+            {t('home.categoriesSubtitle')}
+          </Typography>
+        </Box>
         <Box
           component="section"
           sx={(theme) => ({

@@ -25,7 +25,7 @@ export const WorkingHoursCard = ({
             alignItems: 'center'
           }}
         >
-          <Typography fontWeight={600} mb={2}>
+          <Typography variant="body1" mb={2}>
             {t('shopPage.workingHours')}
           </Typography>
           {onEdit && (

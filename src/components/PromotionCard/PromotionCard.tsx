@@ -73,9 +73,7 @@ export const PromotionCard = ({
         <Icon size={22} />
       </Box>
 
-      <Typography variant="h6" fontWeight={700}>
-        {title}
-      </Typography>
+      <Typography variant="h6">{title}</Typography>
 
       <Typography variant="body2" color="text.secondary">
         {description}
@@ -85,7 +83,6 @@ export const PromotionCard = ({
         <Box sx={{ mt: 'auto' }}>
           <Typography
             variant="body2"
-            fontWeight={600}
             sx={{
               color: isSuccess ? 'success.main' : 'warning.main',
               display: 'inline-flex',

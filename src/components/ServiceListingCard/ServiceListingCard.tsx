@@ -9,6 +9,8 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  Divider,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { MapPin } from 'lucide-react';
@@ -106,33 +108,37 @@ export const ServiceListingCard = ({ service }: ServiceListingCardProps) => {
           </Typography>
         </Box>
 
+        <Tooltip title={service.title} arrow>
+          <Typography
+            gutterBottom
+            variant="h3"
+            component="h2"
+            fontWeight={500}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: 'vertical',
+              color: 'text.primary',
+              minHeight: '1.4em'
+            }}
+          >
+            {service.title}
+          </Typography>
+        </Tooltip>
+        <Divider variant="fullWidth" />
         <Typography
           gutterBottom
-          variant="h6"
-          component="h2"
-          fontWeight="bold"
-          sx={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            color: 'text.primary'
-          }}
-        >
-          {service.title}
-        </Typography>
-
-        <Typography
           variant="body2"
-          color="text.secondary"
           sx={{
-            mb: 2,
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 3,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
+            minHeight: '4.5rem',
+            paddingTop: '8px'
           }}
         >
           {getPlainTextFromHtml(service.description)}
@@ -148,11 +154,11 @@ export const ServiceListingCard = ({ service }: ServiceListingCardProps) => {
             alignItems: 'center'
           }}
         >
-          <Typography variant="body2" fontWeight="medium" color="text.primary">
+          <Typography variant="body2" fontWeight={400} color="text.primary">
             {(service.providerId as any)?.name || t('service.user')}{' '}
             {(service.providerId as any)?.lastname || ''}
           </Typography>
-          <Typography variant="body2" fontWeight={600} color="primary.main">
+          <Typography variant="body2" color="primary.dark">
             {service.priceFrom
               ? `${t('service.fromPricePrefix')} ${service.priceFrom} ${t('service.currency')}`
               : t('service.onQuery')}

@@ -39,7 +39,7 @@ export const LanguageSwitcher = ({
           value="sr"
           sx={{
             color,
-            '&.Mui-selected': { color: 'primary.main' }
+            '&.Mui-selected': { color, fontWeight: 700 }
           }}
         >
           {t('language.sr')}
@@ -48,7 +48,7 @@ export const LanguageSwitcher = ({
           value="en"
           sx={{
             color,
-            '&.Mui-selected': { color: 'primary.main' }
+            '&.Mui-selected': { color, fontWeight: 700 }
           }}
         >
           {t('language.en')}
@@ -57,7 +57,7 @@ export const LanguageSwitcher = ({
           value="ru"
           sx={{
             color,
-            '&.Mui-selected': { color: 'primary.main' }
+            '&.Mui-selected': { color, fontWeight: 700 }
           }}
         >
           {t('language.ru')}

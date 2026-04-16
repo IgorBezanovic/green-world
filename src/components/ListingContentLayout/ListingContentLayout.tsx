@@ -36,7 +36,7 @@ export const ListingContentLayout = ({
         maxWidth: '1400px',
         mx: 'auto',
         px: 2,
-        pb: 4,
+        py: 4,
         [theme.breakpoints.up('sm')]: { px: 3 },
         [theme.breakpoints.up('xl')]: { px: 0 }
       })}
@@ -59,7 +59,11 @@ export const ListingContentLayout = ({
             <Button
               variant="contained"
               onClick={onToggleFilters}
-              sx={{ width: '100%', mb: 2 }}
+              sx={{
+                width: '100%',
+                mb: 2,
+                py: 1.1
+              }}
             >
               {isFiltersOpen ? closeFiltersLabel : openFiltersLabel}
             </Button>

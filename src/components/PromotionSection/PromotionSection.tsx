@@ -69,9 +69,7 @@ export const PromotionSection = () => {
           }}
         >
           <Zap />
-          <Typography variant="h5" fontWeight={700}>
-            {t('promotionSection.title')}
-          </Typography>
+          <Typography variant="h5">{t('promotionSection.title')}</Typography>
         </Box>
         <Chip
           icon={<Crown size={14} />}

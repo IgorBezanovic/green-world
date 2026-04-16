@@ -24,8 +24,9 @@ import {
   CardContent,
   Chip,
   CircularProgress,
-  InputLabel,
+  Divider,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme
@@ -41,13 +42,15 @@ type EventType = Event['typeAction'];
 const EVENT_TYPE_OPTIONS: Array<EventType> = [
   'cleaning',
   'selling',
-  'planting'
+  'planting',
+  'education'
 ];
 
 const EVENT_TYPE_LABELS: Record<EventType, string> = {
   cleaning: 'Čišćenje',
   selling: 'Prodaja',
-  planting: 'Sadnja'
+  planting: 'Sadnja',
+  education: 'Edukacija'
 };
 
 const EVENT_TYPE_COLORS: Record<
@@ -56,7 +59,8 @@ const EVENT_TYPE_COLORS: Record<
 > = {
   cleaning: 'success',
   selling: 'info',
-  planting: 'warning'
+  planting: 'warning',
+  education: 'secondary'
 };
 
 const EVENT_TYPE_BADGE_SX: Record<
@@ -74,11 +78,20 @@ const EVENT_TYPE_BADGE_SX: Record<
   planting: {
     bgcolor: 'warning.light',
     color: 'warning.dark'
+  },
+  education: {
+    bgcolor: 'secondary.light',
+    color: 'secondary.dark'
   }
 };
 
 const isEventType = (value: string): value is EventType => {
-  return value === 'cleaning' || value === 'selling' || value === 'planting';
+  return (
+    value === 'cleaning' ||
+    value === 'selling' ||
+    value === 'planting' ||
+    value === 'education'
+  );
 };
 
 const isEventFinished = (event: Event) => {
@@ -223,7 +236,7 @@ export const Events = () => {
   ];
 
   return (
-    <PageContent sx={{ bgcolor: 'background.default', pb: 8 }}>
+    <PageContent>
       <ItemsHero
         kicker="Pridruži se zajednici"
         title="Događaji"
@@ -266,9 +279,13 @@ export const Events = () => {
               }}
             >
               <Typography
-                variant="h1"
                 color="secondary.main"
-                sx={{ fontFamily: 'Ephesis' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2.2rem',
+                  lineHeight: 1
+                }}
               >
                 Filteri
               </Typography>
@@ -284,12 +301,7 @@ export const Events = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary', mb: 1 }}
-                htmlFor="event-location"
-              >
-                Lokacija
-              </InputLabel>
+              <Typography gutterBottom>Lokacija</Typography>
               <TextField
                 id="event-location"
                 value={filterLocation}
@@ -308,12 +320,7 @@ export const Events = () => {
             </Box>
 
             <Box>
-              <InputLabel
-                sx={{ color: 'text.primary', mb: 1 }}
-                id="event-type-label"
-              >
-                Tip događaja
-              </InputLabel>
+              <Typography gutterBottom>Tip događaja</Typography>
               <Autocomplete
                 id="event-type"
                 options={EVENT_TYPE_OPTIONS}
@@ -369,9 +376,7 @@ export const Events = () => {
                   }}
                 >
                   <Calendar size={18} color={theme.palette.success.dark} />
-                  <Typography variant="body1" fontWeight={700}>
-                    O događajima
-                  </Typography>
+                  <Typography variant="body1">O događajima</Typography>
                 </Box>
                 <Typography variant="body2" color="text.secondary">
                   Svaki događaj nudi priliku za učenje, druženje i pozitivan
@@ -381,7 +386,6 @@ export const Events = () => {
                 <Box sx={{ mt: 1.5 }}>
                   <Typography
                     variant="body2"
-                    fontWeight={700}
                     color="text.primary"
                     sx={{ mb: 0.75 }}
                   >
@@ -438,7 +442,7 @@ export const Events = () => {
                   [theme.breakpoints.up('md')]: {
                     gridTemplateColumns: 'repeat(3, 1fr)'
                   },
-                  [theme.breakpoints.up('lgm')]: {
+                  [theme.breakpoints.up('xl')]: {
                     gridTemplateColumns: 'repeat(4, 1fr)'
                   }
                 })}
@@ -567,34 +571,36 @@ export const Events = () => {
                               }
                             }}
                           >
-                            <Typography
-                              variant="h6"
-                              component="h2"
-                              fontWeight="bold"
-                              sx={{
-                                color: 'text.primary',
-                                mb: 1,
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: 'vertical'
-                              }}
-                            >
-                              {event.title}
-                            </Typography>
-
+                            <Tooltip title={event.title} arrow>
+                              <Typography
+                                variant="h3"
+                                component="h2"
+                                fontWeight={500}
+                                sx={{
+                                  color: 'text.primary',
+                                  mb: 1,
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 1,
+                                  WebkitBoxOrient: 'vertical',
+                                  minHeight: '1.4em'
+                                }}
+                              >
+                                {event.title}
+                              </Typography>
+                            </Tooltip>
+                            <Divider variant="fullWidth" />
                             <Typography
                               variant="body2"
-                              color="text.secondary"
                               sx={{
-                                minHeight: '4.5em',
-                                lineHeight: 1.5,
+                                display: '-webkit-box',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 3,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 3,
-                                WebkitBoxOrient: 'vertical'
+                                minHeight: '4.5rem',
+                                paddingTop: '8px'
                               }}
                             >
                               {getPlainTextFromHtml(event.description)}
@@ -627,7 +633,6 @@ export const Events = () => {
                                       <Calendar size={14} />
                                       <Typography
                                         variant="caption"
-                                        fontWeight={600}
                                         color="text.secondary"
                                         sx={{
                                           whiteSpace: 'nowrap',
@@ -642,7 +647,6 @@ export const Events = () => {
                                       <User size={14} />
                                       <Typography
                                         variant="caption"
-                                        fontWeight={600}
                                         color="text.secondary"
                                         sx={{
                                           whiteSpace: 'nowrap',
@@ -667,7 +671,6 @@ export const Events = () => {
                                   <Typography
                                     variant="caption"
                                     color="text.secondary"
-                                    fontWeight={700}
                                     sx={{
                                       whiteSpace: 'nowrap',
                                       fontSize: '0.72rem'

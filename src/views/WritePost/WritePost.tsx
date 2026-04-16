@@ -1,6 +1,10 @@
 'use client';
 
-import { AppBreadcrumbs, PageContent } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  PageContent,
+  PageTitle
+} from '@green-world/components';
 import { useCreateBlogPost } from '@green-world/hooks/useCreateBlogPost';
 import { useImage } from '@green-world/hooks/useImage';
 import { request } from '@green-world/utils/api';
@@ -336,7 +340,7 @@ export const WritePost = () => {
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -357,9 +361,9 @@ export const WritePost = () => {
       >
         <AppBreadcrumbs pages={pages} />
 
-        <Typography variant="h1" color="secondary.main">
+        <PageTitle>
           {postId ? t('writePost.pageTitleEdit') : t('writePost.pageTitle')}
-        </Typography>
+        </PageTitle>
 
         {error && (
           <Alert severity="error">

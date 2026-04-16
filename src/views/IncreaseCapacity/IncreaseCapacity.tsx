@@ -39,7 +39,7 @@ export const IncreaseCapacity = () => {
   const totalRsd = selectedPackage.priceRsd;
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -54,7 +54,6 @@ export const IncreaseCapacity = () => {
 
         <Typography
           variant="h4"
-          fontWeight={700}
           sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 3 }}
         >
           <TrendingUp color={theme.palette.success.main} size={28} />
@@ -123,7 +122,7 @@ export const IncreaseCapacity = () => {
           </CardContent>
         </Card>
 
-        <Typography variant="h4" fontWeight={600} sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Izaberite paket
         </Typography>
         <Box
@@ -182,7 +181,7 @@ export const IncreaseCapacity = () => {
                 </Box>
               )}
               <CardContent>
-                <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+                <Typography variant="h4" sx={{ mb: 0.5 }}>
                   {pkg.name}
                 </Typography>
                 <Typography
@@ -195,7 +194,6 @@ export const IncreaseCapacity = () => {
                 <Box sx={{ mb: 2 }}>
                   <Typography
                     variant="h5"
-                    fontWeight={700}
                     color="primary.main"
                     sx={{ mb: 0.5 }}
                   >
@@ -278,7 +276,7 @@ export const IncreaseCapacity = () => {
               }}
             >
               Ukupno za plaćanje: {selectedPackage.name} ={' '}
-              <strong>{totalRsd},00 RSD</strong>
+              <strong>{totalRsd} RSD</strong>
             </Typography>
             <Box
               sx={{

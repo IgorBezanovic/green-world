@@ -11,7 +11,8 @@ import {
   CardMedia,
   CardActions,
   IconButton,
-  Divider
+  Divider,
+  Tooltip
 } from '@mui/material';
 import { Copy, EditIcon, Trash } from 'lucide-react';
 import { useState } from 'react';
@@ -77,14 +78,39 @@ export const BlogCard = ({ post }: BlogCardProps) => {
         />
       )}
       <CardContent sx={{ flex: 1 }}>
-        <Typography variant="h6" gutterBottom>
-          {post.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Tooltip title={post.title} arrow>
+          <Typography
+            variant="h3"
+            fontWeight={500}
+            gutterBottom
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: 'vertical',
+              minHeight: '1.4em'
+            }}
+          >
+            {post.title}
+          </Typography>
+        </Tooltip>
+        <Divider variant="fullWidth" />
+        <Typography
+          variant="body2"
+          sx={{
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 3,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minHeight: '4.5rem',
+            paddingTop: '8px'
+          }}
+        >
           {post.blocks
             .find((b: any) => b.type === 'text')
-            ?.text?.substring(0, 100)
-            .replace(/<[^>]*>/g, '') || t('blogCard.noDescription')}
+            ?.text?.replace(/<[^>]*>/g, '') || t('common.noDescription')}
         </Typography>
       </CardContent>
       <Box

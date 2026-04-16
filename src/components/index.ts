@@ -1,4 +1,5 @@
 export * from '@green-world/components/AISearch';
+export * from '@green-world/components/AIVerificationBadge';
 export * from '@green-world/components/AllRights';
 export * from '@green-world/components/AnalyticsTracker';
 export * from '@green-world/components/AppBreadcrumbs';
@@ -37,6 +38,7 @@ export * from '@green-world/components/MetaLoginAuth';
 export * from '@green-world/components/Navbar';
 export * from '@green-world/components/NavTrack';
 export * from '@green-world/components/DeleteConfirmDialog';
+export * from '@green-world/components/DeletedItemOverlay';
 export * from '@green-world/components/ProductCard';
 export * from '@green-world/components/ProductSection';
 export * from '@green-world/components/PromotionCard';
@@ -57,3 +59,4 @@ export * from '@green-world/components/UserInfo';
 export * from '@green-world/components/UserStatistics';
 export * from '@green-world/components/VoteButtons';
 export * from '@green-world/components/WorkingHoursCard';
+export * from '@green-world/components/PageTitle';

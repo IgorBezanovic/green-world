@@ -6,7 +6,8 @@ export const en = {
     ru: 'RUS'
   },
   common: {
-    unknownUser: 'Unknown user'
+    unknownUser: 'Unknown user',
+    noDescription: 'No description...'
   },
   breadcrumbs: {
     home: 'Home',
@@ -395,6 +396,16 @@ export const en = {
     newsletterAriaLabel: 'Email for newsletter signup',
     gardenerIllustrationAlt: 'Gardener illustration'
   },
+  aiVerification: {
+    checking: 'Checking content...',
+    verified: 'Verified by AI',
+    verifiedTooltip: 'This content has passed the automated AI safety check.',
+    warning: 'Warning',
+    warningTooltip:
+      'This content has been flagged as potentially inappropriate.',
+    warningHelper:
+      'This content may contain inappropriate material. Please proceed with caution. The Zeleni Svet team will contact the creator as soon as possible to resolve the potential issue.'
+  },
   aisearch: {
     groups: {
       products: 'Products',
@@ -526,7 +537,8 @@ export const en = {
     type: {
       cleaning: 'Cleaning',
       selling: 'Selling',
-      planting: 'Planting'
+      planting: 'Planting',
+      education: 'Education'
     },
     finished: 'Finished'
   },
@@ -534,7 +546,8 @@ export const en = {
     type: {
       cleaning: 'Cleaning',
       selling: 'Selling',
-      planting: 'Planting'
+      planting: 'Planting',
+      education: 'Education'
     },
     linkCopied: 'Link copied',
     linkCopyFailed: 'Failed to copy link',
@@ -638,14 +651,25 @@ export const en = {
       title: 'AI product description generation:',
       conditions:
         'Conditions for AI description generation: at least one image added, product name filled, and 2 to 10 keywords added',
+      manualOrAiHint: 'The first image is used for AI field completion.',
       keywordsLabel: 'Keywords for generation (min 2 / max 10):',
       keywordsPlaceholder: 'Add keywords (ENTER or ,)',
       hint: 'Use gardening terms: e.g. pot, substrate, fertilizer, ficus, watering…',
       generateButton: 'Generate description',
+      imageAutofillButton: 'Fill the remaining fields with AI',
+      imageAutofillHint:
+        'AI will analyze the profile image and try to fill the title, short description, group, subgroup, and keywords.',
       genericError: 'Error',
       generationError: 'Error generating description.',
       generated: 'AI description generated ✅',
-      generationFailed: 'Description generation failed.'
+      generationFailed: 'Description generation failed.',
+      imageAutofillLoading: 'AI is analyzing the photo and filling fields...',
+      imageAutofillSuccess: 'Fields auto-filled from image ✅',
+      imageAutofillFailed: 'Image AI analysis failed.',
+      inappropriateFieldWarning:
+        'You entered inappropriate wording or content. Remove the inappropriate input.',
+      submitBlockedWarning:
+        'Remove inappropriate wording from the title, description, or short description before creating the product.'
     }
   },
   productsView: {
@@ -775,6 +799,71 @@ export const en = {
   },
   documentsView: {
     title: 'Documents',
+    hero: {
+      chip: 'Platform transparency',
+      title: 'Our platform, our values',
+      subtitle:
+        'Everything you need to know about how Zeleni Svet works — from data protection to artificial intelligence.'
+    },
+    ai: {
+      title: 'How we use artificial intelligence',
+      intro:
+        'Zeleni Svet uses AI exclusively to make the platform safer and more useful for everyone. AI systems never make final decisions — all disputed cases are manually reviewed by our team.',
+      uses: {
+        moderation: {
+          title: 'Content moderation',
+          description:
+            'Every new listing, event or service automatically goes through AI analysis to detect offensive language, fraud or inappropriate content.'
+        },
+        search: {
+          title: 'Smart search',
+          description:
+            'AI understands search context and returns relevant results even when input does not exactly match the title.'
+        },
+        imageCheck: {
+          title: 'Image analysis',
+          description:
+            'Photos uploaded by users go through automatic screening to detect explicit or inappropriate visual content.'
+        },
+        profileCheck: {
+          title: 'Profile verification',
+          description:
+            'User bios and shop data are analysed to detect false information or potentially harmful content.'
+        },
+        comments: {
+          title: 'Comment review',
+          description:
+            'Comments and messages are monitored to detect harassment, spam or hate speech — to maintain a healthy community space.'
+        },
+        blogCheck: {
+          title: 'Blog moderation',
+          description:
+            'Blog posts are analysed before publishing to detect misinformation, unsubstantiated health claims or harmful content.'
+        }
+      },
+      badge: {
+        title: 'What does the AI verification badge mean?',
+        verified: {
+          label: 'Verified',
+          description:
+            'AI has reviewed the content and found no issues. The listing/profile complies with platform guidelines.'
+        },
+        flagged: {
+          label: 'Warning',
+          description:
+            'AI detected a potential issue. Our team has been notified and will contact the creator. Content remains visible until a violation is confirmed.'
+        },
+        checking: {
+          label: 'Checking',
+          description:
+            'Content is new or updated and is currently being analysed by AI. This status lasts only a few seconds.'
+        }
+      },
+      dataPrivacy: {
+        title: 'Your data is safe',
+        body: "Content that goes through AI analysis (listing text, images, links) is used solely for safety assessment and is not stored in AI systems. Zeleni Svet does not pass users' personal data to third parties for AI processing. All models comply with GDPR guidelines and data is not used to train AI models."
+      }
+    },
     sections: {
       vision: {
         title: 'Our vision and mission',
@@ -866,7 +955,7 @@ export const en = {
     home: {
       title: 'Buy Flowers Online | Zeleni Svet | Online Florist Serbia',
       description:
-        'Buy flowers online at Zeleni Svet – the leading marketplace for online florists and flowers in Serbia. Browse potted plants, cut flowers, and gardening supplies with delivery.',
+        'Buy flowers online at Zeleni Svet – the leading marketplace for florists in Serbia. Browse potted plants, cut flowers, and gardening supplies.',
       keywords:
         'buy flowers online, online florist, order flowers online, flower delivery, florist serbia, flowers belgrade, zeleni svet, flower marketplace, gardening serbia'
     },
@@ -1038,6 +1127,7 @@ export const en = {
     onlyOnline: 'Online only',
     physicalShop: 'Physical shop',
     productsCount: '{count} products',
+    servicesCount: '{count} services',
     viewShop: 'View shop'
   },
   shopPage: {
@@ -1051,6 +1141,7 @@ export const en = {
     workingHours: 'Working hours',
     closed: 'Closed',
     productsCount: '{count} products',
+    servicesCount: '{count} services',
     searchPlaceholder: 'Search shop...'
   },
   shopStatsCard: {
@@ -1188,27 +1279,41 @@ export const en = {
     headingCreate: 'Create event',
     fields: {
       titleLabel: 'Event title:',
-      titlePlaceholder: 'Enter event title',
+      titleHint: 'Enter a clear and recognizable event name',
+      titlePlaceholder: 'e.g. Tašmajdan Park Cleanup, Seedling Fair...',
       typeLabel: 'Event type:',
+      typeHint: 'Choose the type that best describes your action',
       typePlaceholder: 'Select event type',
       contactPersonLabel: 'Contact person:',
-      contactPersonPlaceholder: 'Contact person',
+      contactPersonHint: 'Full name of the contact person (optional)',
+      contactPersonPlaceholder: 'e.g. Maria Johnson',
       placeLabel: 'Event place:',
-      placePlaceholder: 'Enter event place',
+      placeHint: 'City or municipality where the event takes place',
+      placePlaceholder: 'e.g. Belgrade, Novi Sad, Niš...',
       addressLabel: 'Event address:',
-      addressPlaceholder: 'Enter event address',
+      addressHint: 'Exact address of the event location (optional)',
+      addressPlaceholder: 'e.g. Knez Mihailova 12, park near the fountain...',
       imageLabel: 'Add event image:',
+      imageHint: 'Add a photo that visually represents the event',
       addImage: 'Add image',
       descriptionLabel: 'Event description:',
+      descriptionHint: 'Describe the details, what to bring, special notes...',
       dateLabel: 'Event date:',
+      dateHint: 'Date must be at least 24 hours from now',
       startTimeLabel: 'Event start time:',
-      startTimePlaceholder: 'Enter event start time',
+      startTimeHint: 'e.g. 10:00 or 10am',
+      startTimePlaceholder: 'e.g. 10:00',
       endTimeLabel: 'Event end time:',
-      endTimePlaceholder: 'Enter event end time',
+      endTimeHint: 'e.g. 18:00 or 6pm (optional)',
+      endTimePlaceholder: 'e.g. 18:00',
       contactPhoneLabel: 'Contact phone:',
+      contactPhoneHint: 'Phone number for direct contact (optional)',
+      contactPhonePlaceholder: 'e.g. +381 60 123 456 7',
       contactMailLabel: 'Contact email:',
-      contactMailPlaceholder: 'Contact email',
+      contactMailHint: 'Email address for contact (optional)',
+      contactMailPlaceholder: 'e.g. contact@greenworldapp.com',
       statusLabel: 'Event status:',
+      statusHint: 'Select the current status of your action',
       statusPlaceholder: 'Select event status'
     },
     status: {
@@ -1217,7 +1322,16 @@ export const en = {
       finished: 'Finished'
     },
     submitEdit: 'Update event',
-    submitCreate: 'Create event'
+    submitCreate: 'Create event',
+    requiredFieldsLegend: 'Fields marked with * are required',
+    validation: {
+      titleRequired: 'Event title is required',
+      typeRequired: 'Event type is required',
+      placeRequired: 'Event place is required',
+      startTimeRequired: 'Start time is required',
+      statusRequired: 'Event status is required',
+      dateTooSoon: 'Date must be at least 24 hours from now'
+    }
   },
   orderProductView: {
     metaFallbackTitle: 'Zeleni svet | Product',
@@ -1698,5 +1812,12 @@ export const en = {
     errorKeywordsFormat: 'Keywords must be single words without spaces',
     errorKeywordOneWord: 'Keyword must be a single word',
     errorTimeOfReading: 'Enter a positive value (minutes)'
+  },
+  deletedItem: {
+    title: 'This {itemType} is no longer available',
+    description:
+      'The owner has deleted this {itemType}. The content can no longer be accessed.',
+    visitShop: 'Visit user profile',
+    creatorGone: 'This user is no longer a member of Zeleni Svet.'
   }
 } as const;

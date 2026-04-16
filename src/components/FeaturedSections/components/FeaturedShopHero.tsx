@@ -1,7 +1,7 @@
 import { formatImageUrl } from '@green-world/utils/helpers';
 import type { User } from '@green-world/utils/types';
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
-import { Crown, Package, Star, Store } from 'lucide-react';
+import { Crown, Package, Star, Store, Briefcase } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
@@ -154,9 +154,32 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
               }}
             >
               <Package size={18} />
-              <Typography fontWeight={600}>
+              <Typography variant="body2">
                 {t('featuredShopHero.productsCount', {
                   count: shop?.numberOfProducts
+                })}
+              </Typography>
+            </Box>
+          )}
+
+          {shop?.numberOfServices !== undefined && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                backgroundColor: 'rgba(255,255,255,0.7)',
+                backdropFilter: 'blur(6px)',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
+              }}
+            >
+              <Briefcase size={18} />
+              <Typography variant="body2">
+                {t('shopCard.servicesCount', {
+                  count: shop?.numberOfServices
                 })}
               </Typography>
             </Box>
@@ -176,7 +199,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
             }}
           >
             <Star size={18} fill={theme.palette.success.main} />
-            <Typography fontWeight={600}>5.0</Typography>
+            <Typography variant="body2">5.0</Typography>
           </Box>
         </Box>
       </Box>

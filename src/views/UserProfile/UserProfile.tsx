@@ -177,7 +177,7 @@ export const UserProfile = () => {
   };
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={{
           width: '100%',
@@ -509,15 +509,11 @@ export const UserProfile = () => {
                           `1px solid ${theme.palette.divider}`
                       }}
                     >
-                      <Typography variant="body2" fontWeight={600}>
+                      <Typography variant="body2">
                         {service.providerId?.name ||
                           t('service.unknownProvider')}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="primary.main"
-                        fontWeight={600}
-                      >
+                      <Typography variant="body2" color="primary.main">
                         {service.priceFrom
                           ? `${service.priceFrom} RSD`
                           : t('userProfileView.servicePriceOnRequest')}

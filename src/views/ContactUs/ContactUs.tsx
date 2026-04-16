@@ -97,7 +97,8 @@ ${contactForm.message}`;
         <Box sx={{ maxWidth: 1400, mx: 'auto' }}>
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '3rem'
             }}
           >
@@ -241,14 +242,15 @@ ${contactForm.message}`;
             }}
           >
             <MessageCircle />
-            <Typography variant="body2" color="success.main" fontWeight={600}>
+            <Typography variant="body2" color="success.main">
               {t('contactUsView.form.badge')}
             </Typography>
           </Box>
 
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '2.5rem'
             }}
           >
@@ -401,7 +403,12 @@ ${contactForm.message}`;
           >
             <Typography
               variant="h5"
-              sx={{ fontFamily: 'Ephesis', fontSize: '2rem', mb: 3 }}
+              sx={{
+                fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                fontWeight: 400,
+                fontSize: '2rem',
+                mb: 3
+              }}
             >
               {t('contactUsView.info.title')}
             </Typography>
@@ -426,7 +433,7 @@ ${contactForm.message}`;
                   <Typography color="text.secondary">
                     {t('contactUsView.info.email')}
                   </Typography>
-                  <Typography fontWeight={600}>info@zelenisvet.rs</Typography>
+                  <Typography>info@zelenisvet.rs</Typography>
                 </Box>
               </Box>
 
@@ -449,7 +456,7 @@ ${contactForm.message}`;
                   <Typography color="text.secondary">
                     {t('contactUsView.info.addressTitle')}
                   </Typography>
-                  <Typography fontWeight={500}>
+                  <Typography>
                     {t('contactUsView.info.addressValue')}
                   </Typography>
                 </Box>
@@ -484,7 +491,11 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2rem'
+                }}
               >
                 {t('contactUsView.supportHours.title')}
               </Typography>
@@ -504,7 +515,7 @@ ${contactForm.message}`;
                 <Typography color="text.secondary">
                   {t('contactUsView.supportHours.weekdays')}
                 </Typography>
-                <Typography fontWeight={600}>09:00 - 17:00</Typography>
+                <Typography>09:00 - 17:00</Typography>
               </Box>
 
               <Box
@@ -520,7 +531,7 @@ ${contactForm.message}`;
                 <Typography color="text.secondary">
                   {t('contactUsView.supportHours.saturday')}
                 </Typography>
-                <Typography fontWeight={600}>10:00 - 14:00</Typography>
+                <Typography>10:00 - 14:00</Typography>
               </Box>
 
               <Box
@@ -533,7 +544,7 @@ ${contactForm.message}`;
                 <Typography color="text.secondary">
                   {t('contactUsView.supportHours.sunday')}
                 </Typography>
-                <Typography fontWeight={600}>
+                <Typography>
                   {t('contactUsView.supportHours.closed')}
                 </Typography>
               </Box>
@@ -573,7 +584,11 @@ ${contactForm.message}`;
               </Box>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: 'Ephesis', fontSize: '2rem' }}
+                sx={{
+                  fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                  fontWeight: 400,
+                  fontSize: '2rem'
+                }}
               >
                 {t('contactUsView.whyUs.title')}
               </Typography>
@@ -599,9 +614,7 @@ ${contactForm.message}`;
                     <Sparkles size={20} />
                   </Box>
                   <Box>
-                    <Typography fontWeight={600} gutterBottom>
-                      {item.title}
-                    </Typography>
+                    <Typography gutterBottom>{item.title}</Typography>
                     <Typography variant="body1" color="text.secondary">
                       {item.desc}
                     </Typography>
@@ -631,13 +644,14 @@ ${contactForm.message}`;
               }}
             >
               <Leaf size={16} />
-              <Typography variant="body2" color="success.main" fontWeight={600}>
+              <Typography variant="body2" color="success.main">
                 {t('contactUsView.faq.badge')}
               </Typography>
             </Box>
             <Typography
               sx={{
-                fontFamily: 'Ephesis',
+                fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                fontWeight: 400,
                 fontSize: '3rem',
                 color: 'success.dark',
                 mb: 2
@@ -734,7 +748,8 @@ ${contactForm.message}`;
           </Box>
           <Typography
             sx={{
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               fontSize: '3.5rem',
               mb: 2
             }}

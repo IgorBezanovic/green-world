@@ -37,7 +37,7 @@ export const PromoteShop = () => {
   const totalRsd = selectedPackage.priceRsd;
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -52,7 +52,6 @@ export const PromoteShop = () => {
 
         <Typography
           variant="h4"
-          fontWeight={700}
           sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 3 }}
         >
           <Store color={theme.palette.warning.main} size={28} />
@@ -188,7 +187,7 @@ export const PromoteShop = () => {
                 </Box>
               )}
               <CardContent>
-                <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+                <Typography variant="h4" sx={{ mb: 0.5 }}>
                   {pkg.name}
                 </Typography>
                 <Typography
@@ -201,7 +200,6 @@ export const PromoteShop = () => {
                 <Box sx={{ mb: 2 }}>
                   <Typography
                     variant="h3"
-                    fontWeight={700}
                     color="primary.main"
                     sx={{ mb: 0.5 }}
                   >

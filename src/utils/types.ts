@@ -38,6 +38,8 @@ export interface Product {
   comments?: Comment[];
   likes?: string[];
   dislikes?: string[];
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export type NewPasswordValues = {
@@ -142,9 +144,12 @@ export type User = {
   maxShopProducts: number;
   numberOfActions: number;
   numberOfBlogs: number;
+  numberOfServices?: number;
   numberOfServiceListings?: number;
   statistics: UserStatistics;
   workingTime?: WorkingTime;
+  verified?: boolean;
+  verifiedDone?: boolean;
 };
 
 export type ContactUsValues = {
@@ -206,7 +211,7 @@ export type Event = {
   dateAction: PickerValue | string | undefined;
   startTime: string;
   endTime?: string;
-  typeAction: 'cleaning' | 'selling' | 'planting';
+  typeAction: 'cleaning' | 'selling' | 'planting' | 'education';
   contactPerson?: string;
   contactPhone?: string;
   contactMail?: string;
@@ -214,6 +219,9 @@ export type Event = {
   viewCounter?: number;
   likes?: string[];
   dislikes?: string[];
+  comments?: Comment[];
+  verified?: boolean;
+  verifiedDone?: boolean;
 };
 
 export type HomeCategory = {
@@ -248,6 +256,8 @@ export interface BlogPost {
   comments?: Comment[];
   keywords?: string[];
   timeOfReading?: number;
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export interface Comment {
@@ -303,6 +313,8 @@ export interface ServiceListing {
   dislikes?: string[];
   createdAt?: string;
   updatedAt?: string;
+  verified?: boolean;
+  verifiedDone?: boolean;
 }
 
 export type ServiceListingFiltersParams = {
@@ -313,6 +325,7 @@ export type ServiceListingFiltersParams = {
   search?: string;
   page?: number;
   pageSize?: number;
+  providerId?: string;
 };
 
 export type PaginatedMeta = {

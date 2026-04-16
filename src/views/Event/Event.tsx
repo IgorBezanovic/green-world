@@ -1,13 +1,20 @@
 'use client';
 
 import {
+  AIVerificationBadge,
   AppBreadcrumbs,
   BookmarkButton,
+  CommentForm,
+  CommentList,
   CopyLinkButton,
   PageContent,
-  VoteButtons
+  VoteButtons,
+  DeletedItemOverlay
 } from '@green-world/components';
+import UserContext from '@green-world/context/UserContext';
+import { useCreateEventComment } from '@green-world/hooks/useCreateEventComment';
 import { useEvent } from '@green-world/hooks/useEvent';
+import { useUser } from '@green-world/hooks/useUser';
 import { useVoteEvent } from '@green-world/hooks/useVoteEvent';
 import {
   formatDate,
@@ -28,10 +35,11 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Calendar, Clock, Eye, Mail, MapPin, Phone, User } from 'lucide-react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
-type EventTypeAction = 'cleaning' | 'selling' | 'planting';
+type EventTypeAction = 'cleaning' | 'selling' | 'planting' | 'education';
 type EventStatus = 'active' | 'cancelled' | 'finished';
 
 const EVENT_TYPE_COLORS: Record<
@@ -40,7 +48,8 @@ const EVENT_TYPE_COLORS: Record<
 > = {
   cleaning: 'success',
   selling: 'info',
-  planting: 'warning'
+  planting: 'warning',
+  education: 'secondary'
 };
 
 const EVENT_STATUS_COLORS: Record<
@@ -57,7 +66,12 @@ export const Event = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
   const { data: eventData, isLoading, refetch } = useEvent(eventId!);
+  const { data: creatorData, isLoading: creatorLoading } = useUser(
+    eventData?.createdBy || ''
+  );
   const { mutate: voteMutate } = useVoteEvent(eventId || '');
+  const { mutate: createComment } = useCreateEventComment();
+  const { user } = useContext(UserContext);
 
   const handleEventVote = (vote: 'like' | 'dislike' | string) => {
     if (!eventId) return;
@@ -70,6 +84,21 @@ export const Event = () => {
         }
       }
     );
+  };
+
+  const handleAddComment = (text: string, parentComment?: string | null) => {
+    if (!eventId) return;
+
+    const author =
+      `${user?.name || ''} ${user?.lastname || ''}`.trim() ||
+      t('common.unknownUser');
+
+    try {
+      createComment({ actionId: eventId, text, parentComment, author });
+      refetch();
+    } catch (e) {
+      console.error('Create event comment failed', e);
+    }
   };
 
   if (!eventId) return null;
@@ -123,6 +152,13 @@ export const Event = () => {
 
   return (
     <PageContent>
+      {(eventData as any)?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="dogadjaj"
+          creatorId={eventData?.createdBy as string | undefined}
+          creatorNotFound={!creatorLoading && !creatorData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -235,6 +271,30 @@ export const Event = () => {
                   minWidth: 0
                 }}
               >
+                <Box>
+                  <AIVerificationBadge
+                    verifiedDone={eventData?.verifiedDone}
+                    verified={eventData?.verified}
+                  />
+                </Box>
+                {/* Title */}
+                <Typography
+                  variant="h1"
+                  sx={(theme) => ({
+                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                    fontWeight: 400,
+                    fontSize: '2.5rem',
+                    [theme.breakpoints.up('md')]: {
+                      fontSize: '3rem'
+                    },
+                    color: 'secondary.main',
+                    lineHeight: 1.2,
+                    mb: 1
+                  })}
+                >
+                  {eventData.title}
+                </Typography>
+
                 {/* Type + Status chips */}
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                   <Chip
@@ -255,9 +315,6 @@ export const Event = () => {
                     variant="outlined"
                   />
                 </Stack>
-
-                {/* Title */}
-                <Typography variant="h1">{eventData.title}</Typography>
 
                 {/* Metadata */}
                 <Stack spacing={1.5}>
@@ -455,6 +512,21 @@ export const Event = () => {
               </Typography>
               <Box {...getHtmlDescriptionProps(eventData.description)} />
             </Box>
+
+            {/* ── Comments ── */}
+            <Card sx={{ mt: 2, p: 2 }}>
+              <Typography
+                variant="h4"
+                sx={{ fontSize: '1.25rem', fontWeight: 600, mb: 0.75 }}
+              >
+                {t('blogPostPage.leaveComment')}
+              </Typography>
+              <CommentForm onSubmit={handleAddComment} />
+              <CommentList
+                comments={eventData?.comments || []}
+                onReply={handleAddComment}
+              />
+            </Card>
           </Box>
         ) : null}
       </Box>

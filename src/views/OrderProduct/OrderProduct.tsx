@@ -111,7 +111,7 @@ export const OrderProduct = () => {
         productName: productData.title,
         productPrice: productData.priceOnRequest
           ? t('orderProductView.priceOnRequest')
-          : `${productData?.price.toLocaleString()},00 ${t('service.currency')}`,
+          : `${productData?.price.toLocaleString()} ${t('service.currency')}`,
         productId: productData._id
       }));
     }
@@ -169,7 +169,7 @@ export const OrderProduct = () => {
   ];
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -198,7 +198,8 @@ export const OrderProduct = () => {
               [theme.breakpoints.down('md')]: {
                 fontSize: '3rem !important'
               },
-              fontFamily: 'Ephesis',
+              fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+              fontWeight: 400,
               marginBottom: '16px',
               color: 'secondary.main'
             })}

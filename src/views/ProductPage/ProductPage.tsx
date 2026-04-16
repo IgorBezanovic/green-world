@@ -8,7 +8,9 @@ import {
   ImageGallery,
   VoteButtons,
   CopyLinkButton,
-  BookmarkButton
+  BookmarkButton,
+  DeletedItemOverlay,
+  AIVerificationBadge
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -31,7 +33,6 @@ import {
   CardContent,
   Chip,
   Divider,
-  Skeleton,
   Tooltip,
   Typography,
   useTheme
@@ -53,6 +54,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import {
   ProductDescription,
+  ProductPageSkeleton,
   ProductReviewForm,
   ProductReviewList,
   ProductSpecification
@@ -156,6 +158,13 @@ export const ProductPage = () => {
 
   return (
     <PageContent>
+      {productData?.status === 'deleted' && (
+        <DeletedItemOverlay
+          itemType="proizvod"
+          creatorId={productData?.createdBy}
+          creatorNotFound={!userLoading && !sellerData}
+        />
+      )}
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -177,20 +186,7 @@ export const ProductPage = () => {
         <AppBreadcrumbs pages={pages} />
         <Divider />
         {productLoading || userLoading ? (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Skeleton
-              variant="rectangular"
-              height={400}
-              sx={{ borderRadius: 2 }}
-            />
-            <Skeleton variant="text" height={40} width="60%" />
-            <Skeleton variant="text" height={30} width="40%" />
-            <Skeleton
-              variant="rectangular"
-              height={80}
-              sx={{ borderRadius: 2 }}
-            />
-          </Box>
+          <ProductPageSkeleton />
         ) : (
           <Box
             sx={{
@@ -221,7 +217,28 @@ export const ProductPage = () => {
                   overflow: 'hidden'
                 }}
               >
-                <Typography variant="h1">{productData?.title}</Typography>
+                <Box sx={{ mb: 1.5 }}>
+                  <AIVerificationBadge
+                    verifiedDone={productData?.verifiedDone}
+                    verified={productData?.verified}
+                  />
+                </Box>
+                <Typography
+                  variant="h1"
+                  sx={(theme) => ({
+                    fontFamily: 'var(--font-ephesis, Ephesis), cursive',
+                    fontWeight: 400,
+                    fontSize: '2.5rem',
+                    [theme.breakpoints.up('md')]: {
+                      fontSize: '3rem'
+                    },
+                    color: 'secondary.main',
+                    lineHeight: 1.2,
+                    mb: 1
+                  })}
+                >
+                  {productData?.title}
+                </Typography>
                 <Box sx={{ mt: 1, mb: 3, display: 'flex', gap: 1 }}>
                   <Chip
                     label={getLocalizedGroupLabel(
@@ -250,9 +267,11 @@ export const ProductPage = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, my: 5 }}>
                   <Typography variant="h2">
-                    {productData?.priceOnRequest
-                      ? t('productPage.priceOnRequest')
-                      : `${productData?.price.toLocaleString()},00 RSD`}
+                    {productData?.priceOnRequest ? (
+                      t('productPage.priceOnRequest')
+                    ) : (
+                      <>{productData?.price.toLocaleString()} RSD</>
+                    )}
                   </Typography>
                   <Typography
                     variant="button"

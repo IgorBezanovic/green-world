@@ -89,7 +89,14 @@ export const goToDestination = (street = '', city = '', country = 'Srbija') => {
 export const formatImageUrl = (url: string, quality?: number) => {
   if (!url) return '';
 
-  return url.includes('cloudinary') || url.includes('google')
+  if (url.includes('cloudinary')) {
+    if (!url.includes('f_auto') && url.includes('/upload/')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+    return url;
+  }
+
+  return url.includes('google')
     ? url
     : `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${process.env.NEXT_PUBLIC_ENV}/${url}_${quality || 85}.webp`;
 };

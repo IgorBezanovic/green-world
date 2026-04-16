@@ -8,15 +8,16 @@ import {
   Avatar,
   Typography,
   Chip,
-  CircularProgress
+  CircularProgress,
+  Tooltip
 } from '@mui/material';
 import {
   Globe,
-  Store,
   Package,
   MapPin,
   Mail,
-  ArrowUpRight
+  ArrowUpRight,
+  Briefcase
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +38,7 @@ export interface ShopCardProps {
   profileImage?: string;
   onlyOnline?: boolean;
   numberOfProducts?: number;
+  numberOfServices?: number;
   address?: Address;
 }
 
@@ -49,6 +51,7 @@ export const ShopCard = ({
   profileImage,
   onlyOnline,
   numberOfProducts = 0,
+  numberOfServices = 0,
   address
 }: ShopCardProps) => {
   const { t } = useTranslation();
@@ -202,9 +205,22 @@ export const ShopCard = ({
 
           {/* TITLE & CHIPS */}
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4" fontWeight={700}>
-              {title}
-            </Typography>
+            <Tooltip title={title} arrow>
+              <Typography
+                variant="h3"
+                fontWeight={500}
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  minHeight: '2.8em'
+                }}
+              >
+                {title}
+              </Typography>
+            </Tooltip>
 
             <Box
               sx={{
@@ -217,12 +233,8 @@ export const ShopCard = ({
             >
               <Chip
                 size="medium"
-                icon={onlyOnline ? <Globe size={14} /> : <Store size={14} />}
-                label={
-                  onlyOnline
-                    ? t('shopCard.onlyOnline')
-                    : t('shopCard.physicalShop')
-                }
+                icon={<Briefcase size={14} />}
+                label={t('shopCard.servicesCount', { count: numberOfServices })}
                 color="success"
                 variant="outlined"
                 sx={{ paddingX: '4px', color: 'common.black' }}
@@ -240,21 +252,21 @@ export const ShopCard = ({
           </Box>
 
           {/* DESCRIPTION */}
-          {description && (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              textAlign="center"
-              sx={{
-                display: '-webkit-box',
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden'
-              }}
-            >
-              {description}
-            </Typography>
-          )}
+          <Typography
+            variant="body2"
+            textAlign="center"
+            sx={{
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minHeight: '4.5rem',
+              paddingTop: '8px'
+            }}
+          >
+            {description?.trim() || t('common.noDescription')}
+          </Typography>
 
           {/* INFO */}
           <Box
@@ -305,7 +317,7 @@ export const ShopCard = ({
             borderTop: '1px solid',
             borderColor: 'success.light',
             color: 'success.main',
-            fontWeight: 600,
+            fontWeight: 500,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center'

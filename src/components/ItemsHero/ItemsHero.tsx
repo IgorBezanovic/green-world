@@ -56,16 +56,16 @@ export const ItemsHero = ({
   );
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         bgcolor: 'primary.main',
         color: 'white',
         py: 8,
-        mb: 6,
         position: 'relative',
         overflow: 'hidden',
         backgroundImage:
-          'linear-gradient(to right, rgba(22, 163, 74, 0.9), rgba(21, 128, 61, 0.9))'
-      }}
+          'linear-gradient(to right, rgba(22, 163, 74, 0.9), rgba(21, 128, 61, 0.9))',
+        [theme.breakpoints.down('sm')]: { display: 'none' }
+      })}
     >
       <HeroWatermark />
 

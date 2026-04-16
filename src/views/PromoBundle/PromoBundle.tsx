@@ -59,7 +59,7 @@ export const PromoBundle = () => {
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -241,7 +241,7 @@ export const PromoBundle = () => {
                 </Box>
               )}
               <CardContent>
-                <Typography variant="h4" fontWeight={700} sx={{ mb: 1 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   {t(bundle.name)}
                 </Typography>
                 <Typography

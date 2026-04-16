@@ -3,7 +3,8 @@
 import {
   AppBreadcrumbs,
   PageContent,
-  PageLoader
+  PageLoader,
+  PageTitle
 } from '@green-world/components';
 import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
@@ -40,7 +41,7 @@ const initEvent: Event = {
   place: '',
   address: '',
   coverImage: '',
-  dateAction: dayjs(),
+  dateAction: dayjs().add(24, 'hour'),
   startTime: '',
   endTime: '',
   typeAction: 'cleaning',
@@ -168,6 +169,20 @@ export const CreateEditEvent = () => {
     setEvent({ ...event, status: e.target.value as Event['status'] });
   };
 
+  const validationErrors: string[] = [];
+  if (!event.title.trim())
+    validationErrors.push(t('createEditEvent.validation.titleRequired'));
+  if (!(event.typeAction ?? '').trim())
+    validationErrors.push(t('createEditEvent.validation.typeRequired'));
+  if (!event.place.trim())
+    validationErrors.push(t('createEditEvent.validation.placeRequired'));
+  if (!event.startTime.trim())
+    validationErrors.push(t('createEditEvent.validation.startTimeRequired'));
+  if (!(event.status ?? '').trim())
+    validationErrors.push(t('createEditEvent.validation.statusRequired'));
+
+  const isFormValid = validationErrors.length === 0;
+
   if (isLoading) {
     return <PageLoader />;
   }
@@ -184,7 +199,7 @@ export const CreateEditEvent = () => {
   ];
 
   return (
-    <PageContent sx={{ backgroundColor: 'background.paper' }}>
+    <PageContent>
       <Box
         sx={(theme) => ({
           maxWidth: '1400px',
@@ -194,7 +209,7 @@ export const CreateEditEvent = () => {
           py: '1.75rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: 3.5,
+          gap: 4,
           [theme.breakpoints.up('sm')]: {
             px: '1.5rem'
           },
@@ -202,25 +217,16 @@ export const CreateEditEvent = () => {
             px: 0
           }
         })}
+        component="form"
+        onSubmit={handleSubmit}
       >
         <AppBreadcrumbs pages={pages} />
-        <Typography
-          component="h1"
-          sx={(theme) => ({
-            color: 'primary.main',
-            fontSize: '3rem',
-            [theme.breakpoints.up('md')]: { fontSize: '3.75rem' },
-            fontFamily: 'Ephesis',
-            mx: 'auto',
-            lineHeight: 1
-          })}
-        >
+        <PageTitle>
           {eventID
             ? t('createEditEvent.headingEdit')
             : t('createEditEvent.headingCreate')}
-        </Typography>
+        </PageTitle>
         <Box
-          component="form"
           sx={(theme) => ({
             display: 'flex',
             flexDirection: 'column',
@@ -230,11 +236,13 @@ export const CreateEditEvent = () => {
               gap: 5
             }
           })}
-          onSubmit={handleSubmit}
         >
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="title" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.titleLabel')}
+              {t('createEditEvent.fields.titleLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <OutlinedInput
               required
@@ -246,10 +254,16 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.titleHint')}
+            </Typography>
             <Typography htmlFor="typeAction" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.typeLabel')}
+              {t('createEditEvent.fields.typeLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <FormControl fullWidth>
               <Select
@@ -258,7 +272,7 @@ export const CreateEditEvent = () => {
                 id="typeAction"
                 value={event?.typeAction || ''}
                 onChange={handleTypeActionChange}
-                sx={outlinedSelectSx}
+                sx={{ ...outlinedSelectSx, mb: 0.5 }}
               >
                 <MenuItem value="" disabled>
                   {t('createEditEvent.fields.typePlaceholder')}
@@ -272,8 +286,14 @@ export const CreateEditEvent = () => {
                 <MenuItem value="planting">
                   {t('eventCard.type.planting')}
                 </MenuItem>
+                <MenuItem value="education">
+                  {t('eventCard.type.education')}
+                </MenuItem>
               </Select>
             </FormControl>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.typeHint')}
+            </Typography>
             <Typography htmlFor="contactPerson" component="label" sx={labelSx}>
               {t('createEditEvent.fields.contactPersonLabel')}
             </Typography>
@@ -286,10 +306,16 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.contactPersonHint')}
+            </Typography>
             <Typography htmlFor="place" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.placeLabel')}
+              {t('createEditEvent.fields.placeLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <OutlinedInput
               required
@@ -301,8 +327,11 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.placeHint')}
+            </Typography>
             <Typography htmlFor="address" component="label" sx={labelSx}>
               {t('createEditEvent.fields.addressLabel')}
             </Typography>
@@ -315,14 +344,20 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.addressHint')}
+            </Typography>
             <Typography
               htmlFor="coverImage"
               component="label"
               sx={{ ...labelSx, mb: 1 }}
             >
-              {t('createEditEvent.fields.imageLabel')}
+              {t('createEditEvent.fields.imageLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <Box
               sx={{
@@ -399,12 +434,18 @@ export const CreateEditEvent = () => {
                 sx={{ display: 'none' }}
               />
             </Button>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              {t('createEditEvent.fields.imageHint')}
+            </Typography>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography htmlFor="description" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.descriptionLabel')}
+              {t('createEditEvent.fields.descriptionLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ mb: 0.5 }}>
               <ReactQuill
                 modules={modules}
                 value={event?.description || ''}
@@ -435,14 +476,20 @@ export const CreateEditEvent = () => {
                 `}
               </style>
             </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.descriptionHint')}
+            </Typography>
             <Typography htmlFor="dateAction" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.dateLabel')}
+              {t('createEditEvent.fields.dateLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <MobileDatePicker
               name="dateAction"
               value={dayjs(event?.dateAction, 'DD/MM/YYYY')}
               format="DD/MM/YYYY"
-              minDate={dayjs()}
+              minDate={dayjs().add(24, 'hour')}
               onChange={(newDate) =>
                 setEvent({
                   ...event,
@@ -455,15 +502,21 @@ export const CreateEditEvent = () => {
                 '&:hover': {
                   boxShadow: '0 6px 10px rgba(0, 0, 0, 0.15)'
                 },
-                marginBottom: '16px',
+                marginBottom: '4px',
                 '& .MuiPickersSectionList-root': {
                   padding: '10px 0',
                   borderColor: theme.palette.secondary.main
                 }
               })}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.dateHint')}
+            </Typography>
             <Typography htmlFor="startTime" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.startTimeLabel')}
+              {t('createEditEvent.fields.startTimeLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <OutlinedInput
               required
@@ -475,8 +528,11 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.startTimeHint')}
+            </Typography>
             <Typography htmlFor="endTime" component="label" sx={labelSx}>
               {t('createEditEvent.fields.endTimeLabel')}
             </Typography>
@@ -489,21 +545,27 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.endTimeHint')}
+            </Typography>
             <Typography htmlFor="contactPhone" component="label" sx={labelSx}>
               {t('createEditEvent.fields.contactPhoneLabel')}
             </Typography>
             <OutlinedInput
               type="text"
               name="contactPhone"
-              placeholder="+381 60 123 456 7"
+              placeholder={t('createEditEvent.fields.contactPhonePlaceholder')}
               value={event?.contactPhone || ''}
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.contactPhoneHint')}
+            </Typography>
             <Typography htmlFor="contactMail" component="label" sx={labelSx}>
               {t('createEditEvent.fields.contactMailLabel')}
             </Typography>
@@ -516,10 +578,16 @@ export const CreateEditEvent = () => {
               onChange={handleChange}
               fullWidth
               disabled={isLoading}
-              sx={outlinedInputSx}
+              sx={{ ...outlinedInputSx, mb: 0.5 }}
             />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.contactMailHint')}
+            </Typography>
             <Typography htmlFor="status" component="label" sx={labelSx}>
-              {t('createEditEvent.fields.statusLabel')}
+              {t('createEditEvent.fields.statusLabel')}{' '}
+              <Box component="span" sx={{ color: 'error.main' }}>
+                *
+              </Box>
             </Typography>
             <FormControl fullWidth>
               <Select
@@ -529,7 +597,7 @@ export const CreateEditEvent = () => {
                 id="status"
                 value={event?.status || ''}
                 onChange={handleStatusChange}
-                sx={outlinedSelectSx}
+                sx={{ ...outlinedSelectSx, mb: 0.5 }}
               >
                 <MenuItem value="" disabled>
                   {t('createEditEvent.fields.statusPlaceholder')}
@@ -545,26 +613,54 @@ export const CreateEditEvent = () => {
                 </MenuItem>
               </Select>
             </FormControl>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              color="primary"
-              sx={{ mt: 4 }}
-              disabled={isLoadingCreateEvent || isLoadingEditEvent}
-            >
-              {isLoadingCreateEvent || isLoadingEditEvent ? (
-                <CircularProgress
-                  size={20}
-                  sx={{ color: 'primary.main', my: 1 }}
-                />
-              ) : eventID ? (
-                t('createEditEvent.submitEdit')
-              ) : (
-                t('createEditEvent.submitCreate')
-              )}
-            </Button>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {t('createEditEvent.fields.statusHint')}
+            </Typography>
           </Box>
+        </Box>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1.5,
+            pt: 3,
+            borderTop: '1px solid',
+            borderColor: 'divider',
+            [theme.breakpoints.up('md')]: {
+              alignItems: 'flex-end'
+            }
+          })}
+        >
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ alignSelf: 'flex-start' }}
+          >
+            <Box component="span" sx={{ color: 'error.main', mr: 0.5 }}>
+              *
+            </Box>
+            {t('createEditEvent.requiredFieldsLegend')}
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            color="primary"
+            disabled={
+              !isFormValid || isLoadingCreateEvent || isLoadingEditEvent
+            }
+          >
+            {isLoadingCreateEvent || isLoadingEditEvent ? (
+              <CircularProgress
+                size={20}
+                sx={{ color: 'primary.main', my: 1 }}
+              />
+            ) : eventID ? (
+              t('createEditEvent.submitEdit')
+            ) : (
+              t('createEditEvent.submitCreate')
+            )}
+          </Button>
         </Box>
       </Box>
     </PageContent>

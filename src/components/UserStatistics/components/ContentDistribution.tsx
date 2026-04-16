@@ -8,9 +8,7 @@ const LegendItem = ({ label, value }: { label: string; value: number }) => (
     <Typography variant="caption" color="text.secondary">
       {label}
     </Typography>
-    <Typography variant="body2" fontWeight={600}>
-      {value}
-    </Typography>
+    <Typography variant="body2">{value}</Typography>
   </Stack>
 );
 
@@ -34,7 +32,7 @@ export const ContentDistribution = ({ user }: { user: User }) => {
         boxShadow: 1
       }}
     >
-      <Typography fontWeight={600} mb={0.5}>
+      <Typography variant="body1" mb={0.5}>
         {t('contentDistribution.title')}
       </Typography>
 

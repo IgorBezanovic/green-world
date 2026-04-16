@@ -87,14 +87,18 @@ export const EventProfileCard = ({ ...props }) => {
               ? t('eventProfileCard.type.cleaning')
               : props.event?.typeAction === 'selling'
                 ? t('eventProfileCard.type.selling')
-                : t('eventProfileCard.type.planting')
+                : props.event?.typeAction === 'planting'
+                  ? t('eventProfileCard.type.planting')
+                  : t('eventProfileCard.type.education')
           }
           color={
             props.event?.typeAction === 'cleaning'
               ? 'error'
               : props.event?.typeAction === 'selling'
                 ? 'info'
-                : 'success'
+                : props.event?.typeAction === 'planting'
+                  ? 'success'
+                  : 'secondary'
           }
           sx={{
             position: 'absolute',
@@ -144,9 +148,11 @@ export const EventProfileCard = ({ ...props }) => {
                 minHeight: '3.0em'
               }}
             >
-              {plainText.length > 50
-                ? plainText.substring(0, 50) + '...'
-                : plainText}
+              {(plainText || '').trim().length === 0
+                ? t('common.noDescription')
+                : plainText.length > 50
+                  ? plainText.substring(0, 50) + '...'
+                  : plainText}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
               <Typography
