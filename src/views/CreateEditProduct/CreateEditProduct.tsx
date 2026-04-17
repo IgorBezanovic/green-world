@@ -559,7 +559,7 @@ export const CreateEditProduct = () => {
                 product?.images?.length >= 10 ? undefined : 'profileImage'
               }
               component="label"
-              sx={{ ...labelSx, mt: 1 }}
+              sx={{ ...labelSx }}
             >
               {t('createEditProduct.addPhotosLabel')}
             </Typography>
@@ -766,7 +766,11 @@ export const CreateEditProduct = () => {
                 )}
               </Box>
             )}
-            <Typography htmlFor="group" component="label" sx={labelSx}>
+            <Typography
+              htmlFor="group"
+              component="label"
+              sx={{ ...labelSx, mt: 1 }}
+            >
               {t('createEditProduct.selectGroupLabel')}
             </Typography>
             <FormControl fullWidth>
