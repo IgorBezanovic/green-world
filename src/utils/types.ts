@@ -150,6 +150,7 @@ export type User = {
   workingTime?: WorkingTime;
   verified?: boolean;
   verifiedDone?: boolean;
+  role?: 'admin' | 'seller';
 };
 
 export type ContactUsValues = {

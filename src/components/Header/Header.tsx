@@ -28,7 +28,8 @@ import {
   MessageCircle,
   NotebookText,
   BriefcaseBusiness,
-  BarChart2
+  BarChart2,
+  ShieldCheck
 } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -135,7 +136,18 @@ export const Header = () => {
         </Badge>
       ),
       onClick: () => handleMenuClick(() => navigate('/message'))
-    }
+    },
+    ...(user?.role === 'admin'
+      ? [
+          {
+            text: 'Admin panel',
+            icon: (
+              <ShieldCheck style={{ width: 24, height: 24, marginLeft: 8 }} />
+            ),
+            onClick: () => handleMenuClick(() => navigate('/admin'))
+          }
+        ]
+      : [])
   ];
 
   const toggleMobileSearch = () => setMobileSearchOpen((prev) => !prev);

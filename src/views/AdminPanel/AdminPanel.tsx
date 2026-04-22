@@ -8,15 +8,46 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Typography,
+  Divider
 } from '@mui/material';
-import { ChartNoAxesCombined } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import {
+  ChartNoAxesCombined,
+  Users,
+  ShoppingBag,
+  Wrench,
+  CalendarDays,
+  BookOpen
+} from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router';
 
 const drawerWidth = 220;
 
+const NAV_ITEMS = [
+  {
+    label: 'Google Analitika',
+    path: '/admin/google-analytics',
+    icon: <ChartNoAxesCombined size={18} />
+  },
+  { label: 'Korisnici', path: '/admin/users', icon: <Users size={18} /> },
+  {
+    label: 'Proizvodi',
+    path: '/admin/products',
+    icon: <ShoppingBag size={18} />
+  },
+  { label: 'Usluge', path: '/admin/services', icon: <Wrench size={18} /> },
+  {
+    label: 'Događaji',
+    path: '/admin/events',
+    icon: <CalendarDays size={18} />
+  },
+  { label: 'Blogovi', path: '/admin/blogs', icon: <BookOpen size={18} /> }
+];
+
 export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <PageContent
@@ -26,7 +57,6 @@ export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
         position: 'relative'
       }}
     >
-      {/* Drawer meni */}
       <Drawer
         variant="permanent"
         sx={{
@@ -43,23 +73,47 @@ export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
           }
         }}
       >
+        <Box sx={{ p: 2, borderBottom: '1px solid #ddd' }}>
+          <Typography
+            variant="subtitle2"
+            fontWeight={700}
+            color="text.secondary"
+          >
+            Admin Panel
+          </Typography>
+        </Box>
+        <Divider />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => navigate('/admin/google-analytics')}
-              >
-                <ListItemIcon>
-                  <ChartNoAxesCombined style={{ marginLeft: 12 }} />
-                </ListItemIcon>
-                <ListItemText primary="Google Analitika" />
-              </ListItemButton>
-            </ListItem>
+            {NAV_ITEMS.map(({ label, path, icon }) => {
+              const active = pathname.startsWith(path);
+              return (
+                <ListItem key={path} disablePadding>
+                  <ListItemButton
+                    selected={active}
+                    onClick={() => navigate(path)}
+                    sx={{
+                      '&.Mui-selected': {
+                        backgroundColor: 'primary.main',
+                        color: 'white',
+                        '& .MuiListItemIcon-root': { color: 'white' },
+                        '&:hover': { backgroundColor: 'primary.dark' }
+                      }
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 36 }}>{icon}</ListItemIcon>
+                    <ListItemText
+                      primary={label}
+                      primaryTypographyProps={{ fontSize: 14 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
           </List>
         </Box>
       </Drawer>
 
-      {/* Glavni sadržaj */}
       <Box
         component="main"
         sx={{

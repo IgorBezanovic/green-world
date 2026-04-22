@@ -64,3 +64,4 @@ export * from '@green-world/components/UserStatistics';
 export * from '@green-world/components/VoteButtons';
 export * from '@green-world/components/WorkingHoursCard';
 export * from '@green-world/components/PageTitle';
+export * from '@green-world/components/AdminTable';
