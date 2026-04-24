@@ -16,7 +16,13 @@ import { ToastContainer } from 'react-toastify';
 
 dayjs.locale('sr');
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+export const Providers = ({
+  children,
+  initialToken = null
+}: {
+  children: React.ReactNode;
+  initialToken?: string | null;
+}) => {
   const [queryClient] = useState(() => new QueryClient());
   const locale = useLocale();
 
@@ -27,7 +33,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       >
         <ThemeProvider>
           <QueryClientProvider client={queryClient}>
-            <UserContextProvider>
+            <UserContextProvider initialToken={initialToken}>
               <ChatContextProvider>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}

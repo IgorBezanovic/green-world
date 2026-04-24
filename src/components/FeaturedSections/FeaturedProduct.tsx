@@ -2,6 +2,7 @@
 
 import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import { Box, Chip, Typography, useTheme } from '@mui/material';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
@@ -23,7 +24,7 @@ export const FeaturedProduct = ({ product }: { product: ProductPreview }) => {
 
   const title = product.title;
   const description = product.shortDescription || product.description;
-  const href = `/product/${product._id}`;
+  const href = `/product/${slugOrId(product)}`;
 
   return (
     <Box

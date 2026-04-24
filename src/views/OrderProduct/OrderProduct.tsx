@@ -3,6 +3,7 @@
 import { AppBreadcrumbs, PageContent } from '@green-world/components';
 import { useOrderProduct } from '@green-world/hooks/useOrderProduct';
 import { useProduct } from '@green-world/hooks/useProduct';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
   Card,
@@ -139,7 +140,7 @@ export const OrderProduct = () => {
           severity: 'success'
         });
         setTimeout(() => {
-          navigate(`/product/${productId}`);
+          navigate(`/product/${slugOrId(productData) || productId}`);
         }, 2000);
       },
       onError: () => {
@@ -160,7 +161,7 @@ export const OrderProduct = () => {
     { label: t('breadcrumbs.products'), route: '/products' },
     {
       label: productData?.title || t('productPage.productFallback'),
-      route: `/product/${productId}`
+      route: `/product/${slugOrId(productData) || productId}`
     },
     {
       label: t('orderProductView.breadcrumb'),

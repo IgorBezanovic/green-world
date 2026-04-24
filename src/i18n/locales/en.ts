@@ -845,7 +845,7 @@ export const en = {
     max80: 'max 80 characters',
     priceLabel: 'Product price:',
     priceHint:
-      'Enter product price without dots and commas, we handle formatting. e.g. 1490 - 1,490.00 RSD',
+      'Enter product price without dots and commas, we handle formatting. e.g. 1490 - 1,490 RSD',
     pricePlaceholder: 'Enter product price',
     priceOnRequestLabel: 'Price:',
     priceOnRequest: 'On request',

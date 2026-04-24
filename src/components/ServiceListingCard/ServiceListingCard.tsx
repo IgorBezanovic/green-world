@@ -2,6 +2,7 @@ import {
   formatImageUrl,
   getPlainTextFromHtml
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import type { ServiceListing } from '@green-world/utils/types';
 import {
   Box,
@@ -27,7 +28,7 @@ export const ServiceListingCard = ({ service }: ServiceListingCardProps) => {
   return (
     <Card
       component={Link}
-      to={`/services/${service._id}`}
+      to={`/services/${slugOrId(service)}`}
       sx={{
         display: 'flex',
         flexDirection: 'column',

@@ -1,4 +1,5 @@
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import type { User } from '@green-world/utils/types';
 import { Box, Button, Chip, Typography, useTheme } from '@mui/material';
 import { Crown, Package, Star, Store, Briefcase } from 'lucide-react';
@@ -20,7 +21,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
   return (
     <Box
       component={Link}
-      to={`/shop/${shop?._id}`}
+      to={`/shop/${slugOrId(shop)}`}
       sx={(theme) => ({
         position: 'relative',
         textDecoration: 'none',

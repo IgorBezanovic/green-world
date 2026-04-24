@@ -7,6 +7,7 @@ import {
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import { Providers } from '../providers';
@@ -39,10 +40,11 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
+  const initialToken = (await cookies()).get('token')?.value ?? null;
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <Providers>
+      <Providers initialToken={initialToken}>
         <Layout>{children}</Layout>
       </Providers>
     </NextIntlClientProvider>

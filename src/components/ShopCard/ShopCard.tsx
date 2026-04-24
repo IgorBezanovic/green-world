@@ -1,6 +1,7 @@
 'use client';
 
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
   Card,
@@ -31,6 +32,7 @@ interface Address {
 
 export interface ShopCardProps {
   id: string;
+  slug?: string;
   name?: string;
   shopName?: string;
   description?: string;
@@ -44,6 +46,7 @@ export interface ShopCardProps {
 
 export const ShopCard = ({
   id,
+  slug,
   name,
   shopName,
   description,
@@ -61,7 +64,10 @@ export const ShopCard = ({
   const title = shopName || name;
 
   return (
-    <Link to={`/shop/${id}`} style={{ textDecoration: 'none' }}>
+    <Link
+      to={`/shop/${slugOrId({ slug, id })}`}
+      style={{ textDecoration: 'none' }}
+    >
       <Card
         elevation={2}
         sx={(theme) => ({

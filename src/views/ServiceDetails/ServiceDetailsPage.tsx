@@ -22,6 +22,7 @@ import {
   formatImageUrl,
   getHtmlDescriptionProps
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
   Grid,
@@ -312,7 +313,6 @@ export const ServiceDetailsPage = () => {
                 {service.priceFrom && (
                   <Typography
                     variant="h4"
-                    fontWeight="bold"
                     color="primary.main"
                     sx={{ ml: 'auto' }}
                   >
@@ -367,7 +367,7 @@ export const ServiceDetailsPage = () => {
                 border: '1px solid #e0e0e0'
               }}
             >
-              <Typography variant="h5" fontWeight="bold" gutterBottom>
+              <Typography variant="h5" gutterBottom>
                 {t('service.description')}
               </Typography>
               <Box {...getHtmlDescriptionProps(service.description)} />
@@ -386,7 +386,6 @@ export const ServiceDetailsPage = () => {
                   >
                     <Typography
                       variant="h6"
-                      fontWeight="bold"
                       gutterBottom
                       sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                     >
@@ -466,7 +465,6 @@ export const ServiceDetailsPage = () => {
                   >
                     <Typography
                       variant="h6"
-                      fontWeight="bold"
                       gutterBottom
                       sx={{
                         display: 'flex',
@@ -509,7 +507,6 @@ export const ServiceDetailsPage = () => {
                   >
                     <Typography
                       variant="h6"
-                      fontWeight="bold"
                       gutterBottom
                       sx={{
                         display: 'flex',
@@ -571,7 +568,7 @@ export const ServiceDetailsPage = () => {
                       src={formatImageUrl(provider.profileImage, 55)}
                       alt={provider?.name}
                       onClick={() =>
-                        provider?._id && navigate(`/shop/${provider._id}`)
+                        provider?._id && navigate(`/shop/${slugOrId(provider)}`)
                       }
                     />
                   ) : (
@@ -584,7 +581,7 @@ export const ServiceDetailsPage = () => {
                         cursor: provider?._id ? 'pointer' : 'default'
                       }}
                       onClick={() =>
-                        provider?._id && navigate(`/shop/${provider._id}`)
+                        provider?._id && navigate(`/shop/${slugOrId(provider)}`)
                       }
                     >
                       {provider?.name?.[0]?.toUpperCase() || ''}
@@ -621,7 +618,8 @@ export const ServiceDetailsPage = () => {
                           cursor: provider?._id ? 'pointer' : 'default'
                         }}
                         onClick={() =>
-                          provider?._id && navigate(`/shop/${provider._id}`)
+                          provider?._id &&
+                          navigate(`/shop/${slugOrId(provider)}`)
                         }
                       >
                         {provider?.shopName || provider?.name}
@@ -858,11 +856,7 @@ export const ServiceDetailsPage = () => {
                 {service.portfolioLinks &&
                   service.portfolioLinks.length > 0 && (
                     <Box sx={{ mt: 4 }}>
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        gutterBottom
-                      >
+                      <Typography variant="subtitle1" gutterBottom>
                         {t('service.portfolioLinks')}
                       </Typography>
                       <Box

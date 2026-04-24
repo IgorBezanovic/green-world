@@ -1,10 +1,14 @@
 import {
   createLocalizedPageMetadata,
+  fetchApiData,
+  getLocalizedPathname,
   getLocaleMessages,
   normalizeLocale
 } from '@green-world/seo/metadata';
+import type { Event as EventData } from '@green-world/utils/types';
 import { CreateEditEvent } from '@green-world/views/CreateEditEvent';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export async function generateMetadata({
   params
@@ -23,6 +27,21 @@ export async function generateMetadata({
   });
 }
 
-export default function EditEventPage() {
+export default async function EditEventPage({
+  params
+}: {
+  params: Promise<{ locale: string; eventID: string }>;
+}) {
+  const { locale, eventID } = await params;
+  const appLocale = normalizeLocale(locale);
+  const event = await fetchApiData<EventData>(`/action/details/${eventID}`);
+  const canonicalSegment = event?.slug || eventID;
+
+  if (event && canonicalSegment !== eventID) {
+    redirect(
+      getLocalizedPathname(appLocale, `/edit-event/${canonicalSegment}`)
+    );
+  }
+
   return <CreateEditEvent />;
 }

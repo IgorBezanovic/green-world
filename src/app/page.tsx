@@ -12,6 +12,7 @@ import { Home } from '@green-world/views/Home';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
+import { cookies } from 'next/headers';
 
 import { Providers } from './providers';
 
@@ -65,6 +66,7 @@ const organizationSchema = {
 export default async function RootPage() {
   setRequestLocale('sr');
   const messages = await getMessages();
+  const initialToken = (await cookies()).get('token')?.value ?? null;
 
   return (
     <>
@@ -77,7 +79,7 @@ export default async function RootPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <NextIntlClientProvider locale="sr" messages={messages}>
-        <Providers>
+        <Providers initialToken={initialToken}>
           <Layout>
             <Home />
           </Layout>

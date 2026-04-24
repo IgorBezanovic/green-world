@@ -25,6 +25,7 @@ import {
   getLocalizedGroupLabel,
   getLocalizedSubGroupLabel
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Avatar,
   Box,
@@ -343,7 +344,7 @@ export const ProductPage = () => {
                           alt={sellerData?.name}
                           onClick={() => {
                             if (!sellerData?._id) return;
-                            navigate(`/shop/${sellerData._id}`);
+                            navigate(`/shop/${slugOrId(sellerData)}`);
                           }}
                         />
                       ) : (
@@ -357,7 +358,7 @@ export const ProductPage = () => {
                           }}
                           onClick={() => {
                             if (!sellerData?._id) return;
-                            navigate(`/shop/${sellerData._id}`);
+                            navigate(`/shop/${slugOrId(sellerData)}`);
                           }}
                         >
                           {sellerData?.name?.[0]?.toUpperCase() || ''}
@@ -395,7 +396,7 @@ export const ProductPage = () => {
                             }}
                             onClick={() => {
                               if (!sellerData?._id) return;
-                              navigate(`/shop/${sellerData._id}`);
+                              navigate(`/shop/${slugOrId(sellerData)}`);
                             }}
                           >
                             {sellerData?.shopName || sellerData?.name}
@@ -509,7 +510,9 @@ export const ProductPage = () => {
                         <Button
                           sx={{ flex: 1 }}
                           variant="contained"
-                          onClick={() => navigate('/shop/' + sellerData?._id)}
+                          onClick={() =>
+                            navigate('/shop/' + slugOrId(sellerData))
+                          }
                         >
                           {t('productPage.profile')}
                         </Button>

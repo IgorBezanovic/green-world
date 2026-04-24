@@ -64,7 +64,7 @@ export const ProductReviewItem = ({
               flexDirection: 'column',
               alignItems: 'flex-start'
             }}
-            spacing={0.5}
+            spacing={0.25}
           >
             <Typography variant="h4">
               {comment?.author || t('common.unknownUser')}
@@ -172,7 +172,7 @@ export const ProductReviewItem = ({
                     flexDirection: 'column',
                     alignItems: 'flex-start'
                   }}
-                  spacing={0.5}
+                  spacing={0.25}
                 >
                   <Typography variant="h4">
                     {reply?.author || t('common.unknownUser')}

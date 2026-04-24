@@ -8,6 +8,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 export interface ProductPreview {
   _id: string;
+  slug?: string;
   title: string;
   shortDescription: string;
   description: string;
@@ -21,10 +22,12 @@ export interface ProductPreview {
 
 export interface ServicePreview {
   _id: string;
+  slug?: string;
   providerId?:
     | string
     | {
         _id?: string;
+        slug?: string;
         name?: string;
         lastname?: string;
       };
@@ -40,6 +43,7 @@ export interface ServicePreview {
 
 export interface UserPreview {
   _id: string;
+  slug?: string;
   name?: string;
   lastname?: string;
   shopName?: string;
@@ -58,6 +62,7 @@ export interface UserPreview {
 
 export interface BlogPreview {
   _id: string;
+  slug?: string;
   title: string;
   coverImage?: string;
   author?: string;
@@ -67,6 +72,7 @@ export interface BlogPreview {
 
 export interface EventPreview {
   _id: string;
+  slug?: string;
   title: string;
   description: string;
   coverImage: string;

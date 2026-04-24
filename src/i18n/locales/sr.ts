@@ -849,7 +849,7 @@ export const sr = {
     max80: 'max 80 karaktera',
     priceLabel: 'Cena proizvoda:',
     priceHint:
-      'Cenu proizvoda unesite bez tacki i zareza, na nama je da formatiramo. e.g. 1490 - 1.490,00 RSD',
+      'Cenu proizvoda unesite bez tacki i zareza, na nama je da formatiramo. e.g. 1490 - 1.490 RSD',
     pricePlaceholder: 'Unesite cenu proizvoda',
     priceOnRequestLabel: 'Cena:',
     priceOnRequest: 'Na upit',
