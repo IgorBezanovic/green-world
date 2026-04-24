@@ -1,8 +1,13 @@
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
+import type { Viewport } from 'next';
 import { Montserrat, Ephesis } from 'next/font/google';
 import '@green-world/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
+
+export const viewport: Viewport = {
+  themeColor: '#266041'
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.zelenisvet.rs'),
@@ -55,6 +60,19 @@ export const metadata: Metadata = {
     ]
   },
   manifest: '/manifest.json',
+  applicationName: 'Zeleni Svet',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Zeleni Svet'
+  },
+  formatDetection: {
+    telephone: false
+  },
+  other: {
+    'theme-color': '#266041',
+    'mobile-web-app-capable': 'yes'
+  },
   openGraph: {
     type: 'website',
     siteName: 'Zeleni Svet',

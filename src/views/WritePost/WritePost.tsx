@@ -8,6 +8,11 @@ import {
 import { useCreateBlogPost } from '@green-world/hooks/useCreateBlogPost';
 import { useImage } from '@green-world/hooks/useImage';
 import { request } from '@green-world/utils/api';
+import {
+  clearDraft,
+  loadDraft,
+  saveDraft
+} from '@green-world/utils/draftStorage';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import {
   Add,
@@ -35,6 +40,7 @@ import { useNavigate, useParams } from 'react-router';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+const BLOG_CREATE_DRAFT_KEY = 'draft:create-blog:v1';
 
 type Block = {
   id: string;
@@ -69,6 +75,8 @@ export const WritePost = () => {
   const [keywordInput, setKeywordInput] = useState('');
   const [timeOfReading, setTimeOfReading] = useState<number | ''>('');
   const { postId } = useParams<{ postId?: string }>();
+  const isCreateMode = !postId;
+  const [isDraftHydrated, setIsDraftHydrated] = useState(false);
   const [isLoadingPost, setIsLoadingPost] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -169,6 +177,55 @@ export const WritePost = () => {
       mounted = false;
     };
   }, [postId]);
+
+  useEffect(() => {
+    if (!isCreateMode) {
+      setIsDraftHydrated(true);
+      return;
+    }
+
+    const draft = loadDraft<{
+      title: string;
+      author: string;
+      coverImage: string;
+      blocks: Block[];
+      keywords: string[];
+      timeOfReading: number | '';
+    }>(BLOG_CREATE_DRAFT_KEY);
+
+    if (draft) {
+      setTitle(draft.title || '');
+      setAuthor(draft.author || '');
+      setCoverImage(draft.coverImage || '');
+      setBlocks(Array.isArray(draft.blocks) ? draft.blocks : []);
+      setKeywords(Array.isArray(draft.keywords) ? draft.keywords : []);
+      setTimeOfReading(draft.timeOfReading ?? '');
+    }
+
+    setIsDraftHydrated(true);
+  }, [isCreateMode]);
+
+  useEffect(() => {
+    if (!isCreateMode || !isDraftHydrated) return;
+
+    saveDraft(BLOG_CREATE_DRAFT_KEY, {
+      title,
+      author,
+      coverImage,
+      blocks,
+      keywords,
+      timeOfReading
+    });
+  }, [
+    isCreateMode,
+    isDraftHydrated,
+    title,
+    author,
+    coverImage,
+    blocks,
+    keywords,
+    timeOfReading
+  ]);
 
   useEffect(() => {
     if (!errors.blocks) return;
@@ -333,6 +390,7 @@ export const WritePost = () => {
     } else {
       createPost(payload, {
         onSuccess: () => {
+          clearDraft(BLOG_CREATE_DRAFT_KEY);
           navigate('/blog');
         }
       });

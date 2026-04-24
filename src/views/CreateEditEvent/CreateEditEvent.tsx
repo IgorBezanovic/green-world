@@ -10,6 +10,11 @@ import { useCreateEvent } from '@green-world/hooks/useCreateEvent';
 import { useEditEvent } from '@green-world/hooks/useEditEvent';
 import { useEvent } from '@green-world/hooks/useEvent';
 import { useImage } from '@green-world/hooks/useImage';
+import {
+  clearDraft,
+  loadDraft,
+  saveDraft
+} from '@green-world/utils/draftStorage';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { Event } from '@green-world/utils/types';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -34,6 +39,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useParams } from 'react-router';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+const EVENT_CREATE_DRAFT_KEY = 'draft:create-event:v1';
 
 const initEvent: Event = {
   title: '',
@@ -91,12 +97,46 @@ export const CreateEditEvent = () => {
     useEditEvent(eventID);
 
   const [event, setEvent] = useState<Event>(initEvent);
+  const [isDraftHydrated, setIsDraftHydrated] = useState(false);
+  const isCreateMode = !eventID;
 
   useEffect(() => {
-    if (!isLoading) {
+    if (eventID && !isLoading) {
       setEvent(data);
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, eventID]);
+
+  useEffect(() => {
+    if (!isCreateMode) {
+      setIsDraftHydrated(true);
+      return;
+    }
+
+    const draft = loadDraft<Omit<Event, 'dateAction'> & { dateAction: string }>(
+      EVENT_CREATE_DRAFT_KEY
+    );
+
+    if (draft) {
+      setEvent({
+        ...initEvent,
+        ...draft,
+        dateAction: draft.dateAction
+          ? dayjs(draft.dateAction)
+          : initEvent.dateAction
+      });
+    }
+
+    setIsDraftHydrated(true);
+  }, [isCreateMode]);
+
+  useEffect(() => {
+    if (!isCreateMode || !isDraftHydrated) return;
+
+    saveDraft(EVENT_CREATE_DRAFT_KEY, {
+      ...event,
+      dateAction: dayjs(event.dateAction).toISOString()
+    });
+  }, [isCreateMode, isDraftHydrated, event]);
 
   useEffect(() => {
     if (eventImage) {
@@ -130,7 +170,13 @@ export const CreateEditEvent = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    eventID ? editMutation(event) : createMutation(event);
+    if (eventID) {
+      editMutation(event);
+    } else {
+      createMutation(event, {
+        onSuccess: () => clearDraft(EVENT_CREATE_DRAFT_KEY)
+      });
+    }
   };
 
   const handleRichTextDescription = (richText: string) => {

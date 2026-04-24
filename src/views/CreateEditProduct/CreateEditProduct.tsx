@@ -22,6 +22,11 @@ import {
   subGroups
 } from '@green-world/utils/constants';
 import {
+  clearDraft,
+  loadDraft,
+  saveDraft
+} from '@green-world/utils/draftStorage';
+import {
   formatImageUrl,
   getPlainTextFromHtml,
   getLocalizedSubGroupLabel,
@@ -81,6 +86,7 @@ const initProduct: Product = {
 };
 
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
+const PRODUCT_CREATE_DRAFT_KEY = 'draft:create-product:v1';
 
 type InappropriateFields = {
   title: boolean;
@@ -156,6 +162,7 @@ export const CreateEditProduct = () => {
   const [product, setProduct] = useState<Product>(initProduct);
 
   const [keywords, setKeywords] = useState<string[]>([]);
+  const [isDraftHydrated, setIsDraftHydrated] = useState(false);
   const [inappropriateFields, setInappropriateFields] =
     useState<InappropriateFields>({
       title: false,
@@ -186,10 +193,37 @@ export const CreateEditProduct = () => {
   };
 
   useEffect(() => {
-    if (!isLoading) {
+    if (productId && !isLoading) {
       setProduct(data || initProduct);
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, productId]);
+
+  useEffect(() => {
+    if (!isCreateMode) {
+      setIsDraftHydrated(true);
+      return;
+    }
+
+    const draft = loadDraft<{ product: Product; keywords: string[] }>(
+      PRODUCT_CREATE_DRAFT_KEY
+    );
+
+    if (draft?.product) {
+      setProduct({ ...initProduct, ...draft.product });
+      setKeywords(Array.isArray(draft.keywords) ? draft.keywords : []);
+    }
+
+    setIsDraftHydrated(true);
+  }, [isCreateMode]);
+
+  useEffect(() => {
+    if (!isCreateMode || !isDraftHydrated) return;
+
+    saveDraft(PRODUCT_CREATE_DRAFT_KEY, {
+      product,
+      keywords
+    });
+  }, [isCreateMode, isDraftHydrated, product, keywords]);
 
   const handleGroupChange = (e: SelectChangeEvent<string>) => {
     setProduct({ ...product, group: e.target.value as keyof typeof subGroups });
@@ -253,7 +287,13 @@ export const CreateEditProduct = () => {
       return;
     }
 
-    productId ? editMutation(product) : createMutation(product);
+    if (productId) {
+      editMutation(product);
+    } else {
+      createMutation(product, {
+        onSuccess: () => clearDraft(PRODUCT_CREATE_DRAFT_KEY)
+      });
+    }
   };
 
   const handleDeleteImage = (indexToDelete: number) => {
@@ -664,7 +704,7 @@ export const CreateEditProduct = () => {
                     boxShadow: 2
                   }
                 },
-                mt: !product?.images?.length ? 1 : 0
+                mt: !product?.images?.length ? 0.5 : 0
               })}
             >
               {product?.images?.length >= 10

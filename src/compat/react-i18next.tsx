@@ -76,6 +76,18 @@ export const Trans = ({
   const tIntl = useTranslations();
 
   const richValues = React.useMemo(() => {
+    const defaultTagMap: Record<
+      string,
+      (chunks: React.ReactNode) => React.ReactNode
+    > = {
+      strong: (chunks) => <strong>{chunks}</strong>,
+      b: (chunks) => <b>{chunks}</b>,
+      em: (chunks) => <em>{chunks}</em>,
+      i: (chunks) => <i>{chunks}</i>,
+      u: (chunks) => <u>{chunks}</u>,
+      p: (chunks) => <p>{chunks}</p>
+    };
+
     const componentMap: Record<
       string,
       (chunks: React.ReactNode) => React.ReactNode
@@ -90,6 +102,7 @@ export const Trans = ({
     });
 
     return {
+      ...defaultTagMap,
       ...(values ?? {}),
       ...componentMap
     };

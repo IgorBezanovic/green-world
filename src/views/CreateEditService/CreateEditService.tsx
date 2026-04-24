@@ -14,6 +14,11 @@ import {
   useUpdateServiceListing
 } from '@green-world/hooks/useServices';
 import {
+  clearDraft,
+  loadDraft,
+  saveDraft
+} from '@green-world/utils/draftStorage';
+import {
   formatImageUrl,
   getPlainTextFromHtml
 } from '@green-world/utils/helpers';
@@ -70,6 +75,7 @@ const initServiceListing: Partial<ServiceListing> = {
 };
 
 const MAX_IMAGE_MB = 10 * 1024 * 1024;
+const SERVICE_CREATE_DRAFT_KEY = 'draft:create-service:v1';
 const PREDEFINED_SERVICE_LANGUAGES = [
   'Srpski',
   'English',
@@ -129,6 +135,8 @@ export const CreateEditService = () => {
 
   const [serviceData, setServiceData] =
     useState<Partial<ServiceListing>>(initServiceListing);
+  const [isDraftHydrated, setIsDraftHydrated] = useState(false);
+  const isCreateMode = !serviceId;
 
   const flatServicesList = useMemo(() => {
     return Object.values(serviceCategories).flatMap(
@@ -144,6 +152,26 @@ export const CreateEditService = () => {
       });
     }
   }, [existingService, isLoadingService]);
+
+  useEffect(() => {
+    if (!isCreateMode) {
+      setIsDraftHydrated(true);
+      return;
+    }
+
+    const draft = loadDraft<Partial<ServiceListing>>(SERVICE_CREATE_DRAFT_KEY);
+    if (draft) {
+      setServiceData({ ...initServiceListing, ...draft });
+    }
+
+    setIsDraftHydrated(true);
+  }, [isCreateMode]);
+
+  useEffect(() => {
+    if (!isCreateMode || !isDraftHydrated) return;
+
+    saveDraft(SERVICE_CREATE_DRAFT_KEY, serviceData);
+  }, [isCreateMode, isDraftHydrated, serviceData]);
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
@@ -400,7 +428,12 @@ export const CreateEditService = () => {
         { onSuccess: () => navigate('/services') }
       );
     } else {
-      createMutation(payload, { onSuccess: () => navigate('/services') });
+      createMutation(payload, {
+        onSuccess: () => {
+          clearDraft(SERVICE_CREATE_DRAFT_KEY);
+          navigate('/services');
+        }
+      });
     }
   };
 
