@@ -1,19 +1,55 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 import { SitemapStream, streamToPromise } from 'sitemap';
 
+// Load env values from common Next.js dotenv files so this script works in hook/CI runs too.
+dotenv.config();
+dotenv.config({ path: '.env.local', override: false });
+dotenv.config({ path: '.env.production', override: false });
+dotenv.config({ path: '.env.production.local', override: false });
+
 async function generateSitemap() {
   const hostname = 'https://greenworldbe-production.up.railway.app';
-  const smStream = new SitemapStream({ hostname: 'https://zelenisvet.rs' });
+  const siteHostname = 'https://www.zelenisvet.rs';
+  const smStream = new SitemapStream({ hostname: siteHostname });
+
+  const nowIso = new Date().toISOString();
+
+  const awsBucketName =
+    process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || process.env.AWS_BUCKET_NAME;
+  const awsRegion =
+    process.env.NEXT_PUBLIC_AWS_REGION || process.env.AWS_REGION;
 
   const formatImageUrl = (url, quality) => {
     if (!url) return '';
-    const { VITE_AWS_BUCKET_NAME, VITE_AWS_REGION } = process.env;
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+
+    if (!awsBucketName || !awsRegion) return '';
 
     return url.includes('cloudinary')
       ? url
-      : `https://${VITE_AWS_BUCKET_NAME}.s3.${VITE_AWS_REGION}.amazonaws.com/prod/${url}_${quality || 85}.webp`;
+      : `https://${awsBucketName}.s3.${awsRegion}.amazonaws.com/prod/${url}_${quality || 85}.webp`;
+  };
+
+  const toIsoDate = (value) => {
+    if (!value) return nowIso;
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? nowIso : parsed.toISOString();
+  };
+
+  const writeEntry = (entry) => smStream.write(entry);
+
+  const writeEntryWithImage = (entry, image) => {
+    if (image?.url) {
+      writeEntry({ ...entry, img: [image] });
+      return;
+    }
+
+    writeEntry(entry);
   };
 
   const extractItems = (payload, legacyKey) => {
@@ -47,46 +83,22 @@ async function generateSitemap() {
     return items;
   };
 
+  const nonIndexableStaticRoutes = new Set([
+    '/login',
+    '/registration',
+    '/profile',
+    '/profile-settings/edit-profile',
+    '/profile-settings/change-image',
+    '/profile-settings/change-password',
+    '/create-product',
+    '/create-event'
+  ]);
+
   const staticPages = [
     {
       url: '/',
       changefreq: 'daily',
       priority: 1.0
-    },
-    {
-      url: '/login',
-      changefreq: 'monthly',
-      priority: 0.8
-    },
-    {
-      url: '/registration',
-      changefreq: 'monthly',
-      priority: 0.8
-    },
-    {
-      url: '/forgot-password',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/profile',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/profile-settings/edit-profile',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/profile-settings/change-image',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/profile-settings/change-password',
-      changefreq: 'daily',
-      priority: 0.9
     },
     {
       url: '/products',
@@ -105,16 +117,6 @@ async function generateSitemap() {
     },
     {
       url: '/message',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/create-product',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
-      url: '/create-event',
       changefreq: 'daily',
       priority: 0.9
     },
@@ -164,11 +166,6 @@ async function generateSitemap() {
       priority: 0.9
     },
     {
-      url: '/admin/google-analytics',
-      changefreq: 'daily',
-      priority: 0.9
-    },
-    {
       url: '/shops',
       changefreq: 'daily',
       priority: 0.9
@@ -183,78 +180,91 @@ async function generateSitemap() {
       changefreq: 'daily',
       priority: 0.9
     }
-  ];
+  ].filter((page) => !nonIndexableStaticRoutes.has(page.url));
 
   // statične stranice
-  staticPages.forEach((page) => smStream.write(page));
+  staticPages.forEach((page) =>
+    writeEntry({
+      ...page,
+      lastmod: nowIso
+    })
+  );
 
   // API proizvoda
   const products = await fetchAllItems('/api/product/all', 'products');
-  products.forEach((p) =>
-    smStream.write({
-      url: `/product/${p._id}`,
-      changefreq: 'daily',
-      priority: 1,
-      img: [
-        {
-          url: formatImageUrl(p.images?.[0] || ''), // glavna slika
-          title: p.title || '', // naslov proizvoda
-          caption: p.description || '' // opis kao caption
-        }
-      ]
-    })
-  );
+  products.forEach((p) => {
+    const imageUrl = formatImageUrl(p.images?.[0] || '');
+    writeEntryWithImage(
+      {
+        url: `/product/${p._id}`,
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: toIsoDate(p.updatedAt || p.createdAt)
+      },
+      {
+        url: imageUrl, // glavna slika
+        title: p.title || '', // naslov proizvoda
+        caption: p.description || '' // opis kao caption
+      }
+    );
+  });
 
   // API dogadjaja
   const events = await fetchAllItems('/api/action/all', 'events');
-  events.forEach((e) =>
-    smStream.write({
-      url: `/event/${e._id}`,
-      changefreq: 'daily',
-      priority: 1,
-      img: [
-        {
-          url: formatImageUrl(e.coverImage || ''), // glavna slika
-          title: e.title || '', // naslov događaja
-          caption: e.description || '' // opis kao caption
-        }
-      ]
-    })
-  );
+  events.forEach((e) => {
+    const imageUrl = formatImageUrl(e.coverImage || '');
+    writeEntryWithImage(
+      {
+        url: `/event/${e._id}`,
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: toIsoDate(e.updatedAt || e.createdAt)
+      },
+      {
+        url: imageUrl, // glavna slika
+        title: e.title || '', // naslov događaja
+        caption: e.description || '' // opis kao caption
+      }
+    );
+  });
 
   // API usluga
   const services = await fetchAllItems('/api/services', 'services');
-  services.forEach((s) =>
-    smStream.write({
-      url: `/services/${s._id}`,
-      changefreq: 'daily',
-      priority: 1,
-      img: [
-        {
-          url: formatImageUrl(s.images?.[0] || ''),
-          title: s.title || '',
-          caption: s.description || ''
-        }
-      ]
-    })
-  );
+  services.forEach((s) => {
+    const imageUrl = formatImageUrl(s.images?.[0] || '');
+    writeEntryWithImage(
+      {
+        url: `/services/${s._id}`,
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: toIsoDate(s.updatedAt || s.createdAt)
+      },
+      {
+        url: imageUrl,
+        title: s.title || '',
+        caption: s.description || ''
+      }
+    );
+  });
 
   // API user-a
   const users = await fetchAllItems('/api/user/all-users', 'users');
-  users.forEach((u) =>
-    smStream.write({
-      url: `/shop/${u._id}`,
-      changefreq: 'daily',
-      priority: 1,
-      img: [
-        {
-          url: formatImageUrl(u.profileImage || ''),
-          title: u.shopName || u.name || '',
-          caption: u.shopDescription || ''
-        }
-      ]
-    })
-  );
+  users.forEach((u) => {
+    const imageUrl = formatImageUrl(u.profileImage || '');
+    writeEntryWithImage(
+      {
+        url: `/shop/${u._id}`,
+        changefreq: 'daily',
+        priority: 1,
+        lastmod: toIsoDate(u.updatedAt || u.createdAt)
+      },
+      {
+        url: imageUrl,
+        title: u.shopName || u.name || '',
+        caption: u.shopDescription || ''
+      }
+    );
+  });
 
   smStream.end();
 
