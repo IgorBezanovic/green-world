@@ -12,6 +12,7 @@ interface UserContextType {
   setUser: (user: User) => void;
   setUserDataInCTX: (user: User) => void;
   isLoading: boolean;
+  isAuthResolved: boolean;
   isUserLoggedIn: boolean;
   userId: string;
 }
@@ -83,21 +84,25 @@ const UserContext = createContext<UserContextType>({
   setUser: () => {},
   setUserDataInCTX: () => {},
   isLoading: false,
+  isAuthResolved: false,
   isUserLoggedIn: false,
   userId: ''
 });
 
 interface ProviderProps {
   children: ReactNode;
+  initialToken?: string | null;
 }
 
-export const UserContextProvider = ({ children }: ProviderProps) => {
+export const UserContextProvider = ({
+  children,
+  initialToken = null
+}: ProviderProps) => {
   const [user, setUser] = useState(defaultUser);
-  // Initialize as undefined to avoid SSR/client mismatch — cookie is only
-  // readable on the client, so we hydrate after mount via useEffect.
-  const [token, setToken] = useState<string | undefined>(undefined);
-  const decodedToken = safeDecodeToken<DecodedToken>(token);
+  const [token, setToken] = useState<string | null>(initialToken);
+  const decodedToken = safeDecodeToken<DecodedToken>(token ?? undefined);
   const userId = decodedToken?._id ?? '';
+  const isAuthResolved = true;
   const isUserLoggedIn = Boolean(decodedToken?._id);
   const { data, isLoading } = useUser(userId, true);
 
@@ -112,11 +117,6 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
   }, [data, isLoading]);
 
   useEffect(() => {
-    // Read cookie on client after hydration to avoid SSR mismatch
-    setToken(getItem('token'));
-  }, []);
-
-  useEffect(() => {
     const handleLogout = () => {
       setUser(defaultUser);
     };
@@ -129,7 +129,7 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
 
   useEffect(() => {
     const handleLogin = () => {
-      setToken(getItem('token'));
+      setToken(getItem('token') ?? null);
     };
 
     window.addEventListener('auth:login', handleLogin);
@@ -149,6 +149,7 @@ export const UserContextProvider = ({ children }: ProviderProps) => {
         setUser,
         setUserDataInCTX,
         isLoading,
+        isAuthResolved,
         isUserLoggedIn,
         userId
       }}
