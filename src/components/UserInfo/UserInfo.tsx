@@ -5,6 +5,7 @@ import {
   formatUrl,
   goToDestination
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Avatar,
   Card,
@@ -76,7 +77,9 @@ export const UserInfo = ({ ...props }) => {
                 fontStyle: props?.user?.shopName ? 'normal' : 'italic',
                 cursor: canGoToShop ? 'pointer' : 'default'
               }}
-              onClick={() => canGoToShop && navigate(`/shop/${props.user._id}`)}
+              onClick={() =>
+                canGoToShop && navigate(`/shop/${slugOrId(props.user)}`)
+              }
             >
               {props?.user?.shopName ?? t('userInfo.enterShopName')}
             </Typography>
@@ -116,7 +119,7 @@ export const UserInfo = ({ ...props }) => {
               }
 
               if (canGoToShop) {
-                navigate(`/shop/${props.user._id}`);
+                navigate(`/shop/${slugOrId(props.user)}`);
               }
             }}
           >

@@ -2,6 +2,7 @@
 
 import { useDeletePost } from '@green-world/hooks/useDeletePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import { BlogPost } from '@green-world/utils/types';
 import {
   Box,
@@ -60,7 +61,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
       onClick={
         location.pathname.includes('/profile')
           ? undefined
-          : () => navigate(`/blog/${post._id}`)
+          : () => navigate(`/blog/${slugOrId(post)}`)
       }
     >
       {post.coverImage && (
@@ -70,7 +71,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
           image={formatImageUrl(post.coverImage)}
           onClick={
             location.pathname.includes('/profile')
-              ? () => navigate(`/blog/${post._id}`)
+              ? () => navigate(`/blog/${slugOrId(post)}`)
               : undefined
           }
           alt={post.title}
@@ -130,7 +131,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
           <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
             <IconButton
               aria-label="Edit Product"
-              onClick={() => navigate(`/write-post/${post._id}`)}
+              onClick={() => navigate(`/write-post/${slugOrId(post)}`)}
             >
               <EditIcon style={{ strokeWidth: '2px' }} />
             </IconButton>
@@ -138,7 +139,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
               aria-label="Share Product"
               onClick={() => {
                 navigator.clipboard
-                  .writeText(`https://www.zelenisvet.rs/blog/${post._id}`)
+                  .writeText(`https://www.zelenisvet.rs/blog/${slugOrId(post)}`)
                   .then(() => {
                     toast.success(t('blogCard.linkCopied'));
                   })

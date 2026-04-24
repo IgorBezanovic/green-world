@@ -43,6 +43,8 @@ async function generateSitemap() {
 
   const writeEntry = (entry) => smStream.write(entry);
 
+  const slugOrId = (item) => item?.slug || item?._id;
+
   const writeEntryWithImage = (entry, image) => {
     if (image?.url) {
       writeEntry({ ...entry, img: [image] });
@@ -193,10 +195,13 @@ async function generateSitemap() {
   // API proizvoda
   const products = await fetchAllItems('/api/product/all', 'products');
   products.forEach((p) => {
+    const productIdentifier = slugOrId(p);
+    if (!productIdentifier) return;
+
     const imageUrl = formatImageUrl(p.images?.[0] || '');
     writeEntryWithImage(
       {
-        url: `/product/${p._id}`,
+        url: `/product/${productIdentifier}`,
         changefreq: 'daily',
         priority: 1,
         lastmod: toIsoDate(p.updatedAt || p.createdAt)
@@ -212,10 +217,13 @@ async function generateSitemap() {
   // API dogadjaja
   const events = await fetchAllItems('/api/action/all', 'events');
   events.forEach((e) => {
+    const eventIdentifier = slugOrId(e);
+    if (!eventIdentifier) return;
+
     const imageUrl = formatImageUrl(e.coverImage || '');
     writeEntryWithImage(
       {
-        url: `/event/${e._id}`,
+        url: `/event/${eventIdentifier}`,
         changefreq: 'daily',
         priority: 1,
         lastmod: toIsoDate(e.updatedAt || e.createdAt)
@@ -231,10 +239,13 @@ async function generateSitemap() {
   // API usluga
   const services = await fetchAllItems('/api/services', 'services');
   services.forEach((s) => {
+    const serviceIdentifier = slugOrId(s);
+    if (!serviceIdentifier) return;
+
     const imageUrl = formatImageUrl(s.images?.[0] || '');
     writeEntryWithImage(
       {
-        url: `/services/${s._id}`,
+        url: `/services/${serviceIdentifier}`,
         changefreq: 'daily',
         priority: 1,
         lastmod: toIsoDate(s.updatedAt || s.createdAt)
@@ -250,10 +261,13 @@ async function generateSitemap() {
   // API user-a
   const users = await fetchAllItems('/api/user/all-users', 'users');
   users.forEach((u) => {
+    const userIdentifier = slugOrId(u);
+    if (!userIdentifier) return;
+
     const imageUrl = formatImageUrl(u.profileImage || '');
     writeEntryWithImage(
       {
-        url: `/shop/${u._id}`,
+        url: `/shop/${userIdentifier}`,
         changefreq: 'daily',
         priority: 1,
         lastmod: toIsoDate(u.updatedAt || u.createdAt)

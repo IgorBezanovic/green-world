@@ -22,6 +22,7 @@ import {
   formatImageUrl,
   getPlainTextFromHtml
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import { BlogPost, Product, ServiceListing } from '@green-world/utils/types';
 import {
   Tabs,
@@ -528,7 +529,7 @@ export const UserProfile = () => {
                         aria-label="Edit Service"
                         title={t('userProfileView.editService')}
                         onClick={() =>
-                          navigate(`/services/${service._id}/edit`)
+                          navigate(`/services/${slugOrId(service)}/edit`)
                         }
                       >
                         <EditIcon style={{ strokeWidth: '2px' }} />
@@ -539,7 +540,7 @@ export const UserProfile = () => {
                         onClick={() => {
                           navigator.clipboard
                             .writeText(
-                              `https://www.zelenisvet.rs/services/${service._id}`
+                              `https://www.zelenisvet.rs/services/${slugOrId(service)}`
                             )
                             .then(() => toast.success(t('service.linkCopied')))
                             .catch(() =>

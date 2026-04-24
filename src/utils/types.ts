@@ -16,6 +16,7 @@ export type RegistrationValues = {
 
 export interface Product {
   _id: string;
+  slug?: string;
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -57,6 +58,7 @@ type Address = {
 
 export type StatisticItem = {
   id: string;
+  slug?: string;
   title: string;
   image: string | null;
   viewCounter: number;
@@ -67,6 +69,7 @@ export type UserStatistics = {
   mostVisitedProductGroup: string | null;
   mostVisitedProduct: {
     _id: string;
+    slug?: string;
     title: string;
     images: string[];
     viewCounter?: number;
@@ -74,12 +77,14 @@ export type UserStatistics = {
   } | null;
   mostVisitedService: {
     _id: string;
+    slug?: string;
     title: string;
     images: string[];
     viewCounter?: number;
   } | null;
   mostVisitedBlog: {
     _id: string;
+    slug?: string;
     title: string;
     coverImage?: string;
     viewCounter?: number;
@@ -121,6 +126,7 @@ export type WorkingTime = {
 
 export type User = {
   _id?: string;
+  slug?: string;
   email: string;
   name: string;
   lastname: string;
@@ -208,6 +214,7 @@ export type ProductFiltersParams = {
 
 export type Event = {
   _id?: string;
+  slug?: string;
   title: string;
   description: string;
   place: string;
@@ -248,6 +255,7 @@ export interface BlogBlock {
 
 export interface BlogPost {
   _id: string;
+  slug?: string;
   title: string;
   coverImage: string;
   author: string;
@@ -293,8 +301,10 @@ export interface PortfolioLink {
 
 export interface ServiceListing {
   _id: string;
+  slug?: string;
   providerId: {
     _id: string;
+    slug?: string;
     name: string;
     lastname: string;
   };

@@ -400,11 +400,7 @@ export const Event = () => {
                   eventData.contactMail) && (
                   <Card variant="outlined" sx={{ borderRadius: 2 }}>
                     <CardContent sx={{ pb: '16px !important' }}>
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        mb={1.5}
-                      >
+                      <Typography variant="subtitle1" mb={1.5}>
                         {t('eventPage.contact')}
                       </Typography>
                       <Stack spacing={1.5}>
@@ -507,7 +503,7 @@ export const Event = () => {
             {/* ── Description ── */}
             <Box>
               <Divider sx={{ mb: 3 }} />
-              <Typography variant="h5" fontWeight="bold" mb={2}>
+              <Typography variant="h5" mb={2}>
                 {t('eventPage.description')}
               </Typography>
               <Box {...getHtmlDescriptionProps(eventData.description)} />

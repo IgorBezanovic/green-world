@@ -305,14 +305,17 @@ export const fetchApiData = async <T>(endpoint: string): Promise<T | null> => {
 
 export const buildProductMetadata = async (
   locale: AppLocale,
-  productId: string
+  productSlugOrId: string
 ) => {
   const messages = getLocaleMessages(locale);
-  const product = await fetchApiData<Product>(`/product/details/${productId}`);
+  const product = await fetchApiData<Product>(
+    `/product/details/${productSlugOrId}`
+  );
+  const canonicalSegment = product?.slug || productSlugOrId;
 
   return createPageMetadata({
     locale,
-    pathname: `/product/${productId}`,
+    pathname: `/product/${canonicalSegment}`,
     title: createEntityTitle(product?.title, messages.seo.product.label),
     description: truncate(
       stripHtml(
@@ -328,14 +331,15 @@ export const buildProductMetadata = async (
 
 export const buildEventMetadata = async (
   locale: AppLocale,
-  eventId: string
+  eventSlugOrId: string
 ) => {
   const messages = getLocaleMessages(locale);
-  const event = await fetchApiData<Event>(`/action/details/${eventId}`);
+  const event = await fetchApiData<Event>(`/action/details/${eventSlugOrId}`);
+  const canonicalSegment = event?.slug || eventSlugOrId;
 
   return createPageMetadata({
     locale,
-    pathname: `/event/${eventId}`,
+    pathname: `/event/${canonicalSegment}`,
     title: createEntityTitle(event?.title, messages.seo.event.label),
     description: truncate(
       stripHtml(event?.description || messages.seo.event.fallbackDescription)
@@ -355,15 +359,16 @@ const getBlogDescription = (post: BlogPost | null, fallback: string) => {
 
 export const buildBlogPostMetadata = async (
   locale: AppLocale,
-  postId: string
+  postSlugOrId: string
 ) => {
   const messages = getLocaleMessages(locale);
-  const post = await fetchApiData<BlogPost>(`/blog-post/post/${postId}`);
+  const post = await fetchApiData<BlogPost>(`/blog-post/post/${postSlugOrId}`);
+  const canonicalSegment = post?.slug || postSlugOrId;
   const title = createEntityTitle(post?.title, messages.topContent.blog);
 
   return createPageMetadata({
     locale,
-    pathname: `/blog/${postId}`,
+    pathname: `/blog/${canonicalSegment}`,
     title,
     description: getBlogDescription(post, messages.seo.blog.description),
     keywords: post?.keywords?.join(', ') || messages.seo.blog.keywords,
@@ -401,16 +406,20 @@ const resolveShopOgImage = async (
   return DEFAULT_OG_IMAGE;
 };
 
-export const buildShopMetadata = async (locale: AppLocale, userId: string) => {
+export const buildShopMetadata = async (
+  locale: AppLocale,
+  userSlugOrId: string
+) => {
   const messages = getLocaleMessages(locale);
-  const user = await fetchApiData<User>(`/user/details/${userId}`);
+  const user = await fetchApiData<User>(`/user/details/${userSlugOrId}`);
   const profileLabel = messages.breadcrumbs.userProfile;
   const shopTitle = user?.shopName || user?.name;
-  const image = await resolveShopOgImage(user, userId);
+  const image = await resolveShopOgImage(user, user?._id || userSlugOrId);
+  const canonicalSegment = user?.slug || userSlugOrId;
 
   return createPageMetadata({
     locale,
-    pathname: `/shop/${userId}`,
+    pathname: `/shop/${canonicalSegment}`,
     title: createEntityTitle(shopTitle, profileLabel),
     description: truncate(
       stripHtml(user?.shopDescription || messages.metaTags.defaultDescription)
@@ -423,15 +432,18 @@ export const buildShopMetadata = async (locale: AppLocale, userId: string) => {
 
 export const buildServiceMetadata = async (
   locale: AppLocale,
-  serviceId: string
+  serviceSlugOrId: string
 ) => {
   const messages = getLocaleMessages(locale);
-  const service = await fetchApiData<ServiceListing>(`/services/${serviceId}`);
+  const service = await fetchApiData<ServiceListing>(
+    `/services/${serviceSlugOrId}`
+  );
   const serviceLabel = messages.topContent.service;
+  const canonicalSegment = service?.slug || serviceSlugOrId;
 
   return createPageMetadata({
     locale,
-    pathname: `/services/${serviceId}`,
+    pathname: `/services/${canonicalSegment}`,
     title: createEntityTitle(service?.title, serviceLabel),
     description: truncate(
       stripHtml(service?.description || messages.metaTags.defaultDescription)
@@ -444,10 +456,13 @@ export const buildServiceMetadata = async (
 
 export const buildOrderProductMetadata = async (
   locale: AppLocale,
-  productId: string
+  productSlugOrId: string
 ) => {
   const messages = getLocaleMessages(locale);
-  const product = await fetchApiData<Product>(`/product/details/${productId}`);
+  const product = await fetchApiData<Product>(
+    `/product/details/${productSlugOrId}`
+  );
+  const canonicalSegment = product?.slug || productSlugOrId;
   const title = product?.title
     ? [messages.orderProductView.breadcrumb, product.title].join(
         TITLE_SEPARATOR
@@ -456,7 +471,7 @@ export const buildOrderProductMetadata = async (
 
   return createLocalizedPageMetadata({
     locale,
-    pathname: `/order-product/${productId}`,
+    pathname: `/order-product/${canonicalSegment}`,
     title,
     description: truncate(
       stripHtml(

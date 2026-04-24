@@ -38,15 +38,11 @@ export const CommentItem = ({
         </Avatar>
         <Box sx={{ flex: 1 }}>
           <Stack
-            sx={(theme) => ({
+            sx={{
               flexDirection: 'column',
-              [theme.breakpoints.up('sm')]: {
-                flexDirection: 'row',
-                alignItems: 'center'
-              },
               alignItems: 'flex-start'
-            })}
-            spacing={2}
+            }}
+            spacing={0.25}
           >
             <Typography variant="subtitle2">
               {comment?.author || t('common.unknownUser')}
@@ -121,15 +117,11 @@ export const CommentItem = ({
                   {t('commentList.replyTo')}
                 </Typography>
                 <Stack
-                  sx={(theme) => ({
+                  sx={{
                     flexDirection: 'column',
-                    [theme.breakpoints.up('sm')]: {
-                      flexDirection: 'row',
-                      alignItems: 'center'
-                    },
                     alignItems: 'flex-start'
-                  })}
-                  spacing={2}
+                  }}
+                  spacing={0.25}
                 >
                   <Typography variant="subtitle2">
                     {r?.author || t('common.unknownUser')}

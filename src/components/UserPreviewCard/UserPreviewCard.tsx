@@ -2,6 +2,7 @@
 
 import { UserPreview } from '@green-world/hooks/useHomeItems';
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import MapPinIcon from '@mui/icons-material/Place';
 import {
   Avatar,
@@ -47,7 +48,7 @@ export const UserPreviewCard = ({ user }: UserPreviewCardProps) => {
           flexDirection: 'column',
           alignItems: 'stretch'
         }}
-        onClick={() => navigate(`/shop/${user._id}`)}
+        onClick={() => navigate(`/shop/${slugOrId(user)}`)}
       >
         <CardContent
           sx={{

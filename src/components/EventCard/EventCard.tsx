@@ -5,6 +5,7 @@ import {
   formatImageUrl,
   getPlainTextFromHtml
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
   Card,
@@ -89,7 +90,7 @@ export const EventCard = ({ event }: { event: EventCardProps }) => {
   return (
     <Card
       component={Link}
-      to={`/event/${event._id}`}
+      to={`/event/${slugOrId(event)}`}
       sx={{
         display: 'flex',
         flexDirection: 'column',

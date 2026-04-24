@@ -6,6 +6,7 @@ import {
   formatImageUrl,
   getPlainTextFromHtml
 } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PlaceIcon from '@mui/icons-material/Place';
 import {
@@ -62,7 +63,7 @@ export const EventProfileCard = ({ ...props }) => {
       }}
       onClick={() =>
         !location.pathname.includes('/profile') &&
-        navigate(`/event/${props.event?._id}`)
+        navigate(`/event/${slugOrId(props.event)}`)
       }
     >
       <Box
@@ -180,7 +181,7 @@ export const EventProfileCard = ({ ...props }) => {
           <CardActions disableSpacing sx={{ justifyContent: 'space-around' }}>
             <IconButton
               aria-label="add to favorites"
-              onClick={() => navigate(`/edit-event/${props.event?._id}`)}
+              onClick={() => navigate(`/edit-event/${slugOrId(props.event)}`)}
             >
               <EditIcon style={{ strokeWidth: '2px' }} />
             </IconButton>
@@ -189,7 +190,7 @@ export const EventProfileCard = ({ ...props }) => {
               onClick={() => {
                 navigator.clipboard
                   .writeText(
-                    `https://www.zelenisvet.rs/event/${props.event?._id}`
+                    `https://www.zelenisvet.rs/event/${slugOrId(props.event)}`
                   )
                   .then(() => {
                     toast.success(t('eventProfileCard.linkCopied'));

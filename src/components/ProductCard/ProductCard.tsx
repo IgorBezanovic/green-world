@@ -4,6 +4,7 @@ import { useDeleteProduct } from '@green-world/hooks/useDeleteProduct';
 import { useEditProduct } from '@green-world/hooks/useEditProduct';
 import { ProductPreview } from '@green-world/hooks/useHomeItems';
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import { Product } from '@green-world/utils/types';
 import {
   Box,
@@ -103,7 +104,7 @@ export const ProductCard = ({
       }}
       onClick={() =>
         !location.pathname.includes('/profile') &&
-        navigate(`/product/${product._id}`)
+        navigate(`/product/${slugOrId(product)}`)
       }
     >
       <Box
@@ -322,7 +323,7 @@ export const ProductCard = ({
                 <IconButton
                   aria-label="Edit Product"
                   title={t('productCard.editProductTitle')}
-                  onClick={() => navigate(`/edit-product/${product._id}`)}
+                  onClick={() => navigate(`/edit-product/${slugOrId(product)}`)}
                 >
                   <EditIcon style={{ strokeWidth: '2px' }} />
                 </IconButton>
@@ -333,7 +334,7 @@ export const ProductCard = ({
                   onClick={() => {
                     navigator.clipboard
                       .writeText(
-                        `https://www.zelenisvet.rs/product/${product._id}`
+                        `https://www.zelenisvet.rs/product/${slugOrId(product)}`
                       )
                       .then(() => toast.success(t('productCard.linkCopied')))
                       .catch(() =>

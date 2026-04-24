@@ -21,6 +21,7 @@ import { useCreateComment } from '@green-world/hooks/useCreateComment';
 import { useUser } from '@green-world/hooks/useUser';
 import { useVotePost } from '@green-world/hooks/useVotePost';
 import { formatImageUrl } from '@green-world/utils/helpers';
+import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
   Card,
@@ -175,7 +176,7 @@ export const BlogPostPage = () => {
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('navbar.blog'), route: '/blog' },
-    { label: post?.title || '', route: `/blog/${post?._id}` }
+    { label: post?.title || '', route: `/blog/${slugOrId(post)}` }
   ];
 
   return (
