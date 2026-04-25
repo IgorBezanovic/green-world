@@ -1,3 +1,4 @@
+import { formatImageUrl } from '@green-world/utils/helpers';
 import { HomeCategory } from '@green-world/utils/types';
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +41,7 @@ export const GroupButton = ({ item }: GroupButtonProps) => {
         sx={{
           width: '100%',
           aspectRatio: '1 / 1',
-          backgroundImage: `url(${item?.image})`,
+          backgroundImage: `url(${formatImageUrl(item?.image || '', 85)})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'relative'
