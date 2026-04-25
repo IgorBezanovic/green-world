@@ -74,96 +74,84 @@ export const legalType = [
 export const homeCategories: HomeCategory[] = [
   {
     id: 1,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734375/rolkuumcojvnay4srdbl.webp',
+    image: '2d8b043f2160cea64af1731b42541f53',
     route: '/products/flower_assortment',
     text: 'Cvetni asortiman',
     slug: 'flower_assortment'
   },
   {
     id: 2,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734437/nwhuyfbqntll4chzwrys.webp',
+    image: '3f17dfde9f431e487fd89a32ce89148b',
     route: '/products/succulents',
     text: 'Sukulenti',
     slug: 'succulents'
   },
   {
     id: 3,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734487/dh61q6w6vhvufl2nqsju.webp',
+    image: '1363d60131ccd907b947f3f4e4663898',
     route: '/products/potted_flowers',
     text: 'Saksijsko cveće',
     slug: 'potted_flowers'
   },
   {
     id: 4,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734524/e2c7yyqu2wxmosyosfap.webp',
+    image: '3c4c4bb8a860deb0304f436dfb8e437e',
     route: '/products/seedlings',
     text: 'Sadnice',
     slug: 'seedlings'
   },
   {
     id: 5,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734567/qi6vrxr7ck98fdqqvb83.webp',
+    image: 'd540fa10d54a991a487198281b307112',
     route: '/products/fruits_and_vegetables',
     text: 'Voće i povrće',
     slug: 'fruits_and_vegetables'
   },
   {
     id: 6,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734608/qkv49cwxehh6osu3cfx4.webp',
+    image: '2c67875e1e49b645e1bc24b592d60275',
     route: '/products/herbal_pharmacy',
     text: 'Biljna apoteka',
     slug: 'herbal_pharmacy'
   },
   {
     id: 7,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734642/jofstgnbcqqlpsnbt7pp.webp',
+    image: '1ac106f726cfecf080d4bdc633290a0e',
     route: '/products/garden_decoration',
     text: 'Baštenska dekoracija',
     slug: 'garden_decoration'
   },
   {
     id: 8,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/f_auto,q_auto/v1756734674/yc4pttb6sp02jmnjz9hh.webp',
+    image: '62527a20f31d727fdce4f488ec838f29',
     route: '/products/everything_for_plants',
     text: 'Sve za biljke',
     slug: 'everything_for_plants'
   },
   {
     id: 9,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/v1776377015/WhatsApp_Image_2026-04-16_at_23.53.40_cpmbta.jpg',
+    image: '0ab546d6f0fcfc38487383b36f1b6572',
     route: '/products/equipment_and_tools',
     text: 'Oprema i alati',
     slug: 'equipment_and_tools'
   },
   {
     id: 10,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/v1776376743/WhatsApp_Image_2026-04-16_at_23.56.00_pdbz6d.jpg',
+    image: '1bef048d8ebb9c02621e8c7b14f50d32',
     route: '/products/urban_gardening',
     text: 'Urbano baštovanstvo',
     slug: 'urban_gardening'
   },
   {
     id: 11,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/v1776376853/WhatsApp_Image_2026-04-16_at_23.58.43_rysbyd.jpg',
+    image: '64e3c7031dd6b96fe72cfb4a23613250',
     route: '/products/seeds_and_bulbs',
     text: 'Semena i lukovice',
     slug: 'seeds_and_bulbs'
   },
   {
     id: 12,
-    image:
-      'https://res.cloudinary.com/dijofqxeu/image/upload/v1776377120/WhatsApp_Image_2026-04-17_at_00.04.52_zoihmw.jpg',
+    image: '509ee6d472fc1703e7639e633b6c38b4',
     route: '/products/eco_and_organic',
     text: 'Eko i Organsko',
     slug: 'eco_and_organic'
