@@ -25,6 +25,9 @@ const OG_LOCALE_BY_LANGUAGE = {
   ru: 'ru_RU'
 } as const;
 
+const SUPPORTED_LOCALES = routing.locales.map((locale) => locale as AppLocale);
+const DEFAULT_LOCALE = routing.defaultLocale as AppLocale;
+
 const messagesByLocale = {
   sr,
   en,
@@ -75,6 +78,20 @@ export const getLocalizedPathname = (
   }
 
   return `/${locale}${normalizedPathname}`;
+};
+
+const buildLanguageAlternates = (pathname: string) => {
+  const defaultPathname = getLocalizedPathname(DEFAULT_LOCALE, pathname);
+
+  return {
+    ...Object.fromEntries(
+      SUPPORTED_LOCALES.map((locale) => [
+        locale,
+        getLocalizedPathname(locale, pathname)
+      ])
+    ),
+    'x-default': defaultPathname
+  };
 };
 
 export const absoluteUrl = (value?: string | null) => {
@@ -191,11 +208,22 @@ export const createPageMetadata = ({
   type = 'website',
   noIndex
 }: MetadataInput): Metadata => {
-  const localizedPathname = pathname
-    ? getLocalizedPathname(locale, pathname)
+  const normalizedPathname = pathname
+    ? pathname.startsWith('/')
+      ? pathname
+      : `/${pathname}`
     : undefined;
-  const canonicalUrl = localizedPathname
+  const localizedPathname = normalizedPathname
+    ? getLocalizedPathname(locale, normalizedPathname)
+    : undefined;
+  const canonicalPathname = normalizedPathname
+    ? getLocalizedPathname(DEFAULT_LOCALE, normalizedPathname)
+    : undefined;
+  const localizedUrl = localizedPathname
     ? absoluteUrl(localizedPathname)
+    : undefined;
+  const canonicalUrl = canonicalPathname
+    ? absoluteUrl(canonicalPathname)
     : undefined;
   const imageUrl = absoluteUrl(image || DEFAULT_OG_IMAGE);
 
@@ -205,9 +233,10 @@ export const createPageMetadata = ({
     },
     description,
     keywords,
-    alternates: localizedPathname
+    alternates: normalizedPathname
       ? {
-          canonical: localizedPathname
+          canonical: canonicalPathname,
+          languages: buildLanguageAlternates(normalizedPathname)
         }
       : undefined,
     robots: buildRobots(noIndex),
@@ -215,7 +244,7 @@ export const createPageMetadata = ({
       type,
       siteName: SITE_NAME,
       locale: OG_LOCALE_BY_LANGUAGE[locale],
-      url: canonicalUrl,
+      url: localizedUrl || canonicalUrl,
       title,
       description,
       images: [
