@@ -119,7 +119,6 @@ export default function RootLayout({
   return (
     <html lang="sr">
       <head>
-        <meta name="yandex-verification" content="f90b60d7d0d04363" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link
           rel="preconnect"

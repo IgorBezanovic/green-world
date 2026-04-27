@@ -13,6 +13,8 @@ async function generateSitemap() {
   const hostname = 'https://greenworldbe-production.up.railway.app';
   const siteHostname = 'https://www.zelenisvet.rs';
   const smStream = new SitemapStream({ hostname: siteHostname });
+  const locales = ['sr', 'en', 'ru'];
+  const defaultLocale = 'sr';
 
   const nowIso = new Date().toISOString();
 
@@ -41,6 +43,23 @@ async function generateSitemap() {
     return Number.isNaN(parsed.getTime()) ? nowIso : parsed.toISOString();
   };
 
+  const localizePath = (path, locale) => {
+    if (locale === defaultLocale) return path;
+    if (path === '/') return `/${locale}`;
+    return `/${locale}${path}`;
+  };
+
+  const alternateLinks = (path) => [
+    ...locales.map((locale) => ({
+      lang: locale,
+      url: `${siteHostname}${localizePath(path, locale)}`
+    })),
+    {
+      lang: 'x-default',
+      url: `${siteHostname}${path}`
+    }
+  ];
+
   const writeEntry = (entry) => smStream.write(entry);
 
   const slugOrId = (item) => item?.slug || item?._id;
@@ -52,6 +71,29 @@ async function generateSitemap() {
     }
 
     writeEntry(entry);
+  };
+
+  const writeLocalizedEntry = (entry) => {
+    locales.forEach((locale) => {
+      writeEntry({
+        ...entry,
+        url: localizePath(entry.url, locale),
+        links: alternateLinks(entry.url)
+      });
+    });
+  };
+
+  const writeLocalizedEntryWithImage = (entry, image) => {
+    locales.forEach((locale) => {
+      writeEntryWithImage(
+        {
+          ...entry,
+          url: localizePath(entry.url, locale),
+          links: alternateLinks(entry.url)
+        },
+        image
+      );
+    });
   };
 
   const extractItems = (payload, legacyKey) => {
@@ -186,7 +228,7 @@ async function generateSitemap() {
 
   // statične stranice
   staticPages.forEach((page) =>
-    writeEntry({
+    writeLocalizedEntry({
       ...page,
       lastmod: nowIso
     })
@@ -199,7 +241,7 @@ async function generateSitemap() {
     if (!productIdentifier) return;
 
     const imageUrl = formatImageUrl(p.images?.[0] || '');
-    writeEntryWithImage(
+    writeLocalizedEntryWithImage(
       {
         url: `/product/${productIdentifier}`,
         changefreq: 'daily',
@@ -221,7 +263,7 @@ async function generateSitemap() {
     if (!eventIdentifier) return;
 
     const imageUrl = formatImageUrl(e.coverImage || '');
-    writeEntryWithImage(
+    writeLocalizedEntryWithImage(
       {
         url: `/event/${eventIdentifier}`,
         changefreq: 'daily',
@@ -243,7 +285,7 @@ async function generateSitemap() {
     if (!serviceIdentifier) return;
 
     const imageUrl = formatImageUrl(s.images?.[0] || '');
-    writeEntryWithImage(
+    writeLocalizedEntryWithImage(
       {
         url: `/services/${serviceIdentifier}`,
         changefreq: 'daily',
@@ -265,7 +307,7 @@ async function generateSitemap() {
     if (!userIdentifier) return;
 
     const imageUrl = formatImageUrl(u.profileImage || '');
-    writeEntryWithImage(
+    writeLocalizedEntryWithImage(
       {
         url: `/shop/${userIdentifier}`,
         changefreq: 'daily',
