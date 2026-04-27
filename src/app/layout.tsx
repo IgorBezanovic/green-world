@@ -95,9 +95,6 @@ export const metadata: Metadata = {
     description:
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
     images: ['/zeleni-svet-yellow-transparent.png']
-  },
-  verification: {
-    yandex: 'f90b60d7d0d04363'
   }
 };
 
@@ -122,6 +119,7 @@ export default function RootLayout({
   return (
     <html lang="sr">
       <head>
+        <meta name="yandex-verification" content="f90b60d7d0d04363" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link
           rel="preconnect"
