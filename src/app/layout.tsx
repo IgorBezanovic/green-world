@@ -95,6 +95,9 @@ export const metadata: Metadata = {
     description:
       'Kupite cveće online na Zelenom Svetu – vodećem marketplace-u za online cvećare i kupovinu cveća u Srbiji. Saksijsko cveće, rezano cveće i baštenski asortiman uz dostavu.',
     images: ['/zeleni-svet-yellow-transparent.png']
+  },
+  verification: {
+    yandex: 'f90b60d7d0d04363'
   }
 };
 
