@@ -232,7 +232,7 @@ export const UserProfile = () => {
             numberOfProducts={user.numberOfProducts}
             maxShopProducts={user.maxShopProducts}
             numberOfActions={user.numberOfActions}
-            numberOfServices={userServices.length}
+            numberOfServices={user.numberOfServiceListings}
             numberOfBlogs={user.numberOfBlogs}
           />
           <Button

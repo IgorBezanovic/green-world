@@ -13,7 +13,13 @@ import React from 'react';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <React.Fragment>
+    <Box
+      sx={{
+        minHeight: '100dvh',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       <ScrollToTop />
       <NavTrack />
       <Box
@@ -28,9 +34,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <Navbar />
       </Box>
-      <Box component="main">{children}</Box>
+      <Box component="main" sx={{ flex: 1, width: '100%' }}>
+        {children}
+      </Box>
       <Footer />
       <AllRights />
-    </React.Fragment>
+    </Box>
   );
 };

@@ -45,6 +45,7 @@ const defaultUser: User = {
   maxShopProducts: 25,
   numberOfActions: 0,
   numberOfBlogs: 0,
+  numberOfServices: 0,
   numberOfServiceListings: 0,
   statistics: {
     numberOfOrdersByEmail: 0,

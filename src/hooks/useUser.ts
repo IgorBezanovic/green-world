@@ -10,6 +10,7 @@ import { useContext } from 'react';
 
 export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
   const { setUserDataInCTX, userId } = useContext(UserContext);
+  const shouldUseStorageInitialData = !me;
 
   return useQuery({
     queryKey: ['userDetails', userID],
@@ -23,6 +24,8 @@ export const useUser = (userID: string, me?: boolean): UseQueryResult<User> => {
       return data;
     },
     enabled: !!userID,
-    initialData: () => getDecrypted('user', userID) ?? undefined
+    initialData: shouldUseStorageInitialData
+      ? () => getDecrypted('user', userID) ?? undefined
+      : undefined
   });
 };

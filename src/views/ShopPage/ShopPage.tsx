@@ -54,8 +54,9 @@ export const ShopPage = () => {
   const { t } = useTranslation();
   const { userId } = useParams();
   const { data, isLoading } = useUser(userId || '');
-  const { data: sellerProducts } = useAllUserProducts(userId);
-  const { data: sellerServices } = useAllUserServices(userId);
+  const sellerId = data?._id || '';
+  const { data: sellerProducts } = useAllUserProducts(sellerId);
+  const { data: sellerServices } = useAllUserServices(sellerId);
   const [search, setSearch] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'products' | 'services'>(
     'products'
@@ -647,7 +648,7 @@ export const ShopPage = () => {
       <SendMessageDialog
         open={openSendMessageDialog}
         onClose={() => setOpenSendMessageDialog(false)}
-        userId={userId || ''}
+        userId={sellerId}
       />
     </PageContent>
   );

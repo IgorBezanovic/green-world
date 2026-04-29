@@ -8,7 +8,7 @@ export const useAllUserProducts = (
   userId?: string
 ): UseQueryResult<Product[]> => {
   const { userId: contextUserId } = useContext(UserContext);
-  const userIdToUse = userId || contextUserId;
+  const userIdToUse = userId ?? contextUserId;
 
   return useQuery({
     queryKey: ['allUserProducts', userIdToUse],
