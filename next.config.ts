@@ -125,7 +125,7 @@ const nextConfig = {
       beforeFiles: [
         {
           source:
-            '/:path((?!sr(?:/|$)|en(?:/|$)|ru(?:/|$)|_next|api|_vercel|[^/]+\\.[^/]+).+)',
+            '/:path((?!sr(?:/|$)|en(?:/|$)|ru(?:/|$)|_next|api|feed|_vercel|[^/]+\\.[^/]+).+)',
           destination: '/sr/:path'
         }
       ]

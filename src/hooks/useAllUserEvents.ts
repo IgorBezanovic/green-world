@@ -5,7 +5,7 @@ import { useContext } from 'react';
 
 export const useAllUserEvents = (userId?: string) => {
   const { userId: contextUserId } = useContext(UserContext);
-  const userIdToUse = userId || contextUserId;
+  const userIdToUse = userId ?? contextUserId;
 
   return useQuery({
     queryKey: ['allUserEvents', userIdToUse],
