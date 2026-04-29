@@ -6,7 +6,10 @@ import '@green-world/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const viewport: Viewport = {
-  themeColor: '#266041'
+  themeColor: '#266041',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5
 };
 
 export const metadata: Metadata = {
