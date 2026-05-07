@@ -18,7 +18,8 @@ import {
   ShoppingBag,
   Wrench,
   CalendarDays,
-  BookOpen
+  BookOpen,
+  Clapperboard
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
 
@@ -42,7 +43,8 @@ const NAV_ITEMS = [
     path: '/admin/events',
     icon: <CalendarDays size={18} />
   },
-  { label: 'Blogovi', path: '/admin/blogs', icon: <BookOpen size={18} /> }
+  { label: 'Blogovi', path: '/admin/blogs', icon: <BookOpen size={18} /> },
+  { label: 'Reels', path: '/admin/reels', icon: <Clapperboard size={18} /> }
 ];
 
 export const AdminPanel = ({ children }: { children?: React.ReactNode }) => {
