@@ -13,6 +13,7 @@ export interface PublishInstagramPayload {
   productId?: string;
   groupLabelSr?: string;
   subGroupLabelSr?: string;
+  tagPeople?: boolean;
 }
 
 export const usePublishInstagram = () => {
