@@ -62,6 +62,12 @@ export const ShopCard = ({
 
   const hasAddress = address?.street || address?.city || address?.country;
   const title = shopName || name;
+  const truncateDisplayText = (value: string) =>
+    value.length > 30 ? `${value.slice(0, 30)}...` : value;
+
+  const addressDisplay = [address?.city, address?.country]
+    .filter(Boolean)
+    .join(', ');
 
   return (
     <Link
@@ -290,11 +296,24 @@ export const ShopCard = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 0.5
+                  gap: 0.5,
+                  width: '100%',
+                  minWidth: 0
                 }}
               >
                 <MapPin size={16} />
-                {address.city}, {address.country}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    minWidth: 0,
+                    textAlign: 'center',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {truncateDisplayText(addressDisplay)}
+                </Typography>
               </Box>
             )}
             {email && (
@@ -304,11 +323,23 @@ export const ShopCard = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: 0.5,
-                  wordBreak: 'break-all'
+                  width: '100%',
+                  minWidth: 0
                 }}
               >
                 <Mail size={16} />
-                {email}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    minWidth: 0,
+                    textAlign: 'center',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {email}
+                </Typography>
               </Box>
             )}
           </Box>

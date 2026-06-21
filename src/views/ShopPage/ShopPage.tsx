@@ -119,11 +119,30 @@ export const ShopPage = () => {
   }
 
   const formatWebsiteDisplay = (url: string) => {
+    const normalizeHostLikeValue = (value: string) =>
+      value
+        .trim()
+        .replace(/^https?:\/\//i, '')
+        .replace(/^www\./i, '')
+        .split(/[/?#\s]/)[0];
+
+    const decodedUrl = (() => {
+      try {
+        return decodeURIComponent(url);
+      } catch {
+        return url;
+      }
+    })();
+
     try {
-      const decoded = decodeURIComponent(url);
-      return decoded.replace(/^https?:\/\//, '').replace(/^www\./, '');
+      const normalizedUrl = /^https?:\/\//i.test(decodedUrl)
+        ? decodedUrl.trim()
+        : `https://${decodedUrl.trim()}`;
+
+      const hostname = new URL(normalizedUrl).hostname.replace(/^www\./i, '');
+      return hostname;
     } catch {
-      return url;
+      return normalizeHostLikeValue(decodedUrl);
     }
   };
 
@@ -135,6 +154,14 @@ export const ShopPage = () => {
       route: `/shop/${userId}`
     }
   ];
+
+  const addressDisplay = [
+    data?.address?.street,
+    data?.address?.city,
+    data?.address?.country
+  ]
+    .filter(Boolean)
+    .join(', ');
 
   const location =
     data?.address?.street && data?.address?.city && data?.address?.country
@@ -304,7 +331,18 @@ export const ShopPage = () => {
         })}
       >
         {/* LEFT SIDEBAR */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+            width: '100%',
+            [theme.breakpoints.up('lg')]: {
+              width: '340px',
+              flexShrink: 0
+            }
+          })}
+        >
           {/* CONTACT CARD */}
           <Card>
             <Box
@@ -320,7 +358,7 @@ export const ShopPage = () => {
                   sx={{
                     display: 'flex',
                     gap: 1,
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     minWidth: 0
                   }}
                 >
@@ -333,7 +371,16 @@ export const ShopPage = () => {
                   >
                     <User style={{ width: '22px', height: '22px' }} />
                   </Box>
-                  <Typography>{data.name}</Typography>
+                  <Typography
+                    sx={{
+                      minWidth: 0,
+                      whiteSpace: 'normal',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word'
+                    }}
+                  >
+                    {data.name}
+                  </Typography>
                 </Box>
               )}
 
@@ -342,7 +389,7 @@ export const ShopPage = () => {
                   sx={{
                     display: 'flex',
                     gap: 1,
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     minWidth: 0
                   }}
                 >
@@ -359,9 +406,9 @@ export const ShopPage = () => {
                   <Typography
                     sx={{
                       minWidth: 0,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'normal',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word'
                     }}
                   >
                     {data.email}
@@ -374,7 +421,8 @@ export const ShopPage = () => {
                   sx={{
                     display: 'flex',
                     gap: 1,
-                    alignItems: 'center'
+                    alignItems: 'flex-start',
+                    minWidth: 0
                   }}
                 >
                   <Box
@@ -387,7 +435,16 @@ export const ShopPage = () => {
                     <Phone style={{ width: '22px', height: '22px' }} />
                   </Box>
 
-                  <Typography>{data.phone}</Typography>
+                  <Typography
+                    sx={{
+                      minWidth: 0,
+                      whiteSpace: 'normal',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word'
+                    }}
+                  >
+                    {data.phone}
+                  </Typography>
                 </Box>
               )}
 
@@ -396,7 +453,7 @@ export const ShopPage = () => {
                   sx={{
                     display: 'flex',
                     gap: 1,
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     minWidth: 0
                   }}
                 >
@@ -416,13 +473,16 @@ export const ShopPage = () => {
                     target="_blank"
                     rel="noreferrer"
                     sx={{
+                      display: 'block',
+                      flex: 1,
+                      maxWidth: '100%',
                       color: theme.palette.primary.main,
                       textDecoration: 'none',
 
                       minWidth: 0,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      whiteSpace: 'normal',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word',
 
                       '&:hover': {
                         textDecoration: 'underline'
@@ -439,7 +499,8 @@ export const ShopPage = () => {
                   sx={{
                     display: 'flex',
                     gap: 1,
-                    alignItems: 'center'
+                    alignItems: 'flex-start',
+                    minWidth: 0
                   }}
                 >
                   <Box
@@ -451,14 +512,16 @@ export const ShopPage = () => {
                   >
                     <MapPin style={{ width: '22px', height: '22px' }} />
                   </Box>
-                  <Typography>
-                    {[
-                      data?.address?.street,
-                      data?.address?.city,
-                      data?.address?.country
-                    ]
-                      .filter(Boolean)
-                      .join(', ')}
+                  <Typography
+                    sx={{
+                      flex: 1,
+                      minWidth: 0,
+                      whiteSpace: 'normal',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word'
+                    }}
+                  >
+                    {addressDisplay}
                   </Typography>
                 </Box>
               )}
