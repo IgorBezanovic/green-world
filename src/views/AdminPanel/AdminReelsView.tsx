@@ -1,8 +1,10 @@
 'use client';
 
+import { TikTokIcon } from '@green-world/components/TikTokIcon';
 import { useAdminProducts } from '@green-world/hooks/useAdminProducts';
 import { useGenerateReels } from '@green-world/hooks/useGenerateReels';
 import { usePublishInstagram } from '@green-world/hooks/usePublishInstagram';
+import { usePublishTikTok } from '@green-world/hooks/usePublishTikTok';
 import type { AdminProductItem } from '@green-world/services/adminApi';
 import {
   formatImageUrl,
@@ -49,8 +51,10 @@ export const AdminReelsView = () => {
   });
 
   const { mutate: generateReels, isPending: isGenerating } = useGenerateReels();
-  const { mutate: publishInstagram, isPending: isPublishing } =
+  const { mutate: publishInstagram, isPending: isPublishingInstagram } =
     usePublishInstagram();
+  const { mutate: publishTikTok, isPending: isPublishingTikTok } =
+    usePublishTikTok();
 
   const products: AdminProductItem[] = data?.data ?? [];
   const totalPages = data?.meta?.pages ?? 1;
@@ -83,6 +87,16 @@ export const AdminReelsView = () => {
   const handleShareOnInstagram = (reel: any) => {
     if (!reel.url) return;
     publishInstagram({
+      videoUrl: reel.url,
+      productId: selectedReel?.productId,
+      groupLabelSr: selectedReel?.groupLabelSr,
+      subGroupLabelSr: selectedReel?.subGroupLabelSr
+    });
+  };
+
+  const handleShareOnTikTok = (reel: any) => {
+    if (!reel.url) return;
+    publishTikTok({
       videoUrl: reel.url,
       productId: selectedReel?.productId,
       groupLabelSr: selectedReel?.groupLabelSr,
@@ -421,18 +435,36 @@ export const AdminReelsView = () => {
               <Button
                 variant="contained"
                 startIcon={
-                  isPublishing ? (
+                  isPublishingInstagram ? (
                     <CircularProgress size={18} sx={{ color: '#fff' }} />
                   ) : (
                     <Instagram size={18} />
                   )
                 }
                 onClick={() => handleShareOnInstagram(selectedReel.reel)}
-                disabled={isPublishing}
+                disabled={isPublishingInstagram || isPublishingTikTok}
                 fullWidth
                 sx={{ bgcolor: '#E4405F', '&:hover': { bgcolor: '#D63447' } }}
               >
-                {isPublishing ? 'Objavljujem...' : 'Objavi na Instagram'}
+                {isPublishingInstagram
+                  ? 'Objavljujem...'
+                  : 'Objavi na Instagram'}
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={
+                  isPublishingTikTok ? (
+                    <CircularProgress size={18} sx={{ color: '#fff' }} />
+                  ) : (
+                    <TikTokIcon color="#fff" size="18px" />
+                  )
+                }
+                onClick={() => handleShareOnTikTok(selectedReel.reel)}
+                disabled={isPublishingTikTok || isPublishingInstagram}
+                fullWidth
+                sx={{ bgcolor: '#000', '&:hover': { bgcolor: '#1a1a1a' } }}
+              >
+                {isPublishingTikTok ? 'Objavljujem...' : 'Objavi na TikTok'}
               </Button>
               <Button
                 variant="outlined"
