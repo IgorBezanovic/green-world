@@ -2,6 +2,7 @@
 
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';
+import { useSellerOrdersUnreadCount } from '@green-world/hooks/useSellerOrders';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { removeItem } from '@green-world/utils/cookie';
 import {
@@ -29,7 +30,8 @@ import {
   NotebookText,
   BriefcaseBusiness,
   BarChart2,
-  ShieldCheck
+  ShieldCheck,
+  ShoppingBag
 } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -45,9 +47,13 @@ export const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { t } = useTranslation();
+  const { data: sellerOrdersUnreadData } = useSellerOrdersUnreadCount(
+    isUserLoggedIn && user?.role === 'seller'
+  );
 
   const { data: messagesData } = useUserMessage();
   const conversations = messagesData?.data ?? [];
+  const sellerOrdersUnread = sellerOrdersUnreadData?.unreadCount ?? 0;
   const totalUnread =
     conversations.reduce(
       (sum: number, conv: any) => sum + (conv.unreadCount || 0),
@@ -123,6 +129,21 @@ export const Header = () => {
       icon: <BarChart2 style={{ width: 24, height: 24, marginLeft: 8 }} />,
       onClick: () =>
         handleMenuClick(() => navigate('/profile-settings/statistics'))
+    },
+    {
+      text: t('header.orders'),
+      icon: (
+        <Badge
+          badgeContent={sellerOrdersUnread > 0 ? sellerOrdersUnread : null}
+          color="error"
+          overlap="circular"
+        >
+          <ShoppingBag style={{ width: 24, height: 24, marginLeft: 8 }} />
+        </Badge>
+      ),
+      onClick: () =>
+        handleMenuClick(() => navigate('/profile-settings/orders')),
+      hidden: user?.role !== 'seller'
     },
     {
       text: t('header.messages'),
@@ -250,7 +271,17 @@ export const Header = () => {
             aria-label="Menu"
           >
             {isUserLoggedIn ? (
-              <MenuLucide style={{ width: 24, height: 24, color: 'inherit' }} />
+              <Badge
+                badgeContent={
+                  sellerOrdersUnread > 0 ? sellerOrdersUnread : null
+                }
+                color="error"
+                overlap="circular"
+              >
+                <MenuLucide
+                  style={{ width: 24, height: 24, color: 'inherit' }}
+                />
+              </Badge>
             ) : (
               t('header.login')
             )}
@@ -296,16 +327,18 @@ export const Header = () => {
         >
           <Box sx={{ flex: 1, overflowY: 'auto' }}>
             <List>
-              {menuItems?.map((item) => (
-                <ListItemButton
-                  key={item.text}
-                  onClick={item.onClick}
-                  // disabled={Boolean(item.disabled)}
-                >
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              ))}
+              {menuItems
+                ?.filter((item: any) => !item.hidden)
+                .map((item) => (
+                  <ListItemButton
+                    key={item.text}
+                    onClick={item.onClick}
+                    // disabled={Boolean(item.disabled)}
+                  >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItemButton>
+                ))}
             </List>
           </Box>
 

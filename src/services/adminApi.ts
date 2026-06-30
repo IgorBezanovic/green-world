@@ -69,6 +69,26 @@ export interface AdminBlogItem {
   blocks?: AdminBlogBlock[];
 }
 
+export interface AdminOrderItem {
+  _id: string;
+  productId: string;
+  productName: string;
+  productPrice: string;
+  productQuantity: string;
+  buyerName: string;
+  buyerLastName: string;
+  buyerEmail: string;
+  buyerPhone: string;
+  buyerAddress: string;
+  buyerCity: string;
+  buyerPostalCode: string;
+  buyerMessage?: string;
+  sellerName?: string;
+  sellerEmail?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // ─── Users ──────────────────────────────────────────────────────────────────
 
 export const adminGetUsers = (params?: Record<string, any>) =>
@@ -171,3 +191,10 @@ export const adminUpdateBlog = (id: string, data: Record<string, any>) =>
 
 export const adminDeleteBlog = (id: string) =>
   client.delete(`/admin/blogs/${id}`).then((r) => r.data);
+
+// ─── Orders ─────────────────────────────────────────────────────────────────
+
+export const adminGetOrders = (params?: Record<string, any>) =>
+  client
+    .get('/admin/orders', { params })
+    .then((r) => r.data as PaginatedResponse<AdminOrderItem>);

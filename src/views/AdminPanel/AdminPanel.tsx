@@ -16,6 +16,7 @@ import {
   ChartNoAxesCombined,
   Users,
   ShoppingBag,
+  ShoppingCart,
   Wrench,
   CalendarDays,
   BookOpen,
@@ -36,6 +37,11 @@ const NAV_ITEMS = [
     label: 'Proizvodi',
     path: '/admin/products',
     icon: <ShoppingBag size={18} />
+  },
+  {
+    label: 'Porudzbine',
+    path: '/admin/orders',
+    icon: <ShoppingCart size={18} />
   },
   { label: 'Usluge', path: '/admin/services', icon: <Wrench size={18} /> },
   {

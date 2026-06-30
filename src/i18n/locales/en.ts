@@ -586,6 +586,7 @@ export const en = {
     profileSettings: 'Profile settings',
     contactUs: 'Contact us',
     messages: 'Messages',
+    orders: 'Orders',
     writeBlog: 'Write blog',
     logout: 'Log out',
     statistics: 'Statistics'
@@ -1463,7 +1464,8 @@ export const en = {
       profileData: 'Profile data',
       imageQr: 'Image and QR code',
       changePassword: 'Change password',
-      statistics: 'Statistics'
+      statistics: 'Statistics',
+      orders: 'Orders'
     }
   },
   loginView: {

@@ -584,6 +584,7 @@ export const ru = {
     profileSettings: 'Настройки профиля',
     contactUs: 'Связаться с нами',
     messages: 'Сообщения',
+    orders: 'Заказы',
     writeBlog: 'Написать блог',
     logout: 'Выйти',
     statistics: 'Статистика'
@@ -1442,7 +1443,8 @@ export const ru = {
       profileData: 'Данные профиля',
       imageQr: 'Изображение и QR-код',
       changePassword: 'Смена пароля',
-      statistics: 'Статистика'
+      statistics: 'Статистика',
+      orders: 'Заказы'
     }
   },
   loginView: {

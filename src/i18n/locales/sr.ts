@@ -585,6 +585,7 @@ export const sr = {
     profileSettings: 'Podešavanje profila',
     contactUs: 'Kontaktirajte nas',
     messages: 'Poruke',
+    orders: 'Porudžbine',
     writeBlog: 'Napiši blog',
     logout: 'Izloguj se',
     statistics: 'Statistika'
@@ -1468,7 +1469,8 @@ export const sr = {
       profileData: 'Podaci profila',
       imageQr: 'Slika i QR kod',
       changePassword: 'Promena lozinke',
-      statistics: 'Statistika'
+      statistics: 'Statistika',
+      orders: 'Porudžbine'
     }
   },
   loginView: {
