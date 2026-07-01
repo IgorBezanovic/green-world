@@ -1447,6 +1447,59 @@ export const ru = {
       orders: 'Заказы'
     }
   },
+  adminOrdersView: {
+    title: 'Заказы',
+    searchPlaceholder: 'Поиск (товар, покупатель, email...)',
+    noteLabel: 'Примечание',
+    columns: {
+      product: 'Товар',
+      quantity: 'Количество',
+      price: 'Цена',
+      buyer: 'Покупатель',
+      contact: 'Email/Телефон',
+      note: 'Примечание',
+      seller: 'Продавец',
+      date: 'Дата'
+    },
+    empty: 'Нет заказов'
+  },
+  profileOrdersView: {
+    mainTitle: 'Заказы',
+    orderedSubtitle: 'Отслеживайте статус отправленных вами заказов.',
+    receivedSubtitle:
+      'Обзор заказов, которые другие пользователи отправили вам.',
+    tabs: {
+      ordered: 'Заказанные',
+      received: 'Полученные заказы'
+    },
+    columns: {
+      product: 'Товар',
+      quantity: 'Количество',
+      buyer: 'Покупатель',
+      seller: 'Продавец',
+      contact: 'Контакт',
+      note: 'Примечание',
+      address: 'Адрес',
+      status: 'Статус',
+      date: 'Дата'
+    },
+    status: {
+      new: 'Новый',
+      seen: 'Просмотрен',
+      sent: 'Отправлен',
+      inProgress: 'В обработке',
+      sellerContacted: 'Продавец связался',
+      customerContacted: 'Покупатель уведомлен',
+      delivered: 'Доставлено'
+    },
+    actions: {
+      sellerContacted: 'Продавец связался',
+      customerContacted: 'Покупатель уведомлен',
+      delivered: 'Доставлено'
+    },
+    buyerAddressHint: 'Адрес доставки отправлен продавцу',
+    empty: 'Нет заказов'
+  },
   loginView: {
     breadcrumb: 'Войти',
     metaTitle: 'Zeleni svet | Войти | Green World'

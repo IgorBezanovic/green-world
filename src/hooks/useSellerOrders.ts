@@ -1,7 +1,11 @@
 import {
+  getBuyerOrders,
   getSellerOrders,
   getSellerOrdersUnreadCount,
-  markSellerOrdersRead
+  markSellerOrdersRead,
+  updateSellerOrderReadStatus,
+  updateSellerOrderStatus,
+  updateBuyerOrderStatus
 } from '@green-world/services/ordersApi';
 import {
   keepPreviousData,
@@ -18,10 +22,20 @@ export const SELLER_ORDER_KEYS = {
   unreadCount: ['sellerOrders', 'unreadCount'] as const
 };
 
-export const useSellerOrders = (filters: Record<string, any>) =>
+export const useSellerOrders = (filters: Record<string, any>, enabled = true) =>
   useQuery({
     queryKey: SELLER_ORDER_KEYS.list(filters),
     queryFn: () => getSellerOrders(filters),
+    enabled,
+    placeholderData: keepPreviousData,
+    staleTime: 1000 * 30
+  });
+
+export const useBuyerOrders = (filters: Record<string, any>, enabled = true) =>
+  useQuery({
+    queryKey: [...SELLER_ORDER_KEYS.all, 'buyer-list', filters],
+    queryFn: () => getBuyerOrders(filters),
+    enabled,
     placeholderData: keepPreviousData,
     staleTime: 1000 * 30
   });
@@ -46,6 +60,66 @@ export const useMarkSellerOrdersRead = () => {
     onError: (err: any) => {
       toast.error(
         err?.response?.data?.message || 'Greška pri ažuriranju porudžbina'
+      );
+    }
+  });
+};
+
+export const useUpdateBuyerOrderStatus = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      status
+    }: {
+      id: string;
+      status: 'NONE' | 'SELLER_CONTACTED' | 'DELIVERED';
+    }) => updateBuyerOrderStatus(id, status),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || 'Greška pri promeni statusa porudžbine'
+      );
+    }
+  });
+};
+
+export const useUpdateSellerOrderReadStatus = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, read }: { id: string; read: boolean }) =>
+      updateSellerOrderReadStatus(id, read),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.unreadCount });
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || 'Greška pri promeni statusa porudžbine'
+      );
+    }
+  });
+};
+
+export const useUpdateSellerOrderStatus = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      status
+    }: {
+      id: string;
+      status: 'NONE' | 'SELLER_CONTACTED' | 'DELIVERED';
+    }) => updateSellerOrderStatus(id, status),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.unreadCount });
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || 'Greška pri promeni statusa porudžbine'
       );
     }
   });

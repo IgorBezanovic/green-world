@@ -1473,6 +1473,59 @@ export const sr = {
       orders: 'Porudžbine'
     }
   },
+  adminOrdersView: {
+    title: 'Porudžbine',
+    searchPlaceholder: 'Pretraga (proizvod, kupac, email...)',
+    noteLabel: 'Napomena',
+    columns: {
+      product: 'Proizvod',
+      quantity: 'Količina',
+      price: 'Cena',
+      buyer: 'Kupac',
+      contact: 'Email/Telefon',
+      note: 'Napomena',
+      seller: 'Prodavac',
+      date: 'Datum'
+    },
+    empty: 'Nema porudžbina'
+  },
+  profileOrdersView: {
+    mainTitle: 'Porudžbine',
+    orderedSubtitle: 'Pratite status porudžbina koje ste poslali.',
+    receivedSubtitle:
+      'Pregled porudžbina koje su drugi korisnici poslali vama.',
+    tabs: {
+      ordered: 'Naručeno',
+      received: 'Primljene porudžbine'
+    },
+    columns: {
+      product: 'Proizvod',
+      quantity: 'Količina',
+      buyer: 'Kupac',
+      seller: 'Prodavac',
+      contact: 'Kontakt',
+      note: 'Napomena',
+      address: 'Adresa',
+      status: 'Status',
+      date: 'Datum'
+    },
+    status: {
+      new: 'Novo',
+      seen: 'Viđeno',
+      sent: 'Poslata',
+      inProgress: 'U obradi',
+      sellerContacted: 'Kontaktiran prodavac',
+      customerContacted: 'Kontaktiran naručilac',
+      delivered: 'Isporučeno'
+    },
+    actions: {
+      sellerContacted: 'Kontaktiran prodavac',
+      customerContacted: 'Kontaktiran naručilac',
+      delivered: 'Isporučeno'
+    },
+    buyerAddressHint: 'Adresa za isporuku poslata prodavcu',
+    empty: 'Nema porudžbina'
+  },
   loginView: {
     breadcrumb: 'Uloguj se',
     metaTitle: 'Zeleni Svet | Prijavi se | Green World'

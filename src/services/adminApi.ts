@@ -85,6 +85,7 @@ export interface AdminOrderItem {
   buyerMessage?: string;
   sellerName?: string;
   sellerEmail?: string;
+  sellerPhone?: string;
   createdAt: string;
   updatedAt: string;
 }

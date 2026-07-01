@@ -1468,6 +1468,58 @@ export const en = {
       orders: 'Orders'
     }
   },
+  adminOrdersView: {
+    title: 'Orders',
+    searchPlaceholder: 'Search (product, buyer, email...)',
+    noteLabel: 'Note',
+    columns: {
+      product: 'Product',
+      quantity: 'Quantity',
+      price: 'Price',
+      buyer: 'Buyer',
+      contact: 'Email/Phone',
+      note: 'Note',
+      seller: 'Seller',
+      date: 'Date'
+    },
+    empty: 'No orders'
+  },
+  profileOrdersView: {
+    mainTitle: 'Orders',
+    orderedSubtitle: 'Track the status of orders you have sent.',
+    receivedSubtitle: 'Overview of orders that other users have sent to you.',
+    tabs: {
+      ordered: 'Ordered',
+      received: 'Received orders'
+    },
+    columns: {
+      product: 'Product',
+      quantity: 'Quantity',
+      buyer: 'Buyer',
+      seller: 'Seller',
+      contact: 'Contact',
+      note: 'Note',
+      address: 'Address',
+      status: 'Status',
+      date: 'Date'
+    },
+    status: {
+      new: 'New',
+      seen: 'Seen',
+      sent: 'Sent',
+      inProgress: 'In progress',
+      sellerContacted: 'Seller contacted',
+      customerContacted: 'Customer contacted',
+      delivered: 'Delivered'
+    },
+    actions: {
+      sellerContacted: 'Seller contacted',
+      customerContacted: 'Customer contacted',
+      delivered: 'Delivered'
+    },
+    buyerAddressHint: 'Delivery address sent to seller',
+    empty: 'No orders'
+  },
   loginView: {
     breadcrumb: 'Log in',
     metaTitle: 'Zeleni svet | Log in | Green World'
