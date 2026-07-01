@@ -5,4 +5,3 @@ export * from './AdminServicesView';
 export * from './AdminEventsView';
 export * from './AdminBlogsView';
 export * from './AdminReelsView';
-export * from './AdminOrdersView';

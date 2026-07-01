@@ -3,7 +3,7 @@ import {
   getLocaleMessages,
   normalizeLocale
 } from '@green-world/seo/metadata';
-import { SellerOrdersView } from '@green-world/views/ProfileSettings/SellerOrdersView';
+import { OrdersView } from '@green-world/views/Orders/OrdersView';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -24,5 +24,5 @@ export async function generateMetadata({
 }
 
 export default function ProfileOrdersPage() {
-  return <SellerOrdersView />;
+  return <OrdersView variant="profile" />;
 }

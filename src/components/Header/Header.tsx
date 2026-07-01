@@ -141,9 +141,7 @@ export const Header = () => {
           <ShoppingBag style={{ width: 24, height: 24, marginLeft: 8 }} />
         </Badge>
       ),
-      onClick: () =>
-        handleMenuClick(() => navigate('/profile-settings/orders')),
-      hidden: user?.role !== 'seller'
+      onClick: () => handleMenuClick(() => navigate('/profile-settings/orders'))
     },
     {
       text: t('header.messages'),

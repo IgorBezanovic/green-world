@@ -1,5 +1,5 @@
-import { AdminOrdersView } from '@green-world/views/AdminPanel/AdminOrdersView';
+import { OrdersView } from '@green-world/views/Orders/OrdersView';
 
 export default function AdminOrdersPage() {
-  return <AdminOrdersView />;
+  return <OrdersView variant="admin" />;
 }
