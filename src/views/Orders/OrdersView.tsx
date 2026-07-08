@@ -420,7 +420,11 @@ const ProfileOrdersContent = () => {
                               sx={{
                                 display: 'flex',
                                 gap: 0.5,
-                                flexWrap: 'wrap'
+                                flexWrap: 'nowrap',
+                                alignItems: 'center',
+                                '& .MuiButton-root': {
+                                  whiteSpace: 'nowrap'
+                                }
                               }}
                             >
                               <Button

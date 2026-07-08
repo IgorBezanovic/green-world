@@ -1515,12 +1515,12 @@ export const sr = {
       sent: 'Poslata',
       inProgress: 'U obradi',
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran naručilac',
+      customerContacted: 'Kontaktiran',
       delivered: 'Isporučeno'
     },
     actions: {
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran naručilac',
+      customerContacted: 'Kontaktiran',
       delivered: 'Isporučeno'
     },
     buyerAddressHint: 'Adresa za isporuku poslata prodavcu',
