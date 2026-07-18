@@ -120,6 +120,7 @@ export const UserContextProvider = ({
   useEffect(() => {
     const handleLogout = () => {
       setUser(defaultUser);
+      setToken(null);
     };
 
     window.addEventListener('auth:logout', handleLogout);
@@ -134,11 +135,9 @@ export const UserContextProvider = ({
     };
 
     window.addEventListener('auth:login', handleLogin);
-    window.addEventListener('auth:logout', handleLogin);
 
     return () => {
       window.removeEventListener('auth:login', handleLogin);
-      window.removeEventListener('auth:logout', handleLogin);
     };
   }, []);
 

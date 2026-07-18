@@ -49,7 +49,8 @@ export const UserProfile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
-  const { user, isLoading } = useContext(UserContext);
+  const { user, isLoading, isUserLoggedIn, isAuthResolved } =
+    useContext(UserContext);
   const { data: products = [], isLoading: productsLoading } =
     useAllUserProducts();
   const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
@@ -176,6 +177,11 @@ export const UserProfile = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if (!isAuthResolved || isUserLoggedIn) return;
+    window.location.assign('/');
+  }, [isAuthResolved, isUserLoggedIn]);
 
   return (
     <PageContent>

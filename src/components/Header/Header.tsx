@@ -61,10 +61,10 @@ export const Header = () => {
     ) || 0;
 
   const handleLogout = () => {
+    setDrawerOpen(false);
     removeItem('token');
     window.dispatchEvent(new CustomEvent('auth:logout'));
-    navigate('/');
-    setDrawerOpen(false);
+    window.location.assign('/');
   };
 
   const handleToggleDrawer = () => {
