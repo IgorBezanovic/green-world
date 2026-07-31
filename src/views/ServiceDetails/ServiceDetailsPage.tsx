@@ -256,6 +256,9 @@ export const ServiceDetailsPage = () => {
                 <AIVerificationBadge
                   verifiedDone={service?.verifiedDone}
                   verified={service?.verified}
+                  verificationError={service?.verificationError}
+                  reason={service?.verificationReason}
+                  violations={service?.verificationViolations}
                 />
               </Box>
               <Typography

@@ -73,6 +73,9 @@ const emptyForm = {
   onlyOnThisSite: false,
   verified: false,
   verifiedDone: false,
+  verificationError: false,
+  verificationReason: '',
+  verificationViolations: [] as string[],
   maxShopProducts: '25',
   numberOfProducts: '',
   numberOfActions: '',
@@ -128,6 +131,9 @@ export const AdminUsersView = () => {
         onlyOnThisSite: u.onlyOnThisSite ?? false,
         verified: u.verified ?? false,
         verifiedDone: u.verifiedDone ?? false,
+        verificationError: (u as any).verificationError ?? false,
+        verificationReason: (u as any).verificationReason ?? '',
+        verificationViolations: (u as any).verificationViolations ?? [],
         maxShopProducts:
           u.maxShopProducts != null ? String(u.maxShopProducts) : '25',
         numberOfProducts:
@@ -517,7 +523,48 @@ export const AdminUsersView = () => {
                 }
                 label="Verifikacija završena"
               />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={form.verificationError}
+                    onChange={(e) =>
+                      setForm((f) => ({
+                        ...f,
+                        verificationError: e.target.checked
+                      }))
+                    }
+                  />
+                }
+                label="Greška AI provere"
+              />
             </Box>
+            {(form.verificationReason ||
+              form.verificationViolations.length > 0) && (
+              <Box
+                sx={{
+                  p: 1.5,
+                  bgcolor: 'action.hover',
+                  borderRadius: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 0.5
+                }}
+              >
+                <Typography variant="caption" color="text.secondary">
+                  AI razlog / povrede
+                </Typography>
+                {form.verificationReason ? (
+                  <Typography variant="body2">
+                    {form.verificationReason}
+                  </Typography>
+                ) : null}
+                {form.verificationViolations.map((v) => (
+                  <Typography key={v} variant="caption" color="text.secondary">
+                    • {v}
+                  </Typography>
+                ))}
+              </Box>
+            )}
             <Box
               sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}
             >

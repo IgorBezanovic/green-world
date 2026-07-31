@@ -619,7 +619,12 @@ export const en = {
     warningTooltip:
       'This content has been flagged as potentially inappropriate.',
     warningHelper:
-      'This content may contain inappropriate material. Please proceed with caution. The Zeleni Svet team will contact the creator as soon as possible to resolve the potential issue.'
+      'This content may contain inappropriate material. Please proceed with caution. The Zeleni Svet team will review it shortly.',
+    pending: 'Pending review',
+    pendingTooltip:
+      'Automatic verification could not be completed. The team will review this content manually.',
+    pendingHelper:
+      'Automatic check failed for technical reasons. Content is pending manual review by the Zeleni Svet team.'
   },
   aisearch: {
     groups: {

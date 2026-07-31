@@ -275,6 +275,9 @@ export const Event = () => {
                   <AIVerificationBadge
                     verifiedDone={eventData?.verifiedDone}
                     verified={eventData?.verified}
+                    verificationError={eventData?.verificationError}
+                    reason={eventData?.verificationReason}
+                    violations={eventData?.verificationViolations}
                   />
                 </Box>
                 {/* Title */}

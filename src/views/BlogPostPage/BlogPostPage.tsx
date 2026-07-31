@@ -297,6 +297,9 @@ export const BlogPostPage = () => {
             <AIVerificationBadge
               verifiedDone={post?.verifiedDone}
               verified={post?.verified}
+              verificationError={post?.verificationError}
+              reason={post?.verificationReason}
+              violations={post?.verificationViolations}
             />
           </Box>
 
