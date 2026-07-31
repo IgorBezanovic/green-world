@@ -462,7 +462,11 @@ export const Documents = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2.5 }}>
             {t('documentsView.sections.donations.paragraph2')}
           </Typography>
-          <Button variant="contained" color="secondary" disabled>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setDonateOpen(true)}
+          >
             {t('documentsView.sections.donations.button')}
           </Button>
           <DonatePayPalDialog

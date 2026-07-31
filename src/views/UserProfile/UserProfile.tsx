@@ -157,18 +157,18 @@ export const UserProfile = () => {
   );
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
   const [serviceToDelete, setServiceToDelete] = useState<string | null>(null);
-  // const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
-  //   Product[]
-  // >([]);
+  const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
+    Product[]
+  >([]);
   const [activeTab, setActiveTab] = useState('products');
 
-  // const promotedProducts = useMemo(
-  //   () =>
-  //     products.filter(
-  //       (p: Product) => p.promotedAt != null && p.promotedUntil != null
-  //     ),
-  //   [products]
-  // );
+  const promotedProducts = useMemo(
+    () =>
+      products.filter(
+        (p: Product) => p.promotedAt != null && p.promotedUntil != null
+      ),
+    [products]
+  );
 
   useEffect(() => {
     if (!productsLoading) {
@@ -210,11 +210,11 @@ export const UserProfile = () => {
     }
   }, [blogs, blogsLoading]);
 
-  // useEffect(() => {
-  //   if (!productsLoading) {
-  //     setPromotedProductsToDisplay(promotedProducts);
-  //   }
-  // }, [promotedProducts, productsLoading]);
+  useEffect(() => {
+    if (!productsLoading) {
+      setPromotedProductsToDisplay(promotedProducts);
+    }
+  }, [promotedProducts, productsLoading]);
 
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
@@ -225,10 +225,10 @@ export const UserProfile = () => {
       );
       setProductsToDisplay(filtered);
     } else if (activeTab === 'promoted') {
-      // const filtered = promotedProducts.filter((p: Product) =>
-      //   (p.title || '').toLowerCase().includes(term)
-      // );
-      // setPromotedProductsToDisplay(filtered);
+      const filtered = promotedProducts.filter((p: Product) =>
+        (p.title || '').toLowerCase().includes(term)
+      );
+      setPromotedProductsToDisplay(filtered);
     } else if (activeTab === 'events') {
       const filtered = events.filter((event: any) =>
         event.title.toLowerCase().includes(term)
@@ -482,7 +482,7 @@ export const UserProfile = () => {
           >
             <Tab label={t('userProfileView.tabs.products')} value="products" />
             <Tab label={t('userProfileView.tabs.services')} value="services" />
-            {/* <Tab label="Promovisano" value="promoted" /> */}
+            <Tab label={t('userProfileView.tabs.promoted')} value="promoted" />
             <Tab label={t('userProfileView.tabs.activities')} value="events" />
             <Tab label={t('userProfileView.tabs.myBlogs')} value="blogs" />
           </Tabs>
@@ -518,7 +518,7 @@ export const UserProfile = () => {
                   <ProductCard
                     key={product._id}
                     product={product}
-                    isPromotedView={false} // Promeni kada bude islo live placanje
+                    isPromotedView={true}
                   />
                 ))
               ) : (
@@ -528,6 +528,52 @@ export const UserProfile = () => {
                   buttonLabel={t('userProfileView.empty.create')}
                   onClick={() => navigate('/create-product')}
                   disabled={user?.numberOfProducts >= user?.maxShopProducts}
+                />
+              )}
+            </Box>
+          )}
+
+          {activeTab === 'promoted' && (
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns:
+                  promotedProductsToDisplay?.length > 0
+                    ? 'repeat(2, 1fr)'
+                    : 'repeat(1, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns:
+                    promotedProductsToDisplay?.length > 0
+                      ? 'repeat(3, 1fr)'
+                      : 'repeat(1, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns:
+                    promotedProductsToDisplay?.length > 0
+                      ? 'repeat(4, 1fr)'
+                      : 'repeat(1, 1fr)'
+                }
+              }}
+            >
+              {promotedProductsToDisplay?.length > 0 ? (
+                promotedProductsToDisplay.map((product: any) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    isPromotedView={true}
+                    promotedPeriod={true}
+                  />
+                ))
+              ) : (
+                <EmptyContentAction
+                  message={t('userProfileView.empty.promoted')}
+                  actionLabel={t('userProfileView.buttons.addProduct')}
+                  buttonLabel={t('promotionSection.buyPromotion')}
+                  onClick={() => navigate('/promote-product')}
                 />
               )}
             </Box>
@@ -721,38 +767,6 @@ export const UserProfile = () => {
               )}
             </Box>
           )}
-
-          {/* {activeTab === 'promoted' && (
-            <Box
-              component="section"
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 3,
-
-                [theme.breakpoints.up('sm')]: {
-                  gridTemplateColumns: 'repeat(3, 1fr)'
-                },
-
-                [theme.breakpoints.up('lg')]: {
-                  gridTemplateColumns: 'repeat(4, 1fr)'
-                }
-              }}
-            >
-              {promotedProductsToDisplay?.length > 0 ? (
-                promotedProductsToDisplay.map((product: any) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    isPromotedView={false} // Promeni kada bude islo live placanje
-                    promotedPeriod={false} // Promeni kada bude islo live placanje
-                  />
-                ))
-              ) : (
-                <p className="col-span-full">Nemate promovisanih proizvoda</p>
-              )}
-            </Box>
-          )} */}
 
           {activeTab === 'events' && (
             <Box
