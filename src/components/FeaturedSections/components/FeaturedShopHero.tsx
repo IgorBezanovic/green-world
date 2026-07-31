@@ -87,6 +87,7 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
       <Box
         sx={{
           maxWidth: 560,
+          minWidth: 0,
           zIndex: 2
         }}
       >
@@ -126,7 +127,10 @@ export const FeaturedShopHero = ({ shop }: { shop: User }) => {
           sx={{
             color: 'text.secondary',
             mb: 4,
-            lineHeight: 1.6
+            lineHeight: 1.6,
+            overflowWrap: 'anywhere',
+            wordBreak: 'break-word',
+            maxWidth: '100%'
           }}
         >
           {description}

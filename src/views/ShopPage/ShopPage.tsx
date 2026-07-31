@@ -337,7 +337,11 @@ export const ShopPage = () => {
             sx={{
               fontStyle: 'italic',
               color: 'text.main',
-              mt: 1
+              mt: 1,
+              minWidth: 0,
+              maxWidth: '100%',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word'
             }}
           >
             {data?.shopDescription?.trim() || t('common.noDescription')}

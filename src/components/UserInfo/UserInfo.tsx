@@ -173,7 +173,11 @@ export const UserInfo = ({ ...props }) => {
             <Typography
               variant="body2"
               sx={{
-                my: 1
+                my: 1,
+                minWidth: 0,
+                maxWidth: '100%',
+                overflowWrap: 'anywhere',
+                wordBreak: 'break-word'
               }}
             >
               {props?.user?.shopDescription}
