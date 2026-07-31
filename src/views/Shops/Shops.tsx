@@ -345,6 +345,8 @@ export const Shops = () => {
                 onlyOnline={user.onlyOnline}
                 numberOfProducts={user.numberOfProducts}
                 numberOfServices={user.numberOfServices}
+                lastActiveAt={user.lastActiveAt}
+                createdAt={user.createdAt}
                 address={user.address}
               />
             ))}

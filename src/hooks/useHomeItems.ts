@@ -53,6 +53,8 @@ export interface UserPreview {
   onlyOnline?: boolean;
   numberOfProducts?: number;
   numberOfServices?: number;
+  lastActiveAt?: string | null;
+  createdAt?: string;
   address?: {
     street?: string;
     city?: string;

@@ -1,8 +1,13 @@
 'use client';
 
-import { AppBreadcrumbs, PageContent } from '@green-world/components';
+import {
+  AppBreadcrumbs,
+  PageContent,
+  SellerActivityNotice
+} from '@green-world/components';
 import { useOrderProduct } from '@green-world/hooks/useOrderProduct';
 import { useProduct } from '@green-world/hooks/useProduct';
+import { useUser } from '@green-world/hooks/useUser';
 import { slugOrId } from '@green-world/utils/slug';
 import {
   Box,
@@ -48,6 +53,7 @@ export const OrderProduct = () => {
   const { data: productData, isLoading: productLoading } = useProduct(
     productId!
   );
+  const { data: sellerData } = useUser(productData?.createdBy || '');
   const [formData, setFormData] = useState<OrderFormData>({
     name: '',
     lastName: '',
@@ -211,6 +217,10 @@ export const OrderProduct = () => {
             {t('orderProductView.subtitle')}
           </Typography>
         </Box>
+        <SellerActivityNotice
+          lastActiveAt={sellerData?.lastActiveAt}
+          createdAt={sellerData?.createdAt}
+        />
         <Card
           sx={{
             padding: '24px'

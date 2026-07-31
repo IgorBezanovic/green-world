@@ -1341,6 +1341,22 @@ export const sr = {
     cancel: 'Otkaži',
     send: 'Pošalji poruku'
   },
+  sellerActivity: {
+    active: 'Aktivan',
+    lessActive: 'Manje aktivan',
+    inactive: 'Trenutno manje dostupan',
+    activeTooltip: 'Prodavac je nedavno bio aktivan na platformi.',
+    lessActiveTooltip:
+      'Prodavac je poslednji put bio aktivan pre oko {days} dana. Odgovor može malo duže da stigne.',
+    inactiveTooltip:
+      'Prodavac nije bio aktivan na platformi oko {days} dana. Možda je praktičnije kontaktirati ga telefonom ili e-mailom.',
+    noticeTitleLessActive: 'Odgovor može malo duže da stigne',
+    noticeBodyLessActive:
+      'Ovaj prodavac je u poslednje vreme ređe aktivan na platformi. Ako želite brži kontakt, možete ga javiti i telefonom ili e-mailom.',
+    noticeTitleInactive: 'Kontakt van platforme može biti brži',
+    noticeBodyInactive:
+      'Ovaj prodavac trenutno ređe koristi platformu. Poruke i porudžbine mogu duže da čekaju odgovor — slobodno ga kontaktirajte i telefonom ili e-mailom.'
+  },
   shopCard: {
     locationNotAdded: 'Lokacija nije dodata',
     onlyOnline: 'Samo online',

@@ -54,6 +54,8 @@ export * from '@green-world/components/SendMessageDialog';
 export * from '@green-world/components/ServiceSection';
 export * from '@green-world/components/ServiceListingCard';
 export * from '@green-world/components/SharedPagination';
+export * from '@green-world/components/SellerActivityBadge';
+export * from '@green-world/components/SellerActivityNotice';
 export * from '@green-world/components/ShopCard';
 export * from '@green-world/components/ShopStatsCard';
 export * from '@green-world/components/SocialMedia';
