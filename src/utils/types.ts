@@ -12,6 +12,7 @@ export type AuthValues = {
 export type RegistrationValues = {
   email: string;
   password: string;
+  phone: string;
 };
 
 export interface Product {
@@ -134,6 +135,8 @@ export type User = {
   profileImage: string;
   shopName: string;
   phone: string;
+  hasPublicPhone?: boolean;
+  requiresPhoneSetup?: boolean;
   address: Address;
   shopDescription: string;
   website: string;

@@ -683,6 +683,12 @@ export const en = {
     submit: 'Change password'
   },
   editUserData: {
+    validationFailed:
+      'Your changes were not saved. Correct the highlighted fields:',
+    updateError: 'The profile could not be updated. Please try again.',
+    invalidProfileData:
+      'Some entered information is invalid. Check the highlighted fields.',
+    userNotFound: 'The user account could not be found. Please sign in again.',
     days: {
       monday: 'Monday',
       tuesday: 'Tuesday',
@@ -701,6 +707,8 @@ export const en = {
       firstName: 'Owner / contact first name',
       lastName: 'Owner / contact last name',
       contactPhone: 'Contact phone',
+      phoneError:
+        'Enter a valid phone number containing 7 to 15 digits. Spaces, hyphens, parentheses and + are allowed.',
       descriptionField: 'Description of your business, services, and products'
     },
     social: {
@@ -1094,6 +1102,11 @@ export const en = {
         paragraph2:
           'All data is stored securely and is not shared with third parties except where required by law.'
       },
+      phoneUsage: {
+        title: 'Collection and display of phone numbers',
+        paragraph:
+          'We collect phone numbers to enable direct communication between platform users. A phone number is not displayed publicly until the user has published a product, service, or event. Once such content is published, the phone number may be displayed on the user profile and alongside the published content so interested users can contact the provider directly. If the user removes all products, services, and events, the phone number will no longer be displayed publicly.'
+      },
       donations: {
         title: 'Donations',
         paragraph1:
@@ -1327,7 +1340,22 @@ export const en = {
     description2: 'This way other users can contact you more easily.',
     emailPlaceholder: 'Enter e-mail',
     passwordPlaceholder: 'Enter password',
+    phonePlaceholder: 'Enter phone number',
+    phoneError: 'Enter a valid phone number containing 7 to 15 digits.',
+    phoneInfo:
+      'Your phone number will not be displayed until you publish your first product, service, or event. After publication, it will be available to interested users for easier contact.',
     submit: 'Register'
+  },
+  completeRegistration: {
+    title: 'Complete your registration',
+    description:
+      'To finish creating your account with Google or Facebook, enter a contact phone number.',
+    phonePlaceholder: 'Enter phone number',
+    phoneError: 'Enter a valid phone number containing 7 to 15 digits.',
+    phoneInfo:
+      'Your phone number will not be displayed until you publish your first product, service, or event. After publication, it will be available to interested users for easier contact.',
+    submit: 'Complete registration',
+    updateError: 'Registration could not be completed. Please try again.'
   },
   sendMessageDialog: {
     title: 'Send message',

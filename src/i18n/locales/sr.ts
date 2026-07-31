@@ -685,6 +685,11 @@ export const sr = {
     submit: 'Promeni lozinku'
   },
   editUserData: {
+    validationFailed: 'Podaci nisu sačuvani. Ispravite označena polja:',
+    updateError: 'Ažuriranje profila nije uspelo. Pokušajte ponovo.',
+    invalidProfileData:
+      'Neki od unetih podataka nisu ispravni. Proverite označena polja.',
+    userNotFound: 'Korisnički nalog nije pronađen. Prijavite se ponovo.',
     days: {
       monday: 'Ponedeljak',
       tuesday: 'Utorak',
@@ -703,6 +708,8 @@ export const sr = {
       firstName: 'Ime vlasnika / kontakt osobe',
       lastName: 'Prezime vlasnika / kontakt osobe',
       contactPhone: 'Kontakt telefon',
+      phoneError:
+        'Unesite ispravan broj telefona sa 7 do 15 cifara. Dozvoljeni su razmaci, crtice, zagrade i znak +.',
       descriptionField: 'Opis Vašeg biznisa, usluga i proizvoda'
     },
     social: {
@@ -1123,6 +1130,11 @@ export const sr = {
         paragraph2:
           'Svi podaci se čuvaju na siguran način i ne dele se sa trećim licima osim u slučajevima zakonske obaveze.'
       },
+      phoneUsage: {
+        title: 'Prikupljanje i prikaz broja telefona',
+        paragraph:
+          'Broj telefona prikupljamo radi omogućavanja direktne komunikacije između korisnika platforme. Broj nije javno prikazan dok korisnik nema objavljen proizvod, uslugu ili događaj. Kada korisnik objavi takav sadržaj, broj telefona može biti prikazan na njegovom profilu i uz objavljeni sadržaj kako bi zainteresovani korisnici mogli neposredno da stupe u kontakt sa ponuđačem. Ako korisnik ukloni sve proizvode, usluge i događaje, broj telefona se ponovo prestaje javno prikazivati.'
+      },
       donations: {
         title: 'Donacije',
         paragraph1:
@@ -1331,7 +1343,22 @@ export const sr = {
     description2: 'Na taj način će drugi korisnici lakše kotaktirati sa Vama.',
     emailPlaceholder: 'Unesite e-mail',
     passwordPlaceholder: 'Unesite password',
+    phonePlaceholder: 'Unesite broj telefona',
+    phoneError: 'Unesite ispravan broj telefona sa 7 do 15 cifara.',
+    phoneInfo:
+      'Broj telefona neće biti prikazan dok ne objavite svoj prvi proizvod, uslugu ili događaj. Nakon objavljivanja biće dostupan zainteresovanim korisnicima radi lakšeg kontakta.',
     submit: 'Registruj se'
+  },
+  completeRegistration: {
+    title: 'Dovršite registraciju',
+    description:
+      'Da biste završili kreiranje naloga putem Google-a ili Facebook-a, unesite kontakt telefon.',
+    phonePlaceholder: 'Unesite broj telefona',
+    phoneError: 'Unesite ispravan broj telefona sa 7 do 15 cifara.',
+    phoneInfo:
+      'Broj telefona neće biti prikazan dok ne objavite svoj prvi proizvod, uslugu ili događaj. Nakon objavljivanja biće dostupan zainteresovanim korisnicima radi lakšeg kontakta.',
+    submit: 'Dovrši registraciju',
+    updateError: 'Registracija nije mogla da se dovrši. Pokušajte ponovo.'
   },
   sendMessageDialog: {
     title: 'Slanje poruke',

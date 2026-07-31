@@ -11,6 +11,7 @@ type GoogleAuthResponse =
   | string
   | {
       token?: string;
+      requiresPhoneSetup?: boolean;
     };
 
 export const useGoogleLogin = () => {
@@ -44,7 +45,11 @@ export const useGoogleLogin = () => {
         queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
         queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
       ]);
-      navigate('/');
+      navigate(
+        typeof data !== 'string' && data.requiresPhoneSetup
+          ? '/complete-registration'
+          : '/'
+      );
     },
     onError: (err: any) => {
       const msg = err?.response?.data || i18n.t('hooks.googleLogin.loginError');

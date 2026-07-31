@@ -24,6 +24,7 @@ export * from '@green-world/views/Message';
 export * from '@green-world/views/NotFound';
 export * from '@green-world/views/ProfileSettings';
 export * from '@green-world/views/Registration';
+export * from '@green-world/views/CompleteRegistration';
 export * from '@green-world/views/ServiceDetails';
 export * from '@green-world/views/ServiceListing';
 export * from '@green-world/views/UserProfile';

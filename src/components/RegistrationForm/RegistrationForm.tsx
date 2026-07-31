@@ -1,9 +1,11 @@
 'use client';
 
 import { GoogleLoginAuth, MetaLoginAuth } from '@green-world/components';
+import { isValidPhoneNumber } from '@green-world/utils/phone';
 import { RegistrationValues } from '@green-world/utils/types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -14,7 +16,8 @@ import {
   Divider,
   Typography,
   CircularProgress,
-  OutlinedInput
+  OutlinedInput,
+  Alert
 } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,11 +27,17 @@ export const RegistrationForm = ({ ...props }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [registrationData, setRegistrationData] = useState<RegistrationValues>({
     email: '',
-    password: ''
+    password: '',
+    phone: ''
   });
+  const [phoneError, setPhoneError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isValidPhoneNumber(registrationData.phone)) {
+      setPhoneError(true);
+      return;
+    }
     props.mutate(registrationData);
   };
 
@@ -139,6 +148,44 @@ export const RegistrationForm = ({ ...props }) => {
             </InputAdornment>
           }
         />
+
+        <OutlinedInput
+          required
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder={t('registrationForm.phonePlaceholder')}
+          value={registrationData.phone}
+          onChange={(e) => {
+            setRegistrationData({ ...registrationData, phone: e.target.value });
+            setPhoneError(false);
+          }}
+          onBlur={() =>
+            setPhoneError(
+              Boolean(registrationData.phone) &&
+                !isValidPhoneNumber(registrationData.phone)
+            )
+          }
+          disabled={props.isLoading}
+          error={phoneError || hasError}
+          fullWidth
+          startAdornment={
+            <InputAdornment position="start">
+              <PhoneOutlinedIcon />
+            </InputAdornment>
+          }
+          sx={{
+            bgcolor: 'background.default',
+            '& .MuiOutlinedInput-input': { p: '12px' }
+          }}
+        />
+        {phoneError && (
+          <Typography variant="caption" color="error">
+            {t('registrationForm.phoneError')}
+          </Typography>
+        )}
+
+        <Alert severity="info">{t('registrationForm.phoneInfo')}</Alert>
 
         <Button
           type="submit"
