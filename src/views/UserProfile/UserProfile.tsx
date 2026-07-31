@@ -45,16 +45,19 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
+const EMPTY_QUERY_DATA: never[] = [];
+
 export const UserProfile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
-  const { data: products = [], isLoading: productsLoading } =
+  const { data: products = EMPTY_QUERY_DATA, isLoading: productsLoading } =
     useAllUserProducts();
-  const { data: events = [], isLoading: eventsLoading } = useAllUserEvents();
+  const { data: events = EMPTY_QUERY_DATA, isLoading: eventsLoading } =
+    useAllUserEvents();
   const {
-    data: services = [],
+    data: services = EMPTY_QUERY_DATA,
     isLoading: servicesLoading,
     isError: servicesError
   } = useGetServices();
@@ -112,9 +115,8 @@ export const UserProfile = () => {
     }
   }, [userServices, servicesLoading]);
 
-  const { data: blogs = [], isLoading: blogsLoading } = useBlogPostsByUser(
-    user?._id
-  );
+  const { data: blogs = EMPTY_QUERY_DATA, isLoading: blogsLoading } =
+    useBlogPostsByUser(user?._id);
 
   useEffect(() => {
     if (!blogsLoading) {
