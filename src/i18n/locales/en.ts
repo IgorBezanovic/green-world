@@ -1337,6 +1337,22 @@ export const en = {
     cancel: 'Cancel',
     send: 'Send message'
   },
+  sellerActivity: {
+    active: 'Active',
+    lessActive: 'Less active',
+    inactive: 'Less available right now',
+    activeTooltip: 'This seller has been active on the platform recently.',
+    lessActiveTooltip:
+      'This seller was last active about {days} days ago. A reply may take a little longer.',
+    inactiveTooltip:
+      'This seller has not been active on the platform for about {days} days. Phone or email may be a quicker way to reach them.',
+    noticeTitleLessActive: 'A reply may take a little longer',
+    noticeBodyLessActive:
+      'This seller has been less active on the platform lately. For a quicker response, you can also reach them by phone or email.',
+    noticeTitleInactive: 'Contact outside the platform may be quicker',
+    noticeBodyInactive:
+      'This seller is using the platform less often right now. Messages and orders may take longer to get a reply — feel free to contact them by phone or email as well.'
+  },
   shopCard: {
     locationNotAdded: 'Location not added',
     onlyOnline: 'Online only',

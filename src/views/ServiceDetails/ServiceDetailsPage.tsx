@@ -999,6 +999,8 @@ export const ServiceDetailsPage = () => {
         open={openSendMessageDialog}
         onClose={() => setOpenSendMessageDialog(false)}
         userId={provider?._id || ''}
+        lastActiveAt={provider?.lastActiveAt}
+        createdAt={provider?.createdAt}
       />
     </PageContent>
   );

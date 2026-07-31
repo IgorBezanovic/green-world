@@ -10,7 +10,8 @@ import {
   CopyLinkButton,
   BookmarkButton,
   DeletedItemOverlay,
-  AIVerificationBadge
+  AIVerificationBadge,
+  SellerActivityBadge
 } from '@green-world/components';
 import UserContext from '@green-world/context/UserContext';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
@@ -215,13 +216,26 @@ export const ProductPage = () => {
               <Box
                 sx={{
                   width: '100%',
+                  minWidth: 0,
                   overflow: 'hidden'
                 }}
               >
-                <Box sx={{ mb: 1.5 }}>
+                <Box
+                  sx={{
+                    mb: 1.5,
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: 1,
+                    alignItems: 'center'
+                  }}
+                >
                   <AIVerificationBadge
                     verifiedDone={productData?.verifiedDone}
                     verified={productData?.verified}
+                  />
+                  <SellerActivityBadge
+                    lastActiveAt={sellerData?.lastActiveAt}
+                    createdAt={sellerData?.createdAt}
                   />
                 </Box>
                 <Typography
@@ -666,6 +680,8 @@ export const ProductPage = () => {
         open={openSendMessageDialog}
         onClose={() => setOpenSendMessageDialog(false)}
         userId={sellerData?._id || ''}
+        lastActiveAt={sellerData?.lastActiveAt}
+        createdAt={sellerData?.createdAt}
       />
     </PageContent>
   );

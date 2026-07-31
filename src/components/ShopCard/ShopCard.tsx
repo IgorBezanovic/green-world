@@ -1,5 +1,6 @@
 'use client';
 
+import { SellerActivityBadge } from '@green-world/components/SellerActivityBadge';
 import { formatImageUrl } from '@green-world/utils/helpers';
 import { slugOrId } from '@green-world/utils/slug';
 import {
@@ -41,6 +42,8 @@ export interface ShopCardProps {
   onlyOnline?: boolean;
   numberOfProducts?: number;
   numberOfServices?: number;
+  lastActiveAt?: string | Date | null;
+  createdAt?: string | Date | null;
   address?: Address;
 }
 
@@ -55,6 +58,8 @@ export const ShopCard = ({
   onlyOnline,
   numberOfProducts = 0,
   numberOfServices = 0,
+  lastActiveAt,
+  createdAt,
   address
 }: ShopCardProps) => {
   const { t } = useTranslation();
@@ -259,6 +264,12 @@ export const ShopCard = ({
                 color="success"
                 variant="outlined"
                 sx={{ paddingX: '4px', color: 'common.black' }}
+              />
+
+              <SellerActivityBadge
+                lastActiveAt={lastActiveAt}
+                createdAt={createdAt}
+                size="medium"
               />
             </Box>
           </Box>
