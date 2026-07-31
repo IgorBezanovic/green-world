@@ -51,15 +51,25 @@ export const GoogleAnalytics = () => {
     setBounceRate(Math.round((data?.charts?.overallBounceRate || 0) * 100));
 
     // Pages chart (sessions vs pageViews)
+    // Keys arrive as "path|title", so the same path can appear several times.
+    const pagesByPath = Object.entries(data?.charts?.pages || {}).reduce<
+      Record<string, { page: string; sessions: number; pageViews: number }>
+    >((acc, [key, value]) => {
+      const pageData = value as { sessions: number; pageViews: number };
+      const page = key.split('|')[0];
+      const current = acc[page];
+
+      acc[page] = {
+        page,
+        sessions: (current?.sessions ?? 0) + (pageData.sessions ?? 0),
+        pageViews: (current?.pageViews ?? 0) + (pageData.pageViews ?? 0)
+      };
+
+      return acc;
+    }, {});
+
     setPagesData(
-      Object.entries(data?.charts?.pages || {}).map(([key, value]) => {
-        const pageData = value as { sessions: number; pageViews: number };
-        return {
-          page: key.split('|')[0],
-          sessions: pageData.sessions,
-          pageViews: pageData.pageViews
-        };
-      })
+      Object.values(pagesByPath).sort((a, b) => b.pageViews - a.pageViews)
     );
 
     // Default demographics (country)

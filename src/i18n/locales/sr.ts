@@ -618,7 +618,12 @@ export const sr = {
     warning: 'Upozorenje',
     warningTooltip: 'Ovaj sadržaj je označen kao potencijalno neprikladni.',
     warningHelper:
-      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će što pre kontaktirati kreatora kako bi regulisali potencijalni problem.'
+      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će uskoro pregledati sadržaj.',
+    pending: 'Čeka pregled',
+    pendingTooltip:
+      'Automatska verifikacija nije mogla da se završi. Tim će pregledati sadržaj ručno.',
+    pendingHelper:
+      'Automatska provera nije uspela iz tehničkih razloga. Sadržaj čeka ručni pregled tima Zeleni Svet.'
   },
   aisearch: {
     groups: {

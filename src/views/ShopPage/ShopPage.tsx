@@ -316,6 +316,9 @@ export const ShopPage = () => {
             <AIVerificationBadge
               verifiedDone={data?.verifiedDone}
               verified={data?.verified}
+              verificationError={data?.verificationError}
+              reason={data?.verificationReason}
+              violations={data?.verificationViolations}
             />
           </Box>
 

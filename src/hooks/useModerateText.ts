@@ -11,6 +11,8 @@ type ModerateTextPayload = {
 
 export type ModerateTextResponse = {
   flaggedFields?: string[];
+  reason?: string;
+  violations?: string[];
 };
 
 export const useModerateText = () => {

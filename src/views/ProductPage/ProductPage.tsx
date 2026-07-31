@@ -232,6 +232,9 @@ export const ProductPage = () => {
                   <AIVerificationBadge
                     verifiedDone={productData?.verifiedDone}
                     verified={productData?.verified}
+                    verificationError={productData?.verificationError}
+                    reason={productData?.verificationReason}
+                    violations={productData?.verificationViolations}
                   />
                 </Box>
                 <Typography
