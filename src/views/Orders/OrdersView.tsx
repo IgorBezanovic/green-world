@@ -15,6 +15,7 @@ import {
   Button,
   Chip,
   InputAdornment,
+  Link,
   Paper,
   Skeleton,
   Tab,
@@ -28,14 +29,27 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { Search } from 'lucide-react';
+import { Clock3, Search } from 'lucide-react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 
 type OrdersViewVariant = 'admin' | 'profile';
 
 type OrdersViewProps = {
   variant: OrdersViewVariant;
+};
+
+const formatOrderDate = (value: string, locale?: string) => {
+  const date = new Date(value);
+
+  return {
+    date: date.toLocaleDateString(locale),
+    time: date.toLocaleTimeString(locale, {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  };
 };
 
 export const OrdersView = ({ variant }: OrdersViewProps) => {
@@ -213,10 +227,13 @@ const AdminOrdersContent = () => {
 };
 
 const ProfileOrdersContent = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const isSeller = user?.role === 'seller';
-  const [activeTab, setActiveTab] = useState<'ordered' | 'received'>('ordered');
+  const [activeTab, setActiveTab] = useState<'ordered' | 'received'>(
+    'received'
+  );
   const [orderedPage, setOrderedPage] = useState(1);
   const [receivedPage, setReceivedPage] = useState(1);
   const { data: sellerData, isFetching: sellerFetching } = useSellerOrders(
@@ -262,10 +279,18 @@ const ProfileOrdersContent = () => {
   return (
     <Box>
       <Box sx={{ mb: 2 }}>
-        <Typography variant="h6" fontWeight={700}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          sx={{ mb: 0.75, fontSize: { xs: '1.6rem', md: '2rem' } }}
+        >
           {t('profileOrdersView.mainTitle')}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.5 }}
+        >
           {isReceivedTab
             ? t('profileOrdersView.receivedSubtitle')
             : t('profileOrdersView.orderedSubtitle')}
@@ -278,43 +303,52 @@ const ProfileOrdersContent = () => {
             value={activeTab}
             onChange={(_, v: 'ordered' | 'received') => setActiveTab(v)}
           >
-            <Tab value="ordered" label={t('profileOrdersView.tabs.ordered')} />
             <Tab
               value="received"
               label={t('profileOrdersView.tabs.received')}
             />
+            <Tab value="ordered" label={t('profileOrdersView.tabs.ordered')} />
           </Tabs>
         </Box>
       )}
 
-      <TableContainer component={Paper} variant="outlined">
-        <Table size="small">
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ borderRadius: 2, overflowX: 'auto' }}
+      >
+        <Table sx={{ minWidth: 1220 }}>
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'grey.100' }}>
-              <TableCell sx={{ fontWeight: 700 }}>
+            <TableRow
+              sx={{
+                backgroundColor: 'grey.100',
+                '& .MuiTableCell-head': { py: 1.75, fontSize: '0.95rem' }
+              }}
+            >
+              <TableCell sx={{ fontWeight: 700, minWidth: 150 }}>
                 {t('profileOrdersView.columns.product')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 90 }}>
                 {t('profileOrdersView.columns.quantity')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 180 }}>
                 {isReceivedTab
                   ? t('profileOrdersView.columns.buyer')
                   : t('profileOrdersView.columns.seller')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 230 }}>
                 {t('profileOrdersView.columns.contact')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 170 }}>
                 {t('profileOrdersView.columns.note')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 210 }}>
                 {t('profileOrdersView.columns.address')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 230 }}>
                 {t('profileOrdersView.columns.status')}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700 }}>
+              <TableCell sx={{ fontWeight: 700, minWidth: 165 }}>
                 {t('profileOrdersView.columns.date')}
               </TableCell>
             </TableRow>
@@ -332,7 +366,17 @@ const ProfileOrdersContent = () => {
                   </TableRow>
                 ))
               : rows.map((row) => (
-                  <TableRow key={row._id} hover>
+                  <TableRow
+                    key={row._id}
+                    hover
+                    sx={{
+                      '&:nth-of-type(even)': { bgcolor: 'action.hover' },
+                      '& .MuiTableCell-body': {
+                        py: 2,
+                        verticalAlign: 'top'
+                      }
+                    }}
+                  >
                     <TableCell>
                       <Typography variant="body2" fontWeight={600}>
                         {row.productName}
@@ -343,9 +387,27 @@ const ProfileOrdersContent = () => {
                     </TableCell>
                     <TableCell>{row.productQuantity}</TableCell>
                     <TableCell>
-                      {isReceivedTab
-                        ? `${row.buyerName} ${row.buyerLastName}`
-                        : row.sellerName}
+                      {isReceivedTab && row.buyerUserId ? (
+                        <Link
+                          component="button"
+                          type="button"
+                          onClick={() => navigate(`/shop/${row.buyerUserId}`)}
+                          underline="hover"
+                          sx={{
+                            color: 'text.primary',
+                            fontWeight: 700,
+                            textAlign: 'left'
+                          }}
+                        >
+                          {`${row.buyerName} ${row.buyerLastName}`}
+                        </Link>
+                      ) : (
+                        <Typography variant="body2" fontWeight={700}>
+                          {isReceivedTab
+                            ? `${row.buyerName} ${row.buyerLastName}`
+                            : row.sellerName}
+                        </Typography>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2">
@@ -379,7 +441,7 @@ const ProfileOrdersContent = () => {
                         sx={{
                           display: 'flex',
                           flexDirection: 'column',
-                          gap: 0.75
+                          gap: 1.25
                         }}
                       >
                         <Chip
@@ -418,12 +480,13 @@ const ProfileOrdersContent = () => {
                           row.buyerStatus !== 'DELIVERED' && (
                             <Box
                               sx={{
-                                display: 'flex',
-                                gap: 0.5,
-                                flexWrap: 'nowrap',
-                                alignItems: 'center',
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                gap: 1,
                                 '& .MuiButton-root': {
-                                  whiteSpace: 'nowrap'
+                                  whiteSpace: 'nowrap',
+                                  px: 1,
+                                  minHeight: 36
                                 }
                               }}
                             >
@@ -473,7 +536,26 @@ const ProfileOrdersContent = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      {new Date(row.createdAt).toLocaleString('sr-RS')}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          gap: 1,
+                          alignItems: 'flex-start'
+                        }}
+                      >
+                        <Clock3
+                          size={17}
+                          style={{ marginTop: 2, flexShrink: 0 }}
+                        />
+                        <Box>
+                          <Typography variant="body2" fontWeight={600}>
+                            {formatOrderDate(row.createdAt, i18n.language).date}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {formatOrderDate(row.createdAt, i18n.language).time}
+                          </Typography>
+                        </Box>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}

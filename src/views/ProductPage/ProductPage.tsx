@@ -233,10 +233,6 @@ export const ProductPage = () => {
                     verifiedDone={productData?.verifiedDone}
                     verified={productData?.verified}
                   />
-                  <SellerActivityBadge
-                    lastActiveAt={sellerData?.lastActiveAt}
-                    createdAt={sellerData?.createdAt}
-                  />
                 </Box>
                 <Typography
                   variant="h1"
@@ -436,6 +432,12 @@ export const ProductPage = () => {
                             {t('productPage.memberSince')}{' '}
                             {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
+                          <Box sx={{ mt: 1 }}>
+                            <SellerActivityBadge
+                              lastActiveAt={sellerData?.lastActiveAt}
+                              createdAt={sellerData?.createdAt}
+                            />
+                          </Box>
                         </Box>
                       </Box>
                     </Box>

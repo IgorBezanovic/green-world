@@ -72,7 +72,14 @@ export const AIVerificationBadge = ({
 
   // Failed / flagged
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 0.5
+      }}
+    >
       <Tooltip title={t('aiVerification.warningTooltip')} placement="top">
         <Chip
           size="medium"

@@ -299,18 +299,23 @@ export const ShopPage = () => {
             sx={{
               mb: 1.5,
               display: 'flex',
-              flexWrap: 'wrap',
+              flexDirection: 'column',
               gap: 1,
-              alignItems: 'center'
+              alignItems: 'flex-start',
+              '& .MuiChip-root': {
+                height: 32,
+                fontSize: '0.8rem'
+              }
             }}
           >
-            <AIVerificationBadge
-              verifiedDone={data?.verifiedDone}
-              verified={data?.verified}
-            />
             <SellerActivityBadge
               lastActiveAt={data?.lastActiveAt}
               createdAt={data?.createdAt}
+              size="medium"
+            />
+            <AIVerificationBadge
+              verifiedDone={data?.verifiedDone}
+              verified={data?.verified}
             />
           </Box>
 

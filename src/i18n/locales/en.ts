@@ -1483,6 +1483,7 @@ export const en = {
       blogs: 'blogs'
     },
     empty: {
+      create: 'Create',
       products:
         'If you have no products or services, you will not be visible in search. Click "Add product" or "Add service" to increase your shop visibility!',
 
@@ -1545,7 +1546,7 @@ export const en = {
       note: 'Note',
       address: 'Address',
       status: 'Status',
-      date: 'Date'
+      date: 'Order date'
     },
     status: {
       new: 'New',

@@ -39,11 +39,11 @@ export const getBuyerOrders = (params?: Record<string, any>) =>
     params
   }) as Promise<PaginatedResponse<SellerOrderItem>>;
 
-export const getSellerOrdersUnreadCount = () =>
+export const getSellerOrdersPendingCount = () =>
   request({
-    url: '/orders/unread-count',
+    url: '/orders/pending-count',
     method: 'get'
-  }) as Promise<{ unreadCount: number }>;
+  }) as Promise<{ pendingCount: number }>;
 
 export const markSellerOrdersRead = () =>
   request({

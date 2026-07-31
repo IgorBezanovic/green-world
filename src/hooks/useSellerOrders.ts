@@ -1,7 +1,7 @@
 import {
   getBuyerOrders,
   getSellerOrders,
-  getSellerOrdersUnreadCount,
+  getSellerOrdersPendingCount,
   markSellerOrdersRead,
   updateSellerOrderReadStatus,
   updateSellerOrderStatus,
@@ -19,7 +19,7 @@ export const SELLER_ORDER_KEYS = {
   all: ['sellerOrders'] as const,
   list: (filters: Record<string, any>) =>
     [...SELLER_ORDER_KEYS.all, 'list', filters] as const,
-  unreadCount: ['sellerOrders', 'unreadCount'] as const
+  pendingCount: ['sellerOrders', 'pendingCount'] as const
 };
 
 export const useSellerOrders = (filters: Record<string, any>, enabled = true) =>
@@ -40,10 +40,10 @@ export const useBuyerOrders = (filters: Record<string, any>, enabled = true) =>
     staleTime: 1000 * 30
   });
 
-export const useSellerOrdersUnreadCount = (enabled = true) =>
+export const useSellerOrdersPendingCount = (enabled = true) =>
   useQuery({
-    queryKey: SELLER_ORDER_KEYS.unreadCount,
-    queryFn: getSellerOrdersUnreadCount,
+    queryKey: SELLER_ORDER_KEYS.pendingCount,
+    queryFn: getSellerOrdersPendingCount,
     enabled,
     staleTime: 1000 * 15,
     refetchInterval: enabled ? 30000 : false
@@ -55,7 +55,7 @@ export const useMarkSellerOrdersRead = () => {
     mutationFn: markSellerOrdersRead,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
-      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.unreadCount });
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.pendingCount });
     },
     onError: (err: any) => {
       toast.error(
@@ -93,7 +93,7 @@ export const useUpdateSellerOrderReadStatus = () => {
       updateSellerOrderReadStatus(id, read),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
-      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.unreadCount });
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.pendingCount });
     },
     onError: (err: any) => {
       toast.error(
@@ -115,7 +115,7 @@ export const useUpdateSellerOrderStatus = () => {
     }) => updateSellerOrderStatus(id, status),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.all });
-      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.unreadCount });
+      qc.invalidateQueries({ queryKey: SELLER_ORDER_KEYS.pendingCount });
     },
     onError: (err: any) => {
       toast.error(

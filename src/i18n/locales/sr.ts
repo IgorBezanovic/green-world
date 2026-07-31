@@ -1487,6 +1487,7 @@ export const sr = {
       blogs: 'blogova'
     },
     empty: {
+      create: 'Kreiraj',
       products:
         'Ukoliko nemate ni jedan proizvod ili uslugu, nećete biti vidljivi u pretrazi. Kliknite na "Dodaj proizvod" ili "Dodaj uslugu" da biste povećali vidljivost vaše prodavnice!',
 
@@ -1550,7 +1551,7 @@ export const sr = {
       note: 'Napomena',
       address: 'Adresa',
       status: 'Status',
-      date: 'Datum'
+      date: 'Datum poručivanja'
     },
     status: {
       new: 'Novo',
