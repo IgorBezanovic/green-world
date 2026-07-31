@@ -7,6 +7,7 @@ import {
   PageContent,
   PageLoader,
   ProductCard,
+  SellerActivityBadge,
   SendMessageDialog,
   ServiceListingCard,
   SocialMedia,
@@ -294,10 +295,22 @@ export const ShopPage = () => {
         >
           <Typography variant="h3">{data?.shopName || data?.name}</Typography>
 
-          <Box sx={{ mb: 1.5 }}>
+          <Box
+            sx={{
+              mb: 1.5,
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+              alignItems: 'center'
+            }}
+          >
             <AIVerificationBadge
               verifiedDone={data?.verifiedDone}
               verified={data?.verified}
+            />
+            <SellerActivityBadge
+              lastActiveAt={data?.lastActiveAt}
+              createdAt={data?.createdAt}
             />
           </Box>
 
@@ -712,6 +725,8 @@ export const ShopPage = () => {
         open={openSendMessageDialog}
         onClose={() => setOpenSendMessageDialog(false)}
         userId={sellerId}
+        lastActiveAt={data?.lastActiveAt}
+        createdAt={data?.createdAt}
       />
     </PageContent>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { SellerActivityNotice } from '@green-world/components/SellerActivityNotice';
 import { useSendMessage } from '@green-world/hooks/useSendMessage';
 import {
   Dialog,
@@ -19,6 +20,8 @@ interface SendMessageDialogProps {
   title?: string;
   onClose: () => void;
   userId: string;
+  lastActiveAt?: string | Date | null;
+  createdAt?: string | Date | null;
 }
 
 export const SendMessageDialog = ({
@@ -26,7 +29,9 @@ export const SendMessageDialog = ({
   initialMessage = '',
   title,
   onClose,
-  userId
+  userId,
+  lastActiveAt,
+  createdAt
 }: SendMessageDialogProps) => {
   const { t } = useTranslation();
   const [message, setMessage] = useState(initialMessage);
@@ -54,6 +59,10 @@ export const SendMessageDialog = ({
           <DialogContentText sx={{ mb: 2, color: 'black' }}>
             {t('sendMessageDialog.description')}
           </DialogContentText>
+          <SellerActivityNotice
+            lastActiveAt={lastActiveAt}
+            createdAt={createdAt}
+          />
           <TextField
             id="message-input"
             autoFocus
@@ -65,6 +74,7 @@ export const SendMessageDialog = ({
             onChange={(e) => setMessage(e.target.value)}
             variant="outlined"
             slotProps={{ htmlInput: { 'aria-label': 'message' } }}
+            sx={{ mt: 2 }}
           />
         </DialogContent>
 

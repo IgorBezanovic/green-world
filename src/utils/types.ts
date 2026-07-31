@@ -140,6 +140,8 @@ export type User = {
   onlyOnline: boolean;
   onlyOnThisSite: boolean;
   createdAt?: string;
+  updatedAt?: string;
+  lastActiveAt?: string | null;
   socialMedia: {
     facebook: string;
     instagram: string;
