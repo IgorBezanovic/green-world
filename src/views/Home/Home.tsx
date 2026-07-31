@@ -1,6 +1,9 @@
 'use client';
 
 import {
+  FeaturedProducts,
+  FeaturedShops,
+  FeaturedShopsBanner,
   GroupButton,
   LazySection,
   PageContent,
@@ -100,8 +103,8 @@ export const Home = () => {
             onLoad={() => setIsBannerLoaded(true)}
           />
         </Box>
-        {/* <FeaturedProducts /> */}
-        {/* <FeaturedShops /> */}
+        <FeaturedProducts />
+        <FeaturedShops />
         <Box
           sx={(theme) => ({
             textAlign: 'center',
@@ -281,7 +284,7 @@ export const Home = () => {
             {t('home.searchAllProducts')}
           </Button>
         </LazySection>
-        {/* <FeaturedShopsBanner /> */}
+        <FeaturedShopsBanner />
         <ProductSection
           title={t('catalog.groups.flower_assortment')}
           subTitle={t('home.sectionSubtitles.flower_assortment')}

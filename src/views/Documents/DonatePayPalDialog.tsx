@@ -1,10 +1,6 @@
 'use client';
 
 import {
-  useBraintreeClientToken,
-  useBraintreeDonation
-} from '@green-world/hooks/useBraintreeDonation';
-import {
   useCreatePayPalOrder,
   useCapturePayPalOrder
 } from '@green-world/hooks/usePayPalDonation';
@@ -17,16 +13,14 @@ import {
   TextField,
   Typography,
   Stack,
-  Box,
-  CircularProgress
+  Box
 } from '@mui/material';
 import {
   PayPalScriptProvider,
   PayPalButtons,
   FUNDING
 } from '@paypal/react-paypal-js';
-import braintree from 'braintree-web';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 type Props = { open: boolean; onClose: () => void };
 
@@ -37,14 +31,6 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
   const [message, setMessage] = useState<string>('');
   const [status, setStatus] = useState<string>('');
   const [isCardPaymentActive, setIsCardPaymentActive] = useState(false);
-  const [isBraintreeActive, setIsBraintreeActive] = useState(false);
-  const [braintreeError, setBraintreeError] = useState<string>('');
-  const [fieldValidity, setFieldValidity] = useState({
-    number: false,
-    expirationDate: false,
-    cvv: false
-  });
-  const braintreeInstanceRef = useRef<braintree.HostedFields | null>(null);
 
   const minRsd = 500;
   const rsdNumber = Number(amountRsd || 0);
@@ -52,19 +38,12 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
 
   const createOrderMutation = useCreatePayPalOrder();
   const captureOrderMutation = useCapturePayPalOrder();
-  const braintreeDonationMutation = useBraintreeDonation();
-  const { data: clientTokenData, isLoading: isClientTokenLoading } =
-    useBraintreeClientToken();
 
   const loading =
-    createOrderMutation.isPending ||
-    captureOrderMutation.isPending ||
-    braintreeDonationMutation.isPending;
+    createOrderMutation.isPending || captureOrderMutation.isPending;
   const errorMsg =
     createOrderMutation.error?.message ||
     captureOrderMutation.error?.message ||
-    braintreeDonationMutation.error?.message ||
-    braintreeError ||
     '';
 
   const paypalOptions = useMemo(
@@ -78,133 +57,21 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
     [clientId]
   );
 
-  // Initialize Braintree Hosted Fields when activated
-  useEffect(() => {
-    if (!isBraintreeActive || !clientTokenData?.clientToken || !open) {
-      return;
-    }
-
-    let hostedFieldsInstance: braintree.HostedFields | null = null;
-
-    const setupBraintree = async () => {
-      try {
-        setBraintreeError('');
-        const clientInstance = await braintree.client.create({
-          authorization: clientTokenData.clientToken
-        });
-
-        hostedFieldsInstance = await braintree.hostedFields.create({
-          client: clientInstance,
-          styles: {
-            input: {
-              'font-size': '16px',
-              'font-family': 'sans-serif'
-            },
-            ':focus': {
-              color: 'black'
-            },
-            '.valid': {
-              color: 'green'
-            },
-            '.invalid': {
-              color: 'red'
-            }
-          },
-          fields: {
-            number: {
-              selector: '#card-number',
-              placeholder: '4111 1111 1111 1111'
-            },
-            cvv: {
-              selector: '#cvv',
-              placeholder: '123'
-            },
-            expirationDate: {
-              selector: '#expiration-date',
-              placeholder: 'MM/YY'
-            }
-          }
-        });
-
-        braintreeInstanceRef.current = hostedFieldsInstance;
-
-        // Add event listeners for field validity tracking
-        hostedFieldsInstance.on('validityChange', (event) => {
-          setFieldValidity({
-            number: event.fields.number?.isValid ?? false,
-            expirationDate: event.fields.expirationDate?.isValid ?? false,
-            cvv: event.fields.cvv?.isValid ?? false
-          });
-        });
-      } catch (err: any) {
-        console.error('Braintree setup error:', err);
-        setBraintreeError(
-          err.message || 'Greška pri inicijalizaciji Braintree'
-        );
-      }
-    };
-
-    setupBraintree();
-
-    return () => {
-      if (hostedFieldsInstance) {
-        hostedFieldsInstance.teardown().catch((err) => {
-          console.error('Braintree teardown error:', err);
-        });
-        braintreeInstanceRef.current = null;
-      }
-    };
-  }, [isBraintreeActive, clientTokenData?.clientToken, open]);
-
-  const handleBraintreeSubmit = async () => {
-    const hostedFields = braintreeInstanceRef.current;
-    if (!hostedFields) {
-      setBraintreeError('Braintree nije inicijalizovan');
-      return;
-    }
-
-    // Check field validity before attempting to tokenize
-    const state = hostedFields.getState();
-    const invalidFields: string[] = [];
-
-    if (!state.fields.number.isValid) {
-      invalidFields.push('broj kartice');
-    }
-    if (!state.fields.expirationDate.isValid) {
-      invalidFields.push('datum isteka');
-    }
-    if (!state.fields.cvv.isValid) {
-      invalidFields.push('CVV');
-    }
-
-    if (invalidFields.length > 0) {
-      setBraintreeError(`Proverite sledeća polja: ${invalidFields.join(', ')}`);
-      return;
-    }
-
-    setStatus('Obrada uplate...');
-    setBraintreeError('');
-
-    try {
-      const { nonce } = await hostedFields.tokenize();
-      await braintreeDonationMutation.mutateAsync({
-        paymentMethodNonce: nonce,
-        amount: rsdNumber,
-        message
-      });
-      setStatus('✅ Hvala! Donacija je uspešna.');
-      setIsBraintreeActive(false);
-    } catch (err: any) {
-      console.error('Braintree payment error:', err);
-      setBraintreeError(err.message || 'Greška tokom uplate karticom');
-      setStatus('');
-    }
+  const handleCreateOrder = async () => {
+    setStatus('Kreiram nalog...');
+    const out = await createOrderMutation.mutateAsync({
+      type: 'DONATION',
+      amountRsd: rsdNumber,
+      message
+    });
+    return out.id;
   };
 
-  const resetBraintree = () => {
-    setIsBraintreeActive(false);
-    setBraintreeError('');
-    setFieldValidity({ number: false, expirationDate: false, cvv: false });
+  const handleApprove = async (orderID: string) => {
+    setStatus('Finalizujem uplatu...');
+    await captureOrderMutation.mutateAsync({ orderId: orderID });
+    setStatus('✅ Hvala! Donacija je uspešna.');
+    setIsCardPaymentActive(false);
   };
 
   return (
@@ -212,6 +79,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
       open={open}
       onClose={() => {
         setStatus('');
+        setIsCardPaymentActive(false);
         onClose();
       }}
       maxWidth="xs"
@@ -232,7 +100,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
               size="small"
               sx={{ minWidth: 135 }}
               onClick={() => setAmountRsd(String(v))}
-              disabled={isCardPaymentActive || isBraintreeActive}
+              disabled={isCardPaymentActive}
             >
               {v} RSD
             </Button>
@@ -246,7 +114,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
             const v = e.target.value.replace(/[^\d]/g, '');
             setAmountRsd(v);
           }}
-          disabled={isCardPaymentActive || isBraintreeActive}
+          disabled={isCardPaymentActive}
           fullWidth
           margin="dense"
           slotProps={{ htmlInput: { inputMode: 'numeric' } }}
@@ -257,6 +125,7 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
           label="Poruka (opciono)"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={isCardPaymentActive}
           fullWidth
           margin="dense"
           multiline
@@ -270,178 +139,6 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
         >
           Napomena: PayPal naplatu izvršava u EUR (RSD se preračunava).
         </Typography>
-
-        {/* Braintree Card Payment */}
-        <Box sx={{ mb: 2 }}>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ mb: 0.5, display: 'block' }}
-          >
-            Plaćanje karticom u dinarima (RSD)
-          </Typography>
-
-          {!isBraintreeActive ? (
-            <Button
-              variant="contained"
-              fullWidth
-              disabled={!isValid || loading || isClientTokenLoading}
-              onClick={() => setIsBraintreeActive(true)}
-              sx={{
-                backgroundColor: '#2c3e50',
-                '&:hover': { backgroundColor: '#34495e' },
-                py: 1.5
-              }}
-            >
-              {isClientTokenLoading ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                'Plati karticom u RSD'
-              )}
-            </Button>
-          ) : (
-            <Box
-              sx={{
-                border: '1px solid',
-                borderColor: 'divider',
-                borderRadius: 1,
-                p: 2,
-                backgroundColor: 'background.paper'
-              }}
-            >
-              <Typography variant="body2" sx={{ mb: 2 }}>
-                Iznos: <strong>{rsdNumber.toLocaleString()} RSD</strong>
-              </Typography>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography
-                  variant="caption"
-                  sx={{ mb: 0.5, display: 'block' }}
-                >
-                  Broj kartice{' '}
-                  {fieldValidity.number && (
-                    <Typography
-                      component="span"
-                      sx={{ color: 'success.main', fontSize: 'inherit' }}
-                    >
-                      ✓
-                    </Typography>
-                  )}
-                </Typography>
-                <Box
-                  id="card-number"
-                  sx={{
-                    border: '2px solid',
-                    borderColor: fieldValidity.number
-                      ? 'success.main'
-                      : 'divider',
-                    borderRadius: 1,
-                    p: 1.5,
-                    height: 48,
-                    display: 'flex',
-                    alignItems: 'center',
-                    backgroundColor: 'background.default',
-                    transition: 'border-color 0.3s ease'
-                  }}
-                />
-              </Box>
-
-              <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-                <Box sx={{ flex: 1 }}>
-                  <Typography
-                    variant="caption"
-                    sx={{ mb: 0.5, display: 'block' }}
-                  >
-                    Datum isteka (MM/YY){' '}
-                    {fieldValidity.expirationDate && (
-                      <Typography
-                        component="span"
-                        sx={{ color: 'success.main', fontSize: 'inherit' }}
-                      >
-                        ✓
-                      </Typography>
-                    )}
-                  </Typography>
-                  <Box
-                    id="expiration-date"
-                    sx={{
-                      border: '2px solid',
-                      borderColor: fieldValidity.expirationDate
-                        ? 'success.main'
-                        : 'divider',
-                      borderRadius: 1,
-                      p: 1.5,
-                      height: 48,
-                      display: 'flex',
-                      alignItems: 'center',
-                      backgroundColor: 'background.default',
-                      transition: 'border-color 0.3s ease'
-                    }}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Typography
-                    variant="caption"
-                    sx={{ mb: 0.5, display: 'block' }}
-                  >
-                    CVV{' '}
-                    {fieldValidity.cvv && (
-                      <Typography
-                        component="span"
-                        sx={{ color: 'success.main', fontSize: 'inherit' }}
-                      >
-                        ✓
-                      </Typography>
-                    )}
-                  </Typography>
-                  <Box
-                    id="cvv"
-                    sx={{
-                      border: '2px solid',
-                      borderColor: fieldValidity.cvv
-                        ? 'success.main'
-                        : 'divider',
-                      borderRadius: 1,
-                      p: 1.5,
-                      height: 48,
-                      display: 'flex',
-                      alignItems: 'center',
-                      backgroundColor: 'background.default',
-                      transition: 'border-color 0.3s ease'
-                    }}
-                  />
-                </Box>
-              </Stack>
-
-              <Stack direction="row" spacing={1}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={handleBraintreeSubmit}
-                  disabled={
-                    braintreeDonationMutation.isPending ||
-                    !fieldValidity.number ||
-                    !fieldValidity.expirationDate ||
-                    !fieldValidity.cvv
-                  }
-                >
-                  {braintreeDonationMutation.isPending ? (
-                    <CircularProgress size={20} color="inherit" />
-                  ) : (
-                    `Plati ${rsdNumber.toLocaleString()} RSD`
-                  )}
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={resetBraintree}
-                  disabled={braintreeDonationMutation.isPending}
-                >
-                  Otkaži
-                </Button>
-              </Stack>
-            </Box>
-          )}
-        </Box>
 
         <PayPalScriptProvider options={paypalOptions}>
           <Box
@@ -462,23 +159,14 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
               <PayPalButtons
                 fundingSource={FUNDING.PAYPAL}
                 style={{ layout: 'vertical' }}
-                disabled={!isValid || loading || isBraintreeActive}
+                disabled={!isValid || loading || isCardPaymentActive}
                 createOrder={async () => {
-                  setStatus('Kreiram nalog...');
-                  const out = await createOrderMutation.mutateAsync({
-                    type: 'DONATION',
-                    amountRsd: rsdNumber,
-                    message
-                  });
+                  const id = await handleCreateOrder();
                   setStatus('Potvrdi uplatu u PayPal prozoru...');
-                  return out.id;
+                  return id;
                 }}
                 onApprove={async (data) => {
-                  setStatus('Finalizujem uplatu...');
-                  await captureOrderMutation.mutateAsync({
-                    orderId: data.orderID
-                  });
-                  setStatus('✅ Hvala! Donacija je uspešna.');
+                  await handleApprove(data.orderID);
                 }}
                 onCancel={() => setStatus('Uplata je otkazana.')}
                 onError={(err) => {
@@ -498,24 +186,15 @@ export const DonatePayPalDialog = ({ open, onClose }: Props) => {
               <PayPalButtons
                 fundingSource={FUNDING.CARD}
                 style={{ layout: 'vertical' }}
-                disabled={!isValid || loading || isBraintreeActive}
+                disabled={!isValid || loading}
                 createOrder={async () => {
-                  setStatus('Kreiram nalog...');
                   setIsCardPaymentActive(true);
-                  const out = await createOrderMutation.mutateAsync({
-                    type: 'DONATION',
-                    amountRsd: rsdNumber,
-                    message
-                  });
+                  const id = await handleCreateOrder();
                   setStatus('Unesite podatke kartice u PayPal prozoru...');
-                  return out.id;
+                  return id;
                 }}
                 onApprove={async (data) => {
-                  setStatus('Finalizujem uplatu...');
-                  await captureOrderMutation.mutateAsync({
-                    orderId: data.orderID
-                  });
-                  setStatus('✅ Hvala! Donacija je uspešna.');
+                  await handleApprove(data.orderID);
                 }}
                 onCancel={() => {
                   setStatus('Uplata je otkazana.');

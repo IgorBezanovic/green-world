@@ -1146,7 +1146,7 @@ export const sr = {
           'Donacije su dobrodošle i pomažu nam da održavamo platformu besplatnom za sve korisnike.',
         paragraph2:
           'Ukoliko želiš da podržiš razvoj Zelenog Sveta, možeš to učiniti uplatom simbolične donacije.',
-        button: 'Doniraj - USKORO'
+        button: 'Doniraj'
       },
       accountDeletion: {
         title: 'Brisanje naloga',
@@ -1330,6 +1330,10 @@ export const sr = {
       'Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca',
     buyPromotion: 'Kupi promociju',
     soon: 'Uskoro',
+    productsCount: 'proizvoda',
+    daysCount: 'dana',
+    freeCapacity: 'slobodno',
+    savePercent: 'Uštedi 30%',
     promoteShopTitle: 'Promoviši Prodavnicu',
     promoteShopDescription:
       'Povećajte vidljivost vaše prodavnice i privucite nove kupce',
@@ -1474,6 +1478,7 @@ export const sr = {
     tabs: {
       products: 'Proizvodi',
       services: 'Moje usluge',
+      promoted: 'Promovisano',
       activities: 'Događaji',
       myBlogs: 'Moji blogovi'
     },
@@ -1497,6 +1502,7 @@ export const sr = {
         'Ukoliko nemate ni jedan proizvod ili uslugu, nećete biti vidljivi u pretrazi. Kliknite na "Dodaj proizvod" ili "Dodaj uslugu" da biste povećali vidljivost vaše prodavnice!',
 
       services: 'Još uvek niste dodali usluge',
+      promoted: 'Nemate promovisanih proizvoda',
       activities: 'Još uvek niste dodali događaj',
       blogs: 'Još uvek niste dodali blog postove'
     },

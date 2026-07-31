@@ -1118,7 +1118,7 @@ export const en = {
           'Donations are welcome and help us keep the platform free for all users.',
         paragraph2:
           'If you would like to support the development of Green World, you can do so with a symbolic donation.',
-        button: 'Donate - COMING SOON'
+        button: 'Donate'
       },
       accountDeletion: {
         title: 'Account deletion',
@@ -1328,6 +1328,10 @@ export const en = {
       'Highlight your products at the top of search and attract more buyers',
     buyPromotion: 'Buy promotion',
     soon: 'Soon',
+    productsCount: 'products',
+    daysCount: 'days',
+    freeCapacity: 'free',
+    savePercent: 'Save 30%',
     promoteShopTitle: 'Promote Shop',
     promoteShopDescription:
       'Increase your shop visibility and attract new buyers',
@@ -1470,6 +1474,7 @@ export const en = {
     tabs: {
       products: 'Products',
       services: 'My services',
+      promoted: 'Promoted',
       activities: 'Events',
       myBlogs: 'My blogs'
     },
@@ -1493,6 +1498,7 @@ export const en = {
         'If you have no products or services, you will not be visible in search. Click "Add product" or "Add service" to increase your shop visibility!',
 
       services: 'You have not added services yet',
+      promoted: 'You have no promoted products',
       activities: 'You have not added an event yet',
       blogs: 'You have not added blog posts yet'
     },
