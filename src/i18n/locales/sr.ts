@@ -585,6 +585,7 @@ export const sr = {
     profileSettings: 'Podešavanje profila',
     contactUs: 'Kontaktirajte nas',
     messages: 'Poruke',
+    orders: 'Porudžbine',
     writeBlog: 'Napiši blog',
     logout: 'Izloguj se',
     statistics: 'Statistika'
@@ -1468,8 +1469,62 @@ export const sr = {
       profileData: 'Podaci profila',
       imageQr: 'Slika i QR kod',
       changePassword: 'Promena lozinke',
-      statistics: 'Statistika'
+      statistics: 'Statistika',
+      orders: 'Porudžbine'
     }
+  },
+  adminOrdersView: {
+    title: 'Porudžbine',
+    searchPlaceholder: 'Pretraga (proizvod, kupac, email...)',
+    noteLabel: 'Napomena',
+    columns: {
+      product: 'Proizvod',
+      quantity: 'Količina',
+      price: 'Cena',
+      buyer: 'Kupac',
+      contact: 'Email/Telefon',
+      note: 'Napomena',
+      seller: 'Prodavac',
+      date: 'Datum'
+    },
+    empty: 'Nema porudžbina'
+  },
+  profileOrdersView: {
+    mainTitle: 'Porudžbine',
+    orderedSubtitle: 'Pratite status porudžbina koje ste poslali.',
+    receivedSubtitle:
+      'Pregled porudžbina koje su drugi korisnici poslali vama.',
+    tabs: {
+      ordered: 'Naručeno',
+      received: 'Primljene porudžbine'
+    },
+    columns: {
+      product: 'Proizvod',
+      quantity: 'Količina',
+      buyer: 'Kupac',
+      seller: 'Prodavac',
+      contact: 'Kontakt',
+      note: 'Napomena',
+      address: 'Adresa',
+      status: 'Status',
+      date: 'Datum'
+    },
+    status: {
+      new: 'Novo',
+      seen: 'Viđeno',
+      sent: 'Poslata',
+      inProgress: 'U obradi',
+      sellerContacted: 'Kontaktiran prodavac',
+      customerContacted: 'Kontaktiran',
+      delivered: 'Isporučeno'
+    },
+    actions: {
+      sellerContacted: 'Kontaktiran prodavac',
+      customerContacted: 'Kontaktiran',
+      delivered: 'Isporučeno'
+    },
+    buyerAddressHint: 'Adresa za isporuku poslata prodavcu',
+    empty: 'Nema porudžbina'
   },
   loginView: {
     breadcrumb: 'Uloguj se',

@@ -32,7 +32,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DonateRaiffeisenDialog } from './DonateRaiffaisenDialog';
+import { DonatePayPalDialog } from './DonatePayPalDialog';
 
 // ── Reusable section wrapper ──────────────────────────────────────────────────
 const Section = ({
@@ -432,16 +432,10 @@ export const Documents = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2.5 }}>
             {t('documentsView.sections.donations.paragraph2')}
           </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ position: 'relative' }}
-            onClick={() => setDonateOpen(true)}
-          >
+          <Button variant="contained" color="secondary" disabled>
             {t('documentsView.sections.donations.button')}
           </Button>
-
-          <DonateRaiffeisenDialog
+          <DonatePayPalDialog
             open={donateOpen}
             onClose={() => setDonateOpen(false)}
           />
