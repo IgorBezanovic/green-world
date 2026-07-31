@@ -1543,15 +1543,15 @@ export const ru = {
     status: {
       new: 'Новый',
       seen: 'Просмотрен',
-      sent: 'Отправлен',
+      sent: 'Заказ оформлен',
       inProgress: 'В обработке',
       sellerContacted: 'Продавец связался',
-      customerContacted: 'Покупатель уведомлен',
+      customerContacted: 'Связались с покупателем',
       delivered: 'Доставлено'
     },
     actions: {
       sellerContacted: 'Продавец связался',
-      customerContacted: 'Покупатель уведомлен',
+      customerContacted: 'Связались с покупателем',
       delivered: 'Доставлено'
     },
     buyerAddressHint: 'Адрес доставки отправлен продавцу',
@@ -1689,6 +1689,9 @@ export const ru = {
       postalCode: 'Напр. 11000',
       message: 'Дополнительная информация о заказе...'
     }
+  },
+  promoteProductView: {
+    selectProducts: 'Выберите товары'
   },
   promoBundleView: {
     title: 'Промо-пакеты',

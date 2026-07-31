@@ -1567,15 +1567,15 @@ export const sr = {
     status: {
       new: 'Novo',
       seen: 'Viđeno',
-      sent: 'Poslata',
+      sent: 'Poručeno',
       inProgress: 'U obradi',
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran',
+      customerContacted: 'Kupac kontaktiran',
       delivered: 'Isporučeno'
     },
     actions: {
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran',
+      customerContacted: 'Kupac kontaktiran',
       delivered: 'Isporučeno'
     },
     buyerAddressHint: 'Adresa za isporuku poslata prodavcu',
@@ -1712,6 +1712,9 @@ export const sr = {
       postalCode: 'Npr. 11000',
       message: 'Dodatne informacije o porudžbini...'
     }
+  },
+  promoteProductView: {
+    selectProducts: 'Izaberite proizvode'
   },
   promoBundleView: {
     title: 'Promotivni Paketi',

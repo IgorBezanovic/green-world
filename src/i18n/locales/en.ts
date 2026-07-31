@@ -1562,7 +1562,7 @@ export const en = {
     status: {
       new: 'New',
       seen: 'Seen',
-      sent: 'Sent',
+      sent: 'Ordered',
       inProgress: 'In progress',
       sellerContacted: 'Seller contacted',
       customerContacted: 'Customer contacted',
@@ -1706,6 +1706,9 @@ export const en = {
       postalCode: 'e.g. 11000',
       message: 'Additional order information...'
     }
+  },
+  promoteProductView: {
+    selectProducts: 'Select products'
   },
   promoBundleView: {
     title: 'Promotional Bundles',

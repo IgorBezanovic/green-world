@@ -48,7 +48,7 @@ export const Header = () => {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { t } = useTranslation();
   const { data: sellerOrdersPendingData } = useSellerOrdersPendingCount(
-    isUserLoggedIn && user?.role === 'seller'
+    isUserLoggedIn && Boolean(user?._id)
   );
 
   const { data: messagesData } = useUserMessage();

@@ -29,7 +29,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { Clock3, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -230,7 +230,7 @@ const ProfileOrdersContent = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const isSeller = user?.role === 'seller';
+  const canReceiveOrders = Boolean(user?._id);
   const [activeTab, setActiveTab] = useState<'ordered' | 'received'>(
     'received'
   );
@@ -238,7 +238,7 @@ const ProfileOrdersContent = () => {
   const [receivedPage, setReceivedPage] = useState(1);
   const { data: sellerData, isFetching: sellerFetching } = useSellerOrders(
     { page: receivedPage, pageSize: 20 },
-    isSeller
+    canReceiveOrders
   );
   const { data: buyerData, isFetching: buyerFetching } = useBuyerOrders(
     { page: orderedPage, pageSize: 20 },
@@ -251,7 +251,7 @@ const ProfileOrdersContent = () => {
     string | null
   >(null);
 
-  const isReceivedTab = isSeller && activeTab === 'received';
+  const isReceivedTab = canReceiveOrders && activeTab === 'received';
 
   useEffect(() => {
     if (isReceivedTab && !didMarkRead.current) {
@@ -297,7 +297,7 @@ const ProfileOrdersContent = () => {
         </Typography>
       </Box>
 
-      {isSeller && (
+      {canReceiveOrders && (
         <Box sx={{ mb: 2 }}>
           <Tabs
             value={activeTab}
@@ -446,6 +446,13 @@ const ProfileOrdersContent = () => {
                       >
                         <Chip
                           size="small"
+                          variant={
+                            !isReceivedTab &&
+                            row.buyerStatus === 'NONE' &&
+                            !row.sellerReadAt
+                              ? 'outlined'
+                              : 'filled'
+                          }
                           label={
                             isReceivedTab
                               ? row.buyerStatus === 'DELIVERED'
@@ -470,9 +477,20 @@ const ProfileOrdersContent = () => {
                           color={
                             row.buyerStatus === 'DELIVERED'
                               ? 'success'
-                              : row.sellerReadAt
-                                ? 'default'
-                                : 'error'
+                              : row.buyerStatus === 'SELLER_CONTACTED'
+                                ? 'info'
+                                : !isReceivedTab && !row.sellerReadAt
+                                  ? 'primary'
+                                  : isReceivedTab && !row.sellerReadAt
+                                    ? 'error'
+                                    : 'warning'
+                          }
+                          sx={
+                            !isReceivedTab &&
+                            row.buyerStatus === 'NONE' &&
+                            !row.sellerReadAt
+                              ? { bgcolor: 'transparent' }
+                              : undefined
                           }
                         />
                         {isReceivedTab &&
@@ -507,7 +525,10 @@ const ProfileOrdersContent = () => {
                                     }
                                   );
                                 }}
-                                disabled={pendingReceivedStatusId === row._id}
+                                disabled={
+                                  pendingReceivedStatusId === row._id ||
+                                  row.buyerStatus === 'SELLER_CONTACTED'
+                                }
                               >
                                 {t(
                                   'profileOrdersView.actions.customerContacted'
@@ -536,26 +557,12 @@ const ProfileOrdersContent = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          gap: 1,
-                          alignItems: 'flex-start'
-                        }}
-                      >
-                        <Clock3
-                          size={17}
-                          style={{ marginTop: 2, flexShrink: 0 }}
-                        />
-                        <Box>
-                          <Typography variant="body2" fontWeight={600}>
-                            {formatOrderDate(row.createdAt, i18n.language).date}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {formatOrderDate(row.createdAt, i18n.language).time}
-                          </Typography>
-                        </Box>
-                      </Box>
+                      <Typography variant="body2" fontWeight={600}>
+                        {formatOrderDate(row.createdAt, i18n.language).date}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {formatOrderDate(row.createdAt, i18n.language).time}
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -135,7 +135,7 @@ export const UserProfile = () => {
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
   const { data: pendingOrdersData } = useSellerOrdersPendingCount(
-    user?.role === 'seller'
+    Boolean(user?._id)
   );
   const pendingOrders = pendingOrdersData?.pendingCount ?? 0;
   const { data: products = EMPTY_QUERY_DATA, isLoading: productsLoading } =
