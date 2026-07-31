@@ -27,7 +27,8 @@ import {
   ImageIcon,
   UserCheck,
   ShieldAlert,
-  Globe
+  Globe,
+  Phone
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -385,6 +386,18 @@ export const Documents = () => {
           </Typography>
           <Typography variant="body1" color="text.secondary">
             {t('documentsView.sections.privacy.paragraph2')}
+          </Typography>
+        </Section>
+
+        <Divider />
+
+        <Section
+          icon={<Phone size={22} />}
+          title={t('documentsView.sections.phoneUsage.title')}
+          accent={theme.palette.info.main}
+        >
+          <Typography variant="body1" color="text.secondary">
+            {t('documentsView.sections.phoneUsage.paragraph')}
           </Typography>
         </Section>
 

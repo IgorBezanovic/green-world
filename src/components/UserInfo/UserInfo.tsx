@@ -219,11 +219,11 @@ export const UserInfo = ({ ...props }) => {
               <Globe /> {props?.user?.website}
             </Typography>
           )}
-          {props?.user?.phone && (
+          {props?.user?.phone && props?.user?.hasPublicPhone && (
             <Typography
               component="a"
               variant="body2"
-              href={`tel:+${props.user.phone}`}
+              href={`tel:${props.user.phone}`}
               sx={{
                 mt: 1,
                 color: 'secondary.main',
@@ -233,7 +233,7 @@ export const UserInfo = ({ ...props }) => {
               }}
             >
               <Phone />
-              <span>+{props.user.phone}</span>
+              <span>{props.user.phone}</span>
             </Typography>
           )}
           {props?.user?.email && (

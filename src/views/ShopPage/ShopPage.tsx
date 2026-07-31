@@ -416,7 +416,7 @@ export const ShopPage = () => {
                 </Box>
               )}
 
-              {data?.phone && (
+              {data?.phone && data?.hasPublicPhone && (
                 <Box
                   sx={{
                     display: 'flex',

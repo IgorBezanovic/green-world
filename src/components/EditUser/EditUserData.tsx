@@ -1,7 +1,11 @@
 'use client';
 
 import UserContext from '@green-world/context/UserContext';
-import { useEditUser } from '@green-world/hooks/useEditUser';
+import {
+  getUpdateErrorMessage,
+  useEditUser
+} from '@green-world/hooks/useEditUser';
+import { isValidPhoneNumber } from '@green-world/utils/phone';
 import { WorkingTime } from '@green-world/utils/types';
 import {
   Box,
@@ -10,7 +14,9 @@ import {
   TextField,
   InputAdornment,
   Typography,
-  Switch
+  Switch,
+  Snackbar,
+  Alert
 } from '@mui/material';
 import {
   User,
@@ -94,9 +100,14 @@ export const EditUserData = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const workingHoursRef = useRef<HTMLDivElement | null>(null);
+  const initialPhoneRef = useRef<string | null>(null);
   const { user, setUser, isLoading } = useContext(UserContext);
   const { mutate, isPending: isLoadingUser } = useEditUser();
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+  const [notification, setNotification] = useState<{
+    message: string;
+    severity: 'success' | 'error';
+  } | null>(null);
 
   const workingDays: Array<{ key: keyof WorkingTime; label: string }> = [
     { key: 'monday', label: t('editUserData.days.monday') },
@@ -113,6 +124,12 @@ export const EditUserData = () => {
     close: '',
     isClosed: false
   };
+
+  useEffect(() => {
+    if (!isLoading && initialPhoneRef.current === null) {
+      initialPhoneRef.current = user.phone || '';
+    }
+  }, [isLoading, user.phone]);
 
   useEffect(() => {
     if (location.hash === '#working-hours') {
@@ -159,13 +176,53 @@ export const EditUserData = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate(user);
-    setErrors({});
+    const phone = user.phone?.trim() || '';
+    const nextErrors: Partial<Record<string, string>> = {};
+
+    if (
+      (Boolean(initialPhoneRef.current) && !phone) ||
+      (phone && !isValidPhoneNumber(phone))
+    ) {
+      nextErrors.phone = t('editUserData.basicInfo.phoneError');
+    }
+
+    for (const key of Object.keys(socialMediaRegex) as SocialMediaKeys[]) {
+      const error = validateSocialMedia(key, user?.socialMedia?.[key] || '');
+      if (error) nextErrors[key] = error;
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setNotification({
+        severity: 'error',
+        message: `${t('editUserData.validationFailed')} ${Object.values(nextErrors).join(' ')}`
+      });
+      return;
+    }
+
+    mutate(user, {
+      onSuccess: () => {
+        setErrors({});
+        setNotification({
+          severity: 'success',
+          message: t('hooks.common.dataUpdated')
+        });
+      },
+      onError: (error: unknown) => {
+        setNotification({
+          severity: 'error',
+          message: getUpdateErrorMessage(error)
+        });
+      }
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+    if (name === 'phone') {
+      setErrors((prev) => ({ ...prev, phone: undefined }));
+    }
   };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -289,6 +346,9 @@ export const EditUserData = () => {
               placeholder={t('editUserData.basicInfo.contactPhone')}
               value={user?.phone || ''}
               onChange={handleChange}
+              error={Boolean(errors.phone)}
+              helperText={errors.phone}
+              inputProps={{ inputMode: 'tel' }}
             />
           </Box>
           <Box sx={{ flex: 1 }}>
@@ -685,6 +745,22 @@ export const EditUserData = () => {
           )}
         </Button>
       </Box>
+
+      <Snackbar
+        open={Boolean(notification)}
+        autoHideDuration={6000}
+        onClose={() => setNotification(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={() => setNotification(null)}
+          severity={notification?.severity || 'error'}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {notification?.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

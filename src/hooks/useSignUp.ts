@@ -10,13 +10,14 @@ export const useSignUp = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ email, password }: RegistrationValues) =>
+    mutationFn: ({ email, password, phone }: RegistrationValues) =>
       request({
         url: `/auth/sign-up`,
         method: 'post',
         data: {
           email,
-          password
+          password,
+          phone
         }
       }),
     onSuccess: async (data: string) => {

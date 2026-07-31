@@ -438,7 +438,7 @@ export const ProductPage = () => {
                         gap: '8px'
                       }}
                     >
-                      {sellerData?.phone && (
+                      {sellerData?.phone && sellerData?.hasPublicPhone && (
                         <Box
                           component="a"
                           sx={{
