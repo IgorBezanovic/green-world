@@ -118,6 +118,16 @@ export const UserContextProvider = ({
   }, [data, isLoading]);
 
   useEffect(() => {
+    if (!data?.requiresPhoneSetup || typeof window === 'undefined') return;
+
+    const pathSegments = window.location.pathname.split('/').filter(Boolean);
+    if (pathSegments.includes('complete-registration')) return;
+
+    const locale = pathSegments[0] || 'sr';
+    window.location.assign(`/${locale}/complete-registration`);
+  }, [data?.requiresPhoneSetup]);
+
+  useEffect(() => {
     const handleLogout = () => {
       setUser(defaultUser);
     };

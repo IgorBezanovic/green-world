@@ -1,52 +1,52 @@
 'use client';
 
-// import UserContext from '@green-world/context/UserContext';
-// import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
-// import { Product } from '@green-world/utils/types';
+import UserContext from '@green-world/context/UserContext';
+import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
+import { Product } from '@green-world/utils/types';
 import { Box, Typography, Chip, useTheme } from '@mui/material';
 import { Sparkles, Store, TrendingUp, Package, Crown, Zap } from 'lucide-react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { useContext, useMemo } from 'react';
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { PromotionCard } from '../PromotionCard';
 
 export const PromotionSection = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  // const navigate = useNavigate();
-  // const { data: products = [] } = useAllUserProducts();
-  // const promotedProductsCount = useMemo(
-  //   () =>
-  //     products.filter(
-  //       (p: Product) => p.promotedAt != null && p.promotedUntil != null
-  //     ).length,
-  //   [products]
-  // );
-  // const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { data: products = [] } = useAllUserProducts();
+  const promotedProductsCount = useMemo(
+    () =>
+      products.filter(
+        (p: Product) => p.promotedAt != null && p.promotedUntil != null
+      ).length,
+    [products]
+  );
+  const { user } = useContext(UserContext);
 
-  // const shopPromotionDaysLeft = useMemo(() => {
-  //   const userWithPromotion = user as typeof user & {
-  //     shopPromotedUntil?: string | Date | null;
-  //   };
-  //   if (!userWithPromotion?.shopPromotedUntil) return 0;
+  const shopPromotionDaysLeft = useMemo(() => {
+    const userWithPromotion = user as typeof user & {
+      shopPromotedUntil?: string | Date | null;
+    };
+    if (!userWithPromotion?.shopPromotedUntil) return 0;
 
-  //   const promotedUntil = new Date(userWithPromotion.shopPromotedUntil);
-  //   const now = new Date();
+    const promotedUntil = new Date(userWithPromotion.shopPromotedUntil);
+    const now = new Date();
 
-  //   if (promotedUntil < now) return 0;
+    if (promotedUntil < now) return 0;
 
-  //   const diffTime = promotedUntil.getTime() - now.getTime();
-  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  //   return diffDays;
-  // }, [user]);
+    const diffTime = promotedUntil.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }, [user]);
 
-  // const freeCapacityPercentage = useMemo(() => {
-  //   if (!user?.maxShopProducts || user.maxShopProducts === 0) return 0;
-  //   const freePlaces = user.maxShopProducts - (user.numberOfProducts || 0);
-  //   const percentage = (freePlaces / user.maxShopProducts) * 100;
-  //   return Math.max(0, Math.round(percentage));
-  // }, [user?.maxShopProducts, user?.numberOfProducts]);
+  const freeCapacityPercentage = useMemo(() => {
+    if (!user?.maxShopProducts || user.maxShopProducts === 0) return 0;
+    const freePlaces = user.maxShopProducts - (user.numberOfProducts || 0);
+    const percentage = (freePlaces / user.maxShopProducts) * 100;
+    return Math.max(0, Math.round(percentage));
+  }, [user?.maxShopProducts, user?.numberOfProducts]);
 
   return (
     <Box>
@@ -102,11 +102,9 @@ export const PromotionSection = () => {
           title={t('promotionSection.promoteProductsTitle')}
           description={t('promotionSection.promoteProductsDescription')}
           actionLabel={t('promotionSection.buyPromotion')}
-          badgeLabel={t('promotionSection.soon')}
-          // badgeLabel={`${promotedProductsCount} proizvoda`}
+          badgeLabel={`${promotedProductsCount} ${t('promotionSection.productsCount')}`}
           variant="success"
-          onActionClick={() => console.log('/promote-product')}
-          // onActionClick={() => navigate('/promote-product')}
+          onActionClick={() => navigate('/promote-product')}
         />
 
         <PromotionCard
@@ -114,11 +112,9 @@ export const PromotionSection = () => {
           title={t('promotionSection.promoteShopTitle')}
           description={t('promotionSection.promoteShopDescription')}
           actionLabel={t('promotionSection.buyPromotion')}
-          badgeLabel={t('promotionSection.soon')}
-          // badgeLabel={`${shopPromotionDaysLeft} dana`}
+          badgeLabel={`${shopPromotionDaysLeft} ${t('promotionSection.daysCount')}`}
           variant="warning"
-          // onActionClick={() => navigate('/promote-shop')}
-          onActionClick={() => console.log('/promote-product')}
+          onActionClick={() => navigate('/promote-shop')}
         />
 
         <PromotionCard
@@ -126,11 +122,9 @@ export const PromotionSection = () => {
           title={t('promotionSection.increaseCapacityTitle')}
           description={t('promotionSection.increaseCapacityDescription')}
           actionLabel={t('promotionSection.buyPromotion')}
-          badgeLabel={t('promotionSection.soon')}
-          // badgeLabel={`${freeCapacityPercentage}% slobodno`}
+          badgeLabel={`${freeCapacityPercentage}% ${t('promotionSection.freeCapacity')}`}
           variant="success"
-          // onActionClick={() => navigate('/increase-capacity')}
-          onActionClick={() => console.log('/promote-product')}
+          onActionClick={() => navigate('/increase-capacity')}
         />
 
         <PromotionCard
@@ -138,11 +132,9 @@ export const PromotionSection = () => {
           title={t('promotionSection.promoPackagesTitle')}
           description={t('promotionSection.promoPackagesDescription')}
           actionLabel={t('promotionSection.learnMore')}
-          badgeLabel={t('promotionSection.soon')}
-          // badgeLabel="Uštedi 30%"
+          badgeLabel={t('promotionSection.savePercent')}
           variant="warning"
-          // onActionClick={() => navigate('/promo-bundle')}
-          onActionClick={() => console.log('/promote-product')}
+          onActionClick={() => navigate('/promo-bundle')}
         />
       </Box>
     </Box>

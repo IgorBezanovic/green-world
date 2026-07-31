@@ -618,7 +618,12 @@ export const sr = {
     warning: 'Upozorenje',
     warningTooltip: 'Ovaj sadržaj je označen kao potencijalno neprikladni.',
     warningHelper:
-      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će što pre kontaktirati kreatora kako bi regulisali potencijalni problem.'
+      'Ovaj sadržaj može sadržati neprikladni materijal. Molimo budite oprezni. Tim Zeleni Svet će uskoro pregledati sadržaj.',
+    pending: 'Čeka pregled',
+    pendingTooltip:
+      'Automatska verifikacija nije mogla da se završi. Tim će pregledati sadržaj ručno.',
+    pendingHelper:
+      'Automatska provera nije uspela iz tehničkih razloga. Sadržaj čeka ručni pregled tima Zeleni Svet.'
   },
   aisearch: {
     groups: {
@@ -685,6 +690,11 @@ export const sr = {
     submit: 'Promeni lozinku'
   },
   editUserData: {
+    validationFailed: 'Podaci nisu sačuvani. Ispravite označena polja:',
+    updateError: 'Ažuriranje profila nije uspelo. Pokušajte ponovo.',
+    invalidProfileData:
+      'Neki od unetih podataka nisu ispravni. Proverite označena polja.',
+    userNotFound: 'Korisnički nalog nije pronađen. Prijavite se ponovo.',
     days: {
       monday: 'Ponedeljak',
       tuesday: 'Utorak',
@@ -703,6 +713,8 @@ export const sr = {
       firstName: 'Ime vlasnika / kontakt osobe',
       lastName: 'Prezime vlasnika / kontakt osobe',
       contactPhone: 'Kontakt telefon',
+      phoneError:
+        'Unesite ispravan broj telefona sa 7 do 15 cifara. Dozvoljeni su razmaci, crtice, zagrade i znak +.',
       descriptionField: 'Opis Vašeg biznisa, usluga i proizvoda'
     },
     social: {
@@ -1123,13 +1135,18 @@ export const sr = {
         paragraph2:
           'Svi podaci se čuvaju na siguran način i ne dele se sa trećim licima osim u slučajevima zakonske obaveze.'
       },
+      phoneUsage: {
+        title: 'Prikupljanje i prikaz broja telefona',
+        paragraph:
+          'Broj telefona prikupljamo radi omogućavanja direktne komunikacije između korisnika platforme. Broj nije javno prikazan dok korisnik nema objavljen proizvod, uslugu ili događaj. Kada korisnik objavi takav sadržaj, broj telefona može biti prikazan na njegovom profilu i uz objavljeni sadržaj kako bi zainteresovani korisnici mogli neposredno da stupe u kontakt sa ponuđačem. Ako korisnik ukloni sve proizvode, usluge i događaje, broj telefona se ponovo prestaje javno prikazivati.'
+      },
       donations: {
         title: 'Donacije',
         paragraph1:
           'Donacije su dobrodošle i pomažu nam da održavamo platformu besplatnom za sve korisnike.',
         paragraph2:
           'Ukoliko želiš da podržiš razvoj Zelenog Sveta, možeš to učiniti uplatom simbolične donacije.',
-        button: 'Doniraj - USKORO'
+        button: 'Doniraj'
       },
       accountDeletion: {
         title: 'Brisanje naloga',
@@ -1313,6 +1330,10 @@ export const sr = {
       'Istaknite svoje proizvode na vrhu pretrage i privucite više kupaca',
     buyPromotion: 'Kupi promociju',
     soon: 'Uskoro',
+    productsCount: 'proizvoda',
+    daysCount: 'dana',
+    freeCapacity: 'slobodno',
+    savePercent: 'Uštedi 30%',
     promoteShopTitle: 'Promoviši Prodavnicu',
     promoteShopDescription:
       'Povećajte vidljivost vaše prodavnice i privucite nove kupce',
@@ -1331,7 +1352,22 @@ export const sr = {
     description2: 'Na taj način će drugi korisnici lakše kotaktirati sa Vama.',
     emailPlaceholder: 'Unesite e-mail',
     passwordPlaceholder: 'Unesite password',
+    phonePlaceholder: 'Unesite broj telefona',
+    phoneError: 'Unesite ispravan broj telefona sa 7 do 15 cifara.',
+    phoneInfo:
+      'Broj telefona neće biti prikazan dok ne objavite svoj prvi proizvod, uslugu ili događaj. Nakon objavljivanja biće dostupan zainteresovanim korisnicima radi lakšeg kontakta.',
     submit: 'Registruj se'
+  },
+  completeRegistration: {
+    title: 'Dovršite registraciju',
+    description:
+      'Da biste završili kreiranje naloga putem Google-a ili Facebook-a, unesite kontakt telefon.',
+    phonePlaceholder: 'Unesite broj telefona',
+    phoneError: 'Unesite ispravan broj telefona sa 7 do 15 cifara.',
+    phoneInfo:
+      'Broj telefona neće biti prikazan dok ne objavite svoj prvi proizvod, uslugu ili događaj. Nakon objavljivanja biće dostupan zainteresovanim korisnicima radi lakšeg kontakta.',
+    submit: 'Dovrši registraciju',
+    updateError: 'Registracija nije mogla da se dovrši. Pokušajte ponovo.'
   },
   sendMessageDialog: {
     title: 'Slanje poruke',
@@ -1442,6 +1478,7 @@ export const sr = {
     tabs: {
       products: 'Proizvodi',
       services: 'Moje usluge',
+      promoted: 'Promovisano',
       activities: 'Događaji',
       myBlogs: 'Moji blogovi'
     },
@@ -1460,10 +1497,12 @@ export const sr = {
       blogs: 'blogova'
     },
     empty: {
+      create: 'Kreiraj',
       products:
         'Ukoliko nemate ni jedan proizvod ili uslugu, nećete biti vidljivi u pretrazi. Kliknite na "Dodaj proizvod" ili "Dodaj uslugu" da biste povećali vidljivost vaše prodavnice!',
 
       services: 'Još uvek niste dodali usluge',
+      promoted: 'Nemate promovisanih proizvoda',
       activities: 'Još uvek niste dodali događaj',
       blogs: 'Još uvek niste dodali blog postove'
     },
@@ -1523,20 +1562,20 @@ export const sr = {
       note: 'Napomena',
       address: 'Adresa',
       status: 'Status',
-      date: 'Datum'
+      date: 'Datum poručivanja'
     },
     status: {
       new: 'Novo',
       seen: 'Viđeno',
-      sent: 'Poslata',
+      sent: 'Poručeno',
       inProgress: 'U obradi',
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran',
+      customerContacted: 'Kupac kontaktiran',
       delivered: 'Isporučeno'
     },
     actions: {
       sellerContacted: 'Kontaktiran prodavac',
-      customerContacted: 'Kontaktiran',
+      customerContacted: 'Kupac kontaktiran',
       delivered: 'Isporučeno'
     },
     buyerAddressHint: 'Adresa za isporuku poslata prodavcu',
@@ -1673,6 +1712,9 @@ export const sr = {
       postalCode: 'Npr. 11000',
       message: 'Dodatne informacije o porudžbini...'
     }
+  },
+  promoteProductView: {
+    selectProducts: 'Izaberite proizvode'
   },
   promoBundleView: {
     title: 'Promotivni Paketi',

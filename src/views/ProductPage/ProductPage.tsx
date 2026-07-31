@@ -232,10 +232,9 @@ export const ProductPage = () => {
                   <AIVerificationBadge
                     verifiedDone={productData?.verifiedDone}
                     verified={productData?.verified}
-                  />
-                  <SellerActivityBadge
-                    lastActiveAt={sellerData?.lastActiveAt}
-                    createdAt={sellerData?.createdAt}
+                    verificationError={productData?.verificationError}
+                    reason={productData?.verificationReason}
+                    violations={productData?.verificationViolations}
                   />
                 </Box>
                 <Typography
@@ -436,6 +435,12 @@ export const ProductPage = () => {
                             {t('productPage.memberSince')}{' '}
                             {dayjs(sellerData?.createdAt).format('DD/MM/YYYY')}
                           </Typography>
+                          <Box sx={{ mt: 1 }}>
+                            <SellerActivityBadge
+                              lastActiveAt={sellerData?.lastActiveAt}
+                              createdAt={sellerData?.createdAt}
+                            />
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
@@ -452,7 +457,7 @@ export const ProductPage = () => {
                         gap: '8px'
                       }}
                     >
-                      {sellerData?.phone && (
+                      {sellerData?.phone && sellerData?.hasPublicPhone && (
                         <Box
                           component="a"
                           sx={{

@@ -2,7 +2,7 @@
 
 import { LanguageSwitcher } from '@green-world/components/LanguageSwitcher';
 import UserContext from '@green-world/context/UserContext';
-import { useSellerOrdersUnreadCount } from '@green-world/hooks/useSellerOrders';
+import { useSellerOrdersPendingCount } from '@green-world/hooks/useSellerOrders';
 import { useUserMessage } from '@green-world/hooks/useUserMessage';
 import { removeItem } from '@green-world/utils/cookie';
 import {
@@ -47,13 +47,13 @@ export const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { t } = useTranslation();
-  const { data: sellerOrdersUnreadData } = useSellerOrdersUnreadCount(
-    isUserLoggedIn && user?.role === 'seller'
+  const { data: sellerOrdersPendingData } = useSellerOrdersPendingCount(
+    isUserLoggedIn && Boolean(user?._id)
   );
 
   const { data: messagesData } = useUserMessage();
   const conversations = messagesData?.data ?? [];
-  const sellerOrdersUnread = sellerOrdersUnreadData?.unreadCount ?? 0;
+  const sellerOrdersPending = sellerOrdersPendingData?.pendingCount ?? 0;
   const totalUnread =
     conversations.reduce(
       (sum: number, conv: any) => sum + (conv.unreadCount || 0),
@@ -134,14 +134,14 @@ export const Header = () => {
       text: t('header.orders'),
       icon: (
         <Badge
-          badgeContent={sellerOrdersUnread > 0 ? sellerOrdersUnread : null}
+          badgeContent={sellerOrdersPending > 0 ? sellerOrdersPending : null}
           color="error"
           overlap="circular"
         >
           <ShoppingBag style={{ width: 24, height: 24, marginLeft: 8 }} />
         </Badge>
       ),
-      onClick: () => handleMenuClick(() => navigate('/profile-settings/orders'))
+      onClick: () => handleMenuClick(() => navigate('/profile/orders'))
     },
     {
       text: t('header.messages'),
@@ -269,17 +269,7 @@ export const Header = () => {
             aria-label="Menu"
           >
             {isUserLoggedIn ? (
-              <Badge
-                badgeContent={
-                  sellerOrdersUnread > 0 ? sellerOrdersUnread : null
-                }
-                color="error"
-                overlap="circular"
-              >
-                <MenuLucide
-                  style={{ width: 24, height: 24, color: 'inherit' }}
-                />
-              </Badge>
+              <MenuLucide style={{ width: 24, height: 24, color: 'inherit' }} />
             ) : (
               t('header.login')
             )}

@@ -27,6 +27,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import {
@@ -41,6 +42,7 @@ const pages = [
 ];
 
 export const PromoteProduct = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -178,7 +180,7 @@ export const PromoteProduct = () => {
         </Card>
 
         <Typography variant="h4" sx={{ mb: 2 }}>
-          Izaberite proizvode i trajanje
+          {t('promoteProductView.selectProducts')}
         </Typography>
 
         {productsLoading ? (
@@ -199,6 +201,19 @@ export const PromoteProduct = () => {
                 value={selectedProductIds}
                 onChange={handleProductChange}
                 disabled={isCardPaymentActive}
+                sx={{
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.dark',
+                    borderWidth: 2
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.dark'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.dark',
+                    borderWidth: 3
+                  }
+                }}
                 renderValue={(ids) =>
                   ids
                     .map(

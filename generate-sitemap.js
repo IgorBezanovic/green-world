@@ -330,4 +330,7 @@ async function generateSitemap() {
   console.log('✅ Sitemap generisan!');
 }
 
-generateSitemap().catch(console.error);
+generateSitemap().catch((error) => {
+  console.error('Sitemap generation failed:', error);
+  process.exitCode = 1;
+});

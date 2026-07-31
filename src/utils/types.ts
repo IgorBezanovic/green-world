@@ -12,6 +12,7 @@ export type AuthValues = {
 export type RegistrationValues = {
   email: string;
   password: string;
+  phone: string;
 };
 
 export interface Product {
@@ -41,6 +42,9 @@ export interface Product {
   dislikes?: string[];
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export type NewPasswordValues = {
@@ -134,6 +138,8 @@ export type User = {
   profileImage: string;
   shopName: string;
   phone: string;
+  hasPublicPhone?: boolean;
+  requiresPhoneSetup?: boolean;
   address: Address;
   shopDescription: string;
   website: string;
@@ -158,6 +164,9 @@ export type User = {
   workingTime?: WorkingTime;
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
   role?: 'admin' | 'seller';
 };
 
@@ -236,6 +245,9 @@ export type Event = {
   comments?: Comment[];
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 };
 
 export type HomeCategory = {
@@ -273,6 +285,9 @@ export interface BlogPost {
   timeOfReading?: number;
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export interface Comment {
@@ -332,6 +347,9 @@ export interface ServiceListing {
   updatedAt?: string;
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export type ServiceListingFiltersParams = {

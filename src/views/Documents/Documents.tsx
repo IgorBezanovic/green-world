@@ -27,7 +27,8 @@ import {
   ImageIcon,
   UserCheck,
   ShieldAlert,
-  Globe
+  Globe,
+  Phone
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -189,10 +190,10 @@ export const Documents = () => {
       description: t('documentsView.ai.badge.flagged.description')
     },
     {
-      color: alpha(theme.palette.action.hover, 1),
-      border: alpha(theme.palette.divider, 1),
-      textColor: theme.palette.text.secondary,
-      icon: <Eye size={16} />,
+      color: alpha(theme.palette.primary.main, 0.06),
+      border: alpha(theme.palette.primary.main, 0.22),
+      textColor: theme.palette.primary.dark,
+      icon: <Eye size={18} />,
       label: t('documentsView.ai.badge.checking.label'),
       description: t('documentsView.ai.badge.checking.description')
     }
@@ -310,6 +311,7 @@ export const Documents = () => {
                   p: 2,
                   borderRadius: 2.5,
                   display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
                   alignItems: 'flex-start',
                   gap: 2,
                   bgcolor: state.color,
@@ -325,11 +327,27 @@ export const Documents = () => {
                     fontWeight: 700,
                     fontSize: '0.82rem',
                     flexShrink: 0,
-                    mt: 0.3,
                     minWidth: 130
                   }}
                 >
-                  {state.icon}
+                  <Box
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      flex: '0 0 28px',
+                      display: 'grid',
+                      placeItems: 'center',
+                      borderRadius: '50%',
+                      bgcolor: alpha(theme.palette.common.white, 0.6),
+                      '& svg': {
+                        width: 18,
+                        height: 18,
+                        flexShrink: 0
+                      }
+                    }}
+                  >
+                    {state.icon}
+                  </Box>
                   {state.label}
                 </Box>
                 <Typography
@@ -390,6 +408,18 @@ export const Documents = () => {
 
         <Divider />
 
+        <Section
+          icon={<Phone size={22} />}
+          title={t('documentsView.sections.phoneUsage.title')}
+          accent={theme.palette.info.main}
+        >
+          <Typography variant="body1" color="text.secondary">
+            {t('documentsView.sections.phoneUsage.paragraph')}
+          </Typography>
+        </Section>
+
+        <Divider />
+
         {/* ── Disclaimer ── */}
         <Section
           icon={<Info size={22} />}
@@ -432,7 +462,11 @@ export const Documents = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2.5 }}>
             {t('documentsView.sections.donations.paragraph2')}
           </Typography>
-          <Button variant="contained" color="secondary" disabled>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setDonateOpen(true)}
+          >
             {t('documentsView.sections.donations.button')}
           </Button>
           <DonatePayPalDialog

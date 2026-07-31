@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { ShieldCheck, ShieldAlert } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, ShieldQuestionMark } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export interface AIVerificationBadgeProps {
@@ -15,11 +15,20 @@ export interface AIVerificationBadgeProps {
   verifiedDone?: boolean;
   /** Whether the content passed the AI check */
   verified?: boolean;
+  /** Technical failure during AI check (not a content flag) */
+  verificationError?: boolean;
+  /** Human-readable reason from AI / system */
+  reason?: string;
+  /** Individual violation descriptions */
+  violations?: string[];
 }
 
 export const AIVerificationBadge = ({
   verifiedDone,
-  verified
+  verified,
+  verificationError,
+  reason,
+  violations
 }: AIVerificationBadgeProps) => {
   const { t } = useTranslation();
 
@@ -49,7 +58,7 @@ export const AIVerificationBadge = ({
   }
 
   // Passed
-  if (verified) {
+  if (verified && !verificationError) {
     return (
       <Tooltip title={t('aiVerification.verifiedTooltip')} placement="top">
         <Chip
@@ -70,9 +79,57 @@ export const AIVerificationBadge = ({
     );
   }
 
+  // Technical error — pending manual review
+  if (verificationError) {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+        <Tooltip title={t('aiVerification.pendingTooltip')} placement="top">
+          <Chip
+            size="small"
+            icon={<ShieldQuestionMark size={13} style={{ marginLeft: 6 }} />}
+            label={t('aiVerification.pending')}
+            sx={{
+              bgcolor: 'rgba(33,150,243,0.10)',
+              color: 'info.dark',
+              border: '1px solid rgba(33,150,243,0.30)',
+              fontWeight: 600,
+              fontSize: '0.72rem',
+              height: 24,
+              '& .MuiChip-icon': { color: 'info.dark', ml: 0 }
+            }}
+          />
+        </Tooltip>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ lineHeight: 1.4 }}
+        >
+          {t('aiVerification.pendingHelper')}
+        </Typography>
+      </Box>
+    );
+  }
+
+  const detailLines = [
+    ...(reason ? [reason] : []),
+    ...(violations ?? []).slice(0, 5)
+  ].filter(Boolean);
+
+  const helperText =
+    detailLines.length > 0
+      ? detailLines.join(' · ')
+      : t('aiVerification.warningHelper');
+
   // Failed / flagged
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 0.5
+      }}
+    >
       <Tooltip title={t('aiVerification.warningTooltip')} placement="top">
         <Chip
           size="medium"
@@ -93,7 +150,7 @@ export const AIVerificationBadge = ({
         color="text.secondary"
         sx={{ lineHeight: 1.4 }}
       >
-        {t('aiVerification.warningHelper')}
+        {helperText}
       </Typography>
     </Box>
   );

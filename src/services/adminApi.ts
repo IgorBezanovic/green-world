@@ -25,6 +25,11 @@ export interface AdminProductItem {
   images: string[];
   createdBy: { _id: string; name: string; email: string };
   createdAt: string;
+  verified?: boolean;
+  verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export interface AdminServiceItem {
@@ -34,6 +39,11 @@ export interface AdminServiceItem {
   editedByAdmin: boolean;
   createdBy: { _id: string; name: string; email: string };
   createdAt: string;
+  verified?: boolean;
+  verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export interface AdminEventItem {
@@ -43,6 +53,11 @@ export interface AdminEventItem {
   editedByAdmin: boolean;
   createdBy: { _id: string; name: string; email: string };
   createdAt: string;
+  verified?: boolean;
+  verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
 }
 
 export interface AdminBlogBlock {
@@ -66,6 +81,9 @@ export interface AdminBlogItem {
   viewCounter?: number;
   verified?: boolean;
   verifiedDone?: boolean;
+  verificationError?: boolean;
+  verificationReason?: string;
+  verificationViolations?: string[];
   blocks?: AdminBlogBlock[];
 }
 
@@ -199,3 +217,56 @@ export const adminGetOrders = (params?: Record<string, any>) =>
   client
     .get('/admin/orders', { params })
     .then((r) => r.data as PaginatedResponse<AdminOrderItem>);
+
+// ─── AI Verification Failures ───────────────────────────────────────────────
+
+export type AdminVerificationEntityType =
+  | 'product'
+  | 'event'
+  | 'service'
+  | 'blog'
+  | 'user';
+
+export interface AdminVerificationFailureItem {
+  rowId: string;
+  entityType: AdminVerificationEntityType;
+  entityTypeLabel: string;
+  _id: string;
+  title: string;
+  status: string;
+  verificationReason: string;
+  verificationViolations: string[];
+  verificationError: boolean;
+  verified: boolean;
+  verifiedDone: boolean;
+  owner: { _id: string; name: string; email: string };
+  entityUrl: string;
+  adminPath: string;
+  createdAt?: string;
+}
+
+export const adminGetVerificationFailures = (params?: Record<string, any>) =>
+  client
+    .get('/admin/verification-failures', { params })
+    .then((r) => r.data as PaginatedResponse<AdminVerificationFailureItem>);
+
+export const adminApproveVerification = (
+  entityType: AdminVerificationEntityType,
+  id: string
+) =>
+  client
+    .post(`/admin/verification-failures/${entityType}/${id}/approve`)
+    .then((r) => r.data);
+
+export const adminRequestVerificationChange = (
+  entityType: AdminVerificationEntityType,
+  id: string,
+  message: string,
+  locale: 'sr' | 'en' | 'ru' = 'sr'
+) =>
+  client
+    .post(`/admin/verification-failures/${entityType}/${id}/request-change`, {
+      message,
+      locale
+    })
+    .then((r) => r.data as { success: boolean; email: string; locale: string });

@@ -14,6 +14,7 @@ import UserContext from '@green-world/context/UserContext';
 import { useAllUserEvents } from '@green-world/hooks/useAllUserEvents';
 import { useAllUserProducts } from '@green-world/hooks/useAllUserProducts';
 import useBlogPostsByUser from '@green-world/hooks/useBlogPostsByUser';
+import { useSellerOrdersPendingCount } from '@green-world/hooks/useSellerOrders';
 import {
   useDeleteServiceListing,
   useGetServices
@@ -31,15 +32,30 @@ import {
   InputBase,
   Button,
   useTheme,
-  Alert,
   Typography,
   Card,
   IconButton,
+  ButtonBase,
   CardActions,
   Divider,
-  Chip
+  Chip,
+  Badge
 } from '@mui/material';
-import { Search, EditIcon, Copy, Trash, MapPin } from 'lucide-react';
+import {
+  Search,
+  EditIcon,
+  Copy,
+  Trash,
+  MapPin,
+  ShoppingBag,
+  Settings,
+  ChartNoAxesColumnIncreasing,
+  PackagePlus,
+  BriefcaseBusiness,
+  MapPinPlus,
+  NotebookText,
+  Plus
+} from 'lucide-react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -47,11 +63,81 @@ import { toast } from 'react-toastify';
 
 const EMPTY_QUERY_DATA: never[] = [];
 
+const actionButtonSx = {
+  position: 'relative',
+  '& .MuiButton-startIcon': {
+    position: 'absolute',
+    left: 20,
+    margin: 0
+  }
+} as const;
+
+const EmptyContentAction = ({
+  message,
+  actionLabel,
+  buttonLabel,
+  onClick,
+  disabled = false
+}: {
+  message: string;
+  actionLabel: string;
+  buttonLabel: string;
+  onClick: () => void;
+  disabled?: boolean;
+}) => (
+  <Box
+    sx={{
+      gridColumn: '1 / -1',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 2.5,
+      py: { xs: 5, md: 8 },
+      textAlign: 'center'
+    }}
+  >
+    <Typography variant="h6" color="text.secondary">
+      {message}
+    </Typography>
+    <ButtonBase
+      disabled={disabled}
+      onClick={onClick}
+      aria-label={actionLabel}
+      title={actionLabel}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minWidth: 120,
+        p: 1,
+        borderRadius: 2,
+        color: 'primary.main',
+        '&:hover': {
+          color: 'primary.dark',
+          transform: 'scale(1.06)'
+        },
+        '&.Mui-disabled': { color: 'action.disabled' },
+        transition: 'transform 150ms ease, color 150ms ease'
+      }}
+    >
+      <Plus size={60} strokeWidth={2.5} />
+      <Typography variant="button" sx={{ color: 'inherit', mt: 0.5 }}>
+        {buttonLabel}
+      </Typography>
+    </ButtonBase>
+  </Box>
+);
+
 export const UserProfile = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
   const { user, isLoading } = useContext(UserContext);
+  const { data: pendingOrdersData } = useSellerOrdersPendingCount(
+    Boolean(user?._id)
+  );
+  const pendingOrders = pendingOrdersData?.pendingCount ?? 0;
   const { data: products = EMPTY_QUERY_DATA, isLoading: productsLoading } =
     useAllUserProducts();
   const { data: events = EMPTY_QUERY_DATA, isLoading: eventsLoading } =
@@ -71,18 +157,18 @@ export const UserProfile = () => {
   );
   const [blogsToDisplay, setBlogsToDisplay] = useState<BlogPost[]>([]);
   const [serviceToDelete, setServiceToDelete] = useState<string | null>(null);
-  // const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
-  //   Product[]
-  // >([]);
+  const [promotedProductsToDisplay, setPromotedProductsToDisplay] = useState<
+    Product[]
+  >([]);
   const [activeTab, setActiveTab] = useState('products');
 
-  // const promotedProducts = useMemo(
-  //   () =>
-  //     products.filter(
-  //       (p: Product) => p.promotedAt != null && p.promotedUntil != null
-  //     ),
-  //   [products]
-  // );
+  const promotedProducts = useMemo(
+    () =>
+      products.filter(
+        (p: Product) => p.promotedAt != null && p.promotedUntil != null
+      ),
+    [products]
+  );
 
   useEffect(() => {
     if (!productsLoading) {
@@ -124,11 +210,11 @@ export const UserProfile = () => {
     }
   }, [blogs, blogsLoading]);
 
-  // useEffect(() => {
-  //   if (!productsLoading) {
-  //     setPromotedProductsToDisplay(promotedProducts);
-  //   }
-  // }, [promotedProducts, productsLoading]);
+  useEffect(() => {
+    if (!productsLoading) {
+      setPromotedProductsToDisplay(promotedProducts);
+    }
+  }, [promotedProducts, productsLoading]);
 
   const filterContent = (searchTerm: string) => {
     const term = searchTerm.toLowerCase().trim();
@@ -139,10 +225,10 @@ export const UserProfile = () => {
       );
       setProductsToDisplay(filtered);
     } else if (activeTab === 'promoted') {
-      // const filtered = promotedProducts.filter((p: Product) =>
-      //   (p.title || '').toLowerCase().includes(term)
-      // );
-      // setPromotedProductsToDisplay(filtered);
+      const filtered = promotedProducts.filter((p: Product) =>
+        (p.title || '').toLowerCase().includes(term)
+      );
+      setPromotedProductsToDisplay(filtered);
     } else if (activeTab === 'events') {
       const filtered = events.filter((event: any) =>
         event.title.toLowerCase().includes(term)
@@ -218,8 +304,44 @@ export const UserProfile = () => {
           <UserInfo user={user} isUserProfile={true} userLoading={isLoading} />
           <Button
             variant="contained"
+            onClick={() => navigate('/profile/orders')}
+            startIcon={
+              <Badge
+                badgeContent={pendingOrders > 0 ? pendingOrders : null}
+                color="error"
+              >
+                <ShoppingBag size={20} color="white" />
+              </Badge>
+            }
+            sx={{
+              bgcolor: 'warning.main',
+              color: 'warning.contrastText',
+              fontWeight: 500,
+              boxShadow: 3,
+              position: 'relative',
+              '& .MuiButton-startIcon': {
+                position: 'absolute',
+                left: 20,
+                margin: 0
+              },
+              '&:hover': { bgcolor: 'warning.dark', boxShadow: 5 }
+            }}
+          >
+            {t('profileSettingsView.buttons.orders')}
+          </Button>
+          <Button
+            variant="contained"
             color="info"
             onClick={() => navigate('/profile-settings/edit-profile')}
+            startIcon={<Settings size={20} color="white" />}
+            sx={{
+              position: 'relative',
+              '& .MuiButton-startIcon': {
+                position: 'absolute',
+                left: 20,
+                margin: 0
+              }
+            }}
           >
             {t('userProfileView.buttons.profileSettings')}
           </Button>
@@ -227,6 +349,15 @@ export const UserProfile = () => {
             variant="contained"
             color="info"
             onClick={() => navigate('/profile-settings/statistics')}
+            startIcon={<ChartNoAxesColumnIncreasing size={20} color="white" />}
+            sx={{
+              position: 'relative',
+              '& .MuiButton-startIcon': {
+                position: 'absolute',
+                left: 20,
+                margin: 0
+              }
+            }}
           >
             {t('profileSettingsView.buttons.statistics')}
           </Button>
@@ -241,19 +372,33 @@ export const UserProfile = () => {
             variant="contained"
             onClick={() => navigate('/create-product')}
             disabled={user?.numberOfProducts >= user?.maxShopProducts}
+            startIcon={<PackagePlus size={20} color="white" />}
+            sx={actionButtonSx}
           >
             {t('userProfileView.buttons.addProduct')}
           </Button>
           <Button
             variant="contained"
             onClick={() => navigate('/services/create')}
+            startIcon={<BriefcaseBusiness size={20} color="white" />}
+            sx={actionButtonSx}
           >
             {t('userProfileView.buttons.addService')}
           </Button>
-          <Button variant="contained" onClick={() => navigate('/create-event')}>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/create-event')}
+            startIcon={<MapPinPlus size={20} color="white" />}
+            sx={actionButtonSx}
+          >
             {t('userProfileView.buttons.createActivity')}
           </Button>
-          <Button variant="contained" onClick={() => navigate('/write-post')}>
+          <Button
+            variant="contained"
+            onClick={() => navigate('/write-post')}
+            startIcon={<NotebookText size={20} color="white" />}
+            sx={actionButtonSx}
+          >
             {t('userProfileView.buttons.writeBlogPost')}
           </Button>
           {/* WORKING TIME */}
@@ -337,7 +482,7 @@ export const UserProfile = () => {
           >
             <Tab label={t('userProfileView.tabs.products')} value="products" />
             <Tab label={t('userProfileView.tabs.services')} value="services" />
-            {/* <Tab label="Promovisano" value="promoted" /> */}
+            <Tab label={t('userProfileView.tabs.promoted')} value="promoted" />
             <Tab label={t('userProfileView.tabs.activities')} value="events" />
             <Tab label={t('userProfileView.tabs.myBlogs')} value="blogs" />
           </Tabs>
@@ -373,13 +518,63 @@ export const UserProfile = () => {
                   <ProductCard
                     key={product._id}
                     product={product}
-                    isPromotedView={false} // Promeni kada bude islo live placanje
+                    isPromotedView={true}
                   />
                 ))
               ) : (
-                <Alert severity="warning" sx={{ mb: 2 }}>
-                  {t('userProfileView.empty.products')}
-                </Alert>
+                <EmptyContentAction
+                  message={t('userProfileView.empty.products')}
+                  actionLabel={t('userProfileView.buttons.addProduct')}
+                  buttonLabel={t('userProfileView.empty.create')}
+                  onClick={() => navigate('/create-product')}
+                  disabled={user?.numberOfProducts >= user?.maxShopProducts}
+                />
+              )}
+            </Box>
+          )}
+
+          {activeTab === 'promoted' && (
+            <Box
+              component="section"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns:
+                  promotedProductsToDisplay?.length > 0
+                    ? 'repeat(2, 1fr)'
+                    : 'repeat(1, 1fr)',
+                gap: 3,
+
+                [theme.breakpoints.up('sm')]: {
+                  gridTemplateColumns:
+                    promotedProductsToDisplay?.length > 0
+                      ? 'repeat(3, 1fr)'
+                      : 'repeat(1, 1fr)'
+                },
+
+                [theme.breakpoints.up('lg')]: {
+                  gridTemplateColumns:
+                    promotedProductsToDisplay?.length > 0
+                      ? 'repeat(4, 1fr)'
+                      : 'repeat(1, 1fr)'
+                }
+              }}
+            >
+              {promotedProductsToDisplay?.length > 0 ? (
+                promotedProductsToDisplay.map((product: any) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    isPromotedView={true}
+                    promotedPeriod={true}
+                  />
+                ))
+              ) : (
+                <EmptyContentAction
+                  message={t('userProfileView.empty.promoted')}
+                  actionLabel={t('userProfileView.buttons.addProduct')}
+                  buttonLabel={t('promotionSection.buyPromotion')}
+                  onClick={() => navigate('/promote-product')}
+                />
               )}
             </Box>
           )}
@@ -563,42 +758,15 @@ export const UserProfile = () => {
                   </Card>
                 ))
               ) : (
-                <Typography>{t('userProfileView.empty.services')}</Typography>
+                <EmptyContentAction
+                  message={t('userProfileView.empty.services')}
+                  actionLabel={t('userProfileView.buttons.addService')}
+                  buttonLabel={t('userProfileView.empty.create')}
+                  onClick={() => navigate('/services/create')}
+                />
               )}
             </Box>
           )}
-
-          {/* {activeTab === 'promoted' && (
-            <Box
-              component="section"
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 3,
-
-                [theme.breakpoints.up('sm')]: {
-                  gridTemplateColumns: 'repeat(3, 1fr)'
-                },
-
-                [theme.breakpoints.up('lg')]: {
-                  gridTemplateColumns: 'repeat(4, 1fr)'
-                }
-              }}
-            >
-              {promotedProductsToDisplay?.length > 0 ? (
-                promotedProductsToDisplay.map((product: any) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    isPromotedView={false} // Promeni kada bude islo live placanje
-                    promotedPeriod={false} // Promeni kada bude islo live placanje
-                  />
-                ))
-              ) : (
-                <p className="col-span-full">Nemate promovisanih proizvoda</p>
-              )}
-            </Box>
-          )} */}
 
           {activeTab === 'events' && (
             <Box
@@ -622,7 +790,12 @@ export const UserProfile = () => {
                   <EventProfileCard key={event._id} event={event} />
                 ))
               ) : (
-                <Typography>{t('userProfileView.empty.activities')}</Typography>
+                <EmptyContentAction
+                  message={t('userProfileView.empty.activities')}
+                  actionLabel={t('userProfileView.buttons.createActivity')}
+                  buttonLabel={t('userProfileView.empty.create')}
+                  onClick={() => navigate('/create-event')}
+                />
               )}
             </Box>
           )}
@@ -649,7 +822,12 @@ export const UserProfile = () => {
                   <BlogCard key={post._id} post={post} />
                 ))
               ) : (
-                <Typography>{t('userProfileView.empty.blogs')}</Typography>
+                <EmptyContentAction
+                  message={t('userProfileView.empty.blogs')}
+                  actionLabel={t('userProfileView.buttons.writeBlogPost')}
+                  buttonLabel={t('userProfileView.empty.create')}
+                  onClick={() => navigate('/write-post')}
+                />
               )}
             </Box>
           )}

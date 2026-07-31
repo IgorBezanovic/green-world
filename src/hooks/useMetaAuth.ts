@@ -5,6 +5,11 @@ import { DecodedToken } from '@green-world/utils/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
+type MetaAuthResponse = {
+  token: string;
+  requiresPhoneSetup?: boolean;
+};
+
 export const useMetaAuth = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -28,9 +33,9 @@ export const useMetaAuth = () => {
           image
         }
       }),
-    onSuccess: async (data: string) => {
-      setItem('token', data);
-      const token = safeDecodeToken<DecodedToken>(data);
+    onSuccess: async (data: MetaAuthResponse) => {
+      setItem('token', data.token);
+      const token = safeDecodeToken<DecodedToken>(data.token);
       window.dispatchEvent(new Event('auth:login'));
       await Promise.all([
         queryClient.invalidateQueries({
@@ -40,7 +45,7 @@ export const useMetaAuth = () => {
         queryClient.invalidateQueries({ queryKey: ['allUserEvents'] }),
         queryClient.invalidateQueries({ queryKey: ['blogPostsByUser'] })
       ]);
-      navigate('/');
+      navigate(data.requiresPhoneSetup ? '/complete-registration' : '/');
     }
   });
 };

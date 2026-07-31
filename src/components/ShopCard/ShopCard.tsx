@@ -284,6 +284,10 @@ export const ShopCard = ({
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word',
+              minWidth: 0,
+              maxWidth: '100%',
               minHeight: '4.5rem',
               paddingTop: '8px'
             }}

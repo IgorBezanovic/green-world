@@ -3,7 +3,7 @@ import {
   getLocaleMessages,
   normalizeLocale
 } from '@green-world/seo/metadata';
-import { OrdersView } from '@green-world/views/Orders/OrdersView';
+import { ProfileOrders } from '@green-world/views/ProfileOrders';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -17,12 +17,12 @@ export async function generateMetadata({
 
   return createLocalizedPageMetadata({
     locale: appLocale,
-    pathname: '/profile-settings/orders',
-    title: messages.profileSettingsView.buttons.orders,
+    pathname: '/profile/orders',
+    title: messages.profileOrdersView.mainTitle,
     noIndex: true
   });
 }
 
 export default function ProfileOrdersPage() {
-  return <OrdersView variant="profile" />;
+  return <ProfileOrders />;
 }

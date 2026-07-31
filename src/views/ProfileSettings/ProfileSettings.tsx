@@ -1,11 +1,7 @@
 'use client';
 
 import { AppBreadcrumbs, PageContent } from '@green-world/components';
-import UserContext from '@green-world/context/UserContext';
-import { useSellerOrdersUnreadCount } from '@green-world/hooks/useSellerOrders';
-import { Box, Button, Badge, Typography } from '@mui/material';
-import { ShoppingBag } from 'lucide-react';
-import { useContext } from 'react';
+import { Box, Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -16,12 +12,7 @@ export const ProfileSettings = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useContext(UserContext);
   const { t } = useTranslation();
-  const { data: unreadOrdersData } = useSellerOrdersUnreadCount(
-    user?.role === 'seller'
-  );
-  const unreadOrders = unreadOrdersData?.unreadCount ?? 0;
   const pages = [
     { label: t('breadcrumbs.home'), route: '/' },
     { label: t('breadcrumbs.userProfile'), route: '/profile' },
@@ -154,21 +145,6 @@ export const ProfileSettings = ({
           >
             {t('profileSettingsView.buttons.statistics')}
           </Button>
-          {user?.role === 'seller' && (
-            <Button
-              variant="contained"
-              color="info"
-              onClick={() => navigate('/profile-settings/orders')}
-              sx={getButtonSx('/profile-settings/orders')}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Badge badgeContent={unreadOrders || null} color="error">
-                  <ShoppingBag size={18} />
-                </Badge>
-                <span>{t('profileSettingsView.buttons.orders')}</span>
-              </Box>
-            </Button>
-          )}
         </Box>
         <Box
           sx={{

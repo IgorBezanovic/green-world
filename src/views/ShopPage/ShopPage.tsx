@@ -168,6 +168,7 @@ export const ShopPage = () => {
     data?.address?.street && data?.address?.city && data?.address?.country
       ? `${data.address.street}, ${data.address.city}, ${data.address.country}`
       : 'Serbia';
+  const hasSocialMedia = Object.values(data?.socialMedia || {}).some(Boolean);
 
   return (
     <PageContent>
@@ -190,89 +191,98 @@ export const ShopPage = () => {
         <AppBreadcrumbs pages={pages} />
       </Box>
 
-      {/* HERO */}
-      <Box
-        sx={(theme) => ({
-          maxWidth: 1400,
-          mx: 'auto',
-          position: 'relative',
-          px: '16px',
-          [theme.breakpoints.up('sm')]: {
-            px: '24px'
-          }
-        })}
-      >
-        {data?.onlyOnline && (
-          <Chip
-            size="medium"
-            icon={<Globe />}
-            label={t('shopPage.onlineOnlyChip')}
-            color="success"
-            variant="outlined"
-            sx={(theme) => ({
-              position: 'absolute',
-              top: 16,
-              left: 40,
-              right: 40,
-              paddingX: '4px',
-              color: 'common.black',
-              [theme.breakpoints.up('sm')]: {
-                left: 40,
-                right: 'auto',
-                maxWidth: 'none'
-              }
-            })}
-          />
-        )}
+      {/* LOCATION HERO / ONLINE SHOP IDENTITY */}
+      {data?.onlyOnline ? (
         <Box
-          sx={{
-            width: '100%',
-            height: 280,
-            borderRadius: 2,
-            overflow: 'hidden',
-            background:
-              'linear-gradient(135deg, #cfe3d5 0%, #c3d9c9 50%, #b8cfbe 100%)'
-          }}
+          sx={(theme) => ({
+            maxWidth: 1360,
+            mx: 'auto',
+            px: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2.5,
+            [theme.breakpoints.up('sm')]: { px: '24px' },
+            [theme.breakpoints.up('xl')]: { px: 0 }
+          })}
         >
-          {data?.onlyOnline ? (
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+          <Avatar
+            src={formatImageUrl(data?.profileImage, 55)}
+            sx={{
+              width: { xs: 88, sm: 112 },
+              height: { xs: 88, sm: 112 },
+              flexShrink: 0,
+              border: '4px solid',
+              borderColor: 'background.paper',
+              boxShadow: 2
+            }}
+          />
+          <Box
+            sx={{
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 1.25,
+              transform: 'translateY(-24px)'
+            }}
+          >
+            <Chip
+              size="medium"
+              icon={<Globe />}
+              label={t('shopPage.onlineOnlyChip')}
+              color="success"
+              variant="outlined"
+              sx={{ maxWidth: '100%', color: 'text.primary' }}
+            />
+            {hasSocialMedia && (
               <SocialMedia
                 color={theme.palette.primary.main}
                 socialMediaLinks={data?.socialMedia}
+                size="28"
               />
-            </Box>
-          ) : (
+            )}
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={(theme) => ({
+            maxWidth: 1400,
+            mx: 'auto',
+            position: 'relative',
+            px: '16px',
+            [theme.breakpoints.up('sm')]: { px: '24px' }
+          })}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              height: 280,
+              borderRadius: 2,
+              overflow: 'hidden'
+            }}
+          >
             <iframe
+              title={data?.shopName || data?.name}
               width="100%"
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
               src={`https://www.google.com/maps?q=${encodeURIComponent(location)}&output=embed`}
             />
-          )}
+          </Box>
+          <Avatar
+            src={formatImageUrl(data?.profileImage, 55)}
+            sx={{
+              width: 120,
+              height: 120,
+              border: '4px solid white',
+              position: 'absolute',
+              bottom: -60,
+              left: 40
+            }}
+          />
         </Box>
-
-        {/* Avatar */}
-        <Avatar
-          src={formatImageUrl(data?.profileImage, 55)}
-          sx={{
-            width: 120,
-            height: 120,
-            border: '4px solid white',
-            position: 'absolute',
-            bottom: -60,
-            left: 40
-          }}
-        />
-      </Box>
+      )}
 
       {/* SHOP HEADER */}
       <Box
@@ -280,7 +290,7 @@ export const ShopPage = () => {
           maxWidth: 1360,
           p: '16px',
           mx: 'auto',
-          mt: 10,
+          mt: data?.onlyOnline ? 3 : 10,
           [theme.breakpoints.up('xl')]: {
             p: '0px'
           }
@@ -299,18 +309,26 @@ export const ShopPage = () => {
             sx={{
               mb: 1.5,
               display: 'flex',
-              flexWrap: 'wrap',
+              flexDirection: 'column',
               gap: 1,
-              alignItems: 'center'
+              alignItems: 'flex-start',
+              '& .MuiChip-root': {
+                height: 32,
+                fontSize: '0.8rem'
+              }
             }}
           >
-            <AIVerificationBadge
-              verifiedDone={data?.verifiedDone}
-              verified={data?.verified}
-            />
             <SellerActivityBadge
               lastActiveAt={data?.lastActiveAt}
               createdAt={data?.createdAt}
+              size="medium"
+            />
+            <AIVerificationBadge
+              verifiedDone={data?.verifiedDone}
+              verified={data?.verified}
+              verificationError={data?.verificationError}
+              reason={data?.verificationReason}
+              violations={data?.verificationViolations}
             />
           </Box>
 
@@ -319,7 +337,11 @@ export const ShopPage = () => {
             sx={{
               fontStyle: 'italic',
               color: 'text.main',
-              mt: 1
+              mt: 1,
+              minWidth: 0,
+              maxWidth: '100%',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word'
             }}
           >
             {data?.shopDescription?.trim() || t('common.noDescription')}
@@ -429,7 +451,7 @@ export const ShopPage = () => {
                 </Box>
               )}
 
-              {data?.phone && (
+              {data?.phone && data?.hasPublicPhone && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -571,10 +593,12 @@ export const ShopPage = () => {
                 </Button>
               )}
 
-              <SocialMedia
-                color={theme.palette.secondary.main}
-                socialMediaLinks={data?.socialMedia}
-              />
+              {!data?.onlyOnline && hasSocialMedia && (
+                <SocialMedia
+                  color={theme.palette.secondary.main}
+                  socialMediaLinks={data?.socialMedia}
+                />
+              )}
             </Box>
           </Card>
 
