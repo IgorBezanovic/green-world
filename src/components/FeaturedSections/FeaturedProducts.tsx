@@ -6,6 +6,7 @@ import { FeaturedProduct } from './FeaturedProduct';
 
 export const FeaturedProducts = () => {
   const { data, isLoading } = useFeaturedProducts();
+  const hasProducts = (data?.length ?? 0) > 0;
 
   if (isLoading) {
     return (
@@ -14,6 +15,8 @@ export const FeaturedProducts = () => {
       </Box>
     );
   }
+
+  if (!hasProducts) return null;
 
   return (
     <Box sx={{ my: 4 }}>
