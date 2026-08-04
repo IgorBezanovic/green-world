@@ -8,7 +8,7 @@ import { FeaturedShopHero } from './components/FeaturedShopHero';
 
 export const FeaturedShops = () => {
   const { data, isLoading } = useFeaturedShops();
-  const hasShops = data?.length > 0;
+  const hasShops = (data?.length ?? 0) > 0;
   const [index, setIndex] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,9 +32,11 @@ export const FeaturedShops = () => {
     );
   }
 
+  if (!hasShops) return null;
+
   return (
-    <Box sx={{ my: hasShops ? 4 : 0 }}>
-      {hasShops && <FeaturedShopHero shop={data[index]} />}
+    <Box sx={{ my: 4 }}>
+      <FeaturedShopHero shop={data[index]} />
     </Box>
   );
 };
